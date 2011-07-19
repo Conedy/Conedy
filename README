@@ -4,6 +4,8 @@ Conedy is a scientific tool for the numerical integration of dynamical systems, 
 ---------------------------------
 
 
+ Copyright (C) 2011 Alexander Rothkegel, Ferdinand Stolz, Justus Schwabedahl
+
 
     Conedy is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
