@@ -1,0 +1,22 @@
+
+
+setRandomSeed(0);
+
+
+network n;
+
+
+
+n.cycle<node, staticWeightedEdge()>( 100, 10);
+
+#n.printNodeStatistics();
+
+print "should be 20:"+ n.meanDegree()+ newline;
+n.rewireUndirected(1.0);
+print "should be 20:"+ n.meanDegree()+ newline;
+n.saveAdjacencyList("output/rewireUndirected.co.graph");
+
+
+:sort output/rewireUndirected.co.graph > output/rewireUndirected.co.graph.sort:;
+:awk '{print $2 " " $1 " " $3}' output/rewireUndirected.co.graph | sort > output/rewireUndirected.co.graph.transposed:;
+

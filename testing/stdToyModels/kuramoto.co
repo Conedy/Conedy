@@ -1,0 +1,60 @@
+network net;
+
+kuramoto_omega = 0.1;
+
+dynNetwork_ioNodeDt = 0.01;
+
+
+int firstNodeNumber;
+int secondNodeNumber;
+int thirdNodeNumber;
+int fourthNodeNumber;
+
+#just one kuramoto oscillator
+firstNodeNumber = net.addVertex<kuramoto>();
+net.setState(firstNodeNumber, 0.0 );
+net.observeTime("output/kuramoto.co.one");
+net.observe<component(0)>(0,"output/kuramoto.co.one");
+net.evolve(0.0,10.0);
+net.removeObserver();
+
+
+#adding a second. They should synchronize.
+secondNodeNumber = net.addVertex<kuramoto>();
+net.addEdge (firstNodeNumber,secondNodeNumber  ,0.1);
+net.addEdge (secondNodeNumber, firstNodeNumber ,0.1);
+
+
+
+
+
+#small ring of oscillators. Should not synchronize.
+net.setState(firstNodeNumber, 0.0 );
+net.setState(secondNodeNumber, 0.3 );
+
+net.observeTime("output/kuramoto.co.two");
+net.observeAll("output/kuramoto.co.two");
+net.evolve(0.0,40.0);
+net.removeObserver();
+
+thirdNodeNumber = net.addVertex<kuramoto>();
+fourthNodeNumber = net.addVertex<kuramoto>();
+net.addEdge ( secondNodeNumber, thirdNodeNumber ,0.1);
+net.addEdge ( thirdNodeNumber, secondNodeNumber ,0.1);
+
+
+net.addEdge ( thirdNodeNumber, fourthNodeNumber ,0.1);
+net.addEdge ( fourthNodeNumber, thirdNodeNumber ,0.1);
+
+net.addEdge ( fourthNodeNumber, firstNodeNumber ,0.1);
+net.addEdge ( firstNodeNumber, fourthNodeNumber ,0.1);
+net.setState(firstNodeNumber, 0.0 );
+net.setState(secondNodeNumber, 0.245 );
+net.setState(thirdNodeNumber, 0.495 );
+net.setState(fourthNodeNumber, 0.7502 );
+
+net.observeTime("output/kuramoto.co.ring");
+net.observeAll("output/kuramoto.co.ring");
+net.evolve(0.0,40.0);
+
+

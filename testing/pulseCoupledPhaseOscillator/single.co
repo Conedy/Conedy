@@ -1,0 +1,18 @@
+
+#dynNetwork_ioNodeDt = 1000.0;
+
+network net;
+
+
+net.addVertex<pcoIntegrateFire>();
+
+
+net.observeTime("output/single.co.phase");
+net.observe(0,"output/single.co.phase");
+
+#net.observeTime("output/fireTimes");
+net.observeEventTimes("output/single.co.fireTimes", 2);
+
+#net.printNodeStatistics();
+
+net.evolve(3.0,15.0);

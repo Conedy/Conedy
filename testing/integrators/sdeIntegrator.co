@@ -1,0 +1,25 @@
+network net;
+
+
+ornUhl_drift = 0.2;
+ornUhl_diffusion = 0.1;
+
+dynNetwork_ioNodeDt = 0.1;
+
+
+
+net.addVertex<ornUhl>();
+net.setState(0, 1.0);
+net.observeTime("output/sdeIntegrator.co.series");
+net.observe<component(0)>(0, "output/sdeIntegrator.co.series");
+net.evolve(0.0,15000.0);
+
+
+
+# to calculate the variance of the ornstein-uhlenbeck
+# variance should be diffusion^2/(2*drift)
+:python sdeIntegratorVarianceTest.py "output/sdeIntegrator.co.series":;
+
+
+
+

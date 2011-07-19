@@ -1,0 +1,22 @@
+network net;
+
+
+gaussianRoessler_omega = 0.89;
+gaussianRoessler_a = 0.165;
+gaussianRoessler_b = 0.2;
+gaussianRoessler_c = 10.0;
+gaussianRoessler_sigmaNoise = 1.0;
+dynNetwork_ioNodeDt = 0.01;
+
+
+net.addVertex<gaussianRoessler>();
+net.setState(0, 0.0, 0.0, 0.0);
+
+net.observeTime("output/gaussianRoessler.co.series");
+net.observe<component(0)>(0, "output/gaussianRoessler.co.series");
+net.observe<component(1)>(0, "output/gaussianRoessler.co.series");
+net.observe<component(2)>(0, "output/gaussianRoessler.co.series");
+
+
+net.evolve(0.0,1500.0);
+

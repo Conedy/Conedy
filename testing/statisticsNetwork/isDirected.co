@@ -1,0 +1,26 @@
+
+network net;
+
+
+net.addVertex<kuramoto>();
+net.addVertex<kuramoto>();
+
+net.addEdge(0,1, 2.0);
+
+print "Should be true: ";
+print net.isDirected();
+print newline;
+
+net.addEdge (1,0, 0.1);
+print "Should be true: ";
+print net.isDirected();
+print newline;
+
+net.clear();
+net.cycle<kuramoto>(10,1);
+net.randomizeWeights(uniform(3.0,3.0));
+print "Should be false: ";
+print net.isDirected();
+print newline;
+
+

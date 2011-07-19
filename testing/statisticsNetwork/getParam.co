@@ -1,0 +1,8 @@
+
+network net;
+
+net.addVertex<kuramoto>();
+
+
+print "kuramoto_omega:" +  net.getParam(0,"kuramoto_omega");
+

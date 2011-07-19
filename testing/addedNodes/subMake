@@ -1,0 +1,64 @@
+
+
+
+test:
+	mkdir -p output
+	mkdir -p expected
+	mkdir -p results
+	find  -maxdepth 1 -name '*.ns' -exec make -s test_{} \;
+	find  -maxdepth 1 -name '*.py' -exec make -s testPython_{} \;
+#	sum output/* > ergebnis_checksumme
+#	diff ergebnis_checksumme erwartet_checksumme
+
+
+
+
+
+testPython_./%:
+	sed 's/import conedy as ns/import conedy as ns\nns.setRandomSeed(0)/' $* | python > output/$*.out 2> output/$*.err
+	sed -i "/#/d" output/$*.out
+	sum output/$**  > results/sum_$* 
+	sed "s/fileName.py/$*/" expected/sum_template.py > expected/sum_$*
+	if [ "`diff expected/sum_$* results/sum_$*`" = "" ]; then \
+			echo "test `pwd`/$* succeded"; \
+		else echo "test `pwd`/$* failed !"; diff expected/sum_$* results/sum_$*; \
+	fi; \
+
+
+
+test_./%:
+	(echo "set RandomSeed(0)";cat $*) | conedy $* > output/$*.out 2> output/$*.err
+	sed -i "/#/d" output/$*.out
+	sum output/$** > results/sum_$* 
+	if [ -e "expected/sum_$*" ]; then \
+		if [ "`diff expected/sum_$* results/sum_$*`" = "" ]; then echo "test `pwd`/$* succeded"; else echo "test `pwd`/$* failed !"; diff expected/sum_$* results/sum_$*;  fi \
+	else \
+		echo "warning checksum for $* not present !"; \
+	fi
+		
+
+confirm_./%.py:
+	sed 's/import conedy as ns/import conedy as ns\nns.setRandomSeed(0)/' $*.py | python > output/$*.py.out 2> output/$*.py.err
+	sed -i "/#/d" output/$*.py.out
+	sum output/$*.py* >  expected/sum_$*.py
+	
+confirm_./%.ns:
+	(echo "set RandomSeed(0)";cat $*.ns) | conedy $*.ns > output/$*.ns.out 2> output/$*.ns.err
+	sed -i "/#/d" output/$*.ns.out
+	sum output/$*.ns* >  expected/sum_$*.ns
+
+
+
+submit:
+	cd expected; svn add --parents sum_template.py
+
+
+
+clean:
+	rm -rf output
+	rm -rf results
+
+
+
+
+.PHONY: test clean

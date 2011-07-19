@@ -1,0 +1,29 @@
+network N;
+N.cycle<node,weightedEdge>(5,1);
+
+print "Graph verbunden:";
+print  N.isConnected();
+print newline;
+
+
+if ( N.isConnected() )
+{
+	print "meanPathLength:"+ N.meanPathLength()+ newline;
+};
+
+
+N.removeEdges(weightedEdge);
+
+
+print "Graph verbunden:";
+print  N.isConnected();
+print  newline;
+
+
+if ( N.isConnected() )
+{
+	print N.meanPathLength();
+};
+
+
+

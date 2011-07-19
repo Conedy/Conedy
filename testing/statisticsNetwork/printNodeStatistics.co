@@ -1,0 +1,53 @@
+network net;
+
+
+net.addVertex<roessler>();
+
+network_nodeVerbosity =0.0;   
+network_edgeVerbosity =0.0;
+print "nodeVerbosity =0.0, edgeVerbosity=0.0"+newline;
+print "-------------------------------------"+newline;
+net.printNodeStatistics();
+print newline;
+print newline;
+
+network_nodeVerbosity =1.0;
+network_edgeVerbosity =0.0;
+print "nodeVerbosity =1.0, edgeVerbosity=0.0"+newline;
+print "-------------------------------------"+newline;
+net.printNodeStatistics();
+print newline;
+print newline;
+
+network_nodeVerbosity =2.0;
+network_edgeVerbosity =0.0;
+print "nodeVerbosity =2.0, edgeVerbosity=0.0"+newline;
+print "-------------------------------------"+newline;
+net.printNodeStatistics();
+print newline;
+print newline;
+
+
+
+net.addVertex<roessler>();
+net.addEdge(0,1,1.0);
+
+
+network_nodeVerbosity =2.0;
+network_edgeVerbosity =1.0;
+print "nodeVerbosity =2.0, edgeVerbosity=1.0"+newline;
+print "-------------------------------------"+newline;
+net.printNodeStatistics();
+print newline;
+print newline;
+
+
+
+network_nodeVerbosity =2.0;
+network_edgeVerbosity =2.0;
+print "nodeVerbosity =2.0, edgeVerbosity=2.0"+newline;
+print "-------------------------------------"+newline;
+net.printNodeStatistics();
+print newline;
+print newline;
+

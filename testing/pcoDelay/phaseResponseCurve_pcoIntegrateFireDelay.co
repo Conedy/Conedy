@@ -1,0 +1,69 @@
+
+
+
+
+network n;
+
+double phi;
+double coupling;
+
+network_nodeVerbosity=2.5;
+
+int nodeNumber;
+int otherNodeNumber;
+int referenceNodeNumber;
+
+streamOutNode_append = 1.0;
+
+nodeNumber = 0;
+
+
+pcoIntegrateFireDelay_timeDelay 	= 0.0;
+pcoIntegrateFireDelay_t_ref	 	= 0.2;
+pcoIntegrateFireDelay_alpha 		= 0.6;
+coupling 			 		= 0.01;
+
+
+print "#phi \Delta(\phi)"+newline;
+
+streamOutNode_append =1.0;
+dynNetwork_ioNodeDt = 10000.0;
+
+
+:rm _tmp:;
+
+	nodeNumber = n.addVertex<pcoIntegrateFireDelay>();
+	otherNodeNumber = n.addVertex<pcoIntegrateFireDelay>();
+	referenceNodeNumber = n.addVertex<pcoIntegrateFireDelay>();
+	n.addEdge(otherNodeNumber,nodeNumber,coupling);
+	n.observe(referenceNodeNumber, "_tmp");
+	n.observe(nodeNumber, "_tmp");
+
+for (phi = 0.0;phi < 1.0; phi = phi + 0.001)
+{
+
+	
+
+	
+#	n.printNodeStatistics();
+
+	n.setTime(0.0);
+	n.setState(nodeNumber,phi);
+	n.setState(referenceNodeNumber,phi);
+	n.setState(otherNodeNumber,0.9999999);
+	
+	n.evolve (0.0,0.0000002);
+	n.snapshot();
+
+	
+#	n.clear();	
+
+};
+
+n.clear();	
+
+:awk '{ if ($2 - $1 < - 0.5) print $1 " " 1 + $2 - $1 
+		  else print $1 " " $2 - $1}' _tmp  | awk '{ if (NR %2 == 0) print $0}'  > output/phaseResponseCurve_pcoIntegrateFireDelay.co.curve :;
+
+
+

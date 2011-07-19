@@ -1,0 +1,15 @@
+
+
+
+
+
+network net;
+
+net.randomNetwork<node,edge> (1000, 0.1);
+
+
+#net.printNodeStatistics();
+
+net.inDegreeDistribution("output/inDegreeDistribution.degDist");
+
+

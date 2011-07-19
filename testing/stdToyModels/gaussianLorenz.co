@@ -1,0 +1,20 @@
+network net;
+
+gaussianLorenz_s = 10.0;
+gaussianLorenz_r = 28.0;
+gaussianLorenz_b = 8.0/3.0;
+gaussianLorenz_sigmaNoise = 10.0;
+
+dynNetwork_ioNodeDt = 0.01;
+
+
+net.addVertex<gaussianLorenz>();
+net.setState(0, 1.0, 1.0, 1.0);
+
+net.observeTime("output/gaussianLorenz.co.series");
+net.observeAll<component(0)>("output/gaussianLorenz.co.series");
+net.observeAll<component(1)>("output/gaussianLorenz.co.series");
+net.observeAll<component(2)>("output/gaussianLorenz.co.series");
+
+
+net.evolve(0.0,1500.0);

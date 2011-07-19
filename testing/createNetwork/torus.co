@@ -1,0 +1,19 @@
+
+
+
+
+
+
+
+
+network n;
+
+
+n.torus<pcoNonleaky,staticWeightedEdge()>(40,40,3.17);
+print "should be 36:"+n.meanDegree()+newline;
+
+print newline;
+
+n.saveAdjacencyList ("output/torus.co.graph");
+
+:sort -n output/torus.co.graph > output/torus.co.graph.sort:;

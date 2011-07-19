@@ -1,0 +1,7 @@
+
+
+network net;
+
+
+net.addVertex<roessler>();
+net.evolve(0.0,100.0);

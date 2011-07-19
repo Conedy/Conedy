@@ -1,0 +1,25 @@
+
+
+network net;
+
+
+
+
+net.randomNetwork<roessler, weightedEdge>(100, 0.1);
+
+
+net.randomizeParameter ("roessler_omega", uniform (0.80, 0.85));
+
+int i;
+
+for (i = 0; i < 100; i = i + 1)
+{
+
+	print "Node " + i+ ":"+ net.getParam(i, "roessler_omega")+newline;
+
+};
+
+
+
+
+

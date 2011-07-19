@@ -1,0 +1,20 @@
+network net;
+
+roessler_omega = 0.89;
+roessler_a = 0.165;
+roessler_b = 0.2;
+roessler_c = 10.0;
+
+dynNetwork_ioNodeDt = 0.01;
+
+
+net.addVertex<roessler>();
+net.setState(0, 0.0, 0.0, 0.0 );
+
+
+net.observeTime("output/roessler.co.series");
+net.observe<component(0)>(0,"output/roessler.co.series");
+net.observe<component(1)>(0,"output/roessler.co.series");
+net.observe<component(2)>(0,"output/roessler.co.series");
+
+net.evolve(0.0,1500.0);

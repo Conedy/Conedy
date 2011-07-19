@@ -1,0 +1,35 @@
+
+
+
+setRandomSeed(20);
+
+
+
+network n;
+
+
+
+n.addVertex <node>();
+n.addEdge (0,0,1.0,weightedEdge);
+n.removeEdges(weightedEdge);
+print "Should be 0:";
+print n.meanDegree();
+print newline;
+n.clear();
+
+
+n.cycle < node, staticWeightedEdge()> (10000,2);
+
+
+n.rewire (0.5, weightedEdge);
+print "Should be 4:";
+print n.meanDegree();
+print newline;
+
+n.removeEdges (weightedEdge);
+
+
+print "Should be close to 2:";
+print n.meanDegree();
+print newline;
+

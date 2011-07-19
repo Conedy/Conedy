@@ -1,0 +1,20 @@
+
+dynNetwork_ioNodeDt = 1.0;
+
+
+network net;
+
+
+int newNodeNumber;
+
+newNodeNumber = net.addVertex<logisticMap>();
+net.setState(newNodeNumber, 0.3);
+net.observe(newNodeNumber, "output/mapNode.co.series");
+
+net.evolve (0.0,10.0);
+
+
+
+
+
+

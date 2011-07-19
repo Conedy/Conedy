@@ -1,0 +1,10 @@
+network net;
+
+net.addVertex<ornUhl>();
+net.observeTime("output/doubleEvolveSde.co.series");
+net.observeAll<component(0)>("output/doubleEvolveSde.co.series");
+net.evolve(0.0, 1.0);
+net.evolve(1.0, 2.0);
+
+
+

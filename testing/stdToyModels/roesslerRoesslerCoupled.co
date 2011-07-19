@@ -1,0 +1,36 @@
+network net;
+
+roessler_omega = 0.89;
+roessler_a = 0.165;
+roessler_b = 0.2;
+roessler_c = 10.0;
+
+dynNetwork_ioNodeDt = 0.01;
+
+
+net.addVertex<roessler>();
+
+roessler_omega = 1.0;
+net.addVertex<roessler>();
+
+
+net.addEdge(0,1,0.5);
+net.addEdge(1,0,0.5);
+
+
+net.setState(0, 0.0,0.0,0.0);
+net.setState(1, 1.0,1.0,0.0);
+
+
+net.observeTime("output/roesslerRoesslerCoupled.co.series");
+
+net.observe<component(0)>(0,"output/roesslerRoesslerCoupled.co.series");
+net.observe<component(1)>(0,"output/roesslerRoesslerCoupled.co.series");
+net.observe<component(2)>(0,"output/roesslerRoesslerCoupled.co.series");
+
+net.observe<component(0)>(1,"output/roesslerRoesslerCoupled.co.series");
+net.observe<component(1)>(1,"output/roesslerRoesslerCoupled.co.series");
+net.observe<component(2)>(1,"output/roesslerRoesslerCoupled.co.series");
+
+net.evolve(0.0,1500.0);
+

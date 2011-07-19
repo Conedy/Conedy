@@ -1,0 +1,26 @@
+
+
+
+
+
+
+
+
+
+network n;
+
+
+n.torusRandomlyNearestNeighbours<pcoNonleaky,staticWeightedEdge()>(40,40,36.0);
+n.saveAdjacencyList ("output/torusNearest.co.graph");
+
+
+print "Meandegree:"+ n.meanDegree();
+print newline;
+
+#print "Meanclustering:". n.meanClustering();
+
+#print newLine;
+
+:sort -n output/torusNearest.co.graph > output/torusNearest.co.graph.sort:;
+
+#n.printNodeStatistics();

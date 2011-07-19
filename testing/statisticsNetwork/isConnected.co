@@ -1,0 +1,28 @@
+network net;
+
+net.addVertex<kuramoto>();
+net.addVertex<kuramoto>();
+
+net.addEdge(0,1,1.0);
+print "should give an error: ";
+if( net.isConnected() )
+{
+print "";
+};
+print newline;
+
+net.clear();
+net.cycle<kuramoto>(500,1);
+print "should be connected: ";
+if( net.isConnected() )
+{ 
+	print "connected ";
+};
+print newline;
+
+net.addVertex<kuramoto>();
+print "should be disconnected: ";
+if( !net.isConnected() )
+{ 
+	print "disconnected ";
+};

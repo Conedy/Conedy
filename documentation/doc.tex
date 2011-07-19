@@ -1,0 +1,96 @@
+
+
+
+
+\section{what is neurosim}
+
+
+
+\section{who should use neurosim}
+
+\section{tutorial}
+
+network N;
+
+stdRoessler_omega = 10.0;
+
+N.addVertex<stdRoessler>();
+N.addVertex<stdLorenz>();
+
+N.addEdge(1,0,10);
+
+
+N.setInitialCondition(1,1,1,1);
+N.evolve(0.0,100);
+
+N.observeTime("output/roesslerLorenz");
+N.observeAll<hiddenComponent(0)>("output/roesslerLorenz");
+N.observeAll<hiddenComponent(1)>("output/roesslerLorenz");
+N.observeAll<hiddenComponent(2)>("output/roesslerLorenz");
+
+N.evolve(100,500);
+
+
+\section{doc}
+
+node/edge blueprints
+parameter -> memory usage
+integratoren
+static/virtual edges
+adding new nodes
+
+
+observe in numpyarrays
+
+
+
+
+\section{reference}
+
+
+python and flex,bison
+
+
+addVertex
+addEdge
+randomNetwork
+completeNetwork
+line
+cycle
+lattice
+torus
+rewire
+rewireUndirected
+randomizeweights
+randomizeParameter
+randomizeStates
+setInitialCondition
+observeTime
+observe
+observeAll
+observeMean
+setrandomseed
+adaptoren von networkx
+uniform
+gaussian
+bimodal
+fromFile
+evolve
+snapshot
+clear
+saveGraphxml
+loadGraphxml
+createFromAdjacencyList
+createFromAdjacencyMatrix
+saveAdjacencyMatrix
+saveAdjacencyList
+statistics
+dynNetwork_ioNodeDt
+network_nodeVerbosity
+network_edgeVerbosity
+
+
+
+
+
+

@@ -1,0 +1,20 @@
+
+dynNetwork_ioNodeDt = 1.2;
+
+
+network net;
+
+int newNodeNumber;
+
+newNodeNumber = net.addVertex<logisticMap>();
+net.printNodeStatistics();
+net.observe(newNodeNumber+1, "output/observe.py.series");
+
+
+net.evolve (0.0,10.0);
+
+
+
+
+
+

@@ -1,0 +1,34 @@
+pcoIntegrateFire_noiseFrequency = 0.0;
+pcoIntegrateFire_timeDelay = 0.01;
+pcoIntegrateFire_t_ref = 0.05;
+pcoIntegrateFire_alpha = 0.9;
+
+#dynNode_dt = 0.02;
+#GLNetwork_skipFrames = 1.0;
+
+network n;
+
+
+setRandomSeed(10);
+double rewiring;
+double coupling;
+
+rewiring = 0.5;
+coupling = 0.009;
+
+
+n.torusRandomlyNearestNeighbours< pcoIntegrateFire,staticWeightedEdge  () >(40,40,50.0);
+
+n.rewire(rewiring);
+
+n.randomizeStates(pcoIntegrateFire, uniform(0.0,1.0));
+n.randomizeWeights(uniform(coupling,coupling));
+
+n.normalizeInWeightSum(0.27);
+
+
+n.observeTime("output/nonconvergingNormalizedWeights.co.phaseCoherence");
+n.observePhaseCoherence<pcoIntegrateFire>("output/nonconvergingNormalizedWeights.co.phaseCoherence");
+
+
+n.evolve(0.0,100.0);

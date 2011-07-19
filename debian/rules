@@ -1,0 +1,46 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+DEB_MAKE_INSTALL_TARGET = install DESTDIR=$(CURDIR)/debian/tmp/
+
+DEB_PYTHON_SYSTEM := pysupport
+
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/makefile.mk
+
+
+
+makebuilddir/conedy::
+#	cat config.h
+	sed "s#^VERSION.*\$$#VERSION =`head debian/changelog -n1 | awk '{print $$2}'  | sed "s/(//" | sed "s/)//"`#" debian/config.h >  config.h
+#	cp debian/config.h config.h
+
+makebuilddir/python-conedy::
+	make addNodesIfNecessary docstrings.h
+
+include /usr/share/cdbs/1/class/python-distutils.mk
+
+
+install/python-conedy::
+	mkdir -p  tmp/usr/bin/
+#	sed "s#DIRSRC#tmp/usr/share/conedy#g" recompilePython-NeurosimIfNecessary.sh | sed "s#ADDEDDIR#~/.config/conedy#g" > tmp/usr/bin/recompilePython-NeurosimIfNecessary.sh
+	cp -a recompilePython-Conedy debian/tmp/usr/bin/recompilePython-Conedy
+	
+	
+
+
+
+
+all::
+	mv config.debian config.h
+
+install::
+
+	make install
+
+clean::
+	rm -rf build build-stamp configure-stamp build/ MANIFEST
+

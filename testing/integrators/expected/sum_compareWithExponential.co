@@ -1,0 +1,9 @@
+00000     0 output/compareWithExponential.co.err
+58402    24 output/compareWithExponential.co.ode
+00000     0 output/compareWithExponential.co.out
+61134    24 output/compareWithExponential.co.rk2
+19736    24 output/compareWithExponential.co.rk4
+20398    24 output/compareWithExponential.co.rk45
+37287    24 output/compareWithExponential.co.rk8pd
+14323    24 output/compareWithExponential.co.rkck
+58402    24 output/compareWithExponential.co.static

@@ -1,0 +1,17 @@
+
+setRandomSeed(10);
+
+
+network n;
+
+
+
+n.cycle<node, weightedEdge>( 100, 10);
+print "should be 20:"+ n.meanDegree()+ newline;
+n.saveAdjacencyList("output/rewireWeights.co.before");
+
+
+n.rewire(0.5, uniform (2.0,2.0));
+
+n.saveAdjacencyList("output/rewireWeights.co.after");
+print "should be close to 1.5:"+ n.meanWeight()+ newline;

@@ -1,0 +1,70 @@
+#  * various changes to allow compilation with msvc
+  * match nodeblueprint if all parameter are the same.
+  * adding setParam-function
+
+conedy (0.20-1) unstable; urgency=low
+
+  * containerNodes can now dynamically increase the size of the container
+  * write files binary by setting streamOutNode_binary = 1
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Mon, 13 Jun 2011 02:33:30 +0100
+
+conedy (0.19-1) unstable; urgency=low
+
+  * added missing file debian/conedy-src.install  
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Mon, 28 Mar 2011 15:49:14 +0100
+
+conedy (0.18-1) unstable; urgency=low
+
+  * recompilation support seems to be working
+  * added /etc/conedy.config as global config file 
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Thu, 17 Mar 2011 15:49:14 +0100
+
+conedy (0.17-1) unstable; urgency=low
+
+  * various bug fixes/ all scripts in testing seem to be working
+  * evolve now issues a snapshot at begin of simulation time
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Sun, 14 Mar 2011 15:49:14 +0100
+
+conedy (0.16-1) unstable; urgency=low
+
+  * added many edges
+  * various bug fixes
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Sun, 09 Mar 2011 15:49:14 +0100
+
+conedy (0.15-1) unstable; urgency=low
+
+  * compiles on lenny 32 bit, at last
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Sun, 01 Mar 2011 15:49:14 +0100
+
+conedy (0.14-1) unstable; urgency=low
+
+
+  * let config.h guess number of cpus
+  * included createFromMatrix
+  * varios bug fixes
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Sun, 22 Feb 2011 15:49:14 +0100
+
+
+conedy (0.13-1) unstable; urgency=low
+
+  *	varios bug fixes
+  *	included stdSdeIntegrator strong scheme 1.5 integrator for sdes
+  *	included gslOdeNode, numerical integration by the gsl
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Sun, 20 Feb 2011 15:49:14 +0100
+
+
+conedy (0.12rc-1) unstable; urgency=low
+
+  * Initial release
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Tue, 09 Nov 2010 15:49:14 +0100
+
+

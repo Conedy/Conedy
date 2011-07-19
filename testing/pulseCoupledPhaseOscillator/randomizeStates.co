@@ -1,0 +1,17 @@
+
+network n;
+
+
+
+
+n.addVertex<pcoIntegrateFire>();
+n.addVertex<pcoIntegrateFire>();
+n.addVertex<pcoIntegrateFire>();
+n.addVertex<pcoIntegrateFire>();
+n.randomizeStates(pcoIntegrateFire, uniform(0.0,1.0));
+
+print (n.getState (0)) ; 
+print " "+ (n.getState (1)); 
+print " "+ (n.getState (2));
+print " "+ (n.getState (3));
+

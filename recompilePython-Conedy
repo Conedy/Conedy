@@ -1,0 +1,54 @@
+#!/usr/bin/make -sf
+#
+#    Neurosim is a scientific tool which allows numerical integration of dynamical networks.
+#
+#    Copyright (C) 2011 Alexander Rothkegel, Henning Dickten, Ferdinand Stolz, Justus Schwabedahl
+#
+#    This file is part of conedy.
+#
+#    Neurosim is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>
+
+
+
+
+
+include ${HOME}/.config/conedy/config.h
+
+
+doit: ${todo}
+
+
+conedy:
+
+python-conedy:
+
+documentation:
+
+conedy-src: recompile
+
+
+recompile: ${HOME}/.config/conedy/config.h
+	TMP=`mktemp`; cd ${dirsrc}; sum addedNodes/*.cfg > $$TMP; sum ${addedDir}/*.cfg >> $$TMP; diff $$TMP ${dirsrc}/addedNodes.sum.old  || ${noUserSpace} touch ${dirsrc}/recompilationConedyStarted ${dirsrc}/recompilationPython-ConedyStarted
+	[ -f ${dirsrc}/recompilationPython-ConedyStarted  ]
+	make -C ${dirsrc} python-conedy.recompile 
+
+
+
+${HOME}/.config/conedy/config.h:
+	mkdir -p ${HOME}/.config/conedy
+	[ -f /etc/conedy.config ] && ln -s /etc/conedy.config ${HOME}/.config/conedy/config.h  && recompilePython-Conedy
+	
+
+	
+.PHONY:	recompile

@@ -1,0 +1,21 @@
+
+dynNetwork_ioNodeDt = 0.001;
+pulseCoupledExcitatoryNeuron_noiseFrequency = 0.1;
+
+
+
+network n;
+
+
+n.addVertex<pulseCoupledExcitatoryNeuron>();
+
+
+n.observeTime("output/sup.co.phase");
+n.observe(0,"output/sup.co.phase");
+
+#n.observeTime("output/fireTimes");
+#n.observeEventTimes("output/sup.co.fireTimes", 2);
+
+#n.printNodeStatistics();
+
+n.evolve(0.0,100.0);

@@ -1,0 +1,81 @@
+
+[napKKm]
+integrator = stdOdeIntegrator
+dimension = 3
+parameter = 14
+parametername1 = gl
+standardvalue1 = 8.0
+parametername2 = el
+standardvalue2 = -80.0
+parametername3 = gna
+standardvalue3 = 20.0
+parametername4 = ena
+standardvalue4 = 60.0
+parametername5 = gkfast
+standardvalue5 = 9.0
+parametername6 = ek
+standardvalue6 = -90.0
+parametername7 = gkslow
+standardvalue7 = 5.0
+parametername8 = c
+standardvalue8 = 1.0
+parametername9 = ek
+standardvalue9 = -90.0
+parametername10 = gkslow
+standardvalue10 = 5.0
+parametername11 = c
+standardvalue11 = 1.0
+
+
+dynamics=
+	double alpham = (25.0 - x[0] ) / ( 10.0 * ( exp (( 25 - x[0] )/10.0)-1 ));
+	double alphah = 0.07 * exp ( -x[0] / 20.0 );
+	double alphan = (10.0 - x[0]) / ( 100.0 * ( exp (( 10.0 - x[0] ) / 10.0 ) - 1 ) );
+	double betam = 4.0 * exp (-x[0]/18.0);
+	double betah =1.0 / ( exp (( 30.0 - x[0]) / 10.0) + 1);
+	double betan = 0.125 * exp ( - x[0] / 80.0);
+
+	dxdt[0] = I() /c() - ( gl() /c() ) * ( x[0]-el() ) - ( gna() /c() ) *minf ( x[0] ) * ( x[0]-ena() )- ( gkfast() /c() ) *x[1]* ( x[0]-ek() ) + ( gkslow() /c() ) *x[2]* ( x[0]-ek() ) + ( this->couplingSum() /c() );
+	dxdt[1] = ( ninf ( x[0] )-x[1] ) /taufast ( x[0] );
+	dxdt[2] = ( n_slowinf ( x[0] )-x[1] ) /tauslow ( x[0] );
+
+dokumentation=
+	aus Izhikevich S.10
+
+[gaussianHodgkinHuxley]
+integrator = stdSdeIntegrator
+dimension = 4
+parameter = 9
+parametername1 = cm
+standardvalue1 = 1.0
+parametername2 = gna
+standardvalue2 = 120.0
+parametername3 = gk
+standardvalue3 = 36.0
+parametername4 = gpas
+standardvalue4 = 0.3
+parametername5 = ena
+standardvalue5 = 110.0
+parametername6 = ek
+standardvalue6 = 12.0
+parametername7 = vpas
+standardvalue7 = 10.613
+parametername8 = I
+standardvalue8 = 100.0
+parametername9 = sigmaNoise
+standardvalue9 = 0.0
+dynamics=
+	double alpham = (25.0 - x[0] ) / ( 10.0 * ( exp (( 25 - x[0] )/10.0)-1 ));
+	double alphah = 0.07 * exp ( -x[0] / 20.0 );
+	double alphan = (10.0 - x[0]) / ( 100.0 * ( exp (( 10.0 - x[0] ) / 10.0 ) - 1 ) );
+	double betam = 4.0 * exp (-x[0]/18.0);
+	double betah =1.0 / ( exp (( 30.0 - x[0]) / 10.0) + 1);
+	double betan = 0.125 * exp ( - x[0] / 80.0);
+
+	dxdt[0] = ( gna() /cm() ) *x[1]*x[1]*x[1]*x[2]* ( ena()-x[0] ) + ( gk() /cm() ) *x[3]*x[3]*x[3]*x[3]* ( ek()-x[0] ) + ( gpas() /cm() ) * ( vpas()-x[0] ) + ( couplingSum() /cm() ) + ( I() /cm() );
+	dxdt[1] = alpham  * ( 1-x[1] )-betam *x[1];
+	dxdt[2] = alphah  * ( 1-x[2] )-betah *x[2];
+	dxdt[3] = alphan  * ( 1-x[3] )-betan *x[3];
+	dxdW[0] = sigmaNoise();
+dokumentation=
+	aus Izhikevich S.10

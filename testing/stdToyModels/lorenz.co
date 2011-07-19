@@ -1,0 +1,19 @@
+network net;
+
+lorenz_s = 10.0;
+lorenz_r = 28.0;
+lorenz_b = 8.0/3.0;
+
+dynNetwork_ioNodeDt = 0.01;
+
+
+net.addVertex<lorenz>();
+net.setState(0, 1.0, 1.0, 1.0);
+
+net.observeTime("output/lorenz.co.series");
+net.observeAll<component(0)>("output/lorenz.co.series");
+net.observeAll<component(1)>("output/lorenz.co.series");
+net.observeAll<component(2)>("output/lorenz.co.series");
+
+
+net.evolve(0.0,1500.0);

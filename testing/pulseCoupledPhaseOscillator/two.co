@@ -1,0 +1,31 @@
+pcoIntegrateFire_timeDelay = 0.1;
+pcoIntegrateFire_t_ref = 0.5;
+
+dynNetwork_ioNodeDt = 0.001;
+
+
+
+network n;
+
+
+n.addVertex<pcoIntegrateFire>();
+n.addVertex<pcoIntegrateFire>();
+
+n.addEdge(0,1,0.06);
+n.addEdge(1,0,0.06);
+
+n.setState(0,0.0);
+n.setState(1,0.5);
+
+
+n.observeTime("output/two.co.series");
+n.observe(0,"output/two.co.series");
+n.observe(1,"output/two.co.series");
+
+
+n.observeTime("output/two.co.phaseCoherence");
+n.observePhaseCoherence("output/two.co.phaseCoherence");
+
+
+n.evolve(0.0,100.0);
+

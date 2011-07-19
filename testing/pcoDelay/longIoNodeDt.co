@@ -1,0 +1,34 @@
+pcoIntegrateFireDelay_noiseFrequency = 0.0;
+pcoIntegrateFireDelay_timeDelay = 0.01;
+pcoIntegrateFireDelay_t_ref = 0.05;
+pcoIntegrateFireDelay_alpha = 0.9;
+
+dynNetwork_ioNodeDt = 2.0;
+#GLNetwork_skipFrames = 1.0;
+
+network n;
+
+
+setRandomSeed(0);
+
+double rewiring;
+double coupling;
+
+rewiring = 0.5;
+coupling = 0.012;
+
+
+n.torusRandomlyNearestNeighbours<pcoIntegrateFireDelay,staticWeightedEdge()>(40,40,36.0);
+
+		n.rewire(rewiring);
+
+		n.randomizeStates(pcoIntegrateFireDelay, uniform(0.0,1.0));
+		n.randomizeWeights(uniform(coupling,coupling));
+
+#		n.observeGl(1.0,"squareLattice", phaseOfPCPO);
+
+
+n.observeTime("output/longIoNodeDt.co.nonconverging");
+n.observePhaseCoherence("output/longIoNodeDt.co.nonconverging");
+
+		n.evolve(0.0,100.0);
