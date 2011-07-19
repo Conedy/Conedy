@@ -1,0 +1,51 @@
+
+bjam boost-build bisonc++ flex  libx11-dev libgsl0-dev libboost-dev freeglut3-dev x11proto-xf86vidmode-dev libxxf86vm-dev libboost-iostreams-dev libz-dev make mingw32 build-essential g++
+
+what is neurosim
+
+
+
+building neurosim
+
+homepage
+
+
+
+
+
+
+------------------------------------Knotentypen---------------------------------------
+	- Eingabe Knoten:
+		Lesen Daten aus einem Stream ein und exibitionieren sie. Dies geschieht auf
+		3 mögliche Weisen:
+		1.	Lese die Daten aus einem Stream, wenn sie vom Netzwerk gebraucht werden.
+		2. Lese die Daten zuerst in ein Speicherblock ein und gebe dann aus.
+		3. Lese die Daten in einen Speicherblock ein und halte sie dann zu späteren
+			analyse bereit.
+		Die dritte Möglichkeit wird durch einen analNode verwaltet der mindestens
+		von der Klasse analData erbt.
+
+	- Auslese Knoten:
+		ein Knoten der (heimlich) Daten ausließt und speichert. Dies ist natürlich
+		nur sinnvoll, wenn danach eine Analyse mit den Daten vorgenommen werden soll.
+		aus Speichergründen ist es jedoch evtl. notwendig die dazu nötigen Speicher-
+		blöcke erst dann zu alloziieren, wenn sie (die Analyse) zum ersten mal auf-
+		gerufen wird.
+
+	- Map Knoten:
+		...iteriert eine Gleichung x_n+1=F(x_n).
+
+	- ODE Knoten:
+		der ODE Knoten soll es ermöglichen mittels Integrationsverfahren dynamische
+		Systeme zu modellieren. 
+
+	- SDE (Stochastic Differential Equation) Knoten:
+		Einen SDE Knoten könnte man vielleicht als Knotenpaar in Verbindung mit einem
+		Eingabe Knoten der Zufallszahlen auswirft kombinieren.
+
+
+----------------------------------debug/-------------------------------------------
+In debug findet sich die erste Version des Projektes die bis zur Lauffähigkeit gebracht
+werden soll. Bisher wurde dort createFromMatrix implementiert und jetzt funktioniert
+auch das rk4-integrieren gewöhnlicher ODEs. 
+
