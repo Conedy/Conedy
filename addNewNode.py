@@ -455,7 +455,15 @@ class NodeEditor:
 		if static == 0:
 			nodes.append("class_< nodeVirtualEdges<%s> , bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ); // added by addNewNodes.py \n" %(self.className, fileNameOut, self.integrator,self.className))
 		elif static == 1:	
-			nodes.append("class_< nodeTemplateEdges< %s < edge >  , %s , %s >, bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ); // added by addNewNodes.py \n" %(self.staticEdgeType, self.staticTargetNodeType,self.className,  fileNameOut, self.integrator, self.className))
+			self.staticEdgeType = self.staticEdgeType.replace ("_","<")
+			hierachy = self.staticEdgeType.count ("<")
+			self.staticEdgeType += ("<")
+			self.staticEdgeType = self.staticEdgeType + (" edge")
+			for i in range (0, hierachy):
+				self.staticEdgeType += (">")
+			
+
+			nodes.append("class_< nodeTemplateEdges< %s >  , %s , %s >, bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ); // added by addNewNodes.py \n" %(self.staticEdgeType, self.staticTargetNodeType,self.className,  fileNameOut, self.integrator, self.className))
 		nodes.sort()
 	
 		
@@ -579,7 +587,7 @@ class NodeEditor:
 		if (static == 0):
 			fout.write("\t\t| %s { nodeBlueprint *n = new nodeVirtualEdges< %s >(); $$ = new constantCommand<nodeBlueprint*>(n); }\n" % (self.className.upper(), self.className))
 		if (static ==1):
-			fout.write("\t\t| %s { nodeBlueprint *n = new nodeTemplateEdges< %s < edge >     , %s , %s >(); $$ = new constantCommand<nodeBlueprint*>(n); }\n" % (self.className.upper(), self.staticEdgeType, self.staticTargetNodeType, self.className))
+			fout.write("\t\t| %s { nodeBlueprint *n = new nodeTemplateEdges< %s  >    , %s , %s >(); $$ = new constantCommand<nodeBlueprint*>(n); }\n" % (self.className.upper(), self.staticEdgeType, self.staticTargetNodeType, self.className))
 		fout.close()
 		del fout
 

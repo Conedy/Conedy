@@ -1470,14 +1470,28 @@ nodeDescriptor createNetwork::createFromAdjacencyMatrix (string fileName, nodeBl
 
 
 //! Fügt einen Knoten vom Typ streamOutNode hinzu, der in die Datei s schreibt. Der Knoten erhält eine stdEdge zu jedem Knoten vom Typ _dynNode_. und schreibt somit die Summe aller States weg.
-void createNetwork::observeMean ( string s )
+//void createNetwork::observeMean ( string s )
+//{
+//	nodeBlueprint *nod = new nodeVirtualEdges <streamOutNode> ( s );
+//	nodeDescriptor newNodeNumber = addNode ( nod );
+//	network::addEdges ( newNodeNumber,_dynNode_ );
+//	inOutNodeList.push_back ( dynamic_cast<dynNode*> (nodeBlueprint::theNodes[newNodeNumber] ));
+//	delete nod;
+//}
+//
+//! wie oben mit links vom Typ l
+void createNetwork::observeMean ( string s, edgeBlueprint *l )
 {
+
 	nodeBlueprint *nod = new nodeVirtualEdges <streamOutNode> ( s );
-	nodeDescriptor newNodeNumber = addNode ( nod );
-	network::addEdges ( newNodeNumber,_dynNode_ );
+	int newNodeNumber = addNode ( nod );
+	network::addEdges ( newNodeNumber,_dynNode_,l );
+
 	inOutNodeList.push_back ( dynamic_cast<dynNode*> (nodeBlueprint::theNodes[newNodeNumber] ));
+//	addEnterNode ( s );
 	delete nod;
 }
+
 
 //! wie oben allerdings wird die Phasenkohärenz r der States s_i weggeschrieben: r = 1/N \sum\limits_i exp( 2 * PI * s_i). Phasen gehen von 0 bis 1 !!! TODO: vielleicht von streamOutNode erben ??
 
@@ -1605,19 +1619,6 @@ void createNetwork::observeEventCounter ( string s, unsigned int signature)
 }
 
 
-
-//! wie oben mit links vom Typ l
-void createNetwork::observeMean ( string s, edgeBlueprint *l )
-{
-
-	nodeBlueprint *nod = new nodeVirtualEdges <streamOutNode> ( s );
-	int newNodeNumber = addNode ( nod );
-	network::addEdges ( newNodeNumber,_dynNode_,l );
-
-	inOutNodeList.push_back ( dynamic_cast<dynNode*> (nodeBlueprint::theNodes[newNodeNumber] ));
-	addEnterNode ( s );
-	delete nod;
-}
 
 //! observiert den Knoten number mit einer stdEdge und schreibt in die Datei s.
 //void createNetwork::observe ( string s, nodeDescriptor number )

@@ -106,7 +106,11 @@ namespace conedy
 			}
 
 
-			node* getTarget();
+			node* getTarget();// { return node::theNodes [targetNumber];}
+
+
+
+
 			baseType getTargetState();
 
 			const edgeInfo getEdgeInfo() {edgeInfo ei = {_edge_,0}; return ei;}
@@ -294,6 +298,7 @@ namespace conedy
 	
 	
 	
+inline node* edge::getTarget() { return node::theNodes [targetNumber];};
 	
 	
 	

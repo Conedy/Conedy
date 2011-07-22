@@ -300,6 +300,7 @@ public:
 
 
     component ( int c) :  which ( c ) {}
+    component ( ) :  which ( 0 ) {}
 
 			virtual const edgeInfo getEdgeInfo() {
 				edgeInfo ancestor = EDGE::getEdgeInfo();
@@ -308,7 +309,7 @@ public:
 
     virtual baseType getTargetState()
     {
-        return (   dynamic_cast <dynNode* > ( EDGE::getTarget() ) ) ->getHiddenComponent ( which );
+        return (  (dynNode*)  ( EDGE::getTarget() ) ) ->tmp[which]   ;
 
     }
     virtual edge *construct() {

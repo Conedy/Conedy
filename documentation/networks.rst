@@ -8,7 +8,13 @@ Conedy depends on his own network class in order to apply the different availabl
 
 
 
-For the creation and manipulation of the networks, elementary functions are supplied, which can be combined in an arbitrary sequence. This allows to create the desired network in py
+For the creation and manipulation of the networks, elementary functions (adding single edges or nodes) are supplied , which can be combined in an arbitrary sequence. This allows to create the desired network step by step in python. To add two nodes of type roessler to the network, the addNode command can be used::
+
+
+   N.addNode(co.roessler())
+   N.addNode(co.roessler())
+
+
 
 
 
@@ -22,4 +28,7 @@ Beside these elementary functions, Conedy supplies more complex functions, which
    >>> firstNodenumber = N.randomNetwork(100, 0.1, nodeblueprint, edgeblueprint)
 
 Functions, which create more than one node will return the number of the first created node. Other created nodes have consecutive numbers. Similar to this example with random networks, functions which create one and two dimensional lattices and tori are available, and it is possible to create networks from files which contain either adjacency lists or matrices. 
+
+
+Another possibility in Conedy is to create the network from adjacency lists or matrices, which are read from files. 
 

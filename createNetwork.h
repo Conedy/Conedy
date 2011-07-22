@@ -185,7 +185,7 @@ void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
 
 
 			//! wie oben mit links vom Typ l
-			void observeMean ( string s, edgeBlueprint *l );
+			void observeMean ( string s, edgeBlueprint *l = stdEdge );
 
 			void observeEvent (string s, nodeDescriptor signature);
 
@@ -215,7 +215,8 @@ void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
 
 
 			//! Fügt einen Knoten vom Typ streamOutNode hinzu, der in die Datei s schreibt. Der Knoten erhält eine stdEdge zu jedem Knoten vom Typ _dynNode_. und schreibt somit die Summe aller States weg.
-			void observeMean ( string s );
+
+//			void observeMean ( string s );
 
 			//! observiert den Knoten number mit einer stdEdge und schreibt in die Datei s.
 //			void observe ( string s, nodeDescriptor number );

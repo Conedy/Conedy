@@ -278,13 +278,7 @@ float nodeVirtualEdges<DYNNODE>::weightSum()
 	float res = 0;
 	edgeIterator ei;
 	for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
-	{
-		if ( ( *ei )->getEdgeInfo().theEdgeKind & _weighted_ )
-			//res = res + ((weightedEdge<baseType>*)(&(*ei)) )->getWeight();
-			res = res + ( ( *ei ) )->getWeight();
-		else
-			res = res + 1;
-	}
+		res = res +  (*ei)->getWeight();
 	return res;
 }
 

@@ -12,7 +12,7 @@ namespace conedy
 	vector<node *> node::theNodes;
 
 	baseType edgeVirtual::getTargetState() { return getTarget()->getState();}
-	node* edge::getTarget() { return node::theNodes [targetNumber];}
+//	inline node* edge::getTarget() { return node::theNodes [targetNumber];}
 
 
 	ostream& edge::printStatistics( ostream &os, double edgeVerbosity, int theEdgeKind, string theEdgeName, baseType weight)

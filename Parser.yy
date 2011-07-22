@@ -293,7 +293,7 @@ bluePrintCommand : createNode '=' createNode { $$ = new assignInstruction<nodeBl
 createNetworkCommand : NETWORK '.' RANDOMNETWORK '<' createNode ',' link '>' '(' nodeDescriptor ',' baseType ')' { $$ = NETWORKFUNK4(randomNetwork,$1,_E(nodeDescriptor,$10),_E(baseType,$12),_E(nodeBlueprint*,$5),_E(edgeBlueprint*,$7));}
 	| NETWORK '.' COMPLETENETWORK '<' createNode ',' link '>' '(' nodeDescriptor ')' { $$ = NETWORKFUNK3(completeNetwork,$1,_E(nodeDescriptor,$10),_E(nodeBlueprint*,$5),_E(edgeBlueprint*,$7)); }
 	| NETWORK '.' OBSERVE '(' nodeDescriptor ',' string ')'	{ $$ = NETWORKFUNK3(observe, $1,      _E(nodeDescriptor, $5), _E(string, $7)  ,network::stdEdge); }
-	| NETWORK '.' OBSERVEMEAN '(' string ')' 	{ $$ =NETWORKFUNK1(observeMean,$1,_E(string,$5) ); }
+	| NETWORK '.' OBSERVEMEAN '(' string ')' 	{ $$ =NETWORKFUNK2(observeMean,$1,_E(string,$5), network::stdEdge ); }
 	| NETWORK '.' OBSERVEPHASECOHERENCE '(' string ')' { $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$5), network::stdEdge, network::stdNode, 0, numeric_limits<nodeDescriptor>::max()); }
 	| NETWORK '.' OBSERVEPHASECOHERENCE '<' link '>' '(' string ')' { $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$8), _E(edgeBlueprint*, $5), network::stdNode, 0, numeric_limits<nodeDescriptor>::max() ); }
 	| NETWORK '.' OBSERVEPHASECOHERENCE '<' node '>' '(' string ')' { $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$8), network::stdEdge,  _E(nodeBlueprint*, $5), 0, numeric_limits<nodeDescriptor>::max() ); }
