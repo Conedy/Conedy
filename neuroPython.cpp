@@ -254,6 +254,33 @@ namespace { // Avoid cluttering the global namespace.
 
 
 		// addNewNode.py Nodes begin
+class_< nodeTemplateEdges< weightedEdge< edge >  , exponentialStatic , exponentialStatic >, bases<nodeBlueprint> > ("exponentialStatic",  reinterpret_cast<const char *>(__addedNodes_stdOdeIntegrator_exponentialStatic) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<exponentialGsl> , bases<nodeBlueprint> > ("exponentialGsl",  reinterpret_cast<const char *>(__addedNodes_gslOdeIntegrator_exponentialGsl) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<exponentialOde> , bases<nodeBlueprint> > ("exponentialOde",  reinterpret_cast<const char *>(__addedNodes_stdOdeIntegrator_exponentialOde) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<exponentialSde> , bases<nodeBlueprint> > ("exponentialSde",  reinterpret_cast<const char *>(__addedNodes_stdSdeIntegrator_exponentialSde) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<fitzHughNagumo> , bases<nodeBlueprint> > ("fitzHughNagumo",  reinterpret_cast<const char *>(__addedNodes_stdOdeIntegrator_fitzHughNagumo) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<gaussianFitzHughNagumo> , bases<nodeBlueprint> > ("gaussianFitzHughNagumo",  reinterpret_cast<const char *>(__addedNodes_stdSdeIntegrator_gaussianFitzHughNagumo) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<gaussianHindmarshRose> , bases<nodeBlueprint> > ("gaussianHindmarshRose",  reinterpret_cast<const char *>(__addedNodes_stdSdeIntegrator_gaussianHindmarshRose) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<gaussianHodgkinHuxley> , bases<nodeBlueprint> > ("gaussianHodgkinHuxley",  reinterpret_cast<const char *>(__addedNodes_stdSdeIntegrator_gaussianHodgkinHuxley) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<gaussianKuramoto> , bases<nodeBlueprint> > ("gaussianKuramoto",  reinterpret_cast<const char *>(__addedNodes_stdSdeIntegrator_gaussianKuramoto) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<gaussianLorenz> , bases<nodeBlueprint> > ("gaussianLorenz",  reinterpret_cast<const char *>(__addedNodes_stdSdeIntegrator_gaussianLorenz) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<gaussianRoessler> , bases<nodeBlueprint> > ("gaussianRoessler",  reinterpret_cast<const char *>(__addedNodes_stdSdeIntegrator_gaussianRoessler) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<hindmarshRose> , bases<nodeBlueprint> > ("hindmarshRose",  reinterpret_cast<const char *>(__addedNodes_stdOdeIntegrator_hindmarshRose) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<hodgkinHuxley> , bases<nodeBlueprint> > ("hodgkinHuxley",  reinterpret_cast<const char *>(__addedNodes_stdOdeIntegrator_hodgkinHuxley) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<kuramoto> , bases<nodeBlueprint> > ("kuramoto",  reinterpret_cast<const char *>(__addedNodes_stdOdeIntegrator_kuramoto) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<logisticMap> , bases<nodeBlueprint> > ("logisticMap",  reinterpret_cast<const char *>(__addedNodes_mapNode_logisticMap) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<lorenz> , bases<nodeBlueprint> > ("lorenz",  reinterpret_cast<const char *>(__addedNodes_stdOdeIntegrator_lorenz) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<neuronMap> , bases<nodeBlueprint> > ("neuronMap",  reinterpret_cast<const char *>(__addedNodes_mapNode_neuronMap) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<ornUhl> , bases<nodeBlueprint> > ("ornUhl",  reinterpret_cast<const char *>(__addedNodes_stdSdeIntegrator_ornUhl) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<pcoIntegrateFire> , bases<nodeBlueprint> > ("pcoIntegrateFire",  reinterpret_cast<const char *>(__addedNodes_pcoBase_pcoIntegrateFire) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<pcoIntegrateFireDelay> , bases<nodeBlueprint> > ("pcoIntegrateFireDelay",  reinterpret_cast<const char *>(__addedNodes_pcoDelay_pcoIntegrateFireDelay) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<pcoMirollo> , bases<nodeBlueprint> > ("pcoMirollo",  reinterpret_cast<const char *>(__addedNodes_pcoBase_pcoMirollo) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<pcoMirolloDelay> , bases<nodeBlueprint> > ("pcoMirolloDelay",  reinterpret_cast<const char *>(__addedNodes_pcoDelay_pcoMirolloDelay) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<pcoNonleaky> , bases<nodeBlueprint> > ("pcoNonleaky",  reinterpret_cast<const char *>(__addedNodes_pcoBase_pcoNonleaky) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<pcoNonleakyDelay> , bases<nodeBlueprint> > ("pcoNonleakyDelay",  reinterpret_cast<const char *>(__addedNodes_pcoDelay_pcoNonleakyDelay) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<pcoTriangel> , bases<nodeBlueprint> > ("pcoTriangel",  reinterpret_cast<const char *>(__addedNodes_pcoBase_pcoTriangel) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<roessler> , bases<nodeBlueprint> > ("roessler",  reinterpret_cast<const char *>(__addedNodes_stdOdeIntegrator_roessler) ); // added by addNewNodes.py 
+class_< nodeVirtualEdges<vanDerPol> , bases<nodeBlueprint> > ("vanDerPol",  reinterpret_cast<const char *>(__addedNodes_stdOdeIntegrator_vanDerPol) ); // added by addNewNodes.py 
 		// addNewNode.py Nodes end
 
 
