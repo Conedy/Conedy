@@ -25,128 +25,38 @@ using namespace std;
 namespace conedy {
 
 
-//! Basis-Klasse, die Runge-Kutter 4. Ordnung implementiert.
-class odeNode : public containerNode<baseType,1> {
-	private:
-		
-	protected:
-		valarray <baseType> tmp2, dydt, dyt, dym;
-		
-		//! Zwischenspeicher, der in der swap-Funktion nach dynNode::tmp geschrieben wird.
-		baseType *odeNodeTmp;
-		
+	//! Basis-Klasse, die Runge-Kutter 4. Ordnung implementiert.
+	class odeNode : public containerNode<baseType,1> {
+		private:
 
-	public:
-//		odeNode()  {};
+		protected:
 
-		odeNode ( const odeNode &b ) : containerNode<baseType,1>(b)
-		{
-			tmp2.resize((&b)->dimension());
-			dydt.resize((&b)->dimension());
-			dyt.resize((&b)->dimension());
-			dym.resize((&b)->dimension());
+			//! Zwischenspeicher, der in der swap-Funktion nach dynNode::tmp geschrieben wird.
+			baseType *odeNodeTmp;
 
 
-			odeNodeTmp = ( baseType* ) calloc ( ( &b )->dimension(),sizeof ( baseType ) );
-
-		}
-
-	   	odeNode(networkElementType n) : // ngls: Anzahl der Gleichungen, NodeNumber,  h Schrittweite
-						containerNode<baseType,1>(n) {}
-
-		virtual ~odeNode() {}
-
-		virtual void operator()(const baseType x [], baseType dydx [])  = 0;
-		virtual int requiredTimeSteps() { return 4; }
+		public:
+			//		odeNode()  {};
 
 
+			odeNode(networkElementType n) : // ngls: Anzahl der Gleichungen, NodeNumber,  h Schrittweite
+				containerNode<baseType,1>(n) {}
 
-			virtual void swap()
+			virtual ~odeNode() {}
+
+			virtual void operator()(const baseType x [], baseType dydx [])  = 0;
+
+			static int func ( double t,const double y[], double f[], void *params )
 			{
-				for ( unsigned int i = 0; i < this->dimension(); i++ )
-					this->tmp[i] = odeNodeTmp [i];
+				list<containerNode<baseType,1>*>::iterator it;
+				for ( it = nodeList.begin(); it != nodeList.end();it++ )
+					( * ( (odeNode *)*it )) ( &y[ ( *it )->startPosGslOdeNodeArray], &f[ ( *it )->startPosGslOdeNodeArray] );
+				return GSL_SUCCESS;
 			}
 
 
-//		virtual void swap(short i) { state=tmp[i]; }
-		virtual void clean(unsigned int timeSteps) {  };
 
-
-// RUNGE KUTTA No. 4
-		virtual void evolve(double time)
-		{
-			list<containerNode<baseType,1>*>::iterator it;
-
-			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)
-			{
-				((odeNode *)(*it))->action1(time);
-			}
-			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)
-			{
-				((odeNode *)(*it))->swap();
-			}
-
-			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)
-			{
-				((odeNode *)(*it))->action2(time);
-			}
-			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)
-			{
-				((odeNode *)(*it))->swap();
-			}
-
-			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)
-			{
-				((odeNode *)(*it))->action3(time);
-			}
-			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)
-			{
-				((odeNode *)(*it))->swap();
-			}
-
-			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)
-			{
-				((odeNode *)(*it))->action4(time);
-			}
-			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)
-			{
-				((odeNode *)(*it))->swap();
-			}
-
-		}
-		//! erster schritt im Runge-Kutter 4.Ordnung
-		virtual void action1(double dt) { 
-			(*this)(this->tmp, &dydt[0]);
-
-			for (unsigned int i = 0;i < this->dimension(); i++)
-				tmp2[i] = this->tmp[i];
-//								tmp2 = this->tmp);
-			for (unsigned int i = 0; i < this->dimension(); i++)
-				this->odeNodeTmp[i] = this->tmp[i] +  dt/2.0 * dydt[i];
-
-		}
-		//! zweiter schritt
-		virtual void action2(double dt) {
-			(*this)(this->tmp, &dyt[0]);
-			for (unsigned int i = 0; i < this->dimension(); i++)
-				this->odeNodeTmp[i] = tmp2[i] + dt/2.0*dyt[i];
-
-		}
-		//! dritter Schritt
-		virtual void action3(double dt) {
-			(*this)(this->tmp, &dym[0]);
-			for (unsigned int i = 0; i < this->dimension(); i++)
-				this->odeNodeTmp[i] = tmp2[i] + dt*dym[i];
-			dym += dyt;
-		}
-		//! vierter Schritt
-		virtual void action4(double dt) {
-			(*this)(this->tmp, &dyt[0]);
-			for (unsigned int i = 0; i <this->dimension(); i++)
-				this->odeNodeTmp[i] = tmp2[i] + dt/6.0*(dydt[i] + dyt[i] + ((baseType)2.0)*dym)[i];
-		}
-
-};
+	};
 
 
 

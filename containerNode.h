@@ -84,7 +84,7 @@ namespace conedy
 			}
 
 
-			else if ( usedIndices + (&c)->dimension() > sizeOfArray )   // memory space is empty 
+			while ( usedIndices + (&c)->dimension() > sizeOfArray )   // memory space is empty 
 			{ 
 				realign();   // try to fill in the wholes in the array
 				if ( usedIndices + (&c)->dimension() > sizeOfArray )  // still not enough space in the array, so copy the array to a new location.
@@ -182,13 +182,6 @@ namespace conedy
 			//			virtual void operator() ( const T x[], T dydx[] )  = 0;
 
 			//! Bereitstellung des ODE-Systems: Ableitungen werden in Array geschrieben
-			static int func ( double t,const double y[], double f[], void *params )
-			{
-				typename list<containerNode<T,N>*>::iterator it;
-				for ( it = nodeList.begin(); it != nodeList.end();it++ )
-					( **it ) ( &y[ ( *it )->startPosGslOdeNodeArray], &f[ ( *it )->startPosGslOdeNodeArray] );
-				return GSL_SUCCESS;
-			}
 
 			bool amIFirst()	 { return ( (*nodeList.begin()) == this);  }
 

@@ -4,10 +4,10 @@ network n;
 
 
 
-n.addVertex<pcoIntegrateFire>();
-n.addVertex<pcoIntegrateFire>();
-n.addVertex<pcoIntegrateFire>();
-n.addVertex<pcoIntegrateFire>();
+n.addNode<pcoIntegrateFire>();
+n.addNode<pcoIntegrateFire>();
+n.addNode<pcoIntegrateFire>();
+n.addNode<pcoIntegrateFire>();
 n.randomizeStates(pcoIntegrateFire, uniform(0.0,1.0));
 
 print (n.getState (0)) ; 

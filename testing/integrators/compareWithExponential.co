@@ -8,7 +8,7 @@ network n;
 
 
 
-nodeNumber = n.addVertex<exponentialOde>();
+nodeNumber = n.addNode<exponentialOde>();
 n.setState(nodeNumber,10.0);
 n.observeTime("output/compareWithExponential.co.ode");
 n.observeAll("output/compareWithExponential.co.ode");
@@ -20,7 +20,7 @@ n.clear();
 
 
 
-#nodeNumber = n.addVertex<exponentialSde>();
+#nodeNumber = n.addNode<exponentialSde>();
 #n.setState(nodeNumber,10.0);
 #n.observeTime("output/compareWithExponential.co.sde");
 #n.observeAll("output/compareWithExponential.co.sde");
@@ -29,7 +29,7 @@ n.clear();
 #n.clear();
 #
 #
-#nodeNumber = n.addVertex<exponentialSde>();
+#nodeNumber = n.addNode<exponentialSde>();
 #exponentialSde_sigmaNoise = 0.1;
 #n.setState(nodeNumber,10.0);
 #n.observeTime("output/compareWithExponential.co.noisyExponential");
@@ -40,7 +40,7 @@ n.clear();
 #
 
 
-nodeNumber = n.addVertex<exponentialStatic>();
+nodeNumber = n.addNode<exponentialStatic>();
 n.setState(nodeNumber,10.0);
 n.observeTime("output/compareWithExponential.co.static");
 n.observeAll("output/compareWithExponential.co.static");
@@ -48,7 +48,7 @@ n.evolve (0.0,10.0);
 n.removeObserver();
 n.clear();
 
-nodeNumber = n.addVertex<exponentialGsl>();
+nodeNumber = n.addNode<exponentialGsl>();
 n.setState(nodeNumber,10.0);
 gslOdeNode_stepType = "gsl_odeiv_step_rk2";
 n.observeTime("output/compareWithExponential.co.rk2");
@@ -58,7 +58,7 @@ n.removeObserver();
 n.clear();
 
 
-nodeNumber = n.addVertex<exponentialGsl>();
+nodeNumber = n.addNode<exponentialGsl>();
 n.setState(nodeNumber,10.0);
 gslOdeNode_stepType = "gsl_odeiv_step_rk4";
 n.observeTime("output/compareWithExponential.co.rk4");
@@ -68,7 +68,7 @@ n.removeObserver();
 n.clear();
 
 
-nodeNumber = n.addVertex<exponentialGsl>();
+nodeNumber = n.addNode<exponentialGsl>();
 n.setState(nodeNumber,10.0);
 gslOdeNode_stepType = "gsl_odeiv_step_rkf45";
 n.observeTime("output/compareWithExponential.co.rk45");
@@ -77,7 +77,7 @@ n.evolve (0.0,10.0);
 n.removeObserver();
 n.clear();
 
-nodeNumber = n.addVertex<exponentialGsl>();
+nodeNumber = n.addNode<exponentialGsl>();
 n.setState(nodeNumber,10.0);
 gslOdeNode_stepType = "gsl_odeiv_step_rkck";
 n.observeTime("output/compareWithExponential.co.rkck");
@@ -86,7 +86,7 @@ n.evolve (0.0,10.0);
 n.removeObserver();
 n.clear();
 
-nodeNumber = n.addVertex<exponentialGsl>();
+nodeNumber = n.addNode<exponentialGsl>();
 n.setState(nodeNumber,10.0);
 gslOdeNode_stepType = "gsl_odeiv_step_rk8pd";
 n.observeTime("output/compareWithExponential.co.rk8pd");

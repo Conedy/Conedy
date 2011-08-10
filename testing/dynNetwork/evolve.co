@@ -3,5 +3,5 @@
 network net;
 
 
-net.addVertex<roessler>();
+net.addNode<roessler>();
 net.evolve(0.0,100.0);

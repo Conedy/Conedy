@@ -32,9 +32,9 @@ dynNetwork_ioNodeDt = 10000.0;
 
 :rm _tmp:;
 
-	nodeNumber = n.addVertex<pcoIntegrateFireDelay>();
-	otherNodeNumber = n.addVertex<pcoIntegrateFireDelay>();
-	referenceNodeNumber = n.addVertex<pcoIntegrateFireDelay>();
+	nodeNumber = n.addNode<pcoIntegrateFireDelay>();
+	otherNodeNumber = n.addNode<pcoIntegrateFireDelay>();
+	referenceNodeNumber = n.addNode<pcoIntegrateFireDelay>();
 	n.addEdge(otherNodeNumber,nodeNumber,coupling);
 	n.observe(referenceNodeNumber, "_tmp");
 	n.observe(nodeNumber, "_tmp");

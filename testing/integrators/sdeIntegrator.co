@@ -8,7 +8,7 @@ dynNetwork_ioNodeDt = 0.1;
 
 
 
-net.addVertex<ornUhl>();
+net.addNode<ornUhl>();
 net.setState(0, 1.0);
 net.observeTime("output/sdeIntegrator.co.series");
 net.observe<component(0)>(0, "output/sdeIntegrator.co.series");

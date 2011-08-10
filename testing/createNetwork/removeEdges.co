@@ -9,7 +9,7 @@ network n;
 
 
 
-n.addVertex <node>();
+n.addNode <node>();
 n.addEdge (0,0,1.0,weightedEdge);
 n.removeEdges(weightedEdge);
 print "Should be 0:";

@@ -29,7 +29,7 @@
 #  : ../../.. ;
 
 #using gcc : ming  : i586-mingw32msvc-g++ : :  ;
-#using python : 2.5 ;
+using python : 2.5 ;
 using bisonc++ ;
 using flex++ ;
 
@@ -65,11 +65,11 @@ INCLUDES Scanner.ll : Parserbase.h ;
 
 
 #parser = Parser.yy <include>./
-objects =   fullNetwork.cpp nodeImplement.cpp neuronModels.cpp phaseResponseOscillators.cpp sdeNode.cpp stdToyModels.cpp cnnNode.cpp gslOdeNode.cpp ioNode.cpp eventHandler.cpp pulseCoupledPhaseOscillator.cpp pulseCoupledPhaseOscillator.cpp  pulseCoupledExcitatoryNeuron.cpp network.cpp dynNetwork.cpp createNetwork.cpp spatialNetwork.cpp mapNode.cpp eventHandler.cpp node.cpp edge.cpp dynNode.cpp gslNoise statisticsNetwork.cpp commandLineArguments.cpp command.cpp generatedNodes.cpp  ;
+objects =   fullNetwork.cpp nodeImplement.cpp neuronModels.cpp phaseResponseOscillators.cpp sdeNode.cpp stdToyModels.cpp cnnNode.cpp gslOdeNode.cpp ioNode.cpp eventHandler.cpp pulseCoupledPhaseOscillator.cpp pulseCoupledPhaseOscillator.cpp  pulseCoupledExcitatoryNeuron.cpp network.cpp dynNetwork.cpp createNetwork.cpp spatialNetwork.cpp mapNode.cpp eventHandler.cpp node.cpp edge.cpp dynNode.cpp gslNoise statisticsNetwork.cpp commandLineArguments.cpp generatedNodes.cpp  ;
 
-exe conedyCondor : Parser.yy Scanner.ll  conedy.cpp $(objects)   m z boost_iostreams gsl gslcblas : <cxxflags>-DCONDOR debug <link>static  <include>./ ;
-exe conedy	:   Parser.yy Scanner.ll  conedy.cpp $(objects)  m z boost_iostreams gsl gslcblas stdc++ : release <link>static <cxxflags>-g <include>./ ;
-exe conedyDebug  : Parser.yy Scanner.ll  conedy.cpp $(objects)  z boost_iostreams gsl gslcblas : debug <cxxflags>-DDEBUG <link>shared <include>./ ; 
+exe conedyCondor : Parser.yy Scanner.ll command.cpp  conedy.cpp $(objects)   m z boost_iostreams gsl gslcblas : <cxxflags>-DCONDOR debug <link>static  <include>./ ;
+exe conedy_int	:   Parser.yy Scanner.ll command.cpp  conedy.cpp $(objects)  m z boost_iostreams gsl gslcblas stdc++ : release <link>static <cxxflags>-g <include>./ ;
+exe conedyDebug  : Parser.yy Scanner.ll command.cpp  conedy.cpp $(objects)  z boost_iostreams gsl gslcblas : debug <cxxflags>-DDEBUG <link>shared <include>./ ; 
 #exe neuroDebug  :  conedy.cpp $(objects) m  z boost_iostreams gsl gslcblas  : debug <link>shared <include>./ ; 
 
 
@@ -78,13 +78,14 @@ exe conedyDebug  : Parser.yy Scanner.ll  conedy.cpp $(objects)  z boost_iostream
 
 # Set up the project-wide requirements that everything uses the
 # boost_python library from the project whose global ID is
+
 # /boost/python.
 #project
 #  : requirements <library>/boost/python//boost_python ;
 
 # Declare the three extension modules.  You can specify multiple
 # source files after the colon separated by spaces.
-#python-extension neuroPython : neuroPython.cpp $(objects)  z boost_iostreams gsl gslcblas libboost_python : debug ;
+python-extension conedy : neuroPython.cpp $(objects)  z boost_iostreams gsl gslcblas libboost_python : release ;
 #
 #
 #python-extension getting_started2 : getting_started2.cpp ;

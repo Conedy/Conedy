@@ -551,7 +551,10 @@ namespace conedy
 		
 		void dynNetwork::randomizeStatesVec ( nodeBlueprint *n ,vector <boost::function<double () > > r )
 		{
-
+			if (r.size() == 1)
+				while (r.size() < n->dimension())
+					r.push_back(r[0]);
+			
 			if (r.size() !=  n->dimension())
 				throw "wrong dimension for randomizeStates!";
 

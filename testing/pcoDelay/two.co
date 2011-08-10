@@ -8,8 +8,8 @@ dynNetwork_ioNodeDt = 0.001;
 network n;
 
 
-n.addVertex<pcoIntegrateFireDelay>();
-n.addVertex<pcoIntegrateFireDelay>();
+n.addNode<pcoIntegrateFireDelay>();
+n.addNode<pcoIntegrateFireDelay>();
 
 n.addEdge(0,1,0.05);
 n.addEdge(1,0,0.05);

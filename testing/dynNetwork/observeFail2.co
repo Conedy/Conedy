@@ -6,7 +6,7 @@ network net;
 
 int newNodeNumber;
 
-newNodeNumber = net.addVertex<logisticMap>();
+newNodeNumber = net.addNode<logisticMap>();
 net.printNodeStatistics();
 net.observe(newNodeNumber+1, "output/observe.py.series");
 

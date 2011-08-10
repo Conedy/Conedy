@@ -4,7 +4,7 @@ network net;
 int nodeNumber; 
 
 
-nodeNumber = net.addVertex<roessler>();
+nodeNumber = net.addNode<roessler>();
 
 net.observe (nodeNumber, "output/removeObserver.co.series");
 net.removeObserver();

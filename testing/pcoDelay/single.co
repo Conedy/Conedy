@@ -5,7 +5,7 @@
 network n;
 
 
-n.addVertex<pcoIntegrateFireDelay>();
+n.addNode<pcoIntegrateFireDelay>();
 
 
 n.observeTime("output/single.co.phase");

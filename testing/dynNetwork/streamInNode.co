@@ -3,7 +3,7 @@ network net;
 dynNetwork_ioNodeDt=1.0;
 
 
-net.addVertex<streamInNode("streamInNodeInput")>();
+net.addNode<streamInNode("streamInNodeInput")>();
 net.observe(0,"output/streamInNode.co.copyOfInput");
 
 net.printNodeStatistics();

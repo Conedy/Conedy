@@ -8,7 +8,7 @@ network n;
 setRandomSeed(6);
 
 
-n.addVertex<pcoIntegrateFireDelay>();
+n.addNode<pcoIntegrateFireDelay>();
 n.observeTime("output/continue.co.firstPart");
 n.observe (0,"output/continue.co.firstPart");
 n.evolve(0.0,7.3);
@@ -20,7 +20,7 @@ n.snapshot();
 n.clear();
 
 
-n.addVertex<pcoIntegrateFireDelay>();
+n.addNode<pcoIntegrateFireDelay>();
 n.readInitialCondition(pcoIntegrateFireDelay,"output/continue.co.continue");
 
 n.observeTime("output/continue.co.secondPart");

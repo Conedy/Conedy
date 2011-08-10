@@ -12,8 +12,8 @@ lorenz_b = 8.0/3.0;
 dynNetwork_ioNodeDt = 0.01;
 
 
-net.addVertex<roessler>();
-net.addVertex<lorenz>();
+net.addNode<roessler>();
+net.addNode<lorenz>();
 
 net.addEdge(1,0,2.5);
 

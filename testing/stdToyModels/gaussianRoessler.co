@@ -9,7 +9,7 @@ gaussianRoessler_sigmaNoise = 1.0;
 dynNetwork_ioNodeDt = 0.01;
 
 
-net.addVertex<gaussianRoessler>();
+net.addNode<gaussianRoessler>();
 net.setState(0, 0.0, 0.0, 0.0);
 
 net.observeTime("output/gaussianRoessler.co.series");

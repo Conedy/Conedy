@@ -1,6 +1,8 @@
 #  * various changes to allow compilation with msvc
-  * match nodeblueprint if all parameter are the same.
-  * adding setParam-function
+#  * match nodeblueprint if all parameter are the same.
+#  * adding setParam-function
+#  * added support for error-controlled integration by the gsl
+#	* renamed addVertex to addNode
 
 conedy (0.20-1) unstable; urgency=low
 

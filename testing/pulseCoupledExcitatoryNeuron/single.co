@@ -7,7 +7,7 @@ pulseCoupledExcitatoryNeuron_noiseFrequency = 0.2;
 network n;
 
 
-n.addVertex<pulseCoupledExcitatoryNeuron>();
+n.addNode<pulseCoupledExcitatoryNeuron>();
 
 n.setState(0,0.5);
 

@@ -11,8 +11,8 @@ int secondNode;
 
 
 
-firstNode = net.addVertex<roessler>();
-secondNode = net.addVertex<roessler>();
+firstNode = net.addNode<roessler>();
+secondNode = net.addNode<roessler>();
 
 net.addEdge (firstNode,secondNode, 1.0, component (2) );
 

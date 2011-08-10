@@ -6,7 +6,7 @@ ornUhl_diffusion =2.0;
 
 network net;
 
-net.addVertex<ornUhl>();
+net.addNode<ornUhl>();
 net.setState(0,10.0);
 net.observeTime("output/sdeNode.co.ornUhl");
 net.observeAll("output/sdeNode.co.ornUhl");

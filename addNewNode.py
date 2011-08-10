@@ -43,6 +43,7 @@ class NodeEditor:
 	className = ""
 	nodeInfo = ""
 	params = []
+	events = []
 	functions = [ "getWeightedSum()", "getCouplingSum()", "getWeighedInSum()" ]
 	dgl = []
 	doku = []
@@ -54,9 +55,10 @@ class NodeEditor:
 	staticEdges = 0
 	staticEdgeType = ""
 	staticTargetNodeType = ""
-	def __init__ (self, inName="", inDim=-1, integrator = "",  inNumParam=-1, params = [], dgl = [], doku = [], staticEdges = 0, staticEdgeType = "", staticTargetNodeType= "", inFileNameOut=""):
+	def __init__ (self, inName="", inDim=-1, integrator = "",   events = [],inNumParam=-1, params = [], dgl = [], doku = [], staticEdges = 0, staticEdgeType = "", staticTargetNodeType= "", inFileNameOut=""):
 		"Klasse zum Erstellen neues Nodes in Neurosim"
 
+		self.events = events
 		self.params = params
 		self.doku = doku
 
@@ -232,8 +234,12 @@ class NodeEditor:
 
 
 		# Klasse erstellen
-		fout.write("class %s : public %s\n" %( self.className, self.integrator))
-		fout.write("\t{\n")
+		fout.write("class %s : public %s" %( self.className, self.integrator))
+
+		if (len (events) > 0):   # derive from eventHandler if events are specified
+			fout.write(", public eventHandler\n")
+
+		fout.write("\n\t{\n")
 		
 		fout.write("\tprivate:\n")
 		
@@ -253,6 +259,14 @@ class NodeEditor:
 
 		fout.write("\tpublic:\n")
 		
+		if (len (events) > 0):
+			fout.write("\t\tvirtual unsigned int numberOfEvents() const { return %i;}\n" % len(self.events))
+
+			fout.write("\t\tvirtual baseType callBack ( unsigned int eventSignature ); \n")
+	
+			fout.write("\t virtual ~%s ();" % self.className)		
+			fout.write("\t %s ( const %s &b); " %(self.className, self.className))
+
 		fout.write("\t\t//! Konstruktor ohne Parameter\n")
 		fout.write("\t\t%s() : %s(%s) {}\n" % (self.className, self.integrator, self.nodeInfo) )
 		fout.write("\t\t\n")
@@ -317,6 +331,28 @@ class NodeEditor:
 		fout.write("\n")
 		fout.write("namespace conedy\n")
 		fout.write("{\n")
+
+
+		if len (self.events) > 0:
+			fout.write("\t baseType %s::callBack ( unsigned int eventSignature) { \n" % self.className)
+			counter = 0
+			fout.write ("\t baseType nextEvent;\n ")
+			for ev in self.events:
+				fout.write("\t\t if (eventSignature == %i) { \n" % counter)
+				fout.write(ev[1])
+				fout.write("\t\t return nextEvent; \n")
+				fout.write("\t\t } \n")
+			fout.write("\t }\n")
+
+
+			fout.write("\t %s::~%s (){ \n" % (self.className, self.className))
+			fout.write("\t\t for (unsigned int i =0; i < numberOfEvents(); i++) eventHandler::unregisterCallBack(i); \n")
+			fout.write("\t } \n")
+
+			fout.write("\t %s::%s ( const %s &b) : %s (b), eventHandler (b) {\n" %(self.className, self.className, self.className, self.integrator))
+			fout.write("\t\t for (unsigned int i =0; i < numberOfEvents(); i++) eventHandler::registerCallBack(i, time);} \n ")
+
+
 
 
 		if self.integrator == "stdOdeIntegrator":
@@ -672,6 +708,16 @@ else:
 	
 	for classname in config.sections():
 		params = []
+		events = []
+
+
+		try:
+			numberEvents = config.getint(classname, 'events')
+			for i in  range (1,numberEvents+1 ):
+				events.append( (i, config.get(classname, 'event' + str(i))))
+		except:
+			events = []
+
 
 		for i in  range (1,config.getint(classname, 'parameter')+ 1):
 			params.append( (config.get(classname, 'parametername' + str(i)) , config.getfloat(classname, 'standardvalue' + str(i))) )
@@ -689,10 +735,10 @@ else:
 
 	
 
-
 		n= NodeEditor(classname , 
 				config.getint(classname, 'dimension'),
 				config.get(classname, 'integrator'),
+				events,
 				config.getint(classname, 'parameter'),
 				params,
 				config.get(classname, 'dynamics'),

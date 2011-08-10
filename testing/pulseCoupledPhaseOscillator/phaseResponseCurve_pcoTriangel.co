@@ -35,9 +35,9 @@ dynNetwork_ioNodeDt = 10000.0;
 
 :rm _tmp:;
 
-	nodeNumber = n.addVertex<pcoTriangel>();
-	otherNodeNumber = n.addVertex<pcoTriangel>();
-	referenceNodeNumber = n.addVertex<pcoTriangel>();
+	nodeNumber = n.addNode<pcoTriangel>();
+	otherNodeNumber = n.addNode<pcoTriangel>();
+	referenceNodeNumber = n.addNode<pcoTriangel>();
 	n.addEdge(otherNodeNumber,nodeNumber,0.01);
 	n.observe(referenceNodeNumber, "_tmp");
 	n.observe(nodeNumber, "_tmp");

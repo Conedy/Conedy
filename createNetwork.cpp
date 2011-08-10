@@ -743,6 +743,23 @@ nodeDescriptor createNetwork::streamInLattice ( int sizex, int sizey,string s )
 
 
 
+void createNetwork::observeComponents (nodeDescriptor n, string fileName)
+{
+	unsigned int dimension =   ((dynNode*) node::theNodes[n])-> dimension();
+
+
+		component<edgeVirtual> * l;
+
+	for (unsigned int i = 0; i < dimension; i++) {
+		l = new component <edgeVirtual> (i);
+		observe (n, fileName, l);
+		delete l;
+	}
+
+
+
+
+}
 
 
 void createNetwork::observeAll ( string s, edgeBlueprint *l )

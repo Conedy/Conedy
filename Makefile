@@ -7,7 +7,7 @@ include config.h    # include the config file, which contains install directorie
 ARCH=$(shell dpkg --print-architecture)
 
 ifeq ($(ARCH),amd64)
-	BJAMARCH = "ia64"
+	BJAMARCH = "x86_64"
 else
 	BJAMARCH = "x86"
 endif
@@ -78,12 +78,12 @@ test:														# call all test-scripts in the testing directory and display 
 
 
 conedy: addNodesIfNecessary version				# build the bison-flex-interpreter of Conedy.
-	bjam conedy cflags=-D$(SVNDEV) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
+	bjam conedy_int cflags=-D$(SVNDEV) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
 
 conedy.install: conedy
 	mkdir -p ${dirinstall}
-	find bin -name "conedy" -exec cp {} ${dirinstall}/conedy   \;
+	find bin -name "conedy_int" -exec cp {} ${dirinstall}/conedy   \;
 	cp -a recompileConedy ${dirinstall}
 	sed -i "s+/etc/conedy.config+${globalConfig}+g"   ${dirinstall}/recompileConedy 
 
@@ -96,6 +96,9 @@ conedy.uninstall:
 
 
 python-conedy:  docstrings.h addNodesIfNecessary version    # build the python bindings of Conedy.
+
+
+	
 	CFLAGS=-D$(SVNDEV) python setup.py build
 
 
@@ -129,9 +132,11 @@ conedy-src.uninstall:
 #	rm -fr ${globalConfig}
 #	cp -r testing ${dirsrc}/
 
-python-conedy.recompile: 
-	${noUserSpace} HOME=${HOME} make python-conedy python-conedy.install
+python-conedy.recompile: docstrings.h addNodesIfNecessary version 
+	${noUserSpace} HOME=${HOME} bjam conedy cflags=-D$(SVNDEV) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
+	cp bin/gcc*/release/conedy.so build/lib*/
 	${noUserSpace} rm recompilationPython-ConedyStarted
+
 
 	
 
@@ -175,7 +180,7 @@ condor: addNodesIfNecessary version               # build an interpreter which d
 
 
 installCondor: 
-	cp -f bin/gcc-*/release/link-static/conedy ~/bin/conedy.LINUX.X86_64.EXE
+	cp -f bin/gcc-*/release/link-static/conedy_int ~/bin/conedy.LINUX.X86_64.EXE
 #	cp -f linux32/bin/gcc-mingw-4*/release/link-static/conedy ~/bin/conedy.LINUX.INTEL.EXE
 #	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT51.INTEL.EXE
 #	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT61.INTEL.EXE

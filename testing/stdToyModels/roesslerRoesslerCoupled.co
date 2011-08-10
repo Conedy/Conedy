@@ -8,10 +8,10 @@ roessler_c = 10.0;
 dynNetwork_ioNodeDt = 0.01;
 
 
-net.addVertex<roessler>();
+net.addNode<roessler>();
 
 roessler_omega = 1.0;
-net.addVertex<roessler>();
+net.addNode<roessler>();
 
 
 net.addEdge(0,1,0.5);

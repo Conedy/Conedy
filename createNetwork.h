@@ -166,7 +166,7 @@ void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
 
 
 		
-
+			void observeComponents (nodeDescriptor n, string fileName);
 
 			void observeTime ( string s );
 

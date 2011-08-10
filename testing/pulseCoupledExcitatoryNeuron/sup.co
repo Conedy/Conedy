@@ -7,7 +7,7 @@ pulseCoupledExcitatoryNeuron_noiseFrequency = 0.1;
 network n;
 
 
-n.addVertex<pulseCoupledExcitatoryNeuron>();
+n.addNode<pulseCoupledExcitatoryNeuron>();
 
 
 n.observeTime("output/sup.co.phase");

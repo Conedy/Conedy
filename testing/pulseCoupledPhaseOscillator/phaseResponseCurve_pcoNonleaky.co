@@ -31,9 +31,9 @@ dynNetwork_ioNodeDt = 10000.0;
 
 :rm _tmp:;
 
-	nodeNumber = n.addVertex<pcoNonleaky>();
-	otherNodeNumber = n.addVertex<pcoNonleaky>();
-	referenceNodeNumber = n.addVertex<pcoNonleaky>();
+	nodeNumber = n.addNode<pcoNonleaky>();
+	otherNodeNumber = n.addNode<pcoNonleaky>();
+	referenceNodeNumber = n.addNode<pcoNonleaky>();
 	n.addEdge(otherNodeNumber,nodeNumber,0.01);
 	n.observe(referenceNodeNumber, "_tmp");
 	n.observe(nodeNumber, "_tmp");

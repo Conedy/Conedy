@@ -17,6 +17,8 @@
 #define _exciteRandomly_ 1
 #define _ioNode_ 2
 #define _distributeExcitations_ 3
+#define _upkeep_ 4
+
 
 #ifndef EVENTCOUNT
 #define EVENTCOUNT
