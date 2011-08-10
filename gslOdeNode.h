@@ -140,7 +140,7 @@ namespace conedy
 					gslControl = gsl_odeiv_control_y_new ( error_abs(), error_rel()  );
 					gslEvolve = gsl_odeiv_evolve_alloc (odeDimension); 
 
-					gsl_odeiv_system sys = {&gslOdeNode::func, NULL, odeDimension, NULL}; 
+					gsl_odeiv_system sys = {&gslOdeNode::dgl, NULL, odeDimension, NULL}; 
 					gslOdeSys = sys; //{NULL,NULL,usedIndices, NULL};
 				}
 
@@ -149,7 +149,7 @@ namespace conedy
 			virtual void operator() ( const baseType x[], baseType dydx[] )  = 0;
 
 			//! Bereitstellung des ODE-Systems: Ableitungen werden in Array geschrieben
-			static int func ( baseType t,const baseType y[], baseType f[], void *params )
+			static int dgl ( baseType t,const baseType y[], baseType f[], void *params )
 			{
 				list<containerNode<baseType,3>*>::iterator it;
 				for ( it = containerNode<baseType,3>::nodeList.begin(); it != containerNode<baseType,3>::nodeList.end();it++ )

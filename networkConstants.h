@@ -88,6 +88,7 @@ const networkElementType _weightedEdgeParams_=94;
 const networkElementType _component_=95;
 const networkElementType _randomTarget_=96;
 const networkElementType _createNetwork_=97;
+const networkElementType _stdOdeIntegrator_=98;
 
 //#include "generatedNetworkConstants.h" ;
 }  

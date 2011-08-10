@@ -32,11 +32,11 @@ namespace conedy {
 		protected:
 
 			//! Zwischenspeicher, der in der swap-Funktion nach dynNode::tmp geschrieben wird.
-			baseType *odeNodeTmp;
 
 
 		public:
 			//		odeNode()  {};
+			baseType *odeNodeTmp;
 
 
 			odeNode(networkElementType n) : // ngls: Anzahl der Gleichungen, NodeNumber,  h Schrittweite
@@ -46,7 +46,10 @@ namespace conedy {
 
 			virtual void operator()(const baseType x [], baseType dydx [])  = 0;
 
-			static int func ( double t,const double y[], double f[], void *params )
+
+			static unsigned int dglSize () { return containerNode<baseType,1>::usedIndices;}	
+
+			static int dgl ( double t,const double y[], double f[], void *params )
 			{
 				list<containerNode<baseType,1>*>::iterator it;
 				for ( it = nodeList.begin(); it != nodeList.end();it++ )

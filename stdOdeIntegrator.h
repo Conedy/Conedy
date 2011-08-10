@@ -6,7 +6,7 @@
 
 #include "odeNode.h"
 
-
+#include "networkConstants.h"
 
 namespace conedy {
 
@@ -15,7 +15,6 @@ namespace conedy {
 	{
 		public:
 				valarray <baseType> tmp2, dydt, dyt, dym;
-
 
 		stdOdeIntegrator (networkElementType n) : odeNode (n)    {}
 
@@ -30,7 +29,14 @@ namespace conedy {
 
 		}
 
+			static unsigned int stepType_int;
+			static params<string> *stepType;
 
+			static void registerStandardValues()
+			{
+				params<string>::registerStandard(_stdOdeIntegrator_, "stdOdeIntegrator_stepType",0,"euler");
+				stepType = new params<string> (_stdOdeIntegrator_);
+			}
 			virtual void swap()
 			{
 				for ( unsigned int i = 0; i < this->dimension(); i++ )
@@ -39,12 +45,33 @@ namespace conedy {
 
 
 //		virtual void swap(short i) { state=tmp[i]; }
-		virtual void clean() {  };
+		virtual void clean() {
+			if (stepType->getParams(0)  == "euler")
+				stepType_int = 0;
+			else if (stepType->getParams(0)  == "rk4")
+				stepType_int = 1;
+		};
 
 
 // RUNGE KUTTA No. 4
 		virtual void evolve(double time)
 		{
+			switch (stepType_int)
+			{
+				case 0:
+					eulerStep(time);
+					break;
+				case 1:
+					rungeKutta4Step(time);
+					break;
+			}
+
+		}
+
+		void rungeKutta4Step (double time)
+		{
+
+
 			list<containerNode<baseType,1>*>::iterator it;
 
 			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)
@@ -70,7 +97,21 @@ namespace conedy {
 		}
 
 
-		void eulerStep (double dt);
+		void eulerStep (double dt)
+		{
+			list<containerNode<baseType,1>*>::iterator it;
+			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)
+			{
+				odeNode * n = (odeNode*) *it;
+				(*n)(n->tmp, &dydt[0]); 
+				for (unsigned int i = 0;i < n->dimension(); i++)
+				 n->odeNodeTmp[i] = n->tmp[i]  + dydt[i] * dt ;
+			}
+			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)	
+				((stdOdeIntegrator *)(*it))->swap();
+
+		}	
+
 
 
 		//! erster schritt im Runge-Kutter 4.Ordnung

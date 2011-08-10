@@ -7,15 +7,26 @@ int nodeNumber;
 network n;
 
 
+stdOdeIntegrator_stepType = "euler";
 
 nodeNumber = n.addNode<exponentialOde>();
 n.setState(nodeNumber,10.0);
-n.observeTime("output/compareWithExponential.co.ode");
-n.observeAll("output/compareWithExponential.co.ode");
+n.observeTime("output/compareWithExponential.co.ode_euler");
+n.observeAll("output/compareWithExponential.co.ode_euler");
 n.evolve (0.0,10.0);
 n.removeObserver();
 n.clear();
 
+
+stdOdeIntegrator_stepType = "rk4";
+
+nodeNumber = n.addNode<exponentialOde>();
+n.setState(nodeNumber,10.0);
+n.observeTime("output/compareWithExponential.co.ode_rk4");
+n.observeAll("output/compareWithExponential.co.ode_rk4");
+n.evolve (0.0,10.0);
+n.removeObserver();
+n.clear();
 
 
 
