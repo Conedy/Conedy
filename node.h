@@ -246,7 +246,7 @@ namespace conedy
 			static vector<node* > theNodes;
 
 
-    virtual void clean ( unsigned int timeSteps ) {};
+    virtual void clean () {};
 
 		protected:
 			//! so wie couplingSum. Allerdings werden die Zustände zirkulär addiert.

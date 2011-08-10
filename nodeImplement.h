@@ -51,8 +51,8 @@ namespace conedy {
 	{
 		public:
 	
-#ifdef PRECALCULATEMEANWEIGHT
-			baseType weightSum;
+#ifdef PRECALCULATEWEIGHTSUM
+			baseType preCalculatedWeightSum;
 #endif
 
 
@@ -71,7 +71,7 @@ namespace conedy {
 			nodeVirtualEdges (unsigned int i) : DYNNODE (i) {}
 
 
-			virtual void clean (unsigned int timeSteps) {
+			virtual void clean () {
 
 
 #ifdef PRECALCULATEWEIGHTSUM
@@ -80,7 +80,7 @@ namespace conedy {
 	vector<node *>::iterator it;
 	for (it = DYNNODE::theNodes.begin(); it != DYNNODE::theNodes.end(); it++)
 		res+= linkStrength(*it); 
-	weightSum = res;
+	preCalculatedWeightSum = res;
 
 #endif
 
@@ -99,7 +99,7 @@ namespace conedy {
 				}
 				outEdges.resize(write);
 
-				DYNNODE::clean(timeSteps);
+				DYNNODE::clean();
 
 
 
@@ -285,26 +285,6 @@ void nodeVirtualEdges<DYNNODE>::fire ()
 
 
 
-
-	template <typename DYNNODE>
-float nodeVirtualEdges<DYNNODE>::weightSum()
-{
-	float res = 0;
-	edgeIterator ei;
-	for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
-		res = res +  (*ei)->getWeight();
-	return res;
-}
-
-
-
-
-#ifdef PRECALCULATEWEIGHTSUM
-template <typename DYNNODE>
-float nodeVirtualEdges<DYNNODE>::inWeightSum() {
-	return weightSum;
-}
-#else	
 template <typename DYNNODE>
 float nodeVirtualEdges<DYNNODE>::inWeightSum() {
 	float res = 0;
@@ -316,6 +296,26 @@ float nodeVirtualEdges<DYNNODE>::inWeightSum() {
 	}
 	return res;
 }
+
+
+
+
+#ifdef PRECALCULATEWEIGHTSUM
+template <typename DYNNODE>
+float nodeVirtualEdges<DYNNODE>::weightSum() {
+	return preCalculatedWeightSum;
+}
+#else	
+	template <typename DYNNODE>
+float nodeVirtualEdges<DYNNODE>::weightSum()
+{
+	float res = 0;
+	edgeIterator ei;
+	for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
+		res = res +  (*ei)->getWeight();
+	return res;
+}
+
 #endif
 
 	template <typename DYNNODE>
@@ -421,7 +421,7 @@ class nodeTemplateEdges : public DYNNODE
 	public:
 
 #ifdef PRECALCULATEWEIGHTSUM
-	baseType weightSum;
+	baseType preCalculatedWeightSum;
 #endif
 
 
@@ -440,14 +440,14 @@ class nodeTemplateEdges : public DYNNODE
 					outEdges[e].targetNumber = -1;
 			}
 
-		virtual void clean (unsigned int timeSteps) {
+		virtual void clean () {
 #ifdef PRECALCULATEWEIGHTSUM
 
 	float res = 0;
 	vector<node *>::iterator it;
 	for (it = DYNNODE::theNodes.begin(); it != DYNNODE::theNodes.end(); it++)
 		res+= linkStrength(*it); 
-	weightSum = res;
+	preCalculatedWeightSum = res;
 
 #endif
 
@@ -463,7 +463,7 @@ class nodeTemplateEdges : public DYNNODE
 			}
 			outEdges.resize(write);
 
-			DYNNODE::clean(timeSteps);
+			DYNNODE::clean();
 
 
 		}
@@ -576,26 +576,9 @@ baseType nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::getMeanPhaseCoherence(
 }
 
 
-	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::weightSum ()
+template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
+float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::inWeightSum ()
 {
-	float res = 0;
-	edgeIterator ei;
-	for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
-		res = res +  ei->getWeight();
-	return res;
-}
-
-
-
-#ifdef PRECALCULATEWEIGHTSUM
-template <typename DYNNODE>
-float nodeVirtualEdges<DYNNODE>::inWeightSum() {
-	return weightSum;
-}
-#else	
-template <typename DYNNODE>
-float nodeVirtualEdges<DYNNODE>::inWeightSum() {
 	float res = 0;
 	vector<node *>::iterator it;
 	for (it = DYNNODE::theNodes.begin(); it != DYNNODE::theNodes.end(); it++)
@@ -604,28 +587,31 @@ float nodeVirtualEdges<DYNNODE>::inWeightSum() {
 
 	}
 	return res;
+
 }
-#endif
+
 
 #ifdef PRECALCULATEWEIGHTSUM
 template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::inWeightSum ()
+float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::weightSum ()
 {
-	return weightSum;
+	return preCalculatedWeightSum;
 }
-#else
+#else	
 template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::inWeightSum ()
-
+float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::weightSum ()
+{
 	float res = 0;
-	vector<node *>::iterator it;
-	for (it = DYNNODE::theNodes.begin(); it != DYNNODE::theNodes.end(); it++)
-		res+= linkStrength(*it); 
+	edgeIterator ei;
+	for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
+		res = res +  ei->getWeight();
 	return res;
 }
-
-
 #endif
+
+
+
+
 
 template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
 void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::normalizeInWeightSum(baseType d)  {

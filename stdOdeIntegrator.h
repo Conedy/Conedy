@@ -39,7 +39,7 @@ namespace conedy {
 
 
 //		virtual void swap(short i) { state=tmp[i]; }
-		virtual void clean(unsigned int timeSteps) {  };
+		virtual void clean() {  };
 
 
 // RUNGE KUTTA No. 4

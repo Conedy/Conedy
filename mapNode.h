@@ -55,7 +55,7 @@ namespace conedy
 			virtual int requiredTimeSteps() { return 1; }
 			//		virtual void swap() { this->state = this->tmp[0];}
 
-			virtual void clean ( unsigned int timeSteps )
+			virtual void clean ()
 			{
 
 			};
@@ -171,7 +171,7 @@ namespace conedy
 
 //		virtual void swap();
 
-			virtual void clean ( unsigned int timeSteps )
+			virtual void clean ()
 			{
 //				registerCallBack ( _fire_, numeric_limits<baseType>::max() );
 			};

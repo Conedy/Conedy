@@ -107,7 +107,7 @@ namespace conedy
 //				dynNode::this->state = dynNode::tmp[0];
 
 			};
-//	virtual void clean(unsigned int timeSteps) {};
+//	virtual void clean() {};
 
 //	virtual baseType getHiddenComponent(int component) { return tmp[component]; }
 

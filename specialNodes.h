@@ -27,7 +27,7 @@ namespace conedy
 			virtual const unsigned int dimension() const{ return 0;}
 
 			eventCountNode(unsigned int theSignature) :  dynNode ( _eventCountNode_ ), signature(theSignature){};
-			virtual void clean ( unsigned int timeSteps ) {};
+			virtual void clean () {};
 			virtual baseType getState()
 			{	
 				baseType res = eventHandler::eventCount[signature];
@@ -54,7 +54,7 @@ namespace conedy
 			virtual const unsigned int dimension() const{ return 0;}
 
 			timeNode() : dynNode ( _timeNode_ ) {};
-			virtual void clean ( unsigned int timeSteps ) {};
+			virtual void clean () {};
 			virtual T getState()
 			{
 				return this->time;
@@ -88,7 +88,7 @@ namespace conedy
 		 	for (ei = newEdgeList->begin(); ei != newEdgeList->end();ei ++)
 				el.push_back(std::make_pair<nodeDescriptor, nodeDescriptor> (ei->first, node::theNodes[ei->first] ->getTarget(ei->second)->getNumber()  ));
 		}
-		virtual void clean ( unsigned int timeSteps ) {};
+		virtual void clean () {};
 		virtual T getState()
 		{
 			list <pair <nodeDescriptor,nodeDescriptor> >::iterator ei;
@@ -125,7 +125,7 @@ namespace conedy
 		 	for (ei = newEdgeList->begin(); ei != newEdgeList->end();ei ++)
 				el.push_back(std::make_pair<nodeDescriptor, nodeDescriptor> (ei->first, node::theNodes[ei->first] ->getTarget(ei->second)->getNumber()  ));
 		}
-		virtual void clean ( unsigned int timeSteps ) {};
+		virtual void clean () {};
 		virtual T getState()
 		{
 			list <pair <nodeDescriptor,nodeDescriptor> >::iterator ei;
@@ -162,7 +162,7 @@ namespace conedy
 		virtual const nodeInfo getNodeInfo() { nodeInfo n = {_randomNode_,_dynNode_|_inNode_};     return n; };
 
 		randomNode ( boost::function <double() > noise ) : dynNode ( _randomNode_ ), r ( noise ) {};
-		virtual void clean ( unsigned int timeSteps ) {};
+		virtual void clean () {};
 		virtual void printStatistics()   {cout << "randomNode" << endl;this->printStatistics();}
 		virtual T getState()	{return r();}
 		virtual int requiredTimeSteps() { return 0; }

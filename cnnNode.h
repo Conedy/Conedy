@@ -90,7 +90,7 @@ class couplingSumNode: public mapNode
 		void operator()(baseType xprime [], baseType x[]);
 
 		//! Clean macht genau nichts.
-		virtual void clean ( unsigned int timeSteps ) {};
+		virtual void clean () {};
 };
 
 } // ende namespace >conedy<

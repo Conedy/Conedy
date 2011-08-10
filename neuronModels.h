@@ -79,7 +79,7 @@ class gaussianFHN	: public sdeNode
 
 		}
 
-		virtual void clean ( unsigned int timeSteps ) {sdeNode::clean ( timeSteps ); this->tmp[0]=0; this->tmp[1]=0;};
+		virtual void clean () {sdeNode::clean ( ); this->tmp[0]=0; this->tmp[1]=0;};
 
 };
 
@@ -104,7 +104,7 @@ class gaussianFHN	: public sdeNode
 			params<baseType>::registerStandard ( _hindmarshRose_,"hindmarshRose_I",1,0.0 );
 		}
 
-		virtual void clean ( unsigned int timeSteps ) {odeNode::clean ( timeSteps ); this->tmp[0]=0; this->tmp[1]=0; this->tmp[2]=0;};
+		virtual void clean () {odeNode::clean ( ); this->tmp[0]=0; this->tmp[1]=0; this->tmp[2]=0;};
 
 
 };
@@ -130,7 +130,7 @@ class gaussianHR	: public sdeNode
 			params<baseType>::registerStandard ( _gaussianHR_, "gaussianHR_sigmaNoise",2, 0.0 );
 		}
 
-		virtual void clean ( unsigned int timeSteps ) {sdeNode::clean ( timeSteps ); this->tmp[0]=0; this->tmp[1]=0; this->tmp[2]=0;};
+		virtual void clean () {sdeNode::clean ( ); this->tmp[0]=0; this->tmp[1]=0; this->tmp[2]=0;};
 
 
 };*/
@@ -178,10 +178,10 @@ class napK		: public odeNode
 			params<baseType>::registerStandard ( _napK_,"napK_constCurrent",11,0.0 );
 		}
 
-		virtual void clean ( unsigned int timeSteps )
+		virtual void clean ()
 		{
 
-			odeNode::clean ( timeSteps ); this->tmp[0]=-70.0; this->tmp[1]=ninf ( -70.0 );
+			odeNode::clean ( ); this->tmp[0]=-70.0; this->tmp[1]=ninf ( -70.0 );
 		};
 
 };
@@ -232,10 +232,10 @@ class gaussianNapK		: public sdeNode
 			params<baseType>::registerStandard ( _gaussianNapK_, "gaussianNapK_sigmaNoise", 12,0.0 );
 		}
 
-		virtual void clean ( unsigned int timeSteps )
+		virtual void clean ()
 		{
 
-			sdeNode::clean ( timeSteps ); this->tmp[0]=-70.0; this->tmp[1]=ninf ( -70.0 );
+			sdeNode::clean ( ); this->tmp[0]=-70.0; this->tmp[1]=ninf ( -70.0 );
 		};
 
 };
@@ -291,10 +291,10 @@ class napKKm		: public odeNode
 			params<baseType>::registerStandard ( _napKKm_,"napKKm_constCurrent",14,0.0 );
 		}
 
-		virtual void clean ( unsigned int timeSteps )
+		virtual void clean ()
 		{
 
-			odeNode::clean ( timeSteps ); this->tmp[0]=-70.0; this->tmp[1]=ninf ( -70.0 );
+			odeNode::clean ( ); this->tmp[0]=-70.0; this->tmp[1]=ninf ( -70.0 );
 		};
 
 };
@@ -354,10 +354,10 @@ class gaussianNapKKm		: public sdeNode
 			params<baseType>::registerStandard ( _gaussianNapKKm_,"gaussianNapKKM_sigmaNoise", 15, 0.0 );
 		}
 
-		virtual void clean ( unsigned int timeSteps )
+		virtual void clean ()
 		{
 
-			sdeNode::clean ( timeSteps ); this->tmp[0]=-70.0; this->tmp[1]=ninf ( -70.0 );
+			sdeNode::clean ( ); this->tmp[0]=-70.0; this->tmp[1]=ninf ( -70.0 );
 		};
 
 };
@@ -402,10 +402,10 @@ class hodgkinHuxley    : public odeNode
 
 		}
 
-		virtual void clean ( unsigned int timeSteps )
+		virtual void clean ()
 		{
 
-//		odeNode::clean(timeSteps); dynNode::tmp[0]=0; dynNode::tmp[1]=alpham(0)/(alpham(0)+betam(0));
+//		odeNode::clean(); dynNode::tmp[0]=0; dynNode::tmp[1]=alpham(0)/(alpham(0)+betam(0));
 //		dynNode::tmp[2]=alphah(0)/(alphah(0)+betah(0));
 //		dynNode::tmp[3]=alphan(0)/(alphan(0)+betan(0));
 		};
@@ -457,10 +457,10 @@ class gaussianHH : public sdeNode
 
 		}
 
-		virtual void clean ( unsigned int timeSteps )
+		virtual void clean ()
 		{
 
-			sdeNode::clean ( timeSteps ); this->tmp[0]=0; this->tmp[1]=alpham ( 0 ) / ( alpham ( 0 ) +betam ( 0 ) );
+			sdeNode::clean ( ); this->tmp[0]=0; this->tmp[1]=alpham ( 0 ) / ( alpham ( 0 ) +betam ( 0 ) );
 			this->tmp[2]=alphah ( 0 ) / ( alphah ( 0 ) +betah ( 0 ) );
 			this->tmp[3]=alphan ( 0 ) / ( alphan ( 0 ) +betan ( 0 ) );
 		};

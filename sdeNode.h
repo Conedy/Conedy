@@ -90,7 +90,7 @@ class sdeNode : public containerNode<baseType, 4> {
 
 		baseType getState(int which) { return this->tmp[which]; };
 
-		virtual void clean(unsigned int timeSteps) { getRho(); } 
+		virtual void clean() { getRho(); } 
 
 		void getConst(baseType dt)
 		{

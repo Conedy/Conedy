@@ -191,7 +191,7 @@ namespace conedy
 			virtual const unsigned int dimension() const { return 0;}
 
 			calculateMeanPhaseCoherence() : dynNode(_calculateMeanPhaseCoherence_) {};
-			virtual void clean ( unsigned int timeSteps ) {};
+			virtual void clean () {};
 			virtual baseType getState()
 			{
 				complex<baseType> re ( ( baseType ) 0, ( baseType ) 0 );
@@ -223,7 +223,7 @@ namespace conedy
 			virtual const unsigned int dimension() const { return 0;}
 
 			calculateMeanPhase() : dynNode(_calculateMeanPhase_) {};
-			virtual void clean ( unsigned int timeSteps ) {};
+			virtual void clean () {};
 			virtual baseType getState()
 			{
 

@@ -24,7 +24,7 @@ namespace conedy
 		addEdge(targetNode, sourceNode, l);
 	}
 
-	void network::clean ( unsigned int timeSteps)
+	void network::clean ( )
 	{
 		evolveList.clear();
 
@@ -36,7 +36,7 @@ namespace conedy
 		{
 
 			nod = ( dynamic_cast<dynNode*>( node::theNodes[*it]));
-			nod->clean ( timeSteps );
+			nod->clean ( );
 			if ( nod->timeEvolution() )
 				evolveList.push_back ( nod );
 		}

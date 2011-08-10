@@ -111,7 +111,7 @@ namespace conedy
 		dynNode::startTime = startTime;
 		dynNode::time = startTime;
 		dynNode::endTime = endTime;
-		clean ( 0 );     // Dreckige 0 TODO Prüfenvi 
+		clean (  );     // Dreckige 0 TODO Prüfenvi 
 
 
 		observationCounter = 0; 
@@ -173,7 +173,7 @@ namespace conedy
 		dynNode::time = 0.0;
 
 
-		clean ( 0 );     // Dreckige 0 TODO Prüfenvi 
+		clean (  );     // Dreckige 0 TODO Prüfenvi 
 
 		nodeList dynNodes;
 
@@ -436,9 +436,9 @@ namespace conedy
 
 	}
 
-	void dynNetwork::clean ( unsigned int timeSteps)
+	void dynNetwork::clean ( )
 	{
-		network::clean ( timeSteps);
+		network::clean ( );
 		containerNode<baseType, 1>::realign();
 
 		eventClean();
@@ -709,7 +709,7 @@ namespace conedy
 
 
 
-				void dynNetwork::simulate ( unsigned int timeSteps, int type = _dynNode_ )
+				void dynNetwork::simulate (  int type = _dynNode_ )
 				{
 					/*
 					//	((streamInNodeBinary<baseType>*)theNodes[0])->test();

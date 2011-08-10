@@ -202,7 +202,7 @@ namespace conedy
 
 			//		};
 
-			//	virtual void clean(unsigned int timeSteps) {};
+			//	virtual void clean() {};
 
 			//	virtual T getHiddenComponent(int component) { return tmp[component]; }
 

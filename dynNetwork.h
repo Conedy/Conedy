@@ -262,9 +262,9 @@ namespace conedy
 				}
 		
 
-		void simulate ( unsigned int timeSteps, int type );	// ruft zunächst clean von allen Knoten auf
+		void simulate (  int type );	// ruft zunächst clean von allen Knoten auf
 		// dann timesteps mal action1, swap, action2, swap, action3, swap, action4, swap.
-		virtual void clean ( unsigned int timeSteps);
+		virtual void clean ();
 		void evolve ( double startTime, double endTime );
 		void evolveFor ( double duration );
 //		void evolve ( double time );
@@ -277,7 +277,7 @@ namespace conedy
 
 		void evolveAllAlong ( double endTime, string inputFilename, networkElementType nt);
 
-		void snapshot () { 		clean ( 0);  callBack (0); }
+		void snapshot () { 		clean ();  callBack (0); }
 		void setTime( double newTime) 
 		{ 
 			dynNode::time = newTime; 

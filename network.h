@@ -130,7 +130,7 @@ namespace conedy
 
 
 
-			virtual void clean ( unsigned int timeSteps );
+			virtual void clean ();
 
 
 			//! restrict the network to the node number numbers which are in the file fileName
@@ -174,7 +174,7 @@ namespace conedy
 				edgeIterator ei;
 				for (ei = el.begin(); ei != el.end(); ei++)
 					removeEdge(*ei);				
-				clean(0);
+				clean();
 
 			}
 

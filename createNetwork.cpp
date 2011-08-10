@@ -899,7 +899,7 @@ void createNetwork::normalizeInputs (baseType r)
 	for (it = dynNodes.begin(); it != dynNodes.end(); it++)
 		nodeBlueprint::theNodes[*it]->normalizeInWeightSum(r);
 
-	network::clean(0);
+	network::clean();
 }
 
 nodeDescriptor createNetwork::cycle ( int number, int a,nodeBlueprint *n, edgeBlueprint *l )
@@ -1092,7 +1092,7 @@ void createNetwork::rewireWeights ( double prop ,boost::function<double () > r,n
 	}
 
 
-	network::clean(0);
+	network::clean();
 }
 
 
@@ -1140,7 +1140,7 @@ void createNetwork::rewire ( double prop, nodeBlueprint *n )
 
 	}
 
-	network::clean(0);
+	network::clean();
 
 }
 
@@ -1194,7 +1194,7 @@ void createNetwork::replaceEdges ( double prop, edgeBlueprint * l, nodeBlueprint
 		nodeBlueprint::theNodes[oldSource]->unlink ( oldTarget );
 
 	}
-	clean(0);
+	clean();
 
 }
 
@@ -1247,7 +1247,7 @@ void createNetwork::rewireUndirected ( double prop, nodeKind theNodeKind ) // re
 		network::unlink ( oldTarget, oldSource );
 
 	}
-	clean(0);
+	clean();
 
 }
 
@@ -1292,7 +1292,7 @@ void createNetwork::rewireTargetUndirected ( double prop, nodeKind theNodeKind )
 			
 		}
 	}
-	clean(0);
+	clean();
 
 }
 
@@ -1328,7 +1328,7 @@ void createNetwork::rewireSource ( double prop, nodeKind theNodeKind )
 		unlink ( i, getTarget(( *it)) );
 	}
 
-	clean(0);
+	clean();
 
 }
 

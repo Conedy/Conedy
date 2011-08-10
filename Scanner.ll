@@ -121,6 +121,43 @@ stdVanDerPol		{return(ParserBase::STDVANDERPOL); }
 streamInLattice		{return(ParserBase::STREAMINLATTICE); }
 %{	// addNewNode.py Nodes
 %}
+pcoIFNeuronDelay			{ return(ParserBase::PCOIFNEURONDELAY); }  // added by addNewNodes.py  
+pcoIFNeuron			{ return(ParserBase::PCOIFNEURON); }  // added by addNewNodes.py  
+roesslerStatic			{ return(ParserBase::ROESSLERSTATIC); }  // added by addNewNodes.py  
+pcoMirolloRoot			{ return(ParserBase::PCOMIROLLOROOT); }  // added by addNewNodes.py  
+pcoMirolloDelayStatic			{ return(ParserBase::PCOMIROLLODELAYSTATIC); }  // added by addNewNodes.py  
+percFitzHughNagumo			{ return(ParserBase::PERCFITZHUGHNAGUMO); }  // added by addNewNodes.py  
+pcoNonleakyStatic			{ return(ParserBase::PCONONLEAKYSTATIC); }  // added by addNewNodes.py  
+pdeMirolloForward			{ return(ParserBase::PDEMIROLLOFORWARD); }  // added by addNewNodes.py  
+pdeMirolloBackward			{ return(ParserBase::PDEMIROLLOBACKWARD); }  // added by addNewNodes.py  
+pdeMirolloCentered			{ return(ParserBase::PDEMIROLLOCENTERED); }  // added by addNewNodes.py  
+gaussianHodgkinHuxley			{ return(ParserBase::GAUSSIANHODGKINHUXLEY); }  // added by addNewNodes.py  
+hodgkinHuxley			{ return(ParserBase::HODGKINHUXLEY); }  // added by addNewNodes.py  
+neuronMap			{ return(ParserBase::NEURONMAP); }  // added by addNewNodes.py  
+pcoTriangel			{ return(ParserBase::PCOTRIANGEL); }  // added by addNewNodes.py  
+pcoIntegrateFire			{ return(ParserBase::PCOINTEGRATEFIRE); }  // added by addNewNodes.py  
+pcoIntegrateFireDelay			{ return(ParserBase::PCOINTEGRATEFIREDELAY); }  // added by addNewNodes.py  
+vanDerPol			{ return(ParserBase::VANDERPOL); }  // added by addNewNodes.py  
+roessler			{ return(ParserBase::ROESSLER); }  // added by addNewNodes.py  
+gaussianRoessler			{ return(ParserBase::GAUSSIANROESSLER); }  // added by addNewNodes.py  
+pcoMirolloDelay			{ return(ParserBase::PCOMIROLLODELAY); }  // added by addNewNodes.py  
+pcoMirollo			{ return(ParserBase::PCOMIROLLO); }  // added by addNewNodes.py  
+exponentialOde			{ return(ParserBase::EXPONENTIALODE); }  // added by addNewNodes.py  
+exponentialStatic			{ return(ParserBase::EXPONENTIALSTATIC); }  // added by addNewNodes.py  
+exponentialGsl			{ return(ParserBase::EXPONENTIALGSL); }  // added by addNewNodes.py  
+exponentialSde			{ return(ParserBase::EXPONENTIALSDE); }  // added by addNewNodes.py  
+ornUhl			{ return(ParserBase::ORNUHL); }  // added by addNewNodes.py  
+gaussianFitzHughNagumo			{ return(ParserBase::GAUSSIANFITZHUGHNAGUMO); }  // added by addNewNodes.py  
+fitzHughNagumo			{ return(ParserBase::FITZHUGHNAGUMO); }  // added by addNewNodes.py  
+pcoNonleaky			{ return(ParserBase::PCONONLEAKY); }  // added by addNewNodes.py  
+pcoNonleakyDelay			{ return(ParserBase::PCONONLEAKYDELAY); }  // added by addNewNodes.py  
+logisticMap			{ return(ParserBase::LOGISTICMAP); }  // added by addNewNodes.py  
+gaussianLorenz			{ return(ParserBase::GAUSSIANLORENZ); }  // added by addNewNodes.py  
+lorenz			{ return(ParserBase::LORENZ); }  // added by addNewNodes.py  
+gaussianKuramoto			{ return(ParserBase::GAUSSIANKURAMOTO); }  // added by addNewNodes.py  
+kuramoto			{ return(ParserBase::KURAMOTO); }  // added by addNewNodes.py  
+gaussianHindmarshRose			{ return(ParserBase::GAUSSIANHINDMARSHROSE); }  // added by addNewNodes.py  
+hindmarshRose			{ return(ParserBase::HINDMARSHROSE); }  // added by addNewNodes.py  
 
 
 
