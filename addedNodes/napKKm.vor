@@ -1,6 +1,6 @@
 
 [napKKm]
-integrator = stdOdeIntegrator
+integrator = gslOdeIntegrator
 dimension = 3
 parameter = 14
 parametername1 = gl

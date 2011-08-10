@@ -18,7 +18,7 @@ namespace conedy
 			baseType inline alpha() { return params<baseType>::getParams ( 4 ); }
 			baseType inline logAlpha() { return privateLogarithm; }
 
-			virtual void clean ( unsigned int timesteps );
+			virtual void clean ();
 			static void registerStandardValues()
 			{
 				params<baseType>::registerStandard ( _pcoIFNeuronDelay_,"pcoIFNeuronDelay_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
@@ -47,7 +47,7 @@ namespace conedy
 			baseType inline timeDelay() { return params<baseType>::getParams ( 2 ); }
 			baseType inline t_ref()  { return params<baseType>::getParams ( 3 ); }
 
-//			virtual void clean ( unsigned int timesteps );
+//			virtual void clean ();
 			static void registerStandardValues()
 			{
 				params<baseType>::registerStandard ( _pcoExponential_,"pcoExponential_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
@@ -76,7 +76,7 @@ namespace conedy
 			baseType inline h1()  { return params<baseType>::getParams (6 ); }
 			baseType inline h2()  { return params<baseType>::getParams ( 7 ); }
 
-//			virtual void clean ( unsigned int timesteps );
+//			virtual void clean ();
 			static void registerStandardValues()
 			{
 				params<baseType>::registerStandard ( _pcoTrapez_,"pcoTrapez_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
@@ -112,7 +112,7 @@ namespace conedy
 			baseType inline alpha() { return params<baseType>::getParams ( 4 ); }
 			baseType inline logAlpha() { return privateLogarithm; }
 
-			virtual void clean ( unsigned int timesteps );
+			virtual void clean ();
 			static void registerStandardValues()
 			{
 				params<baseType>::registerStandard ( _pcoRealIFNeuronDelay_,"pcoRealIFNeuronDelay_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
@@ -175,7 +175,7 @@ namespace conedy
 			baseType inline alpha() { return params<baseType>::getParams ( 4 ); }
 			baseType inline logAlpha() { return privateLogarithm; }
 
-			virtual void clean ( unsigned int timesteps );
+			virtual void clean ();
 			static void registerStandardValues()
 			{
 				params<baseType>::registerStandard ( _pcoIFNeuron_,"pcoIFNeuron_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
@@ -209,7 +209,7 @@ namespace conedy
 			baseType inline timeDelay() { return params<baseType>::getParams ( 2 ); }
 			baseType inline t_ref()  { return params<baseType>::getParams ( 3 ); }
 
-//			virtual void clean ( unsigned int timesteps );
+//			virtual void clean ();
 			static void registerStandardValues()
 			{
 				params<baseType>::registerStandard ( _pcoNonleaky_,"pcoNonleaky_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );

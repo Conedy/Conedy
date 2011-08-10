@@ -31,7 +31,7 @@ namespace conedy
 
 
 
-	//! Container-Klasse, die zusammenhängenden  Speicherplatz für alle erbenden Knoten reserviert. Der integer-Template-Parameter gibt die Nummer des Containers an.
+	//! Container class, which puts nodes representing dynamical systems of the same kind (e.g. ODEs) into container. The second template is the container number. Nodes in the same container have consecutive memory for their state variables. Time evolution is handled by the first node in the container. 
 	template <typename T, int N>
 		class containerNode : public dynNode
 	{
@@ -173,7 +173,7 @@ namespace conedy
 			unsigned int startPosGslOdeNodeArray;
 
 			//! clean: wird vor der Integration aufgerufen und initialisiert diverse GSL-Parameter (Art der Stufenfunktion, Schrittweite usw.)
-			virtual void clean ( unsigned int timesteps )
+			virtual void clean ()
 			{
 
 

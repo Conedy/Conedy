@@ -50,7 +50,7 @@ namespace conedy
 		public:
 
 
-			virtual void clean ( unsigned int timesteps );
+			virtual void clean ();
 
 			void excite ( baseType c ) ;          // gibt zurück, ob das Neuron sofort feuert.
 			virtual baseType callBack(unsigned int eventSignature);

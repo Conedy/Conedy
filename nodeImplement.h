@@ -50,6 +50,10 @@ namespace conedy {
 		class nodeVirtualEdges : public  DYNNODE
 	{
 		public:
+	
+#ifdef PRECALCULATEMEANWEIGHT
+			baseType weightSum;
+#endif
 
 
 			typedef node  targetNodeType;
@@ -69,6 +73,16 @@ namespace conedy {
 
 			virtual void clean (unsigned int timeSteps) {
 
+
+#ifdef PRECALCULATEWEIGHTSUM
+
+	float res = 0;
+	vector<node *>::iterator it;
+	for (it = DYNNODE::theNodes.begin(); it != DYNNODE::theNodes.end(); it++)
+		res+= linkStrength(*it); 
+	weightSum = res;
+
+#endif
 
 
 				unsigned int read = 0;
@@ -284,6 +298,13 @@ float nodeVirtualEdges<DYNNODE>::weightSum()
 
 
 
+
+#ifdef PRECALCULATEWEIGHTSUM
+template <typename DYNNODE>
+float nodeVirtualEdges<DYNNODE>::inWeightSum() {
+	return weightSum;
+}
+#else	
 template <typename DYNNODE>
 float nodeVirtualEdges<DYNNODE>::inWeightSum() {
 	float res = 0;
@@ -295,8 +316,7 @@ float nodeVirtualEdges<DYNNODE>::inWeightSum() {
 	}
 	return res;
 }
-
-
+#endif
 
 	template <typename DYNNODE>
 baseType nodeVirtualEdges<DYNNODE>::getMeanPhaseCoherence()
@@ -400,6 +420,10 @@ class nodeTemplateEdges : public DYNNODE
 {
 	public:
 
+#ifdef PRECALCULATEWEIGHTSUM
+	baseType weightSum;
+#endif
+
 
 		typedef TARGETNODETYPE  targetNodeType;
 		typedef EDGE edgeType; 
@@ -417,6 +441,16 @@ class nodeTemplateEdges : public DYNNODE
 			}
 
 		virtual void clean (unsigned int timeSteps) {
+#ifdef PRECALCULATEWEIGHTSUM
+
+	float res = 0;
+	vector<node *>::iterator it;
+	for (it = DYNNODE::theNodes.begin(); it != DYNNODE::theNodes.end(); it++)
+		res+= linkStrength(*it); 
+	weightSum = res;
+
+#endif
+
 
 			unsigned int read = 0;
 			unsigned int write = 0;
@@ -552,9 +586,36 @@ float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::weightSum ()
 	return res;
 }
 
-	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
+
+
+#ifdef PRECALCULATEWEIGHTSUM
+template <typename DYNNODE>
+float nodeVirtualEdges<DYNNODE>::inWeightSum() {
+	return weightSum;
+}
+#else	
+template <typename DYNNODE>
+float nodeVirtualEdges<DYNNODE>::inWeightSum() {
+	float res = 0;
+	vector<node *>::iterator it;
+	for (it = DYNNODE::theNodes.begin(); it != DYNNODE::theNodes.end(); it++)
+	{	
+		res+= linkStrength(*it); 
+
+	}
+	return res;
+}
+#endif
+
+#ifdef PRECALCULATEWEIGHTSUM
+template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
 float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::inWeightSum ()
 {
+	return weightSum;
+}
+#else
+template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
+float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::inWeightSum ()
 
 	float res = 0;
 	vector<node *>::iterator it;
@@ -564,7 +625,7 @@ float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::inWeightSum ()
 }
 
 
-
+#endif
 
 template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
 void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::normalizeInWeightSum(baseType d)  {

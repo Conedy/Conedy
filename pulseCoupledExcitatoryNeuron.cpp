@@ -39,7 +39,7 @@ namespace conedy
 
 
 
- void pulseCoupledExcitatoryNeuron::clean ( unsigned int timesteps )
+ void pulseCoupledExcitatoryNeuron::clean ()
 			{
 				if (!eventHandler::alreadyRegistered())
 				{

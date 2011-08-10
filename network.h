@@ -1,9 +1,8 @@
 
 
 #ifndef __network
-#define __network 0
+#define __network __network
 
-//	Letzte Änderung:	10.06.2009	hdickten:	readParams fixed
 
 
 #include "node.h"
