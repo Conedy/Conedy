@@ -1,42 +1,19 @@
-
-
 #ifndef node_h
 #define node_h node_h
 
-/*	Letzte Änderung:	27.05.2009	hdickten
-/
-/
-/
-*/
-
-#include <cmath>
 
 #include "networkConstants.h"
-#include <complex>
+#include "gslNoise.h"
+#include "baseType.h"
 
 
 #include <limits>
-
-
 #include <cmath>
-
-#include "networkConstants.h"
 #include <complex>
 #include <stdio.h>
 #include <cmath>
 #include <iostream>
 #include <vector>
-
-
-#include "gslNoise.h"
-
-#include "baseType.h"
-
-//#include <ext/slist>
-//typedef int networkElementType;
-
-//namespace gnu = __gnu_cxx;
-
 
 
 
@@ -48,20 +25,20 @@ namespace conedy
 	// Nodetype   : int
 
 
-
-
-
-	typedef char nodeKind;
-
 	
-	//! identifier for nodes, determines the maximum number of nodes.
-	typedef unsigned int nodeDescriptor;
+	typedef char nodeKind;
 
 	const nodeKind  _inNode_ = 1 << 1;
 	const nodeKind  _outNode_ = 1 << 2;
 	const nodeKind  _dynNode_ = 1 << 3;
 
+	typedef char edgeKind;
 
+	const edgeKind	_weighted_	= 1 << 1;
+	const edgeKind	_polynomial_	= 1 << 2;  // erbt von params<vector<baseType>>
+	
+	//! identifier for nodes, determines the maximum number of nodes.
+	typedef unsigned int nodeDescriptor;
 
 
 	//! Info-object which is returned by all nodes.
@@ -79,9 +56,10 @@ namespace conedy
 	{	// unique identifier for the edgetype
 		networkElementType theEdgeType;
 		// bit mask with the node type, 
-		short theEdgeKind;
+		edgeKind theEdgeKind;
 		string theEdgeName;
 	};
+
 
 	class node;
 	class dynNode;
@@ -94,32 +72,31 @@ namespace conedy
 		public:
 			// static 
 			typedef dynNode targetNodeType;
-		  
-			nodeDescriptor targetNumber;   //! Nummer vom Knoten auf den die edgeOpt zeigt. 
+		 
+		  	//! Number of the target node, pointer to the node is store in node::thenodes	
+			nodeDescriptor targetNumber; 
 			edge() : targetNumber(0) {};
 			edge ( nodeDescriptor t) :targetNumber ( t ) {};
 
 		public:
-			bool operator==(const edge & b) // TODO wofür ???
-			{
-				return this == &b;
-			}
-
-
+			//! Return pointer to the target node.
 			node* getTarget();// { return node::theNodes [targetNumber];}
 
-
-
-
+			//! Returns the state of the target node.
 			baseType getTargetState();
 
+			//! Return info-object for the edge.
 			const edgeInfo getEdgeInfo() {edgeInfo ei = {_edge_,0}; return ei;}
-			edge *construct() { return new edge ( *this ); };
+
+			
+//			edge *construct() { return new edge ( *this ); };
 
 			//! print information about the edge to the console. 
 			ostream& printStatistics ( ostream &os, double edgeOptVerbosity, int theEdgeKind, string theEdgeName, baseType weight);
 
+			//! Return the weight of the edge, 1 for unweighted edges.
 			baseType getWeight() { return (baseType)1; }
+			//! Set the weight of the edge, throw an exception for unweighted edges.
 			void setWeight(baseType newWeight) { };
 	};
 	
@@ -153,17 +130,6 @@ namespace conedy
 
 
 
-//	typedef edgeVirtual stdEdge;
-//	typedef weightedEdgeVirtual weightedEdgeVirtual;
-
-
-
-	const short	_weighted_	= 1 << 1;
-	const short	_polynomial_	= 1 << 2;  // erbt von params<vector<baseType>>
-	
-
-
-
 
 /*!
   \Brief  Base class for all nodes.
@@ -174,9 +140,10 @@ namespace conedy
 	class node
 	{
 		public:
-	//		typedef unsigned int nodeDescriptor;
 
 			//! virtuelle Funktion, die state zurückgibt. Zur Performancesteigerung sollte vielleicht ein Macro definiert werden, dass entweder diese Funktione aufgerufen wird (mit sprungtabelle, langsam) oder direkt state zurückgegeben wird
+
+			//! virtual function, which returns the standard node state.
 			virtual baseType getState() { throw "getState von nodeVirtual aufgerufen !";}
 			//! Variable, die von der Klasse offeriert wird, zum Beispiel zum Einkoppeln in andere Nodes 
 //			baseType state;
@@ -186,7 +153,7 @@ namespace conedy
 			virtual const nodeInfo getNodeInfo() { nodeInfo n = {_node_,0};  return n;};
 
 
-			virtual bool equals (node * n) { return n->getNodeInfo().theNodeType == getNodeInfo().theNodeType;}
+//			virtual bool equals (node * n) { return n->getNodeInfo().theNodeType == getNodeInfo().theNodeType;}
 
 
 			//! returns a copy of this node instance. All nodes which are added to networks are created by such a call. Nodes which are created by standard constructors serve as blueprints only.

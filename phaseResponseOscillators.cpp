@@ -7,16 +7,16 @@
 namespace conedy
 {
 
-/*	void pcoIFNeuron::clean ( unsigned int timesteps )
+/*	void pcoIFNeuron::clean ()
 	{
 		privateLogarithm = log ( alpha() );
 	}*/
-/*	void pcoIFNeuronDelay::clean ( unsigned int timesteps )
+/*	void pcoIFNeuronDelay::clean ()
 	{
 		privateLogarithm = log ( alpha() );
 	}
 
-	void pcoRealIFNeuronDelay::clean ( unsigned int timesteps )
+	void pcoRealIFNeuronDelay::clean ()
 	{
 		privateLogarithm = log ( alpha() );
 	}

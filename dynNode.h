@@ -37,7 +37,6 @@ class dynNode : public node, public params<baseType>
   public:
     
     
-	virtual bool equals (node * n) { return node::equals(n)  && (params<baseType>::row ==  ((dynNode*)n)->row);  }
     
 	 virtual const nodeInfo getNodeInfo() { nodeInfo n = {_dynNodeNodeType_,_dynNode_,"dynNode"};  return n;};
 

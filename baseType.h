@@ -13,6 +13,8 @@
 
 typedef double baseType;
 
+#define PRECALCULATEWEIGHTSUM
+
 //typedef float baseType;
 
 

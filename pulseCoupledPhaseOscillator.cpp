@@ -186,7 +186,7 @@ namespace conedy
 	*/
 
 /*
-	void pcoNonleaky::clean ( unsigned int timesteps )
+	void pcoNonleaky::clean ()
 	{
 
 		if ( !eventHandler::alreadyRegistered() )

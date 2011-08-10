@@ -89,7 +89,7 @@ namespace conedy
 		
 			
 			//! clean: wird vor der Integration aufgerufen und initialisiert diverse GSL-Parameter (Art der Stufenfunktion, Schrittweite usw.)
-			virtual void clean ( unsigned int timesteps )
+			virtual void clean ()
 			{
 
 			if ( (* containerNode<baseType,3>::nodeList.begin()) == this)
