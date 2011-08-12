@@ -50,6 +50,8 @@ namespace conedy {
 				stepType_int = 0;
 			else if (stepType->getParams(0)  == "rk4")
 				stepType_int = 1;
+			else
+				throw "unknown steptype for stdOdeIntegrator!";
 		};
 
 
@@ -64,6 +66,7 @@ namespace conedy {
 				case 1:
 					rungeKutta4Step(time);
 					break;
+
 			}
 
 		}

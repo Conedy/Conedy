@@ -156,8 +156,6 @@ gaussianLorenz			{ return(ParserBase::GAUSSIANLORENZ); }  // added by addNewNode
 lorenz			{ return(ParserBase::LORENZ); }  // added by addNewNodes.py  
 gaussianKuramoto			{ return(ParserBase::GAUSSIANKURAMOTO); }  // added by addNewNodes.py  
 kuramoto			{ return(ParserBase::KURAMOTO); }  // added by addNewNodes.py  
-gaussianHindmarshRose			{ return(ParserBase::GAUSSIANHINDMARSHROSE); }  // added by addNewNodes.py  
-hindmarshRose			{ return(ParserBase::HINDMARSHROSE); }  // added by addNewNodes.py  
 
 
 

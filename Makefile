@@ -33,6 +33,8 @@ docstrings.h: addedNodes.sum.old    			# generate a c-header with docstrings for
 
 
 
+
+
 addNodes: revert										# generate sourcecode for node dynamics according to configuration files in addedNodes/ or in a special monitored directory configured in the config file (${addedDir})
 	find -L addedNodes -maxdepth 1 -name "*.cfg" -type f -exec python addNewNode.py {} \;
 	find -L ${addedDir} -maxdepth 1  -name "*.cfg" -type f -exec python addNewNode.py {} \; || true
@@ -75,6 +77,15 @@ test:														# call all test-scripts in the testing directory and display 
 	make -C testing > testResult 2> testResult
 	grep failed testResult
 	grep present testResult
+
+
+
+unstripped: clean addNodes
+	bjam conedy_int -o unstripped.sh
+	tail -n2 unstripped.sh | sed "s/,--strip-all//" | sed "s/conedy_int/conedy_unstripped/" > linkUnstripped.sh
+	make conedy	
+	bash linkUnstripped.sh	
+
 
 
 conedy: addNodesIfNecessary version				# build the bison-flex-interpreter of Conedy.

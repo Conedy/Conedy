@@ -69,7 +69,7 @@ namespace conedy
 				double newPhase = phase + phaseResponse (c, phase);
 		
 
-				if ( newPhase > phase)
+				if ( newPhase >= phase)
 				{
 //					if ( newPhase > 1  )
 //						newPhase = 1;

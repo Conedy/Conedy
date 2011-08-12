@@ -76,11 +76,16 @@ namespace conedy {
 
 #ifdef PRECALCULATEWEIGHTSUM
 
+
+
 	float res = 0;
-	vector<node *>::iterator it;
-	for (it = DYNNODE::theNodes.begin(); it != DYNNODE::theNodes.end(); it++)
-		res+= linkStrength(*it); 
+	edgeIterator ei;
+	for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
+		res = res +  (*ei)->getWeight();
+
 	preCalculatedWeightSum = res;
+		
+
 
 #endif
 
@@ -444,9 +449,13 @@ class nodeTemplateEdges : public DYNNODE
 #ifdef PRECALCULATEWEIGHTSUM
 
 	float res = 0;
-	vector<node *>::iterator it;
-	for (it = DYNNODE::theNodes.begin(); it != DYNNODE::theNodes.end(); it++)
-		res+= linkStrength(*it); 
+
+	edgeIterator ei;
+	for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
+		res = res +  ei->getWeight();
+
+
+
 	preCalculatedWeightSum = res;
 
 #endif

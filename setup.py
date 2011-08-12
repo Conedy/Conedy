@@ -30,7 +30,7 @@ import os.path
 import sys
 
 
-files = ["neuroPython.cpp",  "fullNetwork.cpp",  "nodeImplement.cpp", "generatedNodes.cpp",  "neuronModels.cpp","phaseResponseOscillators.cpp" , "sdeNode.cpp", "stdToyModels.cpp" ,"cnnNode.cpp" , "gslOdeNode.cpp" ,"ioNode.cpp" ,"pulseCoupledPhaseOscillator.cpp","pulseCoupledExcitatoryNeuron.cpp" ,"network.cpp" ,"dynNetwork.cpp" ,"createNetwork.cpp", "spatialNetwork.cpp","mapNode.cpp" ,"eventHandler.cpp" ,"node.cpp" ,"edge.cpp" ,"dynNode.cpp" ,"gslNoise.cpp" ,"statisticsNetwork.cpp" ,"commandLineArguments.cpp" ]
+files = ["neuroPython.cpp",  "fullNetwork.cpp",  "nodeImplement.cpp", "generatedNodes.cpp",  "neuronModels.cpp","phaseResponseOscillators.cpp" , "sdeNode.cpp", "stdToyModels.cpp" ,"cnnNode.cpp" , "stdOdeIntegrator.cpp", "gslOdeNode.cpp" ,"ioNode.cpp" ,"pulseCoupledPhaseOscillator.cpp","pulseCoupledExcitatoryNeuron.cpp" ,"network.cpp" ,"dynNetwork.cpp" ,"createNetwork.cpp", "spatialNetwork.cpp","mapNode.cpp" ,"eventHandler.cpp" ,"node.cpp" ,"edge.cpp" ,"dynNode.cpp" ,"gslNoise.cpp" ,"statisticsNetwork.cpp" ,"commandLineArguments.cpp" ]
 
 
 if sys.platform == "win32" :
