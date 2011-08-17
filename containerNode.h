@@ -51,6 +51,7 @@ namespace conedy
 
 
 		public:
+					static unsigned int containerDimension () { return usedIndices;}	
 			containerNode (networkElementType n ) : dynNode ( n), p ( _containerNode_ )
 		{
 
@@ -101,6 +102,7 @@ namespace conedy
 
 					typename containerNodeList::iterator it;
 
+	
 
 					for (it = nodeList.begin(); it != nodeList.end(); it++)
 					{
@@ -187,13 +189,6 @@ namespace conedy
 
 
 
-			virtual int requiredTimeSteps ()
-			{
-				if ( startPosGslOdeNodeArray == 0 )
-					return 1;
-				else
-					return 0;
-			};
 
 			//! Kopieren der Temp-Zustände in den Zustand nach erfolgter Integration
 			//		virtual void swap()

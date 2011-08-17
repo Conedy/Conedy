@@ -114,7 +114,7 @@ class gslNoise {
 			
 			
 
-		double getGaussian() { return gsl_ran_gaussian(static_r, 1.0); };
+		static double getGaussian() { return gsl_ran_gaussian(static_r, 1.0); };
 		static double getUniform() { return gsl_rng_uniform(static_r); }
 		static double getExponential(double lambda) { return (gsl_ran_exponential (static_r, lambda)); }
 

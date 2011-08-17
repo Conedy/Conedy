@@ -10,14 +10,6 @@ namespace conedy
 {
 
 
-baseType sdeNode::dt2;
-baseType sdeNode::sqdt;
-baseType sdeNode::sqdt2;
-baseType sdeNode::a10;
-baseType sdeNode::rho;
-
-params<baseType>  sdeNode::parameter(_sdeNode_) ;
-
 
 
 //gslNoise sdeNode::noise;

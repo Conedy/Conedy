@@ -89,6 +89,7 @@ const networkElementType _component_=95;
 const networkElementType _randomTarget_=96;
 const networkElementType _createNetwork_=97;
 const networkElementType _stdOdeIntegrator_=98;
+const networkElementType _stdSdeIntegrator_=99;
 
 //#include "generatedNetworkConstants.h" ;
 }  

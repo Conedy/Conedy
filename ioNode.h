@@ -79,7 +79,6 @@ namespace conedy
 				tmp = this->couplingSum();
 			out [localStreamNumber]->write ( (char *) &tmp, sizeof (baseType));
 			};
-			virtual int requiredTimeSteps() { return 1; };
 	//		virtual node *construct();
 
 //			virtual void printStatistics()   { cout << "StreamOutNode" << endl; node::printStatistics(); }
@@ -148,7 +147,6 @@ namespace conedy
 
 			virtual ~streamOutNode();
 			virtual void evolve(double time) {  tmp = this->couplingSum(); ( * ( out[localStreamNumber] ) ) << setprecision((int)precision()) << tmp; ( * ( out[localStreamNumber] ) ) << ' '; };
-			virtual int requiredTimeSteps() { return 1; };
 			virtual node *construct()
 			{ cout << "I am here" << endl;
 				if (binary())
@@ -208,7 +206,6 @@ namespace conedy
 				return abs ( re ) / ((int)this->degree());
 
 			}
-			virtual int requiredTimeSteps() { return 0; }
 	};
 	
 
@@ -245,7 +242,6 @@ namespace conedy
 				return std::arg ( re );
 
 			}
-			virtual int requiredTimeSteps() { return 0; }
 	};
 
 
@@ -322,7 +318,6 @@ namespace conedy
 
 //			virtual void swap () { this->state = tmp; };
 
-			virtual int requiredTimeSteps() { return 1; };
 //			virtual void printStatistics()   { cout << "StreamInNode" << endl; this->printStatistics(); }
 
 

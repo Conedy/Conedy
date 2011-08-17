@@ -4,6 +4,7 @@
 #define stdOdeIntegrator_h stdOdeIntegrator_h
 
 
+#include "integrator.h"
 #include "odeNode.h"
 
 #include "networkConstants.h"
@@ -15,6 +16,7 @@ namespace conedy {
 	{
 		public:
 				valarray <baseType> tmp2, dydt, dyt, dym;
+				integrator *integ;
 
 		stdOdeIntegrator (networkElementType n) : odeNode (n)    {}
 
@@ -47,7 +49,10 @@ namespace conedy {
 //		virtual void swap(short i) { state=tmp[i]; }
 		virtual void clean() {
 			if (stepType->getParams(0)  == "euler")
+			{
 				stepType_int = 0;
+				integ = new euler (containerDimension() );
+			}	
 			else if (stepType->getParams(0)  == "rk4")
 				stepType_int = 1;
 			else
@@ -61,7 +66,7 @@ namespace conedy {
 			switch (stepType_int)
 			{
 				case 0:
-					eulerStep(time);
+					((euler *) integ)->step (time, dynamicVariablesOfAllDynNodes, *this, containerDimension());
 					break;
 				case 1:
 					rungeKutta4Step(time);

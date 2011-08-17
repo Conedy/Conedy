@@ -18,6 +18,7 @@ void registerStandards()
 	//	pcoDelay::registerStandardValues();
 	//	sdeNode::registerStandardValues();
 		stdOdeIntegrator::registerStandardValues();	
+		stdSdeIntegrator::registerStandardValues();	
 	
 	pcoBase::registerStandardValues();
 	cnnNode::registerStandardValues();

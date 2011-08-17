@@ -31,27 +31,14 @@ class sdeNode : public containerNode<baseType, 4> {
 
 
 //		static params <double> p(_sdeNode_);
-		static params <baseType> parameter;
-
-		unsigned short Ngls;
-		baseType dW, dZ;
-		static baseType dt2, sqdt, sqdt2 , a10, rho ;
-// for the integration
-		baseType zeta;
 	protected:
 	public:
 
 //   		 virtual bool timeEvolution () {return 1;}
-		valarray<baseType>  tmp2, dydt, dyt, dym, dydW;
   	
 	//	sdeNode() {};
 
-			static void registerStandardValues()
-			{
-				params<baseType>::registerStandard ( _sdeNode_,"sdeNode_order",0,2.0);
-			}
 
-			baseType inline p() { return parameter.getParams(0); }
 
 
 			sdeNode ( networkElementType n) : containerNode<baseType, 4> ( n )
@@ -64,15 +51,6 @@ class sdeNode : public containerNode<baseType, 4> {
 
 		sdeNode ( const sdeNode &b ) : containerNode<baseType, 4>(b)
 		{
-			Ngls= b.dimension();
-			tmp2.resize(b.dimension());
-			dydt.resize(b.dimension());
-			dym.resize(b.dimension());
-			dyt.resize(b.dimension());
-			dydW.resize(b.dimension());
-
-
-
 		}
 
 
@@ -86,50 +64,19 @@ class sdeNode : public containerNode<baseType, 4> {
 		virtual ~sdeNode() {};
 
 		virtual void operator()(baseType x[], baseType  dxdt[], baseType dxdW[]) {throw "differential equation not defined for";};
-  		virtual int requiredTimeSteps() { return 3; }
 
-		baseType getState(int which) { return this->tmp[which]; };
-
-		virtual void clean() { getRho(); } 
-
-		void getConst(baseType dt)
-		{
-			double r;
-				// Berrechne a10 und b1
-			a10=0.0;
-			for (unsigned short j = 0; j < p(); j++) {
-			r=(double)(j+1);
-			a10 -= noise.getGaussian()/r;
+			static void dgl (baseType *x, baseType* dxdt, baseType *dxdW)
+			{
+				list<containerNode<baseType,4>*>::iterator it;
+				for ( it = nodeList.begin(); it != nodeList.end();it++ )
+					( * ( (sdeNode *)*it )) ( &x[ ( *it )->startPosGslOdeNodeArray], &dxdt[ ( *it )->startPosGslOdeNodeArray] , &dxdW[ (*it)->startPosGslOdeNodeArray]) ;
 			}
-			a10 = a10*sqrt(2.0*dt)/M_PI - 2*sqrt(dt*rho)*noise.getGaussian();
-		}
-		void getRho()
-		{	
-			double r2, pi2=1.0/(2.0*pow(M_PI, 2)), tp1=0.0;
-			rho=1.0/12.0;
-			for (unsigned short i = 1; i <= p(); i++) {
-				r2 = pow(1.0/(double)i, 2.0);
-				tp1 += r2;
-			}
-			rho   -= pi2*tp1;
-		}
+
+
+
+
 
 //		virtual void swap() {};
-
-		virtual void evolve(double time)
-		{
- 			dt2=time/2.0; sqdt=sqrt(time); sqdt2 = sqdt/2.0;
-			
-
-			list<containerNode<baseType,4>*>::iterator it;
-			for (it = containerNode<baseType,4>::nodeList.begin(); it != containerNode<baseType,4>::nodeList.end(); it++)
-				((sdeNode *)(*it))->action1(time);
-			for (it = containerNode<baseType,4>::nodeList.begin(); it != containerNode<baseType,4>::nodeList.end(); it++)
-				((sdeNode *)(*it))->action2(time);
-
-			for (it = containerNode<baseType,4>::nodeList.begin(); it != containerNode<baseType,4>::nodeList.end(); it++)
-				((sdeNode *)(*it))->action3(time);
-		}
 
 
 
@@ -149,26 +96,6 @@ class sdeNode : public containerNode<baseType, 4> {
 //
 
 
-   	void action1(baseType dt) {
-   		zeta = noise.getGaussian();
-   		dW = sqdt*zeta;
-   		getConst(dt);
-   		dZ = 0.5*dt*(dW + a10);
-   		(*this)(this->tmp, &dydt[0], &dydW[0]);														
-
-		for (unsigned int i = 0; i < Ngls; i++)
-			tmp2[i] = this->tmp[i] + dydt[i]*dt + dydW[i]*sqdt;																                        
-   	};
-   	void action2(baseType dt) {																								                              
-   		(*this)(&tmp2[0], &dyt[0], &dydW[0]);																
-		for (unsigned int i = 0; i < Ngls; i++)					                                    
-   		tmp2[i] = this->tmp[i] + dydt[i]*dt - dydW[i]*sqdt;																                        
-   	}; 
-   	void action3(baseType dt) {
-   		(*this)(&tmp2[0], &dym[0], &dydW[0]);																
-		for (unsigned int i = 0; i < Ngls; i++)					                                    
-   		this->tmp[i] += dydW[i]*dW + (dyt[i] - dym[i])/((baseType)2.0*sqdt)*dZ + (dyt[i] + dym[i] + (baseType)2.0*dydt[i])/(baseType)4.0*dt;	
-   	};
 };
 
 //! Ornstein Uhlenberg

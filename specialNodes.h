@@ -35,7 +35,6 @@ namespace conedy
 				return res;
 
 			}
-			virtual int requiredTimeSteps() { return 0; }
 	};
 
 #endif
@@ -59,7 +58,6 @@ namespace conedy
 			{
 				return this->time;
 			}
-			virtual int requiredTimeSteps() { return 0; }
 	};
 
 
@@ -103,7 +101,6 @@ namespace conedy
 			return abs(sum);
 	
 		}
-		virtual int requiredTimeSteps() { return 0; }
 	};
 	//
 	//
@@ -143,7 +140,6 @@ namespace conedy
 			return sum;
 	
 		}
-		virtual int requiredTimeSteps() { return 0; }
 	};
 
 
@@ -165,7 +161,6 @@ namespace conedy
 		virtual void clean () {};
 		virtual void printStatistics()   {cout << "randomNode" << endl;this->printStatistics();}
 		virtual T getState()	{return r();}
-		virtual int requiredTimeSteps() { return 0; }
 		virtual bool timeEvolution () {return 0;}
 	};
 
@@ -191,7 +186,6 @@ namespace conedy
 
 		}
 
-		virtual int requiredTimeSteps() { return 2; };
 
 		virtual T getState()
 		{

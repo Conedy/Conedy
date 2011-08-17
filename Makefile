@@ -106,7 +106,7 @@ conedy.uninstall:
 #	chmod +x  ${dirinstall}/recompileNeurosimIfNecessary.sh
 
 
-python-conedy:  docstrings.h addNodesIfNecessary version    # build the python bindings of Conedy.
+python-conedy:  docstrings.h # build the python bindings of Conedy.
 
 
 	

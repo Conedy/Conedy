@@ -3,6 +3,8 @@
 #  * adding setParam-function
 #  * added support for error-controlled integration by the gsl
 #	* renamed addVertex to addNode
+#  * added observeComponents
+#	* multiple sde/ode- integrators
 
 conedy (0.20-1) unstable; urgency=low
 
