@@ -2,6 +2,8 @@ import conedy as co
 
 net = co.network()
 
+
+co.setRandomSeed(0)
 co.set("gaussianLorenz_s", 10.0)
 co.set("gaussianLorenz_r", 28.0)
 co.set("gaussianLorenz_b", 8.0/3.0)

@@ -43,7 +43,7 @@ namespace conedy
 	{
 		protected:
 		public:        // x' = -ax+b
-
+			static baseType timeOffset;
 			static void registerStandardValues()
 			{
 				params<baseType>::registerStandard ( _pcoBase_,"pcoBase_noiseFrequency",0,0.0 );
@@ -62,6 +62,9 @@ namespace conedy
 			baseType inline omega() { return ( baseType ) 1;}
 
 			virtual unsigned int numberOfEvents() const { return 2;};
+
+	virtual void clean ();
+
 		virtual void excite ( baseType c ) 
 		{
 

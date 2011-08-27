@@ -17,9 +17,10 @@ streamOutNode_append = 1.0;
 
 nodeNumber = 0;
 
-
-pcoMirollo_a 	= 0.2;
-pcoMirollo_b	 	= 0.5;
+pcoMirollo_t_ref = 0.2;
+pcoMirollo_timeDelay = 0.1;
+pcoMirollo_a	 	= 0.01;
+pcoMirollo_b 	= 0.02;
 
 
 coupling 			 		= 0.01;

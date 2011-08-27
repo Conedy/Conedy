@@ -1,4 +1,9 @@
+
+setRandomSeed(0);
+
 network net;
+
+
 
 gaussianLorenz_s = 10.0;
 gaussianLorenz_r = 28.0;

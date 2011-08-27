@@ -133,10 +133,8 @@ namespace conedy
 
 					errors = ( baseType* ) calloc (odeDimension ,sizeof ( baseType)  );
 
-						gslStep = gsl_odeiv_step_alloc ( stepType, odeDimension);
+					gslStep = gsl_odeiv_step_alloc ( stepType, odeDimension);
 
-					cout << "abs:" << error_abs() << endl;
-					cout << "rel:" << error_rel() << endl;
 					gslControl = gsl_odeiv_control_y_new ( error_abs(), error_rel()  );
 					gslEvolve = gsl_odeiv_evolve_alloc (odeDimension); 
 

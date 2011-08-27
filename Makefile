@@ -81,20 +81,19 @@ test:														# call all test-scripts in the testing directory and display 
 
 
 unstripped: clean addNodes
-	bjam conedy_int -o unstripped.sh
-	tail -n2 unstripped.sh | sed "s/,--strip-all//" | sed "s/conedy_int/conedy_unstripped/" > linkUnstripped.sh
+	bjam conedy -o unstripped.sh
+	tail -n2 unstripped.sh | sed "s/,--strip-all//" | sed "s/conedy/conedy_unstripped/" > linkUnstripped.sh
 	make conedy	
 	bash linkUnstripped.sh	
 
 
-
 conedy: addNodesIfNecessary version				# build the bison-flex-interpreter of Conedy.
-	bjam conedy_int cflags=-D$(SVNDEV) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
+	bjam conedy cflags=-D$(SVNDEV) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
 
 conedy.install: conedy
 	mkdir -p ${dirinstall}
-	find bin -name "conedy_int" -exec cp {} ${dirinstall}/conedy   \;
+	find bin -name "conedy" -exec cp {} ${dirinstall}/conedy   \;
 	cp -a recompileConedy ${dirinstall}
 	sed -i "s+/etc/conedy.config+${globalConfig}+g"   ${dirinstall}/recompileConedy 
 
@@ -145,7 +144,7 @@ conedy-src.uninstall:
 
 python-conedy.recompile: docstrings.h addNodesIfNecessary version 
 	${noUserSpace} HOME=${HOME} bjam conedy cflags=-D$(SVNDEV) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
-	cp bin/gcc*/release/conedy.so build/lib*/
+	cp bin/gcc*/release/python-conedy.so build/lib*/conedy.so
 	${noUserSpace} rm recompilationPython-ConedyStarted
 
 
@@ -191,7 +190,7 @@ condor: addNodesIfNecessary version               # build an interpreter which d
 
 
 installCondor: 
-	cp -f bin/gcc-*/release/link-static/conedy_int ~/bin/conedy.LINUX.X86_64.EXE
+	cp -f bin/gcc-*/release/link-static/conedy ~/bin/conedy.LINUX.X86_64.EXE
 #	cp -f linux32/bin/gcc-mingw-4*/release/link-static/conedy ~/bin/conedy.LINUX.INTEL.EXE
 #	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT51.INTEL.EXE
 #	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT61.INTEL.EXE

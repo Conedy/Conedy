@@ -31,8 +31,14 @@ namespace conedy
          os << endl;
     }
 
+	void pcoBase::clean ()
+	{
 
-	baseType pcoBase::getState() { return 1 - nextFiring() + time; }
+		eventHandler::registerCallBack ( _fire_,   nextFiring() + timeOffset );				
+
+	}
+
+	baseType pcoBase::getState() { return 1 - nextFiring() + time ; }
 
 	baseType pcoBase::callBack ( unsigned int eventSignature )
 	{
@@ -203,5 +209,8 @@ namespace conedy
 
 	}
 */
+
+
+	baseType pcoBase::timeOffset = 0;
 
 }

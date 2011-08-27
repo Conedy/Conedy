@@ -5,7 +5,7 @@ co.set("dynNetwork_ioNodeDt", 1.0)
 
 
 
-co.set("fitzHughNagumo_I", 0.5)
+co.set("fitzHughNagumo_I", 0.1)
 
 
 

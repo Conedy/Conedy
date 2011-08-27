@@ -5,6 +5,8 @@
 
 #include "containerNode.h"
 
+//##include "pulseCoupledPhaseOscillator.h"
+
 #include "pcoBase.h"
 
 
@@ -88,10 +90,6 @@ namespace conedy
 
 
 
-//	void dynNetwork::evolve ( double time )
-//	{
-//		evolve ( dynNode::time, dynNode::time + time, _dynNode_ );
-//	}
 
 
 		baseType dynNetwork::getState (nodeDescriptor node)
@@ -109,17 +107,53 @@ namespace conedy
 
 
 		dynNode::startTime = startTime;
+
+		if (dynNode::time < startTime)
+		{
+			
+
+		pcoBase::timeOffset = startTime - dynNode::time;
+
+		}
+
 		dynNode::time = startTime;
 		dynNode::endTime = endTime;
-		clean (  );     // Dreckige 0 TODO Prüfenvi 
-
+		dynNetwork::clean (  );  
+		pcoBase::timeOffset = 0;	
 
 		observationCounter = 0; 
+
 		snapshot();
 		updateKey(_ioNode_, dynNode::time + ioNodeDt());
 
-		evolveAll ( endTime );
 
+		vector< dynNode *>::iterator it;
+		double timeTilEvent;
+		while ( dynNode::time <= endTime )
+		{
+			if ( eventHandler::nextEvent() >= endTime )
+			{
+				timeTilEvent = endTime - dynNode::time;
+				for ( it = evolveList.begin(); it != evolveList.end(); it++ )
+				{
+					( *it )->evolve ( timeTilEvent );
+				}
+				dynNode::time += timeTilEvent;
+				break;
+
+			}
+			else
+				timeTilEvent = eventHandler::nextEvent() - dynNode::time;
+
+			for ( it = evolveList.begin(); it != evolveList.end(); it++ )
+			{
+				( *it )->evolve ( timeTilEvent );
+			}
+			dynNode::time += timeTilEvent;
+
+			eventHandler::pop();
+
+		}
 	}
 
 
@@ -183,47 +217,6 @@ namespace conedy
 	}
 
 
-
-
-
-
-
-	void dynNetwork::evolveAll ( double endTime )
-	{
-		vector< dynNode *>::iterator it;
-
-
-		double timeTilEvent;
-		while ( dynNode::time <= endTime )
-		{
-
-
-
-
-			if ( eventHandler::nextEvent() >= endTime )
-			{
-				timeTilEvent = endTime - dynNode::time;
-				for ( it = evolveList.begin(); it != evolveList.end(); it++ )
-				{
-					( *it )->evolve ( timeTilEvent );
-				}
-				dynNode::time += timeTilEvent;
-				break;
-
-			}
-			else
-				timeTilEvent = eventHandler::nextEvent() - dynNode::time;
-
-			for ( it = evolveList.begin(); it != evolveList.end(); it++ )
-			{
-				( *it )->evolve ( timeTilEvent );
-			}
-			dynNode::time += timeTilEvent;
-
-			eventHandler::pop();
-
-		}
-	}
 
 
 	void dynNetwork::evolveAllAlong (string inputFilename, string outputFilename, baseType eps, networkElementType nt)
@@ -709,32 +702,6 @@ namespace conedy
 
 
 
-				void dynNetwork::simulate (  int type = _dynNode_ )
-				{
-					/*
-					//	((streamInNodeBinary<baseType>*)theNodes[0])->test();
-					clean ( timeSteps,type );
-
-					//			try {
-
-					eventHandler::registerCallBack ( _ioNode_, numeric_limits<double>::max());
-
-					for ( unsigned int i = 0; i< ( unsigned int ) timeSteps; i++ )
-					{
-
-
-					if ( i % 500 == 0 )
-					cout << "------------Zeit" << i << endl;
-
-					simulateOneStep ( type );
-					dynNode::time =dynNode::time + dynNode::dt;
-					}
-
-					//			}
-					//			catch (...) { cout << "Nu is aber Schluß" << endl;}
-					*/
-
-				}
 
 
 				unsigned int dynNetwork::observationCounter = 0;
