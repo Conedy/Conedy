@@ -582,8 +582,13 @@ class NodeEditor:
 			fout.write("::\n")
 			fout.write(self.dgl.replace("\n","\n\n\t"))
 		else:		
-			fout.write(".. math::\n\t")
-			fout.write(self.dgl.lstrip().replace("\n","\\\\\n\t"). replace("=","&="))
+
+#write documentation in math modus ???			
+#			fout.write(".. math::\n\t")
+#			fout.write(self.dgl.lstrip().replace("\n","\\\\\n\t"))#. replace("=","&="))
+
+			fout.write("::\n")
+			fout.write(self.dgl.replace("\n","\n\n\t"))
 
 
 
