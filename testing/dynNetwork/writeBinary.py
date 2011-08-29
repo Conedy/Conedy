@@ -14,6 +14,6 @@ co.set("dynNetwork_ioNodeDt" , 0.015)
 net.observeTime("output/writeBinary.py.time")
 
 
-net.printNodeStatistics()
+#net.printNodeStatistics()
 
 net.evolve(0.0,10.0)
