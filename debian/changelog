@@ -1,10 +1,14 @@
-#  * various changes to allow compilation with msvc
-#  * match nodeblueprint if all parameter are the same.
-#  * adding setParam-function
-#  * added support for error-controlled integration by the gsl
-#	* renamed addVertex to addNode
-#  * added observeComponents
-#	* multiple sde/ode- integrators
+conedy (0.21-1) unstable; urgency=low
+
+  * various changes to allow compilation with msvc
+  * match nodeblueprint if all parameter are the same.
+  * adding setParam-function
+  * added support for error-controlled integration by the gsl
+  * renamed addVertex to addNode
+  * added observeComponents
+  * multiple sde/ode- integrators
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Mon, 29 Aug 2011 02:33:30 +0100
 
 conedy (0.20-1) unstable; urgency=low
 
