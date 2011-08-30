@@ -81,7 +81,7 @@ getDocFromTesting:															#
 
 updateVersionNumber:
 	cd ..; sed "s/^release.*$$/release = '${VERSION}'/" -i documentation/conf.py
-	sed "s/RELEASE/${VERSION}/g" download.tmpl > download.rst
+	sed "s/RELEASELONG/${VERSIONLONG}/g" download.tmpl | sed "s/RELEASE/${VERSION}/g"  > download.rst
 
 reference.rst: updateDocIfNecessary updateVersionNumber
 #	cd reference;  ls | sed "s/\t/\n/g;s/.rst//g;s#^# /reference/#g" >> ../reference.rst

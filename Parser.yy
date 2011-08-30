@@ -53,7 +53,7 @@
 // Edges
 %token PULSECOUPLEEDGE STATICWEIGHTEDEDGE RANDOMTARGETEDGE SIGEDGE STDEDGEORD3 SIGEDGEORD3 SIGEDGEPARAMS PULSECOUPLEDELAYEDGE WEIGHTEDEDGE EDGE
 // Random
-%token GAUSSIAN BIMODAL POWERLAW UNIFORM CONSTANT POISSON  INDEGREEDISTRIBUTION OUTDEGREEDISTRIBUTION
+%token GAUSSIAN BIMODAL EXPONENTIAL POWERLAW UNIFORM CONSTANT POISSON  INDEGREEDISTRIBUTION OUTDEGREEDISTRIBUTION
 
 %token <netCmd> NETWORKVAR
 %type <cmd> loop print instruction declare assign networkCommand bluePrintCommand commands commandBlock while createNetworkCommand for if vectorFor system spatialNetworkCommand 
@@ -549,6 +549,8 @@ random		: GAUSSIAN '(' baseType ',' baseType ')'
   { $$ = new bindExpression<baseType>(bind(&gslNoise::getGaussian ,bind(&expression<baseType>::evaluate, $3), bind(&expression<baseType>::evaluate, $5)));}
 	| POWERLAW '(' baseType ',' baseType ')'  
 	{ $$ = new bindExpression<baseType>(bind(&gslNoise::getPowerLaw,bind(&expression<baseType>::evaluate, $3), bind(&expression<baseType>::evaluate, $5)));}
+	| EXPONENTIAL '(' baseType ')' 
+	{ $$ = new bindExpression<baseType>(bind(&gslNoise::getExponential,bind(&expression<baseType>::evaluate, $3)));}
 		| UNIFORM '(' baseType ',' baseType ')'  
   { $$ = new bindExpression<baseType>(bind(&gslNoise::getUniform,bind(&expression<baseType>::evaluate, $3), bind(&expression<baseType>::evaluate, $5)));}
    		| BIMODAL '(' baseType ',' baseType ',' baseType ')'

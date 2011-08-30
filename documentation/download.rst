@@ -21,8 +21,8 @@ The flex/bison interpreter of Conedy.
 
 Debian: 
 
-`lenny-amd64 <download/lenny-amd64/conedy_0.21-1_amd64.deb>`_
-`lenny-i386 <download/lenny-i386/conedy_0.21-1_i386.deb>`_
+.. `lenny-amd64 <download/lenny-amd64/conedy_0.21-1_amd64.deb>`_
+.. `lenny-i386 <download/lenny-i386/conedy_0.21-1_i386.deb>`_
 
 `squeeze-amd64 <download/squeeze-amd64/conedy_0.21-1_amd64.deb>`_
 `squeeze-i386 <download/squeeze-i386/conedy_0.21-1_i386.deb>`_
@@ -46,8 +46,8 @@ Python-bindings of Conedy.
 
 Debian: 
 
-`lenny-amd64 <download/lenny-amd64/python-conedy_0.21-1_amd64.deb>`_
-`lenny-i386 <download/lenny-i386/python-conedy_0.21-1_i386.deb>`_
+..  `lenny-amd64 <download/lenny-amd64/python-conedy_0.21-1_amd64.deb>`_
+..  `lenny-i386 <download/lenny-i386/python-conedy_0.21-1_i386.deb>`_
 
 `squeeze-amd64 <download/squeeze-amd64/python-conedy_0.21-1_amd64.deb>`_
 `squeeze-i386 <download/squeeze-i386/python-conedy_0.21-1_i386.deb>`_
@@ -71,8 +71,8 @@ Installs the source of Conedy, and adds support for automatic recompilation. All
 
 Debian: 
 
-`lenny-amd64 <download/lenny-amd64/conedy-src_0.21-1_amd64.deb>`_
-`lenny-i386 <download/lenny-i386/conedy-src_0.21-1_i386.deb>`_
+.. `lenny-amd64 <download/lenny-amd64/conedy-src_0.21-1_amd64.deb>`_
+.. `lenny-i386 <download/lenny-i386/conedy-src_0.21-1_i386.deb>`_
 
 `squeeze-amd64 <download/squeeze-amd64/conedy-src_0.21-1_amd64.deb>`_
 `squeeze-i386 <download/squeeze-i386/conedy-src_0.21-1_i386.deb>`_
@@ -99,7 +99,7 @@ Windows
 
 
 
-.. _Source: download/conedy_0.21-1.tar.gz
+.. _Source: download/conedy_0.21.tar.gz
 
 .. _cs-lenny-amd64: download/lenny-amd64/conedy-src_0.21-1_amd64.deb
 .. _cs-lenny-i386: download/lenny-i386/conedy-src_0.21-1_i386.deb

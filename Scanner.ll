@@ -251,6 +251,8 @@ uniform		{return(ParserBase::UNIFORM); }
 bimodal		{return(ParserBase::BIMODAL); }
 poisson			{return(ParserBase::POISSON); }
 powerLaw { return (ParserBase::POWERLAW); }
+exponential { return (ParserBase::EXPONENTIAL); }
+
 
 constant			{return(ParserBase::CONSTANT); }
 randomizeStates	{return(ParserBase::RANDOMIZESTATES); }

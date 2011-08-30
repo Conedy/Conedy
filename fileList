@@ -1,7 +1,6 @@
 ./gslNoise.cpp
 ./registerStandards.h
 ./conedy.cpp
-./Parser.ih
 ./network.h
 ./networkConstants.h
 ./Doxyfile
@@ -23,7 +22,6 @@
 ./createNetwork.h
 ./network.cpp
 ./README
-./docstrings.h
 ./stdOdeIntegrator.h
 ./neuroPython.h
 ./dynNode.cpp
@@ -33,7 +31,6 @@
 ./recompileConedy
 ./recompilePython-Conedy
 ./cnnNode.h
-./addedNodes.sum
 ./Parser.yy
 ./command.cpp
 ./params.h
@@ -82,10 +79,8 @@
 ./command.h
 ./ioNode.cpp
 ./node.cpp
-./Parserbase.h
 ./edge.cpp
 ./statisticsNetwork.h
 ./configure.sh
 ./pulseCoupledPhaseOscillator.cpp
-./addedNodes.sum.old
 ./params.cpp
