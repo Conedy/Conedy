@@ -31,6 +31,7 @@
 %left <doubleExpression> UMINUS
 %left <doubleExpression> LOG
 %left <doubleExpression> EXP
+%left <doubleExpression> SIN
 %left <booleanExpression> NOT
 %left '(' ')'
 %left <booleanExpression> EQUAL
@@ -53,7 +54,7 @@
 // Edges
 %token PULSECOUPLEEDGE STATICWEIGHTEDEDGE RANDOMTARGETEDGE SIGEDGE STDEDGEORD3 SIGEDGEORD3 SIGEDGEPARAMS PULSECOUPLEDELAYEDGE WEIGHTEDEDGE EDGE
 // Random
-%token GAUSSIAN BIMODAL EXPONENTIAL POWERLAW UNIFORM CONSTANT POISSON  INDEGREEDISTRIBUTION OUTDEGREEDISTRIBUTION
+%token GAUSSIAN BIMODAL EXPONENTIAL POWERLAW UNIFORM FROMFILE ADDINPUTFILE  CONSTANT POISSON  INDEGREEDISTRIBUTION OUTDEGREEDISTRIBUTION
 
 %token <netCmd> NETWORKVAR
 %type <cmd> loop print instruction declare assign networkCommand bluePrintCommand commands commandBlock while createNetworkCommand for if vectorFor system spatialNetworkCommand 
@@ -110,8 +111,8 @@ commandBlock	: '{' commands '}' { $$ = $2;};
 assign		: baseType '=' baseType { $$ = new assignInstruction<baseType> ((varCommand<baseType>*)$1, $3); }
 		| nodeDescriptor '=' nodeDescriptor { $$ = new assignInstruction<nodeDescriptor> ((varCommand<nodeDescriptor>*)$1,$3); }
 		| string '=' string { $$ = new assignInstruction<string> ((varCommand<string>*)$1,$3); }
-		| SETRANDOMSEED '(' nodeDescriptor ')'  { $$ = new bindInstruction( bind(&gslNoise::setSeed,_E(nodeDescriptor,$3))); };
-	
+		| SETRANDOMSEED '(' nodeDescriptor ')'  { $$ = new bindInstruction( bind(&gslNoise::setSeed,_E(nodeDescriptor,$3))); }
+		|   ADDINPUTFILE '(' string ')' { $$ = new bindInstruction(bind(&command::addInputFile, _E(string,$3))); }; 
 
 
 declare		: 
@@ -560,8 +561,14 @@ random		: GAUSSIAN '(' baseType ',' baseType ')'
 		| POISSON '(' baseType ',' baseType ')'
  { $$ = new bindExpression<baseType>(bind(gslNoise::getPoisson, bind(&expression<baseType>::evaluate, $3), _E(baseType,$5))); }
 		| CONSTANT '(' baseType ')'
- { $$ = new bindExpression<baseType>(bind(&gslNoise::getGaussian, _E(baseType, $3), 0)); };
-	
+ { $$ = new bindExpression<baseType>(bind(&gslNoise::getGaussian, _E(baseType, $3), 0)); }
+		| FROMFILE '(' string ')'	
+	 {
+		cyclicStream *cs = new cyclicStream ( $3->evaluate());
+	$$ = new bindExpression <baseType>(bind (&cyclicStream::readDouble, cs));
+};
+
+
 
 
 
@@ -613,6 +620,7 @@ baseType		: DOUBLE { $$ = new constantCommand<baseType>(atof(d_scanner.YYText())
 		| nodeDescriptor '/' baseType  {$$ = new divideCommandbaseType<nodeDescriptor,baseType>($1,$3);}
 		| LOG '(' baseType ')' 	{ $$ = new logCommandbaseType<baseType> ($3);}
 		| EXP '(' baseType ')' 	{ $$ = new expCommandbaseType<baseType> ($3);}
+		| SIN '(' baseType ')' 	{ $$ = new sinCommandbaseType<baseType> ($3);}
 		| '(' DOUBLE ')' nodeDescriptor { $$ = new convertToBaseType($4); }
 		| '-' baseType { $$ = new timesCommandbaseType<baseType,baseType>(new constantCommand<baseType>(-1),$2); } %prec UMINUS
 		| statisticsNetworkCommandBaseType
