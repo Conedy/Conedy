@@ -34,7 +34,7 @@ void registerStandards()
 	gslOdeNode::registerStandardValues();
 //	hindmarshRose::registerStandardValues();
 //	hodgkinHuxley::registerStandardValues();
-	integrateAndFire::registerStandardValues();
+//	integrateAndFire::registerStandardValues();
 	izhikevichMap::registerStandardValues();
 //	logisticMap::registerStandardValues();
 //	membranePotentialOfIFQ::registerStandardValues();

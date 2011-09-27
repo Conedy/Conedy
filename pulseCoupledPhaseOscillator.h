@@ -30,7 +30,7 @@ namespace conedy
 
 
 
-	// Membranpotential ausrechnen aus dynNode::tmp[0]:
+	// Membranpotential ausrechnen aus dynNode::x[0]:
 
 
 
@@ -72,13 +72,13 @@ namespace conedy
 				double newPhase = phase + phaseResponse (c, phase);
 		
 
-				if ( newPhase >= phase)
+				if ( newPhase > phase)
 				{
 //					if ( newPhase > 1  )
 //						newPhase = 1;
 					eventHandler::decreaseKey ( _fire_,1.0  + this->time - newPhase );
 				}
-				else
+				else if (newPhase < phase )
 				{
 //				if ( phase < 0)
 //						newPhase = 0;

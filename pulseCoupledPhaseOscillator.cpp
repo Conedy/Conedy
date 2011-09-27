@@ -113,7 +113,7 @@ namespace conedy
 
 	void escapeNoiseNeuron::excite ( baseType c )
 	{
-		//				baseType phase = 1.0 + pcoBase::exactTime - this->tmp[0];
+		//				baseType phase = 1.0 + pcoBase::exactTime - this->x[0];
 		if ( ( pcoBase::nextFiring() - this->time >= timeDelay() ) && ( this->time - lastFiring >t_ref() -timeDelay() ) ) // nicht mehr refraktär und noch nicht feuernd
 		{
 			pot = pot + c;
@@ -170,7 +170,7 @@ namespace conedy
 			baseType phase = 1.0 + this->time - eventHandler::getKey(_fire_);
 			if (phase > t_ref())
 			{
-				baseType newKey = this->tmp[0]    -  c;
+				baseType newKey = this->x[0]    -  c;
 
 
 				phase = phase   +  c * (t_ref() - 1) * (1 - alpha() ) / exp( logAlpha() *  (phase - t_ref() + timeDelay()) / (1 - t_ref())) / logAlpha();

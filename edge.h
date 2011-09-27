@@ -288,7 +288,7 @@ namespace conedy
 
 	};
 
-//! edge-Klasse, die auf die die Einträge von tmp zeigt.
+//! edge-Klasse, die auf die die Einträge von x zeigt.
 
 	
 	template <class EDGE>
@@ -309,7 +309,7 @@ public:
 
     virtual baseType getTargetState()
     {
-        return (  (dynNode*)  ( EDGE::getTarget() ) ) ->tmp[which]   ;
+        return (  (dynNode*)  ( EDGE::getTarget() ) ) ->x[which]   ;
 
     }
     virtual edge *construct() {

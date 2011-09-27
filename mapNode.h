@@ -48,12 +48,12 @@ namespace conedy
 			virtual ~mapNode() {}
 
 
-//		virtual void randomizeState(randomNumber<baseType> &r) { for (int i = 0; i < Ngls; i++) tmp[i] = r(); }
+//		virtual void randomizeState(randomNumber<baseType> &r) { for (int i = 0; i < Ngls; i++) x[i] = r(); }
 
 
 			virtual void operator() ( baseType xprime [], baseType x[] ) {};
 			virtual int requiredTimeSteps() { return 1; }
-			//		virtual void swap() { this->state = this->tmp[0];}
+			//		virtual void swap() { this->state = this->x[0];}
 
 			virtual void clean ()
 			{
@@ -82,13 +82,13 @@ namespace conedy
 
 			virtual void action1()
 			{
-				( *this ) ( mapNodeTmp,this->tmp );
+				( *this ) ( mapNodeTmp,this->x );
 			}
 
 			virtual void swap()
 			{
 				for ( unsigned int i = 0; i < this->dimension(); i++ )
-					this->tmp[i] = mapNodeTmp [i];
+					this->x[i] = mapNodeTmp [i];
 			}
 
 	};
@@ -146,8 +146,8 @@ namespace conedy
 
 			izhikevichMap ( const izhikevichMap  &b ) : mapNode ( b ), eventHandler ( b )
 			{
-				dynNode::tmp[0] =  -70.0;
-				dynNode::tmp[1] =  -14.0;
+				dynNode::x[0] =  -70.0;
+				dynNode::x[1] =  -14.0;
 
 			}
 
@@ -162,7 +162,7 @@ namespace conedy
 
 			virtual baseType getState()
 			{
-				if ( this->tmp[0] > 30.0 )
+				if ( this->x[0] > 30.0 )
 					return 1.0;
 				else
 					return 0.0;

@@ -44,9 +44,9 @@ class sdeNode : public containerNode<baseType, 4> {
 			sdeNode ( networkElementType n) : containerNode<baseType, 4> ( n )
 			{
 				/*		if (nDgls >0)
-				n			tmp = (baseType*)calloc(nDgls,sizeof(baseType));
+				n			x = (baseType*)calloc(nDgls,sizeof(baseType));
 						else
-							tmp = NULL;*/
+							x = NULL;*/
 			}
 
 		sdeNode ( const sdeNode &b ) : containerNode<baseType, 4>(b)
@@ -57,7 +57,7 @@ class sdeNode : public containerNode<baseType, 4> {
 //		sdeNode (networkElementType n, unsigned short strat = 20) : dynNode(n)
 //			{ 
 //aa				setSeed(in);
-	//			for (unsigned int i = 0; i < Ngls; i++) this->tmp[i]=noise.getGaussian(); 
+	//			for (unsigned int i = 0; i < Ngls; i++) this->x[i]=noise.getGaussian(); 
 	//			getRho();
 	//		}
 
@@ -84,8 +84,8 @@ class sdeNode : public containerNode<baseType, 4> {
 ///	void action1() {
 ///		double phi = noise.getGaussian();
 ///		dW = sqdt*zeta;
-///		(*this)(tmp, dydt, dydW);																				                                    
-///		tmp = tmp + dydt*dt + dydW*sqdt*(phi - zeta);																                        
+///		(*this)(x, dydt, dydW);																				                                    
+///		x = x + dydt*dt + dydW*sqdt*(phi - zeta);																                        
 ///		zeta = phi;
 ///	};
 //
@@ -134,7 +134,7 @@ class wendling : public sdeNode {
 		virtual ~wendling() { }
 		virtual node<double> *construct() { return new wendling(*this); };
 //		virtual void printStatistics()   { cout << "wendling" << endl; node<double>::printStatistics();}
-		virtual void swap() { state=tmp; node<double>::state=state[0]; };
+		virtual void swap() { state=x; node<double>::state=state[0]; };
 
 
 		virtual double& getState(const unsigned short which) { return state[which]; };
@@ -170,7 +170,7 @@ class coloredWendling : public sdeNode, public params {
 		virtual ~coloredWendling() { }
 		virtual node<double> *construct() { return new coloredWendling(*this); };
 		virtual void printStatistics()   { cout << "coloredWendling" << endl; cout << getParams(0) << " " << getParams(1) << " " <<getParams(2) << " " <<getParams(3) << " " <<getParams(4) << " " <<getParams(5) << " " <<getParams(6) << " " <<getParams(7) << " " <<getParams(8) << " " <<getParams(9) << " " <<getParams(10) << " " <<getParams(11) << " " <<getParams(12) << " " <<getParams(13) << " " <<getParams(14) << " " <<getParams(15) << endl; sdeNode::printStatistics();node<double>::printStatistics();}
-		virtual void swap() { state[0]=tmp[0]; state[6] = tmp[6]; node<double>::state=state[0]; };
+		virtual void swap() { state[0]=x[0]; state[6] = x[6]; node<double>::state=state[0]; };
 		virtual void registerStandardValues() 
 		{ 
 			registerStandard(_coloredWendling_,"coloredWendling.0",0,30); 
@@ -214,7 +214,7 @@ class breakspear : public sdeNode {
 		virtual node<double> *construct() { return new breakspear(*this); };
 		virtual void printStatistics()   { cout << "breakspear" << endl; node<double>::printStatistics();}
 
-		virtual void swap() { Qstate=Qtmp; state=tmp[0]; };
+		virtual void swap() { Qstate=Qtmp; state=x[0]; };
 		virtual double& getState(const unsigned short which) { return Qstate; };
 		double couplingSum() {
 			double re;	
@@ -237,7 +237,7 @@ class coloredBreakspear : public sdeNode {
 		virtual node<double> *construct() { return new coloredBreakspear(*this); };
 		virtual void printStatistics()   { cout << "coloredBreakspear" << endl; node<double>::printStatistics();}
 
-		virtual void swap() { Qstate=Qtmp; state=tmp[0]; };
+		virtual void swap() { Qstate=Qtmp; state=x[0]; };
 		virtual double& getState(const unsigned short which) { return Qstate; };
 		double couplingSum() {
 			double re;	

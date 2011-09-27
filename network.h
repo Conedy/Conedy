@@ -91,7 +91,9 @@ namespace conedy
 			//! Contains all nodes which read/write data from/to files
 			vector < dynNode *> inOutNodeList;
 
-
+	
+			//! Contains all nodes which receive a callback after each intergration step 
+			vector < dynNode *> upkeepList;
 
 		public:
 			//! parameter which determines how much date is written by printNodeStatistics about nodes 

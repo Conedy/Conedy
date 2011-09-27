@@ -82,9 +82,9 @@ namespace conedy
 			}
 
 //	static void registerStandardValues() { params<baseType>::registerStandard(_pulseCoupledExcitatoryNeurontype_,"pulseCoupledExcitatoryNeuron_arraySize", 0, 1000); }
-//	unsigned int dimension () { return tmp.size(); }
+//	unsigned int dimension () { return x.size(); }
 
-//	virtual void randomizeState(boost::function<baseType ()> &r) { for (unsigned int i = 0; i < tmp.size(); i++){ pulseCoupledExcitatoryNeuron<baseType>::tmp[i] = r();}}
+//	virtual void randomizeState(boost::function<baseType ()> &r) { for (unsigned int i = 0; i < x.size(); i++){ pulseCoupledExcitatoryNeuron<baseType>::x[i] = r();}}
 
 			virtual void action1()
 			{
@@ -104,12 +104,12 @@ namespace conedy
 			};
 			virtual void swap()
 			{
-//				dynNode::this->state = dynNode::tmp[0];
+//				dynNode::this->state = dynNode::x[0];
 
 			};
 //	virtual void clean() {};
 
-//	virtual baseType getHiddenComponent(int component) { return tmp[component]; }
+//	virtual baseType getHiddenComponent(int component) { return x[component]; }
 
 
 //	virtual baseType getState();

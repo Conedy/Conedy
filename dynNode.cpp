@@ -12,7 +12,7 @@ namespace conedy
 
     void dynNode::excite(baseType couplingStrength)
     {
-        tmp[0]+= couplingStrength;
+        x[0]+= couplingStrength;
     }
 
 
@@ -26,7 +26,7 @@ namespace conedy
 			  {	  
 	        	cout << "state: " ;
 	        	for (unsigned int i = 0; i <dimension(); i++)
-           	     cout << tmp[i]<<  " " ;
+           	     cout << x[i]<<  " " ;
 			  }
 
 		  }
@@ -37,12 +37,12 @@ namespace conedy
     {
         if ( b.dimension() > 0 )
         {
-            tmp = ( baseType* ) calloc ( b.dimension(),sizeof ( baseType ) );
+            x = ( baseType* ) calloc ( b.dimension(),sizeof ( baseType ) );
             for (unsigned int i = 0; i < b.dimension(); i++)
-                tmp[i] = 0;
+                x[i] = 0;
         }
         else
-            tmp = NULL;
+            x = NULL;
     }
 
     void dynNode::randomizeState ( vector<boost::function<double () > > &r )
@@ -59,7 +59,7 @@ namespace conedy
 	void dynNode::setInitialCondition (vector <double> &r)
 	{
 		for (unsigned int i = 0 ; i < dimension(); i++)
-				tmp[i] = r[i];
+				x[i] = r[i];
 
    }
 

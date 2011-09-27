@@ -55,7 +55,7 @@ void coloredWendling::operator()(valarray<double>& y, valarray<double>& dxdt, va
 	dxdW[8] = 1.0;
 
 //	cout << getParams(0) << ":" << getParams(3) << ":" << getParams (15) << endl;
-//	cout << "TMP:" << tmp[0] << " "<< tmp[1] << " "<< tmp[2] << " "<< tmp[3]<< " " << tmp[4] << endl;
+//	cout << "TMP:" << x[0] << " "<< x[1] << " "<< x[2] << " "<< x[3]<< " " << x[4] << endl;
 
 
 }

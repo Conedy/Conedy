@@ -33,16 +33,23 @@ namespace conedy {
 			}
 
 
-//		virtual void swap(short i) { state=tmp[i]; }
+//		virtual void swap(short i) { state=x[i]; }
 		virtual void clean() {
+
+	if (amIFirst())
+	{
+
 			if (stepType->getParams(0)  == "strongTaylor")
 			{
 				integ = new strongTaylor (containerDimension() );
 				stepType_int = 0;
 			}
 			else
+	
 				throw "unknown steptype for stdSdeIntegrator!";
-		};
+	}
+	};
+
 
 
 // RUNGE KUTTA No. 4

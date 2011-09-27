@@ -12,14 +12,14 @@ void randomWalkNeuron::action1()
 //	cout << "Neuron number:" << this->getNumber() << "\n";
 //	cout << "pot vorher:" << pot << "\n";
 
-	if ( tmp[0] >= 10.0 )
-		tmp[0] = -t_ref();
-	else if ( tmp[0] < 0 )
-		tmp[0]++;
+	if ( x[0] >= 10.0 )
+		x[0] = -t_ref();
+	else if ( x[0] < 0 )
+		x[0]++;
 	else if ( noise.getUniform() < p_endo() )
-		tmp[0] =  10.0;
+		x[0] =  10.0;
 	else
-		tmp[0] = tmp[0] + this->couplingSum() + inc();
+		x[0] = x[0] + this->couplingSum() + inc();
 
 //	cout << "pot nachher:" << pot << "\n";
 
@@ -31,11 +31,11 @@ void randomWalkNeuron::action1()
 
 
 
-void integrateAndFire::operator() ( const baseType x[], baseType dxdt[] )
+/*void integrateAndFire::operator() ( const baseType x[], baseType dxdt[] )
 {
 	dxdt[0] = params<baseType>::getParams ( 0 ) - params<baseType>::getParams ( 1 ) *x[0] + this->couplingSum();
 
-}
+}*/
 /*void integrateAndFire::swap()
 {
 //	cout << getNumber() << ":" << dynNode::state << endl;
@@ -47,11 +47,11 @@ void integrateAndFire::operator() ( const baseType x[], baseType dxdt[] )
 	if (time - lastFiring < t_ref())
 		return;
 
-	else if ( tmp[0] > threshold())
+	else if ( x[0] > threshold())
 	{
 			registerOneTimeCallBack(_fire_, dynNode::time + timeDelay() );				
 			lastFiring = time;
-			tmp[0] = 0;
+			x[0] = 0;
 	}
 
 	else if 
@@ -61,14 +61,14 @@ void integrateAndFire::operator() ( const baseType x[], baseType dxdt[] )
 	{
 		if ( fire > params<baseType>::getParams ( 5 ) )
 		{
-//			this->tmp[0] = this->state = 0;
+//			this->x[0] = this->state = 0;
 			fire = 0;
 			pause = 1;
 		}
 		else
 		{
 			fire++;
-			this->tmp[ 0 ] = params<baseType>::getParams ( 3 );
+			this->x[ 0 ] = params<baseType>::getParams ( 3 );
 		}
 	}
 	else if ( pause > 0 )
@@ -79,22 +79,22 @@ void integrateAndFire::operator() ( const baseType x[], baseType dxdt[] )
 		else
 		{
 			pause++;
-			tmp[0]= 0;
+			x[0]= 0;
 		}
 
 	}
 
 
 
-	else if ( this->tmp [0] > params<baseType>::getParams ( 2 ) || noise.getUniform() < params<baseType>::getParams ( 6 ) )
+	else if ( this->x [0] > params<baseType>::getParams ( 2 ) || noise.getUniform() < params<baseType>::getParams ( 6 ) )
 	{
 	//	this->state = params<baseType>::getParams ( 3 );
-		this->tmp[0] = params<baseType>::getParams ( 3 );
+		this->x[0] = params<baseType>::getParams ( 3 );
 		fire = 1;
 	}
 
 	else;
-//		this->state = this->tmp[0];
+//		this->state = this->x[0];
 
 */
 

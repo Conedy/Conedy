@@ -27,19 +27,19 @@ class integrator
 class euler : public integrator
 
 {
-	baseType * tmp;
+	baseType * x;
 	baseType * dydt;
 
 	public:
 	euler (unsigned int size) : integrator( size) {
-		tmp = (baseType *) calloc (size, sizeof(baseType));	
+		x = (baseType *) calloc (size, sizeof(baseType));	
 		dydt = (baseType *) calloc (size, sizeof(baseType));	
 
 	}
 
 	~euler()
 	{
-		free (tmp);
+		free (x);
 		free (dydt);
 	}
 

@@ -53,11 +53,13 @@ class dynNode : public node, public params<baseType>
 
     virtual void evolve(double time) { throw "evolve of dynNode called";}
     virtual bool timeEvolution () { return 0; };
+	 virtual bool requiresUpkeep() { return 0;};
     virtual const unsigned int dimension () const { return 0; }
  
-    virtual baseType getHiddenComponent ( int component ) {return tmp[component];}
-    virtual baseType getState() {return tmp[0];  }
+    virtual baseType getHiddenComponent ( int component ) {return x[component];}
+    virtual baseType getState() {return x[0];  }
 
+		virtual void upkeep() { throw "upkeep of dynNode called";}
 
 	virtual node * construct () { throw "construct of dynNode called !"; }
 
@@ -68,7 +70,7 @@ class dynNode : public node, public params<baseType>
 	virtual	void fire () { throw "fire"; }
   
     //! Zeiger auf Speicherplatz für die
-    baseType *  tmp;
+    baseType *  x;
  
     virtual void excite(baseType couplingStrength);
 
@@ -86,7 +88,7 @@ class dynNode : public node, public params<baseType>
   
   
   
-  //! Edge-Klasse, die n.te Komponente des dynamischen Knotens abfragt (dynNodeTemplate::tmp[n])
+  //! Edge-Klasse, die n.te Komponente des dynamischen Knotens abfragt (dynNodeTemplate::x[n])
 
   
   

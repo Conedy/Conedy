@@ -157,13 +157,13 @@ namespace conedy
 			//! Kopieren der Temp-Zustände in den Zustand nach erfolgter Integration
 			//			virtual void swap()
 			//			{
-			//				this->state = this->tmp[0];
+			//				this->state = this->x[0];
 			//
 			//			};
 
 			//	virtual void clean() {};
 
-			//	virtual baseType getHiddenComponent(int component) { return tmp[component]; }
+			//	virtual baseType getHiddenComponent(int component) { return x[component]; }
 
 
 			//	virtual baseType getState();

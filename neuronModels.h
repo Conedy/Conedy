@@ -18,7 +18,7 @@ namespace conedy
 {
 
 //! integrate-and-fire-neuronen numerisch integriert. Braucht man eigentlich nicht, weil pcos viel schlauer sind.
-class integrateAndFire : public odeNode
+/*class integrateAndFire : public odeNode
 {
 	private:
 
@@ -52,7 +52,7 @@ class integrateAndFire : public odeNode
 //cout << "row ist:"; test();
 //}
 
-
+*/
 class gaussianFHN	: public sdeNode
 {
 	private: /*aus Izhikevich S. 106, jetzt mit Rauschen*/
@@ -79,7 +79,7 @@ class gaussianFHN	: public sdeNode
 
 		}
 
-		virtual void clean () {sdeNode::clean ( ); this->tmp[0]=0; this->tmp[1]=0;};
+		virtual void clean () {sdeNode::clean ( ); this->x[0]=0; this->x[1]=0;};
 
 };
 
@@ -104,7 +104,7 @@ class gaussianFHN	: public sdeNode
 			params<baseType>::registerStandard ( _hindmarshRose_,"hindmarshRose_I",1,0.0 );
 		}
 
-		virtual void clean () {odeNode::clean ( ); this->tmp[0]=0; this->tmp[1]=0; this->tmp[2]=0;};
+		virtual void clean () {odeNode::clean ( ); this->x[0]=0; this->x[1]=0; this->x[2]=0;};
 
 
 };
@@ -130,7 +130,7 @@ class gaussianHR	: public sdeNode
 			params<baseType>::registerStandard ( _gaussianHR_, "gaussianHR_sigmaNoise",2, 0.0 );
 		}
 
-		virtual void clean () {sdeNode::clean ( ); this->tmp[0]=0; this->tmp[1]=0; this->tmp[2]=0;};
+		virtual void clean () {sdeNode::clean ( ); this->x[0]=0; this->x[1]=0; this->x[2]=0;};
 
 
 };*/
@@ -181,7 +181,7 @@ class napK		: public odeNode
 		virtual void clean ()
 		{
 
-			odeNode::clean ( ); this->tmp[0]=-70.0; this->tmp[1]=ninf ( -70.0 );
+			odeNode::clean ( ); this->x[0]=-70.0; this->x[1]=ninf ( -70.0 );
 		};
 
 };
@@ -235,7 +235,7 @@ class gaussianNapK		: public sdeNode
 		virtual void clean ()
 		{
 
-			sdeNode::clean ( ); this->tmp[0]=-70.0; this->tmp[1]=ninf ( -70.0 );
+			sdeNode::clean ( ); this->x[0]=-70.0; this->x[1]=ninf ( -70.0 );
 		};
 
 };
@@ -294,7 +294,7 @@ class napKKm		: public odeNode
 		virtual void clean ()
 		{
 
-			odeNode::clean ( ); this->tmp[0]=-70.0; this->tmp[1]=ninf ( -70.0 );
+			odeNode::clean ( ); this->x[0]=-70.0; this->x[1]=ninf ( -70.0 );
 		};
 
 };
@@ -357,7 +357,7 @@ class gaussianNapKKm		: public sdeNode
 		virtual void clean ()
 		{
 
-			sdeNode::clean ( ); this->tmp[0]=-70.0; this->tmp[1]=ninf ( -70.0 );
+			sdeNode::clean ( ); this->x[0]=-70.0; this->x[1]=ninf ( -70.0 );
 		};
 
 };
@@ -405,9 +405,9 @@ class hodgkinHuxley    : public odeNode
 		virtual void clean ()
 		{
 
-//		odeNode::clean(); dynNode::tmp[0]=0; dynNode::tmp[1]=alpham(0)/(alpham(0)+betam(0));
-//		dynNode::tmp[2]=alphah(0)/(alphah(0)+betah(0));
-//		dynNode::tmp[3]=alphan(0)/(alphan(0)+betan(0));
+//		odeNode::clean(); dynNode::x[0]=0; dynNode::x[1]=alpham(0)/(alpham(0)+betam(0));
+//		dynNode::x[2]=alphah(0)/(alphah(0)+betah(0));
+//		dynNode::x[3]=alphan(0)/(alphan(0)+betan(0));
 		};
 
 
@@ -460,9 +460,9 @@ class gaussianHH : public sdeNode
 		virtual void clean ()
 		{
 
-			sdeNode::clean ( ); this->tmp[0]=0; this->tmp[1]=alpham ( 0 ) / ( alpham ( 0 ) +betam ( 0 ) );
-			this->tmp[2]=alphah ( 0 ) / ( alphah ( 0 ) +betah ( 0 ) );
-			this->tmp[3]=alphan ( 0 ) / ( alphan ( 0 ) +betan ( 0 ) );
+			sdeNode::clean ( ); this->x[0]=0; this->x[1]=alpham ( 0 ) / ( alpham ( 0 ) +betam ( 0 ) );
+			this->x[2]=alphah ( 0 ) / ( alphah ( 0 ) +betah ( 0 ) );
+			this->x[3]=alphan ( 0 ) / ( alphan ( 0 ) +betan ( 0 ) );
 		};
 		//Klammer zu viel
 
@@ -497,11 +497,11 @@ class periodicNode : public dynNode
 			if ( step > period() )
 			{
 				step = 1;
-				tmp[0] = 1.0;
+				x[0] = 1.0;
 			}
 			else if ( step == 1 )
 			{
-				tmp[0] = 0;
+				x[0] = 0;
 				step++;
 			}
 			else
@@ -574,7 +574,7 @@ class randomWalkNeuron : public dynNode
 		virtual void randomizeState ( boost::function<baseType () > &r )
 		{
 			baseType zufallsWert = r();
-			tmp[0] = zufallsWert;
+			x[0] = zufallsWert;
 		};
 
 

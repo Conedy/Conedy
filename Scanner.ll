@@ -104,7 +104,6 @@ countEdges		{return(ParserBase::COUNTEDGES); }
 couplingSumNode			{return(ParserBase::COUPLINGSUMNODE); }
 gaussianNapK		{return(ParserBase::GAUSSIANNAPK);}
 gaussianNapKKm	{return(ParserBase::GAUSSIANNAPKKM);}
-integrateAndFire	{return(ParserBase::INTEGRATEANDFIRE); }
 izhikevichMap		{return(ParserBase::IZHIKEVICHMAP);}
 napK			{return(ParserBase::NAPK);}
 napKKm		{return(ParserBase::NAPKKM);}

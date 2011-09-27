@@ -31,7 +31,7 @@ namespace conedy
  *	Bias b:               ---|__________________/		mittels \n Übertragungsfunktion y_ij=f(x_ij(t)) \n
  * \n
  *	Die Übertratungsfunktion kann über zwei Wege realisiert werden: \n
- *		1. Verwendung einer Ü-Fkt in "swap() = f(tmp[0])" (veraltet)\n
+ *		1. Verwendung einer Ü-Fkt in "swap() = f(x[0])" (veraltet)\n
  *		2. Verwendung von weightedEdges -> Überladen von "virtual baseType getTargetState()" aus edge.h \n
  *	\n
  *	

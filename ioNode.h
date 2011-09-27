@@ -42,7 +42,7 @@ namespace conedy
 	{
 
 		protected:
-			baseType tmp;
+			baseType x;
 
 			//! Vector mit allen Ausgabeobjekten.
 			static std::vector<ostream*> out;
@@ -76,8 +76,8 @@ namespace conedy
 			virtual ~streamOutNodeBinary();
 			virtual void evolve(double time) {
 			 
-				tmp = this->couplingSum();
-			out [localStreamNumber]->write ( (char *) &tmp, sizeof (baseType));
+				x = this->couplingSum();
+			out [localStreamNumber]->write ( (char *) &x, sizeof (baseType));
 			};
 	//		virtual node *construct();
 
@@ -98,7 +98,7 @@ namespace conedy
 	{
 
 		protected:
-			baseType tmp;
+			baseType x;
 
 			//! Vector mit allen Ausgabeobjekten.
 			static std::vector<io::filtering_ostream*> out;
@@ -146,7 +146,7 @@ namespace conedy
 
 
 			virtual ~streamOutNode();
-			virtual void evolve(double time) {  tmp = this->couplingSum(); ( * ( out[localStreamNumber] ) ) << setprecision((int)precision()) << tmp; ( * ( out[localStreamNumber] ) ) << ' '; };
+			virtual void evolve(double time) {  x = this->couplingSum(); ( * ( out[localStreamNumber] ) ) << setprecision((int)precision()) << x; ( * ( out[localStreamNumber] ) ) << ' '; };
 			virtual node *construct()
 			{ cout << "I am here" << endl;
 				if (binary())
@@ -314,9 +314,9 @@ namespace conedy
 
 			virtual ~streamInNode();
 			//			streamInNode ( outStream &o, int i ) : node ( i, _streamInNode_ )  {};
-			virtual void evolve(double time) {   ( * ( in[localStreamNumber] ) ) >> dynNode::tmp[0]; }; //cout << tmp << endl; };
+			virtual void evolve(double time) {   ( * ( in[localStreamNumber] ) ) >> dynNode::x[0]; }; //cout << x << endl; };
 
-//			virtual void swap () { this->state = tmp; };
+//			virtual void swap () { this->state = x; };
 
 //			virtual void printStatistics()   { cout << "StreamInNode" << endl; this->printStatistics(); }
 

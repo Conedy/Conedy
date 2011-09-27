@@ -31,7 +31,7 @@ namespace conedy {
 
 		protected:
 
-			//! Zwischenspeicher, der in der swap-Funktion nach dynNode::tmp geschrieben wird.
+			//! Zwischenspeicher, der in der swap-Funktion nach dynNode::x geschrieben wird.
 
 
 		public:

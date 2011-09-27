@@ -30,6 +30,8 @@ import os
 import sys
 import ConfigParser
 
+import re
+
 def cleanString(stringIn):
 	"Erstellt einen CamelCaseString und entfernt alle Leerzeichen."
 	return stringIn.title().replace(" ", "").replace("-","_").strip("_").rstrip("_")
@@ -46,6 +48,7 @@ class NodeEditor:
 	events = []
 	functions = [ "getWeightedSum()", "getCouplingSum()", "getWeighedInSum()" ]
 	dgl = []
+	upkeep = []
 	doku = []
 	dim = 0
 	numParam = 0
@@ -55,7 +58,14 @@ class NodeEditor:
 	staticEdges = 0
 	staticEdgeType = ""
 	staticTargetNodeType = ""
-	def __init__ (self, inName="", inDim=-1, integrator = "",   events = [],inNumParam=-1, params = [], dgl = [], doku = [], staticEdges = 0, staticEdgeType = "", staticTargetNodeType= "", inFileNameOut=""):
+	fileNameOut = ""
+
+
+#	def __init__ (self):
+		
+
+	def readConsole(self,inName="", inDim=-1, integrator = "",   events = [],inNumParam=-1, params = [], dgl = [], doku = [], staticEdges = 0, staticEdgeType = "", staticTargetNodeType= "", inFileNameOut=""):
+
 		"Klasse zum Erstellen neues Nodes in Neurosim"
 
 		self.events = events
@@ -71,7 +81,7 @@ class NodeEditor:
 	
 
 		self.className = temp
-		self.nodeInfo  = "_" + self.className[0].lower() + self.className[1:] + "_"
+		self.nodeInfo  = "_" + self.className + "_" 
 
 
 		# Integrator enlesen
@@ -167,27 +177,25 @@ class NodeEditor:
 
 		self.params.append( (paramName, paramDefault) )
 
-	def writeClassFiles(self, fileNameOut=""):
-		"Schreibt die Klassendeklaration / Definition nach fileOut"
+
+
+
+	def writeHeaderFile(self):
+		"writes the header file"
 		
 		
-		try:
+		try:         
 			fin = open(".countAddedNodes" , 'r')
 			theString = fin.readline()
-			numberAddedNodes = int(theString)
+			self.numberAddedNodes = int(theString)
 			fin.close()
 		except:
-			numberAddedNodes = 0
+			self.numberAddedNodes = 0
 		
+		self.numberAddedNodes = self.numberAddedNodes + 1
 
-		numberAddedNodes = numberAddedNodes + 1
+		fileNameOut = self.nodeInfo[1:-1]
 
-		if (fileNameOut == ""):
-			fileNameOut = self.nodeInfo[1:-1]
-
-		#
-		# .h schreiben
-		#
 		fout = open("generated" + self.className + ".h", 'w')
 
 		# Header schreiben
@@ -203,10 +211,10 @@ class NodeEditor:
 		# Beschreibung
 		fout.write("namespace conedy\n{\n")
 
-		if (numberAddedNodes < 10):
-			fout.write("const networkElementType " + self.nodeInfo + "= 10" + str(numberAddedNodes) + ";\n")
+		if (self.numberAddedNodes < 10):
+			fout.write("const networkElementType " + self.nodeInfo + "= 10" + str(self.numberAddedNodes) + ";\n")
 		else:
-			fout.write("const networkElementType " + self.nodeInfo + "= 1" + str(numberAddedNodes) + ";\n")
+			fout.write("const networkElementType " + self.nodeInfo + "= 1" + str(self.numberAddedNodes) + ";\n")
 		fout.write("/**\n * \\brief  %s\n" % self.shortDescription)
 
 		for d in self.doku:
@@ -236,7 +244,7 @@ class NodeEditor:
 		# Klasse erstellen
 		fout.write("class %s : public %s" %( self.className, self.integrator))
 
-		if (len (events) > 0):   # derive from eventHandler if events are specified
+		if (len (self.events) > 0):   # derive from eventHandler if events are specified
 			fout.write(", public eventHandler\n")
 
 		fout.write("\n\t{\n")
@@ -258,8 +266,23 @@ class NodeEditor:
 		fout.write("\t\t\n")
 
 		fout.write("\tpublic:\n")
-		
-		if (len (events) > 0):
+	
+		if (self.upkeep != ""):
+
+
+			dyn = self.upkeep       #replace all parameter by the inline functions 
+			for p in self.params:
+				dyn = re.sub ("\\b" + p[0] + "\\b", p[0] + "()", dyn)
+
+			self.upkeep = dyn
+
+
+
+
+			fout.write ("\t\tvirtual bool requiresUpkeep() { return true;}\n")
+			fout.write ("\t\tvirtual void upkeep (); \n")
+
+		if (len (self.events) > 0):
 			fout.write("\t\tvirtual unsigned int numberOfEvents() const { return %i;}\n" % len(self.events))
 
 			fout.write("\t\tvirtual baseType callBack ( unsigned int eventSignature ); \n")
@@ -321,10 +344,12 @@ class NodeEditor:
 		fout.close()
 		del fout
 		
+	def writeCppFile (self):
 
 		#
 		# .cpp schreiben
 		#
+		fileNameOut = self.nodeInfo[1:-1]
 		fout = open("generated" + self.className + ".cpp", 'w')
 
 		fout.write("#include \"generated%s.h\"" % self.className)
@@ -352,8 +377,18 @@ class NodeEditor:
 			fout.write("\t %s::%s ( const %s &b) : %s (b), eventHandler (b) {\n" %(self.className, self.className, self.className, self.integrator))
 			fout.write("\t\t for (unsigned int i =0; i < numberOfEvents(); i++) eventHandler::registerCallBack(i, time);} \n ")
 
+		if (self.upkeep != ""):
+			fout.write ("\t void %s::upkeep()" % self.className)
+			fout.write ("\t{\n")
+			fout.write(self.upkeep)
+			fout.write ("\t}\n")
 
 
+		dyn = self.dgl         #replace all parameter by the inline functions 
+		for p in self.params:
+			dyn = re.sub ("\\b" + p[0] + "\\b", p[0] + "()", dyn)
+
+		self.dgl = dyn
 
 		if self.integrator == "stdOdeIntegrator":
 			fout.write("\t//! DGL von %s\n" % self.className)
@@ -438,7 +473,7 @@ class NodeEditor:
 		del fout
 
 		fout = open(".countAddedNodes" , 'w')
-		fout.write(str(numberAddedNodes)+"\n")
+		fout.write(str(self.numberAddedNodes)+"\n")
 		fout.close()
 
 
@@ -488,9 +523,9 @@ class NodeEditor:
 		header = lines[:start+1]
 		
 		nodes = lines[start+1:stop]
-		if static == 0:
+		if self.static == 0:
 			nodes.append("class_< nodeVirtualEdges<%s> , bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ); // added by addNewNodes.py \n" %(self.className, fileNameOut, self.integrator,self.className))
-		elif static == 1:	
+		elif self.static == 1:	
 			self.staticEdgeType = self.staticEdgeType.replace ("_","<")
 			hierachy = self.staticEdgeType.count ("<")
 			self.staticEdgeType += ("<")
@@ -522,34 +557,6 @@ class NodeEditor:
 		del fout, header, nodes, footer
 
 
-
-
-
-
-
-
-
-
-
-
-
-#
-		# generatedNodes.h
-		#
-#		fout = open ("generatedNodes.h", 'a')
-#		fout.write	("%s.h\n" % fileNameOut)
-#		fout.close()
-#		del fout
-
-	 	
-		#
-		# generatedNetworkConstants.h
-		#
-#		fout = open ("generatedNetworkConstants.h", 'a')
-#		fout.write	("%s,\n" % self.nodeInfo)
-#		fout.close()
-#		del fout
-	 
 
 		#
 		# generatedRegisterStandards.h
@@ -625,9 +632,9 @@ class NodeEditor:
 		#
 
 		fout = open("generatedAddNewNode.yy", 'a')
-		if (static == 0):
+		if (self.static == 0):
 			fout.write("\t\t| %s { nodeBlueprint *n = new nodeVirtualEdges< %s >(); $$ = new constantCommand<nodeBlueprint*>(n); }\n" % (self.className.upper(), self.className))
-		if (static ==1):
+		if (self.static ==1):
 			fout.write("\t\t| %s { nodeBlueprint *n = new nodeTemplateEdges< %s  >    , %s , %s >(); $$ = new constantCommand<nodeBlueprint*>(n); }\n" % (self.className.upper(), self.staticEdgeType, self.staticTargetNodeType, self.className))
 		fout.close()
 		del fout
@@ -702,55 +709,67 @@ class NodeEditor:
 
 
 if (len(sys.argv) < 2):
-	n = NodeEditor()
-	n.writeClassFiles()
-	n.addNodeToNeurosim()
+	print "give filename with node-description as argument."
+	exit()
+
 
 else:
 
 	config = ConfigParser.RawConfigParser()
 	config.read(sys.argv[1])
 	
-	for classname in config.sections():
-		params = []
-		events = []
+	for className in config.sections():
 
-
-		try:
-			numberEvents = config.getint(classname, 'events')
-			for i in  range (1,numberEvents+1 ):
-				events.append( (i, config.get(classname, 'event' + str(i))))
-		except:
-			events = []
-
-
-		for i in  range (1,config.getint(classname, 'parameter')+ 1):
-			params.append( (config.get(classname, 'parametername' + str(i)) , config.getfloat(classname, 'standardvalue' + str(i))) )
-		
-
-		try:
-				static = config.getboolean(classname, 'staticEdges')
-				staticEdgeType = config.get(classname, 'staticEdgeType')
-				staticTargetNodeType = config.get(classname, 'staticTargetNodeType')
-				
-		except:
-				static = 0
-				staticEdgeType = ""
-				staticTargetNodeType = ""
 
 	
+		n= NodeEditor()
+		n.params = []
+		n.events = []
+		n.dgl = []
 
-		n= NodeEditor(classname , 
-				config.getint(classname, 'dimension'),
-				config.get(classname, 'integrator'),
-				events,
-				config.getint(classname, 'parameter'),
-				params,
-				config.get(classname, 'dynamics'),
-				config.get(classname, 'dokumentation'),
-				static, staticEdgeType, staticTargetNodeType
-				)
+		try:
+			numberEvents = config.getint(className, 'events')
+			for i in  range (1,numberEvents+1 ):
+				n.events.append( (i, config.get(className, 'event' + str(i))))
+		except:
+			n.events = []
+
+
+		for i in  range (1,config.getint(className, 'parameter')+ 1):
+			n.params.append( (config.get(className, 'parametername' + str(i)) , config.getfloat(className, 'standardvalue' + str(i))) )
+		
+		try:
+				n.static = config.getboolean(className, 'staticEdges')
+				n.staticEdgeType = config.get(className, 'staticEdgeType')
+				n.staticTargetNodeType = config.get(className, 'staticTargetNodeType')
+				
+		except:
+				n.static = 0
+				n.staticEdgeType = ""
+				n.staticTargetNodeType = ""
+
+		n.className = className		
+		n.nodeInfo  = "_" + n.className + "_" 
+		n.dim = config.getint(className, 'dimension')
+		n.parameter = config.getint(className, 'parameter')
+		n.integrator = config.get(className, 'integrator')
+
+
+
+		n.dgl = config.get(className, 'dynamics')
+		
+
+		n.dokumentation = config.get(className, 'dokumentation')
+		n.nodeInfo  = "_" + n.className + "_" 
+		
+		try:
+			n.upkeep = config.get(className, 'upkeep')
+		except:
+			n.upkeep = ""
+
 
 					
-		n.writeClassFiles()
+		n.writeHeaderFile()
+		n.writeCppFile()
 		n.addNodeToNeurosim()
+		del (n)

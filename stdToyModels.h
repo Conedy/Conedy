@@ -113,7 +113,7 @@ class stdKuramoto : public stdOdeIntegrator
 
 		virtual baseType getState()
 		{
-			return fmod (this->tmp[0], 1);
+			return fmod (this->x[0], 1);
 		};
 
 

@@ -39,9 +39,12 @@ namespace conedy
 			nod->clean ( );
 			if ( nod->timeEvolution() )
 				evolveList.push_back ( nod );
+			if ( nod->requiresUpkeep())
+					upkeepList.push_back (nod);
+
 		}
 
-	}
+}
 
 	bool network::isDirected()
 	{
@@ -95,16 +98,16 @@ namespace conedy
 			nodeIterator vi;
 			for(vi = theNodes.begin(); vi != theNodes.end();vi++)                      // if n has standard parameter -> match if node type is equal
 			{
-				dynNode *tmp = (dynNode*)node::theNodes[*vi]; 
+				dynNode *x = (dynNode*)node::theNodes[*vi]; 
 				if ( ((dynNode*)  n)->isStandard())
 				{
-					if (node::theNodes[*vi]->getNodeInfo().theNodeType & nodeType) 
+					if (node::theNodes[*vi]->getNodeInfo().theNodeType == nodeType) 
 							res.insert(*vi);
 				}
 				else 																							// if n has	specified parameter -> match after node type and parameters
 				{
-					if ((node::theNodes[*vi]->getNodeInfo().theNodeType & nodeType) &&  
-						((  tmp-> row == ((dynNode*)n)-> params<baseType>::row) || ( tmp->compareSheets( tmp-> row    , ((dynNode*)n)-> params<baseType>::row)  )))   // match nodes, if their parameter are the same. 
+					if ((node::theNodes[*vi]->getNodeInfo().theNodeType == nodeType) &&  
+						((  x-> row == ((dynNode*)n)-> params<baseType>::row) || ( x->compareSheets( x-> row    , ((dynNode*)n)-> params<baseType>::row)  )))   // match nodes, if their parameter are the same. 
 						res.insert(*vi);
 				}
 			}
