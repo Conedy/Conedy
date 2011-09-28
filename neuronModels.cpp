@@ -98,11 +98,11 @@ void randomWalkNeuron::action1()
 
 */
 
-void gaussianFHN::operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& dxdW )
+void gaussianFHN::operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& s )
 {
 	dxdt[0] = x[0]* ( a()-x[0] ) * ( x[0]-1.0 )-x[1]+I() +this->couplingSum();
 	dxdt[1] = b() *x[0]-c() *x[1];
-	dxdW[0] = sigmaNoise();
+	s[0] = sigmaNoise();
 }
 
 //void hindmarshRose::operator() ( const baseType x[], baseType dxdt[] )
@@ -112,12 +112,12 @@ void gaussianFHN::operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, 
 //	dxdt[2] = r() * ( 4* ( x[0]+1.6 )-x[2] );
 //}
 //
-//void gaussianHR::operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& dxdW )
+//void gaussianHR::operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& s )
 //{
 //	dxdt[0] = 3.0*x[0]*x[0]-x[0]*x[0]*x[0] + x[1] - x[2] + I() +this->couplingSum();
 //	dxdt[1] = 1.0-5*x[0]*x[0]-x[1];
 //	dxdt[2] = r() * ( 4* ( x[0]+1.6 )-x[2] );
-//	dxdW[0] = sigmaNoise();
+//	s[0] = sigmaNoise();
 //}
 //
 void napK::operator() ( const baseType x[], baseType dxdt[] )
@@ -127,11 +127,11 @@ void napK::operator() ( const baseType x[], baseType dxdt[] )
 
 }
 
-void gaussianNapK::operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& dxdW )
+void gaussianNapK::operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& s )
 {
 	dxdt[0] = I() /c() - ( gl() /c() ) * ( x[0]-el() ) - ( gna() /c() ) *minf ( x[0] ) * ( x[0]-ena() )- ( gk() /c() ) *x[1]* ( x[0]-ek() ) + ( this->couplingSum() /c() );
 	dxdt[1] = ( ninf ( x[0] )-x[1] ) /tau ( x[0] );
-	dxdW[0] = sigmaNoise();
+	s[0] = sigmaNoise();
 
 }
 
@@ -143,12 +143,12 @@ void napKKm::operator() ( const baseType x[], baseType dxdt[] )
 
 }
 
-void gaussianNapKKm::operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& dxdW )
+void gaussianNapKKm::operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& s )
 {
 	dxdt[0] = I() /c() - ( gl() /c() ) * ( x[0]-el() ) - ( gna() /c() ) *minf ( x[0] ) * ( x[0]-ena() )- ( gkfast() /c() ) *x[1]* ( x[0]-ek() ) + ( gkslow() /c() ) *x[2]* ( x[0]-ek() ) + ( this->couplingSum() /c() );
 	dxdt[1] = ( ninf ( x[0] )-x[1] ) /taufast ( x[0] );
 	dxdt[2] = ( n_slowinf ( x[0] )-x[1] ) /tauslow ( x[0] );
-	dxdW[0] = sigmaNoise();
+	s[0] = sigmaNoise();
 
 }
 /*
@@ -161,13 +161,13 @@ void hodgkinHuxley::operator() ( const baseType x[], baseType dxdt[] )
 }
 
 
-void gaussianHH::operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& dxdW )
+void gaussianHH::operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& s )
 {
 	dxdt[0] = ( gna() /cm() ) *x[1]*x[1]*x[1]*x[2]* ( ena()-x[0] ) + ( gk() /cm() ) *x[3]*x[3]*x[3]*x[3]* ( ek()-x[0] ) + ( gpas() /cm() ) * ( vpas()-x[0] ) +this->couplingSum() /cm() + constCurrent() /cm();
 	dxdt[1] = alpham ( x[0] ) * ( 1-x[1] )-betam ( x[0] ) *x[1];
 	dxdt[2] = alphah ( x[0] ) * ( 1-x[2] )-betah ( x[0] ) *x[2];
 	dxdt[3] = alphan ( x[0] ) * ( 1-x[3] )-betan ( x[0] ) *x[3];
-	dxdW[0] = sigmaNoise();
+	s[0] = sigmaNoise();
 }
 */
 

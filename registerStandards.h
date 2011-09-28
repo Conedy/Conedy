@@ -51,9 +51,6 @@ void registerStandards()
 	pulseCoupledExcitatoryNeuron::registerStandardValues();
 	randomWalkNeuron::registerStandardValues();
 	sigEdgeParams::registerStandardValues();
-	stdKuramoto::registerStandardValues();
-	stdLorenz::registerStandardValues();
-	stdRoessler::registerStandardValues();
 	streamInNode::registerStandardValues();
 	streamOutNode::registerStandardValues();
 	sdeNode::registerStandardValues();

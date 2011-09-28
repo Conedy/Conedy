@@ -112,11 +112,6 @@ randomBlueprintNode {return(ParserBase::RANDOMBLUEPRINTNODE); }
 randomWalkNeuron	{return(ParserBase::RANDOMWALKNEURON); }
 setParams		{return(ParserBase::SETPARAMS); }
 snapshot		{return(ParserBase::SNAPSHOT); }
-static		{return(ParserBase::STATIC); }
-stdKuramoto		{return(ParserBase::STDKURAMOTO); }
-stdLorenz		{return(ParserBase::STDLORENZ); }
-stdRoessler		{return(ParserBase::STDROESSLER); }
-stdVanDerPol		{return(ParserBase::STDVANDERPOL); }
 streamInLattice		{return(ParserBase::STREAMINLATTICE); }
 %{	// addNewNode.py Nodes
 %}

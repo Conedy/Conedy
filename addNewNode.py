@@ -317,7 +317,7 @@ class NodeEditor:
 			fout.write("\t\t\n")
 		elif self.integrator =="stdSdeIntegrator":
 			fout.write("\t\t//! Interface for SDE\n")
-			fout.write("virtual void operator()(baseType x[], baseType  dxdt[], baseType dxdW[]);\n")
+			fout.write("virtual void operator()(baseType x[], baseType  dxdt[], baseType s[], baseType dsdx[]);\n")
 			fout.write("\t\t\n")
 		elif self.integrator == "gslOdeIntegrator":
 			fout.write("\t\t//! Interface for ODE \n")
@@ -400,7 +400,7 @@ class NodeEditor:
 			fout.write("\n")
 		elif self.integrator == "stdSdeIntegrator":
 			fout.write("\t//! DGL von %s\n" % self.className)
-			fout.write("\t void %s::operator()(baseType x[], baseType  dxdt[], baseType dxdW[]) \n" %self.className)	
+			fout.write("\t void %s::operator()(baseType x[], baseType  dxdt[], baseType s[], baseType dsdx[]) \n" %self.className)	
 			fout.write("\t{\n")
 			fout.write(self.dgl)
 			fout.write("\t}\n")

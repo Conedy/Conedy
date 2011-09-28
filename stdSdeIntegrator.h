@@ -16,7 +16,7 @@ namespace conedy {
 	class stdSdeIntegrator : public sdeNode 
 	{
 		public:
-				integrator *integ;
+				sdeIntegrator *integ;
 
 		stdSdeIntegrator (networkElementType n) : sdeNode (n)    {}
 
@@ -28,7 +28,7 @@ namespace conedy {
 
 			static void registerStandardValues()
 			{
-				params<string>::registerStandard(_stdSdeIntegrator_, "stdSdeIntegrator_stepType",0,"strongTaylor");
+				params<string>::registerStandard(_stdSdeIntegrator_, "stdSdeIntegrator_stepType",0,"euler");
 				stepType = new params<string> (_stdSdeIntegrator_);
 			}
 
@@ -39,11 +39,23 @@ namespace conedy {
 	if (amIFirst())
 	{
 
-			if (stepType->getParams(0)  == "strongTaylor")
+			if (stepType->getParams(0)  == "euler")
 			{
-				integ = new strongTaylor (containerDimension() );
+				integ = new eulerMaruyama (containerDimension() );
 				stepType_int = 0;
 			}
+			else if (stepType->getParams(0)  == "milsteinIto")
+			{
+				integ = new milsteinIto (containerDimension() );
+				stepType_int = 1;
+			}
+			else if (stepType->getParams(0)  == "milSteinStrato")
+			{
+				integ = new milsteinStrato (containerDimension() );
+				stepType_int = 2;
+			}
+
+
 			else
 	
 				throw "unknown steptype for stdSdeIntegrator!";
@@ -58,9 +70,14 @@ namespace conedy {
 			switch (stepType_int)
 			{
 				case 0:
-					((strongTaylor *) integ)->step (time, dynamicVariablesOfAllDynNodes, *this, containerDimension());
+					((eulerMaruyama *) integ)->step (time, dynamicVariablesOfAllDynNodes, *this, containerDimension());
 					break;
-
+				case 1:
+					((milsteinIto *) integ)->step (time, dynamicVariablesOfAllDynNodes, *this, containerDimension());
+					break;
+				case 2:
+					((milsteinStrato *) integ)->step (time, dynamicVariablesOfAllDynNodes, *this, containerDimension());
+					break;
 			}
 
 		}

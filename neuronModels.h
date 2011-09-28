@@ -66,7 +66,7 @@ class gaussianFHN	: public sdeNode
 
 		gaussianFHN() : sdeNode (_gaussianFHN_ ) { }
 //		hodgkinHuxley(inStream& in) : odeNode(4), params(_hodgkinHuxley_) { setParams(in);}
-		virtual void operator() ( valarray<baseType>& y, valarray<baseType>& dxdt, valarray<baseType>& dxdW );
+		virtual void operator() ( valarray<baseType>& y, valarray<baseType>& dxdt, valarray<baseType>& s );
 		virtual ~gaussianFHN() { }
 		virtual const nodeInfo getNodeInfo() { nodeInfo n = {_gaussianFHN_,_dynNode_,"gaussianFHN"};     return n; };
 		static void registerStandardValues()
@@ -120,7 +120,7 @@ class gaussianHR	: public sdeNode
 
 		gaussianHR() : sdeNode (_gaussianHR_ ) { }
 //		hodgkinHuxley(inStream& in) : odeNode(4), params(_hodgkinHuxley_) { setParams(in);}
-		virtual void operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& dxdW );
+		virtual void operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& s );
 		virtual ~gaussianHR() { }
 		virtual const nodeInfo getNodeInfo() { nodeInfo n = {_gaussianHR_,_dynNode_,"gaussienHR"};     return n; };
 		static void registerStandardValues()
@@ -212,7 +212,7 @@ class gaussianNapK		: public sdeNode
 
 		gaussianNapK() : sdeNode (_gaussianNapK_ ) { }
 //		hodgkinHuxley(inStream& in) : odeNode(4), params(_hodgkinHuxley_) { setParams(in);}
-		virtual void operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& dxdW );
+		virtual void operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& s );
 		virtual ~gaussianNapK() { }
 		virtual const nodeInfo getNodeInfo() { nodeInfo n = {_gaussianNapK_,_dynNode_,"gaussianNapK"};     return n; };
 		static void registerStandardValues()
@@ -331,7 +331,7 @@ class gaussianNapKKm		: public sdeNode
 
 		gaussianNapKKm() : sdeNode (_gaussianNapKKm_ ) { }
 //		hodgkinHuxley(inStream& in) : odeNode(4), params(_hodgkinHuxley_) { setParams(in);}
-		virtual void operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& dxdW );
+		virtual void operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& s );
 		virtual ~gaussianNapKKm() { }
 		virtual const nodeInfo getNodeInfo() { nodeInfo n = {_gaussianNapKKm_,_dynNode_,"gaussianNapKKm"};     return n; };
 		static void registerStandardValues()
@@ -441,7 +441,7 @@ class gaussianHH : public sdeNode
 		gaussianHH() : sdeNode (_gaussianHH_ ) { }
 		//gaussianHH(baseType h) : sdeNode(1 ), params(_gaussianHH_) { }
 //		ornUhl(inStream &in) :sdeNode(1), params
-		virtual void operator() ( valarray<baseType>& y, valarray<baseType>& dxdt, valarray<baseType>& dxdW );
+		virtual void operator() ( valarray<baseType>& y, valarray<baseType>& dxdt, valarray<baseType>& s );
 		virtual ~gaussianHH() { }
 		static void registerStandardValues()
 		{

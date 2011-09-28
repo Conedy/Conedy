@@ -716,10 +716,10 @@ void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::link (nodeDescriptor targe
 	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
 void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::link (nodeDescriptor targetNumber, baseType w )
 {
-	EDGE* newEdge = new EDGE (targetNumber, w);
-	newEdge->targetNumber= targetNumber;
-	outEdges.push_back ( *newEdge );
-	delete ( newEdge);
+	outEdges.push_back ( outEdges[0] );
+
+	outEdges[outEdges.size() -1].targetNumber = targetNumber;
+	outEdges[outEdges.size() -1].setWeight (w);
 }
 
 
@@ -765,7 +765,7 @@ bool nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::isLinked ( node *target )
 
 
 /*	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-	baseType nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::linkStrength ( node *target )
+	baseType nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::ninkStrength ( node *target )
 	{
 	baseType res = 0;
 	edgeIterator s;

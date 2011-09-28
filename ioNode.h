@@ -146,7 +146,7 @@ namespace conedy
 
 
 			virtual ~streamOutNode();
-			virtual void evolve(double time) {  x = this->couplingSum(); ( * ( out[localStreamNumber] ) ) << setprecision((int)precision()) << x; ( * ( out[localStreamNumber] ) ) << ' '; };
+			virtual void evolve(double time) ;
 			virtual node *construct()
 			{ cout << "I am here" << endl;
 				if (binary())

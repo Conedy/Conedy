@@ -262,8 +262,6 @@ namespace { // Avoid cluttering the global namespace.
 
 		class_< nodeVirtualEdges < dynNode >, bases <nodeBlueprint> > ("node");
 
-		class_< nodeVirtualEdges<stdRoessler> , bases<nodeBlueprint> > ("stdRoessler");
-		class_< nodeVirtualEdges<stdLorenz> , bases<nodeBlueprint> > ("stdLorenz");
 
 
 		class_<edgeBlueprint> ("edge");
@@ -279,6 +277,12 @@ namespace { // Avoid cluttering the global namespace.
 		class_< component < edgeVirtual > , bases <edgeBlueprint> >("component", reinterpret_cast<const char *>(__edges_component) , init <int>() );
 		class_< component < weightedEdgeVirtual>, bases <edgeBlueprint>   > ("component_weightedEdge" ,reinterpret_cast<const char *>(__edges_weightedEdge) , init <int>());
 		class_< component < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("component_staticWeightedEdge" ,reinterpret_cast<const char *>(__edges_component_staticWeightedEdge) , init <int>());
+
+
+		class_< staticComponent < edgeVirtual > , bases <edgeBlueprint> >("staticComponent", reinterpret_cast<const char *>(__edges_component) , init <int>() );
+		class_< staticComponent < weightedEdgeVirtual>, bases <edgeBlueprint>   > ("staticWomponent_weightedEdge" ,reinterpret_cast<const char *>(__edges_weightedEdge) , init <int>());
+		class_< staticComponent < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("staticComponent_staticWeightedEdge" ,reinterpret_cast<const char *>(__edges_component_staticWeightedEdge) , init <int>());
+
 
 		class_< randomTarget < edgeVirtual>, bases <edgeBlueprint>  > ("randomTarget",  reinterpret_cast<const char *>(__edges_randomTarget) ,   init <double,double>() ) ;
 		class_< randomTarget < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("randomTarget_weightedEdge",  reinterpret_cast<const char *>(__edges_weightedEdge), init <double,double>() );
