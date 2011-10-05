@@ -16,7 +16,6 @@
 
 #include <boost/bind.hpp>
 using namespace boost;
-#include "stream.h"
 
 #include "gslNoise.h"
 

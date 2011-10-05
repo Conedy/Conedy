@@ -76,6 +76,6 @@ dynamics=
 	dxdt[1] = alpham  * ( 1-x[1] )-betam *x[1];
 	dxdt[2] = alphah  * ( 1-x[2] )-betah *x[2];
 	dxdt[3] = alphan  * ( 1-x[3] )-betan *x[3];
-	dxdW[0] = sigmaNoise;
+	s[0] = sigmaNoise;
 dokumentation=
 	aus Izhikevich S.10

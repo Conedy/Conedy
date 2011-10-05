@@ -432,13 +432,18 @@ class nodeTemplateEdges : public DYNNODE
 
 		typedef TARGETNODETYPE  targetNodeType;
 		typedef EDGE edgeType; 
+		static EDGE standardEdge;
 		typedef typename DYNNODE::edgeDescriptor edgeDescriptor;
 
 		//! Statischer Vector mit Zeigern zu allen Knoten, die mit construct erzeugt wurden. 
 		static vector<nodeTemplateEdges* > theNodes;
 
+
+
 		//! Variable, die von der Klasse offeriert wird, zum Beispiel zum Einkoppeln in andere Nodes 
 		baseType state;
+
+	
 
 			virtual void removeEdge	(edgeDescriptor e)
 			{
@@ -540,6 +545,11 @@ class nodeTemplateEdges : public DYNNODE
 
 
 };
+
+
+template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
+EDGE nodeTemplateEdges<EDGE, TARGETNODETYPE, DYNNODE>::standardEdge;
+
 
 
 	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
@@ -716,7 +726,7 @@ void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::link (nodeDescriptor targe
 	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
 void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::link (nodeDescriptor targetNumber, baseType w )
 {
-	outEdges.push_back ( outEdges[0] );
+	outEdges.push_back ( standardEdge );
 
 	outEdges[outEdges.size() -1].targetNumber = targetNumber;
 	outEdges[outEdges.size() -1].setWeight (w);
