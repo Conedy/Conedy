@@ -6,6 +6,8 @@
 #include "eventHandler.h"
 #include "nodeImplement.h"
 
+#include <fstream>
+
 namespace conedy
 {
 

@@ -23,6 +23,7 @@
 ./network.cpp
 ./README
 ./stdOdeIntegrator.h
+./stdOdeIntegrator.cpp
 ./neuroPython.h
 ./dynNode.cpp
 ./gslNoise.h
@@ -38,12 +39,12 @@
 ./sdeNode.cpp
 ./boost-build.jam
 ./spatialNetwork.cpp
-./stdToyModels.h
 ./Scanner.h
 ./specialNodes.h
 ./pcoDelay.h
 ./gslOdeIntegrator.h
 ./stdSdeIntegrator.h
+./stdSdeIntegrator.cpp
 ./mapNode.cpp
 ./manpage.1
 ./dynNetwork.h
@@ -57,7 +58,6 @@
 ./conedy.vim
 ./fullNetwork.cpp
 ./FlexLexer.h
-./stdToyModels.cpp
 ./spatialNetwork.h
 ./setup.py
 ./eventHandler.h

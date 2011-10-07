@@ -7,6 +7,8 @@
 #include <map>
 #include <string>
 #include <iostream>
+
+#include "stream.h"
 #include "fullNetwork.h"
 
 #include "commandLineArguments.h"

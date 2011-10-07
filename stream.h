@@ -9,6 +9,8 @@
 #include <fstream>
 #include <sstream>
 
+
+
 using namespace std;
 
 
@@ -31,8 +33,7 @@ namespace conedy
 
 				if ( !is_open() )
 				{
-					cerr << "Error opening file\n" ;
-					exit ( 1 );
+					throw "Error opening file\n" ;
 				}
 			}
 

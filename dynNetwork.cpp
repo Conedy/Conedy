@@ -9,6 +9,8 @@
 
 #include "pcoBase.h"
 
+#include "stream.h"
+
 
 namespace conedy
 {
