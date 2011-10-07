@@ -75,6 +75,7 @@ doc:
 
 test:														# call all test-scripts in the testing directory and display failed scripts and scripts for which no checksum is present.
 	make -C testing > testResult 2> testResult
+	if `grep failed 
 	grep failed testResult
 	grep present testResult
 
@@ -105,7 +106,7 @@ conedy.uninstall:
 #	chmod +x  ${dirinstall}/recompileNeurosimIfNecessary.sh
 
 
-python-conedy:  docstrings.h # build the python bindings of Conedy.
+python-conedy: addNodesIfNecessary docstrings.h # build the python bindings of Conedy.
 
 
 	
