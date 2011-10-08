@@ -80,8 +80,6 @@ namespace conedy
 
 	class network: public params<baseType>
 	{
-		private:
-			bool directed;
 
 		protected:
 			//! Contains all nodes with time evolution 
@@ -89,41 +87,45 @@ namespace conedy
 
 			//! Contains all nodes which read/write data from/to files
 			vector < dynNode *> inOutNodeList;
-
 	
 			//! Contains all nodes which receive a callback after each intergration step 
 			vector < dynNode *> upkeepList;
 
 		public:
+
+			//! typedefs for list of nodes and edges
+			typedef set<nodeDescriptor> nodeList;			
+			typedef nodeList::iterator nodeIterator;
+			typedef list< edgeDescriptor >  edgeList;
+			typedef edgeList::iterator edgeIterator;
+
+
 			//! parameter which determines how much date is written by printNodeStatistics about nodes 
 			baseType nodeVerbosity() { return params<baseType>::getParams(0);};
 			//! parameter which determines how much date is written by printNodeStatistics about edges 
 			baseType edgeVerbosity() { return params<baseType>::getParams(1);};
 
 
-
 			//! returns true if the node v is in this network. 
 			bool isInsideNetwork ( nodeDescriptor v );
 
-			static void registerStandardValues() 
-			{ 
+			static void registerStandardValues() {
+			  //! determines the verbosity when print node information after a call of  printNodeStatistics();	
 				params<baseType>::registerStandard(_network_,"network_nodeVerbosity",0,2.0);
+			  //! determines the verbosity when print edge information after a call of  printNodeStatistics();	
 				params<baseType>::registerStandard(_network_,"network_edgeVerbosity",1,2.0);
 			}	
 
-			// edges are described by an integer for the source node and an identifier which is defined in edge.	
+			// edges are described by an integer for the source node and an identifier which is defined in node.	
 			typedef pair<nodeDescriptor, node::edgeDescriptor> edgeDescriptor;
 
 			// return the source of the edge.
 			nodeDescriptor getSource(edgeDescriptor eD) { return eD.first; }
 
+			// returns the target of the edge.
 			nodeDescriptor getTarget(nodeDescriptor source,  nodeDescriptor edgeNumber)
 			{ return node::theNodes[source]->getTarget(edgeNumber)->getNumber(); }
-				typedef set<nodeDescriptor> nodeList;
-			
-			typedef nodeList::iterator nodeIterator;
-			typedef list< edgeDescriptor >  edgeList;
-			typedef edgeList::iterator edgeIterator;
+
 
 
 
@@ -338,6 +340,8 @@ namespace conedy
 			void repair();
 
 
+		private:
+			bool directed;
 
 
 		private:
