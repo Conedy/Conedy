@@ -759,7 +759,10 @@ else:
 		n.dgl = config.get(className, 'dynamics')
 		
 
-		n.dokumentation = config.get(className, 'dokumentation')
+		try:
+			n.documentation = config.get(className, 'dokumentation')
+		except:
+			n.documentation = []
 		n.nodeInfo  = "_" + n.className + "_" 
 		
 		try:
