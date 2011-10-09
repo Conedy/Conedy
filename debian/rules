@@ -38,8 +38,8 @@ all::
 	mv config.debian config.h
 
 install::
-
 	make install
+	dh_auto_test
 
 clean::
 	rm -rf build build-stamp configure-stamp build/ MANIFEST

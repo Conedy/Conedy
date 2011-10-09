@@ -1,9 +1,9 @@
-conedy (0.21-1) unstable; urgency=low
+conedy (0.22-1) unstable; urgency=low
 
   * added missing files
   * automatic testing of recompilation
 
- -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Mon, 29 Aug 2011 02:33:30 +0100
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Sun, 09 Oct 2011 11:44:36 +0100
 
 conedy (0.21-1) unstable; urgency=low
 
