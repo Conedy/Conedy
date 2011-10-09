@@ -1,7 +1,7 @@
 network N;
 
-N.cycle<stdRoessler>(20,1);
-N.randomizeStates(stdRoessler, uniform(-0.2,-0.1), uniform(0.4,0.5), uniform(0.9,1.0) );
+N.cycle<roessler>(20,1);
+N.randomizeStates(roessler, uniform(-0.2,-0.1), uniform(0.4,0.5), uniform(0.9,1.0) );
 
 N.observeAll<component(0)>("output/randomizeStates.co.allStates");
 N.observeAll<component(1)>("output/randomizeStates.co.allStates");

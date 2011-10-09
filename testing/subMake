@@ -1,16 +1,21 @@
 
 
 
-test:
+test: testConedy testPython-Conedy
+
+
+testConedy:
 	mkdir -p output
 	mkdir -p expected
 	mkdir -p results
 	find  -maxdepth 1 -name '*.co' -exec make -s test_{} \;
+
+
+testPython-Conedy:
+	mkdir -p output
+	mkdir -p expected
+	mkdir -p results
 	find  -maxdepth 1 -name '*.py' -exec make -s test_{} \;
-#	sum output/* > ergebnis_checksumme
-#	diff ergebnis_checksumme erwartet_checksumme
-
-
 
 
 
@@ -50,11 +55,11 @@ confirm_./%.co:
 
 
 submit:
-	cd expected; svn add --parents sum_*.co
-	cd expected; svn add --parents sum_*.py
-	svn add --parents *.co
-	svn add --parents *.rst
-	svn add --parents *.py
+	cd expected; git add  sum_*.co
+	cd expected; git add  sum_*.py
+	git add  *.co
+	git add  *.rst
+	git add  *.py
 
 
 clean:

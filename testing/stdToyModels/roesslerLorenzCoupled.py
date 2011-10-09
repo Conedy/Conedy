@@ -6,7 +6,7 @@ co.set("roessler_omega", 29.0)
 co.set("roessler_a", 0.165)
 co.set("roessler_b", 0.2)
 co.set("roessler_c", 10.0)
-co.set("lorenz_s", 10.0)
+co.set("lorenz_S", 10.0)
 co.set("lorenz_r", 28.0)
 co.set("lorenz_b", 8.0/3.0)
 

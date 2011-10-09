@@ -1,0 +1,32 @@
+
+#dynNetwork_ioNodeDt = 1000.0;
+
+
+pcoIntegrateFire_noiseIntensity = -0.01;
+pcoIntegrateFire_noiseFrequency = 0.01;
+
+
+
+network net;
+
+int nodeNumber;
+
+
+nodeNumber = net.addNode<pcoIntegrateFire>();
+net.observeTime("output/singleNoise.co.phaseInhib");
+net.observe(nodeNumber, "output/singleNoise.co.phaseInhib");
+net.evolve(3.0,15.0);
+net.clear();
+
+pcoIntegrateFire_noiseIntensity = 0.01;
+
+nodeNumber = net.addNode<pcoIntegrateFire>();
+net.observeTime("output/singleNoise.co.phaseExi");
+net.observe(nodeNumber,"output/singleNoise.co.phaseExi");
+net.evolve(3.0,15.0);
+
+
+#net.observeTime("output/fireTimes");
+
+#net.printNodeStatistics();
+

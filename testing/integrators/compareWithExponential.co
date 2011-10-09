@@ -31,26 +31,6 @@ n.clear();
 
 
 
-#nodeNumber = n.addNode<exponentialSde>();
-#n.setState(nodeNumber,10.0);
-#n.observeTime("output/compareWithExponential.co.sde");
-#n.observeAll("output/compareWithExponential.co.sde");
-#n.evolve (0.0,10.0);
-#n.removeObserver();
-#n.clear();
-#
-#
-#nodeNumber = n.addNode<exponentialSde>();
-#exponentialSde_sigmaNoise = 0.1;
-#n.setState(nodeNumber,10.0);
-#n.observeTime("output/compareWithExponential.co.noisyExponential");
-#n.observeAll("output/compareWithExponential.co.noisyExponential");
-#n.evolve (0.0,10.0);
-#n.removeObserver();
-#n.clear();
-#
-
-
 nodeNumber = n.addNode<exponentialStatic>();
 n.setState(nodeNumber,10.0);
 n.observeTime("output/compareWithExponential.co.static");
@@ -102,6 +82,36 @@ n.setState(nodeNumber,10.0);
 gslOdeNode_stepType = "gsl_odeiv_step_rk8pd";
 n.observeTime("output/compareWithExponential.co.rk8pd");
 n.observeAll("output/compareWithExponential.co.rk8pd");
+n.evolve (0.0,10.0);
+n.removeObserver();
+n.clear();
+
+stdSdeIntegrator_stepType = "euler";
+nodeNumber = n.addNode<exponentialSde>();
+exponentialSde_sigmaNoise = 0.1;
+n.setState(nodeNumber,10.0);
+n.observeTime("output/compareWithExponential.co.eulerMaruyama");
+n.observeAll ("output/compareWithExponential.co.eulerMaruyama");
+n.evolve (0.0,10.0);
+n.removeObserver();
+n.clear();
+
+stdSdeIntegrator_stepType = "milsteinIto";
+nodeNumber = n.addNode<exponentialSde>();
+exponentialSde_sigmaNoise = 0.1;
+n.setState(nodeNumber,10.0);
+n.observeTime("output/compareWithExponential.co.milsteinIto");
+n.observeAll ("output/compareWithExponential.co.milsteinIto");
+n.evolve (0.0,10.0);
+n.removeObserver();
+n.clear();
+
+stdSdeIntegrator_stepType = "milsteinStrato";
+nodeNumber = n.addNode<exponentialSde>();
+exponentialSde_sigmaNoise = 0.1;
+n.setState(nodeNumber,10.0);
+n.observeTime("output/compareWithExponential.co.milsteinStrato");
+n.observeAll ("output/compareWithExponential.co.milsteinStrato");
 n.evolve (0.0,10.0);
 n.removeObserver();
 n.clear();

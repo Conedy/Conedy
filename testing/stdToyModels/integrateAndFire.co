@@ -1,0 +1,23 @@
+network net;
+
+
+integrateAndFire_a = -0.2;
+integrateAndFire_I = 0.3;
+
+
+dynNetwork_ioNodeDt = 0.01;
+
+
+net.addNode<integrateAndFire>();
+net.setState(0, 0.0, 0.0, 0.0 );
+
+
+net.observeTime("output/integrateAndFire.co.series");
+net.observe<component(0)>(0,"output/integrateAndFire.co.series");
+net.observe<component(1)>(0,"output/integrateAndFire.co.series");
+net.observe<component(2)>(0,"output/integrateAndFire.co.series");
+
+
+net.printNodeStatistics();
+
+net.evolve(0.0,150.0);

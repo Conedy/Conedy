@@ -1,8 +1,10 @@
 00000     0 output/compareWithExponential.co.err
-58402    24 output/compareWithExponential.co.ode
+63086    24 output/compareWithExponential.co.eulerMaruyama
+17920    24 output/compareWithExponential.co.milsteinIto
+56873    24 output/compareWithExponential.co.milsteinStrato
 57678    24 output/compareWithExponential.co.ode_euler
 58402    24 output/compareWithExponential.co.ode_rk4
-00757     1 output/compareWithExponential.co.out
+00000     0 output/compareWithExponential.co.out
 61134    24 output/compareWithExponential.co.rk2
 19736    24 output/compareWithExponential.co.rk4
 20398    24 output/compareWithExponential.co.rk45

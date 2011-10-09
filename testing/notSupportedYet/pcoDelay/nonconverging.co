@@ -19,7 +19,7 @@ coupling = 0.012;
 
 #n.useLatticePositioning(100,100);
 
-n.torusRandomlyNearestNeighbours<pcoIntegrateFireDelay,staticWeightedEdge()>(40,40,36.0);
+n.torusRandomlyNearestNeighbours<pcoIntegrateFireDelay,staticWeightedEdge()>(80,80,36.0);
 
 n.rewire(rewiring);
 

@@ -5,7 +5,7 @@ network net;
 
 
 
-gaussianLorenz_s = 10.0;
+gaussianLorenz_S = 10.0;
 gaussianLorenz_r = 28.0;
 gaussianLorenz_b = 8.0/3.0;
 gaussianLorenz_sigmaNoise = 10.0;

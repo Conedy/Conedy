@@ -5,7 +5,7 @@ roessler_a = 0.165;
 roessler_b = 0.2;
 roessler_c = 10.0;
 
-lorenz_s = 10.0;
+lorenz_S = 10.0;
 lorenz_r = 28.0;
 lorenz_b = 8.0/3.0;
 
