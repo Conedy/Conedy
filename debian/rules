@@ -3,7 +3,7 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-DEB_MAKE_INSTALL_TARGET = install DESTDIR=$(CURDIR)/debian/tmp/
+DEB_MAKE_INSTALL_TARGET = installAndTest DESTDIR=$(CURDIR)/debian/tmp/
 
 DEB_PYTHON_SYSTEM := pysupport
 
@@ -41,8 +41,9 @@ install::
 	make install
 
 
-build:
+install:
 	dh_auto_test
+
 
 
 clean::

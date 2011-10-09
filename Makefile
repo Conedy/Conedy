@@ -117,6 +117,10 @@ conedy: addNodesIfNecessary version				# build the bison-flex-interpreter of Con
 	bjam conedy cflags=-D$(SVNDEV) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
 
+
+installAndTest: install test
+
+
 conedy.install: conedy
 	mkdir -p ${dirinstall}
 	find bin -name "conedy" -exec cp {} ${dirinstall}/conedy   \;
