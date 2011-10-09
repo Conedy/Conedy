@@ -37,13 +37,6 @@ install/python-conedy::
 all::
 	mv config.debian config.h
 
-install::
-	make install
-
-
-install:
-	dh_auto_test
-
 
 
 clean::
