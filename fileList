@@ -5,7 +5,10 @@
 ./networkConstants.h
 ./Doxyfile
 ./ioNode.h
+./testNode1.cfg
+./testNode2.cfg
 ./Jamroot
+./integrator.h
 ./config.h.tmpl
 ./pulseCoupledExcitatoryNeuron.h
 ./containerNode.h

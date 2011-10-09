@@ -60,7 +60,7 @@ namespace conedy
 
 			createNetwork() :p (_createNetwork_)   {};
 
-			//! Erzeugt eine Kette von Knoten, bei der jeder mit den a nächsten Nachbarn verbunden ist.
+			//! creates a chain in which nodes are connected to its a nearest neighbors
 
 			nodeDescriptor line ( unsigned int number, unsigned int a, nodeBlueprint *n = stdNode, edgeBlueprint *l=stdEdge);
 

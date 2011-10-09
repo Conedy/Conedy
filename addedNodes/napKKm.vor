@@ -39,7 +39,7 @@ dynamics=
 	dxdt[1] = ( ninf ( x[0] )-x[1] ) /taufast ( x[0] );
 	dxdt[2] = ( n_slowinf ( x[0] )-x[1] ) /tauslow ( x[0] );
 
-dokumentation=
+documentation=
 	aus Izhikevich S.10
 
 [gaussianHodgkinHuxley]
@@ -77,5 +77,5 @@ dynamics=
 	dxdt[2] = alphah  * ( 1-x[2] )-betah *x[2];
 	dxdt[3] = alphan  * ( 1-x[3] )-betan *x[3];
 	s[0] = sigmaNoise;
-dokumentation=
+documentation=
 	aus Izhikevich S.10

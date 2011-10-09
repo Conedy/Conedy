@@ -470,7 +470,8 @@ void network::addWeightedEdge ( nodeDescriptor s, nodeDescriptor t, double weigh
 }
 
 
-void network::addEdge ( int s, int t, edgeBlueprint *l )
+
+void network::addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l )
 {
 	node::theNodes[s]->link ( t, l );
 }
@@ -478,8 +479,10 @@ void network::addEdge ( int s, int t, edgeBlueprint *l )
 
 
 
+			// edges are described by an integer for the source node and an identifier which is defined in node.	
+//			typedef pair<nodeDescriptor, node::edgeDescriptor> edgeDescriptor;
 
-void network::link ( int s, int t, baseType weight )
+void network::link ( nodeDescriptor s, nodeDescriptor t, baseType weight )
 {
 
 	node::theNodes[s]->link ( t, weight );

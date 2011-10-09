@@ -56,8 +56,6 @@ class sdeIntegrator
 class euler : public odeIntegrator
 
 {
-	//	baseType * x;
-	baseType * dxdt;
 
 	public:
 	euler (unsigned int size) : odeIntegrator( size) {	}
@@ -107,7 +105,7 @@ class milsteinIto	: public sdeIntegrator
 				func.dgl (state, dxdt, s, dsdx);
 				for (unsigned int i = 0; i < size ; i++)			{
 					W = gslNoise::getGaussian();
-					state [i] = state [i] + dxdt[i] * dt + s[i] * sqrt ( dt) * W + 0.5 * s[i] * dsdx[i] * ( W *W - dt);
+					state [i] = state [i] + dxdt[i] * dt + s[i] * sqrt ( dt) * W + 0.5 * s[i] * dsdx[i] * ( dt * W *W - dt);
 				}
 			}
 };
@@ -126,7 +124,7 @@ class milsteinStrato	: public sdeIntegrator
 				for (unsigned int i = 0; i < size ; i++)
 				{
 					W = gslNoise::getGaussian();
-					state [i] = state [i] + dxdt[i] * dt + s[i] * sqrt ( dt) * W + 0.5 * s[i] * dsdx[i] * ( W *W );
+					state [i] = state [i] + dxdt[i] * dt + s[i] * sqrt ( dt) * W + 0.5 * s[i] * dsdx[i] * ( dt * W *W );
 
 				}
 

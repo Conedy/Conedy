@@ -1,5 +1,12 @@
 conedy (0.21-1) unstable; urgency=low
 
+  * added missing files
+  * automatic testing of recompilation
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Mon, 29 Aug 2011 02:33:30 +0100
+
+conedy (0.21-1) unstable; urgency=low
+
   * various changes to allow compilation with msvc
   * match nodeblueprint if all parameter are the same.
   * adding setParam-function

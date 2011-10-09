@@ -977,22 +977,16 @@ nodeDescriptor createNetwork::cycleCluster (int number1, nodeBlueprint *n1, int 
 	int i1, i2, i, j;
 	nodeDescriptor smallest = addNode(n1);
 	for ( i1 = 1 ; i1 < number1; i1++ )
-	{
 		addNode ( n1 );
-	}	    
 	for ( i2 = 0 ; i2 < number2; i2++ )
-	{
 		addNode ( n2 );
-	}
 
 	for ( j = 0; j < number; j++ )
 	{
 		for ( i = 1; i <= a ; i++ )
 		{
-			//           cout << "VON:"<< j<< "NACH:" << ((number + j - i) % number)<< endl;
-			network::addWeightedEdge ( j, ( ( number + ( j ) - i ) % number ) , 1 );
-
-			network::addWeightedEdge ( j, ( ( number + ( j ) + i ) % number ) , 1 );
+			network::addEdge ( j, ( ( number + ( j ) - i ) % number ) , stdEdge );
+			network::addEdge ( j, ( ( number + ( j ) + i ) % number ) , stdEdge );
 		}
 	}
 	return smallest;

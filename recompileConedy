@@ -51,4 +51,4 @@ ${HOME}/.config/conedy/config.h:
 	
 
 	
-.PHONY:	recompile
+.PHONY:	recompile conedy python-conedy documentation conedy-src

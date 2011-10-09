@@ -612,6 +612,9 @@ class NodeEditor:
 
 		fout.write("\n")
 
+
+#write test scripts
+
 		fout = open("testing/addedNodes/" + self.integrator +"/" + self.className + ".py", 'w')
 		fout.write("import conedy as ns\n\n")
 		fout.write("net = ns.network()\n\n")
@@ -619,6 +622,22 @@ class NodeEditor:
 		fout.close()
 
 
+		fout = open("testing/addedNodes/" + self.integrator +"/expected/sum_"  + self.className + ".py", 'w')	
+		fout.write("00000     0 output/"+self.className +".py.err\n")
+		fout.write("00000     0 output/"+self.className +".py.out\n")
+		fout.close()
+
+
+		fout = open("testing/addedNodes/" + self.integrator +"/" + self.className + ".co", 'w')
+		fout.write("network net;\n\n")
+		fout.write("net.addNode<%s>(); \n\n" % fileNameOut)
+		fout.close()
+
+
+		fout = open("testing/addedNodes/" + self.integrator +"/expected/sum_"  + self.className + ".co", 'w')	
+		fout.write("00000     0 output/"+self.className +".co.err\n")
+		fout.write("00000     0 output/"+self.className +".co.out\n")
+		fout.close()
 		#
 		#	generatedFullNetwork.h bearbeiten
 		#

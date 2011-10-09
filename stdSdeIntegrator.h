@@ -49,7 +49,7 @@ namespace conedy {
 				integ = new milsteinIto (containerDimension() );
 				stepType_int = 1;
 			}
-			else if (stepType->getParams(0)  == "milSteinStrato")
+			else if (stepType->getParams(0)  == "milsteinStrato")
 			{
 				integ = new milsteinStrato (containerDimension() );
 				stepType_int = 2;

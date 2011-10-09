@@ -50,5 +50,5 @@ ${HOME}/.config/conedy/config.h:
 	[ -f /etc/conedy.config ] && ln -s /etc/conedy.config ${HOME}/.config/conedy/config.h  && recompilePython-Conedy
 	
 
+.PHONY:	recompile conedy python-conedy documentation conedy-src
 	
-.PHONY:	recompile

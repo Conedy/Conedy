@@ -130,6 +130,10 @@ namespace conedy
 				startPosGslOdeNodeArray = usedIndices;
 				usedIndices += (&c)->dimension();
 
+#ifdef DEBUG
+				cout << "startPosGslOdeNodeArray:" << startPosGslOdeNodeArray << endl;
+#endif
+
 
 		}
 
