@@ -24,6 +24,10 @@ install: all ${todo:=.install}
 
 uninstall: ${todo:=.uninstall}
 
+
+test: ${todo:=.test}
+
+
 docstrings.h: addedNodes.sum.old    			# generate a c-header with docstrings for all functions of the python interpreter. The docstring is in testing/*/<functionName>.rst
 	rm -f docstrings.h 
 	touch docstrings.h
@@ -39,7 +43,7 @@ addNodes: revert										# generate sourcecode for node dynamics according to c
 	find -L addedNodes -maxdepth 1 -name "*.cfg" -type f -exec python addNewNode.py {} \;
 	find -L ${addedDir} -maxdepth 1  -name "*.cfg" -type f -exec python addNewNode.py {} \; || true
 	sum addedNodes/*.cfg > addedNodes.sum.old; sum ${addedDir}/*.cfg  >> addedNodes.sum.old  || true
-	[ -d documentation ] && cp addedNodes.sum.old documentation/addedNodes.sum
+	([ -d documentation ] && cp addedNodes.sum.old documentation/addedNodes.sum) || true
 	bisonc++ Parser.yy
 
 addedNodes.sum.old addNodesIfNecessary:		# check if new node configuration files have been added and call addNodes if necessary. A list of already added nodes is maintained in addedNodes.sum.old
@@ -63,21 +67,43 @@ version:
 SVNDEV="SVN_REV=$(VERSION)"
 
 
-documentation:
+documentation:											# compile the documentation
 	make -C documentation
 
 
 documentation.install:
 
 
-doc:
-	doxygen
+#doc:
+#	doxygen
 
-test:														# call all test-scripts in the testing directory and display failed scripts and scripts for which no checksum is present.
-	make -C testing > testResult 2> testResult
-	if `grep failed 
-	grep failed testResult
-	grep present testResult
+python-conedy.test:														# call all test-scripts in the testing directory and display failed scripts and scripts for which no checksum is present.
+	cd testing; make -s testPython-Conedy > ../testResult 2> ../testResult
+	! grep failed testResult
+	! grep present testResult
+
+conedy.test:
+	cd testing; make -s testConedy > ../testResult 2> ../testResult
+	! grep failed testResult
+	! grep present testResult
+
+
+conedy-src.test:   # if the testfile was already added, remove it and recompile first
+	[ -f "${dirsrc}/addedNodes/testNode1.cfg" ] && ( ${noUserSpace} rm ${dirsrc}/addedNodes/testNode1.cfg &&\
+		recompileConedy &&\
+		recompilePython-Conedy) || true
+
+	${noUserSpace} cp testNode1.cfg ${dirsrc}/addedNodes
+	recompileConedy
+	recompilePython-Conedy
+	cd ${dirsrc}/testing/addedNodes/gslOdeIntegrator; ${noUserSpace} sh -c 'make -s test_./testNode1.co > testResult 2> testResult'
+	cd ${dirsrc}/testing/addedNodes/gslOdeIntegrator && ! grep failed testResult
+	cd ${dirsrc}/testing/addedNodes/gslOdeIntegrator; ${noUserSpace} sh -c 'make -s test_./testNode1.py > testResult 2> testResult'
+	cd ${dirsrc}/testing/addedNodes/gslOdeIntegrator && ! grep failed testResult
+	grep succeded ${dirsrc}/testing/addedNodes/gslOdeIntegrator/testResult
+#	${noUserSpace} rm ${dirsrc}/addedNodes/testNode1.cfg
+#	recompileConedy
+#	recompilePython-Conedy
 
 
 
@@ -123,6 +149,7 @@ python-conedy.uninstall:
 	echo "Distutils does not support uninstalling. Please uninstall python-conedy manually."
 
 conedy-src:
+#	cp testNode.cfg ${dirsrc} addedNodes
 
 
 conedy-src.install:
@@ -143,9 +170,12 @@ conedy-src.uninstall:
 #	rm -fr ${globalConfig}
 #	cp -r testing ${dirsrc}/
 
-python-conedy.recompile: docstrings.h addNodesIfNecessary version 
-	${noUserSpace} HOME=${HOME} bjam conedy cflags=-D$(SVNDEV) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
-	cp bin/gcc*/release/python-conedy.so build/lib*/conedy.so
+python-conedy.recompile: 	
+	${noUserSpace} HOME=${HOME} make docstrings.h addNodesIfNecessary version
+	([ -d build ] && ${noUserSpace} HOME=${HOME} bjam python-conedy cflags=-D$(SVNDEV) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores} &&\
+			${noUserSpace} cp -f bin/gcc*/release/python-conedy.so build/lib*/conedy.so ) \
+		|| ( ${noUserSpace} make python-conedy python-conedy.install)
+	${noUserSpace}	make python-conedy.install
 	${noUserSpace} rm recompilationPython-ConedyStarted
 
 
@@ -155,17 +185,27 @@ conedy.recompile:
 	${noUserSpace} HOME=${HOME} make conedy conedy.install
 	${noUserSpace} rm recompilationConedyStarted
 	
+clean: ${todo:=.clean}
+	make revert
 
-
-clean:
+conedy.clean:
 	rm -rf bin
+	rm -rf Parserbase.h
+	make revert
+
+python-conedy.clean:
 	python setup.py clean
 	rm -rf build
-	rm -f Parserbase.h docstrings.h
-	make revert
+	rm -f docstrings.h
+
+documentation.clean:
 	make -C documentation clean
 
-.PHONY: documentation addNodesIfNecessary conedy.install uninstall conedy.uninstall python-conedy.uninstall conedy-src.uninstall install python-conedy python-conedy.install conedy-src.install  all opt debug opengl win linux32 condor benchmark icc revert addNodes
+conedy-src.clean:
+
+
+
+.PHONY: documentation addNodesIfNecessary conedy.install uninstall conedy.uninstall python-conedy.uninstall conedy-src.uninstall install python-conedy python-conedy.install conedy-src.install  all opt debug opengl win linux32 condor benchmark icc revert addNodes 
 
 
 .SILENT: config.h
