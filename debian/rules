@@ -39,7 +39,11 @@ all::
 
 install::
 	make install
+
+
+build:
 	dh_auto_test
+
 
 clean::
 	rm -rf build build-stamp configure-stamp build/ MANIFEST
