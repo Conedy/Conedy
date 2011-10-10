@@ -78,12 +78,12 @@ documentation.install:
 #	doxygen
 
 python-conedy.test:														# call all test-scripts in the testing directory and display failed scripts and scripts for which no checksum is present.
-	cd testing; make -s testPython-Conedy > ../testResult 2> ../testResult
+	cd testing; ${noUserSpace} sh -c "make -s testPython-Conedy > ../testResult 2> ../testResult"
 	! grep failed testResult
 	! grep present testResult
 
 conedy.test:
-	cd testing; make -s testConedy > ../testResult 2> ../testResult
+	cd testing; ${noUserSpace} sh -c " make -s testConedy > ../testResult 2> ../testResult"
 	! grep failed testResult
 	! grep present testResult
 
@@ -92,12 +92,12 @@ conedy-src.test:   # if the testfile was already added, remove it and recompile 
 	[ -f "${dirsrc}/addedNodes/testNode1.cfg" ] && ( ${noUserSpace} rm ${dirsrc}/addedNodes/testNode1.cfg &&\
 		recompileConedy &&\
 		recompilePython-Conedy) || true
-	 cp testNode1.cfg ${dirsrc}/addedNodes
+	${noUserSpace} cp testNode1.cfg ${dirsrc}/addedNodes
 	recompileConedy
 	recompilePython-Conedy
-	cd ${dirsrc}/testing/addedNodes/gslOdeIntegrator;  sh -c 'make -s test_./testNode1.co > testResult 2> testResult'
+	cd ${dirsrc}/testing/addedNodes/gslOdeIntegrator;  ${noUserSpace} sh -c 'make -s test_./testNode1.co > testResult 2> testResult'
 	cd ${dirsrc}/testing/addedNodes/gslOdeIntegrator && ! grep failed testResult
-	cd ${dirsrc}/testing/addedNodes/gslOdeIntegrator;  sh -c 'make -s test_./testNode1.py > testResult 2> testResult'
+	cd ${dirsrc}/testing/addedNodes/gslOdeIntegrator;  ${noUserSpace} sh -c 'make -s test_./testNode1.py > testResult 2> testResult'
 	cd ${dirsrc}/testing/addedNodes/gslOdeIntegrator && ! grep failed testResult
 	grep succeded ${dirsrc}/testing/addedNodes/gslOdeIntegrator/testResult
 #	${noUserSpace} rm ${dirsrc}/addedNodes/testNode1.cfg
@@ -175,7 +175,7 @@ conedy-src.uninstall:
 
 python-conedy.recompile: 	
 	${noUserSpace} HOME=${HOME} make docstrings.h addNodesIfNecessary version
-	([ -d build ] && ${noUserSpace} HOME=${HOME} bjam python-conedy cflags=-D$(SVNDEV) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores} &&\
+#	([ -d build ] && ${noUserSpace} HOME=${HOME} bjam python-conedy cflags=-D$(SVNDEV) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores} &&\
 			${noUserSpace} cp -f bin/gcc*/release/python-conedy.so build/lib*/conedy.so ) \
 		|| ( ${noUserSpace} make python-conedy python-conedy.install)
 	${noUserSpace}	make python-conedy.install
