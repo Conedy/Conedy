@@ -23,8 +23,8 @@
 %option noyywrap
 %option yylineno
 
-%{ 
-#include "Parserbase.h" // Make sure the flexer can communicate with bison++ 
+%{
+#include "Parserbase.h" // Make sure the flexer can communicate with bison++
                       //using return values
 %}
 
@@ -97,7 +97,7 @@ ode		{return(ParserBase::NODETOKEN); }
 int	{return(ParserBase::INTTOKEN); }
 readInitialCondition	{return(ParserBase::READINITIALCONDITION); }
 
-%{		// Nodes 
+%{		// Nodes
 %}
 cnnNode			{return(ParserBase::CNNNODE); }
 countEdges		{return(ParserBase::COUNTEDGES); }
@@ -134,7 +134,7 @@ realignWhenDistant {return(ParserBase::REALIGNWHENDISTANT);}
 
 comandLineDouble		{return(ParserBase::COMANDLINE); }
 comandLineString		{return(ParserBase::COMANDLINESTRING); }
-torusRandomlyNearestNeighbours	{return(ParserBase::TORUSRANDOMLYNEARESTNEIGHBOURS);}
+torusNearestNeighbors	{return(ParserBase::TORUSNEARESTNEIGHBORS);}
 connectCloseNodes		{return(ParserBase::CONNECTCLOSENODES);}
 
 connectCloseNodesTorus		{return(ParserBase::CONNECTCLOSENODESTORUS);}
@@ -213,9 +213,9 @@ line 			{return(ParserBase::LINE); }
 cycleCluster		{return(ParserBase::CYCLECLUSTER); }
 pulseCoupleEdge	{return(ParserBase::PULSECOUPLEEDGE); }
 pulseCoupleDelayEdge	{return(ParserBase::PULSECOUPLEDELAYEDGE); }
-	
+
 edge	{return(ParserBase::EDGE); }
-				  
+
 component	{return(ParserBase::HIDDENCOMPONENT); }
 unlink			{return(ParserBase::UNLINK); }
 sigEdge		{return(ParserBase::SIGEDGE); }
@@ -295,9 +295,9 @@ setState	{return(ParserBase::SETINITIALCONDITION); }
 "."		{return('.'); }
 "="		{return('='); }
 
-{ID}        	{ 
-			
-			string s(yytext);  
+{ID}        	{
+
+			string s(yytext);
 			switch	(command::getType(s))
 			{
 				case _nodeDescriptor_:

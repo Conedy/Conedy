@@ -56,7 +56,7 @@ namespace { // Avoid cluttering the global namespace.
 #endif
 
 		//	params<double>::initialise ( &command::declare );
-		//	params<vector<double> >::initialise (&command::declare);	
+		//	params<vector<double> >::initialise (&command::declare);
 
 
 		//	cout << "Neurosim erfolgreich initialisiert!" << endl;
@@ -119,7 +119,7 @@ namespace { // Avoid cluttering the global namespace.
 		{
 			cout << "Mission accomplished. You can restart your script now." << endl;
 			exit (1);
-		}	
+		}
 
 
 
@@ -138,7 +138,7 @@ namespace { // Avoid cluttering the global namespace.
 
 		//	scope().attr("aa") = &i;
 
-		scope().attr("__doc__") = 
+		scope().attr("__doc__") =
 			"What is Neurosim"
 			"================"
 			"Neurosim is a tool which allows you to integrate networks where each node is represented by some dynamical system. It is designed to allow for an change of the network structure or differential equation sperarately. ";
@@ -203,7 +203,7 @@ namespace { // Avoid cluttering the global namespace.
 			// createNetwork commands
 			.def("addRandomEdges", &MyNetwork<baseType>::addRandomEdges, addRandomEdges_overloads (reinterpret_cast<const char *>(__createNetwork_addRandomEdges)))
 
-			.def("torusNearestNeighbors", &MyNetwork<baseType>::torusRandomlyNearestNeighbours,  reinterpret_cast<const char *>(__createNetwork_torusNearestNeighbors))
+			.def("torusNearestNeighbors", &MyNetwork<baseType>::torusNearestNeighbors,  reinterpret_cast<const char *>(__createNetwork_torusNearestNeighbors))
 			//		.def("loadGraphML", &MyNetwork<baseType>::loadGraphML, reinterpret_cast<const char *>(__createNetwork_loadGraphXml))
 			.def("saveGraphML", &MyNetwork<baseType>::saveGraphML, reinterpret_cast<const char *>(__statisticsNetwork_saveGraphML))
 			.def("saveAdjacencyList", &MyNetwork<baseType>::saveAdjacencyList, reinterpret_cast<const char *>(__createNetwork_saveAdjacencyList))

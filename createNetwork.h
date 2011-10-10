@@ -50,8 +50,8 @@ namespace conedy
 
 		public:
 
-		static void registerStandardValues() 
-		{ 
+		static void registerStandardValues()
+		{
 			params<baseType>::registerStandard ( _createNetwork_,"createNetwork_binary",0, 0.0 );
 		}
 		baseType inline writeBinary () { return p.getParams(0); }
@@ -75,11 +75,11 @@ namespace conedy
 			nodeDescriptor lattice ( int sizex, int sizey, double a = 1.01, nodeBlueprint *n = stdNode, edgeBlueprint *l = stdEdge );
 
 			//! Wie Gitter, jedoch werden die Ränder zyklisch verbunden (links mit rechts, oben mit unten).
-			nodeDescriptor torus ( int sizex, int sizey, double a, nodeBlueprint *n, edgeBlueprint *l );			
+			nodeDescriptor torus ( int sizex, int sizey, double a, nodeBlueprint *n, edgeBlueprint *l );
 
 
 			//! Erzeugt ein Gitter mit x * y Knoten vom Typ *n. Jeder Knoten wir mit seinen c nächsten Nachbarn verbunden. Gleichweit entfernte Nachbarn werden zufällig ausgewählt.
-			nodeDescriptor torusRandomlyNearestNeighbours ( int sizex, int sizey, double c, nodeBlueprint *n, edgeBlueprint *l );
+			nodeDescriptor torusNearestNeighbors ( int sizex, int sizey, double c, nodeBlueprint *n, edgeBlueprint *l );
 
 			//! Erzeugt ein Gitter der größe x * y aus streamInNodes, die alle aus der Datei s lesen. Funktioniert gut mit Dateien, die von observeAll erzeugt wurden
 			nodeDescriptor streamInLattice ( int sizex, int sizey, string s );
@@ -112,7 +112,7 @@ namespace conedy
 			void addGlobalNoise ( function <double() > r ) { addGlobalNoise ( r, _dynNode_ ); }
 
 			//! Normalisiert die Summe der eingehenden Kopplungsgewichte jedes Knotens au den Wert r
-			void normalizeInputs (baseType r); 
+			void normalizeInputs (baseType r);
 
 			//			void createFromMatrix ( inStream & in, unsigned int size, nodeBlueprint *n );
 
@@ -132,17 +132,17 @@ namespace conedy
 
 			//! Ersetzt Verbindungen mit Start- und Zielknoten der Art theNodeKind, durch ähnliche (kopierte) Verbindungen mit zufällig gewählten Start- und Zielknoten
 
-			
+
 //			void newire (double prop) { rewire(prop, _dynNode_, stdEdge);}
 
 				// only consider edges which start and end at nodes of type n
 			void rewire (double prop, nodeBlueprint *n = stdNode);
-	
+
 
 			void replaceEdges (double prop, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode);
 
 
-			
+
 void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
 
 
@@ -165,7 +165,7 @@ void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
 			void observeEventTimes( string fileName,nodeDescriptor eventNumber );
 
 
-		
+
 			void observeComponents (nodeDescriptor n, string fileName);
 
 			void observeTime ( string s );
@@ -199,9 +199,9 @@ void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
 //			void observePhaseCoherence ( string s );
 
 //			void observePhaseCoherence ( string s, nodeBlueprint *n = stdNode,  edgeBlueprint *l= stdEdge );
-			
+
 //			void observePhaseCoherence ( nodeDescriptor lower, nodeDescriptor upper, string s,  edge *l );
-	
+
 
 			void observePhaseCoherence ( string s, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode, nodeDescriptor lower = 0, nodeDescriptor upper = numeric_limits<nodeDescriptor>::max());
 
