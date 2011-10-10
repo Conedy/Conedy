@@ -10,7 +10,7 @@
 network n;
 
 
-n.torusRandomlyNearestNeighbours<pcoNonleaky,staticWeightedEdge()>(40,40,36.0);
+n.torusNearestNeighbors<pcoNonleaky,staticWeightedEdge()>(40,40,36.0);
 n.saveAdjacencyList ("output/torusNearest.co.graph");
 
 

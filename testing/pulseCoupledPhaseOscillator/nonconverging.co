@@ -19,7 +19,7 @@ setRandomSeed(0);
 
 #n.useLatticePositioning(100,100);
 
-n.torusRandomlyNearestNeighbours<pcoIntegrateFire,staticWeightedEdge()>(40,40,36.0);
+n.torusNearestNeighbors<pcoIntegrateFire,staticWeightedEdge()>(40,40,36.0);
 
 n.rewire(rewiring);
 

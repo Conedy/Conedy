@@ -16,7 +16,7 @@ coupling = 0.012;
 
 setRandomSeed(0);
 
-n.torusRandomlyNearestNeighbours<pcoIntegrateFire,staticWeightedEdge()>(40,40,36.0);
+n.torusNearestNeighbors<pcoIntegrateFire,staticWeightedEdge()>(40,40,36.0);
 
 n.rewire(rewiring);
 
