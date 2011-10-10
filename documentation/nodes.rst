@@ -7,7 +7,7 @@ Conedy provides nodes with dynamical maps, ordinary differential equations and s
 
 See :ref:`nodes` for a full list of available node dynamics.
 
-All node dynamics are described in ini-like reference files, which are explained in the following. If the dynamics you want to investigate is not available in Conedy, you still may implement it yourself by creating such a file, which has to be put into a directory which is specified in the config.h file. Conedy needs to be recompiled afterwards, which will be automatically issued on the next import to python if a file in this directory is modified or added.
+All node dynamics are described in ini-like reference files, which are explained in the following. If the dynamics you want to investigate is not available in Conedy, you still may implement it yourself by creating such a file, which has to be put into a directory which is specified in the ``config.h`` file (which is positioned in ``$HOME/.config/conedy`` by the ``.deb``-package). Conedy needs to be recompiled afterwards, which will be automatically issued on the next import to python if a file in this directory is modified or added.
 
 In the following the syntax for such a file will be explained using the Rössler oscillator as an example (available as :ref:`roessler` in Conedy). Before delving into the details we give the file’s full content for the sake of an overview:
 
@@ -213,7 +213,7 @@ Using static edges
 ------------------
 
 
-When considering networks with different kinds of edges connecting to a single node, the edge type has te be determined for every edge at run-time. In Conedy this is realized by virtual functions. For networks which homegeneous edge types, however, this may be unneccessarily slow. Furthermore, the v-tables of edges in this case, consume a non-negliable amount of memory.
+When considering networks with different kinds of edges connecting to a single node, the edge type has te be determined for every edge at run-time. In Conedy this is realized by virtual functions. For networks which homegeneous edge types, however, this may be unneccessarily slow. Furthermore, the v-tables of edges may consume a non-negliable amount of memory.
 
 Conedy offers the possiblility of making node types static, i.e. the kind of outgoing edges for this node type is set at compile time. For these nodes, no virtual function calls have to be made during integration. For cases with many unweighted edges, the memory consumption of static nodes on 64 bit machines is reduced by a factor of 4 (compared to virtual nodes). This is because in virtual nodes in addition to the target node number (4 byte) and the v-table (8 byte) most compiler will leave another 4 bytes unused due to alignment.
 
@@ -228,7 +228,7 @@ to the reference file for your node. Additionally the edge type which should be 
 
    staticEdgeType = weightedEdge(5.0)
 
-Optionally you can choose a node type for target nodes, which eliminates another virtual function call::
+Optionally you can choose a node type for target nodes (for example, if all nodes in your network are of the same type), which eliminates another virtual function call::
 
    staticTargetNodeType = roessler
 
