@@ -33,7 +33,7 @@ int main ( int argc,char **argv )
 #else
 	if (!system ("recompileConedy 2> /dev/null"))
 	{
-//		cout << "Recompilation stertd. Please restart your script afterwards." << endl;
+		cout << "Mission accomplished. You can restart your script now." << endl;
 		exit (1);
 	}	
 #endif

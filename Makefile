@@ -123,7 +123,7 @@ installAndTest: install test
 
 conedy.install: conedy
 	mkdir -p ${dirinstall}
-	find bin -name "conedy" -exec cp {} ${dirinstall}/conedy   \;
+	find bin -name "conedy" -exec cp -f {} ${dirinstall}/conedy   \;
 	cp -a recompileConedy ${dirinstall}
 	sed -i "s+/etc/conedy.config+${globalConfig}+g"   ${dirinstall}/recompileConedy 
 
@@ -182,12 +182,10 @@ python-conedy.recompile:
 	${noUserSpace} rm recompilationPython-ConedyStarted
 
 
-conedy.recompileBackground:
-	HOME=${HOME} make conedy conedy.install &
 
 
 conedy.recompile: 
-	${noUserSpace} HOME=${HOME} make conedy.recompileBackground
+	${noUserSpace} HOME=${HOME} make conedy conedy.install
 	${noUserSpace} rm recompilationConedyStarted
 	
 clean: ${todo:=.clean}
