@@ -182,10 +182,12 @@ python-conedy.recompile:
 	${noUserSpace} rm recompilationPython-ConedyStarted
 
 
-	
+conedy.recompileBackground:
+	HOME=${HOME} make conedy conedy.install &
+
 
 conedy.recompile: 
-	${noUserSpace} HOME=${HOME} make conedy conedy.install
+	${noUserSpace} HOME=${HOME} make conedy.recompileBackground
 	${noUserSpace} rm recompilationConedyStarted
 	
 clean: ${todo:=.clean}
