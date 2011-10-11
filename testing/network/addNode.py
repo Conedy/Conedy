@@ -4,7 +4,7 @@ net = co.network()
 
 
 
-et.addNode(co.node())
+net.addNode(co.node())
 
 
 print "Should be 1:" + str( net.size() ) 

@@ -59,6 +59,7 @@ revert:													# remove all added Nodes
 	/usr/bin/env sed -i "/added by addNewNodes.py/d" neuroPython.cpp
 	rm -f testing/addedNodes/*/*.rst
 	rm -f testing/addedNodes/*/*.py
+	rm -f testing/addedNodes/*/*.co
 	rm -f addedNodes.sum.old .countAddedNodes
 	touch Parser.yy	# tricking bjam to call bisonc++ again after change of generatedAddNewNode.yy
 
@@ -79,13 +80,15 @@ documentation.install:
 
 python-conedy.test:														# call all test-scripts in the testing directory and display failed scripts and scripts for which no checksum is present.
 	cd testing; ${noUserSpace} sh -c "make -s testPython-Conedy > ../testResult 2> ../testResult"
+	cat testResult
+	grep present testResult || true 
 	! grep failed testResult
-	! grep present testResult
 
 conedy.test:
 	cd testing; ${noUserSpace} sh -c " make -s testConedy > ../testResult 2> ../testResult"
+	cat testResult
+	! grep present testResult || true
 	! grep failed testResult
-	! grep present testResult
 
 
 conedy-src.test:   # if the testfile was already added, remove it and recompile first
