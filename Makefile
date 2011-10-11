@@ -181,7 +181,7 @@ python-conedy.recompile:
 #	([ -d build ] && ${noUserSpace} HOME=${HOME} bjam python-conedy cflags=-D$(SVNDEV) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores} &&\
 			${noUserSpace} cp -f bin/gcc*/release/python-conedy.so build/lib*/conedy.so ) \
 		|| ( ${noUserSpace} make python-conedy python-conedy.install)
-	${noUserSpace}	make python-conedy.install
+	${noUserSpace} HOME=${HOME} make python-conedy.install
 	${noUserSpace} rm recompilationPython-ConedyStarted
 
 
@@ -233,7 +233,7 @@ debug: addNodesIfNecessary version
 
 condor: addNodesIfNecessary version               # build an interpreter which does not execute network-functions, but creates Condor-scripts which distribute the execution of loops (see vectorFor)
 	bjam conedyCondor -j${numberCores}
-	cp -f bin/gcc-*/debug/link-static/conedyCondor ~/bin
+	cp -f bin/gcc-*/debug/link-static/conedyCondor ${dirinstall}
 
 
 installCondor: 
