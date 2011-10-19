@@ -19,6 +19,10 @@ class odeIntegrator
 	public:
 		odeIntegrator (unsigned int size) {
 			dxdt = (baseType *) calloc (size, sizeof(baseType));		
+			for (unsigned int i = 0; i < size; i++)
+			{
+				dxdt[i] = 0;
+			}
 		}
 		virtual ~ odeIntegrator () {
 			free (dxdt);
@@ -39,7 +43,14 @@ class sdeIntegrator
 		sdeIntegrator ( unsigned int size) {
 			dxdt = (baseType *) calloc (size, sizeof(baseType));	
 			s = (baseType *) calloc (size, sizeof(baseType));	
-			dsdx = (baseType *) calloc (size, sizeof(baseType));	
+			dsdx = (baseType *) calloc (size, sizeof(baseType));
+
+			for (unsigned int i = 0; i < size; i++)
+			{
+				s[i] = 0;
+				dsdx[i] = 0;
+			}
+
 		}
 		virtual ~sdeIntegrator ()	{
 			free (dxdt);
