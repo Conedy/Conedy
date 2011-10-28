@@ -33,6 +33,9 @@
 
 #include "baseType.h" 
 
+#include "priorityQueue.h"
+
+
 using namespace std;
 using namespace boost;
 //#include "dynNode.h"
@@ -43,7 +46,17 @@ using namespace boost;
 
 
 //#define priorityQueueTemplate fibonacci_heap
-#define priorityQueueTemplate relaxed_heap
+//#define priorityQueueTemplate relaxed_heap
+class eventHandler;
+
+
+
+#ifdef CALENDARQUEUE
+typedef calendarQueue priorityQueueTemplate;
+#else
+typedef relaxed_heap < int, eventHandler> priorityQueueTemplate ;
+#endif
+
 
 
 //        class event
@@ -63,7 +76,6 @@ class neuronNumberProperty
 int get(neuronNumberProperty, int ev);
 
 
-class eventHandler;
 
 //! In event wird ein Zeiger, auf die zurückzurufende Klasse gespeichert, zusammen mit der priorität (time).und einen Integer für die Art des Events, der mit an die callBack-funktion übergeben wird.
 class event
@@ -89,10 +101,9 @@ class eventHandler
 {
 
 	//! Statische Liste mit events für jede Teilnehmende Klasse
-	static vector<event > eventList;
 
 	//! Statische Prioritätswarteschlange mit den Ereignisse., als Ordnung wird der Operator () verwendet, der die Ereignisse nach event::time ordnet.
-	static priorityQueueTemplate< int,eventHandler > *eventQueue;
+	static priorityQueueTemplate *eventQueue;
 
 	//! obsolete
 	static neuronNumberProperty nnp;
@@ -105,6 +116,7 @@ class eventHandler
 	//! Position im Statischen vector eventList, an der die eigenen Ereignisse beginnen.
 
 	public:
+	static vector<event > eventList;
 
 	int top() { return eventQueue->top(); };
 
@@ -130,6 +142,7 @@ class eventHandler
 	bool operator() ( const unsigned int  s1, const unsigned int s2 ) const {
 		return eventList[s1].time < eventList[s2].time;
 	}
+	double priority (const unsigned int i) const { return eventList[i].time;}
 
 	//! gibt die Priorität (Integrationszeit) des obersten Elements zurück
 	static baseType nextEvent() {
@@ -179,6 +192,8 @@ class eventHandler
 
 
 
+	static void decreaseKeyStatic ( unsigned int eventNumber, baseType newTime );
+	static void increaseKeyStatic ( unsigned int eventNumber, baseType newTime );
 
 
 	void decreaseKey ( unsigned int eventSignature, baseType newTime );
