@@ -37,12 +37,13 @@ class calendarQueue
 		void debug ();
 		
 
+		void insertionSortBucket (unsigned int i);
 
 
 		void push (unsigned int i);
 		unsigned int top ();
 		unsigned int pop ();
-		void nextYear ();
+		void nextYear () { cycleMarker(); marker = newMarker; }
 	private:
 		static eventHandler *priorities;
 		int head;
@@ -50,6 +51,7 @@ class calendarQueue
 		unsigned int currentBucket; 
 //		vector <set < unsigned int , calendarQueue> > buckets; 
 		vector <list < unsigned int > > buckets; 
+		list <unsigned int  > infinityBucket ;// bucket containing only one element which will never happen
 
 
 		bool isEmpty;

@@ -147,7 +147,7 @@ void eventHandler::increaseKeyStatic (unsigned int eventNumber, baseType newTime
 
 	eventQueue->increaseKey (eventNumber);
 #else
-	decreaseKey ( eventSignature, numeric_limits<baseType>::min() );
+	decreaseKeyStatic ( eventNumber, numeric_limits<baseType>::min() );
 	eventQueue->pop();
 	eventList[eventNumber].time = newTime;
 	eventQueue->push ( eventNumber );
@@ -211,7 +211,8 @@ eventHandler::eventHandler ( )
 {
 	if ( eventList.size() == 0 )
 	{
-		event dummy;
+		event dummy;                           // inserting event which never happens.
+		dummy.time = numeric_limits<double>::max();
 		eventList.push_back ( dummy );
 	}
 	myEventsStartAt = numeric_limits<unsigned int>::max();
@@ -255,10 +256,12 @@ void eventHandler::pop()
 #endif
 
 
-#ifdef CALENDARQUEUE    
-	if (returnValue == 1.0)  // not working XXX
+#ifdef CALENDARQUEUE 
+ if (eventList[topElement].signature == _fire_)	
 	{
-		//return;
+		eventList[topElement].time = returnValue;
+	  eventQueue->nextYear();	
+		return;
 	}
 #endif
 

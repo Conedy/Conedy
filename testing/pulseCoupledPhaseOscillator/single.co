@@ -7,6 +7,8 @@ network net;
 net.addNode<pcoIntegrateFire>();
 
 
+
+
 net.observeTime("output/single.co.phase");
 net.observe(0,"output/single.co.phase");
 
