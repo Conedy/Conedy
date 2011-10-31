@@ -39,7 +39,6 @@
 ./params.h
 ./statisticsNetwork.cpp
 ./sdeNode.cpp
-./boost-build.jam
 ./spatialNetwork.cpp
 ./Scanner.h
 ./specialNodes.h
