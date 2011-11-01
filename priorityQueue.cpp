@@ -260,6 +260,8 @@ void calendarQueue::push (unsigned int i)
 
 void calendarQueue::cycleMarker()
 {
+
+	bool alreadyBeenHere = false;
 	newMarker = marker;
 	while (true)
 	{
@@ -268,7 +270,16 @@ void calendarQueue::cycleMarker()
 			currentBucket = currentBucket++;
 			if (currentBucket == nBuckets)
 			{
+				if (alreadyBeenHere == true)   // I havent found any event, assuming queue is empty
+				{
+					newMarker = infinityBucket.begin();
+					break;
+				}
+				
+
+				alreadyBeenHere = true;
 				currentBucket = 0;
+
 				head ++;
 			}
 			newMarker = buckets[currentBucket].begin();
