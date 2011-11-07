@@ -1,6 +1,6 @@
 
 [napKKm]
-integrator = gslOdeIntegrator
+type = gslOdeIntegrator
 dimension = 3
 parameter = 14
 parametername1 = gl
@@ -43,7 +43,7 @@ documentation=
 	aus Izhikevich S.10
 
 [gaussianHodgkinHuxley]
-integrator = stdSdeIntegrator
+type = stdSdeIntegrator
 dimension = 4
 parameter = 9
 parametername1 = cm
