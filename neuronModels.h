@@ -64,7 +64,7 @@ class gaussianFHN	: public sdeNode
 	public:
 		virtual const unsigned int dimension() const { return 2;}
 
-		gaussianFHN() : sdeNode (_gaussianFHN_ ) { }
+		gaussianFHN() : sdeNode (_gaussianFHN_,2 ) { }
 //		hodgkinHuxley(inStream& in) : odeNode(4), params(_hodgkinHuxley_) { setParams(in);}
 		virtual void operator() ( valarray<baseType>& y, valarray<baseType>& dxdt, valarray<baseType>& s );
 		virtual ~gaussianFHN() { }
@@ -210,7 +210,7 @@ class gaussianNapK		: public sdeNode
 	public:
 		virtual const unsigned int dimension() const { return 2;}
 
-		gaussianNapK() : sdeNode (_gaussianNapK_ ) { }
+		gaussianNapK() : sdeNode (_gaussianNapK_,2 ) { }
 //		hodgkinHuxley(inStream& in) : odeNode(4), params(_hodgkinHuxley_) { setParams(in);}
 		virtual void operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& s );
 		virtual ~gaussianNapK() { }
@@ -329,7 +329,7 @@ class gaussianNapKKm		: public sdeNode
 	public:
 		virtual const unsigned int dimension() const { return 3;}
 
-		gaussianNapKKm() : sdeNode (_gaussianNapKKm_ ) { }
+		gaussianNapKKm() : sdeNode (_gaussianNapKKm_,3 ) { }
 //		hodgkinHuxley(inStream& in) : odeNode(4), params(_hodgkinHuxley_) { setParams(in);}
 		virtual void operator() ( valarray<baseType>& x, valarray<baseType>& dxdt, valarray<baseType>& s );
 		virtual ~gaussianNapKKm() { }

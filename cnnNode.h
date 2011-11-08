@@ -48,7 +48,7 @@ class cnnNode: public stdOdeIntegrator
 		
 	public:
 		// Konstruktor der 1-dim-Node
-		cnnNode() :stdOdeIntegrator (_cnnNode_ ){}
+		cnnNode() :stdOdeIntegrator (_cnnNode_ , 1){}
 
 		//! Gibt die Dimension (1) zurück
 		virtual const unsigned int dimension() const { return 1;}
@@ -78,7 +78,7 @@ class couplingSumNode: public mapNode
 	public:
 
 		//! Leerer Konstruktor der 1-dim. Node
-		couplingSumNode() : mapNode(_couplingSumNode_){}
+		couplingSumNode() : mapNode(_couplingSumNode_, 1){}
 
 		//! Gibt den Zelltyp zurück
 		virtual const nodeInfo getNodeInfo();

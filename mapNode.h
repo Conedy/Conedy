@@ -31,8 +31,8 @@ namespace conedy
 
 
 			//! reserviert Speicher für mapNodeTmp soviel speicher wie die größte Dimension von den Erben von mapNode.
-			mapNode ( networkElementType n ) : // ngls: Anzahl der Gleichungen, NodeNumber,  h Schrittweite
-					containerNode<baseType,2> ( n )
+			mapNode ( networkElementType n, unsigned int dim ) : // ngls: Anzahl der Gleichungen, NodeNumber,  h Schrittweite
+					containerNode<baseType,2> ( n, dim )
 			{
 			}
 
@@ -137,7 +137,7 @@ namespace conedy
 
 			}
 
-			izhikevichMap() : mapNode ( _izhikevichMap_ )
+			izhikevichMap() : mapNode ( _izhikevichMap_, 2 )
 			{		}
 
 			virtual unsigned int numberOfEvents() const { return 0; }
@@ -178,7 +178,7 @@ namespace conedy
 	};
 
 
-
+//	typedef mapNode map;
 
 
 }

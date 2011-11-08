@@ -6,7 +6,7 @@
 namespace conedy
 {
 
-    void pcoBase::setInitialCondition ( vector <double  >  &r ) 
+    void pcoBase::setStateVec ( vector <double  >  &r ) 
 	{
 		baseType value = r[0];
 

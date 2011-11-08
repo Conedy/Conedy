@@ -72,7 +72,7 @@ namespace conedy
 			}	
 
 
-			gslOdeNode (networkElementType n ) : containerNode<baseType,3> ( n)
+			gslOdeNode (networkElementType n , unsigned int dim) : containerNode<baseType,3> ( n, dim)
 		{
 
 		};

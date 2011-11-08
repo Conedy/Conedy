@@ -52,10 +52,8 @@ namespace conedy
 
 		public:
 					static unsigned int containerDimension () { return usedIndices;}	
-			containerNode (networkElementType n ) : dynNode ( n), p ( _containerNode_ )
-		{
-
-		};
+			containerNode (networkElementType n ) : dynNode ( n), p ( _containerNode_ )		{		};
+			containerNode (networkElementType n, unsigned int dim ) : dynNode ( n, dim), p ( _containerNode_ )		{		};
 
 			static void clear()
 			{

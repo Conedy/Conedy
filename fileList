@@ -72,7 +72,11 @@
 ./stream.h
 ./neuronModels.cpp
 ./dynNetwork.cpp
-./pcoBase.h
+./pco.h
+./sde.h
+./ode.h
+./priorityQueue.h
+./priorityQueue.cpp
 ./Parser.h
 ./cnnNode.cpp
 ./mapNode.h

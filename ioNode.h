@@ -309,7 +309,7 @@ namespace conedy
 			}
 			virtual const unsigned int dimension() const { return 1;}
 
-			streamInNode ( networkElementType n ) : dynNode ( n ) {};
+			streamInNode ( networkElementType n ) : dynNode ( n, 1 ) {};
 
 
 			virtual ~streamInNode();

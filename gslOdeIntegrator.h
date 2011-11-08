@@ -10,7 +10,10 @@
 
 namespace conedy {
 
-typedef gslOdeNode gslOdeIntegrator;   // Runge-Kutta Ord4
+//typedef gslOdeNode gslOdeIntegrator;   // Runge-Kutta Ord4
+
+typedef gslOdeNode ode;
+
 
 }
 

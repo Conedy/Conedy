@@ -183,7 +183,7 @@ namespace conedy
 
 
 
-	streamInNode::streamInNode ( string s, networkElementType n )   : dynNode ( n )
+	streamInNode::streamInNode ( string s, networkElementType n )   : dynNode ( n, 1 )
 	{
 		//		s = "output/"+ s;
 

@@ -48,7 +48,7 @@ namespace conedy
 
 		static void registerStandardValues() 
 		{ 
-			params<baseType>::registerStandard(_dynNetwork_,"dynNetwork_ioNodeDt",0,0.01); 
+			params<baseType>::registerStandard(_dynNetwork_,"samplingTime",0,0.01); 
 //nn			params<baseType>::registerStandard ( _dynNetwork_,"streamOutNode_binary",1, 0.0 );
 		}
 		baseType inline ioNodeDt () { return p.getParams(0); }

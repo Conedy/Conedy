@@ -99,7 +99,7 @@ Windows
 
 
 
-.. _Source: download/conedy_0.22-1.tar.gz
+.. _Source: download/conedy_0.24-1.tar.gz
 
 .. _cs-lenny-amd64: download/lenny-amd64/conedy-src__amd64.deb
 .. _cs-lenny-i386: download/lenny-i386/conedy-src__i386.deb

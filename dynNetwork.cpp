@@ -7,7 +7,7 @@
 
 //##include "pulseCoupledPhaseOscillator.h"
 
-#include "pcoBase.h"
+#include "pco.h"
 
 #include "stream.h"
 
@@ -539,7 +539,7 @@ namespace conedy
 
 
 		if ( node::theNodes[nodeNumber]->getNodeInfo().theNodeKind & _dynNode_ )
-			dynamic_cast<dynNode*>( ( node::theNodes[nodeNumber] ) )->setInitialCondition(argList);
+			dynamic_cast<dynNode*>( ( node::theNodes[nodeNumber] ) )->setStateVec(argList);
 		else
 			throw "Error. Der Knoten ist gar nicht vom Typ Dynnode.";
 

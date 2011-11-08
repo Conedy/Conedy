@@ -99,6 +99,7 @@ namespace { // Avoid cluttering the global namespace.
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observePhaseCoherence_overloads, observePhaseCoherence, 1,5);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observeMean_overloads, observeMean, 1,2);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (setState_overloads, setInitialCondition, 2,13);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (setStateTemplate_overloads, setState, 1,12);
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (addRandomEdges_overloads, addRandomEdges, 1,2);
 
@@ -246,7 +247,8 @@ namespace { // Avoid cluttering the global namespace.
 
 
 
-		class_<nodeBlueprint> ("nodeBlueprint");
+		class_<nodeBlueprint> ("nodeBlueprint")
+			.def("setState", &dynNode::setState, setStateTemplate_overloads ( reinterpret_cast <const char *> (__addedNodes_setState)))  ;
 
 
 

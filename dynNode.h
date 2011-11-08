@@ -49,6 +49,9 @@ class dynNode : public node, public params<baseType>
     static baseType endTime;
     
     dynNode ( networkElementType n) : params<baseType>( n ) {}
+
+		dynNode (networkElementType n, unsigned int dim);
+
 	dynNode () : params <baseType> (_dynNodeNodeType_) {}
 
     virtual void evolve(double time) { throw "evolve of dynNode called";}
@@ -76,11 +79,90 @@ class dynNode : public node, public params<baseType>
 
     dynNode( const dynNode &b);
 
-	 virtual void setInitialCondition (vector <double> &r);
+	 virtual void setStateVec (vector <double>  &r);
  	 virtual void randomizeState ( boost::function<double () > &r ) { vector <boost::function<double () > >  dummy; dummy.push_back(r); randomizeState(dummy); }
 
     virtual void randomizeState ( vector <boost::function<double () > > &r );
     
+
+		void setState(  baseType a1, baseType a2 = numeric_limits<baseType>::max(), baseType a3 = numeric_limits<baseType>::max(), baseType a4 = numeric_limits<baseType>::max(), baseType a5 = numeric_limits<baseType>::max(), baseType a6 = numeric_limits<baseType>::max(), baseType a7 = numeric_limits<baseType>::max(), baseType a8 = numeric_limits<baseType>::max(), baseType a9 = numeric_limits<baseType>::max(), baseType a10 = numeric_limits<baseType>::max(), baseType a11 = numeric_limits<baseType>::max(), baseType a12 = numeric_limits<baseType>::max())
+		{
+				vector <baseType> argList;
+				argList.push_back (a1);
+				if (a2 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a2);
+				if (a3 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a3);
+				if (a4 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a4);
+				if (a5 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a5);
+				if (a6 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a6);
+				if (a7 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a7);
+				if (a8 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a8);
+				if (a9 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a9);
+				if (a10 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a10);
+				if (a11 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a11);
+				if (a12 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a12);
+				setStateVec( argList);
+				return;
+
+
+
+		}
+
+
 
 
 

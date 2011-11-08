@@ -42,6 +42,8 @@ namespace conedy {
 			odeNode(networkElementType n) : // ngls: Anzahl der Gleichungen, NodeNumber,  h Schrittweite
 				containerNode<baseType,1>(n) {}
 
+			odeNode(networkElementType n, unsigned int dim) : // ngls: Anzahl der Gleichungen, NodeNumber,  h Schrittweite
+				containerNode<baseType,1>(n, dim) {}
 			virtual ~odeNode() {}
 
 //			virtual void operator()(valarray <baseType> & y , valarray <baseType> & f);

@@ -18,7 +18,7 @@ namespace conedy {
 		public:
 				sdeIntegrator *integ;
 
-		stdSdeIntegrator (networkElementType n) : sdeNode (n)    {}
+		stdSdeIntegrator (networkElementType n, unsigned int dim) : sdeNode (n, dim)    {}
 
 		stdSdeIntegrator ( const stdSdeIntegrator &b ): sdeNode (b)
 		{		}
@@ -89,6 +89,7 @@ namespace conedy {
 
 
 
+	typedef stdSdeIntegrator sde;
 
 
 //	typedef odeNode stdSdeIntegrator;   // Runge-Kutta Ord4

@@ -24,7 +24,7 @@ namespace conedy
 		public:
 
 
-			sdeNode ( networkElementType n) : containerNode<baseType, 4> ( n ) { }
+			sdeNode ( networkElementType n, unsigned int dim) : containerNode<baseType, 4> ( n, dim ) { }
 
 			virtual void operator()(baseType x[], baseType  dxdt[], baseType s[], baseType dsdx []) {throw "differential equation not defined for";};
 
