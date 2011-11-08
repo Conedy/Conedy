@@ -1,5 +1,5 @@
 
-dynNetwork_ioNodeDt = 1.2;
+samplingTime = 1.2;
 
 
 network net;

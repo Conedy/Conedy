@@ -6,7 +6,7 @@ network net;
 double rewiring;
 double coupling;
 
-dynNetwork_ioNodeDt = 0.025;
+samplingTime = 0.025;
 #GLNetwork_skipFrames = 1.0;
 
 coupling = 0.16;

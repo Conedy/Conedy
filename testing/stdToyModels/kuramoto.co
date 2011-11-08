@@ -2,7 +2,7 @@ network net;
 
 kuramoto_omega = 0.1;
 
-dynNetwork_ioNodeDt = 0.01;
+samplingTime = 0.01;
 
 
 int firstNodeNumber;

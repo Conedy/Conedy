@@ -4,7 +4,7 @@ net = co.network()
 
 co.set("kuramoto_omega", 0.1)
 
-co.set("dynNetwork_ioNodeDt", 0.01)
+co.set("samplingTime", 0.01)
 
 
 #just one kuramoto oscillator

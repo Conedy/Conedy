@@ -1,7 +1,7 @@
 pcoIntegrateFireDelay_timeDelay = 0.1;
 pcoIntegrateFireDelay_t_ref = 0.5;
 
-dynNetwork_ioNodeDt = 0.001;
+samplingTime = 0.001;
 
 
 

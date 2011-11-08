@@ -1,6 +1,6 @@
 import conedy as co
 
-co.set("dynNetwork_ioNodeDt", 0.02)
+co.set("samplingTime", 0.02)
 
 co.set("hodgkinHuxley_I", 20.0)
 

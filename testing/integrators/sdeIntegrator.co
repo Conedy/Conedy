@@ -4,7 +4,7 @@ network net;
 ornUhl_drift = 0.2;
 ornUhl_diffusion = 0.1;
 
-dynNetwork_ioNodeDt = 0.1;
+samplingTime = 0.1;
 
 
 

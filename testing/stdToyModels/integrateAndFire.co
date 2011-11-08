@@ -5,7 +5,7 @@ integrateAndFire_a = -0.2;
 integrateAndFire_I = 0.3;
 
 
-dynNetwork_ioNodeDt = 0.01;
+samplingTime = 0.01;
 
 
 net.addNode<integrateAndFire>();

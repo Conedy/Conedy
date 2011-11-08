@@ -7,7 +7,7 @@ net = co.network()
 
 co.set("ornUhl_drift" , 0.2)
 co.set("ornUhl_diffusion" , 0.1)
-co.set("dynNetwork_ioNodeDt", 0.1)
+co.set("samplingTime", 0.1)
 
 
 net.addNode(co.ornUhl())

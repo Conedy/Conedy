@@ -32,7 +32,7 @@ coupling 			 		= 0.01;
 print "#phi \Delta(\phi)"+newline;
 
 streamOutNode_append =1.0;
-dynNetwork_ioNodeDt = 10000.0;
+samplingTime = 10000.0;
 
 
 :rm _tmp:;

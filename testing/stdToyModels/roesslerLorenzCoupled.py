@@ -10,7 +10,7 @@ co.set("lorenz_S", 10.0)
 co.set("lorenz_r", 28.0)
 co.set("lorenz_b", 8.0/3.0)
 
-co.set("dynNetwork_ioNodeDt", 0.01)
+co.set("samplingTime", 0.01)
 
 
 net.addNode(co.roessler())

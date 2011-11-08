@@ -2,7 +2,7 @@ pcoIntegrateFireDelay_timeDelay = 0.01;
 pcoIntegrateFireDelay_t_ref = 0.05;
 pcoIntegrateFireDelay_alpha = 0.9;
 
-dynNetwork_ioNodeDt = 0.025;
+samplingTime = 0.025;
 #GLNetwork_skipFrames = 1.0;
 
 network n;

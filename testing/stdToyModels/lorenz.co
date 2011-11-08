@@ -4,7 +4,7 @@ lorenz_S = 10.0;
 lorenz_r = 28.0;
 lorenz_b = 8.0/3.0;
 
-dynNetwork_ioNodeDt = 0.01;
+samplingTime = 0.01;
 
 
 net.addNode<lorenz>();
