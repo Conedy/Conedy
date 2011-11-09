@@ -26,7 +26,7 @@ namespace conedy
 */
 
 
-
+/*
 
 
 	void pcoTrapez::excite ( baseType coupling )
@@ -65,7 +65,7 @@ namespace conedy
 	}
 
 
-
+*/
 
 
 

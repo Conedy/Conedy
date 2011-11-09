@@ -62,7 +62,7 @@ namespace conedy
 
 	};
 //! pco mit Dreieck
- class pcoTrapez : public pcoBase
+/* class pcoTrapez : public pcoBase
 
 
 	{
@@ -103,6 +103,7 @@ namespace conedy
 
 
 	//! richtige Integrate-and-fire-neuronen mit delay und refraktärzeiten
+	*/
 /*	class pcoRealIFNeuronDelay : public pcoDelay
 	{
 		public:
