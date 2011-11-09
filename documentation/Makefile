@@ -38,11 +38,10 @@ getDocFromTesting:															#
 	mkdir -p reference/network/observe\ dynamics
 	mkdir -p reference/network/measures
 	mkdir -p reference/nodes/mapNode
-	mkdir -p reference/nodes/stdOdeIntegrator
-	mkdir -p reference/nodes/stdSdeIntegrator
-	mkdir -p reference/nodes/pcoBase
+	mkdir -p reference/nodes/ode
+	mkdir -p reference/nodes/sde
+	mkdir -p reference/nodes/pco
 	mkdir -p reference/nodes/pcoDelay
-	mkdir -p reference/nodes/gslOdeIntegrator
 	mkdir -p reference/network/edges
 
 	cd ../testing/createNetwork; find -name '*.rst' -execdir sh -c 'name={}; ../../documentation/mergeDocExample.sh {} > ../../documentation/reference/network/create\ manipulate/$${name#./}' \; 
@@ -55,22 +54,20 @@ getDocFromTesting:															#
 
 #	cd ../testing/addedNodes; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/$${name#./}' \; 
 	cd ../testing/addedNodes/mapNode; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/mapNode/$${name#./}' \; 
-	cd ../testing/addedNodes/stdOdeIntegrator; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/stdOdeIntegrator/$${name#./}' \; 
-	cd ../testing/addedNodes/stdSdeIntegrator; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/stdSdeIntegrator/$${name#./}' \; 
-	cd ../testing/addedNodes/pcoBase; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/pcoBase/$${name#./}' \; 
+	cd ../testing/addedNodes/ode; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/ode/$${name#./}' \; 
+	cd ../testing/addedNodes/sde; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/sde/$${name#./}' \; 
+	cd ../testing/addedNodes/pco; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/pco/$${name#./}' \; 
 	cd ../testing/addedNodes/pcoDelay; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/pcoDelay/$${name#./}' \; 
-	cd ../testing/addedNodes/gslOdeIntegrator; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/gslOdeIntegrator/$${name#./}' \; 
 
 
 	cp network.tmpl reference/network.rst
 	cp create\ manipulate.tmpl reference/network/create\ manipulate.rst
 	cp observe\ dynamics.tmpl reference/network/observe\ dynamics.rst
 	cp network\ measures.tmpl reference/network/measures.rst
-	cp pcoBase.tmpl reference/nodes/pcoBase.rst
+	cp pco.tmpl reference/nodes/pco.rst
 	cp pcoDelay.tmpl reference/nodes/pcoDelay.rst
-	cp stdOdeIntegrator.tmpl reference/nodes/stdOdeIntegrator.rst
-	cp stdSdeIntegrator.tmpl reference/nodes/stdSdeIntegrator.rst
-	cp gslOdeIntegrator.tmpl reference/nodes/gslOdeIntegrator.rst
+	cp ode.tmpl reference/nodes/ode.rst
+	cp sde.tmpl reference/nodes/sde.rst
 	cp mapNode.tmpl reference/nodes/mapNode.rst
 	cp nodes.tmpl reference/nodes.rst
 	cp edges.tmpl reference/network/edges.rst

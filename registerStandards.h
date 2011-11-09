@@ -45,7 +45,7 @@ void registerStandards()
 //	ornUhl::registerStandardValues();
 	pcoDelay::registerStandardValues();
 //	pcoIFNeuronDelay::registerStandardValues();	
-	pcoTrapez::registerStandardValues();
+	//pcoTrapez::registerStandardValues();
 //	pcoTriangel::registerStandardValues();
 	periodicNode::registerStandardValues();
 	pulseCoupledExcitatoryNeuron::registerStandardValues();

@@ -89,7 +89,7 @@ After this we want the integration time and the z-component (component 2 in zero
 
    N.observeTime("output_Roessler")
    N.observeAll("output_Roessler", co.component(2))
-   co.set("dynNetwork_ioNodeDt", 0.01)
+   co.set("samplingTime", 0.01)
 
 During a second calling of ``evolve`` Conedy will compute the time series of the 100 Rössler oscillators using an integration time step of 0.01. For each time step, the time and the z-component of all oscillators will be written to ``output_Roessler``::
 

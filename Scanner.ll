@@ -232,7 +232,6 @@ setRandomSeed		{return(ParserBase::SETRANDOMSEED); }
 
 
 node					{return(ParserBase::NODE); }
-pcoTrapez	{return(ParserBase::PCPOTRAPEZ); }
 
 
 

@@ -88,9 +88,9 @@ weightedEdge            16                24
 observing
 ---------
 
-After having created the network, you will want to tell conedy which features of the network should be observed during integration. Usually, you will call the evolve-function, which evolves the dynamical state of all nodes in the network. In perdiodic intervals, a snapshot of all observed features is performed. The duration between snapshots can be controlled by setting the global variable "dynNetwork_ioNodeDt"::
+After having created the network, you will want to tell conedy which features of the network should be observed during integration. Usually, you will call the evolve-function, which evolves the dynamical state of all nodes in the network. In perdiodic intervals, a snapshot of all observed features is performed. The duration between snapshots can be controlled by setting the global variable "samplingTime"::
 
-   ns.set("dynNetwork_ioNodeDt", 0.01)
+   ns.set("samplingTime", 0.01)
 
 Additionally, you can issue a snapshot manually::
    
