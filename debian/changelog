@@ -1,4 +1,4 @@
-conedy (0.24-1) unstable; urgency=low
+conedy (0.24) unstable; urgency=low
 
   * changed names of some complicated tokens, e. dynNetwork_ioNodedt ->
   samplingTime
