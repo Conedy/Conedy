@@ -499,6 +499,7 @@ void network::clear ()
 
 
 	inOutNodeList.clear();
+	upkeepList.clear();
 	theNodes.clear();
 	numberOfNodes = 0;
 	dynNode::time = 0;
