@@ -524,7 +524,9 @@ class NodeEditor:
 		
 		nodes = lines[start+1:stop]
 		if self.static == 0:
-			nodes.append("class_< nodeVirtualEdges<%s> , bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ); // added by addNewNodes.py \n" %(self.className, fileNameOut, self.type,self.className))
+			nodes.append("class_< nodeVirtualEdges<%s> , bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ) // added by addNewNodes.py\n" %(self.className, fileNameOut, self.type,self.className))
+			nodes.append(". def (\"__init__\", make_constructor (nodeFactory%i < nodeVirtualEdges <%s> > )); // added by addNewNodes.py\n"  % (len(self.params), self.className))   #adding constructor with different parameters
+			
 		elif self.static == 1:	
 			self.staticEdgeType = self.staticEdgeType.replace ("_","<")
 			hierachy = self.staticEdgeType.count ("<")
@@ -532,15 +534,16 @@ class NodeEditor:
 			self.staticEdgeType = self.staticEdgeType + (" edge")
 			for i in range (0, hierachy):
 				self.staticEdgeType += (">")
-			
-
-			nodes.append("class_< nodeTemplateEdges< %s >  , %s , %s >, bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ); // added by addNewNodes.py \n" %(self.staticEdgeType, self.staticTargetNodeType,self.className,  fileNameOut, self.type, self.className))
-		nodes.sort()
+			nodes.append("class_< nodeTemplateEdges< %s >  , %s , %s >, bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ) // added by addNewNodes.py\n" %(self.staticEdgeType, self.staticTargetNodeType,self.className,  fileNameOut, self.type, self.className))
+			nodes.append(". def (\"__init__\", make_constructor (nodeFactory%i < nodeTemplateEdges <%s >, %s, %s > > )); // added by addNewNodes.py\n"  %( len(self.params), self.staticEdgeType, self.staticTargetNodeType, self.className))   #adding constructor with different parameters
 	
+#		nodes.sort()
 		
 
 		try:
+#			nodes.remove("")
 			nodes.remove("\n")
+#			nodes.remove(" \n")
 		except:
 			pass
 
