@@ -29,36 +29,44 @@ In the following, a short example is given which shows how to use to python bind
 
 Short Example
 -------------
-We create a simple network with two nodes, one with Rössler and one with Lorenz dynamics. We add a directed edge, coupling the `Rössler`_ into the `Lorenz`_, and monitor the oscillators for some time::
+We create a simple network with two nodes, one with Rössler and one with Lorenz dynamics. We add a directed edge, coupling the `Rössler`_ into the `Lorenz`_, and monitor the oscillators for some time
 
-	#! /usr/bin/env python
-	# -*- coding: utf-8 -*-
-	import conedy as co
 
-	# Create the network, …
-	N = co.network()
+.. doctest:: TEST
+   
+   no python command
 
-	# add the nodes to it, …
-	numberRoessler = N.addNode(co.roessler())
-	numberLorenz = N.addNode(co.lorenz())
 
-	# and connect them with a directed edge with weight 1.0 (Rössler to Lorenz).
-	N.addEdge(numberLorenz, numberRoessler, co.weightedEdge(1.))
+.. testcode::
 
-	# Set the oscillators’ intial states.
-	N.setState(numberRoessler, 0., 0., 0.)
-	N.setState(numberLorenz, 1., 1., 1.)
+   #! /usr/bin/env python
+   import conedy as co
 
-	# Let 100.0 units of time pass, in order for transients to die out.
-	N.evolve(0., 100.)
+   # Create the network, ...
+   N = co.network()
 
-	# Set the time and each oscillator’s third component to be written to roesslerLorenzOut.
-	N.observeTime("roesslerLorenzOut")
-	N.observe(numberRoessler, "roesslerLorenzOut", co.component(2))
-	N.observe(numberLorenz, "roesslerLorenzOut", co.component(2))
+   # add the nodes to it, ...
+   numberRoessler = N.addNode(co.roessler())
+   numberLorenz = N.addNode(co.lorenz())
 
-	# Let 400.0 units of time pass.
-	N.evolve(100.,500.)
+   # and connect them with a directed edge with weight 1.0 (Roessler to Lorenz).
+   N.addEdge(numberLorenz, numberRoessler, co.weightedEdge(1.))
+   
+   # Set the oscillators' intial states.
+   N.setState(numberRoessler, 0., 0., 0.)
+   N.setState(numberLorenz, 1., 1., 1.)
+
+   # Let 100.0 units of time pass, in order for transients to die out.
+   N.evolve(0., 100.)
+
+   # Set the time and each oscillator's third component to be written to roesslerLorenzOut.
+   N.observeTime("roesslerLorenzOut")
+   N.observe(numberRoessler, "roesslerLorenzOut", co.component(2))
+   N.observe(numberLorenz, "roesslerLorenzOut", co.component(2))
+
+   # Let 400.0 units of time pass.
+   N.evolve(100.,500.)
+
 
 Voilà: Now we have timeseries (400.0 units) of the two coupled oscillators written down in a text file ``roesslerLorenzOut``.
 

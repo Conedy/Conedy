@@ -10,6 +10,8 @@ For network creation, Conedy supplies elementary functions which allow you to ad
 
 All of these functions in Conedy accept a parameter which allows you to specify the type of the added node(s). We call this parameter a node template. To add a single node of type logisticMap, the following code can be used::
 
+.. testcode:: test1
+
    N = co.network()
    nodeNumber = N.addNode(co.logisticMap())
 
@@ -21,17 +23,23 @@ Node parameters
 
 All node dynamics depend on certain parameters. For example, the node dynamics :ref:`logisticMap` is defined by :math:`x_{n+1} = r x_n ( 1 - x_n)` with :math:`r` as a parameter, which can be assessed by ``logisticMap_r`` in Conedy.
 
-When a node added as in the above example, default values for node parameters are used, for example the default value of ``logisticMap_r`` is 3.58 (as documented in :ref:`logisticMap`). In case you want to add different parameters, a full set of parameters can be specified as arguments, e.g.::
+When a node added as in the above example, default values for node parameters are used, for example the default value of ``logisticMap_r`` is 3.58 (as documented in :ref:`logisticMap`). In case you want to add different parameters, a full set of parameters can be specified as arguments, e.g.
+
+.. testcode:: test2
 
    N = co.network()
    N.addNode(co.logisticMap(11, 25, 2.6 ))
 
-To change a parameter after node creation, the ``setParam``-function can be used. Just specify node number, parameter name and the new desired new value::
+To change a parameter after node creation, the ``setParam``-function can be used. Just specify node number, parameter name and the new desired new value
+
+.. testcode:: test2
 
    N.setParam(nodeNumber, "logisticMap_r", 3.53)
 
 
-Another way to control parameters is to change the default values. For example::
+Another way to control parameters is to change the default values. For example
+
+.. testcode:: test3
 
 	N = co.network()
 	for i in range(500):
@@ -39,7 +47,9 @@ Another way to control parameters is to change the default values. For example::
 	co.set("lorenz_s", 11)
 	co.set("lorenz_r", 25)
 
-will create a network of 500 nodes, all with :ref:`lorenz` dynamics and all with ``lorenz_s`` = 11 and ``lorenz_r`` = 25 as well as the third parameter ``lorenz_b`` equalling its predefined standard value. Since all nodes of the above network use the same memory for the parameters, it makes no difference, whether default values are changed before or after network creation. However, if the parameters of a node have been changed (e.g. by ``setParam``), they are stored in a different memory position and will not be affected by a change of the default parameters::
+will create a network of 500 nodes, all with :ref:`lorenz` dynamics and all with ``lorenz_s`` = 11 and ``lorenz_r`` = 25 as well as the third parameter ``lorenz_b`` equalling its predefined standard value. Since all nodes of the above network use the same memory for the parameters, it makes no difference, whether default values are changed before or after network creation. However, if the parameters of a node have been changed (e.g. by ``setParam``), they are stored in a different memory position and will not be affected by a change of the default parameters
+
+.. testcode:: test4
 
 	N = co.network()
 	nodeNumber = N.addNode(co.logisticMap())
@@ -47,7 +57,7 @@ will create a network of 500 nodes, all with :ref:`lorenz` dynamics and all with
 	co.set("logisticMap_r", 3.5)
 	print co.getParam(nodeNumber, "logisticMap_r")    # returns 1.0
 
-::
+.. testcode:: test5
 
 	N = co.network()
 	nodeNumber = N.addNode(co.logisticMap())
@@ -69,7 +79,6 @@ Conedy uses the random number generators of the GNU Scientific Library (GSL). Th
    co.setRandomSeed(42)
 
 .. _the GSL’s documentation: http://www.gnu.org/software/gsl/manual/html_node/Random-Number-Generation.html
-
 
 For the randomization of parameters (or intial conditions) objects are provided, which specify the desired random distribution. The following example will create an object for uniformly distributed random numbers between 0.2 and 0.4::
 

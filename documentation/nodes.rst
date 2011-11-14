@@ -25,7 +25,7 @@ In the following the syntax for such a file will be explained using the Rössler
 	parametername4 = c
 	standardvalue4 = 10.0
 
-	integrator = stdOdeIntegrator
+   type = ode
 
 	dimension = 3
 	dynamics =
@@ -65,11 +65,11 @@ Specify for each parameter a name and a standard value::
 Equations
 ---------
 
-The exact shape of the equations depends on the integrator that is used. The Rössler oscillator uses a standard integrator for ordinary differential equations::
+The shape of the equations depends on the type of the dynamical system. The Rössler oscillator is described by ordinary differential equations. We thus specify::
 
-	integrator = stdOdeIntegrator
+   type = ode
 
-Thus in the eqations the time derivatives of its dynamics have to be specified. See the :ref:`next subsection <integrators>` for a detailed description of this integrator and the others provided by Conedy.
+In the eqations the time derivatives of its dynamics have to be specified. See the :ref:`next subsection <integrators>` for a detailed description of this integrator and the others provided by Conedy.
 
 
 Next, specify the number of dynamical variables of the node (e.g. the number of differential equations)::
@@ -82,15 +82,15 @@ Finally the equations can be defined:
 .. code-block:: c++
 
 	dynamics =
-		dxdt[0] = -omega() * x[1] - x[2] + couplingSum() - weightSum()*x[0];
-		dxdt[1] = x[0] + a() * x[1];
-		dxdt[2] = b() + x[2] * (x[0]-c());
+		dxdt[0] = -omega * x[1] - x[2] + couplingSum() - weightSum()*x[0];
+		dxdt[1] = x[0] + a * x[1];
+		dxdt[2] = b + x[2] * (x[0]-c);
 
 These equations are directly copied into a C++ file and may contain the following elements:
 
 -	standard C constructs like basic mathematical operators, brackets or loops
 -	functions from ``math.h``
--	the parameters of the dynamics as functions without arguments, e.g. ``omega()``
+-	the parameters of the dynamics as functions without arguments, e.g. ``omega``
 -	the dynamical variables such as ``x[0]``
 -	``weightSum()`` which returns the sum over the weights of all edges, which are directed **from** the node.
 -	``couplingSum()`` which returns the sum over the states offered by the edges, which are directed **from** the node (usually [weight of the edge]×[state of the target node])
