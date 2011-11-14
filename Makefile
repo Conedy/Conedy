@@ -100,11 +100,11 @@ conedy-src.test:   # if the testfile was already added, remove it and recompile 
 	${noUserSpace} cp testNode1.cfg ${dirsrc}/addedNodes
 	recompileConedy
 	recompilePython-Conedy
-	cd ${dirsrc}/testing/addedNodes/gslOdeIntegrator;  ${noUserSpace} sh -c 'make -s test_./testNode1.co > testResult.conedy-src 2> testResult.conedy-src'
-	cd ${dirsrc}/testing/addedNodes/gslOdeIntegrator && ! grep failed testResult.conedy-src
-	cd ${dirsrc}/testing/addedNodes/gslOdeIntegrator;  ${noUserSpace} sh -c 'make -s test_./testNode1.py > testResult.conedy-src 2> testResult.conedy-src'
-	cd ${dirsrc}/testing/addedNodes/gslOdeIntegrator && ! grep failed testResult.conedy-src
-	grep succeded ${dirsrc}/testing/addedNodes/gslOdeIntegrator/testResult.conedy-src
+	cd ${dirsrc}/testing/addedNodes/ode;  ${noUserSpace} sh -c 'make -s test_./testNode1.co > testResult.conedy-src 2> testResult.conedy-src'
+	cd ${dirsrc}/testing/addedNodes/ode && ! grep failed testResult.conedy-src
+	cd ${dirsrc}/testing/addedNodes/ode;  ${noUserSpace} sh -c 'make -s test_./testNode1.py > testResult.conedy-src 2> testResult.conedy-src'
+	cd ${dirsrc}/testing/addedNodes/ode && ! grep failed testResult.conedy-src
+	grep succeded ${dirsrc}/testing/addedNodes/ode/testResult.conedy-src
 #	${noUserSpace} rm ${dirsrc}/addedNodes/testNode1.cfg
 #	recompileConedy
 #	recompilePython-Conedy

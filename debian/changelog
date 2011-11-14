@@ -3,6 +3,7 @@ conedy (0.24) unstable; urgency=low
   * changed names of some complicated tokens, e. dynNetwork_ioNodedt ->
   samplingTime
   * added setState function for templates
+  * node templates can be created with user-defined parameters in python
 
  -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Tue, 08 Nov 2011 11:44:36 +0100
 
