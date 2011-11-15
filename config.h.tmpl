@@ -1,39 +1,22 @@
 
-all:																									
-	echo "----------------------------------------------------------------"
-	echo "Please edit config.h and comment the first four lines afterwards."		
-	echo "----------------------------------------------------------------"
-
-
-
-
-
-
-
 # Specify, which parts of conedy should be build and installed. Please choose one of the following: conedy python-conedy conedy-src documentation
 
-todo = python-conedy conedy conedy-src documentation 
-
+todo = python-conedy conedy conedy-src documentation
 
 
 # Installation directory (with path)
-# Example:
-# dirinstall = /usr/bin/
 
-dirinstall = CHANGEME
+dirinstall = /usr/bin
 
-# Installation directory for specific files 
-# Example:
-# dirsrc = /usr/share/conedy
+# Installation directory for specific files
 
-dirsrc = CHANGEME
+dirsrc = /usr/share/conedy
 
 
 # monitor directory for added nodes
-# Example:
-#addedDir = /home/username/.config/conedy/addedNodes
 
-addedDir = CHANGEME
+addedDir = $HOME/.config/conedy/addedNodes
+
 
 VERSION = 0.20
 
