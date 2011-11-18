@@ -110,16 +110,14 @@ namespace conedy
 				params<baseType>::registerStandard(_network_,"network_edgeVerbosity",1,2.0);
 			}	
 
-			// edges are described by an integer for the source node and an identifier which is defined in edge.	
+			//! edges are described by an integer for the source node and an identifier which is defined in edge.	
 			typedef pair<nodeDescriptor, node::edgeDescriptor> edgeDescriptor;
 
-			// return the source of the edge.
+			//! return the source of the edge.
 			nodeDescriptor getSource(edgeDescriptor eD) { return eD.first; }
-
-			nodeDescriptor getTarget(nodeDescriptor source,  nodeDescriptor edgeNumber)
-			{ return node::theNodes[source]->getTarget(edgeNumber)->getNumber(); }
 				typedef set<nodeDescriptor> nodeList;
 			
+
 			typedef nodeList::iterator nodeIterator;
 			typedef list< edgeDescriptor >  edgeList;
 			typedef edgeList::iterator edgeIterator;
@@ -129,17 +127,22 @@ namespace conedy
 			set<nodeDescriptor> theNodes;
 
 
-
+			//! prepare the network for numerical integration, calls clean for each node and updates evolveList, etc.
 			virtual void clean ();
 
 
 			//! restrict the network to the node number numbers which are in the file fileName
 			void select (string fileName) ;
 
-
+		
+			//! return the target of the edge
+			nodeDescriptor getTarget(nodeDescriptor source,  nodeDescriptor edgeNumber)  { return node::theNodes[source]->getTarget(edgeNumber)->getNumber(); }
 			nodeDescriptor getTarget(edgeDescriptor eD) { return node::theNodes[eD.first]->getTarget(eD.second)->getNumber(); }		
+
+
 			baseType getWeight(edgeDescriptor eD) { return node::theNodes[eD.first]->getWeight(eD.second); }
 			void setWeight(edgeDescriptor eD, baseType w) { 		 node::theNodes[eD.first]->setWeight(eD.second, w); }
+
 			edgeInfo getEdgeInfo (edgeDescriptor eD) 		 { return node::theNodes[eD.first]->getEdgeInfo(eD.second);}
 			edge * getEdge (edgeDescriptor eD) 				 { return node::theNodes [eD.first]->getEdge(eD.second); }
 
@@ -148,8 +151,8 @@ namespace conedy
 
 			static edgeVirtual * stdEdge;//# = new edge(NULL,NULL,1);
 			static dynNode * stdNode;
-			network() ;                   // sinnloser Konstruktor
-			network(bool directedNess) ;                   // sinnloser Konstruktor
+			network() ;                   
+			network(bool directedNess) ;   
 
 			virtual ~network();
 
@@ -159,7 +162,7 @@ namespace conedy
 			//					return ((dynNode*)(theNodes[nodeNumber]))->getParam(name);
 			//			}
 
-
+			//! 
 			void removeEdge (edgeDescriptor e)
 			{
 				node::theNodes[e.first]-> removeEdge (e.second);
@@ -180,32 +183,36 @@ namespace conedy
 
 
 
-			//			void createFromAdjacencyList(string fileName, node * n);
+			//! Randomizes the coupling strengths for all edges which connect nodes of kind sourcenNodeKind to nodes of kind targetNodeKind. New weights are drawn from r.
 
-
-			//! Besetzt die Kopplungsgewichte aller Links neu, die bei einem Knoten vom Typ sourceNodeKind beginnen und bei einem Knoten vom Typ targetNodeKind enden. Neue Kopplungsgewichte werden aus der Funktion r gezogen. r kann somit zum Beispiel auch Zahlen aus einer Datei lesen.
 			void randomizeSomeWeights( function<double()> r, nodeKind sourceNodeKind, nodeKind targetNodeKind);
 
-			//! Besetz die Kopplungsgewichte von Links, zwischen dynamischen Knoten neu.
+			//! Randomizes the coupling strnegths for all dynamical nodes. New weights are drawn from r	
 			void randomizeWeights ( function<double () > r ) { randomizeSomeWeights(r,_dynNode_,_dynNode_); }
 
 
 			//! Haut einen Zeiger auf den Knoten nodeNumber in die Liste res.
+			
+			//! adds the node nodeNumber to the list res.
 			void verticesMatching(nodeList &res, nodeDescriptor nodeNumber);
 
-			//! Fügt der Liste res alle Knotem der Art nodeKind hinzu.
+
+			//! adds all nodes of kind nodeKind to the list res.
 			void verticesMatching(nodeList &res, nodeKind nodeKind);
 
-			//! Fügt alle Knoten hinzu, die "ähnlich" (n.equals(m) == true sind wie Knoten n.
+
+			//! adds all nodes, which "match" node n.
 			void verticesMatching(nodeList &res, node *n);
 
 			//! Fügt der Liste res alle Knoten vom Typ nodetyp hinzu.
 			void verticesMatching(nodeList &res, int networkElementType);
 
+
+			//! adds an edge between source and target. The new edge is copied from l.
 			void addEdges(nodeDescriptor source, nodeDescriptor target, edgeBlueprint *l);
 
 
-			//! Verbindet sourceNode und targetNode bidirektional mit einer Verbindung vom Typ l 
+			// adds edges in each direction between sourceNode and targetNode of type l.
 			void link( nodeDescriptor  sourceNode, nodeDescriptor targetNode, edgeBlueprint *l);
 
 			//! return true, if for every edge between dynNodes in the network, there exist an edge with source and target interchanged.
