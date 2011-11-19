@@ -1,0 +1,197 @@
+
+
+getState				{return(ParserBase::GETSTATE); }
+
+
+evolve				{return(ParserBase::EVOLVE); }
+evolveAlong				{return(ParserBase::EVOLVEALONG); }
+realignAtEvent 		{return(ParserBase::REALIGNATEVENT ); }
+realignAtEventSignature {return(ParserBase::REALIGNATEVENTSIGNATURE);}
+realignWhenDistant {return(ParserBase::REALIGNWHENDISTANT);}
+
+comandLineDouble		{return(ParserBase::COMANDLINE); }
+comandLineString		{return(ParserBase::COMANDLINESTRING); }
+torusNearestNeighbors	{return(ParserBase::TORUSNEARESTNEIGHBORS);}
+connectCloseNodes		{return(ParserBase::CONNECTCLOSENODES);}
+
+connectCloseNodesTorus		{return(ParserBase::CONNECTCLOSENODESTORUS);}
+
+startingConditionSmallDisturbance	{return (ParserBase::STARTINGCONDITIONSMALLDISTURBANCE); }
+randomTargetEdge				{return (ParserBase::RANDOMTARGETEDGE); }
+
+
+
+noiseToStates		{ return (ParserBase::NOISETOSTATES); }
+
+getParam		{ return (ParserBase::GETPARAM); }
+snapshotAtEvent		{ return (ParserBase::SNAPSHOTATEVENT); }
+size			{ return (ParserBase::SIZE); }
+removeInput		{return(ParserBase::REMOVEINPUT); }
+removeEdges		{return(ParserBase::REMOVEEDGES); }
+
+
+clear		{return(ParserBase::CLEAR); }
+addNode	{return(ParserBase::ADDVERTEX); }
+printNodeStatistics	{return(ParserBase::PRINTNODESTATISTICS); }
+addEdge		{return(ParserBase::ADDEDGE); }
+randomNetwork		{return(ParserBase::RANDOMNETWORK); }
+completeNetwork		{return(ParserBase::COMPLETENETWORK); }
+observe		{return(ParserBase::OBSERVE); }
+observeMean		{return(ParserBase::OBSERVEMEAN); }
+observePhaseCoherence	{ return (ParserBase::OBSERVEPHASECOHERENCE); }
+observePhaseCorrelation	{ return (ParserBase::OBSERVEPHASECORRELATION); }
+observePhaseDistance 	{ return (ParserBase::OBSERVEPHASEDISTANCE); }
+
+
+addRandomEdgesDegreeDistribution { return (ParserBase::ADDRANDOMEDGESDEGREEDISTRIBUTION); }
+
+
+observeMeanPhase	{ return (ParserBase::OBSERVEMEANPHASE); }
+observeTime		{return(ParserBase::OBSERVETIME); }
+lattice		{return(ParserBase::LATTICE); }
+torus			{return(ParserBase::TORUS); }
+observeAll		{return(ParserBase::OBSERVEALL); }
+observeComponents		{return(ParserBase::OBSERVECOMPONENTS); }
+
+
+observeGl		{return(ParserBase::OBSERVEGL); }
+observeGlut		{return(ParserBase::OBSERVEGLUT); }
+observeEvent  {return(ParserBase::OBSERVEEVENT); }
+observeEventTimes  {return(ParserBase::OBSERVEEVENTTIMES); }
+
+
+
+useRandomPositioning    {return(ParserBase::USERANDOMPOSITIONING); }
+useLatticePositioning   {return(ParserBase::USELATTICEPOSITIONING); }
+
+rewireSource		{return(ParserBase::REWIRESOURCE); }
+rewireTarget		{return(ParserBase::REWIRETARGET); }
+rewire			{return(ParserBase::REWIRE); }
+rewireSourcePerTimestep	{return(ParserBase::REWIRESOURCEPERTIMESTEP);}
+addRandomEdges		{return(ParserBase::ADDRANDOMEDGES); }
+cnnStd		{return(ParserBase::CNNSTD); }
+cnnNeutral		{return(ParserBase::CNNNEUTRAL); }
+readParams		{return(ParserBase::READPARAMS); }
+setTime			{return(ParserBase::SETTIME); }
+rewireUndirected	{return(ParserBase::REWIREUNDIRECTED); }
+rewireTargetUndirected	{return(ParserBase::REWIRETARGETUNDIRECTED); }
+
+
+"log"			{return(ParserBase::LOG); }
+"exp"			{return(ParserBase::EXP); }
+"sin"			{return(ParserBase::SIN); }
+
+
+getRandomSeed		{return(ParserBase::GETRANDOMSEED); }
+delayLink		{return(ParserBase::DELAYLINK); }
+cycle			{return(ParserBase::CYCLE); }
+line 			{return(ParserBase::LINE); }
+
+cycleCluster		{return(ParserBase::CYCLECLUSTER); }
+pulseCoupleEdge	{return(ParserBase::PULSECOUPLEEDGE); }
+pulseCoupleDelayEdge	{return(ParserBase::PULSECOUPLEDELAYEDGE); }
+
+edge	{return(ParserBase::EDGE); }
+
+component	{return(ParserBase::HIDDENCOMPONENT); }
+unlink			{return(ParserBase::UNLINK); }
+sigEdge		{return(ParserBase::SIGEDGE); }
+sigEdgeOrd3		{return(ParserBase::SIGEDGEORD3); }
+stdEdgeOrd3		{return(ParserBase::STDEDGEORD3); }
+sigEdgeParams		{return(ParserBase::SIGEDGEPARAMS); }
+staticWeightedEdge	{return(ParserBase::STATICWEIGHTEDEDGE);}
+weightedEdge		{return(ParserBase::WEIGHTEDEDGE); }
+streamOutNode		{return(ParserBase::STREAMOUTNODE); }
+streamInNode		{return(ParserBase::STREAMINNODE); }
+
+setRandomSeed		{return(ParserBase::SETRANDOMSEED); }
+
+
+
+node					{return(ParserBase::NODE); }
+
+
+
+pulseCoupledExcitatoryNeuron	{return(ParserBase::INTEGRATEFIREQUEUE); }
+
+
+
+gaussian		{return(ParserBase::GAUSSIAN); }
+uniform		{return(ParserBase::UNIFORM); }
+bimodal		{return(ParserBase::BIMODAL); }
+poisson			{return(ParserBase::POISSON); }
+powerLaw { return (ParserBase::POWERLAW); }
+exponential { return (ParserBase::EXPONENTIAL); }
+
+
+addInputFile			{return(ParserBase::ADDINPUTFILE); }
+constant			{return(ParserBase::CONSTANT); }
+fromFile			{return(ParserBase::FROMFILE); }
+randomizeStates	{return(ParserBase::RANDOMIZESTATES); }
+randomizeParameter	{return(ParserBase::RANDOMIZEPARAMETER); }
+randomizeWeights	{return(ParserBase::RANDOMIZEWEIGHTS); }
+removeObserver		{return(ParserBase::REMOVEOBSERVER);}
+addGlobalNoise		{return(ParserBase::ADDGLOBALNOISE);}
+meanDegree		{return(ParserBase::MEANDEGREE); }
+getTarget	{return(ParserBase::GETTARGET); }
+degree		{return(ParserBase::DEGREE); }
+
+
+outDegreeDistribution	{return(ParserBase::OUTDEGREEDISTRIBUTION);}
+inDegreeDistribution	{return(ParserBase::INDEGREEDISTRIBUTION);}
+
+isConnected	{return(ParserBase::ISCONNECTED); }
+isDirected	{return(ParserBase::ISDIRECTED); }
+
+meanWeight		{return(ParserBase::MEANWEIGHT); }
+meanClustering		{return(ParserBase::MEANCLUSTERING); }
+meanPathLength		{return(ParserBase::MEANPATHLENGTH); }
+closenessCentrality	{return(ParserBase::CLOSENESSCENTRALITY); }
+betweennessCentrality	{return(ParserBase::BETWEENNESSCENTRALITY); }
+degreeCentrality	{return(ParserBase::DEGREECENTRALITY); }
+saveAdjacencyList 	{return(ParserBase::SAVEADJACENCYLIST); }
+saveGraphML	 	{return(ParserBase::SAVEGRAPHML); }
+createFromAdjacencyList {return(ParserBase::CREATEFROMADJACENCYLIST); }
+startingConditionOpenWaveEnding	{return (ParserBase::STARTINGCONDITIONOPENWAVEENDING); }
+startingConditionOpenWaveMiddle	{return (ParserBase::STARTINGCONDITIONOPENWAVEMIDDLE); }
+normalizeInWeightSum { return(ParserBase::NORMALIZEINWEIGHTSUM); }
+
+
+
+select		{return (ParserBase::SELECT); }
+
+
+
+newline			{return(ParserBase::NEWLINE); }
+setState	{return(ParserBase::SETINITIALCONDITION); }
+
+
+","		{return(','); }
+";"		{return(';'); }
+"."		{return('.'); }
+"="		{return('='); }
+
+{ID}        	{
+
+			string s(yytext);
+			switch	(command::getType(s))
+			{
+				case _nodeDescriptor_:
+					return (ParserBase::INTVAR);
+				case _baseType_:
+					return (ParserBase::DOUBLEVAR);
+				case _string_:
+					return (ParserBase::STRINGVAR);
+				case _network_:
+					return (ParserBase::NETWORKVAR);
+				case _node_:
+					return (ParserBase::NODEVAR);
+				default:
+//					val->sCmd = new constantCommand<string>(s);
+					return (ParserBase::ID);
+			}
+
+		}
+
+
+<<EOF>> { yyterminate();}

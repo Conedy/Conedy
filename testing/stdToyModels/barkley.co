@@ -1,0 +1,22 @@
+samplingTime = 1.0;
+
+
+
+
+barkley_I = 0.1;
+
+
+setRandomSeed(10);
+
+network net;
+net.lattice<barkley>(1,1,1.0);
+#net.randomizeWeights(uniform(30.0,30.0));
+
+#net.setState(0,50.0,0.0);
+
+
+net.observeTime("output/barkley.co.single");
+net.observeAll<component(0)>("output/barkley.co.single");
+net.observeAll<component(1)>("output/barkley.co.single");
+net.evolve(0.0,500.0);
+

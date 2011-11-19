@@ -16,7 +16,6 @@
 
 #include <boost/bind.hpp>
 using namespace boost;
-#include "stream.h"
 
 #include "gslNoise.h"
 
@@ -81,8 +80,6 @@ namespace conedy
 
 	class network: public params<baseType>
 	{
-		private:
-			bool directed;
 
 		protected:
 			//! Contains all nodes with time evolution 
@@ -90,37 +87,47 @@ namespace conedy
 
 			//! Contains all nodes which read/write data from/to files
 			vector < dynNode *> inOutNodeList;
-
-
+	
+			//! Contains all nodes which receive a callback after each intergration step 
+			vector < dynNode *> upkeepList;
 
 		public:
+			// edges are described by an integer for the source node and an identifier which is defined in node.	
+			typedef pair<nodeDescriptor, node::edgeDescriptor> edgeDescriptor;
+
+			//! typedefs for list of nodes and edges
+			typedef set<nodeDescriptor> nodeList;			
+			typedef nodeList::iterator nodeIterator;
+			typedef list< edgeDescriptor >  edgeList;
+			typedef edgeList::iterator edgeIterator;
+
+
 			//! parameter which determines how much date is written by printNodeStatistics about nodes 
 			baseType nodeVerbosity() { return params<baseType>::getParams(0);};
 			//! parameter which determines how much date is written by printNodeStatistics about edges 
 			baseType edgeVerbosity() { return params<baseType>::getParams(1);};
 
 
-
 			//! returns true if the node v is in this network. 
 			bool isInsideNetwork ( nodeDescriptor v );
 
-			static void registerStandardValues() 
-			{ 
+			static void registerStandardValues() {
+			  //! determines the verbosity when print node information after a call of  printNodeStatistics();	
 				params<baseType>::registerStandard(_network_,"network_nodeVerbosity",0,2.0);
+			  //! determines the verbosity when print edge information after a call of  printNodeStatistics();	
 				params<baseType>::registerStandard(_network_,"network_edgeVerbosity",1,2.0);
 			}	
 
-			//! edges are described by an integer for the source node and an identifier which is defined in edge.	
-			typedef pair<nodeDescriptor, node::edgeDescriptor> edgeDescriptor;
 
 			//! return the source of the edge.
 			nodeDescriptor getSource(edgeDescriptor eD) { return eD.first; }
-				typedef set<nodeDescriptor> nodeList;
 			
 
-			typedef nodeList::iterator nodeIterator;
-			typedef list< edgeDescriptor >  edgeList;
-			typedef edgeList::iterator edgeIterator;
+
+			// returns the target of the edge.
+			nodeDescriptor getTarget(nodeDescriptor source,  nodeDescriptor edgeNumber)
+			{ return node::theNodes[source]->getTarget(edgeNumber)->getNumber(); }
+
 
 
 
@@ -135,8 +142,6 @@ namespace conedy
 			void select (string fileName) ;
 
 		
-			//! return the target of the edge
-			nodeDescriptor getTarget(nodeDescriptor source,  nodeDescriptor edgeNumber)  { return node::theNodes[source]->getTarget(edgeNumber)->getNumber(); }
 			nodeDescriptor getTarget(edgeDescriptor eD) { return node::theNodes[eD.first]->getTarget(eD.second)->getNumber(); }		
 
 
@@ -265,53 +270,49 @@ namespace conedy
 
 
 
-			//!Löscht alle Knoten und gibt den Speicher (hoffentlich) wieder frei
+			//! removes all nodes from the network 
 			virtual void clear(); 		
 
+
+
 			//! Verbinden Knoten source mit Knoten dest über eine Verbindung mit Gewicht weight vom Typ stdEdge 
+			//! 
 			void addWeightedEdge ( nodeDescriptor source, nodeDescriptor dest, double weight);
-			//! Verbindet s und t mit einer Verbindung vom Typ l
-			void addEdge ( int s, int t, edgeBlueprint *l = stdEdge);
-			//			void addEdge (nodeDescriptor s, nodeDescriptor t) { addEdge(s,t,stdEdge); }
 
-
-			//			void addEdge (nodeDescriptor s, nodeDescriptor t, edge *l)
-			//				{ addEdge(s,t,l); }	
+			//! links s and t by an edge which is a copy of l
+			void addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l = stdEdge);
 
 
 			void addEdges (nodeKind sourceNodeKind, nodeDescriptor targetNode, edgeBlueprint *l = stdEdge);
 
-			//			void addEdge ( nodeDescriptor s, nodeDescriptor t, baseType weight) 
-			//				{ edge *l = new edge(NULL,NULL, weight);addEdge(s,t,l); } 
 
-			//! Fügt einen Knoten vom Typ node, gibt die Nummer vom neuen Knoten zurück.
-			//		virtual nodeDescriptor addNode();					
-			//! fügt eine Kopie von *n zum Netzwerk hinzu, gibt die Nummer vom neuen Knoten zurück.
+
+			//! adds a node to the network, which is constructed by n->construct()
 			virtual nodeDescriptor addNode ( nodeBlueprint *n );				
 
 			//! tauscht einen Node aus
 			void replace(nodeDescriptor nodeNumber, nodeBlueprint *n);
 
-			//! Löscht alle Knoten vom Type theNodeKind.   
+			//! removes all nodes of type theNodeKind from the network
 			void remove (nodeKind theNodeKind );			
 
-			//! Löscht alle Verbindungen von Knoten source nach Knoten target.
+			//! removes all edges between source and target 
 			void unlink (nodeDescriptor source, nodeDescriptor target) { node::theNodes[source]->unlink(target); }
 
 
 			//! macht dasselbe wie addEdge aber in beide Richtungen
-			void link ( int s, int t, baseType weight = 1 );
+			void link ( nodeDescriptor s, nodeDescriptor t, baseType weight = 1 );
 
 
 
 			//! Gibt die Verbindungsstärke von Knoten i nach Knoten j zurück. 0 falls keine Verbindung besteht.
-			baseType linkStrength ( int i, int j ) { return node::theNodes[i]->linkStrength ( node::theNodes[j] ); }
+			baseType linkStrength ( nodeDescriptor i, nodeDescriptor j ) { return node::theNodes[i]->linkStrength ( node::theNodes[j] ); }
 
-			//! Gibt TRUE zurück falls eine Verbindung zwischen Knoten i und j besteht.
-			bool isLinked ( int i, int j ) { return node::theNodes[i]->isLinked ( node::theNodes[j] ); }
+			//! returns true if there is a link between node i and j 
+			bool isLinked ( nodeDescriptor i, nodeDescriptor j ) { return node::theNodes[i]->isLinked ( node::theNodes[j] ); }
 
 
-			//! Gibt die Anzahl der Nodes der Art theNodeKind zurück
+			//! returns the number of nodes in the network of kind theNodeKind 
 			unsigned int numberVertices ( nodeKind theNodeKind );
 
 
@@ -344,6 +345,8 @@ namespace conedy
 			void repair();
 
 
+		private:
+			bool directed;
 
 
 		private:

@@ -5,13 +5,13 @@ network net;
 
 
 createNetwork_binary= 1.0;
-dynNetwork_ioNodeDt= 0.015;
+samplingTime= 0.015;
 
 
 
 net.observeTime("output/writeBinary.co.time");
 
 
-net.printNodeStatistics();
+#net.printNodeStatistics();
 
 net.evolve(0.0,10.0);

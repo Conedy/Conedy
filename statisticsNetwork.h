@@ -8,6 +8,8 @@
 #include <boost/pending/relaxed_heap.hpp>
 #include "limits"
 
+#include <fstream>
+
 #include "baseType.h"
 
 namespace conedy

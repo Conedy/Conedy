@@ -51,10 +51,9 @@ namespace conedy
 
 
 		public:
-			containerNode (networkElementType n ) : dynNode ( n), p ( _containerNode_ )
-		{
-
-		};
+					static unsigned int containerDimension () { return usedIndices;}	
+			containerNode (networkElementType n ) : dynNode ( n), p ( _containerNode_ )		{		};
+			containerNode (networkElementType n, unsigned int dim ) : dynNode ( n, dim), p ( _containerNode_ )		{		};
 
 			static void clear()
 			{
@@ -74,7 +73,7 @@ namespace conedy
 
 			containerNode ( const containerNode & c ) : dynNode ( c ), p ( _containerNode_ )
 		{
-			free( this->tmp);
+			free( this->x);
 			//cout << "Copy-Konstruktor" << endl;
 
 			if ( usedIndices == 0 )    // first node in the container. Reserve memory according two gslOdeNode_arraySize
@@ -101,15 +100,16 @@ namespace conedy
 
 					typename containerNodeList::iterator it;
 
+	
 
 					for (it = nodeList.begin(); it != nodeList.end(); it++)
 					{
 
 						for (unsigned int i = 0; i < (*it)->dimension(); i++)
-							pointer[i] = (*it)->tmp [i] ;
+							pointer[i] = (*it)->x [i] ;
 
 
-						(*it)->tmp = pointer;
+						(*it)->x = pointer;
 						(*it)->startPosGslOdeNodeArray = usedIndices;
 						pointer = pointer + (*it)->dimension();
 						usedIndices = usedIndices + (*it)->dimension();
@@ -122,11 +122,15 @@ namespace conedy
 
 
 			}
-				this->tmp =  &dynamicVariablesOfAllDynNodes[usedIndices];
+				this->x =  &dynamicVariablesOfAllDynNodes[usedIndices];
 
 				nodeList.push_back ( this );
 				startPosGslOdeNodeArray = usedIndices;
 				usedIndices += (&c)->dimension();
+
+#ifdef DEBUG
+				cout << "startPosGslOdeNodeArray:" << startPosGslOdeNodeArray << endl;
+#endif
 
 
 		}
@@ -147,7 +151,7 @@ namespace conedy
 						offset++;
 					for (unsigned int i = 0; i < (*it)->dimension(); i++)
 					{
-						(*it)->tmp = pointer;
+						(*it)->x = pointer;
 						pointer[i] = pointer[i + offset];
 						usedIndices ++;
 					}
@@ -187,24 +191,17 @@ namespace conedy
 
 
 
-			virtual int requiredTimeSteps ()
-			{
-				if ( startPosGslOdeNodeArray == 0 )
-					return 1;
-				else
-					return 0;
-			};
 
 			//! Kopieren der Temp-Zustände in den Zustand nach erfolgter Integration
 			//		virtual void swap()
 			//		{
-			//			this->state = this->tmp[0];
+			//			this->state = this->x[0];
 
 			//		};
 
 			//	virtual void clean() {};
 
-			//	virtual T getHiddenComponent(int component) { return tmp[component]; }
+			//	virtual T getHiddenComponent(int component) { return x[component]; }
 
 
 			//	virtual T getState();

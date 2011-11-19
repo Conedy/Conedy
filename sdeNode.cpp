@@ -10,14 +10,6 @@ namespace conedy
 {
 
 
-baseType sdeNode::dt2;
-baseType sdeNode::sqdt;
-baseType sdeNode::sqdt2;
-baseType sdeNode::a10;
-baseType sdeNode::rho;
-
-params<baseType>  sdeNode::parameter(_sdeNode_) ;
-
 
 
 //gslNoise sdeNode::noise;
@@ -35,7 +27,7 @@ params<baseType>  sdeNode::parameter(_sdeNode_) ;
 // C_13 = b, 
 // K Speichert die Kopplungskonstanten zu den anderen Populationen
 // 
-/*void wendling::operator()(valarray<double>& y, valarray<double>& dxdt, valarray<double>&dxdW) {  
+/*void wendling::operator()(valarray<double>& y, valarray<double>& dxdt, valarray<double>&s) {  
 	dxdt[0] = y[3];
 	dxdt[3] = params[10] * params[11] * sigmoid(y[1] - y[2]) - 2.0 * params[11] * y[3] - params[11] * params[11] * y[0];
 	dxdt[1] = y[4];
@@ -44,10 +36,10 @@ params<baseType>  sdeNode::parameter(_sdeNode_) ;
 	dxdt[5] = params[12]*params[13]*(params[9]*sigmoid(params[8]*y[0])) - 2.0*params[13]*y[5] - params[13]*params[13]*y[2];
 	dxdt[6] = y[7];
 	dxdt[7] = params[10]*params[2]*sigmoid(y[1] - y[2]) - 2.0*params[2]*y[7] - params[2]*params[2]*y[6];
-	dxdW[4] = params[10]*params[11]*params[0];
+	s[4] = params[10]*params[11]*params[0];
 }
 
-void coloredWendling::operator()(valarray<double>& y, valarray<double>& dxdt, valarray<double>&dxdW) {  
+void coloredWendling::operator()(valarray<double>& y, valarray<double>& dxdt, valarray<double>&s) {  
 
 
 
@@ -60,27 +52,27 @@ void coloredWendling::operator()(valarray<double>& y, valarray<double>& dxdt, va
 	dxdt[6] = y[7];
 	dxdt[7] = getParams(10)*getParams(2)*sigmoid(y[1] - y[2]) - 2.0*getParams(2)*y[7] - getParams(2)*getParams(2)*y[6];
 	dxdt[8] = -1/getParams(14)*y[8];
-	dxdW[8] = 1.0;
+	s[8] = 1.0;
 
 //	cout << getParams(0) << ":" << getParams(3) << ":" << getParams (15) << endl;
-//	cout << "TMP:" << tmp[0] << " "<< tmp[1] << " "<< tmp[2] << " "<< tmp[3]<< " " << tmp[4] << endl;
+//	cout << "TMP:" << x[0] << " "<< x[1] << " "<< x[2] << " "<< x[3]<< " " << x[4] << endl;
 
 
 }
 */
 
 
-//void ornUhl::operator()(baseType x[], baseType  dxdt[], baseType dxdW[]) { 
+//void ornUhl::operator()(baseType x[], baseType  dxdt[], baseType s[]) { 
 //
 //	//cout << getParams(0) << ":" << getParams(1) << endl;
 //
 //	dxdt[0]=-1.0/params<baseType>::getParams(0) * x[0] + this->couplingSum();
-//	dxdW[0]=sqrt(2.0 * params<baseType>::getParams(1))/params<baseType>::getParams(0);
+//	s[0]=sqrt(2.0 * params<baseType>::getParams(1))/params<baseType>::getParams(0);
 //}
 //
 /*
 
-void breakspear::operator()(valarray<double>& y, valarray<double>& dxdt, valarray<double>&dxdW) {  
+void breakspear::operator()(valarray<double>& y, valarray<double>& dxdt, valarray<double>&s) {  
 	double coupling = couplingSum();
 	Qtmp = S(y[0], params[14], params[15]);
 	dxdt[0] = -(params[2] + (1 - params[29])*params[27]*params[19]*Qtmp + params[29]*params[27]*params[19]*coupling)*
@@ -89,11 +81,11 @@ void breakspear::operator()(valarray<double>& y, valarray<double>& dxdt, valarra
 				 - params[21]*y[1]*S(y[1], params[16], params[17]);
 	dxdt[1] = params[24]*params[20]*y[0]*Qtmp;
 	dxdt[2] = params[25]/params[26]*(S(y[0], params[7], params[5]) - y[2]);
-	dxdW[0] = params[22]*params[18];
-	dxdW[1] = params[24]*params[23]*params[18];
+	s[0] = params[22]*params[18];
+	s[1] = params[24]*params[23]*params[18];
 };
 
-void coloredBreakspear::operator()(valarray<double>& y, valarray<double>& dxdt, valarray<double>&dxdW) {  
+void coloredBreakspear::operator()(valarray<double>& y, valarray<double>& dxdt, valarray<double>&s) {  
 	double coupling = couplingSum();
 	Qtmp = S(y[0], params[14], params[15]);
 	dxdt[0] = -(params[2] + (1 - params[29])*params[27]*params[19]*Qtmp + params[29]*params[27]*params[19]*coupling)*
@@ -103,7 +95,7 @@ void coloredBreakspear::operator()(valarray<double>& y, valarray<double>& dxdt, 
 	dxdt[1] = params[24]*params[20]*y[0]*Qtmp + params[24]*params[23]*y[3];
 	dxdt[2] = params[25]/params[26]*(S(y[0], params[7], params[5]) - y[2]);
 	dxdt[3] = -1.0/params[30]*y[3];
-	dxdW[3] = 1.0;
+	s[3] = 1.0;
 };
 
 */

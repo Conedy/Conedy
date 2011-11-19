@@ -38,7 +38,7 @@ const networkElementType _gaussianNapK_=38;
 const networkElementType _gslOdeNode_=39;
 //const networkElementType _hindmarshRose_=40;
 const networkElementType _hopfNode_=42;
-const networkElementType _integrateAndFire_=43;
+//const networkElementType _integrateAndFire_=43;
 const networkElementType _izhikevichMap_=44;
 const networkElementType _kuramotoEdge_=45;
 const networkElementType _mapNode_=46;
@@ -50,7 +50,7 @@ const networkElementType _nodeTemplateEdges_=51;
 const networkElementType _nodeVirtualEdges_=52;
 const networkElementType _node_=53;
 const networkElementType _odeNode_=54;
-const networkElementType _pcoBase_=56;
+const networkElementType _pco_=56;
 const networkElementType _pcoDelay_=57;
 const networkElementType _pcoExponential_=58;
 const networkElementType _pcoRealIFNeuronDelay_=63;
@@ -89,6 +89,7 @@ const networkElementType _component_=95;
 const networkElementType _randomTarget_=96;
 const networkElementType _createNetwork_=97;
 const networkElementType _stdOdeIntegrator_=98;
+const networkElementType _stdSdeIntegrator_=99;
 
 //#include "generatedNetworkConstants.h" ;
 }  

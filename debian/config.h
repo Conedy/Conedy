@@ -37,7 +37,10 @@ globalConfig = /etc/conedy.config
 numberCores = `cat /proc/cpuinfo | grep processor | wc -l`
 
 
-VERSION = `head debian/changelog -n1 | awk '{print $$2}'  | sed "s/(//" | sed "s/)//" `
+VERSIONLONG = `head debian/changelog -n1 | awk '{print $$2}'  | sed "s/(//" | sed "s/)//" `
+
+VERSION= `head debian/changelog -n1 | awk '{print $$2}'  | sed "s/(//" | sed "s/)//" | sed "s/-.*//`
+
 
 .SILENT:	all
 

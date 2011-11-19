@@ -31,7 +31,7 @@ namespace conedy
  *	Bias b:               ---|__________________/		mittels \n Übertragungsfunktion y_ij=f(x_ij(t)) \n
  * \n
  *	Die Übertratungsfunktion kann über zwei Wege realisiert werden: \n
- *		1. Verwendung einer Ü-Fkt in "swap() = f(tmp[0])" (veraltet)\n
+ *		1. Verwendung einer Ü-Fkt in "swap() = f(x[0])" (veraltet)\n
  *		2. Verwendung von weightedEdges -> Überladen von "virtual baseType getTargetState()" aus edge.h \n
  *	\n
  *	
@@ -48,7 +48,7 @@ class cnnNode: public stdOdeIntegrator
 		
 	public:
 		// Konstruktor der 1-dim-Node
-		cnnNode() :stdOdeIntegrator (_cnnNode_ ){}
+		cnnNode() :stdOdeIntegrator (_cnnNode_ , 1){}
 
 		//! Gibt die Dimension (1) zurück
 		virtual const unsigned int dimension() const { return 1;}
@@ -78,7 +78,7 @@ class couplingSumNode: public mapNode
 	public:
 
 		//! Leerer Konstruktor der 1-dim. Node
-		couplingSumNode() : mapNode(_couplingSumNode_){}
+		couplingSumNode() : mapNode(_couplingSumNode_, 1){}
 
 		//! Gibt den Zelltyp zurück
 		virtual const nodeInfo getNodeInfo();

@@ -30,7 +30,7 @@ N.evolve(0.0, 100.0)
 
 N.observeTime( "output_Roessler" )
 N.observeAll( "output_Roessler" , co.component(2))
-co.set ("dynNetwork_ioNodeDt" , 0.01)
+co.set ("samplingTime" , 0.01)
 
 N.evolve( 100.0, 200.0 )
 

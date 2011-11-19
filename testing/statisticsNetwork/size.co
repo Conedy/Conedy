@@ -1,12 +1,12 @@
 network net;
 
-net.lattice<stdRoessler>(20,20,1.5);
+net.lattice<roessler>(20,20,1.5);
 print "should be 400: ";
 print net.size();
 print newline;
 
 net.clear();
-net.cycle<stdKuramoto>(40,2);
+net.cycle<kuramoto>(40,2);
 print "should be 40: ";
 print net.size();
 print newline;

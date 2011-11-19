@@ -1,6 +1,6 @@
 network net;
 
-dynNetwork_ioNodeDt=1.0;
+samplingTime=1.0;
 
 
 net.addNode<streamInNode("streamInNodeInput")>();

@@ -9,11 +9,11 @@
 
 void eventHandler::eventClean ()
 {
-	
+
 	if (eventQueue != NULL)
 		delete eventQueue;
 
-		eventQueue = new priorityQueueTemplate< int,eventHandler > ( eventsInQueue + 3 ,*this );
+		eventQueue = new priorityQueueTemplate ( eventsInQueue + 3 ,*this );
 		for ( unsigned int i = 1; i < eventList.size(); i++ )
 			eventQueue->push ( i );
 
@@ -115,21 +115,43 @@ void eventHandler::staticUpdateKey ( unsigned int eventNumber, baseType newTime 
 
 
 void eventHandler::decreaseKey ( unsigned int eventSignature, baseType newTime )
-
-
 {
 	unsigned int eventNumber = myEventsStartAt + eventSignature;
-	eventList[myEventsStartAt + eventSignature].time = newTime;
-	eventQueue->update ( eventNumber );
+	decreaseKeyStatic (eventNumber, newTime);
 }
+
+
+void eventHandler::decreaseKeyStatic ( unsigned int eventNumber, baseType newTime )
+{
+
+	eventList[eventNumber].time = newTime;
+#ifdef CALENDARQUEUE
+	eventQueue->decreaseKey (eventNumber);
+#else
+	eventQueue->update ( eventNumber );
+#endif
+}
+
 void eventHandler::increaseKey ( unsigned int eventSignature, baseType newTime )
 {
 	unsigned int eventNumber = myEventsStartAt + eventSignature;
+	increaseKeyStatic(eventNumber, newTime);
+}
 
-	decreaseKey ( eventSignature, numeric_limits<baseType>::min() );
+void eventHandler::increaseKeyStatic (unsigned int eventNumber, baseType newTime)
+{
+#ifdef CALENDARQUEUE
+
+
+	eventList[eventNumber].time = newTime;
+
+	eventQueue->increaseKey (eventNumber);
+#else
+	decreaseKeyStatic ( eventNumber, numeric_limits<baseType>::min() );
 	eventQueue->pop();
-	eventList[myEventsStartAt + eventSignature].time = newTime;
+	eventList[eventNumber].time = newTime;
 	eventQueue->push ( eventNumber );
+#endif
 }
 
 void eventHandler::updateKey ( unsigned int eventSignature, baseType newTime )
@@ -189,7 +211,8 @@ eventHandler::eventHandler ( )
 {
 	if ( eventList.size() == 0 )
 	{
-		event dummy;
+		event dummy;                           // inserting event which never happens.
+		dummy.time = numeric_limits<double>::max();
 		eventList.push_back ( dummy );
 	}
 	myEventsStartAt = numeric_limits<unsigned int>::max();
@@ -211,43 +234,39 @@ void eventHandler::insertVisiterAtSignature( function <void()> v, unsigned int s
 
 void eventHandler::pop()
 {
+
 	unsigned int topElement = eventQueue->top();
 
-	eventQueue->pop();
-
-
-	//			eventQueue->remove(topElement);
-
-
 #ifdef EVENTCOUNT
-	eventCount[eventList[topElement].signature] += 1;
-	
+	eventCount[eventList[topElement].signature] += 1;	
 #endif
+
+
+	baseType returnValue =   eventList[topElement].action();
+
+
 
 #ifdef ONETIMEEVENTS
-//	eventList[topElement].time = numeric_limits<baseType>::max();
-//	freeEventNumbers.push(topElement);
-
-	baseType returnValue =   eventList[topElement].time =  eventList[topElement].action();
-
 	if ( returnValue == 0 )
 	{
-		freeEventNumbers.push ( topElement );
+		eventQueue->pop();
 		eventList[topElement].time = numeric_limits<baseType>::max();
+		return;
 	}
-	else
-		eventQueue->push ( topElement );
-
-
-#else
-
-	eventList[topElement].time =	eventList[topElement].action();
-	eventQueue->push ( topElement );
-
 #endif
 
 
+#ifdef CALENDARQUEUE 
+ if (eventList[topElement].signature == _fire_)	
+	{
+		eventList[topElement].time = returnValue;
+	  eventQueue->nextYear();	
+		return;
+	}
+#endif
 
+
+	increaseKeyStatic (topElement, returnValue); 
 }
 
 
@@ -259,7 +278,7 @@ unsigned int eventHandler::eventsInQueue;
 
 stack<unsigned int> eventHandler::freeEventNumbers;
 
-priorityQueueTemplate<int,eventHandler  > *eventHandler::eventQueue = NULL;
+priorityQueueTemplate *eventHandler::eventQueue = NULL;
 
 neuronNumberProperty eventHandler::nnp;
 

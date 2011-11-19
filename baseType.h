@@ -15,6 +15,9 @@ typedef double baseType;
 
 #define PRECALCULATEWEIGHTSUM
 
+
+//#define CALENDARQUEUE
+
 //typedef float baseType;
 
 

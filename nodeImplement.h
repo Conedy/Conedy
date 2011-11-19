@@ -76,11 +76,16 @@ namespace conedy {
 
 #ifdef PRECALCULATEWEIGHTSUM
 
+
+
 	float res = 0;
-	vector<node *>::iterator it;
-	for (it = DYNNODE::theNodes.begin(); it != DYNNODE::theNodes.end(); it++)
-		res+= linkStrength(*it); 
+	edgeIterator ei;
+	for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
+		res = res +  (*ei)->getWeight();
+
 	preCalculatedWeightSum = res;
+		
+
 
 #endif
 
@@ -427,13 +432,18 @@ class nodeTemplateEdges : public DYNNODE
 
 		typedef TARGETNODETYPE  targetNodeType;
 		typedef EDGE edgeType; 
+		static EDGE standardEdge;
 		typedef typename DYNNODE::edgeDescriptor edgeDescriptor;
 
 		//! Statischer Vector mit Zeigern zu allen Knoten, die mit construct erzeugt wurden. 
 		static vector<nodeTemplateEdges* > theNodes;
 
+
+
 		//! Variable, die von der Klasse offeriert wird, zum Beispiel zum Einkoppeln in andere Nodes 
 		baseType state;
+
+	
 
 			virtual void removeEdge	(edgeDescriptor e)
 			{
@@ -444,9 +454,13 @@ class nodeTemplateEdges : public DYNNODE
 #ifdef PRECALCULATEWEIGHTSUM
 
 	float res = 0;
-	vector<node *>::iterator it;
-	for (it = DYNNODE::theNodes.begin(); it != DYNNODE::theNodes.end(); it++)
-		res+= linkStrength(*it); 
+
+	edgeIterator ei;
+	for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
+		res = res +  ei->getWeight();
+
+
+
 	preCalculatedWeightSum = res;
 
 #endif
@@ -531,6 +545,11 @@ class nodeTemplateEdges : public DYNNODE
 
 
 };
+
+
+template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
+EDGE nodeTemplateEdges<EDGE, TARGETNODETYPE, DYNNODE>::standardEdge;
+
 
 
 	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
@@ -707,10 +726,10 @@ void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::link (nodeDescriptor targe
 	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
 void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::link (nodeDescriptor targetNumber, baseType w )
 {
-	EDGE* newEdge = new EDGE (targetNumber, w);
-	newEdge->targetNumber= targetNumber;
-	outEdges.push_back ( *newEdge );
-	delete ( newEdge);
+	outEdges.push_back ( standardEdge );
+
+	outEdges[outEdges.size() -1].targetNumber = targetNumber;
+	outEdges[outEdges.size() -1].setWeight (w);
 }
 
 
@@ -756,7 +775,7 @@ bool nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::isLinked ( node *target )
 
 
 /*	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-	baseType nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::linkStrength ( node *target )
+	baseType nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::ninkStrength ( node *target )
 	{
 	baseType res = 0;
 	edgeIterator s;

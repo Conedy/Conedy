@@ -56,7 +56,7 @@ namespace { // Avoid cluttering the global namespace.
 #endif
 
 		//	params<double>::initialise ( &command::declare );
-		//	params<vector<double> >::initialise (&command::declare);	
+		//	params<vector<double> >::initialise (&command::declare);
 
 
 		//	cout << "Neurosim erfolgreich initialisiert!" << endl;
@@ -99,6 +99,7 @@ namespace { // Avoid cluttering the global namespace.
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observePhaseCoherence_overloads, observePhaseCoherence, 1,5);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observeMean_overloads, observeMean, 1,2);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (setState_overloads, setInitialCondition, 2,13);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (setStateTemplate_overloads, setState, 1,12);
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (addRandomEdges_overloads, addRandomEdges, 1,2);
 
@@ -119,7 +120,7 @@ namespace { // Avoid cluttering the global namespace.
 		{
 			cout << "Mission accomplished. You can restart your script now." << endl;
 			exit (1);
-		}	
+		}
 
 
 
@@ -138,7 +139,7 @@ namespace { // Avoid cluttering the global namespace.
 
 		//	scope().attr("aa") = &i;
 
-		scope().attr("__doc__") = 
+		scope().attr("__doc__") =
 			"What is Neurosim"
 			"================"
 			"Neurosim is a tool which allows you to integrate networks where each node is represented by some dynamical system. It is designed to allow for an change of the network structure or differential equation sperarately. ";
@@ -196,13 +197,14 @@ namespace { // Avoid cluttering the global namespace.
 			.def("isConnected", &MyNetwork<baseType>::isConnected, reinterpret_cast<const char *>(__statisticsNetwork_isConnected))
 			.def("isLinked", &MyNetwork<baseType>::isLinked, reinterpret_cast<const char *>(__statisticsNetwork_isLinked))
 			.def("isDirected", &MyNetwork<baseType>::isDirected, reinterpret_cast<const char *>(__statisticsNetwork_isDirected))
+			.def("getState", &MyNetwork<baseType>::getState, reinterpret_cast<const char *>(__statisticsNetwork_getState))
 			.def("getParam", &MyNetwork<baseType>::getParam, reinterpret_cast<const char *>(__statisticsNetwork_getParam))
 			.def("setParam", &MyNetwork<baseType>::setParam, reinterpret_cast<const char *>(__dynNetwork_setParam))
 
 			// createNetwork commands
 			.def("addRandomEdges", &MyNetwork<baseType>::addRandomEdges, addRandomEdges_overloads (reinterpret_cast<const char *>(__createNetwork_addRandomEdges)))
 
-			.def("torusNearestNeighbors", &MyNetwork<baseType>::torusRandomlyNearestNeighbours,  reinterpret_cast<const char *>(__createNetwork_torusNearestNeighbors))
+			.def("torusNearestNeighbors", &MyNetwork<baseType>::torusNearestNeighbors,  reinterpret_cast<const char *>(__createNetwork_torusNearestNeighbors))
 			//		.def("loadGraphML", &MyNetwork<baseType>::loadGraphML, reinterpret_cast<const char *>(__createNetwork_loadGraphXml))
 			.def("saveGraphML", &MyNetwork<baseType>::saveGraphML, reinterpret_cast<const char *>(__statisticsNetwork_saveGraphML))
 			.def("saveAdjacencyList", &MyNetwork<baseType>::saveAdjacencyList, reinterpret_cast<const char *>(__createNetwork_saveAdjacencyList))
@@ -245,7 +247,8 @@ namespace { // Avoid cluttering the global namespace.
 
 
 
-		class_<nodeBlueprint> ("nodeBlueprint");
+		class_<nodeBlueprint> ("nodeBlueprint")
+			.def("setState", &dynNode::setState, setStateTemplate_overloads ( reinterpret_cast <const char *> (__addedNodes_setState)))  ;
 
 
 
@@ -254,6 +257,7 @@ namespace { // Avoid cluttering the global namespace.
 
 
 		// addNewNode.py Nodes begin
+#include "generatedNeuroPython.cpp"
 		// addNewNode.py Nodes end
 
 
@@ -261,8 +265,6 @@ namespace { // Avoid cluttering the global namespace.
 
 		class_< nodeVirtualEdges < dynNode >, bases <nodeBlueprint> > ("node");
 
-		class_< nodeVirtualEdges<stdRoessler> , bases<nodeBlueprint> > ("stdRoessler");
-		class_< nodeVirtualEdges<stdLorenz> , bases<nodeBlueprint> > ("stdLorenz");
 
 
 		class_<edgeBlueprint> ("edge");
@@ -278,6 +280,12 @@ namespace { // Avoid cluttering the global namespace.
 		class_< component < edgeVirtual > , bases <edgeBlueprint> >("component", reinterpret_cast<const char *>(__edges_component) , init <int>() );
 		class_< component < weightedEdgeVirtual>, bases <edgeBlueprint>   > ("component_weightedEdge" ,reinterpret_cast<const char *>(__edges_weightedEdge) , init <int>());
 		class_< component < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("component_staticWeightedEdge" ,reinterpret_cast<const char *>(__edges_component_staticWeightedEdge) , init <int>());
+
+
+		class_< staticComponent < edgeVirtual > , bases <edgeBlueprint> >("staticComponent", reinterpret_cast<const char *>(__edges_component) , init <int>() );
+		class_< staticComponent < weightedEdgeVirtual>, bases <edgeBlueprint>   > ("staticWomponent_weightedEdge" ,reinterpret_cast<const char *>(__edges_weightedEdge) , init <int>());
+		class_< staticComponent < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("staticComponent_staticWeightedEdge" ,reinterpret_cast<const char *>(__edges_component_staticWeightedEdge) , init <int>());
+
 
 		class_< randomTarget < edgeVirtual>, bases <edgeBlueprint>  > ("randomTarget",  reinterpret_cast<const char *>(__edges_randomTarget) ,   init <double,double>() ) ;
 		class_< randomTarget < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("randomTarget_weightedEdge",  reinterpret_cast<const char *>(__edges_weightedEdge), init <double,double>() );

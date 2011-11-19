@@ -5,7 +5,7 @@ co.setRandomSeed(0)
 
 net= co.network()
 
-node = co.stdRoessler()
+node = co.roessler()
 edge = co.weightedEdge(1.0)
 
 

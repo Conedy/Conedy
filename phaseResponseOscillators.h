@@ -21,8 +21,8 @@ namespace conedy
 			virtual void clean ();
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _pcoIFNeuronDelay_,"pcoIFNeuronDelay_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
-				params<baseType>::registerStandard ( _pcoIFNeuronDelay_,"pcoIFNeuronDelay_noiseIntensity",1,params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );
+				params<baseType>::registerStandard ( _pcoIFNeuronDelay_,"pcoIFNeuronDelay_noiseFrequency",0,params<baseType>::getStandardParameter ( _pco_, 0 ) );
+				params<baseType>::registerStandard ( _pcoIFNeuronDelay_,"pcoIFNeuronDelay_noiseIntensity",1,params<baseType>::getStandardParameter ( _pco_, 1 ) );
 				params<baseType>::registerStandard ( _pcoIFNeuronDelay_,"pcoIFNeuronDelay_timeDelay",2, params<baseType>::getStandardParameter ( _pcoDelay_, 2 ) );
 				params<baseType>::registerStandard ( _pcoIFNeuronDelay_,"pcoIFNeuronDelay_t_ref",3, 0.05 );
 
@@ -50,8 +50,8 @@ namespace conedy
 //			virtual void clean ();
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _pcoExponential_,"pcoExponential_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
-				params<baseType>::registerStandard ( _pcoExponential_,"pcoExponential_noiseIntensity",1,params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );
+				params<baseType>::registerStandard ( _pcoExponential_,"pcoExponential_noiseFrequency",0,params<baseType>::getStandardParameter ( _pco_, 0 ) );
+				params<baseType>::registerStandard ( _pcoExponential_,"pcoExponential_noiseIntensity",1,params<baseType>::getStandardParameter ( _pco_, 1 ) );
 				params<baseType>::registerStandard ( _pcoExponential_,"pcoExponential_t_ref",3,0.05 );
 				params<baseType>::registerStandard ( _pcoExponential_,"pcoExponential_timeDelay",2,0.01 );
 			}
@@ -62,7 +62,7 @@ namespace conedy
 
 	};
 //! pco mit Dreieck
- class pcoTrapez : public pcoBase
+/* class pcoTrapez : public pcoBase
 
 
 	{
@@ -79,8 +79,8 @@ namespace conedy
 //			virtual void clean ();
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _pcoTrapez_,"pcoTrapez_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
-				params<baseType>::registerStandard ( _pcoTrapez_,"pcoTrapez_noiseIntensity",1,params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );
+				params<baseType>::registerStandard ( _pcoTrapez_,"pcoTrapez_noiseFrequency",0,params<baseType>::getStandardParameter ( _pco_, 0 ) );
+				params<baseType>::registerStandard ( _pcoTrapez_,"pcoTrapez_noiseIntensity",1,params<baseType>::getStandardParameter ( _pco_, 1 ) );
 
 				params<baseType>::registerStandard ( _pcoTrapez_,"pcoTrapez_a",2,0.04 );
 				params<baseType>::registerStandard ( _pcoTrapez_,"pcoTrapez_b",3,0.04 );
@@ -103,6 +103,7 @@ namespace conedy
 
 
 	//! richtige Integrate-and-fire-neuronen mit delay und refraktärzeiten
+	*/
 /*	class pcoRealIFNeuronDelay : public pcoDelay
 	{
 		public:
@@ -115,8 +116,8 @@ namespace conedy
 			virtual void clean ();
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _pcoRealIFNeuronDelay_,"pcoRealIFNeuronDelay_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
-				params<baseType>::registerStandard ( _pcoRealIFNeuronDelay_,"pcoRealIFNeuronDelay_noiseIntensity",1,params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );
+				params<baseType>::registerStandard ( _pcoRealIFNeuronDelay_,"pcoRealIFNeuronDelay_noiseFrequency",0,params<baseType>::getStandardParameter ( _pco_, 0 ) );
+				params<baseType>::registerStandard ( _pcoRealIFNeuronDelay_,"pcoRealIFNeuronDelay_noiseIntensity",1,params<baseType>::getStandardParameter ( _pco_, 1 ) );
 				params<baseType>::registerStandard ( _pcoRealIFNeuronDelay_,"pcoRealIFNeuronDelay_timeDelay",2, params<baseType>::getStandardParameter ( _pcoDelay_, 2 ) );
 				params<baseType>::registerStandard ( _pcoRealIFNeuronDelay_,"pcoRealIFNeuronDelay_t_ref",3, 0.05 );
 
@@ -146,8 +147,8 @@ namespace conedy
 
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _pcoMirollo_,"pcoMirollo_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
-				params<baseType>::registerStandard ( _pcoMirollo_,"pcoMirollo_noiseIntensity",1,params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );
+				params<baseType>::registerStandard ( _pcoMirollo_,"pcoMirollo_noiseFrequency",0,params<baseType>::getStandardParameter ( _pco_, 0 ) );
+				params<baseType>::registerStandard ( _pcoMirollo_,"pcoMirollo_noiseIntensity",1,params<baseType>::getStandardParameter ( _pco_, 1 ) );
 				params<baseType>::registerStandard ( _pcoMirollo_,"pcoMirollo_timeDelay",2,0.01 );
 				params<baseType>::registerStandard ( _pcoMirollo_,"pcoMirollo_t_ref",3, 0.05 );
 
@@ -178,8 +179,8 @@ namespace conedy
 			virtual void clean ();
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _pcoIFNeuron_,"pcoIFNeuron_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
-				params<baseType>::registerStandard ( _pcoIFNeuron_,"pcoIFNeuron_noiseIntensity",1,params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );
+				params<baseType>::registerStandard ( _pcoIFNeuron_,"pcoIFNeuron_noiseFrequency",0,params<baseType>::getStandardParameter ( _pco_, 0 ) );
+				params<baseType>::registerStandard ( _pcoIFNeuron_,"pcoIFNeuron_noiseIntensity",1,params<baseType>::getStandardParameter ( _pco_, 1 ) );
 				params<baseType>::registerStandard ( _pcoIFNeuron_,"pcoIFNeuron_timeDelay",2,0.01 );
 				params<baseType>::registerStandard ( _pcoIFNeuron_,"pcoIFNeuron_t_ref",3, 0.05 );
 
@@ -212,8 +213,8 @@ namespace conedy
 //			virtual void clean ();
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _pcoNonleaky_,"pcoNonleaky_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
-				params<baseType>::registerStandard ( _pcoNonleaky_,"pcoNonleaky_noiseIntensity",1,params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );
+				params<baseType>::registerStandard ( _pcoNonleaky_,"pcoNonleaky_noiseFrequency",0,params<baseType>::getStandardParameter ( _pco_, 0 ) );
+				params<baseType>::registerStandard ( _pcoNonleaky_,"pcoNonleaky_noiseIntensity",1,params<baseType>::getStandardParameter ( _pco_, 1 ) );
 				params<baseType>::registerStandard ( _pcoNonleaky_,"pcoNonleaky_t_ref",3,0.05 );
 				params<baseType>::registerStandard ( _pcoNonleaky_,"pcoNonleaky_timeDelay",2,0.01 );
 			}

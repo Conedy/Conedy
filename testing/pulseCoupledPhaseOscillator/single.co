@@ -1,10 +1,12 @@
 
-#dynNetwork_ioNodeDt = 1000.0;
+#samplingTime = 1000.0;
 
 network net;
 
 
 net.addNode<pcoIntegrateFire>();
+
+
 
 
 net.observeTime("output/single.co.phase");

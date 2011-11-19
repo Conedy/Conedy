@@ -30,6 +30,8 @@ import os
 import sys
 import ConfigParser
 
+import re
+
 def cleanString(stringIn):
 	"Erstellt einen CamelCaseString und entfernt alle Leerzeichen."
 	return stringIn.title().replace(" ", "").replace("-","_").strip("_").rstrip("_")
@@ -46,16 +48,24 @@ class NodeEditor:
 	events = []
 	functions = [ "getWeightedSum()", "getCouplingSum()", "getWeighedInSum()" ]
 	dgl = []
+	upkeep = []
 	doku = []
 	dim = 0
 	numParam = 0
 	shortDescription = "short description ..."
 	longDescription  = "long description ..."
-	integrator = ""
+	type = ""
 	staticEdges = 0
 	staticEdgeType = ""
 	staticTargetNodeType = ""
-	def __init__ (self, inName="", inDim=-1, integrator = "",   events = [],inNumParam=-1, params = [], dgl = [], doku = [], staticEdges = 0, staticEdgeType = "", staticTargetNodeType= "", inFileNameOut=""):
+	fileNameOut = ""
+
+
+#	def __init__ (self):
+		
+
+	def readConsole(self,inName="", inDim=-1, type = "",   events = [],inNumParam=-1, params = [], dgl = [], doku = [], staticEdges = 0, staticEdgeType = "", staticTargetNodeType= "", inFileNameOut=""):
+
 		"Klasse zum Erstellen neues Nodes in Neurosim"
 
 		self.events = events
@@ -71,17 +81,17 @@ class NodeEditor:
 	
 
 		self.className = temp
-		self.nodeInfo  = "_" + self.className[0].lower() + self.className[1:] + "_"
+		self.nodeInfo  = "_" + self.className + "_" 
 
 
 		# Integrator enlesen
 	
-		if (integrator == ""):
-			temp = raw_input("Please choose an nodeType (integrator) from the following list\n\todeNode, stdSdeIntegrator, stdOdeIntegrator, pcoBase, pcoDelay , mapNode: ")
+		if (type == ""):
+			temp = raw_input("Please choose an nodeType (type) from the following list\n\todeNode, sde, stdOdeIntegrator, pco, pcoDelay , mapNode: ")
 			print "\n"
-			self.integrator = temp
+			self.type = temp
 		else:
-			self.integrator = integrator
+			self.type = type
 
 		# Dimension des Oszillators abfragen
 		while (inDim <= 0):
@@ -132,11 +142,11 @@ class NodeEditor:
 	
 			
 	
-			if self.integrator == "stdOdeIntegrator":
+			if self.type == "stdOdeIntegrator":
 				for d in range(self.dim):
 					temp = "dxdt[" + str(d) + "] = "
 					self.dgl.append(temp + raw_input(temp))
-			elif self.integrator =="mapNode":
+			elif self.type =="mapNode":
 				for d in range(self.dim):
 					temp = "xprime[" + str(d) + "] = "
 					self.dgl.append(temp + raw_input(temp))
@@ -167,27 +177,25 @@ class NodeEditor:
 
 		self.params.append( (paramName, paramDefault) )
 
-	def writeClassFiles(self, fileNameOut=""):
-		"Schreibt die Klassendeklaration / Definition nach fileOut"
+
+
+
+	def writeHeaderFile(self):
+		"writes the header file"
 		
 		
-		try:
+		try:         
 			fin = open(".countAddedNodes" , 'r')
 			theString = fin.readline()
-			numberAddedNodes = int(theString)
+			self.numberAddedNodes = int(theString)
 			fin.close()
 		except:
-			numberAddedNodes = 0
+			self.numberAddedNodes = 0
 		
+		self.numberAddedNodes = self.numberAddedNodes + 1
 
-		numberAddedNodes = numberAddedNodes + 1
+		fileNameOut = self.nodeInfo[1:-1]
 
-		if (fileNameOut == ""):
-			fileNameOut = self.nodeInfo[1:-1]
-
-		#
-		# .h schreiben
-		#
 		fout = open("generated" + self.className + ".h", 'w')
 
 		# Header schreiben
@@ -198,15 +206,15 @@ class NodeEditor:
 
 
 		# Integrator festlegen
-		fout.write("// Integrator waehlen\n#include \"%s.h\"\n\n" % self.integrator)
+		fout.write("// Integrator waehlen\n#include \"%s.h\"\n\n" % self.type)
 
 		# Beschreibung
 		fout.write("namespace conedy\n{\n")
 
-		if (numberAddedNodes < 10):
-			fout.write("const networkElementType " + self.nodeInfo + "= 10" + str(numberAddedNodes) + ";\n")
+		if (self.numberAddedNodes < 10):
+			fout.write("const networkElementType " + self.nodeInfo + "= 10" + str(self.numberAddedNodes) + ";\n")
 		else:
-			fout.write("const networkElementType " + self.nodeInfo + "= 1" + str(numberAddedNodes) + ";\n")
+			fout.write("const networkElementType " + self.nodeInfo + "= 1" + str(self.numberAddedNodes) + ";\n")
 		fout.write("/**\n * \\brief  %s\n" % self.shortDescription)
 
 		for d in self.doku:
@@ -234,9 +242,9 @@ class NodeEditor:
 
 
 		# Klasse erstellen
-		fout.write("class %s : public %s" %( self.className, self.integrator))
+		fout.write("class %s : public %s" %( self.className, self.type))
 
-		if (len (events) > 0):   # derive from eventHandler if events are specified
+		if (len (self.events) > 0):   # derive from eventHandler if events are specified
 			fout.write(", public eventHandler\n")
 
 		fout.write("\n\t{\n")
@@ -247,9 +255,9 @@ class NodeEditor:
 		fout.write("\t\t//! Inlinefunktionen zur einfacheren Verwaltung der %i Parameter\n" %	len(self.params))
 		i = 0
 
-		if self.integrator == "pcoBase":
+		if self.type == "pco":
 			i = 2
-		elif self.integrator =="pcoDelay":
+		elif self.type =="pcoDelay":
 			i = 3
 
 		for p in self.params:
@@ -258,8 +266,23 @@ class NodeEditor:
 		fout.write("\t\t\n")
 
 		fout.write("\tpublic:\n")
-		
-		if (len (events) > 0):
+	
+		if (self.upkeep != ""):
+
+
+			dyn = self.upkeep       #replace all parameter by the inline functions 
+			for p in self.params:
+				dyn = re.sub ("\\b" + p[0] + "\\b", p[0] + "()", dyn)
+
+			self.upkeep = dyn
+
+
+
+
+			fout.write ("\t\tvirtual bool requiresUpkeep() { return true;}\n")
+			fout.write ("\t\tvirtual void upkeep (); \n")
+
+		if (len (self.events) > 0):
 			fout.write("\t\tvirtual unsigned int numberOfEvents() const { return %i;}\n" % len(self.events))
 
 			fout.write("\t\tvirtual baseType callBack ( unsigned int eventSignature ); \n")
@@ -268,7 +291,7 @@ class NodeEditor:
 			fout.write("\t %s ( const %s &b); " %(self.className, self.className))
 
 		fout.write("\t\t//! Konstruktor ohne Parameter\n")
-		fout.write("\t\t%s() : %s(%s) {}\n" % (self.className, self.integrator, self.nodeInfo) )
+		fout.write("\t\t%s() : %s(%s, %i) {}\n" % (self.className, self.type, self.nodeInfo, self.dim) )
 		fout.write("\t\t\n")
 
 		fout.write("\t\t//! Liefert die Dimension der Node zurueck\n")
@@ -276,32 +299,32 @@ class NodeEditor:
 		fout.write("\t\t\n")
 
 
-		if self.integrator == "stdOdeIntegrator":
+		if self.type == "stdOdeIntegrator":
 			fout.write("\t\t//! Interface for ODE \n")
 			fout.write("\t\tvirtual void operator() (const baseType  x[], baseType  dydx[]);\n")
 			fout.write("\t\t\n")
-		elif self.integrator =="pcoBase":
+		elif self.type =="pco":
 			fout.write("\t\t//! Interface for pco\n") 
 			fout.write("\t\tvirtual baseType phaseResponse(baseType coupling, baseType phi);\n")
 			fout.write("\t\t\n")
-		elif self.integrator =="pcoDelay":
+		elif self.type =="pcoDelay":
 			fout.write("\t\t//! Interface for pco\n") 
 			fout.write("\t\tvirtual baseType phaseResponse(baseType coupling, baseType phi);\n")
 			fout.write("\t\t\n")
-		elif self.integrator =="mapNode":
+		elif self.type =="mapNode":
 			fout.write("\t\t//! Interface for map\n")
 			fout.write("\t\tvirtual void operator() (baseType xprime [], baseType x[]);\n")
 			fout.write("\t\t\n")
-		elif self.integrator =="stdSdeIntegrator":
+		elif self.type =="sde":
 			fout.write("\t\t//! Interface for SDE\n")
-			fout.write("virtual void operator()(baseType x[], baseType  dxdt[], baseType dxdW[]);\n")
+			fout.write("virtual void operator()(baseType x[], baseType  dxdt[], baseType s[], baseType dsdx[]);\n")
 			fout.write("\t\t\n")
-		elif self.integrator == "gslOdeIntegrator":
+		elif self.type == "ode":
 			fout.write("\t\t//! Interface for ODE \n")
 			fout.write("\t\tvirtual void operator() (const baseType  x[], baseType  dydx[]);\n")
 			fout.write("\t\t\n")
 		else:
-			raise Exception('unknown integrator')
+			raise Exception('unknown type')
 
 
 		fout.write("\t\t//! Inlinefunktion fuer die NodeInfo\n")
@@ -321,10 +344,12 @@ class NodeEditor:
 		fout.close()
 		del fout
 		
+	def writeCppFile (self):
 
 		#
 		# .cpp schreiben
 		#
+		fileNameOut = self.nodeInfo[1:-1]
 		fout = open("generated" + self.className + ".cpp", 'w')
 
 		fout.write("#include \"generated%s.h\"" % self.className)
@@ -349,13 +374,23 @@ class NodeEditor:
 			fout.write("\t\t for (unsigned int i =0; i < numberOfEvents(); i++) eventHandler::unregisterCallBack(i); \n")
 			fout.write("\t } \n")
 
-			fout.write("\t %s::%s ( const %s &b) : %s (b), eventHandler (b) {\n" %(self.className, self.className, self.className, self.integrator))
+			fout.write("\t %s::%s ( const %s &b) : %s (b), eventHandler (b) {\n" %(self.className, self.className, self.className, self.type))
 			fout.write("\t\t for (unsigned int i =0; i < numberOfEvents(); i++) eventHandler::registerCallBack(i, time);} \n ")
 
+		if (self.upkeep != ""):
+			fout.write ("\t void %s::upkeep()" % self.className)
+			fout.write ("\t{\n")
+			fout.write(self.upkeep)
+			fout.write ("\t}\n")
 
 
+		dyn = self.dgl         #replace all parameter by the inline functions 
+		for p in self.params:
+			dyn = re.sub ("\\b" + p[0] + "\\b", p[0] + "()", dyn)
 
-		if self.integrator == "stdOdeIntegrator":
+		self.dgl = dyn
+
+		if self.type == "stdOdeIntegrator":
 			fout.write("\t//! DGL von %s\n" % self.className)
 			fout.write("\tvoid %s::operator()(const baseType x[], baseType dxdt[]) \n" % self.className)
 
@@ -363,14 +398,14 @@ class NodeEditor:
 			fout.write(self.dgl)
 			fout.write("\t}\n")
 			fout.write("\n")
-		elif self.integrator == "stdSdeIntegrator":
+		elif self.type == "sde":
 			fout.write("\t//! DGL von %s\n" % self.className)
-			fout.write("\t void %s::operator()(baseType x[], baseType  dxdt[], baseType dxdW[]) \n" %self.className)	
+			fout.write("\t void %s::operator()(baseType x[], baseType  dxdt[], baseType s[], baseType dsdx[]) \n" %self.className)	
 			fout.write("\t{\n")
 			fout.write(self.dgl)
 			fout.write("\t}\n")
 			fout.write("\n")
-		elif self.integrator =="pcoBase":
+		elif self.type =="pco":
 			fout.write("\t//! phaseResponseCurve von %s\n" % self.className)
 			fout.write("\tbaseType %s::phaseResponse(baseType coupling, baseType phase) \n" % self.className)
 			fout.write("\t{\n")
@@ -379,7 +414,7 @@ class NodeEditor:
 			fout.write("\treturn delta;")
 			fout.write("\t}\n")
 			fout.write("\n")
-		elif self.integrator =="pcoDelay":
+		elif self.type =="pcoDelay":
 			fout.write("\t//! phaseResponseCurve von %s\n" % self.className)
 			fout.write("\tbaseType %s::phaseResponse(baseType coupling, baseType phase) \n" % self.className)
 			fout.write("\t{\n")
@@ -388,14 +423,14 @@ class NodeEditor:
 			fout.write("\treturn delta;")
 			fout.write("\t}\n")
 			fout.write("\n")
-		elif self.integrator =="mapNode":
+		elif self.type =="mapNode":
 			fout.write("\t//! Map von %s\n" % self.className)
 			fout.write("\tvoid %s::operator()(baseType xprime[], baseType x[]) \n" % self.className)
 			fout.write("\t{\n")
 			fout.write(self.dgl)
 			fout.write("\t}\n")
 			fout.write("\n")
-		elif self.integrator == "gslOdeIntegrator":
+		elif self.type == "ode":
 			fout.write("\t//! DGL von %s\n" % self.className)
 			fout.write("\tvoid %s::operator()(const baseType x[], baseType dxdt[]) \n" % self.className)
 			fout.write("\t{\n")
@@ -403,7 +438,7 @@ class NodeEditor:
 			fout.write("\t}\n")
 			fout.write("\n")
 		else:
-			raise Exception('unknown integrator')
+			raise Exception('unknown type')
 
 
 
@@ -414,14 +449,14 @@ class NodeEditor:
 		i = 0
 
 		
-		if self.integrator =="pcoBase":
-			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseFrequency\",0,params<baseType>::getStandardParameter (_pcoBase_, 0));\n" % (self.nodeInfo, fileNameOut))
-			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseIntensity\",1,params<baseType>::getStandardParameter (_pcoBase_, 1));\n" % (self.nodeInfo, fileNameOut))
+		if self.type =="pco":
+			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseFrequency\",0,params<baseType>::getStandardParameter (_pco_, 0));\n" % (self.nodeInfo, fileNameOut))
+			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseIntensity\",1,params<baseType>::getStandardParameter (_pco_, 1));\n" % (self.nodeInfo, fileNameOut))
 			i = 2
 		
-		if self.integrator =="pcoDelay":
-			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseFrequency\",0,params<baseType>::getStandardParameter (_pcoBase_, 0));\n" % (self.nodeInfo, fileNameOut))
-			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseIntensity\",1,params<baseType>::getStandardParameter (_pcoBase_, 1));\n" % (self.nodeInfo, fileNameOut))
+		if self.type =="pcoDelay":
+			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseFrequency\",0,params<baseType>::getStandardParameter (_pco_, 0));\n" % (self.nodeInfo, fileNameOut))
+			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseIntensity\",1,params<baseType>::getStandardParameter (_pco_, 1));\n" % (self.nodeInfo, fileNameOut))
 			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_timeDelay\",2,params<baseType>::getStandardParameter (_pcoDelay_, 2));\n" % (self.nodeInfo, fileNameOut))
 			i = 3 
 
@@ -438,7 +473,7 @@ class NodeEditor:
 		del fout
 
 		fout = open(".countAddedNodes" , 'w')
-		fout.write(str(numberAddedNodes)+"\n")
+		fout.write(str(self.numberAddedNodes)+"\n")
 		fout.close()
 
 
@@ -456,41 +491,29 @@ class NodeEditor:
 		#
 		# generatedNodes.cpp
 		#
+
+
+
+
+		#
+		# generatedNodes.cpp
+		#
 		fout = open ("generatedNodes.cpp", 'a')
 		fout.write	("#include \"generated%s.cpp\"\n" % self.className)
 		fout.close()
 		del fout
 
+
 		#
 		# neuroPython.cpp
 		#
 
-		fin = open("neuroPython.cpp", 'r')
-		lines = fin.readlines()
-		fin.close()
-		del fin
-		
-		# "%{ 		// addNewNode.py Nodes
-		start = 0
-		for l in lines:
-			if (l.find("addNewNode.py Nodes begin") >-1):
-				break
-			else:
-				start += 1
-		stop = start+1
-		
-		for l in lines[start+1:]:
-			if (l.find("addNewNode.py Nodes end") >-1) :
-				break
-			else:
-				stop +=1
-		
-		header = lines[:start+1]
-		
-		nodes = lines[start+1:stop]
-		if static == 0:
-			nodes.append("class_< nodeVirtualEdges<%s> , bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ); // added by addNewNodes.py \n" %(self.className, fileNameOut, self.integrator,self.className))
-		elif static == 1:	
+
+		fout = open ("generatedNeuroPython.cpp", 'a')
+
+		if self.static == 0:
+			fout.write("class_< nodeVirtualEdges<%s> , bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ); // added by addNewNodes.py \n" %(self.className, fileNameOut, self.type,self.className))
+		elif self.static == 1:	
 			self.staticEdgeType = self.staticEdgeType.replace ("_","<")
 			hierachy = self.staticEdgeType.count ("<")
 			self.staticEdgeType += ("<")
@@ -499,57 +522,9 @@ class NodeEditor:
 				self.staticEdgeType += (">")
 			
 
-			nodes.append("class_< nodeTemplateEdges< %s >  , %s , %s >, bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ); // added by addNewNodes.py \n" %(self.staticEdgeType, self.staticTargetNodeType,self.className,  fileNameOut, self.integrator, self.className))
-		nodes.sort()
-	
-		
-
-		try:
-			nodes.remove("\n")
-		except:
-			pass
-
-		footer = lines[stop:]
-
-
-
-		# neuroPython.cpp schreiben
-		fout = open("neuroPython.cpp", 'w')
-		fout.writelines(header)
-		fout.writelines(nodes)
-		fout.writelines(footer)
+			fout.write("class_< nodeTemplateEdges< %s >  , %s , %s >, bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ); // added by addNewNodes.py \n" %(self.staticEdgeType, self.staticTargetNodeType,self.className,  fileNameOut, self.type, self.className))
 		fout.close()
-		del fout, header, nodes, footer
-
-
-
-
-
-
-
-
-
-
-
-
-
-#
-		# generatedNodes.h
-		#
-#		fout = open ("generatedNodes.h", 'a')
-#		fout.write	("%s.h\n" % fileNameOut)
-#		fout.close()
-#		del fout
-
-	 	
-		#
-		# generatedNetworkConstants.h
-		#
-#		fout = open ("generatedNetworkConstants.h", 'a')
-#		fout.write	("%s,\n" % self.nodeInfo)
-#		fout.close()
-#		del fout
-	 
+		del fout
 
 		#
 		# generatedRegisterStandards.h
@@ -563,7 +538,7 @@ class NodeEditor:
 		# write documentation
 		#
 
-		fout = open("testing/addedNodes/" + self.integrator + "/"  + self.className + ".rst", 'w')
+		fout = open("testing/addedNodes/" + self.type + "/"  + self.className + ".rst", 'w')
 
 
 
@@ -578,12 +553,17 @@ class NodeEditor:
 		fout.write("\n\nDGL of %s\n" % self.className)
 		fout.write("------------------------------------------\n\n")
 
-		if (self.integrator == "pcoBase" or self.integrator == "pcoDelay"):
+		if (self.type == "pco" or self.type == "pcoDelay"):
 			fout.write("::\n")
 			fout.write(self.dgl.replace("\n","\n\n\t"))
 		else:		
-			fout.write(".. math::\n\t")
-			fout.write(self.dgl.lstrip().replace("\n","\\\\\n\t"). replace("=","&="))
+
+#write documentation in math modus ???			
+#			fout.write(".. math::\n\t")
+#			fout.write(self.dgl.lstrip().replace("\n","\\\\\n\t"))#. replace("=","&="))
+
+			fout.write("::\n")
+			fout.write(self.dgl.replace("\n","\n\n\t"))
 
 
 
@@ -600,13 +580,32 @@ class NodeEditor:
 
 		fout.write("\n")
 
-		fout = open("testing/addedNodes/" + self.integrator +"/" + self.className + ".py", 'w')
+
+#write test scripts
+
+		fout = open("testing/addedNodes/" + self.type +"/" + self.className + ".py", 'w')
 		fout.write("import conedy as ns\n\n")
 		fout.write("net = ns.network()\n\n")
 		fout.write("net.addNode(ns.%s())" % fileNameOut)
 		fout.close()
 
 
+		fout = open("testing/addedNodes/" + self.type +"/expected/sum_"  + self.className + ".py", 'w')	
+		fout.write("00000     0 output/"+self.className +".py.err\n")
+		fout.write("00000     0 output/"+self.className +".py.out\n")
+		fout.close()
+
+
+		fout = open("testing/addedNodes/" + self.type +"/" + self.className + ".co", 'w')
+		fout.write("network net;\n\n")
+		fout.write("net.addNode<%s>(); \n\n" % fileNameOut)
+		fout.close()
+
+
+		fout = open("testing/addedNodes/" + self.type +"/expected/sum_"  + self.className + ".co", 'w')	
+		fout.write("00000     0 output/"+self.className +".co.err\n")
+		fout.write("00000     0 output/"+self.className +".co.out\n")
+		fout.close()
 		#
 		#	generatedFullNetwork.h bearbeiten
 		#
@@ -620,9 +619,9 @@ class NodeEditor:
 		#
 
 		fout = open("generatedAddNewNode.yy", 'a')
-		if (static == 0):
+		if (self.static == 0):
 			fout.write("\t\t| %s { nodeBlueprint *n = new nodeVirtualEdges< %s >(); $$ = new constantCommand<nodeBlueprint*>(n); }\n" % (self.className.upper(), self.className))
-		if (static ==1):
+		if (self.static ==1):
 			fout.write("\t\t| %s { nodeBlueprint *n = new nodeTemplateEdges< %s  >    , %s , %s >(); $$ = new constantCommand<nodeBlueprint*>(n); }\n" % (self.className.upper(), self.staticEdgeType, self.staticTargetNodeType, self.className))
 		fout.close()
 		del fout
@@ -646,7 +645,7 @@ class NodeEditor:
 		#
 		# Scanner.ll
 		#
-		fin = open("Scanner.ll", 'r')
+		fin = open("Scanner.ll.generated", 'r')
 		lines = fin.readlines()
 		fin.close()
 		del fin
@@ -683,7 +682,7 @@ class NodeEditor:
 		footer = lines[stop+1:]
 
 		# Scanner.ll schreiben
-		fout = open("Scanner.ll", 'w')
+		fout = open("Scanner.ll.generated", 'w')
 		fout.writelines(header)
 		fout.writelines(nodes)
 		fout.writelines(footer)
@@ -697,55 +696,72 @@ class NodeEditor:
 
 
 if (len(sys.argv) < 2):
-	n = NodeEditor()
-	n.writeClassFiles()
-	n.addNodeToNeurosim()
+	print "give filename with node-description as argument."
+	exit()
+
 
 else:
 
 	config = ConfigParser.RawConfigParser()
 	config.read(sys.argv[1])
 	
-	for classname in config.sections():
-		params = []
-		events = []
+	for className in config.sections():
 
+
+	
+		n= NodeEditor()
+		n.params = []
+		n.events = []
+		n.dgl = []
 
 		try:
-			numberEvents = config.getint(classname, 'events')
+			numberEvents = config.getint(className, 'events')
 			for i in  range (1,numberEvents+1 ):
-				events.append( (i, config.get(classname, 'event' + str(i))))
+				n.events.append( (i, config.get(className, 'event' + str(i))))
 		except:
-			events = []
+			n.events = []
 
 
-		for i in  range (1,config.getint(classname, 'parameter')+ 1):
-			params.append( (config.get(classname, 'parametername' + str(i)) , config.getfloat(classname, 'standardvalue' + str(i))) )
+		for i in  range (1,config.getint(className, 'parameter')+ 1):
+			n.params.append( (config.get(className, 'parametername' + str(i)) , config.getfloat(className, 'standardvalue' + str(i))) )
+		
+		try:
+				n.static = config.getboolean(className, 'staticEdges')
+				n.staticEdgeType = config.get(className, 'staticEdgeType')
+				n.staticTargetNodeType = config.get(className, 'staticTargetNodeType')
+				
+		except:
+				n.static = 0
+				n.staticEdgeType = ""
+				n.staticTargetNodeType = ""
+
+		n.className = className		
+		n.nodeInfo  = "_" + n.className + "_" 
+		n.dim = config.getint(className, 'dimension')
+		n.parameter = config.getint(className, 'parameter')
+		n.type = config.get(className, 'type')
+	
+
+		if (n.type == "map"):	
+			n.type = "mapNode"
+
+		n.dgl = config.get(className, 'dynamics')
 		
 
 		try:
-				static = config.getboolean(classname, 'staticEdges')
-				staticEdgeType = config.get(classname, 'staticEdgeType')
-				staticTargetNodeType = config.get(classname, 'staticTargetNodeType')
-				
+			n.documentation = config.get(className, 'dokumentation')
 		except:
-				static = 0
-				staticEdgeType = ""
-				staticTargetNodeType = ""
+			n.documentation = []
+		n.nodeInfo  = "_" + n.className + "_" 
+		
+		try:
+			n.upkeep = config.get(className, 'upkeep')
+		except:
+			n.upkeep = ""
 
-	
-
-		n= NodeEditor(classname , 
-				config.getint(classname, 'dimension'),
-				config.get(classname, 'integrator'),
-				events,
-				config.getint(classname, 'parameter'),
-				params,
-				config.get(classname, 'dynamics'),
-				config.get(classname, 'dokumentation'),
-				static, staticEdgeType, staticTargetNodeType
-				)
 
 					
-		n.writeClassFiles()
+		n.writeHeaderFile()
+		n.writeCppFile()
 		n.addNodeToNeurosim()
+		del (n)

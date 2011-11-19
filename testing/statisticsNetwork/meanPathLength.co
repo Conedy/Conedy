@@ -1,3 +1,3 @@
 network net;
-net.cycle<stdRoessler>(100,1);
+net.cycle<roessler>(100,1);
 print net.meanPathLength();

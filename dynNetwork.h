@@ -3,7 +3,7 @@
 #ifndef dynNetwork_h
 #define dynNetwork_h dynNetwork_h
 
-
+#include <fstream>
 #include "network.h"
 
 #include "eventHandler.h"
@@ -49,7 +49,7 @@ namespace conedy
 
 		static void registerStandardValues() 
 		{ 
-			params<baseType>::registerStandard(_dynNetwork_,"dynNetwork_ioNodeDt",0,0.01); 
+			params<baseType>::registerStandard(_dynNetwork_,"samplingTime",0,0.01); 
 //nn			params<baseType>::registerStandard ( _dynNetwork_,"streamOutNode_binary",1, 0.0 );
 		}
 		baseType inline ioNodeDt () { return p.getParams(0); }
@@ -70,7 +70,6 @@ namespace conedy
 
 		void removeObserver ();
 
-		void simulateOneStep ( int type );
 
 		baseType getState (nodeDescriptor node);
 
@@ -263,8 +262,6 @@ namespace conedy
 				}
 		
 
-		void simulate (  int type );	// ruft zunächst clean von allen Knoten auf
-		// dann timesteps mal action1, swap, action2, swap, action3, swap, action4, swap.
 		virtual void clean ();
 		void evolve ( double startTime, double endTime );
 		void evolveFor ( double duration );

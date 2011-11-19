@@ -5,7 +5,7 @@
 
 
 #include "dynNode.h"
-
+#include "eventHandler.h"
 
 
 
@@ -13,7 +13,6 @@ namespace conedy
 {
 
 
-#ifdef EVENTCOUNT
 
 	class eventCountNode : public dynNode
 	{
@@ -35,10 +34,8 @@ namespace conedy
 				return res;
 
 			}
-			virtual int requiredTimeSteps() { return 0; }
 	};
 
-#endif
 
 	//! Node, der die momentane Integrationszeit als status zurückgibt
 	template <typename T>
@@ -59,7 +56,6 @@ namespace conedy
 			{
 				return this->time;
 			}
-			virtual int requiredTimeSteps() { return 0; }
 	};
 
 
@@ -103,7 +99,6 @@ namespace conedy
 			return abs(sum);
 	
 		}
-		virtual int requiredTimeSteps() { return 0; }
 	};
 	//
 	//
@@ -143,7 +138,6 @@ namespace conedy
 			return sum;
 	
 		}
-		virtual int requiredTimeSteps() { return 0; }
 	};
 
 
@@ -165,7 +159,6 @@ namespace conedy
 		virtual void clean () {};
 		virtual void printStatistics()   {cout << "randomNode" << endl;this->printStatistics();}
 		virtual T getState()	{return r();}
-		virtual int requiredTimeSteps() { return 0; }
 		virtual bool timeEvolution () {return 0;}
 	};
 
@@ -191,7 +184,6 @@ namespace conedy
 
 		}
 
-		virtual int requiredTimeSteps() { return 2; };
 
 		virtual T getState()
 		{

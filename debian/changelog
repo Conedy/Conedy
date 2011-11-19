@@ -1,8 +1,35 @@
-#  * various changes to allow compilation with msvc
-#  * match nodeblueprint if all parameter are the same.
-#  * adding setParam-function
-#  * added support for error-controlled integration by the gsl
-#	* renamed addVertex to addNode
+conedy (0.24) unstable; urgency=low
+
+  * changed names of some complicated tokens, e. dynNetwork_ioNodedt ->
+  samplingTime
+  * added setState function for templates
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Tue, 08 Nov 2011 11:44:36 +0100
+
+conedy (0.23-1) unstable; urgency=low
+
+  * added a calendar queue as alternative to the relaxed heap
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Sun, 31 Oct 2011 11:44:36 +0100
+
+conedy (0.22-1) unstable; urgency=low
+
+  * added missing files
+  * automatic testing of recompilation
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Sun, 09 Oct 2011 11:44:36 +0100
+
+conedy (0.21-1) unstable; urgency=low
+
+  * various changes to allow compilation with msvc
+  * match nodeblueprint if all parameter are the same.
+  * adding setParam-function
+  * added support for error-controlled integration by the gsl
+  * renamed addVertex to addNode
+  * added observeComponents
+  * multiple sde/ode- integrators
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Mon, 29 Aug 2011 02:33:30 +0100
 
 conedy (0.20-1) unstable; urgency=low
 

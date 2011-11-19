@@ -12,7 +12,7 @@ namespace conedy
 
     void dynNode::excite(baseType couplingStrength)
     {
-        tmp[0]+= couplingStrength;
+        x[0]+= couplingStrength;
     }
 
 
@@ -26,24 +26,42 @@ namespace conedy
 			  {	  
 	        	cout << "state: " ;
 	        	for (unsigned int i = 0; i <dimension(); i++)
-           	     cout << tmp[i]<<  " " ;
+           	     cout << x[i]<<  " " ;
 			  }
 
 		  }
 			os << endl;
     }
 
+
+	 dynNode::dynNode ( networkElementType n, unsigned int dim): params<baseType>(n)
+	{
+		x = (baseType* ) calloc ( dim, sizeof (baseType));
+	}
+		
+
+
     dynNode::dynNode( const dynNode &b ) : node ( b ), params<baseType>(b)
     {
         if ( b.dimension() > 0 )
         {
-            tmp = ( baseType* ) calloc ( b.dimension(),sizeof ( baseType ) );
+            x = ( baseType* ) calloc ( b.dimension(),sizeof ( baseType ) );
             for (unsigned int i = 0; i < b.dimension(); i++)
-                tmp[i] = 0;
+                x[i] = b.x[i];
         }
         else
-            tmp = NULL;
+            x = NULL;
     }
+
+/*	void dynNode::setInitialConditionVec (  vector <baseType> argList )
+	{
+			dynamic_cast<dynNode*>( ( node::theNodes[nodeNumber] ) )->setInitialCondition(argList);
+		else
+			throw "Error. Der Knoten ist gar nicht vom Typ Dynnode.";
+
+
+	}
+*/
 
     void dynNode::randomizeState ( vector<boost::function<double () > > &r )
 	 {
@@ -52,17 +70,14 @@ namespace conedy
         for ( unsigned int i = 0; i < r.size(); i++ )
 				values[i]=r[i]();
 		
-		  setInitialCondition (values);
+		  setStateVec (values);
 	 }
-
-
-	void dynNode::setInitialCondition (vector <double> &r)
+	
+	void dynNode::setStateVec (vector <double> &r)
 	{
 		for (unsigned int i = 0 ; i < dimension(); i++)
-				tmp[i] = r[i];
-
-   }
-
+				x[i] = r[i];
+	}
 
 
 

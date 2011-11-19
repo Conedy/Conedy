@@ -72,7 +72,7 @@ namespace conedy
 			}	
 
 
-			gslOdeNode (networkElementType n ) : containerNode<baseType,3> ( n)
+			gslOdeNode (networkElementType n , unsigned int dim) : containerNode<baseType,3> ( n, dim)
 		{
 
 		};
@@ -133,10 +133,8 @@ namespace conedy
 
 					errors = ( baseType* ) calloc (odeDimension ,sizeof ( baseType)  );
 
-						gslStep = gsl_odeiv_step_alloc ( stepType, odeDimension);
+					gslStep = gsl_odeiv_step_alloc ( stepType, odeDimension);
 
-					cout << "abs:" << error_abs() << endl;
-					cout << "rel:" << error_rel() << endl;
 					gslControl = gsl_odeiv_control_y_new ( error_abs(), error_rel()  );
 					gslEvolve = gsl_odeiv_evolve_alloc (odeDimension); 
 
@@ -159,13 +157,13 @@ namespace conedy
 			//! Kopieren der Temp-Zustände in den Zustand nach erfolgter Integration
 			//			virtual void swap()
 			//			{
-			//				this->state = this->tmp[0];
+			//				this->state = this->x[0];
 			//
 			//			};
 
 			//	virtual void clean() {};
 
-			//	virtual baseType getHiddenComponent(int component) { return tmp[component]; }
+			//	virtual baseType getHiddenComponent(int component) { return x[component]; }
 
 
 			//	virtual baseType getState();

@@ -1,5 +1,5 @@
 
-dynNetwork_ioNodeDt = 0.001;
+samplingTime = 0.001;
 pulseCoupledExcitatoryNeuron_noiseFrequency = 0.1;
 
 

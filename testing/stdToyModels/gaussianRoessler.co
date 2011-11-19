@@ -6,7 +6,7 @@ gaussianRoessler_a = 0.165;
 gaussianRoessler_b = 0.2;
 gaussianRoessler_c = 10.0;
 gaussianRoessler_sigmaNoise = 1.0;
-dynNetwork_ioNodeDt = 0.01;
+samplingTime = 0.01;
 
 
 net.addNode<gaussianRoessler>();

@@ -20,7 +20,7 @@ In addition Conedy has some global variable, which can also be set with this com
 
 
 
-dynNetwork_ioNodeDt
+samplingTime
 --------------------------------
 Controls the interval in which registered observables are sampled.
 

@@ -7,6 +7,8 @@
 #include <map>
 #include <string>
 #include <iostream>
+
+#include "stream.h"
 #include "fullNetwork.h"
 
 #include "commandLineArguments.h"
@@ -727,6 +729,7 @@ DECLAREBINARY( == , equal, bool)
 
 DECLAREUNARY(log,log,baseType)
 DECLAREUNARY(exp,exp,baseType)	
+DECLAREUNARY(sin,sin,baseType)	
 
 
 

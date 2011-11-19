@@ -7,7 +7,7 @@ network n;
 
 setRandomSeed(6);
 
-n.torusRandomlyNearestNeighbours<pcoIntegrateFire,staticWeightedEdge()>(40,40,36.0);
+n.torusNearestNeighbors<pcoIntegrateFire,staticWeightedEdge()>(40,40,36.0);
 n.observeTime("output/continueTorus.co.firstPart");
 n.observeAll("output/continueTorus.co.firstPart");
 n.evolve(0.0,7.3);
@@ -19,7 +19,7 @@ n.snapshot();
 n.clear();
 
 
-n.torusRandomlyNearestNeighbours<pcoIntegrateFire,staticWeightedEdge()>(40,40,36.0);
+n.torusNearestNeighbors<pcoIntegrateFire,staticWeightedEdge()>(40,40,36.0);
 n.setTime(7.3);
 
 n.readInitialCondition(pcoIntegrateFire,"output/continue");

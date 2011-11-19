@@ -26,7 +26,6 @@
 #include "cnnNode.h"
 #include "dynNetwork.h"
 #include "statisticsNetwork.h"
-#include "stdToyModels.h" 
 
 // DOPPELT
 // #include "dynNode.h" 

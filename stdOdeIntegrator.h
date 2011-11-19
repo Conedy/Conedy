@@ -4,6 +4,7 @@
 #define stdOdeIntegrator_h stdOdeIntegrator_h
 
 
+#include "integrator.h"
 #include "odeNode.h"
 
 #include "networkConstants.h"
@@ -15,8 +16,9 @@ namespace conedy {
 	{
 		public:
 				valarray <baseType> tmp2, dydt, dyt, dym;
+				odeIntegrator *integ;
 
-		stdOdeIntegrator (networkElementType n) : odeNode (n)    {}
+		stdOdeIntegrator (networkElementType n, unsigned int dim) : odeNode (n, dim)    {}
 
 		stdOdeIntegrator ( const stdOdeIntegrator &b ): odeNode (b)
 		{
@@ -40,16 +42,26 @@ namespace conedy {
 			virtual void swap()
 			{
 				for ( unsigned int i = 0; i < this->dimension(); i++ )
-					this->tmp[i] = odeNodeTmp [i];
+					this->x[i] = odeNodeTmp [i];
 			}
 
 
-//		virtual void swap(short i) { state=tmp[i]; }
+//		virtual void swap(short i) { state=x[i]; }
 		virtual void clean() {
+
+	if (amIFirst())	
+	{
 			if (stepType->getParams(0)  == "euler")
+			{
 				stepType_int = 0;
+				integ = new euler (containerDimension() );
+			}	
 			else if (stepType->getParams(0)  == "rk4")
 				stepType_int = 1;
+			else
+				throw "unknown steptype for stdOdeIntegrator!";
+	}
+
 		};
 
 
@@ -59,11 +71,12 @@ namespace conedy {
 			switch (stepType_int)
 			{
 				case 0:
-					eulerStep(time);
+					((euler *) integ)->step (time, dynamicVariablesOfAllDynNodes, *this, containerDimension());
 					break;
 				case 1:
 					rungeKutta4Step(time);
 					break;
+
 			}
 
 		}
@@ -103,9 +116,9 @@ namespace conedy {
 			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)
 			{
 				odeNode * n = (odeNode*) *it;
-				(*n)(n->tmp, &dydt[0]); 
+				(*n)(n->x, &dydt[0]); 
 				for (unsigned int i = 0;i < n->dimension(); i++)
-				 n->odeNodeTmp[i] = n->tmp[i]  + dydt[i] * dt ;
+				 n->odeNodeTmp[i] = n->x[i]  + dydt[i] * dt ;
 			}
 			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)	
 				((stdOdeIntegrator *)(*it))->swap();
@@ -116,32 +129,32 @@ namespace conedy {
 
 		//! erster schritt im Runge-Kutter 4.Ordnung
 		virtual void action1(double dt) { 
-			(*this)(this->tmp, &dydt[0]);
+			(*this)(this->x, &dydt[0]);
 
 			for (unsigned int i = 0;i < this->dimension(); i++)
-				tmp2[i] = this->tmp[i];
-//								tmp2 = this->tmp);
+				tmp2[i] = this->x[i];
+//								tmp2 = this->x);
 			for (unsigned int i = 0; i < this->dimension(); i++)
-				this->odeNodeTmp[i] = this->tmp[i] +  dt/2.0 * dydt[i];
+				this->odeNodeTmp[i] = this->x[i] +  dt/2.0 * dydt[i];
 
 		}
 		//! zweiter schritt
 		virtual void action2(double dt) {
-			(*this)(this->tmp, &dyt[0]);
+			(*this)(this->x, &dyt[0]);
 			for (unsigned int i = 0; i < this->dimension(); i++)
 				this->odeNodeTmp[i] = tmp2[i] + dt/2.0*dyt[i];
 
 		}
 		//! dritter Schritt
 		virtual void action3(double dt) {
-			(*this)(this->tmp, &dym[0]);
+			(*this)(this->x, &dym[0]);
 			for (unsigned int i = 0; i < this->dimension(); i++)
 				this->odeNodeTmp[i] = tmp2[i] + dt*dym[i];
 			dym += dyt;
 		}
 		//! vierter Schritt
 		virtual void action4(double dt) {
-			(*this)(this->tmp, &dyt[0]);
+			(*this)(this->x, &dyt[0]);
 			for (unsigned int i = 0; i <this->dimension(); i++)
 				this->odeNodeTmp[i] = tmp2[i] + dt/6.0*(dydt[i] + dyt[i] + ((baseType)2.0)*dym)[i];
 		}

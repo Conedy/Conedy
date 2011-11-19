@@ -8,7 +8,7 @@ co.set("gaussianRoessler_a" , 0.165)
 co.set("gaussianRoessler_b" , 0.2)
 co.set("gaussianRoessler_c" , 10.0)
 co.set("gaussianRoessler_sigmaNoise", 1.0)
-co.set("dynNetwork_ioNodeDt" , 0.01)
+co.set("samplingTime" , 0.01)
 
 
 

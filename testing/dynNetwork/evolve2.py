@@ -4,7 +4,7 @@ net = co.network()
 
 
 
-co.set("dynNetwork_ioNodeDt" , 10000)
+co.set("samplingTime" , 10000)
 
 
 

@@ -18,6 +18,7 @@ void registerStandards()
 	//	pcoDelay::registerStandardValues();
 	//	sdeNode::registerStandardValues();
 		stdOdeIntegrator::registerStandardValues();	
+		stdSdeIntegrator::registerStandardValues();	
 	
 	pcoBase::registerStandardValues();
 	cnnNode::registerStandardValues();
@@ -33,7 +34,7 @@ void registerStandards()
 	gslOdeNode::registerStandardValues();
 //	hindmarshRose::registerStandardValues();
 //	hodgkinHuxley::registerStandardValues();
-	integrateAndFire::registerStandardValues();
+//	integrateAndFire::registerStandardValues();
 	izhikevichMap::registerStandardValues();
 //	logisticMap::registerStandardValues();
 //	membranePotentialOfIFQ::registerStandardValues();
@@ -44,15 +45,12 @@ void registerStandards()
 //	ornUhl::registerStandardValues();
 	pcoDelay::registerStandardValues();
 //	pcoIFNeuronDelay::registerStandardValues();	
-	pcoTrapez::registerStandardValues();
+	//pcoTrapez::registerStandardValues();
 //	pcoTriangel::registerStandardValues();
 	periodicNode::registerStandardValues();
 	pulseCoupledExcitatoryNeuron::registerStandardValues();
 	randomWalkNeuron::registerStandardValues();
 	sigEdgeParams::registerStandardValues();
-	stdKuramoto::registerStandardValues();
-	stdLorenz::registerStandardValues();
-	stdRoessler::registerStandardValues();
 	streamInNode::registerStandardValues();
 	streamOutNode::registerStandardValues();
 	sdeNode::registerStandardValues();

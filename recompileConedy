@@ -41,7 +41,7 @@ conedy-src: recompile
 recompile: ${HOME}/.config/conedy/config.h
 	TMP=`mktemp`; cd ${dirsrc}; sum addedNodes/*.cfg > $$TMP; sum ${addedDir}/*.cfg >> $$TMP;  diff $$TMP ${dirsrc}/addedNodes.sum.old  || ${noUserSpace} touch ${dirsrc}/recompilationConedyStarted ${dirsrc}/recompilationPython-ConedyStarted
 	[ -f ${dirsrc}/recompilationConedyStarted  ]
-	make -C ${dirsrc} conedy.recompile 
+	make -C ${dirsrc} conedy.recompile  
 
 
 
@@ -51,4 +51,4 @@ ${HOME}/.config/conedy/config.h:
 	
 
 	
-.PHONY:	recompile
+.PHONY:	recompile conedy python-conedy documentation conedy-src

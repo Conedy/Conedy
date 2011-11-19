@@ -110,6 +110,7 @@ namespace conedy
 		network::nodeIterator ia;
 		network::nodeList vl;
 		network::verticesMatching ( vl,_dynNode_ );
+		clean();
 		for ( ia = vl.begin(); ia != vl.end(); ia++ )
 		{
 			f = f + node::theNodes[*ia] ->weightSum();

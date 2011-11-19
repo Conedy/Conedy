@@ -42,7 +42,7 @@ namespace conedy
 	{
 
 		protected:
-			baseType tmp;
+			baseType x;
 
 			//! Vector mit allen Ausgabeobjekten.
 			static std::vector<ostream*> out;
@@ -76,10 +76,9 @@ namespace conedy
 			virtual ~streamOutNodeBinary();
 			virtual void evolve(double time) {
 			 
-				tmp = this->couplingSum();
-			out [localStreamNumber]->write ( (char *) &tmp, sizeof (baseType));
+				x = this->couplingSum();
+			out [localStreamNumber]->write ( (char *) &x, sizeof (baseType));
 			};
-			virtual int requiredTimeSteps() { return 1; };
 	//		virtual node *construct();
 
 //			virtual void printStatistics()   { cout << "StreamOutNode" << endl; node::printStatistics(); }
@@ -99,7 +98,7 @@ namespace conedy
 	{
 
 		protected:
-			baseType tmp;
+			baseType x;
 
 			//! Vector mit allen Ausgabeobjekten.
 			static std::vector<io::filtering_ostream*> out;
@@ -147,8 +146,7 @@ namespace conedy
 
 
 			virtual ~streamOutNode();
-			virtual void evolve(double time) {  tmp = this->couplingSum(); ( * ( out[localStreamNumber] ) ) << setprecision((int)precision()) << tmp; ( * ( out[localStreamNumber] ) ) << ' '; };
-			virtual int requiredTimeSteps() { return 1; };
+			virtual void evolve(double time) ;
 			virtual node *construct()
 			{ cout << "I am here" << endl;
 				if (binary())
@@ -208,7 +206,6 @@ namespace conedy
 				return abs ( re ) / ((int)this->degree());
 
 			}
-			virtual int requiredTimeSteps() { return 0; }
 	};
 	
 
@@ -245,7 +242,6 @@ namespace conedy
 				return std::arg ( re );
 
 			}
-			virtual int requiredTimeSteps() { return 0; }
 	};
 
 
@@ -313,16 +309,15 @@ namespace conedy
 			}
 			virtual const unsigned int dimension() const { return 1;}
 
-			streamInNode ( networkElementType n ) : dynNode ( n ) {};
+			streamInNode ( networkElementType n ) : dynNode ( n, 1 ) {};
 
 
 			virtual ~streamInNode();
 			//			streamInNode ( outStream &o, int i ) : node ( i, _streamInNode_ )  {};
-			virtual void evolve(double time) {   ( * ( in[localStreamNumber] ) ) >> dynNode::tmp[0]; }; //cout << tmp << endl; };
+			virtual void evolve(double time) {   ( * ( in[localStreamNumber] ) ) >> dynNode::x[0]; }; //cout << x << endl; };
 
-//			virtual void swap () { this->state = tmp; };
+//			virtual void swap () { this->state = x; };
 
-			virtual int requiredTimeSteps() { return 1; };
 //			virtual void printStatistics()   { cout << "StreamInNode" << endl; this->printStatistics(); }
 
 

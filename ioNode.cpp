@@ -6,24 +6,33 @@
 namespace conedy
 {
 
+	void	streamOutNode:: 			evolve(double time) 
+
+	{  
+//		x = this->couplingSum(); 
+		( * ( out[localStreamNumber] ) ) << setprecision((int)precision()) << this->couplingSum(); 
+		( * ( out[localStreamNumber] ) ) << ' ';
+
+	};
+
 
 	streamOutNodeBinary::~streamOutNodeBinary()
 	{
 		counter[localStreamNumber] = counter [localStreamNumber] - 1;
 		if ( counter[localStreamNumber] == 0 )
 		{
-//			cout << "Closing:" << stringOfStreamNumber[localStreamNumber] << endl;
-//		out[localStreamNumber]->reset();
+			//			cout << "Closing:" << stringOfStreamNumber[localStreamNumber] << endl;
+			//		out[localStreamNumber]->reset();
 			delete  out[localStreamNumber];
 			out[localStreamNumber] = NULL;
-// Rumkopieren, um die Lücke zu schließen ?
-//			for (unsigned int i=localStreamNumber; i < out.size() - 1;i++)
-//				out[i] = out[i+1];
-//			out.resize(out.size() - 1);
+			// Rumkopieren, um die Lücke zu schließen ?
+			//			for (unsigned int i=localStreamNumber; i < out.size() - 1;i++)
+			//				out[i] = out[i+1];
+			//			out.resize(out.size() - 1);
 
 			//		out [localStreamNumber] = NULL;
 			//		counter.erase[localStreamNumber];
-	//		smallestUnusedNumber--;
+			//		smallestUnusedNumber--;
 			streamNumber.erase ( stringOfStreamNumber[localStreamNumber] );
 			stringOfStreamNumber.erase ( localStreamNumber );
 		}
@@ -37,8 +46,8 @@ namespace conedy
 		{
 
 			ofstream * newOut = new ofstream( s.c_str(), ios::out | ios::binary  );
-			 if (!newOut->is_open())
-				                throw "cannot open file for writing. ";
+			if (!newOut->is_open())
+				throw "cannot open file for writing. ";
 
 
 
@@ -82,18 +91,18 @@ namespace conedy
 		if ( counter[localStreamNumber] == 0 )
 		{
 
-//			cout << "Closing:" << stringOfStreamNumber[localStreamNumber] << endl;
-//		out[localStreamNumber]->reset();
+			//			cout << "Closing:" << stringOfStreamNumber[localStreamNumber] << endl;
+			//		out[localStreamNumber]->reset();
 			delete  out[localStreamNumber];
 			out[localStreamNumber] = NULL;
-// Rumkopieren, um die Lücke zu schließen ?
-//			for (unsigned int i=localStreamNumber; i < out.size() - 1;i++)
-//				out[i] = out[i+1];
-//			out.resize(out.size() - 1);
+			// Rumkopieren, um die Lücke zu schließen ?
+			//			for (unsigned int i=localStreamNumber; i < out.size() - 1;i++)
+			//				out[i] = out[i+1];
+			//			out.resize(out.size() - 1);
 
 			//		out [localStreamNumber] = NULL;
 			//		counter.erase[localStreamNumber];
-	//		smallestUnusedNumber--;
+			//		smallestUnusedNumber--;
 			streamNumber.erase ( stringOfStreamNumber[localStreamNumber] );
 			stringOfStreamNumber.erase ( localStreamNumber );
 		}
@@ -110,7 +119,7 @@ namespace conedy
 			if ( zipOutput() )
 			{
 				newOut->push ( gzip_compressor() );
-//				cout << "Schreibe Daten gepackt ..." << endl;
+				//				cout << "Schreibe Daten gepackt ..." << endl;
 			}
 			if ( appendOutput())
 			{
@@ -123,6 +132,8 @@ namespace conedy
 			else
 			{
 				io::file_sink fs = file_sink( s.c_str(), ios_base::out);
+//				io::file_sink fs = file_sink("stupid", ios_base::out);
+			
 				if (!fs.is_open())
 					throw "cannot open file for writing. ";
 				newOut->push (fs );
@@ -160,7 +171,7 @@ namespace conedy
 		counter[localStreamNumber] = counter [localStreamNumber] - 1;
 		if ( counter[localStreamNumber] == 0 )
 		{
-//			cout << "Closing:" << stringOfStreamNumber[localStreamNumber] << endl;
+			//			cout << "Closing:" << stringOfStreamNumber[localStreamNumber] << endl;
 			in[localStreamNumber]->reset();
 			//	delete  out[localStreamNumber];
 			//		out [localStreamNumber] = NULL;
@@ -172,7 +183,7 @@ namespace conedy
 
 
 
-		streamInNode::streamInNode ( string s, networkElementType n )   : dynNode ( n )
+	streamInNode::streamInNode ( string s, networkElementType n )   : dynNode ( n, 1 )
 	{
 		//		s = "output/"+ s;
 
@@ -181,9 +192,9 @@ namespace conedy
 			io::filtering_istream *newIn = new io::filtering_istream();
 
 			if ( zipInput() )
-{			
-			newIn->push ( gzip_decompressor() );
-}
+			{			
+				newIn->push ( gzip_decompressor() );
+			}
 
 			io::file_source fs = file_source(s.c_str());
 			if (!fs.is_open())
@@ -208,7 +219,7 @@ namespace conedy
 			localStreamNumber = streamNumber[s];
 
 		}
-	
+
 
 
 

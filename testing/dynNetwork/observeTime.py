@@ -3,7 +3,7 @@ import conedy as co
 
 net = co.network()
 
-co.set("dynNetwork_ioNodeDt" , 0.015)
+co.set("samplingTime" , 0.015)
 
 
 

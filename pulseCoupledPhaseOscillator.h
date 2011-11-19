@@ -1,7 +1,7 @@
 
 
 #ifndef pulseCoupledPhaseOscillator_h
-#define pulseCoupledPhaseOscillator_h pcoBase_h
+#define pulseCoupledPhaseOscillator_h pulseCoupledPhaseOscillator_h
 
 #include <math.h>
 #include "node.h"
@@ -30,7 +30,7 @@ namespace conedy
 
 
 
-	// Membranpotential ausrechnen aus dynNode::tmp[0]:
+	// Membranpotential ausrechnen aus dynNode::x[0]:
 
 
 
@@ -43,16 +43,16 @@ namespace conedy
 	{
 		protected:
 		public:        // x' = -ax+b
-
+			static baseType timeOffset;
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _pcoBase_,"pcoBase_noiseFrequency",0,0.0 );
-				params<baseType>::registerStandard ( _pcoBase_,"pcoBase_noiseIntensity",1,1.0 );
+				params<baseType>::registerStandard ( _pco_,"pcoBase_noiseFrequency",0,0.0 );
+				params<baseType>::registerStandard ( _pco_,"pcoBase_noiseIntensity",1,1.0 );
 			}
 
 
 
-    virtual void setInitialCondition ( vector <double  >  &r );
+    virtual void setStateVec ( vector <double  >  &r );
 
 			//			baseType inline dt () { return dynNode::dt; }
 			baseType inline nextFiring() { return eventHandler::getKey ( _fire_ ); }
@@ -62,6 +62,9 @@ namespace conedy
 			baseType inline omega() { return ( baseType ) 1;}
 
 			virtual unsigned int numberOfEvents() const { return 2;};
+
+	virtual void clean ();
+
 		virtual void excite ( baseType c ) 
 		{
 
@@ -75,7 +78,7 @@ namespace conedy
 //						newPhase = 1;
 					eventHandler::decreaseKey ( _fire_,1.0  + this->time - newPhase );
 				}
-				else
+				else if (newPhase < phase )
 				{
 //				if ( phase < 0)
 //						newPhase = 0;
@@ -88,7 +91,7 @@ namespace conedy
 			virtual baseType phaseResponse(baseType c, baseType phi) { throw "phaseResponse of pcoBase called!";}
 
 
-			//		virtual const nodeInfo getNodeInfo() { nodeInfo n = {_pcoBase_,_dynNode_};     return n; };
+			//		virtual const nodeInfo getNodeInfo() { nodeInfo n = {_pco_,_dynNode_};     return n; };
 			virtual baseType callBack ( unsigned int eventSignature );
 			virtual const unsigned int dimension() const { return 1;}
 
@@ -97,8 +100,9 @@ namespace conedy
 
 
 
-			pcoBase () : dynNode ( _pcoBase_ ) {};
+			pcoBase () : dynNode ( _pco_ ) {};
 			pcoBase ( networkElementType n ) : dynNode(n) {}
+			pcoBase ( networkElementType n, unsigned int dim ) : dynNode(n, dim) {}
 
 			pcoBase ( const pcoBase &b );
 			virtual ~pcoBase();
@@ -122,9 +126,9 @@ namespace conedy
 
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
-				params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_noiseIntensity",1,params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );
-				//			params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_t_ref",2,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
+				params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_noiseFrequency",0,params<baseType>::getStandardParameter ( _pco_, 0 ) );
+				params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_noiseIntensity",1,params<baseType>::getStandardParameter ( _pco_, 1 ) );
+				//			params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_t_ref",2,params<baseType>::getStandardParameter ( _pco_, 0 ) );
 				params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_timeDelay",2,0.01);
 
 
@@ -132,7 +136,7 @@ namespace conedy
 
 			virtual unsigned int numberOfOneTimeEvents() const { return 5;  }
 			//			pcoDelay () : dynNode ( _pcoDelay_ ) {};
-			pcoDelay ( networkElementType n ) : pcoBase ( n ) {}
+			pcoDelay ( networkElementType n, unsigned int dim ) : pcoBase ( n, dim ) {}
 
 			//		pcoDelay ( const pcoDelay &b );
 
@@ -170,8 +174,8 @@ namespace conedy
 
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
-				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_noiseIntensity",1,params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );				
+				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_noiseFrequency",0,params<baseType>::getStandardParameter ( _pco_, 0 ) );
+				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_noiseIntensity",1,params<baseType>::getStandardParameter ( _pco_, 1 ) );				
 				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_timeDelay",2,0.01 );
 				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_t_ref",3, 0.05 );
 

@@ -37,9 +37,7 @@ install/python-conedy::
 all::
 	mv config.debian config.h
 
-install::
 
-	make install
 
 clean::
 	rm -rf build build-stamp configure-stamp build/ MANIFEST

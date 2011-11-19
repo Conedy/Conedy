@@ -76,7 +76,10 @@ namespace conedy
 						containerNode<baseType,3>::dynamicVariablesOfAllDynNodes) ;
 				if (status != GSL_SUCCESS)
 					break;
-//				cout << stepSize << "\n";
+
+#ifdef DEBUG
+								cout << stepSize << "\n";
+#endif
 
 			}
 			dynNode::time = startTime;    // changing the time is handled by the evolve-loop in dynNetwork.cpp

@@ -1,5 +1,5 @@
 " Vim syntax file
-" Language:	neurosim
+" Language:	conedy
 " Maintainer:	You!
 " Last Change:	05.02.2010
 " 
