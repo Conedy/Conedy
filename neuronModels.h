@@ -13,6 +13,8 @@
 #include <stdio.h>
 #include <cmath>
 
+#include <valarray>
+
 
 namespace conedy
 {
@@ -542,7 +544,6 @@ class randomWalkNeuron : public dynNode
 		int fire;
 		int pause;
 
-		gslNoise noise;
 
 
 

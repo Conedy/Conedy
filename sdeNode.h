@@ -7,13 +7,13 @@
 
 
 
-#include "gslNoise.h"
+//#include "gslNoise.h"
 #include "containerNode.h"
 
 
 using namespace std;
 
-#include "dynNode.h"
+//#include "dynNode.h"
 namespace conedy
 {
 

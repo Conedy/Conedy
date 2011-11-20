@@ -3,7 +3,7 @@
 #ifndef cnnNode_h
 #define cnnNode_h cnnNode_h
 
-#include "stdOdeIntegrator.h"
+#include "gslOdeIntegrator.h"
 #include "baseType.h"
 #include "sdeNode.h"
 #include "mapNode.h"
@@ -39,7 +39,7 @@ namespace conedy
  *	- Der Bias b ist für alle Zellen gleich \n
  *	- Die Feedforward-Kopplung Σ(β_kl u_kl)= Summe(Gewichte * Eingänge der Nachbarn) ist konstant und wird daher einmalig im ersten Schritt berechnet. Danach erhalten die Zellen einen individuellen zusätzlichen "Bias" ff, der die Summe enthält.
 */
-class cnnNode: public stdOdeIntegrator
+class cnnNode: public gslOdeNode
 {
 	private:
 		// Inline-Funktionen zum einfacheren Aufruf der Parameter
@@ -48,7 +48,7 @@ class cnnNode: public stdOdeIntegrator
 		
 	public:
 		// Konstruktor der 1-dim-Node
-		cnnNode() :stdOdeIntegrator (_cnnNode_ , 1){}
+		cnnNode() :gslOdeNode (_cnnNode_ , 1){}
 
 		//! Gibt die Dimension (1) zurück
 		virtual const unsigned int dimension() const { return 1;}

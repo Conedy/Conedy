@@ -4,7 +4,6 @@
 #define __createNetwork_h __createNetwork_h
 
 #include "network.h"
-#include <cmath>
 
 
 

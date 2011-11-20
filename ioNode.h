@@ -190,22 +190,7 @@ namespace conedy
 
 			calculateMeanPhaseCoherence() : dynNode(_calculateMeanPhaseCoherence_) {};
 			virtual void clean () {};
-			virtual baseType getState()
-			{
-				complex<baseType> re ( ( baseType ) 0, ( baseType ) 0 );
-				node::edgeDescriptor i, end;
-				i = 0;
-				end = degree();
-
-				for (; i != end; i++ )
-				{
-					complex<baseType> dummy ( ( baseType ) 0, getTargetState( i) *2 * M_PI );
-					re = re + exp ( dummy );
-
-				}
-				return abs ( re ) / ((int)this->degree());
-
-			}
+			virtual baseType getState();
 	};
 	
 
@@ -221,27 +206,7 @@ namespace conedy
 
 			calculateMeanPhase() : dynNode(_calculateMeanPhase_) {};
 			virtual void clean () {};
-			virtual baseType getState()
-			{
-
-
-
-
-				complex<baseType> re ( ( baseType ) 0, ( baseType ) 0 );
-
-				node::edgeDescriptor i, end;
-				i = 0;
-				end = degree();
-
-				for (; i != end; i++ )
-				{
-					complex<baseType> dummy ( ( baseType ) 0, getTargetState(i )*2*M_PI );
-					re = re + exp ( dummy );
-
-				}
-				return std::arg ( re );
-
-			}
+			virtual baseType getState();
 	};
 
 

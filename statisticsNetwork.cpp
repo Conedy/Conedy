@@ -2,11 +2,66 @@
 
 #include "statisticsNetwork.h"
 
+#include <limits.h>
+
+#include <boost/pending/relaxed_heap.hpp>
+#include <fstream>
 
 
 namespace conedy
 {
 
+
+
+			void statisticsNetwork::inDegreeDistributionToFile ( string fileName )
+			{
+				ofstream out;
+				out.open ( fileName.c_str() );
+				vector<unsigned int> inDegrees = inDegreeDistribution();
+				for ( unsigned int i = 0; i < inDegrees.size(); i++ )
+					out << i << " " << inDegrees[i] << endl;
+			}
+
+
+			void statisticsNetwork::outDegreeDistributionToFile ( string fileName )
+			{
+				ofstream out;
+				out.open ( fileName.c_str() );
+				vector<int> outDegrees = outDegreeDistribution();
+				for ( unsigned int i = 0; i < outDegrees.size(); i++ )
+					out << i << " " << outDegrees[i] << endl;
+			}
+
+
+			double statisticsNetwork::networkSize()
+			{
+				network::nodeList vl;
+				network::verticesMatching(vl, _dynNode_);
+				network::nodeIterator it;
+				int counter = 0;
+				for (it = vl.begin(); it != vl.end(); it++)
+					counter++;
+				
+				return (double)counter;
+			}
+
+
+
+
+
+
+
+	class dijkstraCompare {
+	
+		public:
+			static vector<baseType> weightMap;
+
+
+		public:
+			bool operator() ( const unsigned int  s1, const unsigned int s2 ) const { return weightMap[s1 - 1] < weightMap[s2 - 1]; }
+
+
+	};
 
 	void statisticsNetwork::printNodeStatistics()
 	{

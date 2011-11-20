@@ -641,53 +641,11 @@ class NodeEditor:
 
 
 
-
-		#
-		# Scanner.ll
-		#
-		fin = open("Scanner.ll.generated", 'r')
-		lines = fin.readlines()
-		fin.close()
-		del fin
-		
-		# "%{ 		// addNewNode.py Nodes
-		start = 0
-		for l in lines:
-			if (l.find("addNewNode.py Nodes") >-1):
-				break
-			else:
-				start += 1
-		stop = start+1
-		
-		for l in lines[start+1:]:
-			if (l.find("%}") >-1) :
-				break
-			else:
-				stop +=1
-		
-		header = lines[:start+2]
-		
-
-		nodes = lines[start+2:stop]
-		nodes.append("%s\t\t\t{ return(ParserBase::%s); }  // added by addNewNodes.py  \n" % (fileNameOut, self.className.upper()))
-		nodes.sort()
-		
-			
-
-		try:
-			nodes.remove("\n")
-		except:
-			pass
-
-		footer = lines[stop+1:]
-
-		# Scanner.ll schreiben
-		fout = open("Scanner.ll.generated", 'w')
-		fout.writelines(header)
-		fout.writelines(nodes)
-		fout.writelines(footer)
+		fout = open("Scanner.ll.generated",  'a')
+		fout.write("%s\t\t\t{ return(ParserBase::%s); }  // added by addNewNodes.py  \n" % (fileNameOut, self.className.upper()))
 		fout.close()
-		del fout, header, nodes, footer
+		del fout
+
 
 
 

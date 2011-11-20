@@ -95,13 +95,10 @@ namespace conedy
 
 
 
-
 //! Izhikevich-Map-Neuronen
 	class izhikevichMap : public mapNode, public eventHandler
 
 	{
-		private:
-			gslNoise noise;
 		public:
 
 			inline baseType a() { return ( params<baseType>::getParams ( 0 ) ); }

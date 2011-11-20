@@ -10,7 +10,7 @@
 #include "neuronModels.h"
 #include "createNetwork.h"
 #include "spatialNetwork.h"
-#include "stdOdeIntegrator.h"
+//#include "stdOdeIntegrator.h"
 
 
 #include "gslOdeNode.h"

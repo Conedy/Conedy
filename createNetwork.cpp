@@ -7,6 +7,7 @@
 #include "phaseResponseOscillators.h"
 #include "nodeImplement.h"
 #include "statisticsNetwork.h"
+#include <cmath>
 
 #include "ioNode.h"
 

@@ -4,29 +4,12 @@
 #define __statisticsN
 
 #include "network.h"
-#include <limits.h>
-#include <boost/pending/relaxed_heap.hpp>
-#include "limits"
-
-#include <fstream>
-
 #include "baseType.h"
 
 namespace conedy
 {
 
 
-	class dijkstraCompare {
-	
-		public:
-			static vector<baseType> weightMap;
-
-
-		public:
-			bool operator() ( const unsigned int  s1, const unsigned int s2 ) const { return weightMap[s1 - 1] < weightMap[s2 - 1]; }
-
-
-	};
 
 
 	//! Erbe von network mit Funktionen, die Netzwerkcharacteristiken ausrechnen
@@ -60,14 +43,7 @@ namespace conedy
 
 //			void weightDistribution ( string fileName)
 
-			void inDegreeDistributionToFile ( string fileName )
-			{
-				ofstream out;
-				out.open ( fileName.c_str() );
-				vector<unsigned int> inDegrees = inDegreeDistribution();
-				for ( unsigned int i = 0; i < inDegrees.size(); i++ )
-					out << i << " " << inDegrees[i] << endl;
-			}
+			void inDegreeDistributionToFile ( string fileName );
 
 			void saveAdjacencyList(string fileName);
 			void saveGraphML(string fileName);
@@ -79,27 +55,9 @@ namespace conedy
 
 			void printAdjacencyList();
 
-			void outDegreeDistributionToFile ( string fileName )
-			{
-				ofstream out;
-				out.open ( fileName.c_str() );
-				vector<int> outDegrees = outDegreeDistribution();
-				for ( unsigned int i = 0; i < outDegrees.size(); i++ )
-					out << i << " " << outDegrees[i] << endl;
-			}
+			void outDegreeDistributionToFile ( string fileName );
 
-
-			double networkSize()
-			{
-				network::nodeList vl;
-				network::verticesMatching(vl, _dynNode_);
-				network::nodeIterator it;
-				int counter = 0;
-				for (it = vl.begin(); it != vl.end(); it++)
-					counter++;
-				
-				return (double)counter;
-			}
+			double networkSize();
 			
 
 			vector<unsigned int> inDegreeDistribution();
@@ -113,11 +71,6 @@ namespace conedy
 
 			statisticsNetwork() {};
 
-//		void components ( vector < statisticsNetwork <T> * > &res );
-
-
-//			statisticsNetwork ( inStream &in ) : network ( in ) { };
-//			statisticsNetwork ( int size, inStream &in ) : network ( size, in ) {};
 	};
 
 

@@ -5,21 +5,15 @@
 
 
 
-#include "node.h"
+#include "dynNode.h"
 #include "edge.h"
 
 #include <list>
 #include <set>
 
-//#include "ioNode.h"
-// verschiedene Nodearten includieren
 
-#include <boost/bind.hpp>
 using namespace boost;
-
 #include "gslNoise.h"
-
-#include "dynNode.h"
 
 #include <queue>
 #include "baseType.h"

@@ -60,10 +60,11 @@ addedNodes.sum.old addNodesIfNecessary:		# check if new node configuration files
 	
 revert:													# remove all added Nodes  
 	rm -f generated*
-	/usr/bin/env sed -i "/added by addNewNodes.py/d" Scanner.ll.generated
+	rm -f Scanner.ll.generated
 	rm -f testing/addedNodes/*/*.rst
 	rm -f testing/addedNodes/*/*.py
 	rm -f testing/addedNodes/*/*.co
+	rm -f testing/addedNodes/*/expected/*
 	rm -f addedNodes.sum.old .countAddedNodes
 	touch Parser.yy	# tricking bjam to call bisonc++ again after change of generatedAddNewNode.yy
 

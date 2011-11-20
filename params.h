@@ -6,7 +6,7 @@
 #include <map>
 #include "networkConstants.h"
 
-
+#include <iostream>
 #include <vector>
 //#include "node.h"
 #include <boost/function.hpp>

@@ -6,7 +6,7 @@
 
 #include "dynNode.h"
 #include "eventHandler.h"
-
+#include <complex>
 
 
 namespace conedy 

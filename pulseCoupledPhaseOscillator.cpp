@@ -1,7 +1,7 @@
 
 
 #include "pulseCoupledPhaseOscillator.h"
-
+#include "gslNoise.h"
 
 namespace conedy
 {

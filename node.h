@@ -3,15 +3,14 @@
 
 
 #include "networkConstants.h"
-#include "gslNoise.h"
 #include "baseType.h"
 
 
-#include <limits>
-#include <cmath>
-#include <complex>
-#include <stdio.h>
-#include <cmath>
+//#include <limits>
+//#include <cmath>
+//#include <complex>
+//#include <stdio.h>
+//#include <cmath>
 #include <iostream>
 #include <vector>
 
@@ -165,15 +164,12 @@ namespace conedy
 			//! Identifizierungs-Objekt für die Edges des Knotens XXX obsolete ?
 			typedef unsigned int edgeDescriptor;			
 
-			virtual ~node() {
-				if (number != numeric_limits<nodeDescriptor>::max())
-					theNodes[number] = NULL;
-			};
+			virtual ~node();
 
 		private:
 
 			//! return the identifying integer of the given edge.  XXX obsolete ?
-			nodeDescriptor getTarget (edge * e) { return e->targetNumber; }
+//			nodeDescriptor getTarget (edge * e) { return e->targetNumber; }
 		public:
 
 			//! return the description object for the edge.
@@ -202,7 +198,7 @@ namespace conedy
 
 
 			//! Construktor 
-			node () { number = numeric_limits<nodeDescriptor>::max(); };  
+			node ();
 
 			// Verbindungen hinzufügen, entfernen
 			//! removes all edges pointing to targetNumber. 
