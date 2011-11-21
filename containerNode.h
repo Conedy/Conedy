@@ -73,11 +73,20 @@ namespace conedy
 
 			containerNode ( const containerNode & c ) : dynNode ( c ), p ( _containerNode_ )
 		{
+			stupidDebugger (c);
+		}
+
+
+		void stupidDebugger(containerNode c)
+
+		{
+
 			free( this->x);
 			//cout << "Copy-Konstruktor" << endl;
 
 			if ( usedIndices == 0 )    // first node in the container. Reserve memory according two gslOdeNode_arraySize
 			{
+				cout << "reserving memory" << endl;
 				dynamicVariablesOfAllDynNodes = ( T* ) calloc ( p.getParams ( 0 ),sizeof ( T ) );
 				sizeOfArray = p.getParams(0);
 			}
@@ -135,6 +144,8 @@ namespace conedy
 
 		}
 
+
+
 			//! Lücken füllen und zusammenschieben
 			static void realign ()   
 			{
@@ -179,7 +190,7 @@ namespace conedy
 			//! clean: wird vor der Integration aufgerufen und initialisiert diverse GSL-Parameter (Art der Stufenfunktion, Schrittweite usw.)
 			virtual void clean ()
 			{
-
+				realign();
 
 			}
 

@@ -12,12 +12,12 @@
 ./pulseCoupledExcitatoryNeuron.h
 ./containerNode.h
 ./odeNode.h
+./odeNode.cpp
 ./nodeImplement.h
 ./commandLineArguments.cpp
 ./addNewNode.py
 ./neuronModels.h
 ./Makefile
-./nodeImplement.cpp
 ./gslOdeNode.h
 ./baseType.h
 ./dynNode.h
@@ -30,7 +30,8 @@
 ./dynNode.cpp
 ./gslNoise.h
 ./fileList
-./Scanner.ll
+./Scanner.ll.begin
+./Scanner.ll.end
 ./recompileConedy
 ./recompilePython-Conedy
 ./cnnNode.h
@@ -84,7 +85,6 @@
 ./command.h
 ./ioNode.cpp
 ./node.cpp
-./edge.cpp
 ./statisticsNetwork.h
 ./configure.sh
 ./pulseCoupledPhaseOscillator.cpp

@@ -512,7 +512,7 @@ class NodeEditor:
 		fout = open ("generatedNeuroPython.cpp", 'a')
 
 		if self.static == 0:
-			fout.write("class_< nodeVirtualEdges<%s> , bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ); // added by addNewNodes.py \n" %(self.className, fileNameOut, self.type,self.className))
+			fout.write("class_< nodeVirtualEdges<%s> , bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ) // added by addNewNodes.py \n" %(self.className, fileNameOut, self.type,self.className))
 			fout.write(". def (\"__init__\", make_constructor (nodeFactory%i < nodeVirtualEdges <%s> > )); // added by addNewNodes.py\n"  % (len(self.params), self.className))   #adding constructor with different parameters
 			
 		elif self.static == 1:	
@@ -683,7 +683,7 @@ else:
 
 
 		for i in  range (1,config.getint(className, 'parameter')+ 1):
-			n.params.append( (config.get(className, 'parametername' + str(i)) , config.getfloat(className, 'standardvalue' + str(i))) )
+			n.params.append( (config.get(className, 'parametername' + str(i)) , config.getfloat(className, 'defaultvalue' + str(i))) )
 		
 		try:
 				n.static = config.getboolean(className, 'staticEdges')
