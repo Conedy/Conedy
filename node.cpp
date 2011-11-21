@@ -3,11 +3,19 @@
 #include "node.h"
 #include "edge.h"
 
+#include "gslNoise.h"
 
 namespace conedy
 {
 
+	 baseType edge::getTargetState() { return node::theNodes[targetNumber]->getState(); }
 
+	node::node () { number = numeric_limits<nodeDescriptor>::max(); };  
+
+			node::~node() {
+				if (number != numeric_limits<nodeDescriptor>::max())
+					theNodes[number] = NULL;
+			};
 
 	vector<node *> node::theNodes;
 

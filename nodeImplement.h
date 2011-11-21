@@ -8,6 +8,8 @@
 #include "dynNode.h"
 #include "edge.h"
 
+#include <complex>
+
 
 namespace conedy {
 

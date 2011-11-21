@@ -2,6 +2,8 @@
 
 #include "mapNode.h"
 
+#include "gslNoise.h"
+
 namespace conedy  {
 
 
@@ -21,7 +23,7 @@ void izhikevichMap::operator()(baseType xprime [], baseType x[])
 		x[1] = x[1] + d();
 	}
 	
-	if (noise.getUniform() < pendo())
+	if (gslNoise::getUniform() < pendo())
 		{
       xprime[0] = x[0] + 0.5 *(0.04 * x[0]*x[0] + 5 * x[0] + 140 - x[1] + I() + pendoC()   );
 		      xprime[0] = xprime[0] + 0.5 *(0.04 * xprime[0]*xprime[0] + 5 * xprime[0] + 140 - x[1] + I() + pendoC()) ;

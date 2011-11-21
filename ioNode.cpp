@@ -2,6 +2,8 @@
 
 #include "ioNode.h"
 
+#include <complex>
+
 
 namespace conedy
 {
@@ -14,6 +16,47 @@ namespace conedy
 		( * ( out[localStreamNumber] ) ) << ' ';
 
 	};
+
+
+			baseType calculateMeanPhase::getState()
+			{
+
+
+
+
+				complex<baseType> re ( ( baseType ) 0, ( baseType ) 0 );
+
+				node::edgeDescriptor i, end;
+				i = 0;
+				end = degree();
+
+				for (; i != end; i++ )
+				{
+					complex<baseType> dummy ( ( baseType ) 0, getTargetState(i )*2*M_PI );
+					re = re + exp ( dummy );
+
+				}
+				return std::arg ( re );
+
+			}
+
+			baseType calculateMeanPhaseCoherence::getState()
+			{
+				complex<baseType> re ( ( baseType ) 0, ( baseType ) 0 );
+				node::edgeDescriptor i, end;
+				i = 0;
+				end = degree();
+
+				for (; i != end; i++ )
+				{
+					complex<baseType> dummy ( ( baseType ) 0, getTargetState( i) *2 * M_PI );
+					re = re + exp ( dummy );
+
+				}
+				return abs ( re ) / ((int)this->degree());
+
+			}
+
 
 
 	streamOutNodeBinary::~streamOutNodeBinary()

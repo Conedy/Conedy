@@ -1,7 +1,7 @@
 
 
 #include "neuronModels.h"
-
+#include "gslNoise.h"
 
 namespace conedy {
 
@@ -16,7 +16,7 @@ void randomWalkNeuron::action1()
 		x[0] = -t_ref();
 	else if ( x[0] < 0 )
 		x[0]++;
-	else if ( noise.getUniform() < p_endo() )
+	else if ( gslNoise::getUniform() < p_endo() )
 		x[0] =  10.0;
 	else
 		x[0] = x[0] + this->couplingSum() + inc();

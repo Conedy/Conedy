@@ -2,12 +2,91 @@
 
 #include "dynNode.h"
 
+#include "gslNoise.h"
+
 
 namespace conedy 
 {
 	baseType dynNode::time = 0.0;
 
 
+
+		void dynNode::setState(  baseType a1, baseType a2 , baseType a3 , baseType a4 , baseType a5 , baseType a6 , baseType a7 , baseType a8 , baseType a9 , baseType a10 , baseType a11 , baseType a12 )
+		{
+				vector <baseType> argList;
+				argList.push_back (a1);
+				if (a2 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a2);
+				if (a3 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a3);
+				if (a4 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a4);
+				if (a5 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a5);
+				if (a6 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a6);
+				if (a7 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a7);
+				if (a8 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a8);
+				if (a9 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a9);
+				if (a10 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a10);
+				if (a11 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a11);
+				if (a12 == numeric_limits<baseType>::max())
+				{	
+					setStateVec( argList);
+					return;
+				}
+				argList.push_back (a12);
+				setStateVec( argList);
+				return;
+
+
+
+		}
 
 
     void dynNode::excite(baseType couplingStrength)
@@ -81,7 +160,6 @@ namespace conedy
 
 
 
-gslNoise dynNode::random;
 
 baseType dynNode::endTime = 0.0;
 

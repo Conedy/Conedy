@@ -16,13 +16,14 @@ namespace conedy
 
 
 
-
+	//! Class, which supplies network function, which control features of the network related to dynamics... setting initial conditions, parameters, starting numerical integration
 	class dynNetwork : public virtual network, eventHandler
 	{
 
 
 		int counter;
-
+	
+		// integer, which counts the number of periodical observations of the network.
 		static unsigned int observationCounter;
 		public:
 

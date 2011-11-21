@@ -5,15 +5,14 @@
 
 
 #include "dynNode.h"
-
-
+#include "eventHandler.h"
+#include <complex>
 
 
 namespace conedy 
 {
 
 
-#ifdef EVENTCOUNT
 
 	class eventCountNode : public dynNode
 	{
@@ -37,7 +36,6 @@ namespace conedy
 			}
 	};
 
-#endif
 
 	//! Node, der die momentane Integrationszeit als status zurückgibt
 	template <typename T>

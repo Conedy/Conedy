@@ -76,9 +76,15 @@ getDocFromTesting:															#
 	cp referenceHeader.tmpl reference.rst	
 
 
-updateVersionNumber:
-	cd ..; sed "s/^release.*$$/release = '${VERSION}'/" -i documentation/conf.py
+updateVersionNumber: download.rst conf.py
+	
+
+conf.py: conf.tmpl ../config.h
+	cd ..; sed "s/^release.*$$/release = '${VERSION}'/" documentation/conf.tmpl > documentation/conf.py
+
+download.rst: download.tmpl ../config.h
 	sed "s/RELEASELONG/${VERSIONLONG}/g" download.tmpl | sed "s/RELEASE/${VERSION}/g"  > download.rst
+
 
 reference.rst: updateDocIfNecessary updateVersionNumber
 #	cd reference;  ls | sed "s/\t/\n/g;s/.rst//g;s#^# /reference/#g" >> ../reference.rst

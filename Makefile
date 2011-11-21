@@ -38,6 +38,9 @@ docstrings.h: addedNodes.sum.old    			# generate a c-header with docstrings for
 
 
 
+Scanner.ll: Scanner.ll.begin Scanner.ll.end Scanner.ll.generated
+	cat Scanner.ll.begin Scanner.ll.generated Scanner.ll.end > Scanner.ll
+
 
 addNodes: revert										# generate sourcecode for node dynamics according to configuration files in addedNodes/ or in a special monitored directory configured in the config file (${addedDir})
 	rm -f someNodeFailed
@@ -57,11 +60,11 @@ addedNodes.sum.old addNodesIfNecessary:		# check if new node configuration files
 	
 revert:													# remove all added Nodes  
 	rm -f generated*
-	/usr/bin/env sed -i "/added by addNewNodes.py/d" Scanner.ll
-	/usr/bin/env sed -i "/added by addNewNodes.py/d" neuroPython.cpp
+	rm -f Scanner.ll.generated
 	rm -f testing/addedNodes/*/*.rst
 	rm -f testing/addedNodes/*/*.py
 	rm -f testing/addedNodes/*/*.co
+	rm -f testing/addedNodes/*/expected/*
 	rm -f addedNodes.sum.old .countAddedNodes
 	touch Parser.yy	# tricking bjam to call bisonc++ again after change of generatedAddNewNode.yy
 
@@ -118,7 +121,7 @@ unstripped: clean addNodes
 	bash linkUnstripped.sh	
 
 
-conedy: addNodesIfNecessary version				# build the bison-flex-interpreter of Conedy.
+conedy: addNodesIfNecessary Scanner.ll version				# build the bison-flex-interpreter of Conedy.
 	bjam conedy cflags=-D$(SVNDEV) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
 
@@ -199,6 +202,7 @@ clean: ${todo:=.clean}
 conedy.clean:
 	rm -rf bin
 	rm -rf Parserbase.h
+	rm -f Scanner.ll
 	make revert
 
 python-conedy.clean:
@@ -228,7 +232,7 @@ win: version
 
 documentation.uninstall:
 
-debug: addNodesIfNecessary version
+debug: addNodesIfNecessary Scanner.ll version
 #	bisonc++ Parser.yy
 	bjam conedyDebug  -j${numberCores}
 	cp -f bin/gcc*/debug/conedyDebug ~/bin/conedyDebug

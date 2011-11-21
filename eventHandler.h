@@ -4,9 +4,8 @@
 #define __eventHandler __eventHandler
 
 #include <boost/bind.hpp>
-#include <limits.h>
-#include <boost/pending/relaxed_heap.hpp>
-#include <boost/pending/fibonacci_heap.hpp>
+//#include <limits.h>
+//#include <boost/pending/fibonacci_heap.hpp>
 #include <vector>
 #include <limits>
 
@@ -33,7 +32,6 @@
 
 #include "baseType.h" 
 
-#include "priorityQueue.h"
 
 
 using namespace std;
@@ -52,8 +50,10 @@ class eventHandler;
 
 
 #ifdef CALENDARQUEUE
+#include "priorityQueue.h"
 typedef calendarQueue priorityQueueTemplate;
 #else
+#include <boost/pending/relaxed_heap.hpp>
 typedef relaxed_heap < int, eventHandler> priorityQueueTemplate ;
 #endif
 

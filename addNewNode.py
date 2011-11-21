@@ -491,40 +491,28 @@ class NodeEditor:
 		#
 		# generatedNodes.cpp
 		#
+
+
+
+
+		#
+		# generatedNodes.cpp
+		#
 		fout = open ("generatedNodes.cpp", 'a')
 		fout.write	("#include \"generated%s.cpp\"\n" % self.className)
 		fout.close()
 		del fout
 
+
 		#
 		# neuroPython.cpp
 		#
 
-		fin = open("neuroPython.cpp", 'r')
-		lines = fin.readlines()
-		fin.close()
-		del fin
-		
-		# "%{ 		// addNewNode.py Nodes
-		start = 0
-		for l in lines:
-			if (l.find("addNewNode.py Nodes begin") >-1):
-				break
-			else:
-				start += 1
-		stop = start+1
-		
-		for l in lines[start+1:]:
-			if (l.find("addNewNode.py Nodes end") >-1) :
-				break
-			else:
-				stop +=1
-		
-		header = lines[:start+1]
-		
-		nodes = lines[start+1:stop]
+
+		fout = open ("generatedNeuroPython.cpp", 'a')
+
 		if self.static == 0:
-			nodes.append("class_< nodeVirtualEdges<%s> , bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ) // added by addNewNodes.py\n" %(self.className, fileNameOut, self.type,self.className))
+			fout.write("class_< nodeVirtualEdges<%s> , bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ); // added by addNewNodes.py \n" %(self.className, fileNameOut, self.type,self.className))
 			nodes.append(". def (\"__init__\", make_constructor (nodeFactory%i < nodeVirtualEdges <%s> > )); // added by addNewNodes.py\n"  % (len(self.params), self.className))   #adding constructor with different parameters
 			
 		elif self.static == 1:	
@@ -538,28 +526,11 @@ class NodeEditor:
 			nodes.append(". def (\"__init__\", make_constructor (nodeFactory%i < nodeTemplateEdges <%s >, %s, %s > > )); // added by addNewNodes.py\n"  %( len(self.params), self.staticEdgeType, self.staticTargetNodeType, self.className))   #adding constructor with different parameters
 	
 #		nodes.sort()
-		
-
-		try:
+			fout.write("class_< nodeTemplateEdges< %s >  , %s , %s >, bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ); // added by addNewNodes.py \n" %(self.staticEdgeType, self.staticTargetNodeType,self.className,  fileNameOut, self.type, self.className))
 #			nodes.remove("")
-			nodes.remove("\n")
 #			nodes.remove(" \n")
-		except:
-			pass
-
-		footer = lines[stop:]
-
-
-
-		# neuroPython.cpp schreiben
-		fout = open("neuroPython.cpp", 'w')
-		fout.writelines(header)
-		fout.writelines(nodes)
-		fout.writelines(footer)
 		fout.close()
-		del fout, header, nodes, footer
-
-
+		del fout
 
 		#
 		# generatedRegisterStandards.h
@@ -676,53 +647,11 @@ class NodeEditor:
 
 
 
-
-		#
-		# Scanner.ll
-		#
-		fin = open("Scanner.ll", 'r')
-		lines = fin.readlines()
-		fin.close()
-		del fin
-		
-		# "%{ 		// addNewNode.py Nodes
-		start = 0
-		for l in lines:
-			if (l.find("addNewNode.py Nodes") >-1):
-				break
-			else:
-				start += 1
-		stop = start+1
-		
-		for l in lines[start+1:]:
-			if (l.find("%}") >-1) :
-				break
-			else:
-				stop +=1
-		
-		header = lines[:start+2]
-		
-
-		nodes = lines[start+2:stop]
-		nodes.append("%s\t\t\t{ return(ParserBase::%s); }  // added by addNewNodes.py  \n" % (fileNameOut, self.className.upper()))
-		nodes.sort()
-		
-			
-
-		try:
-			nodes.remove("\n")
-		except:
-			pass
-
-		footer = lines[stop+1:]
-
-		# Scanner.ll schreiben
-		fout = open("Scanner.ll", 'w')
-		fout.writelines(header)
-		fout.writelines(nodes)
-		fout.writelines(footer)
+		fout = open("Scanner.ll.generated",  'a')
+		fout.write("%s\t\t\t{ return(ParserBase::%s); }  // added by addNewNodes.py  \n" % (fileNameOut, self.className.upper()))
 		fout.close()
-		del fout, header, nodes, footer
+		del fout
+
 
 
 

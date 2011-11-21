@@ -386,6 +386,7 @@ template <class N>
 
 
 		// addNewNode.py Nodes begin
+#include "generatedNeuroPython.cpp"
 		// addNewNode.py Nodes end
 
 

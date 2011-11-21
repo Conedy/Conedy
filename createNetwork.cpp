@@ -6,11 +6,23 @@
 #include "pulseCoupledPhaseOscillator.h"
 #include "phaseResponseOscillators.h"
 #include "nodeImplement.h"
+#include "statisticsNetwork.h"
+#include <cmath>
 
 #include "ioNode.h"
 
 namespace conedy {
 
+
+
+
+
+			static bool cmp2d ( pair< int, int > a, pair< int, int > b )
+			{
+
+				return ( a.first * a.first + a.second * a.second ) < ( b.first * b.first + b.second * b.second );
+
+			}
 
 
 

@@ -1,25 +1,20 @@
 
 
-#ifndef __createNetwork
-#define __createNetwork
+#ifndef __createNetwork_h
+#define __createNetwork_h __createNetwork_h
 
 #include "network.h"
-#include <cmath>
-
-#include "statisticsNetwork.h"
 
 
-#ifndef EVENTCOUNT
-#define EVENTCOUNT
-#endif
 
-#ifdef EVENTCOUNT
-#include "eventHandler.h"
-#endif
-
-//#if OPENGL
-//#include "glNetwork.h"
+//#ifndef EVENTCOUNT
+//#define EVENTCOUNT
 //#endif
+
+//#ifdef EVENTCOUNT
+//#include "eventHandler.h"
+//#endif
+
 
 
 
@@ -29,14 +24,13 @@ namespace conedy
 
 
 	/*!
-	  \Brief Klasse zur zentralen Verwaltung von Parametern
 
-	  Hier werden die einzelnen Netzwerke definiert (z.B. lattice, cycle, wattsStrogatz, cnnStd ...):
+	 contains implementations of network generators, e.g. lattices, random networks, rewiring, ...
 
-	  Dazu werden die Fuktionen aus network.h (z.B. AddEdge) verwendet.
+	 uses only functions from network.h like (addNode, addEdge)
 
 
-	  Es werden folgende Standards verwendet:
+
 
 	  int	networkElementType	(Nummer des NodeTypes - CNN, Rössler ... - wird automatisch in nodeBlueprint.h vergeben)
 	  nodeKind	NodeKind	(Nummer der Nodeart - Input, Output ... - wird automatisch in nodeBlueprint.h vergeben)
@@ -52,6 +46,7 @@ namespace conedy
 
 		static void registerStandardValues()
 		{
+			//! true when output should be written to binary files.
 			params<baseType>::registerStandard ( _createNetwork_,"createNetwork_binary",0, 0.0 );
 		}
 		baseType inline writeBinary () { return p.getParams(0); }
@@ -61,11 +56,12 @@ namespace conedy
 			createNetwork() :p (_createNetwork_)   {};
 
 			//! creates a chain in which nodes are connected to its a nearest neighbors
-
 			nodeDescriptor line ( unsigned int number, unsigned int a, nodeBlueprint *n = stdNode, edgeBlueprint *l=stdEdge);
 
 
 			//! Erzeugt einen Ring mit <number> Kopien von *n, bei dem jeder Knoten mit den <a> nächsten Nachbarn nach links und recht verbunden ist. Edges sind Kopien von *l
+
+			//! Creates a ring consisting of n copies of n, in which every node is connected to its a nearest neighbors to the left and right.
 			nodeDescriptor cycle ( int number, int a,nodeBlueprint *n = stdNode, edgeBlueprint *l= stdEdge );
 
 			//! Erzeugt einen Ring mit zuerst <number1> Kopien von *n1, dann <number2> Kopien von *n2; bei dem jeder Knoten mit den <a> nächsten Nachbarn nach links und recht verbunden ist.
@@ -105,13 +101,16 @@ namespace conedy
 
 
 
-			//! Verbindet jeden Knoten der Art theNodeKind mit einem Rauschknoten, der double einkoppelt, die von der Funktion r zurückgegeben werden.
+			//! Verbindet jeden Knoten der Art theNodeKind mit einem Rauschknoten, der double einkoppelt, die von der Funktion r zurückgegeben werden
+			//! obsolete ?
 			void addGlobalNoise ( boost::function <double() > r, nodeKind theNodeKind = _dynNode_ );
 
-
+			//! obsolete ?
 			void addGlobalNoise ( function <double() > r ) { addGlobalNoise ( r, _dynNode_ ); }
 
 			//! Normalisiert die Summe der eingehenden Kopplungsgewichte jedes Knotens au den Wert r
+
+			//! normalizes the sum of ingoing coupling weights to r.
 			void normalizeInputs (baseType r);
 
 			//			void createFromMatrix ( inStream & in, unsigned int size, nodeBlueprint *n );
@@ -119,21 +118,23 @@ namespace conedy
 			//! Fügt Kopien der Knoten aus nodes zum Netzwerk hinzu und verbindet mit Kopplungsgewichten aus der Matrix weights.
 			//nodeDescriptor createFromMatrix ( vector <nodeBlueprint *> * nodes, vector <vector<baseType> > weights );
 
+			//! creates a network of nodes of type n and edges of type e according to a whitespace-separated adjacency matrix provided in a txt-file of name fileName.
 			nodeDescriptor createFromAdjacencyMatrix (string fileName, nodeBlueprint * n = stdNode, edgeBlueprint *e=stdEdge);
 
-			//! Erstellt ein Netzwerk aus Knoten vom Typ n, und verbindet mit Kopplungsgewichten aus der adjacenzmatrix weights
+			//! Erstellt ein Netzwerk aus Knoten vom Typ n, und verbindet mit Kopplungsgewichten aus der adjacenzmatrix weights  XXX obsolete ?
 			nodeDescriptor createFromMatrix ( vector <vector<baseType> > weights, nodeBlueprint *n );
 
-			//! Erstellt ein Netzwerk aus Knoten vom Typ n und Verbindungen vom Typ l. Verbindungen werden aus der Datei fileName gelesen. Format: <Startknoten> <Zielknoten> <Verbindungsgewicht> \n
+			//! creates a network of nodes of type n and edges of type e according to a whitespace-separated adjacency list provided in a txt-file of name fileName.
 			nodeDescriptor createFromAdjacencyList ( string fileName, nodeBlueprint * n = stdNode, edgeBlueprint *l= stdEdge );
 
 
-			void rewireWeights ( double prop ,boost::function<double () > r,nodeKind theNodeKind = _dynNode_ );
-
 			//! Ersetzt Verbindungen mit Start- und Zielknoten der Art theNodeKind, durch ähnliche (kopierte) Verbindungen mit zufällig gewählten Start- und Zielknoten
 
+			//! Replaces edges with source and target nodes of type _dynNode_ by similar (copied) edges with randomly chosen source and target nodes. Weights are drawn from r.
+			void rewireWeights ( double prop ,boost::function<double () > r,nodeKind theNodeKind = _dynNode_ );
 
-//			void newire (double prop) { rewire(prop, _dynNode_, stdEdge);}
+
+
 
 				// only consider edges which start and end at nodes of type n
 			void rewire (double prop, nodeBlueprint *n = stdNode);
@@ -142,8 +143,8 @@ namespace conedy
 			void replaceEdges (double prop, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode);
 
 
-
-void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
+		
+			void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
 
 
 
@@ -196,11 +197,6 @@ void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
 			//! wie oben. Phasen werden von Edges vom Typ l übergeben.
 			void observeAllPhaseCoherence ( string s, edgeBlueprint *l );
 
-//			void observePhaseCoherence ( string s );
-
-//			void observePhaseCoherence ( string s, nodeBlueprint *n = stdNode,  edgeBlueprint *l= stdEdge );
-
-//			void observePhaseCoherence ( nodeDescriptor lower, nodeDescriptor upper, string s,  edge *l );
 
 
 			void observePhaseCoherence ( string s, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode, nodeDescriptor lower = 0, nodeDescriptor upper = numeric_limits<nodeDescriptor>::max());
@@ -267,21 +263,8 @@ void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
 
 
 
-			static bool cmp2d ( pair< int, int > a, pair< int, int > b )
-			{
 
-				return ( a.first * a.first + a.second * a.second ) < ( b.first * b.first + b.second * b.second );
-
-			}
-
-
-	};	// ENDE class createNetwork
-
-
-	//
-	// #### Deklarationen einzelner Netzwerke: ######################
-	// (z.B. lattice, cycle usw...)
-	//
+	};	
 
 
 

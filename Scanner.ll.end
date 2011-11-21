@@ -1,3 +1,4 @@
+<<<<<<< HEAD:Scanner.ll
 /*
     Neurosim is a scientific tool which allows numerical integration of dynamical networks.
 
@@ -122,6 +123,8 @@ streamInLattice		{return(ParserBase::STREAMINLATTICE); }
 %{		// Netzwerk-Befehle
 %}
 
+=======
+>>>>>>> a93d66572ac437853920743c83112578c3502747:Scanner.ll.end
 
 
 getState				{return(ParserBase::GETSTATE); }

@@ -6,7 +6,7 @@
 #include <map>
 #include "networkConstants.h"
 
-
+#include <iostream>
 #include <vector>
 //#include "node.h"
 #include <boost/function.hpp>
@@ -17,12 +17,10 @@ namespace conedy
 	using namespace std;
 
 	/*!
-		\Brief Klasse zur zentralen Verwaltung von Parametern
+		\Brief  Class for storing parameters.
+		
+		Via registerStandard parameters are registered with standard values. Parameters are stored in sheets which allows nodes to share parameters to conserve memory. Each node only remembers the sheet number of its parameters.
 
-		Die Klasse Params dient der zentralen Verwaltung von Parametern:
-		Durch die Methode "registerStandard" werden zunächst alle Standartparameter aller Nodes / Edges gespeichert. Diese dienen als Blaupause für weitere Nodes/Edges.
-
-		Wird eine "unnormale" Node/Edge instanziert, so wird zusätzlicher Speicherplatz für Parameter mittels "rerouteParams" alloziiert->
 
 
 
@@ -39,7 +37,7 @@ namespace conedy
 				//! Anzahl der Standartparameter (Wird beim Start von Neurosim hochgezählt)
 				static unsigned int numberOfStandardParameterSheets;
 
-				//! Zähler für Anzahl der Nodes, die eine bestimmte Reihen benutzen
+				//! Counter for the number of nodes, which use a certain sheet. 
 				static vector <unsigned int> usageCounter;
 
 				//! Anzahl der bisher belegten Reihen
@@ -56,10 +54,10 @@ namespace conedy
 
 
 			public:
-				//! Der Parametersheet  der lokalen Instanz
+				//! The parameter sheet number of this instance. 
 				unsigned int row;
 
-				//! Gibt alle Parameter auf die Konsole aus.
+				//! Prints all prameters to the console for debug reasons. 
 				void printStatistics() 
 				{	
 					cout << "parameter:" << endl;
@@ -79,7 +77,7 @@ namespace conedy
 				}
 
 				// ###### KONSTRUKTOREN ######
-				//! Copyconstructor: wird aufgerufen, wenn Parameter mehrfach benutzt werden (Nodes/Edges kopiert werden)
+				//! Copyconstructor: Copies the sheet-number for the new node.
 				params ( const params<T> &b )
 				{
 					row = b.row;
@@ -89,12 +87,6 @@ namespace conedy
 
 
 				}
-				//! Leerer Konstruktor
-				//TODO: BRAUCHT MAN DIE??? lässt man den nicht lieber weg, damit alles funktioniert?
-				//		params() {
-				//				row = 0;
-
-				//};
 
 				params(const unsigned int N) {  vector <T> newVec(N); param.push_back(newVec); row = Nparams; Nparams++; }//usageCounter.push_back(1);};
 

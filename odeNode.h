@@ -1,19 +1,14 @@
-
-
-/* last modifier: js */
-
 #ifndef odeNode_h
 #define odeNode_h odeNode_h
 
-#include "node.h"
-#include "gslNoise.h"
-#include <valarray>
-#include <map>
+//#include "gslNoise.h"
+//#include <valarray>
+//#include <map>
 
 
 #include "containerNode.h"
 
-#include "params.h"
+//#include "params.h"
 #include "baseType.h"
 
 using namespace std;
@@ -55,22 +50,11 @@ namespace conedy {
 
 			
 
-			static int dgl ( double t,const double y[], double f[], void *params )
-			{
-				list<containerNode<baseType,1>*>::iterator it;
-				for ( it = nodeList.begin(); it != nodeList.end();it++ )
-					( * ( (odeNode *)*it )) ( &y[ ( *it )->startPosGslOdeNodeArray], &f[ ( *it )->startPosGslOdeNodeArray] );
-				return GSL_SUCCESS;
-			}
+			static int dgl ( double t,const double y[], double f[], void *params );
 
 	
 
-			static void dgl (baseType *y, baseType* f)
-			{
-				list<containerNode<baseType,1>*>::iterator it;
-				for ( it = nodeList.begin(); it != nodeList.end();it++ )
-					( * ( (odeNode *)*it )) ( &y[ ( *it )->startPosGslOdeNodeArray], &f[ ( *it )->startPosGslOdeNodeArray] );
-			}
+			static void dgl (baseType *y, baseType* f);
 
 
 
