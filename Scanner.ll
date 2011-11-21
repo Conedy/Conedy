@@ -111,6 +111,7 @@ periodicNode		{return(ParserBase::PERIODICNODE); }
 randomBlueprintNode {return(ParserBase::RANDOMBLUEPRINTNODE); }
 randomWalkNeuron	{return(ParserBase::RANDOMWALKNEURON); }
 setParams		{return(ParserBase::SETPARAMS); }
+setParam		{return(ParserBase::SETPARAM); }
 snapshot		{return(ParserBase::SNAPSHOT); }
 streamInLattice		{return(ParserBase::STREAMINLATTICE); }
 %{	// addNewNode.py Nodes
