@@ -8,6 +8,8 @@
 namespace conedy
 {
 
+	 baseType edge::getTargetState() { return node::theNodes[targetNumber]->getState(); }
+
 	node::node () { number = numeric_limits<nodeDescriptor>::max(); };  
 
 			node::~node() {
