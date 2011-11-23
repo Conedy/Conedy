@@ -464,16 +464,26 @@ nodeDescriptor network::addNode ( nodeBlueprint *n )
 void network::addWeightedEdge ( nodeDescriptor s, nodeDescriptor t, double weight )
 {
 
-
-	node::theNodes[s]->link ( t, weight );
-	networkType = networkType & ( 0 - 1 - directed );
+	nodeKind nk = node::theNodes[s]->getNodeInfo().theNodeKind;
+	if (nk & _ode_ || nk & _sde_ || nk & _map_)
+		node::theNodes[t]->link ( s, weight );
+	else
+		node::theNodes[s]->link ( t, weight );
+	
+	
+	//	networkType = networkType & ( 0 - 1 - directed );
 }
 
 
 
-void network::addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l )
-{
-	node::theNodes[s]->link ( t, l );
+void network::addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l ) 
+{ // differential equations mirror the direction of coupling, for performance reasons.
+	nodeKind nk = node::theNodes[s]->getNodeInfo().theNodeKind;
+	if (nk & _ode_ || nk & _sde_ || nk & _map_)
+		node::theNodes[t]->link ( s, l );
+	else
+		node::theNodes[s]->link ( t, l );
+
 }
 
 

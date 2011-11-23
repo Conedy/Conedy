@@ -41,7 +41,7 @@ conedy-src: recompile
 recompile: ${HOME}/.config/conedy/config.h
 	TMP=`mktemp`; \
 	cd ${dirsrc}; sum addedNodes/*.cfg > $$TMP; \
-	[ -d ${addedDir} ] && find ${addedDir} -name "*.cfg" | sort | xargs sum >> $$TMP ; \
+	[ -d ${addedDir} ] && [ "$$(ls -A ${addedDir})" ] && (find ${addedDir} -name "*.cfg" | sort | xargs sum >> $$TMP) || true  ; \
 	diff $$TMP ${dirsrc}/addedNodes.sum.old  || ${noUserSpace} touch ${dirsrc}/recompilationConedyStarted ${dirsrc}/recompilationPython-ConedyStarted 
 	[ -f ${dirsrc}/recompilationConedyStarted  ] 
 	make -C ${dirsrc} conedy.recompile  

@@ -1,14 +1,7 @@
-
-network.addRandomEdges (m, edge=weightedEdge) 
-	Adds edges with randomly chosen source and target nodes until the network reaches a certain mean degree.
-
-Parameters
-----------
-
-m :  float
-	Nodes are added until the mean degree of the network exceeds m.
+import conedy as co
 
 
-edge : edgeBlueprint
-	Every added edge is a copy of this blueprint.
+net = co.network()
 
+for i in range (0,100):
+	net.addNode(

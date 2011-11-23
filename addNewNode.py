@@ -328,7 +328,7 @@ class NodeEditor:
 
 
 		fout.write("\t\t//! Inlinefunktion fuer die NodeInfo\n")
-		fout.write("\t\tvirtual const nodeInfo getNodeInfo() { nodeInfo n = {%s,_dynNode_,\"%s\" }; return n; }\n" % (self.nodeInfo, fileNameOut))
+		fout.write("\t\tvirtual const nodeInfo getNodeInfo() { nodeInfo n = {%s,_dynNode_ | _%s_,\"%s\" }; return n; }\n" % (self.nodeInfo, self.type, fileNameOut))
 		fout.write("\t\t\n")
 
 		fout.write("\t\t//! Reserviert Speicherplatz fuer die Nodeparameter\n")
@@ -450,13 +450,13 @@ class NodeEditor:
 
 		
 		if self.type =="pco":
-			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseFrequency\",0,params<baseType>::getStandardParameter (_pco_, 0));\n" % (self.nodeInfo, fileNameOut))
-			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseIntensity\",1,params<baseType>::getStandardParameter (_pco_, 1));\n" % (self.nodeInfo, fileNameOut))
+			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseFrequency\",0,params<baseType>::getStandardParameter (_pcoBase_, 0));\n" % (self.nodeInfo, fileNameOut))
+			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseIntensity\",1,params<baseType>::getStandardParameter (_pcoBase_, 1));\n" % (self.nodeInfo, fileNameOut))
 			i = 2
 		
 		if self.type =="pcoDelay":
-			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseFrequency\",0,params<baseType>::getStandardParameter (_pco_, 0));\n" % (self.nodeInfo, fileNameOut))
-			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseIntensity\",1,params<baseType>::getStandardParameter (_pco_, 1));\n" % (self.nodeInfo, fileNameOut))
+			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseFrequency\",0,params<baseType>::getStandardParameter (_pcoBase_, 0));\n" % (self.nodeInfo, fileNameOut))
+			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseIntensity\",1,params<baseType>::getStandardParameter (_pcoBase_, 1));\n" % (self.nodeInfo, fileNameOut))
 			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_timeDelay\",2,params<baseType>::getStandardParameter (_pcoDelay_, 2));\n" % (self.nodeInfo, fileNameOut))
 			i = 3 
 
