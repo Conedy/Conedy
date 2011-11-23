@@ -5,7 +5,7 @@ for (k = 0; k < 10; k = k + 1)
 {
 	N.addNode<roessler>();
 	gslOdeNode_error_rel = 0.001;
-	N.printNodeStatistics();
+#	N.printNodeStatistics();
 	N.evolve(0.0,0.001);
 	N.clear();
 };

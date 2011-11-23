@@ -504,9 +504,10 @@ void network::clear ()
 	numberOfNodes = 0;
 	dynNode::time = 0;
 
-	//		containerNode<baseType,0>::clear();
-	//		containerNode<baseType,1>::clear();
-	//		containerNode<baseType,2>::clear();
+			containerNode<baseType,0>::clear();
+			containerNode<baseType,1>::clear();
+			containerNode<baseType,2>::clear();
+			containerNode<baseType,3>::clear();
 
 }
 
