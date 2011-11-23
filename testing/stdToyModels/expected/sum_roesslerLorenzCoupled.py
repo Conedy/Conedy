@@ -1,3 +1,3 @@
 00000     0 output/roesslerLorenzCoupled.py.err
-01785     1 output/roesslerLorenzCoupled.py.out
-37757 16639 output/roesslerLorenzCoupled.py.series
+00000     0 output/roesslerLorenzCoupled.py.out
+17000 16582 output/roesslerLorenzCoupled.py.series

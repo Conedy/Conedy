@@ -245,7 +245,7 @@ template <class N>
 
 
 
-		if (!system ("recompilePython-Conedy  2> /dev/null"))
+		if (!system ("recompilePython-Conedy "))
 		{
 			cout << "Mission accomplished. You can restart your script now." << endl;
 			exit (1);

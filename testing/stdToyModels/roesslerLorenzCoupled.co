@@ -1,6 +1,6 @@
 network net;
 
-roessler_omega = 29.0;
+roessler_omega = 20.0;
 roessler_a = 0.165;
 roessler_b = 0.2;
 roessler_c = 10.0;
