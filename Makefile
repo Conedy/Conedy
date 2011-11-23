@@ -45,11 +45,10 @@ Scanner.ll: Scanner.ll.begin Scanner.ll.end Scanner.ll.generated
 addNodes: revert										# generate sourcecode for node dynamics according to configuration files in addedNodes/ or in a special monitored directory configured in the config file (${addedDir})
 	rm -f someNodeFailed
 	find -L addedNodes -maxdepth 1 -name "*.cfg" -type f -exec sh -c "python addNewNode.py {}  || touch someNodeFailed"  \;
-	find -L ${addedDir} -maxdepth 1  -name "*.cfg" -type f -exec  sh -c "python addNewNode.py  {} || touch someNodeFailed"  \; || true
+	[ -d ${addedDir} ] && find -L ${addedDir} -maxdepth 1  -name "*.cfg" -type f -exec  sh -c "python addNewNode.py  {} || touch someNodeFailed"  \; || true
 	[ ! -f someNodeFailed ]
 	sum addedNodes/*.cfg > addedNodes.sum.old; 	
-	[ -d ${dirsrc}/addedNodes ] && find ${dirsrc}/addedNodes -name "*.cfg" | xargs sum >> $$TMP ; \
-	sum ${addedDir}/*.cfg  >> addedNodes.sum.old  || true
+	[ -d ${addedDir} ] && (find ${addedDir} -name "*.cfg" | sort | xargs sum >> addedNodes.sum.old) || true  ; \
 	
 	
 	
