@@ -3,6 +3,7 @@ conedy (0.24) unstable; urgency=low
   samplingTime
   * added setState function for templates
   * node templates can be created with user-defined parameters in python
+  * ode, sde and map are coupled in the expected direction 
 
  -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Tue, 08 Nov 2011 11:44:36 +0100
 

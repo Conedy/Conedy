@@ -23,7 +23,7 @@
 
 
 echo "--------------------------------------------"
-echo "Neurosim is not configured yet."
+echo "Conedy is not configured yet."
 echo "Please cp the file config.h.tmpl to config.h"
 echo "and edit the file."
 echo "--------------------------------------------"

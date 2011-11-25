@@ -6,7 +6,7 @@ Parameters
 ----------
 
 m :  float
-	Nodes are added until the mean degree of the network exceeds m.
+	Nodes are added until the mean degree of the network reaches m.
 
 
 edge : edgeBlueprint
