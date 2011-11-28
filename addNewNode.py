@@ -87,7 +87,7 @@ class NodeEditor:
 		# Integrator enlesen
 	
 		if (type == ""):
-			temp = raw_input("Please choose an nodeType (type) from the following list\n\todeNode, sde, stdOdeIntegrator, pco, pcoDelay , mapNode: ")
+			temp = raw_input("Please choose an nodeType (type) from the following list\n\todeNode, sde, stdOdeIntegrator, pco, pcoDelay , map: ")
 			print "\n"
 			self.type = temp
 		else:
@@ -312,7 +312,7 @@ class NodeEditor:
 			fout.write("\t\tvirtual baseType phaseResponse(baseType coupling, baseType phi);\n")
 			fout.write("\t\t\n")
 		elif self.type =="mapNode":
-			fout.write("\t\t//! Interface for map\n")
+			fout.write("\t\t//! Interface for mapNode\n")
 			fout.write("\t\tvirtual void operator() (baseType xprime [], baseType x[]);\n")
 			fout.write("\t\t\n")
 		elif self.type =="sde":
@@ -503,6 +503,20 @@ class NodeEditor:
 		fout.close()
 		del fout
 
+		#
+		# generatedRegisterStandards.h
+		#
+		fout = open ("generatedRegisterStandards.h", 'a')
+		fout.write("%s::registerStandardValues();\n" % self.className)
+		fout.close()
+		del fout
+
+
+
+
+		if (n.type == "mapNode"):	
+			n.type = "map"
+
 
 		#
 		# neuroPython.cpp
@@ -528,13 +542,8 @@ class NodeEditor:
 		fout.close()
 		del fout
 
-		#
-		# generatedRegisterStandards.h
-		#
-		fout = open ("generatedRegisterStandards.h", 'a')
-		fout.write("%s::registerStandardValues();\n" % self.className)
-		fout.close()
-		del fout
+
+
 
 		#
 		# write documentation
