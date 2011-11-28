@@ -31,6 +31,7 @@ First we specify the dynamics we want to consider
 
 
 .. testcleanup:: TUT
+
    N.clean()
 
 
@@ -67,9 +68,16 @@ In order to verify the network’s topology, you can calculate network-specific 
 
 .. testcode:: TUT
 
-	print "clustering coefficient:" + str (N.meanClustering())
-	print "mean path length:" + str (N.meanPathLength())
+	print "clustering coefficient:" + str (N.meanClustering()) #doctest: +ELLIPSIS
+	print "mean path length:" + str (N.meanPathLength())  #doctest: +ELLIPSIS
 
+
+.. testoutput:: TUT
+      :hide:
+      :options:    +ELLIPSIS
+
+      clustering coefficient:...
+      mean path length:...
 
 Conedy also includes some node-specific measures like centralities
 
@@ -93,7 +101,6 @@ Until now all oscillators in our network are identical. The following commands c
 
 .. testcode:: TUT
 
-
 	N.randomizeStates( nodeTemplate, co.uniform (-0.1,0.1), co.uniform (-0.1,0.1), co.uniform (-0.1,0.1) )
 	N.randomizeParameter( "gaussianRoessler_omega", co.uniform(0.8,1.2) )
 
@@ -105,7 +112,7 @@ Next we tell Conedy that we want to evolve the time from t = 0.0 to t = 100.0 in
 
 .. testcode:: TUT
 
-   N.evolve(0.0, 100.0)
+   #N.evolve(0.0, 100.0)
 
 After this we want the integration time and the z-component (component 2 in zero-based enumeration) of all 100 oscillators be written to a file every Δt = 0.01.
 

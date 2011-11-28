@@ -38,7 +38,7 @@ Short Example
 We create a simple network with two nodes, one with Rössler and one with Lorenz dynamics. We add a directed edge, coupling the `Rössler`_ into the `Lorenz`_, and observe the oscillators for some time
 
 
-.. testcode::
+.. testcode:: INTRO
 
    #! /usr/bin/env python
    import conedy as co
@@ -62,8 +62,8 @@ We create a simple network with two nodes, one with Rössler and one with Lorenz
 
    # Set the time and each oscillator's third component to be written to the file roesslerLorenzOut.
    N.observeTime("roesslerLorenzOut")
-   N.observe(numberRoessler, "roesslerLorenzOut", co.component(2))
-   N.observe(numberLorenz, "roesslerLorenzOut", co.component(2))
+   N.observe(nodeNumberRoessler, "roesslerLorenzOut", co.component(2))
+   N.observe(nodeNumberLorenz, "roesslerLorenzOut", co.component(2))
 
    # Let 400.0 units of time pass.
    N.evolve(100.,500.)

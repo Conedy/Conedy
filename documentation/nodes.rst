@@ -230,7 +230,7 @@ To use static edges add::
 
 to the description file for your node. Additionally the edge type which should be associated with your node has to be defined by e. g.::
 
-   staticEdgeType = weightedEdge(5.0)
+   staticEdgeType = weightedEdge
 
 Optionally you can choose a node type for target nodes (for example, if all nodes in your network are of the same type), which eliminates another virtual function call::
 

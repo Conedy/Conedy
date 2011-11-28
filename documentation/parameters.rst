@@ -76,7 +76,8 @@ will create a network of 500 nodes, all with :ref:`lorenz` dynamics and all with
 	print N.getParam(nodeNumber, "logisticMap_r")    # returns 1.0
 
 .. testoutput::
-   
+  :HIDE:
+
    1.0
 
 
@@ -88,6 +89,7 @@ will create a network of 500 nodes, all with :ref:`lorenz` dynamics and all with
 	print N.getParam(nodeNumber, "logisticMap_r")    # returns 3.5
 
 .. testoutput::
+   :HIDE:
 
    3.5
 
