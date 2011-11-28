@@ -14,11 +14,8 @@ dirsrc = /usr/share/conedy
 
 
 # monitor directory for added nodes   
+addedDir = $HOME/.config/conedy/addedNodes 
 
-addedDir = $HOME/.config/conedy/addedNodes XXX
-
-
-VERSION = 0.20
 
 #In case you install Conedy's sources and executables into a directory, which is not in userspace, recompilation will require root-priviledges. Choose the tool, which allows to acquire root-priviledges. sudo or kdesudo will work fine. For an installation in userspace noUserSpace can be left empty. 
 
@@ -32,8 +29,7 @@ globalConfig = /etc/conedy.config
 
 numberCores = `cat /proc/cpuinfo | grep processor | wc -l`
 
-
-VERSION = 0.20
+VERSION = `git describe --tags`
 
 
 
