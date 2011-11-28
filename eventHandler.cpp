@@ -45,9 +45,10 @@ void eventHandler::unregisterCallBack (unsigned int eventSignature){
 
 
 eventHandler::~eventHandler()
-{	
-//	for ( unsigned int i = 0; i < this->numberOfEvents();i++ )
-//		eventList[myEventsStartAt+i].time = numeric_limits<baseType>::max();
+{
+
+	for ( unsigned int i = 0; i < this->numberOfEvents();i++ )
+		eventList[myEventsStartAt+i].time = numeric_limits<baseType>::max();
 
 }
 
