@@ -23,7 +23,7 @@ To use static edges add::
 
    staticEdges=1
 
-to the description file for your node. Additionally the edge type which should be associated with your node has to be defined by e. g.::
+to the description file for your node. Additionally the edge type which should be associated with your node has to be defined by e.g.::
 
    staticEdgeType= weightedEdge
 
