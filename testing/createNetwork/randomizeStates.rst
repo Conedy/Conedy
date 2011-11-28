@@ -3,7 +3,7 @@ network.randomizeStates (node, distribution, ...)
 
 Parameters
 ----------
-node : nodeBlueprint
+node : nodeTemplate
    Only randomize states from nodes of this type
 
 distribution : random

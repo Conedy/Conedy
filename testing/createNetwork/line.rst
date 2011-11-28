@@ -9,11 +9,11 @@ size : int
 a : int
         Number of nearest neighbours to each side, nodes not at boandaries in the chain are connected to.
 
-node : nodeBlueprint
-        Every added node is a copy of this blueprint.
+node : nodeTemplate
+        Every added node is a copy of this template.
 
-        edge : edgeBlueprint
-        Every added edge is a copy of this blueprint.
+        edge : edgeTemplate
+        Every added edge is a copy of this template.
 
 Returns
 -------

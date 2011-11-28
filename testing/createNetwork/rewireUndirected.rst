@@ -7,8 +7,8 @@ Parameters
 prop : double
    Replacement propability.
 
-node : nodeBlueprint
-   Only consider edges for replacement if both source and target node is of this type. If no nodeBlueprint is specified, all edges are considered.
+node : nodeTemplate
+   Only consider edges for replacement if both source and target node is of this type. If no nodeTemplate is specified, all edges are considered.
 
 
 

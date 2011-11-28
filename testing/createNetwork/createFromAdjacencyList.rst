@@ -8,11 +8,11 @@ Parameters
 fileName : string
    File name of the text file which contains the adjacency list.
 
-node : nodeBlueprint
-        Every added node is a copy of this blueprint.
+node : nodeTemplate
+        Every added node is a copy of this template.
 
-edge : edgeBlueprint
-        Every added edge is a copy of this blueprint.
+edge : edgeTemplate
+        Every added edge is a copy of this template.
 
 
 Returns

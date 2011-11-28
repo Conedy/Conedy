@@ -97,7 +97,8 @@ These equations are directly copied into a C++ file and may contain the followin
 -	``couplingSum()`` which returns the sum over the states supplied by the edges, which are directed **from** the node ([weight of the edge]×[state of the target node])
 -	the macro ``FOREACHCONNECTEDNODE`` which provides a loop over all edges directed **from** the node. In such a loop ``weight`` returns the weight of the respective edge and ``state`` returns the state of the target node. For example the first equation of the above Rössler oscillator might as well been defined by:
 
-	.. code-block:: c++
+
+.. code-block:: c++
 
 		FOREACHCONNECTEDNODE(
 			dxdt[0] = -omega() * x[1] - x[2] + weight*state - weight*x[0];
@@ -148,7 +149,15 @@ See the `the GSL’s documentation`_ for specific information.
 
 sde
 ++++++++++++++++
-Stochastic differential equations. An integrator can be chosen by setting ``stdSdeIntegrator_stepType`` to one of these values
+Stochastic differential equations. 
+
+
+
+.. math::
+   dx = a(x,t)  dt + s(x,t) dW
+   
+
+An integrator can be chosen by setting ``stdSdeIntegrator_stepType`` to one of these values
 
 -  ``euler``
 -  ``milsteinIto``

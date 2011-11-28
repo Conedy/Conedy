@@ -574,7 +574,7 @@ void createNetwork::addRandomEdges ( double meanOutDeg, edgeBlueprint *l )
 				source = network::randomNode();
 				target = network::randomNode();
 			}
-			while ( network::isLinked ( source,target ) );
+			while ( source == target || network::isLinked ( source,target ) );
 			network::addEdge ( source,target,l );
 		}
 	}

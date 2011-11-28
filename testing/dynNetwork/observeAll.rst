@@ -6,8 +6,8 @@ Parameters
 fileName : string
   The name of the file to which data is written
 
-edgeType : edgeBlueprint
-   Nodes are observed via an edge, which is a copy of this blueprint.
+edgeType : edgeTemplate
+   Nodes are observed via an edge, which is a copy of this template.
 
 
 

@@ -7,10 +7,10 @@ Parameters
 ----------
 size : int
         Number of nodes to be added.
-node : nodeBlueprint
-        Every added node is a copy of this blueprint.
-edge : edgeBlueprint
-        Every added edge is a copy of this blueprint.
+node : nodeTemplate
+        Every added node is a copy of this template.
+edge : edgeTemplate
+        Every added edge is a copy of this template.
 
                 
 Returns
