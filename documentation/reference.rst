@@ -1,4 +1,4 @@
-reference
+Reference
 ---------
 
 
@@ -7,4 +7,4 @@ reference
  :glob:
 
  /reference/*
-  
+

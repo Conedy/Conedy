@@ -15,27 +15,15 @@ Conedy supports different dynamical systems with various integration schemes, in
 Initial conditions and parameters can be chosen individually or drawn from random distributions. Conedy can numerically integrate  the coupled system while sampling user-defined observables in periodic intervals. Conedy was designed with focus on execution time and memory efficiency and allows the user to decide about performance issues at compile time.
 
 
-Conedy can be interfaced via python bindings (recommended) or with an built-in script interpreter, using a C-like syntax. This manual focusses on the python interface. The built-in script interpreter may be useful if you want to distribute computations onto a cluster as the interpreter can easily be linked statically (in contrast to python). In addition, it has support for creating `condor`_  dagman job files, converting the iterations of vectorizable loops into different jobs. Condor is a job management system developed at the Computer Science Department of the University of Wisconsin.
+Conedy can be interfaced via Python bindings (recommended) or with a built-in script interpreter, using a C-like syntax. The latter may be useful if you want to distribute computations onto a cluster as the interpreter can easily be linked statically (in contrast to Python) and also has support for the `Condor`_ job management system. Because the main syntax difference is that commands are separated by semicola instead of new lines, we only refer to the Python interface in most of this manual. However, there also is a :ref:`small chapter<scriptInterpreter>` devoted to the script interpreter and its features.
 
-Most of the following description applies to both interfaces; every function of the python-binding corresponds to a function (of the same name) of the built-in interpreter. The main differences in syntax are:
+.. _Condor: http://www.cs.wisc.edu/condor/
 
--  add a ";" at the end of every command.
-#-  Blueprints are specified in < > instead of given as arguments similar as with templates in C++.
-
-See the testing directory of the source code for example files. If you are familiar with bison/flex grammar files you may also look into Parser.yy and Scanner.ll of Conedy's source code. Although the built-in interpreter supports C-contstructs (like if statements or loops), it may still be limited in some cases.
-
-
-
-
-.. _condor: http://www.cs.wisc.edu/condor/
-
-
-
-In the following, a short example is given which shows how to use the python bindings to obtain time series from coupled dynamical systems.
+In the following, a short example is given which shows how to use the Python bindings to obtain time series from coupled dynamical systems.
 
 Short Example
 -------------
-We create a simple network with two nodes, one with Rössler and one with Lorenz dynamics. We add a directed edge, coupling the `Rössler`_ into the `Lorenz`_, and observe the oscillators for some time
+We create a simple network with two nodes, one with Rössler and one with Lorenz dynamics. We add a directed edge, coupling the `Rössler`_ into the `Lorenz`_, and observe the oscillators for some time:
 
 
 .. testcode::
@@ -43,24 +31,24 @@ We create a simple network with two nodes, one with Rössler and one with Lorenz
    #! /usr/bin/env python
    import conedy as co
 
-   # Create an empty network, ...
+   # Create an empty network, …
    N = co.network()
 
-   # add the nodes, ...
+   # add the nodes, …
    nodeNumberRoessler = N.addNode(co.roessler())
    nodeNumberLorenz = N.addNode(co.lorenz())
 
    # and connect them with a directed edge with weight 1.0 (Roessler to Lorenz).
    N.addEdge(nodeNumberLorenz, nodeNumberRoessler, co.weightedEdge(1.))
-   
-   # Set the oscillators' intial states.
+
+   # Set the oscillators’ intial states.
    N.setState(nodeNumberRoessler, 0., 0., 0.)
    N.setState(nodeNumberLorenz, 1., 1., 1.)
 
    # Let 100.0 units of time pass, in order for transients to die out.
    N.evolve(0., 100.)
 
-   # Set the time and each oscillator's third component to be written to the file roesslerLorenzOut.
+   # Set the time and each oscillator’s third component to be written to the file roesslerLorenzOut.
    N.observeTime("roesslerLorenzOut")
    N.observe(numberRoessler, "roesslerLorenzOut", co.component(2))
    N.observe(numberLorenz, "roesslerLorenzOut", co.component(2))
@@ -80,7 +68,7 @@ For a more detailed overview of Conedy’s features take a look at the :ref:`tut
 
 Free Software
 -------------
-Conedy is free software licensed under the GPL
+Conedy is free software licensed under the GPL:
 
 
     Conedy is free software: you can redistribute it and/or modify
