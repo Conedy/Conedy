@@ -40,7 +40,7 @@ The file ``config.h`` should define the following variables
 
 - ``todo``
 
-A whitespace seperated list of the targets you want to build. Should be an arbitrary subset of: python-conedy conedy conedy-src documentation.
+A whitespace seperated list of the targets you want to build. Should be an arbitrary subset of: python-conedy conedy conedy-src documentation debug condor.
 Whenever the makefile targets  ``build``,  ``install``, ``test``, or ``uninstall`` are evoked, all targets in this subset are considered.
 
 - ``dirinstall``
@@ -67,6 +67,9 @@ A directory which is monitored by Conedy for files which specify new nodes with 
 
 The number of threads that should be used for recompilation of Conedy’s script interpreter (similar to ``make -j``).
 
+- ``defines``
+
+A collection of ``#define`` macros which influence compilation of the source code. At the moment only ``CALENDARQUEUE`` can be chosen in order to use the calendarqueue instead of a relaxed heap for the event integration.
 
 
 Dependencies

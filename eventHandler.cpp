@@ -46,10 +46,16 @@ void eventHandler::unregisterCallBack (unsigned int eventSignature){
 
 eventHandler::~eventHandler()
 {
+	
+	if (myEventsStartAt = numeric_limits<unsigned int>::max())
+		return;
 
-	for ( unsigned int i = 0; i < this->numberOfEvents();i++ )
-		eventList[myEventsStartAt+i].time = numeric_limits<baseType>::max();
-
+	unsigned int i = myEventsStartAt;
+	while (eventList[i].owner == this && i < eventList.size())
+	{
+		eventList[i].time = numeric_limits<baseType>::max();
+		i++;
+	}
 }
 
 void eventHandler::registerCallBack ( unsigned int eventSignature,  baseType time )

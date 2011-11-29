@@ -52,7 +52,6 @@ namespace conedy
 
 			static double * errors;
 
-
 			inline string paramStepType() { return gslStepType->getParams(0); }
 			inline double error_abs () { return gslErrors->getParams(0); }
 			inline double error_rel () { return gslErrors->getParams(1); }
@@ -67,10 +66,11 @@ namespace conedy
 				params<string>::registerStandard(_gslOdeNode_, "gslOdeNode_stepType",0,"gsl_odeiv_step_rkf45");
 				params<baseType>::registerStandard(_gslOdeNode_, "gslOdeNode_error_abs",0,0.0);
 				params<baseType>::registerStandard(_gslOdeNode_, "gslOdeNode_error_rel",1,0.0);
-				params<baseType>::registerStandard(_gslOdeNode_, "gslOdeNode_stepSize",2,0.0.01);
+				params<baseType>::registerStandard(_gslOdeNode_, "gslOdeNode_stepSize",2,0.001);
 				gslStepType = new params<string>(_gslOdeNode_);
 				gslErrors = new params<baseType>(_gslOdeNode_);
 			}	
+
 
 
 			gslOdeNode (networkElementType n , unsigned int dim) : containerNode<baseType,3> ( n, dim)
@@ -102,7 +102,7 @@ namespace conedy
 			//! clean: wird vor der Integration aufgerufen und initialisiert diverse GSL-Parameter (Art der Stufenfunktion, Schrittweite usw.)
 			virtual void clean ()
 			{
-				stepSize = 0.001;
+				stepSize = gslErrors->getParams(2);
 				if ( (* containerNode<baseType,3>::nodeList.begin()) == this)
 				{
 					string theStepType = paramStepType();    // determine step-type

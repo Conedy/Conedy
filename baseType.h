@@ -11,7 +11,7 @@
 
 //using namespace boost;
 
-typedef double baseType;
+
 
 #define PRECALCULATEWEIGHTSUM
 
