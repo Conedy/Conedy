@@ -4,7 +4,7 @@ network n;
 
 
 
-n.cycle<node, weightedEdge>( 10000, 10);
+n.cycle ( 10000, 10, node(), weightedEdge());
 
 
 #network_nodeVerbosity = 1.0;
