@@ -1,5 +1,4 @@
 
-setRandomSeed(10);
 
 
 network n;

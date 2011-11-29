@@ -18,7 +18,7 @@
 
 //#define CALENDARQUEUE
 
-//typedef float baseType;
+typedef double baseType;
 
 
 

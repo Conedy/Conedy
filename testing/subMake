@@ -40,7 +40,18 @@ test_./%.co:
 	else \
 		echo "warning checksum for $*.co not present !"; \
 	fi
-		
+
+confirmBoth_./%: confirm_./%.py confirm_./%.co
+	sed 's/import conedy as co/import conedy as co\nco.setRandomSeed(0)/' $*.py | python > output/$*.py.out 2> output/$*.py.err || true
+	sed -i "/#/d" output/$*.py.out
+	(echo "setRandomSeed(0);";cat $*.co) | conedy  > output/$*.co.out 2> output/$*.co.err || true
+	sed -i "/#/d" output/$*.co.out
+	sum output/$*.py* | sed "s/\<py\>/co/g" > _tmp.py
+	sum output/$*.co* > _tmp.co
+	diff _tmp.py _tmp.co
+	sum output/$*.py* >  expected/sum_$*.py
+	sum output/$*.co* >  expected/sum_$*.co
+
 
 confirm_./%.py:
 	sed 's/import conedy as co/import conedy as co\nco.setRandomSeed(0)/' $*.py | python > output/$*.py.out 2> output/$*.py.err || true
