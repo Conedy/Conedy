@@ -6,8 +6,8 @@ name=${name#./}
 
 
 
-(echo -n ".. _"; echo -n "${name} "   ; echo -en ":\n\n"; 
-echo ${name}; 
+(echo -n ".. _"; echo -n "${name}"   ; echo -en ":\n\n"; 
+echo "\`\`${name}\`\`"; 
 echo -e "=====================================================\n";  
 cat $1;
 
