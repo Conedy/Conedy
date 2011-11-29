@@ -570,6 +570,19 @@ class printInstruction : public instruction
 };
 
 
+#include <iomanip>
+
+class printInstructionDouble : public instruction
+{
+	private:
+		expression<baseType> *dExp;
+	public:
+		printInstructionDouble(expression<baseType> *d) : dExp(d) {};
+		void execute() { cout << "aeae" << setprecision (12) << dExp->evaluate(); }
+};
+
+
+
 
 
 
@@ -811,11 +824,13 @@ class stringCat : public expression<string>
 	string evaluate()
 	{
 		stringstream ss;
-		ss << left->evaluate();
+		ss << setprecision(12) << left->evaluate();
 		ss << right->evaluate();
 		return ss.str();
 	}
 };
+
+
 
 //! Expression-Objekt, das pwei Strings concateniort.
 template <typename X>

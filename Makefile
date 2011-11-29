@@ -244,8 +244,12 @@ debug: addNodesIfNecessary Scanner.ll version
 debug.install:
 	cp -f bin/gcc*/debug/conedyDebug ${dirinstall} 
 
+debug.clean:
+
 condor.install:
 	cp -f bin/gcc-*/debug/link-static/conedyCondor ${dirinstall}
+
+condor.clean:
 
 
 condor: addNodesIfNecessary version               # build an interpreter which does not execute network-functions, but creates Condor-scripts which distribute the execution of loops (see vectorFor)
