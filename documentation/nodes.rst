@@ -127,8 +127,7 @@ Example:
 
 ode
 ++++++++++++++++
-
-The ``dynamics`` field should define the derivative ``dxdt`` as function of the current state ``x``. Numerical integration algorithms are provided by the GNU Scientific Library (GSL). At the moment only those algorithms are supported, which make no use of the Jacobian. In the Python-script a specific stepping function can be choosen by setting ``gslOdeNode_stepType`` to one of the following values:
+Ordinary differential equations. The ``dynamics`` field should define the derivative ``dxdt`` as function of the current state ``x``. Numerical integration algorithms are provided by the GNU Scientific Library (GSL). At the moment only those algorithms are supported, which make no use of the Jacobian. In the Python-script a specific stepping function can be choosen by setting ``gslOdeNode_stepType`` to one of the following values:
 
 - ``gsl_odeiv_step_rk2``
 - ``gsl_odeiv_step_rk4``
@@ -149,26 +148,15 @@ See the `the GSL’s documentation`_ for specific information.
 
 sde
 ++++++++++++++++
-Stochastic differential equations. 
-
-
+Stochastic differential equations with gaussian white noise.
 
 .. math::
    dx = a(x,t)  dt + s(x,t) dW
    
 
-An integrator can be chosen by setting ``stdSdeIntegrator_stepType`` to one of these values
-
--  ``euler``
--  ``milsteinIto``
--  ``milsteinStrato``
-
-Example::
-XXX verbosity erhöhen XXX   
-   co.set("stdSdeIntegrator_stepType", "milsteinIto")
 
 
-The ``dynamics`` field should define ``dxdt`` for the deterministic part and ``s`` for the stochastic part. For multiplicative noise and when using the Milstein integrator ``dsdx`` has also to be defined. 
+The ``dynamics`` field should define ``dxdt`` for the deterministic part and ``s`` for the stochastic part. For multiplicative noise and when using the Milstein integrator ``dsdx`` (= :math:`\frac {ds(x.t)}{dx}`) has also to be defined. 
 
 Example (with ``drift`` and ``diffusion`` being parameters):
 
@@ -177,6 +165,19 @@ Example (with ``drift`` and ``diffusion`` being parameters):
 	dynamics =
 	dxdt[0] = -drift*x[0] + couplingSum();
 	s[0] = diffusion;
+
+An integrator can be chosen by setting ``stdSdeIntegrator_stepType`` to one of these values
+
+-  ``euler``
+-  ``milsteinIto``
+-  ``milsteinStrato``
+
+Example::
+
+.. code-block:: c++
+
+   co.set("stdSdeIntegrator_stepType", "milsteinIto")
+
 
 .. _pulse-coupled:
 
