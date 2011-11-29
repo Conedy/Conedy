@@ -61,6 +61,7 @@ Specify a name and a default value for each parameter::
 	parametername4 = c
 	defaultvalue4 = 10.0
 
+:: _DynamicsEquations :
 
 Equations
 ---------
@@ -87,18 +88,19 @@ These equations are directly copied into a C++ file and may contain the followin
 -	functions from ``math.h``
 -	the parameters of the dynamics as variables, e.g. ``omega``
 -	the dynamical variables such as ``x[0]``
--	``weightSum()`` which returns the sum over the weights of incoming edges.
--	``couplingSum()`` which returns the sum over the states supplied by the incoming edges ([weight of the edge]×[state of the target node])
--	the macro ``FOREACHCONNECTEDNODE`` which provides a loop over all incoming edges. In such a loop ``weight`` returns the weight of the respective edge and ``state`` returns the state of the target node. For example the first equation of the above Rössler oscillator might as well been defined by:
+-	``weightSum()`` which returns the sum over the weights (``weight``) of the incoming edges.
+-	``couplingSum()`` which returns the sum over the ``weight`` × ``state`` as supplied by the incoming edges. For most edge types, ``state`` is the current value of the first dynamical variable of the connected node.
+-	the macro ``FOREACHCONNECTEDNODE`` which provides a loop over all incoming edges. In such a loop ``weight`` returns the weight of the respective edge and ``state`` returns the state. For example the first equation of the above Rössler oscillator might as well been defined by:
 
-
-.. code-block:: c++
+	.. code-block:: c++
 
 		FOREACHCONNECTEDNODE(
 			dxdt[0] = -omega()*x[1] - x[2] + weight*state - weight*x[0];
 		)
 
-For an example, which requires the use of ``FOREACHCONNECTEDNODE``, see the :ref:`Kuramoto oscillator <kuramoto>`.
+	For an example, which requires the use of ``FOREACHCONNECTEDNODE``, see the :ref:`Kuramoto oscillator <kuramoto>`.
+
+For more information on ``weight`` and ``state``, see :ref:`edges`.
 
 .. _integrators :
 
@@ -141,6 +143,8 @@ See the `the GSL’s documentation`_ for specific information.
 
 .. _the GSL’s documentation: http://www.gnu.org/software/gsl/manual/html_node/Ordinary-Differential-Equations.html
 
+XXX Document precision for adaptive step size
+
 Stochastic differential equations (``sde``)
 +++++++++++++++++++++++++++++++++++++++++++
 
@@ -149,7 +153,7 @@ Stochastic differential equations (``sde``)
 
 
 
-The ``dynamics`` field should define ``dxdt`` for the deterministic part and ``s`` for the stochastic part. For multiplicative noise and when using the Milstein integrator ``dsdx`` (= :math:`\frac {ds(x.t)}{dx}`) has also to be defined. 
+The ``dynamics`` field should define ``dxdt`` for the deterministic part and ``s`` for the stochastic part. For multiplicative noise and when using the Milstein integrator ``dsdx`` (= :math:`\frac {ds(x.t)}{dx}`) has also to be defined.
 
 Example (with ``drift`` and ``diffusion`` being parameters):
 

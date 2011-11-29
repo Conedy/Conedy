@@ -5,15 +5,12 @@ Selecting node parameters and initial conditions
 Node templates
 --------------
 
-For network creation, Conedy supplies elementary functions which allow you to add single nodes or edges as well as higher-level functions which add random networks or lattices, or manipulate an already existing network.
+For network creation, Conedy supplies elementary functions which allow you to add single nodes or edges as well as higher-level functions which add random networks or lattices or manipulate an already existing network.
 
 
 .. testsetup:: *
 
    import conedy as co
-
-
-
 
 
 All these functions in Conedy accept a parameter which allows you to specify the type of the added node(s). We call this parameter a node template. To add a single node of type ``logisticMap``, the following code can be used:
@@ -22,6 +19,8 @@ All these functions in Conedy accept a parameter which allows you to specify the
 
    N = co.network()
    nodeNumber = N.addNode(co.logisticMap())
+
+Here ``logisticMap`` provides the node template, which is directly passed to ``addNode``.
 
 Nodes in Conedy are identified by an 32 bit integer, which is returned by ``addNode`` in case you want to access the node later (e.g. to connect an edge to it).
 
@@ -33,7 +32,7 @@ Node parameters
 
 Most node dynamics depend on certain parameters. For example, the node dynamics :ref:`logisticMap` is defined by :math:`x_{n+1} = r x_n ( 1 - x_n)` with :math:`r` as a parameter, which can be assessed by ``logisticMap_r`` in Conedy.
 
-When a node is added as in the above example, default values for node parameters are used, for example the default value of ``logisticMap_r`` is 3.58 (as documented in :ref:`logisticMap`). In case you want to add different parameters, a full set of parameters can be specified as arguments, e.g.
+When a node is added as in the above example, default values for node parameters are used, for example the default value of ``logisticMap_r`` is 3.58 (as documented in :ref:`logisticMap`). In case you want to add different parameters, a full set of parameters can be specified as arguments, e.g.:
 
 
 .. testcode:: test1
@@ -41,7 +40,7 @@ When a node is added as in the above example, default values for node parameters
    N = co.network()
    N.addNode(co.logisticMap(2.6))
 
-To change a parameter after node creation, the ``setParam``-function can be used. Just specify node number, parameter name and the new desired new value
+To change a parameter after node creation, the ``setParam``-function can be used. Just specify node number, parameter name and the new desired new value:
 
 .. testcode:: test2
 
@@ -110,6 +109,8 @@ For the randomization of parameters (or initial conditions) objects are provided
 
    randomNumber = uniform(0.2,0.4)
 
+(Note, that here ``randomNumber`` is neither a random number nor a random number generator for use in Python, but an object, which tells certain Conedy functions, from which distribution to pick random numbers.)
+
 In addition, the following distributions are available:
 
 -  ``gaussian(m, s)``
@@ -138,13 +139,13 @@ Parameters are randomized with the :ref:`randomizeParameter` command. For exampl
 Initial conditions of nodes
 ----------------------------
 
-Before the dynamical is integrated,  initial conditions can be set. There are two ways to change node states in Conedy (apart from evolving the network).
+Before the dynamics is integrated, initial conditions can be set. Otherwise the initial states of all variables default to 0.0. There are two ways to change node states in Conedy (apart from evolving the network). Though you will usually only want to modify node states before evolving, you may use these at any time.
 
-First, each node may be modified directly with the ``setState`` command. In the following example a ``lorenz`` node is added to the network, its number is memorized as ``nodeNumber`` and its state is set to (1.0, 1.0, 1.0)::
+First, the state of each node may be modified directly with the ``setState`` command. In the following example a ``lorenz`` node is added to the network, its number is memorized as ``nodeNumber`` and its state is set to (1.0, 1.0, 1.0)::
 
 	N = co.network()
 	nodeNumber = N.addNode(co.lorenz())
-	setState (nodeNumber, 1.0, 1.0, 1.0)
+	setState(nodeNumber, 1.0, 1.0, 1.0)
 
 
 Alternatively with the :ref:`randomizeStates` command the states all nodes of a certain node type can be randomized. Suppose we random initial conditions for the first component of 500 ``lorenz`` nodes and the other two components fixed to 1.0::
