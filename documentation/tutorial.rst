@@ -74,6 +74,7 @@ In order to verify the network’s topology, you can calculate network-specific 
 
 .. testoutput:: TUT
       :hide:
+VERSION = `git describe --tags`
       :options:    +ELLIPSIS
 
       clustering coefficient:...
