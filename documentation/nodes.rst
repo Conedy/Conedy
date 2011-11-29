@@ -105,7 +105,7 @@ For an example, which requires the use of ``FOREACHCONNECTEDNODE``, see the :ref
 Integrators
 -----------
 
-Conedy offers the following integration schemes:
+Conedy offers integrators for dynamical systems of the following types:
 
 Maps (``map``)
 ++++++++++++++
@@ -119,15 +119,10 @@ Example:
 	dynamics =
 	xprime[0] = r * x[0] * (-x[0] + 1)
 
-ode
-++++++++++++++++
-Ordinary differential equations. The ``dynamics`` field should define the derivative ``dxdt`` as function of the current state ``x``. Numerical integration algorithms are provided by the GNU Scientific Library (GSL). At the moment only those algorithms are supported, which make no use of the Jacobian. In the Python-script a specific stepping function can be choosen by setting ``gslOdeNode_stepType`` to one of the following values:
-=======
 Ordinary differential equations (``ode``)
 +++++++++++++++++++++++++++++++++++++++++
 
 The ``dynamics`` field should define the derivative ``dxdt`` as function of the current state ``x`` (an example was already given above). Numerical integration algorithms are provided by the GNU Scientific Library (GSL). At the moment only those algorithms are supported, which make no use of the Jacobian. In the Python script a specific stepping function can be choosen by setting ``gslOdeNode_stepType`` to one of the following values:
->>>>>>> d5c385f8a1f170013d40c737eff8eb49f3c49f3e
 
 - ``gsl_odeiv_step_rk2``
 - ``gsl_odeiv_step_rk4``
@@ -146,8 +141,6 @@ See the `the GSL’s documentation`_ for specific information.
 
 .. _the GSL’s documentation: http://www.gnu.org/software/gsl/manual/html_node/Ordinary-Differential-Equations.html
 
-sde
-++++++++++++++++
 Stochastic differential equations (``sde``)
 +++++++++++++++++++++++++++++++++++++++++++
 
@@ -157,19 +150,6 @@ Stochastic differential equations (``sde``)
 
 
 The ``dynamics`` field should define ``dxdt`` for the deterministic part and ``s`` for the stochastic part. For multiplicative noise and when using the Milstein integrator ``dsdx`` (= :math:`\frac {ds(x.t)}{dx}`) has also to be defined. 
-=======
-An integrator can be chosen by setting ``stdSdeIntegrator_stepType`` to one of these values
-
--  ``euler``
--  ``milsteinIto``
--  ``milsteinStrato``
-
-Example::
-XXX verbosity erhöhen XXX
-   co.set("stdSdeIntegrator_stepType", "milsteinIto")
-
-
-The ``dynamics`` field should define ``dxdt`` for the deterministic part and ``s`` for the stochastic part. For multiplicative noise and when using the Milstein integrator ``dsdx`` has also to be defined.
 
 Example (with ``drift`` and ``diffusion`` being parameters):
 
