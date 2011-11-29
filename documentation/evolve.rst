@@ -38,7 +38,7 @@ Additionally, you can issue a snapshot of all observed features manually::
 
 
 XXXXBeispiel überprüfen
-This can for example be used to observe your dynamical system at arbitrary intervals. For this sake, one would set samplingTime to a large value and call the ``evolve`` function between successive snapshots::
+This can for example be used to observe your dynamical system at arbitrary intervals. For this sake, one would set ``samplingTime`` to a large value and call the ``evolve`` function between successive snapshots::
 
    co.set("samplingTime", 100000.0);
    for i in range (0,100):
