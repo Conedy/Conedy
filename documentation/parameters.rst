@@ -1,6 +1,7 @@
 Selecting node parameters and initial conditions
 ================================================
 
+.. _nodeTemplates :
 
 Node templates
 --------------
