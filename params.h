@@ -34,7 +34,7 @@ namespace conedy
 				//! Ablage für alle Parameter. Eine Node/Edge belegt eine Reihe (row) Speicherplatz
 				static vector<vector<T*> > param;
 
-				//! Anzahl der Standartparameter (Wird beim Start von Neurosim hochgezählt)
+				//! Anzahl der Standartparameter (Wird beim Start von Conedy hochgezählt)
 				static unsigned int numberOfStandardParameterSheets;
 
 				//! Counter for the number of nodes, which use a certain sheet. 

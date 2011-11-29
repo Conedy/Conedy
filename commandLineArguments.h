@@ -17,7 +17,7 @@
 using namespace std;
 
 
-//! Klasse, die die Kommandozeilen-Argumente, mit denen Neurosim aufgerufen wurde speichert.
+//! Klasse, die die Kommandozeilen-Argumente, mit denen Conedy aufgerufen wurde speichert.
 class commandLineArguments
 {	
 	public:

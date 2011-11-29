@@ -47,7 +47,7 @@ class command
 {
 	protected:
 
-		//! statische Zuordnung von Strings zum Type, der in einem Neurosimskript deklariert wurde
+		//! statische Zuordnung von Strings zum Type, der in einem Conedyskript deklariert wurde
 		static map < string, int > varType;
 
 		static map < string, baseType* > baseTypeVar;
@@ -589,7 +589,7 @@ class varCommand : public expression<T>
 
 
 
-//! Ausdruck, der einen Konstanten Wert zurückgibt. Wird verwendet für alle Zahlen, die in den Neurosim-Skripten stehen
+//! Ausdruck, der einen Konstanten Wert zurückgibt. Wird verwendet für alle Zahlen, die in den Conedy-Skripten stehen
 template <typename T>
 class constantCommand : public expression<T>
 {

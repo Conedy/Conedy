@@ -168,7 +168,7 @@ template <class N>
 
 
 
-	void initializeNeurosim ()
+	void initializeConedy ()
 	{
 		gslNoise::initialise();
 		//	commandLineArguments::initialize(argc, argv);
@@ -188,7 +188,7 @@ template <class N>
 		//	params<vector<double> >::initialise (&command::declare);
 
 
-		//	cout << "Neurosim erfolgreich initialisiert!" << endl;
+		//	cout << "Conedy erfolgreich initialisiert!" << endl;
 
 	};
 
@@ -255,7 +255,7 @@ template <class N>
 
 
 
-		initializeNeurosim();
+		initializeConedy();
 
 
 		//	docstring_options doc_options(1,1,0);
@@ -269,9 +269,9 @@ template <class N>
 		//	scope().attr("aa") = &i;
 
 		scope().attr("__doc__") =
-			"What is Neurosim"
+			"What is Conedy"
 			"================"
-			"Neurosim is a tool which allows you to integrate networks where each node is represented by some dynamical system. It is designed to allow for an change of the network structure or differential equation sperarately. ";
+			"Conedy is a tool which allows you to integrate networks where each node is represented by some dynamical system. It is designed to allow for an change of the network structure or differential equation sperarately. ";
 
 
 

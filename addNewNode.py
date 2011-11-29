@@ -1,11 +1,11 @@
 #
-#    Neurosim is a scientific tool which allows numerical integration of dynamical networks.
+#    Conedy is a scientific tool which allows numerical integration of dynamical networks.
 #
 #    Copyright (C) 2011 Alexander Rothkegel, Henning Dickten, Ferdinand Stolz, Justus Schwabedahl
 #
 #    This file is part of conedy.
 #
-#    Neurosim is free software: you can redistribute it and/or modify
+#    Conedy is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
@@ -66,7 +66,7 @@ class NodeEditor:
 
 	def readConsole(self,inName="", inDim=-1, type = "",   events = [],inNumParam=-1, params = [], dgl = [], doku = [], staticEdges = 0, staticEdgeType = "", staticTargetNodeType= "", inFileNameOut=""):
 
-		"Klasse zum Erstellen neues Nodes in Neurosim"
+		"Klasse zum Erstellen neues Nodes in Conedy"
 
 		self.events = events
 		self.params = params
@@ -477,7 +477,7 @@ class NodeEditor:
 		fout.close()
 
 
-	def addNodeToNeurosim(self, fileNameOut=""):
+	def addNodeToConedy(self, fileNameOut=""):
 	
 		
 		"Fuegt die Node in den Dateien generatedNodes.cpp, networkConstants.h, fullNetwork.h, Scanner.ll, Parser.yy, ... ein"
@@ -732,5 +732,5 @@ else:
 					
 		n.writeHeaderFile()
 		n.writeCppFile()
-		n.addNodeToNeurosim()
+		n.addNodeToConedy()
 		del (n)

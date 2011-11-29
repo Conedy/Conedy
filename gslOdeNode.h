@@ -67,6 +67,7 @@ namespace conedy
 				params<string>::registerStandard(_gslOdeNode_, "gslOdeNode_stepType",0,"gsl_odeiv_step_rkf45");
 				params<baseType>::registerStandard(_gslOdeNode_, "gslOdeNode_error_abs",0,0.0);
 				params<baseType>::registerStandard(_gslOdeNode_, "gslOdeNode_error_rel",1,0.0);
+				params<baseType>::registerStandard(_gslOdeNode_, "gslOdeNode_stepSize",2,0.0.01);
 				gslStepType = new params<string>(_gslOdeNode_);
 				gslErrors = new params<baseType>(_gslOdeNode_);
 			}	

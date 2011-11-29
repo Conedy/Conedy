@@ -1,5 +1,5 @@
 Selecting node parameters and initial conditions
-========
+================================================
 
 
 Node templates
@@ -50,11 +50,11 @@ To change a parameter after node creation, the ``setParam``-function can be used
 
 Another way to control parameters is to change the default values. For example
 
-.. testsetup:: 
+.. testsetup::
    import conedy as co
 
 
-.. testcode:: 
+.. testcode::
 
 	N = co.network()
 	for i in range(500):
@@ -64,10 +64,10 @@ Another way to control parameters is to change the default values. For example
 
 will create a network of 500 nodes, all with :ref:`lorenz` dynamics and all with ``lorenz_s`` = 11 and ``lorenz_r`` = 25 as well as the third parameter ``lorenz_b`` equalling its predefined standard value. Since all nodes of the above network use the same memory for the parameters, it makes no difference, whether default values are changed before or after network creation. However, if the parameters of a node have been changed (e.g. by ``setParam``), they are stored in a different memory position and will not be affected by a change of the default parameters
 
-.. testsetup:: 
+.. testsetup::
    import conedy as co
 
-.. testcode:: 
+.. testcode::
 
 	N = co.network()
 	nodeNumber = N.addNode(co.logisticMap())
@@ -81,7 +81,7 @@ will create a network of 500 nodes, all with :ref:`lorenz` dynamics and all with
    1.0
 
 
-.. testcode:: 
+.. testcode::
 
 	N = co.network()
 	nodeNumber = N.addNode(co.logisticMap())

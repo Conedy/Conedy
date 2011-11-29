@@ -28,6 +28,7 @@ uninstall: ${todo:=.uninstall}
 test: ${todo:=.test}
 
 
+
 docstrings.h: addedNodes.sum.old    			# generate a c-header with docstrings for all functions of the python interpreter. The docstring is in testing/*/<functionName>.rst
 	rm -f docstrings.h 
 	touch docstrings.h
@@ -125,10 +126,9 @@ unstripped: clean addNodes
 	bash linkUnstripped.sh	
 
 
+
 conedy: addNodesIfNecessary Scanner.ll version				# build the bison-flex-interpreter of Conedy.
-	bjam conedy cflags=-D$(SVNDEV) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
-
-
+	bjam conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
 installAndTest: install test
 
@@ -238,12 +238,18 @@ documentation.uninstall:
 
 debug: addNodesIfNecessary Scanner.ll version
 #	bisonc++ Parser.yy
-	bjam conedyDebug  -j${numberCores}
-	cp -f bin/gcc*/debug/conedyDebug ~/bin/conedyDebug
+	bjam conedyDebug cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
+
+
+debug.install:
+	cp -f bin/gcc*/debug/conedyDebug ${dirinstall} 
+
+condor.install:
+	cp -f bin/gcc-*/debug/link-static/conedyCondor ${dirinstall}
+
 
 condor: addNodesIfNecessary version               # build an interpreter which does not execute network-functions, but creates Condor-scripts which distribute the execution of loops (see vectorFor)
-	bjam conedyCondor -j${numberCores}
-	cp -f bin/gcc-*/debug/link-static/conedyCondor ${dirinstall}
+	bjam conedyCondor cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
 
 installCondor: 
