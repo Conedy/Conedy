@@ -420,9 +420,9 @@ template <class N>
 		class_< randomTarget < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("randomTarget_weightedEdge",  reinterpret_cast<const char *>(__edges_weightedEdge), init <double,double>() );
 		class_< randomTarget < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("randomTarget_staticWeightedEdge", reinterpret_cast<const char *>(__edges_randomTarget_staticWeightedEdge) , init <double,double>());
 
-		class_< pulseCouple < edgeVirtual>, bases <edgeBlueprint>  > ("pulseCouple" ,reinterpret_cast<const char *>(__edges_pulseCouple) , init <double>());
-		class_< pulseCouple < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("pulseCouple_weightedEdge", reinterpret_cast<const char *>(__edges_weightedEdge) , init <double>());
-		class_< pulseCouple < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("pulseCouple_staticWeightedEdge", reinterpret_cast<const char *>(__edges_pulseCouple_staticWeightedEdge) , init <double>());
+		class_< stepEdge < edgeVirtual>, bases <edgeBlueprint>  > ("stepEdge" ,reinterpret_cast<const char *>(__edges_pulseCouple) , init <double>());
+		class_< stepEdge < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("step_weightedEdge", reinterpret_cast<const char *>(__edges_weightedEdge) , init <double>());
+		class_< stepEdge < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("step_staticWeightedEdge", reinterpret_cast<const char *>(__edges_pulseCouple_staticWeightedEdge) , init <double>());
 
 
 
