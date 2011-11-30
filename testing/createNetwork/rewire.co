@@ -4,19 +4,18 @@ network n;
 
 
 
-n.cycle ( 10000, 10, node(), weightedEdge());
+n.cycle ( 10000, 10, node(), weightedEdge(1.0));
 
 
-#network_nodeVerbosity = 1.0;
-#network_edgeVerbosity = 2.0;
 
-#n.printNodeStatistics();
 
-print "should be close to 0.75:"+ n.meanClustering()+newline;
-print "should be 20:"+ n.meanDegree()+ newline;
-n.rewire(1.0);
-print "should be 20:"+ n.meanDegree()+ newline;
+print "mean degree before rewiring:" + net.meanDegree();
+print "should be close to 0.75:" +  net.meanClustering();
+net.rewire(1.0);
+print "mean degree after rewiring:" +  net.meanDegree();
+print "should be close to 0.0:" +  net.meanClustering();
 
-print "should be close to 0.0:"+ n.meanClustering()+newline;
 
-#print n.meanDegree();
+
+
+

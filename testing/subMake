@@ -51,7 +51,7 @@ confirmBoth_./%: confirm_./%.py confirm_./%.co
 	diff _tmp.py _tmp.co
 	sum output/$*.py* >  expected/sum_$*.py
 	sum output/$*.co* >  expected/sum_$*.co
-
+	rm _tmp.py _tmp.co
 
 confirm_./%.py:
 	sed 's/import conedy as co/import conedy as co\nco.setRandomSeed(0)/' $*.py | python > output/$*.py.out 2> output/$*.py.err || true

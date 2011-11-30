@@ -1,0 +1,16 @@
+
+network net;
+
+
+int newNodeNumber;
+
+newNodeNumber = net.addNode( roessler() );
+
+
+net.observe(newNodeNumber, "output/snapshot.co.series", component(0));
+net.observe(newNodeNumber, "output/snapshot.co.series", component(1));
+net.observe(newNodeNumber, "output/snapshot.co.series", component(2));
+
+net.snapshot();
+
+

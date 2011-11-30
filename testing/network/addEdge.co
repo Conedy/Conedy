@@ -1,0 +1,12 @@
+network n;
+
+
+net.addNode(node());
+net.addNode(node());
+
+#net.addEdge(0,1,weightedEdge(0.3));
+
+net.addEdge(0,1,weightedEdge(0.3));
+
+
+net.saveAdjacencyList("output/addEdge.py.adjList");

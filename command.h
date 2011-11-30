@@ -625,6 +625,8 @@ class constantCommand : public expression<T>
 
 
 
+
+
 #define INTNETWORKFUNK(funktionName, net)  new constantCommand <nodeDescriptor> (0)
 #define INTNETWORKFUNK1(funktionName, net, arg1)  new constantCommand <nodeDescriptor> (0)
 #define INTNETWORKFUNK2(funktionName, net, arg1, arg2)    new constantCommand <nodeDescriptor> (0)
@@ -683,6 +685,12 @@ class constantCommand : public expression<T>
 #define NETWORKFUNK5(funktionName, net, arg1, arg2,arg3,arg4,arg5) new bindInstruction(bind(&networkTemplate::funktionName, net, (arg1) , (arg2),(arg3),(arg4),(arg5) ))
 
 #define NETWORKFUNK6(funktionName, net, arg1, arg2,arg3,arg4,arg5, arg6) new bindInstruction(bind(&networkTemplate::funktionName, net, (arg1) , (arg2),(arg3),(arg4),(arg5), (arg6) ))
+
+
+
+
+
+
 
 #endif
 
@@ -824,7 +832,7 @@ class stringCat : public expression<string>
 	string evaluate()
 	{
 		stringstream ss;
-		ss << setprecision(12) << left->evaluate();
+		ss << left->evaluate();
 		ss << right->evaluate();
 		return ss.str();
 	}

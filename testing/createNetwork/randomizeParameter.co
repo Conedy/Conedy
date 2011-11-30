@@ -3,9 +3,7 @@
 network net;
 
 
-
-
-net.randomNetwork<roessler, weightedEdge>(100, 0.1);
+net.randomNetwork(100, 0.1, roessler());
 
 
 net.randomizeParameter ("roessler_omega", uniform (0.80, 0.85));

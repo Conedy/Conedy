@@ -1,0 +1,16 @@
+network net;
+
+samplingTime = 1.0;
+int newNodeNumber;
+
+newNodeNumber = net.addNode(logisticMap());
+net.setState(newNodeNumber, 0.3);
+net.observe(newNodeNumber, "output/observe.co.series");
+
+net.evolve (0.0,1000.0);
+
+
+
+
+
+
