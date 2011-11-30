@@ -101,7 +101,7 @@ Next we tell Conedy that we want to evolve the time from t = 0.0 to t = 100.0 in
 
 .. testcode:: TUT
 
-   #N.evolve(0.0, 100.0)
+   N.evolve(0.0, 100.0)
 
 After this we want the integration time and the z-component (component 2 in zero-based enumeration) of all 100 oscillators be written to a file every Δt = 0.01.
 
