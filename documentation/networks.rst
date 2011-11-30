@@ -88,7 +88,7 @@ See :ref:`createManipulate` for a full list of commands in Conedy, which create 
 Network Measures
 ----------------
 
-Once you have created a network, you might want to verify its topology. For example if a network’s creation involved randomness, you might want to check, whether it is connected with the :ref:`isConnected` command.
+Once you have created a network, you can apply network analysis tools to it. For example if a network’s creation involved randomness, you might want to check, whether it is connected with the :ref:`isConnected` command.
 
 Conedy also includes some node-specific measures like centralities
 

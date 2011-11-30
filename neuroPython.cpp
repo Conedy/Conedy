@@ -41,7 +41,7 @@ namespace { // Avoid cluttering the global namespace.
 
 
 
-template <class N> 
+template <class N>
 	 N* nodeFactory1 (double arg1)
 	{
 		N* res = new N();
@@ -51,7 +51,7 @@ template <class N>
 	}
 
 
-template <class N> 
+template <class N>
 	 N* nodeFactory2 (double arg1, double arg2)
 	{
 		N* res = new N();
@@ -61,7 +61,7 @@ template <class N>
 		res->rerouteParams(allParams);return res;
 	}
 
-template <class N> 
+template <class N>
 	 N* nodeFactory3 (double arg1, double arg2, double arg3)
 	{
 		N* res = new N();
@@ -72,7 +72,7 @@ template <class N>
 		res->rerouteParams(allParams);return res;
 	}
 
-template <class N> 
+template <class N>
 	 N* nodeFactory4 (double arg1, double arg2, double arg3, double arg4)
 	{
 		N* res = new N();
@@ -84,7 +84,7 @@ template <class N>
 		res->rerouteParams(allParams);return res;
 	}
 
-template <class N> 
+template <class N>
 	 N* nodeFactory5 (double arg1, double arg2, double arg3, double arg4, double arg5)
 	{
 		N* res = new N();
@@ -98,7 +98,7 @@ template <class N>
 	}
 
 
-template <class N> 
+template <class N>
 	 N* nodeFactory6 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6)
 	{
 		N* res = new N();
@@ -112,7 +112,7 @@ template <class N>
 		res->rerouteParams(allParams);return res;
 	}
 
-template <class N> 
+template <class N>
 	 N* nodeFactory7 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6, double arg7)
 	{
 		N* res = new N();
@@ -127,7 +127,7 @@ template <class N>
 		res->rerouteParams(allParams);return res;
 	}
 
-template <class N> 
+template <class N>
 	 N* nodeFactory8 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6, double arg7, double arg8)
 	{
 		N* res = new N();
@@ -144,7 +144,7 @@ template <class N>
 	}
 
 
-template <class N> 
+template <class N>
 	 N* nodeFactory9 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6, double arg7, double arg8, double arg9)
 	{
 		N* res = new N();
@@ -335,7 +335,7 @@ template <class N>
 
 			.def("torusNearestNeighbors", &MyNetwork<baseType>::torusNearestNeighbors,  reinterpret_cast<const char *>(__createNetwork_torusNearestNeighbors))
 			//		.def("loadGraphML", &MyNetwork<baseType>::loadGraphML, reinterpret_cast<const char *>(__createNetwork_loadGraphXml))
-			.def("saveGraphML", &MyNetwork<baseType>::saveGraphML, reinterpret_cast<const char *>(__statisticsNetwork_saveGraphML))
+			.def("saveGraphML", &MyNetwork<baseType>::saveGraphML, reinterpret_cast<const char *>(__createNetwork_saveGraphML))
 			.def("saveAdjacencyList", &MyNetwork<baseType>::saveAdjacencyList, reinterpret_cast<const char *>(__createNetwork_saveAdjacencyList))
 			.def("createFromAdjacencyList", &MyNetwork<baseType>::createFromAdjacencyList, createFromAdjacencyList_overloads( reinterpret_cast<const char *>(__createNetwork_createFromAdjacencyList)))
 			.def("createFromAdjacencyMatrix", &MyNetwork<baseType>::createFromAdjacencyMatrix ,  createFromAdjacencyMatrix_overloads( reinterpret_cast< const char *> (__createNetwork_createFromAdjacencyMatrix)))
@@ -420,9 +420,9 @@ template <class N>
 		class_< randomTarget < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("randomTarget_weightedEdge",  reinterpret_cast<const char *>(__edges_weightedEdge), init <double,double>() );
 		class_< randomTarget < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("randomTarget_staticWeightedEdge", reinterpret_cast<const char *>(__edges_randomTarget_staticWeightedEdge) , init <double,double>());
 
-		class_< stepEdge < edgeVirtual>, bases <edgeBlueprint>  > ("stepEdge" ,reinterpret_cast<const char *>(__edges_pulseCouple) , init <double>());
+		class_< stepEdge < edgeVirtual>, bases <edgeBlueprint>  > ("stepEdge" ,reinterpret_cast<const char *>(__edges_stepEdge) , init <double>());
 		class_< stepEdge < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("step_weightedEdge", reinterpret_cast<const char *>(__edges_weightedEdge) , init <double>());
-		class_< stepEdge < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("step_staticWeightedEdge", reinterpret_cast<const char *>(__edges_pulseCouple_staticWeightedEdge) , init <double>());
+		class_< stepEdge < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("step_staticWeightedEdge", reinterpret_cast<const char *>(__edges_step_staticWeightedEdge) , init <double>());
 
 
 
