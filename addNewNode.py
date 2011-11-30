@@ -609,7 +609,7 @@ class NodeEditor:
 
 		fout = open("testing/addedNodes/" + self.type +"/" + self.className + ".co", 'w')
 		fout.write("network net;\n\n")
-		fout.write("net.addNode<%s>(); \n\n" % fileNameOut)
+		fout.write("net.addNode(%s()); \n\n" % fileNameOut)
 		fout.close()
 
 

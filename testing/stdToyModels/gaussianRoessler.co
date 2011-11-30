@@ -9,13 +9,13 @@ gaussianRoessler_sigmaNoise = 1.0;
 samplingTime = 0.01;
 
 
-net.addNode<gaussianRoessler>();
+net.addNode(gaussianRoessler());
 net.setState(0, 0.0, 0.0, 0.0);
 
 net.observeTime("output/gaussianRoessler.co.series");
-net.observe<component(0)>(0, "output/gaussianRoessler.co.series");
-net.observe<component(1)>(0, "output/gaussianRoessler.co.series");
-net.observe<component(2)>(0, "output/gaussianRoessler.co.series");
+net.observe(0, "output/gaussianRoessler.co.series",component(0));
+net.observe(0, "output/gaussianRoessler.co.series",component(1));
+net.observe(0, "output/gaussianRoessler.co.series",component(2));
 
 
 net.evolve(0.0,1500.0);

@@ -17,7 +17,9 @@ rewiring = 0.5;
 coupling = 0.009;
 
 
-n.torusNearestNeighbors< pcoIntegrateFire,staticWeightedEdge  () >(40,40,50.0);
+
+n.torusNearestNeighbors(40,40,36.0,  pcoIntegrateFire,staticWeightedEdge());
+
 
 n.rewire(rewiring);
 

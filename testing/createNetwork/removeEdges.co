@@ -8,8 +8,8 @@ network n;
 
 
 
-n.addNode <node>();
-n.addEdge (0,0,1.0,weightedEdge);
+n.addNode (node());
+n.addEdge (0,0,weightedEdge(1.0));
 n.removeEdges(weightedEdge);
 print "Should be 0:";
 print n.meanDegree();
@@ -17,7 +17,7 @@ print newline;
 n.clear();
 
 
-n.cycle < node, staticWeightedEdge()> (10000,2);
+n.cycle( 10000, 2,  node(), staticWeightedEdge());
 
 
 n.rewire (0.5, weightedEdge);

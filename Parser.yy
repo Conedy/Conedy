@@ -146,14 +146,12 @@ networkCommand	:  NETWORK '.' CLEAR '(' ')' { $$ = NETWORKFUNK(clear,$1); }
 
 		| NETWORK '.' SELECT '(' string  ')'
 	{ $$ = NETWORKFUNK1(select, $1, _E(string, $5)); }
-		| NETWORK '.' ADDEDGE '(' nodeDescriptor ',' nodeDescriptor ',' baseType ',' link ')'
-
+		| NETWORK '.' ADDEDGE '(' nodeDescriptor ',' nodeDescriptor ',' link ')'
  { $$ = new bindInstruction(
 		bind(&networkTemplate::addEdge,$1,
 		bind(&expression<nodeDescriptor>::evaluate, $5),
 		bind(&expression<nodeDescriptor>::evaluate, $7),
-		bind(&expression<edgeBlueprint* >::evaluate, $11)));
-//	throw "not implemented!";
+		bind(&expression<edgeBlueprint* >::evaluate, $9)));
 }
 		| NETWORK '.' EVOLVE	'(' baseType ',' baseType ')' { $$ = NETWORKFUNK2(evolve,$1,_E(baseType,$5), _E(baseType,$7)); }
 		| NETWORK '.' EVOLVE	'(' baseType ')' { $$ = NETWORKFUNK1(evolveFor,$1,_E(baseType,$5)); }
@@ -461,7 +459,12 @@ loop		: LOOP '(' nodeDescriptor ')' instruction {  $$ = new loopInstruction ($3,
 while		: WHILE '(' bool ')' instruction { $$ = new whileInstruction ($3,$5); };
 for		: FOR '(' instruction ';' bool ';' instruction ')' instruction { $$ = new forInstruction ($3,$5,$7,$9); };
 vectorFor	: VECTORFOR '(' instruction ';' bool ';' instruction ')' instruction {
- vectorForInstruction::registerNewLoop(); $$ = new vectorForInstruction ($3,$5,$7,$9, false); }
+#ifdef CONDOR
+ 	vectorForInstruction::registerNewLoop(); $$ = new vectorForInstruction ($3,$5,$7,$9, false); 
+#else
+	cout << "#Warning. This Executable of Conedy was not compiled for generating condor-scripts. \n Calculating at home." << endl; $$ = new forInstruction ($3,$5,$7,$9); 
+#endif
+}
 		| CHAINEDFOR '(' instruction ';' bool ';' instruction ')' instruction {
  vectorForInstruction::registerNewLoop(); $$ = new vectorForInstruction ($3,$5,$7,$9, true); };
 
@@ -487,20 +490,11 @@ node	: node '(' ')'
 		| IZHIKEVICHMAP { nodeBlueprint *n = new nodeVirtualEdges<izhikevichMap>(); $$ = new constantCommand<nodeBlueprint*>(n);}
 		| NAPK { nodeBlueprint *n = new nodeVirtualEdges<napK>();$$ = new constantCommand<nodeBlueprint*>(n); }
 		| NAPKKM { nodeBlueprint *n = new nodeVirtualEdges<napKKm>();$$ = new constantCommand<nodeBlueprint*>(n); }
-//		| PCPOEXPONENTIAL { nodeBlueprint *n = new nodeVirtualEdges<pcoExponential>(); $$ = new constantCommand<nodeBlueprint*>(n);}
-//		| PCPOIFNEURONDELAY { nodeBlueprint *n = new nodeVirtualEdges<pcoIFNeuronDelay>(); $$ = new constantCommand<nodeBlueprint*>(n);}
-//		| PCPOMIROLLO { nodeBlueprint *n = new nodeVirtualEdges<pcoMirollo>(); $$ = new constantCommand<nodeBlueprint*>(n);}
-//		| PCPONONLEAKY { nodeBlueprint *n = new nodeVirtualEdges<pcoNonleaky>(); $$ = new constantCommand<nodeBlueprint*>(n);}
-//		| PCPOREALIFNEARONDELAY { nodeBlueprint *n = new pcoRealIFNeuronDelayStatic(); $$ = new constantCommand<nodeBlueprint*>(n);}
 // addNewNode.py Nodes
 %include generatedAddNewNode.yy
-//		| PCPOTRAPEZ { nodeBlueprint *n = new nodeVirtualEdges<pcoTrapez>(); $$ = new constantCommand<nodeBlueprint*>(n);}
-//		| PCPOTRIANGEL { nodeBlueprint *n = new nodeVirtualEdges<pcoTriangel>(); $$ = new constantCommand<nodeBlueprint*>(n);}
 		| PERIODICNODE { nodeBlueprint *n = new nodeVirtualEdges<periodicNode>(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| RANDOMWALKNEURON { nodeBlueprint *n = new nodeVirtualEdges<randomWalkNeuron>(); $$ = new constantCommand<nodeBlueprint*>(n); }
-//		| PCPODELAY { nodeBlueprint *n = new pcoDelay(); $$ = new constantCommand<nodeBlueprint*>(n);}
 		| RANDOMBLUEPRINTNODE '(' createNode ',' createNode ',' baseType ')' { nodeBlueprint *n = new randomBlueprintNode ( $3, $5, $7->evaluate()); $$ = new constantCommand<nodeBlueprint*>(n); }
-//		| STATIC '(' createNode ',' link ')' { nodeBlueprint *n = (dynNode*) getStaticNode ( $3 ->evaluate() , $5 ->evaluate() ); $$ = new constantCommand<nodeBlueprint*>(n);  }
 		| STREAMOUTNODE '(' string ')'	{ nodeBlueprint *n = new nodeVirtualEdges<streamOutNode> ($3->evaluate()); $$ = new constantCommand<nodeBlueprint*>(n);}
 		| STREAMINNODE '(' string ')'	{ nodeBlueprint *n = new nodeVirtualEdges<streamInNode> ($3->evaluate()); $$ = new constantCommand<nodeBlueprint*>(n);};
 //		| RANDOMNODE { nodeBlueprint * n = new randomNode<baseType>(); $$ = new constantCommand<nodeBlueprint*>(n);}
@@ -521,6 +515,7 @@ link	: link '(' ')'
 		| PULSECOUPLEDELAYEDGE'(' baseType ',' baseType ')' {edgeBlueprint *l = new pulsecoupleDelayEdge($3->evaluate(), $5->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| STATICWEIGHTEDEDGE '(' ')' { edgeBlueprint *l = new staticWeightedEdgeVirtual();$$ = new constantCommand<edgeBlueprint*>(l);  }
 		| WEIGHTEDEDGE { edgeBlueprint *l = new weightedEdgeVirtual(); $$ = new constantCommand<edgeBlueprint*>(l); }
+		| WEIGHTEDEDGE '(' baseType ')' { edgeBlueprint *l = new weightedEdgeVirtual($3->evaluate() ); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| EDGE { edgeBlueprint *l = new edgeVirtual(); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| STDEDGEORD3 { edgeBlueprint *l = new stdEdgeOrd3(); $$ = new constantCommand<edgeBlueprint*>(l); }
 

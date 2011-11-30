@@ -5,27 +5,23 @@ net = co.network()
 
 
 
-net.addNode <node>()
-net.addEdge (0,0,1.0,weightedEdge())
-net.removeEdges(weightedEdge())
+net.addNode (co.node())
+net.addEdge (0,0,co.weightedEdge(1.0))
+net.removeEdges(co.weightedEdge())
 print "Should be 0:"
 print net.meanDegree()
 print newline
 net.clear()
 
 
-net.cycle (10000, 2, node, staticWeightedEdge())
+net.cycle (10000, 2, co.node(), co.staticWeightedEdge())
 
 
-net.rewire (0.5, weightedEdge())
-print "Should be 4:"
-print net.meanDegree()
-print newline
+net.rewire (0.5, co.weightedEdge())
+print "Should be 4:" + str(net.meanDegree())
 
-net.removeEdges (weightedEdge())
+net.removeEdges (co.weightedEdge())
 
 
-print "Should be close to 2:"
-print net.meanDegree()
-print newline
+print "Should be close to 2:" + str(net.meanDegree())
 

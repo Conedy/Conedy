@@ -1,14 +1,16 @@
-network net;
+import conedy as co
 
-net.randomNetwork (10,0.1,kuramoto(), weightedEdge());
+net = co.network()
 
-net.observeAll ("output/observeAll.allStates");
+net.randomNetwork (10,0.1,co.kuramoto(), co.weightedEdge())
 
-
-for (int i = 0; i < 10; i = i + 1)	
-	net.observe (i, "output/observeAll.allStates2");
+net.observeAll ("output/observeAll.allStates")
 
 
-net.evolve(0.0,10.0);
+for i in range (0,10):
+	net.observe (i, "output/observeAll.allStates2")
+
+
+net.evolve(0.0,10.0)
 
 

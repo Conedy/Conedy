@@ -7,7 +7,7 @@ network n;
 
 
 
-n.cycle<node, weightedEdge>( 100, 10);
+n.cycle ( 100, 10,node(), weightedEdge());
 
 n.randomizeWeights(uniform(0.0,1.50));
 

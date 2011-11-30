@@ -3,7 +3,7 @@ network net;
 samplingTime=1.0;
 
 
-net.addNode<streamInNode("streamInNodeInput")>();
+net.addNode(streamInNode("streamInNodeInput"));
 net.observe(0,"output/streamInNode.co.copyOfInput");
 
 net.printNodeStatistics();

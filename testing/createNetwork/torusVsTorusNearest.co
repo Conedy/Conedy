@@ -1,17 +1,17 @@
 network n;
 
+n.torus<pcoNonleaky,staticWeightedEdge()>(40,40,3.17);
+print "should be 36:"+n.meanDegree()+newline;
+print newline;
+n.saveAdjacencyList ("output/torusVsTorusNearest.co.graph");
+:sort -n output/torusVsTorusNearest.co.graph > output/torusVsTorusNearest.co.graph.sort:;
+n.clean();
+
+
 
 n.torusNearestNeighbors<pcoNonleaky,staticWeightedEdge()>(40,40,36.0);
-n.saveAdjacencyList ("output/torusNearest.co.graph");
-
-
+n.saveAdjacencyList ("output/torusVsTorusNearest.co.graph");
 print "Meandegree:"+ n.meanDegree();
 print newline;
+:sort -n output/torusVsTorusNearest.co.graph > output/torusVsTorusNearest.co.graph.sort:;
 
-#print "Meanclustering:". n.meanClustering();
-
-#print newLine;
-
-:sort -n output/torusNearest.co.graph > output/torusNearest.co.graph.sort:;
-
-#n.printNodeStatistics();

@@ -7,13 +7,15 @@ lorenz_b = 8.0/3.0;
 samplingTime = 0.01;
 
 
-net.addNode<lorenz>();
+
+net.addNode(lorenz());
+
 net.setState(0, 1.0, 1.0, 1.0);
 
 net.observeTime("output/lorenz.co.series");
-net.observeAll<component(0)>("output/lorenz.co.series");
-net.observeAll<component(1)>("output/lorenz.co.series");
-net.observeAll<component(2)>("output/lorenz.co.series");
+net.observeAll("output/lorenz.co.series",component(0));
+net.observeAll("output/lorenz.co.series",component(1));
+net.observeAll("output/lorenz.co.series",component(2));
 
 
 net.evolve(0.0,1500.0);

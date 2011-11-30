@@ -12,7 +12,7 @@ print "";
 print newline;
 
 net.clear();
-net.cycle<kuramoto>(500,1);
+net.cycle(500,1, kuramoto());
 print "should be connected: ";
 if( net.isConnected() )
 { 
@@ -20,7 +20,7 @@ if( net.isConnected() )
 };
 print newline;
 
-net.addNode<kuramoto>();
+net.addNode(kuramoto());
 print "should be disconnected: ";
 if( !net.isConnected() )
 { 

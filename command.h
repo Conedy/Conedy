@@ -578,7 +578,7 @@ class printInstructionDouble : public instruction
 		expression<baseType> *dExp;
 	public:
 		printInstructionDouble(expression<baseType> *d) : dExp(d) {};
-		void execute() { cout << "aeae" << setprecision (12) << dExp->evaluate(); }
+		void execute() { cout  << setprecision (12) << dExp->evaluate(); }
 };
 
 

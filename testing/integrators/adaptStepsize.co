@@ -13,13 +13,13 @@ samplingTime = 0.1;
 #gslOdeNode_error_rel = 0.1;
 
 
-net.addNode<roessler>();
+net.addNode(roessler());
 net.setState(0, 0.0, 0.0, 0.0 );
 
 net.observeTime("output/adaptStepsize.co.series");
-net.observe<component(0)>(0,"output/adaptStepsize.co.series");
-net.observe<component(1)>(0,"output/adaptStepsize.co.series");
-net.observe<component(2)>(0,"output/adaptStepsize.co.series");
+net.observe(0,"output/adaptStepsize.co.series",component(0));
+net.observe(0,"output/adaptStepsize.co.series",component(1));
+net.observe(0,"output/adaptStepsize.co.series",component(2));
 
 net.evolve(0.0,1500.0);
 
@@ -34,13 +34,13 @@ gslOdeNode_error_rel = 0.00000000000001;
 int nodeNumber;
 
 
-nodeNumber = net.addNode<roessler>();
+nodeNumber = net.addNode(roessler());
 net.setState(nodeNumber, 0.0, 0.0, 0.0 );
 
 net.observeTime("output/adaptStepsize.co.series2");
-net.observe<component(0)>(nodeNumber,"output/adaptStepsize.co.series2");
-net.observe<component(1)>(nodeNumber,"output/adaptStepsize.co.series2");
-net.observe<component(2)>(nodeNumber,"output/adaptStepsize.co.series2");
+net.observe(nodeNumber,"output/adaptStepsize.co.series2",component(0));
+net.observe(nodeNumber,"output/adaptStepsize.co.series2",component(1));
+net.observe(nodeNumber,"output/adaptStepsize.co.series2",component(2));
 
 net.evolve(0.0,1500.0);
 

@@ -1,8 +1,8 @@
 network net;
 
-net.addNode<ornUhl>();
+net.addNode(ornUhl());
 net.observeTime("output/singleEvolveSde.co.series");
-net.observeAll<component(0)>("output/singleEvolveSde.co.series");
+net.observeAll("output/singleEvolveSde.co.series",component(0));
 net.evolve(0.0, 2.0);
 
 

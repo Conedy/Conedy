@@ -1,6 +1,6 @@
 network net;
 
-net.randomNetwork<kuramoto, weightedEdge>(100, 0.2 );
+net.randomNetwork(100, 0.2, kuramoto(), weightedEdge());
 
 net.randomizeWeights( uniform (0.0,1.5) );
 
