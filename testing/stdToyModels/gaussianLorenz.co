@@ -13,13 +13,15 @@ gaussianLorenz_sigmaNoise = 10.0;
 samplingTime = 0.01;
 
 
-net.addNode<gaussianLorenz>();
+
+
+net.addNode(gaussianLorenz());
 net.setState(0, 1.0, 1.0, 1.0);
 
 net.observeTime("output/gaussianLorenz.co.series");
-net.observeAll<component(0)>("output/gaussianLorenz.co.series");
-net.observeAll<component(1)>("output/gaussianLorenz.co.series");
-net.observeAll<component(2)>("output/gaussianLorenz.co.series");
+net.observeAll("output/gaussianLorenz.co.series",component(0));
+net.observeAll("output/gaussianLorenz.co.series",component(1));
+net.observeAll("output/gaussianLorenz.co.series",component(2));
 
 
 net.evolve(0.0,1500.0);

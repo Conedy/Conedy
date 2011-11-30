@@ -7,7 +7,7 @@ network net;
 
 int newNodeNumber;
 
-newNodeNumber = net.addNode<logisticMap>();
+newNodeNumber = net.addNode(logisticMap());
 net.setState(newNodeNumber, 0.3);
 net.observe(newNodeNumber, "output/mapNode.co.series");
 

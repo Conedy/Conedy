@@ -6,7 +6,7 @@
 network net;
 
 loop (10000)
-	net.addNode <node> ();
+	net.addNode (node ());
 
 net.addRandomEdgesDegreeDistribution(uniform (0.0,100.0), edge  );
 

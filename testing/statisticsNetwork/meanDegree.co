@@ -1,6 +1,6 @@
 network net;
 
 
-net.completeNetwork<node,edge >(10);
+net.completeNetwork ( 10, node(),edge());
 
 print net.meanDegree();

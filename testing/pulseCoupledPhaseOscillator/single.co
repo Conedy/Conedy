@@ -4,7 +4,7 @@
 network net;
 
 
-net.addNode<pcoIntegrateFire>();
+net.addNode(pcoIntegrateFire());
 
 
 

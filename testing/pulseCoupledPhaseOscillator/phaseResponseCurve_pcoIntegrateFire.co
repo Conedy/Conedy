@@ -32,9 +32,12 @@ samplingTime = 10000.0;
 
 :rm _tmp:;
 
-	nodeNumber = n.addNode<pcoIntegrateFire>();
-	otherNodeNumber = n.addNode<pcoIntegrateFire>();
-	referenceNodeNumber = n.addNode<pcoIntegrateFire>();
+
+
+
+	nodeNumber = n.addNode(pcoIntegrateFire());
+	otherNodeNumber = n.addNode(pcoIntegrateFire());
+	referenceNodeNumber = n.addNode(pcoIntegrateFire());
 	n.addEdge(otherNodeNumber,nodeNumber,0.01);
 	n.observe(referenceNodeNumber, "_tmp");
 	n.observe(nodeNumber, "_tmp");

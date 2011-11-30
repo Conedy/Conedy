@@ -13,7 +13,7 @@ networkSize = 10;
 
 
 
-n.randomNetwork<node , weightedEdge  > ( networkSize, 0.4);
+n.randomNetwork( networkSize, 0.4, node(), weightedEdge());
 
 
 n.randomizeWeights (uniform (1.1,1.1));
