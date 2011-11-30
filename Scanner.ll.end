@@ -29,7 +29,7 @@ removeEdges		{return(ParserBase::REMOVEEDGES); }
 
 
 clear		{return(ParserBase::CLEAR); }
-addNode	{return(ParserBase::ADDVERTEX); }
+addNode	{return(ParserBase::ADDNODE); }
 printNodeStatistics	{return(ParserBase::PRINTNODESTATISTICS); }
 addEdge		{return(ParserBase::ADDEDGE); }
 randomNetwork		{return(ParserBase::RANDOMNETWORK); }
