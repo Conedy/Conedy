@@ -61,7 +61,7 @@ Specify a name and a default value for each parameter::
 	parametername4 = c
 	defaultvalue4 = 10.0
 
-:: _dynamicsEquations :
+.. _dynamicsEquations :
 
 Equations
 ---------

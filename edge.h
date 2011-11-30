@@ -280,11 +280,11 @@ namespace conedy
 	*/
 	//! edge-Klasse, die nur States weitergibt, wenn sie einin bestimmten Wert überschreiten.
 	template <class EDGE>
-		class pulseCouple: public EDGE
+		class stepEdge: public EDGE
 	{
 		double threshold;
 		public:
-		pulseCouple ( double t ) : threshold ( t )  {};
+		stepEdge ( double t ) : threshold ( t )  {};
 		virtual const edgeInfo getEdgeInfo() {
 			edgeInfo ancestor = EDGE::getEdgeInfo();
 			edgeInfo ei = {_pulseCouple_,_weighted_ | ancestor.theEdgeKind,  ancestor.theEdgeName + "_pulseCouple"};  return ei;
@@ -297,12 +297,12 @@ namespace conedy
 			else
 				return 0;
 		}
-		virtual edge *construct() { return new pulseCouple<EDGE> ( *this ); };
+		virtual edge *construct() { return new stepEdge<EDGE> ( *this ); };
 
 
 		/*virtual void printStatistics()
 		  {
-		  cout << "(pulseCouple,";
+		  cout << "(stepEdge,";
 		  weightedEdgeVirtual<baseType>::printStatistics();
 		  }*/
 

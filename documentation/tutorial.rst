@@ -1,8 +1,9 @@
 .. _tutorial:
 
-====================
 Tutorial
-====================
+////////
+
+
 This tutorial aims at giving you a short impression of Conedy’s features and making you familiar with its working principle.
 
 We examplarily generate a small-world network of coupled Rössler oscillators with Gaussian noise, choose parameters and initial conditions and write the results of numerical integration of the dynamics to a file. The Rössler oscillator is one of the standard toy models included in Conedy.
@@ -22,8 +23,10 @@ Before we begin, we have to import Conedy to Python.
 (If not stated otherwise, Conedy is assumed to have been imported like this throughout this manual.)
 
 
+
+
 Selecting node dynamics
---------
+-----------------------
 
 First we specify the dynamics we want to consider
 
@@ -41,6 +44,9 @@ First we specify the dynamics we want to consider
 Conedy ships with a few  pre-defined node dynamics (see :ref:`nodes`). In addition, it allows you to incorporate arbitrary dynamics by writing a small specification file, which mainly contains a differential equation (see :ref:`addingNewNodes`).
 
 
+
+.. _tutorialNetworkCreation :
+
 Creating a network
 ------------------
 We want to create a `small-world`_ network which is based on a closed chain of 100 nodes, where each node is connected to its 4 nearest neighbors on each side. Subsequently, 10 percent of all connections are replaced by connections with random source and target nodes
@@ -53,46 +59,29 @@ We want to create a `small-world`_ network which is based on a closed chain of 1
 
 Note, that if the network ``N`` already contains nodes, the ``cycle`` method will add a set of circularly connected nodes without affecting the existing ones.
 
-See :ref:`createManipulate` for a list of commands in Conedy, which create or manipulate networks.
-
-.. _small-world: http://en.wikipedia.org/wiki/Small-world_network
-
-
-Analyzing a network
-------------------
-In order to verify the network’s topology, you can calculate network-specific measures. Conedy supplies some standard measures like the mean shortest path length or the mean clustering coefficient
-
+In order to verify the network’s topology, you can calculate measures like the mean shortest path length or the mean clustering coefficient:
 
 .. testcode:: TUT
 
-	print "clustering coefficient:" + str (N.meanClustering()) #doctest: +ELLIPSIS
-	print "mean path length:" + str (N.meanPathLength())  #doctest: +ELLIPSIS
-
+	print "clustering coefficient:" + str (N.meanClustering())
+	print "mean path length:" + str (N.meanPathLength())
 
 .. testoutput:: TUT
       :hide:
-VERSION = `git describe --tags`
       :options:    +ELLIPSIS
 
       clustering coefficient:...
       mean path length:...
 
-Conedy also includes some node-specific measures like centralities
+See :ref:`edgesAndNetworks` for more information on network creation, manipulation and analysis.
+
+.. _small-world: http://en.wikipedia.org/wiki/Small-world_network
 
 
-.. testcode:: TUT
-
-   if N.isConnected():
-      N.betweennessCentrality("betweenness")
-      N.closenessCentrality("closeness")
-
-Here the betweenness and closeness centrality of each node are saved in the text files ``betweenness`` or ``closeness`` respectively, if ``N`` is a connected network.
-
-See :ref:`networkMeasures` for a complete list of supplied measures.
 
 
-Randomizing node parameters
-----------------
+Randomizing initial conditions and node parameters
+--------------------------------------------------
 
 Until now all oscillators in our network are identical. The following commands change this by picking the initial state randomly from [–0.1, 0.1] for all components. Aditionally the parameter ``gaussianRoessler_omega``, which we have not touched yet, is picked randomly from [0.8, 1.2] for each oscillator
 
@@ -103,8 +92,10 @@ Until now all oscillators in our network are identical. The following commands c
 	N.randomizeParameter( "gaussianRoessler_omega", co.uniform(0.8,1.2) )
 
 
+
+
 Evolving and observing a network
------------------
+--------------------------------
 
 Next we tell Conedy that we want to evolve the time from t = 0.0 to t = 100.0 in order to let transients die out. The dynamical states will thus be integrated by a numerical integration (and we intentionally do not observe them)
 

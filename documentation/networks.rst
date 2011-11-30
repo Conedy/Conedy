@@ -1,3 +1,5 @@
+.. _edgesAndNetworks :
+
 Edges and networks
 ==================
 
@@ -14,7 +16,7 @@ Edges provide the target node with two variables:
 
 -  ``weight``: A floating point number for the coupling strength. Again, the provided number depends on the edge type.
 
-See :ref:`dynamicsEqations<the section about dynamics equations>` on how ``weight`` and ``state`` are processed by the target node.
+See :ref:`the section about dynamics equations<dynamicsEquations>` on how ``weight`` and ``state`` are processed by the target node.
 
 Edge templates
 ``````````````
@@ -44,40 +46,58 @@ Conedy provides the several edge types:
 	- ``weightedEdge``: An edge whose weight is given as an argument.
 	- ``staticWeightedEdge``: Like ``weightedEdge``, but all edges of this type always share the same weight. The usage of ``staticWeightedEdge`` may significantly reduce the memory consumption of large networks, which is usually made up mainly by edges.
 	- ``stepEdge``: Takes one argument ``threshold``. The returned ``state`` is 1 if the zeroth dynamical variable of the coupled node is smaller than ``threshold`` and 0 otherwise.
+	- ``randomTarget``: Every time the target of such an edge is queried, it will return a random node. The range from which this node can be chosen can be given as an argument to ``randomTarget``. This edge type is intended for use with pulse-coupled oscillators, but may also be used with ``map`` nodes, where it randomizes the source instead of the target though. You will never want to use this edge type with differential equation dynamics (trust us).
+	- ``component``: Like edge, but with an argument you can specify ``target`` to return any dynamical variable, not just the zeroth one.
 
-XXXX
+There also exist variants of ``stepEdge``, ``randomTarget``, and ``component`` with weights and static weights. Note, that currently you cannot pass the weight as an argument to these edge templates, but have to modify it with other functions such as ``randomizeWeights``.
+
+See the :ref:`reference for edges<edgesReference>` for a list of available edge types and their syntax.
+
+
 
 Network creation and manipulation
 ---------------------------------
 
-Conedy depends on his own network class in order to apply the different available integration schemes. The network is represented in memory by an adjacency list. To create an empty network as a starting point, Conedy accepts the following syntax::
+In principle, any network implementable in Conedy can be created step by step in Python using only the elementary functions :ref:`addNode` and :ref:`addEdge`. For example the following commands create a “line” of 100 ``lorenz`` nodes connected by binary edges:
 
-   N = co.network()
+.. testcode::
+
+	N = co.network()
+	nodeNumbers = [N.addNode(co.lorenz()) for i in range(100)]
+	for i in range(99):
+		N.addEdge(nodeNumbers[i], nodeNumbers[i+1], co.edge())
+
+Beside these elementary functions, Conedy supplies more complex functions, which add more than one node and edge at the same time. For example, instead of the above commands, the :ref:`line` command might have been used:
+
+.. testcode::
+
+	N = co.network()
+	N.line(100, 1, co.lorenz(), co.edge())
+
+Functions, which create more than one node will return the number of the first created node. Other created nodes have consecutive numbers. Note, that most of these functions add a structure to the network without clearing it beforehand. However, if you want to clear a network, you can do so with the :ref:`clear` command.
+
+Apart from such network creation functions, there are some network manipulation functions like ``rewire`` and ``rewireUndirected``, which might help you to create the desired network. An example for this is given in the :ref:`tutorial<tutorialNetworkCreation>`.
+
+You can also create a network directly from adjacency data in a file with the commands :ref:`createFromAdjacencyList` and :ref:`createFromAdjacencyMatrix`.
+
+See :ref:`createManipulate` for a full list of commands in Conedy, which create or manipulate networks.
 
 
-
-For the creation and manipulation of the networks, elementary functions (adding single edges or nodes) are supplied, which can be combined in an arbitrary sequence. This allows to create the desired network step by step in python. To add two nodes of type :ref:`roessler` to the network, the :ref:`addNode` command can be used::
-
-
-   N.addNode(co.roessler())
-   N.addNode(co.roessler())
-
-
-
-
-
-
-.. In addition, it is possible to import networks from networkx and to create them from files containing graphML, whitespace-seperated txt-files matrices or adjacency lists.
-
-
-Beside these elementary functions, Conedy supplies more complex functions, which add more than one node and edge at the same time. The following example will add to ``N`` a directed random network of 100 logistic maps, where two nodes are connected with a probability of 0.1 by a weighted edge::
-
-   nodeTemplate = co.logisticMap()
-   edgeTemplate = co.weightedEdge()
-   firstNodenumber = N.randomNetwork(100, 0.1, nodeTemplate, edgeTemplate)
-
-Functions, which create more than one node will return the number of the first created node. Other created nodes have consecutive numbers. Similar to this example with random networks, functions which create one and two dimensional lattices and tori are available, and it is possible to create networks from files which contain either adjacency lists or matrices.
-
+.. _measures :
 
 Network Measures
 ----------------
+
+Once you have created a network, you might want to verify its topology. For example if a network’s creation involved randomness, you might want to check, whether it is connected with the :ref:`isConnected` command.
+
+Conedy also includes some node-specific measures like centralities
+
+.. testcode:: TUT
+
+	if N.isConnected():
+		N.betweennessCentrality("betweenness")
+		N.closenessCentrality("closeness")
+
+Here the betweenness and closeness centrality of each node are saved in the text files ``betweenness`` or ``closeness`` respectively, if ``N`` is a connected network.
+
+See :ref:`networkMeasures` for a complete list of supplied network measures.
