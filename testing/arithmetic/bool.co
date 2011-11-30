@@ -12,4 +12,20 @@ a = b  * 2 + c * 2;
 
 
 print "should be true:"+ (a == 16);
+print "should be false:"+ (a == 17);
+
+print "should be true:"+ (a != 17);
+print "should be false:"+ (a != 16);
+
+print "should be true:"+ (a >= 16);
+print "should be false:"+ (a >= 17);
+
+print "should be true:"+ (a <= 16);
+print "should be false:"+ (a >= 16);
+
+print "should be true:"+ (a < 17);
+print "should be false:"+ (a < 16);
+
+print "should be true:"+ (a > 15);
+print "should be false:"+ (a > 16);
 
