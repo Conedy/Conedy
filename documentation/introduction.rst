@@ -21,6 +21,8 @@ Conedy can be interfaced via Python bindings (recommended) or with a built-in sc
 
 In the following, a short example is given which shows how to use the Python bindings to obtain time series from coupled dynamical systems.
 
+.. _introductionExample :
+
 Short Example
 -------------
 We create a simple network with two nodes, one with Rössler and one with Lorenz dynamics. We add a directed edge, coupling the `Rössler`_ into the `Lorenz`_, and observe the oscillators for some time:
