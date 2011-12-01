@@ -15,7 +15,7 @@ Conedy supports different dynamical systems with various integration schemes, in
 Initial conditions and parameters can be chosen individually or drawn from random distributions. Conedy can numerically integrate  the coupled system while sampling user-defined observables in periodic intervals. Conedy was designed with focus on execution time and memory efficiency and allows the user to decide about performance issues at compile time.
 
 
-Conedy can be interfaced via Python bindings (recommended) or with a built-in script interpreter, using a C-like syntax. The latter may be useful if you want to distribute computations onto a cluster as the interpreter can easily be linked statically (in contrast to Python) and also has support for the `Condor`_ job management system. Because the main syntax difference is that commands are separated by semicola instead of new lines, we only refer to the Python interface in most of this manual. However, there also is a :ref:`small chapter<scriptInterpreter>` devoted to the script interpreter and its features.
+Conedy can be interfaced via Python bindings (recommended) or with a built-in script interpreter, using a C-like syntax. The latter may be useful if you want to distribute computations onto a cluster as the interpreter can easily be linked statically (in contrast to Python) and also has support for the `Condor`_ job management system. Because the main syntax difference is that commands are separated by semicola instead of new lines, we only refer to the Python interface in most of this manual. However, there also is a :ref:`chapter<scriptInterpreter>` devoted to the script interpreter and its features.
 
 .. _Condor: http://www.cs.wisc.edu/condor/
 
