@@ -15,10 +15,8 @@
   networkTemplate* netCmd;
   expression<edgeBlueprint*> *lCmd;
   expression<baseType> *rCmd;
-
   instruction *cmd;
-
- vector <function <baseType() > > *randomVec;
+  vector <function <baseType() > > *randomVec;
   expressionVector <baseType> *vec;
 }
 
@@ -34,7 +32,7 @@
 %left <doubleExpression> SIN
 %left <booleanExpression> NOT
 %left '(' ')'
-%left <booleanExpression> EQUAL
+%left <booleanExpression> EQUAL NEQUAL GREATEREQUAL LESSEQUAL
 %left '.'
 %token <booleanExpression> BOOLONE BOOLZERO
 %token <doubleExpression> DOUBLE DOUBLEVAR
@@ -59,6 +57,7 @@
 %token <netCmd> NETWORKVAR
 %type <cmd> loop print instruction declare assign networkCommand bluePrintCommand commands commandBlock while createNetworkCommand for if vectorFor system spatialNetworkCommand
 
+%type <stringExpression> identifier
 %type <stringExpression> string
 
 %type <doubleExpression> baseType statisticsNetworkCommandBaseType
@@ -108,11 +107,30 @@ instruction		: system
 
 commandBlock	: '{' commands '}' { $$ = $2;};
 
+
+
+
 assign		: baseType '=' baseType { $$ = new assignInstruction<baseType> ((varCommand<baseType>*)$1, $3); }
 		| nodeDescriptor '=' nodeDescriptor { $$ = new assignInstruction<nodeDescriptor> ((varCommand<nodeDescriptor>*)$1,$3); }
 		| string '=' string { $$ = new assignInstruction<string> ((varCommand<string>*)$1,$3); }
 		| SETRANDOMSEED '(' nodeDescriptor ')'  { $$ = new bindInstruction( bind(&gslNoise::setSeed,_E(nodeDescriptor,$3))); }
-		|   ADDINPUTFILE '(' string ')' { $$ = new bindInstruction(bind(&command::addInputFile, _E(string,$3))); };
+		|   ADDINPUTFILE '(' string ')' { $$ = new bindInstruction(bind(&command::addInputFile, _E(string,$3))); }
+		|  nodeDescriptor '+' '=' nodeDescriptor { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;
+				$$ = new assignInstruction<nodeDescriptor> ( var,  new plusCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> ($4,  (var)) )  ; }
+		|  nodeDescriptor '-' '=' nodeDescriptor { varCommand<nodeDescriptor> *var =  (varCommand<nodeDescriptor>*)$1;
+				$$ = new assignInstruction<nodeDescriptor> ( var,  new minusCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> ($4,  (var))); }
+		|  nodeDescriptor '/' '=' nodeDescriptor { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;
+				$$ = new assignInstruction<nodeDescriptor> ( var,  new divideCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> ($4,  (var))); }
+		|  nodeDescriptor '*' '=' nodeDescriptor { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;
+				$$ = new assignInstruction<nodeDescriptor> ( var,  new timesCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> ($4,  (var))); }
+		|  nodeDescriptor '+' '+' { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;	
+				$$ = new assignInstruction<nodeDescriptor> ( var,  new timesCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> (new constantCommand<nodeDescriptor>(1),  (var))); }
+		|  baseType '+' '+' { varCommand<baseType> *var = (varCommand<baseType>*)$1;	
+				$$ = new assignInstruction<baseType> ( var,  new timesCommandbaseType<baseType, baseType> (new constantCommand<baseType>(1),  (var))); }
+		|  nodeDescriptor '-' '-' { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;	
+				$$ = new assignInstruction<nodeDescriptor> ( var,  new minusCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> (new constantCommand<nodeDescriptor>(1),  (var))); }
+		|  baseType '-' '-' { varCommand<baseType> *var = (varCommand<baseType>*)$1;	
+				$$ = new assignInstruction<baseType> ( var,  new minusCommandbaseType<baseType, baseType> (new constantCommand<baseType>(1),  (var))); };
 
 
 declare		:
@@ -120,16 +138,21 @@ declare		:
 //	DOUBLETOKEN ID '=' baseType
 //		{ command::declare($2->evaluate(),_baseType_); $$ = new assignInstruction<baseType> ((varCommand<baseType>*)$2, $4); }
 //		|
-DOUBLETOKEN ID { command::declare(d_scanner.YYText(),_baseType_); $$ = new emptyInstruction(); }
-		| NODETOKEN ID { command::declare(d_scanner.YYText(), _node_); $$ = new emptyInstruction(); }
-		| INTTOKEN ID { command::declare(d_scanner.YYText(), _nodeDescriptor_); $$ = new emptyInstruction (); }
-		| NETWORKTOKEN ID { command::declare(d_scanner.YYText(), _network_); $$ = new emptyInstruction(); }
-		| STRINGTOKEN ID { command::declare(d_scanner.YYText(), _string_); $$ = new emptyInstruction(); };
-//		| INTTOKEN ID '=' nodeDescriptor { command::declare($2->evaluate(),_nodeDescriptor_); $$ = new assignInstruction<nodeDescriptor> ((varCommand<nodeDescriptor>*)$2, $4); };
+DOUBLETOKEN ID { command::declare($2->evaluate(),_baseType_); $$ = new emptyInstruction(); }
+		| NODETOKEN ID { command::declare($2->evaluate(), _node_); $$ = new emptyInstruction(); }
+		| INTTOKEN ID { command::declare($2->evaluate(), _nodeDescriptor_); $$ = new emptyInstruction (); }
+		| NETWORKTOKEN ID { command::declare($2->evaluate(), _network_); $$ = new emptyInstruction(); }
+		| STRINGTOKEN ID { command::declare($2->evaluate(), _string_); $$ = new emptyInstruction(); }
+		| INTTOKEN identifier '=' nodeDescriptor { command::declare($2->evaluate(),_nodeDescriptor_); $$ = new assignInstruction<nodeDescriptor> ((varCommand<nodeDescriptor>*)$2, $4); }
+		| DOUBLETOKEN identifier '=' baseType { command::declare($2->evaluate(),_baseType_); $$ = new assignInstruction<baseType> (new varCommand<baseType>($2->evaluate()), $4); };
+
+identifier : ID { $$ = $1; };
 
 
 
-system	: SYSTEMCOMMAND	{ string s(d_scanner.YYText() + 1, strlen(d_scanner.YYText()) - 2);
+
+
+system	: SYSTEMCOMMAND	{ string s(d_scanner->YYText() + 1, strlen(d_scanner->YYText()) - 2);
 	$$ = new systemInstruction(s); };
 
 
@@ -263,11 +286,11 @@ $$ =NETWORKFUNK2(readParameter, $1, _E(string,$5),_E(string,$7));
 {$$ = NETWORKFUNK2(setInitialConditionVec, $1, _E(nodeDescriptor, $5), bind(&expressionVector<baseType>::evaluate, $7)); };
 //{$$ = new bindInstruction(bind(&networkTemplate::setInitialCondition, $1, _E(nodeDescriptor, $5), bind(&expressionVector<baseType>::evaluate, $7))); };
 
-string :	STRING       {  std::string s(d_scanner.YYText()+1, strlen(d_scanner.YYText()) - 2); $$ =  new constantCommand<string>(s);}
+string :	STRING       {  std::string s(d_scanner->YYText()+1, strlen(d_scanner->YYText()) - 2); $$ =  new constantCommand<string>(s);}
 	| string '+' nodeDescriptor	{ $$ = new stringCat<string,nodeDescriptor>($1,$3); }
 	| string '+' string	{ $$ = new stringCat<string,string>($1,$3); }
 	| string '+' baseType	{ $$ = new stringCat<string,baseType>($1,$3);}
-     	| STRINGVAR {$$ = new varCommand<string>(d_scanner.YYText()); }
+     	| STRINGVAR {$$ = new varCommand<string>(d_scanner->YYText()); }
 	| string '+' bool { $$ = new stringCat <string, bool > ( $1, $3);}
 	| NEWLINE { $$ = new constantCommand<string>("\n"); }
 	// Ohne Seg-Schutz
@@ -459,11 +482,11 @@ loop		: LOOP '(' nodeDescriptor ')' instruction {  $$ = new loopInstruction ($3,
 while		: WHILE '(' bool ')' instruction { $$ = new whileInstruction ($3,$5); };
 for		: FOR '(' instruction ';' bool ';' instruction ')' instruction { $$ = new forInstruction ($3,$5,$7,$9); };
 vectorFor	: VECTORFOR '(' instruction ';' bool ';' instruction ')' instruction {
-#ifdef CONDOR
+//#ifdef CONDOR
  	vectorForInstruction::registerNewLoop(); $$ = new vectorForInstruction ($3,$5,$7,$9, false); 
-#else
-	cout << "#Warning. This Executable of Conedy was not compiled for generating condor-scripts. \n Calculating at home." << endl; $$ = new forInstruction ($3,$5,$7,$9); 
-#endif
+//#else
+//	cout << "#Warning. This Executable of Conedy was not compiled for generating condor-scripts. \n Calculating at home." << endl; $$ = new forInstruction ($3,$5,$7,$9); 
+//endif
 }
 		| CHAINEDFOR '(' instruction ';' bool ';' instruction ')' instruction {
  vectorForInstruction::registerNewLoop(); $$ = new vectorForInstruction ($3,$5,$7,$9, true); };
@@ -506,15 +529,19 @@ node	: node '(' ')'
 createNode	: node
 			  	| node '(' ')'
             | node '(' argList ')' {  ( (dynNode*)($1->evaluate()  ) ) ->params<baseType>::rerouteParams(($3->evaluate())); }
-		| NODEVAR { $$ = new varCommand<nodeBlueprint *>(d_scanner.YYText()); };
+		| NODEVAR { $$ = new varCommand<nodeBlueprint *>(d_scanner->YYText()); };
 
 
-link	: link '(' ')'
+
+
+
+
+link	: link
 		| DELAYLINK '(' nodeDescriptor ')' {edgeBlueprint *l = new delayEdge($3->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| PULSECOUPLEEDGE'(' baseType ')' {edgeBlueprint *l = new stepEdge< edgeVirtual>   ($3->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| PULSECOUPLEDELAYEDGE'(' baseType ',' baseType ')' {edgeBlueprint *l = new pulsecoupleDelayEdge($3->evaluate(), $5->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
-		| STATICWEIGHTEDEDGE '(' ')' { edgeBlueprint *l = new staticWeightedEdgeVirtual();$$ = new constantCommand<edgeBlueprint*>(l);  }
-		| WEIGHTEDEDGE { edgeBlueprint *l = new weightedEdgeVirtual(); $$ = new constantCommand<edgeBlueprint*>(l); }
+		| STATICWEIGHTEDEDGE '(' baseType ')' { edgeBlueprint *l = new staticWeightedEdgeVirtual($3->evaluate() );$$ = new constantCommand<edgeBlueprint*>(l);  }
+		| WEIGHTEDEDGE '(' ')' { edgeBlueprint *l = new weightedEdgeVirtual(); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| WEIGHTEDEDGE '(' baseType ')' { edgeBlueprint *l = new weightedEdgeVirtual($3->evaluate() ); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| EDGE { edgeBlueprint *l = new edgeVirtual(); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| STDEDGEORD3 { edgeBlueprint *l = new stdEdgeOrd3(); $$ = new constantCommand<edgeBlueprint*>(l); }
@@ -587,12 +614,13 @@ randomList	: randomList ',' random { $1->push_back(((bindExpression<baseType> *)
 		| random { $$ = new vector < function <double () > >(); $$ -> push_back(((bindExpression<baseType> *)$1)->_f ); };
 
 
-nodeDescriptor		: INT { $$ = new constantCommand<nodeDescriptor>(atoi(d_scanner.YYText())); }
-      		| INTVAR { $$ = new varCommand<nodeDescriptor>(d_scanner.YYText()); }
+nodeDescriptor		: INT { $$ = new constantCommand<nodeDescriptor>(atoi(d_scanner->YYText())); }
+      		| INTVAR { $$ = new varCommand<nodeDescriptor>(d_scanner->YYText()); }
 		| nodeDescriptor '+' nodeDescriptor { $$ = new plusCommandnodeDescriptor<nodeDescriptor,nodeDescriptor>($1,$3); }
 		| nodeDescriptor '*' nodeDescriptor { $$ = new timesCommandnodeDescriptor<nodeDescriptor,nodeDescriptor>($1,$3); }
 		| nodeDescriptor '/' nodeDescriptor { $$ = new divideCommandnodeDescriptor<nodeDescriptor,nodeDescriptor>($1,$3); }
-
+		| nodeDescriptor '%' nodeDescriptor { $$ = new modoloCommandnodeDescriptor<nodeDescriptor,nodeDescriptor>($1,$3); }
+		| '(' INTTOKEN ')' baseType { $$ = new convertToInt($4); }
 		| '-'nodeDescriptor { $$ = new timesCommandnodeDescriptor<nodeDescriptor,nodeDescriptor>(new constantCommand<nodeDescriptor>(-1),$2); } %prec UMINUS
 		| GETRANDOMSEED '(' ')' { $$ = new bindExpression<nodeDescriptor> (bind(&gslNoise::getSeed)); }
 		| statisticsNetworkCommandInt;
@@ -600,8 +628,8 @@ nodeDescriptor		: INT { $$ = new constantCommand<nodeDescriptor>(atoi(d_scanner.
 
 
 
-baseType		: DOUBLE { $$ = new constantCommand<baseType>(atof(d_scanner.YYText())); }
-     		| DOUBLEVAR {$$ = new varCommand<baseType>(d_scanner.YYText()); }
+baseType		: DOUBLE { $$ = new constantCommand<baseType>(atof(d_scanner->YYText())); }
+     		| DOUBLEVAR {$$ = new varCommand<baseType>(d_scanner->YYText()); }
 		| '(' baseType ')' { $$ = $2;}
 		| baseType '+' baseType {$$ = new plusCommandbaseType<baseType,baseType>($1,$3);}
 	   | baseType '-' baseType {$$ = new minusCommandbaseType<baseType,baseType>($1,$3);}
@@ -620,7 +648,7 @@ baseType		: DOUBLE { $$ = new constantCommand<baseType>(atof(d_scanner.YYText())
 		| LOG '(' baseType ')' 	{ $$ = new logCommandbaseType<baseType> ($3);}
 		| EXP '(' baseType ')' 	{ $$ = new expCommandbaseType<baseType> ($3);}
 		| SIN '(' baseType ')' 	{ $$ = new sinCommandbaseType<baseType> ($3);}
-		| '(' DOUBLE ')' nodeDescriptor { $$ = new convertToBaseType($4); }
+		| nodeDescriptor { $$ = new convertToBaseType($1); }
 		| '-' baseType { $$ = new timesCommandbaseType<baseType,baseType>(new constantCommand<baseType>(-1),$2); } %prec UMINUS
 		| statisticsNetworkCommandBaseType
 		// veraltet ohne Seg-Schutz:
@@ -629,7 +657,7 @@ baseType		: DOUBLE { $$ = new constantCommand<baseType>(atof(d_scanner.YYText())
       |	random   ;
 
 
-NETWORK		: NETWORKVAR { $$ = command::retrieve<networkTemplate>(d_scanner.YYText()); };
+NETWORK		: NETWORKVAR { $$ = command::retrieve<networkTemplate>(d_scanner->YYText()); };
 
 
 statisticsNetworkCommandBaseType:  NETWORK '.' MEANDEGREE '(' ')' { $$ = BASETYPENETWORKFUNK(meanDegree, $1); }
@@ -653,20 +681,35 @@ statisticsNetworkCommandBool: NETWORK '.' ISCONNECTED '(' ')' { $$ = BOOLNETWORK
 
 
 
-bool		: baseType '<' baseType {$$ = new lessCommandbool<baseType,baseType>($1,$3); }
-		| '(' bool ')' { $$ = $2; }
-		| baseType '>' baseType {$$ = new greaterCommandbool<baseType,baseType>($1,$3); }
+bool	: '(' bool ')' { $$ = $2; }
 		| nodeDescriptor EQUAL nodeDescriptor {$$ = new equalCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
+		| baseType EQUAL baseType {$$ = new equalCommandbool<baseType,baseType>($1,$3); }
+		| nodeDescriptor NEQUAL nodeDescriptor {$$ = new nequalCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
+		| baseType NEQUAL baseType {$$ = new nequalCommandbool<baseType,baseType>($1,$3); }
+		| baseType NEQUAL nodeDescriptor  {$$ = new nequalCommandbool<baseType,nodeDescriptor>($1,$3); }
+		| baseType NEQUAL baseType  {$$ = new nequalCommandbool<baseType,baseType>($1,$3); }
+
+
+		| baseType '<' baseType {$$ = new lessCommandbool<baseType,baseType>($1,$3); }
 		| nodeDescriptor '<' nodeDescriptor {$$ = new lessCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
-		| nodeDescriptor '>' nodeDescriptor {$$ = new greaterCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
-
-		| nodeDescriptor '>' baseType {$$ = new greaterCommandbool<nodeDescriptor,baseType>($1,$3); }
-		| baseType '>' nodeDescriptor {$$ = new greaterCommandbool<baseType,nodeDescriptor>($1,$3); }
-
-
 		| nodeDescriptor '<' baseType {$$ = new lessCommandbool<nodeDescriptor,baseType>($1,$3); }
 		| baseType '<' nodeDescriptor {$$ = new lessCommandbool<baseType,nodeDescriptor>($1,$3); }
-		| baseType EQUAL baseType {$$ = new equalCommandbool<baseType,baseType>($1,$3); }
+
+		| nodeDescriptor '>' nodeDescriptor {$$ = new greaterCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
+		| nodeDescriptor '>' baseType {$$ = new greaterCommandbool<nodeDescriptor,baseType>($1,$3); }
+		| baseType '>' nodeDescriptor {$$ = new greaterCommandbool<baseType,nodeDescriptor>($1,$3); }
+		| baseType '>' baseType {$$ = new greaterCommandbool<baseType,baseType>($1,$3); }
+
+		| nodeDescriptor GREATEREQUAL nodeDescriptor {$$ = new greaterEqualCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
+		| nodeDescriptor GREATEREQUAL baseType {$$ = new greaterEqualCommandbool<nodeDescriptor,baseType>($1,$3); }
+		| baseType GREATEREQUAL nodeDescriptor {$$ = new greaterEqualCommandbool<baseType,nodeDescriptor>($1,$3); }
+		| baseType GREATEREQUAL baseType {$$ = new greaterEqualCommandbool<baseType,baseType>($1,$3); }
+
+		| nodeDescriptor LESSEQUAL nodeDescriptor {$$ = new lessEqualCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
+		| nodeDescriptor LESSEQUAL baseType {$$ = new lessEqualCommandbool<nodeDescriptor,baseType>($1,$3); }
+		| baseType LESSEQUAL nodeDescriptor {$$ = new lessEqualCommandbool<baseType,nodeDescriptor>($1,$3); }
+		| baseType LESSEQUAL baseType {$$ = new lessEqualCommandbool<baseType,baseType>($1,$3); }
+
 		| bool AND bool {$$ = new andCommandbool<bool,bool>($1,$3); }
 		| bool OR bool { $$ = new orCommandbool<bool,bool>($1,$3); }
 		| bool EQUAL bool  { $$ = new equalCommandbool<bool, bool > ( $1, $3	); }

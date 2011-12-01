@@ -94,6 +94,16 @@ throw "printEdgeStatistics OBSOLETE";
 				cout << "inNode ";
 			if (getNodeInfo().theNodeKind & _outNode_)
 				cout << "outNode";
+			if (getNodeInfo().theNodeKind & _ode_)
+				cout << "ode";
+			if (getNodeInfo().theNodeKind & _sde_)
+				cout << "sde";
+			if (getNodeInfo().theNodeKind & _pco_)
+				cout << "pco";
+			if (getNodeInfo().theNodeKind & _pcoDelay_)
+				cout << "pcoDelay";
+			if (getNodeInfo().theNodeKind & _map_)
+				cout << "map";
 			cout << endl;
 		}
 		cout << "nodeNumber:\t" << getNumber() << endl;

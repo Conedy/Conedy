@@ -1,6 +1,6 @@
 network N;
 
-N.cycle(5,1,node(),weightedEdge());
+N.cycle(5,1,node(),weightedEdge);
 
 print "Graph verbunden:";
 print  N.isConnected();

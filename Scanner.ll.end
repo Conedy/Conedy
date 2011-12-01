@@ -172,8 +172,13 @@ setState	{return(ParserBase::SETINITIALCONDITION); }
 {ID}        	{
 
 			string s(yytext);
+			d_val__-> stringExpression = new constantCommand<string>(s);
 			switch	(command::getType(s))
 			{
+//					val->sCmd = new constantCommand<string>(s);
+
+//				yylval.id = (char*) strdup (yytext);
+
 				case _nodeDescriptor_:
 					return (ParserBase::INTVAR);
 				case _baseType_:
@@ -185,7 +190,6 @@ setState	{return(ParserBase::SETINITIALCONDITION); }
 				case _node_:
 					return (ParserBase::NODEVAR);
 				default:
-//					val->sCmd = new constantCommand<string>(s);
 					return (ParserBase::ID);
 			}
 

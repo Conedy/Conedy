@@ -15,10 +15,14 @@
 class Parser: public ParserBase
 {
     // $insert scannerobject
-    Scanner d_scanner;
+    Scanner  * d_scanner;
         
     public:
         int parse();
+		  Parser()
+		  { 
+			  d_scanner = new Scanner(d_val__);
+		  }
 
     private:
         void error(char const *msg);    // called on (syntax) errors
@@ -35,15 +39,15 @@ class Parser: public ParserBase
 
 inline void Parser::error(char const *msg)
 {
-    std::cerr << "Zeilennummer:"<< d_scanner.lineno() << std::endl;
-    std::cerr << "Lasttoken:"<< d_scanner.YYText() << std::endl;
+    std::cerr << "Zeilennummer:"<< d_scanner->lineno() << std::endl;
+    std::cerr << "Lasttoken:"<< d_scanner->YYText() << std::endl;
     std::cerr << msg << std::endl;
 }
 
 // $insert lex
 inline int Parser::lex()
 {
-    return d_scanner.yylex();
+    return d_scanner->yylex();
 }
 
 inline void Parser::print()      // use d_token, d_loc

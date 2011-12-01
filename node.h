@@ -87,6 +87,7 @@ namespace conedy
 		public:
 			//! Return pointer to the target node.
 			node* getTarget();// { return node::theNodes [targetNumber];}
+			void setParameter(vector < baseType > &parameter)  { }
 
 			//! Returns the state of the target node.
 			baseType getTargetState();
@@ -119,7 +120,6 @@ namespace conedy
 		public:
 			virtual node* getTarget() { return edge::getTarget();}
 			virtual baseType getTargetState(); 
-
 			virtual const edgeInfo getEdgeInfo() {edgeInfo ei = {_edgeVirtual_,0, "edgeVirtual"}; return ei;}
 			virtual edge *construct() { return new edgeVirtual ( *this ); };
 			virtual ostream& printStatistics ( ostream &os, double edgeVirtualVerbosity=1.0);

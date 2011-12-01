@@ -39,6 +39,14 @@ namespace conedy
 			baseType getWeight() { return weight; }
 			//			baseType getTargetState();
 			void setWeight(baseType newWeight) { weight = newWeight; }
+			
+				
+			void setParameter(vector < baseType > &parameter)
+			{
+				weight = parameter[parameter.size() -1];
+				parameter.pop_back();
+				EDGE::setParameter(parameter);
+			}
 
 			edge *construct() { return new weightedEdge<EDGE> ( *this ); };
 
@@ -69,7 +77,8 @@ namespace conedy
 		public:
 			staticWeightedEdge() {};
 			//			staticWeightedEdge ( node* t ) : weightedEdge(t) {};
-
+			staticWeightedEdge (baseType newWeight)  {    weight = newWeight;};
+			
 			staticWeightedEdge (nodeDescriptor targetNumber, baseType newWeight) : EDGE (targetNumber)  {    weight = newWeight;};
 			const edgeInfo getEdgeInfo() {edgeInfo ei = {_staticWeightedEdge_,_weighted_,"staticWeightedEdge"}; return ei;}
 			baseType getWeight() { return weight; }
@@ -84,6 +93,12 @@ namespace conedy
 				return os;
 			}
 
+			void setParameter(vector < baseType > &parameter)
+			{
+				weight = parameter[parameter.size() -1];
+				parameter.pop_back();
+				EDGE::netParameter(parameter);
+			}
 
 
 
@@ -117,6 +132,12 @@ namespace conedy
 		};
 
 
+			void setParameter(vector < baseType > &parameter)
+			{
+				which = parameter[parameter.size() -1];
+				parameter.pop_back();
+				EDGE::setParameter(parameter);
+			}
 
 
 
@@ -287,8 +308,13 @@ namespace conedy
 		stepEdge ( double t ) : threshold ( t )  {};
 		virtual const edgeInfo getEdgeInfo() {
 			edgeInfo ancestor = EDGE::getEdgeInfo();
-			edgeInfo ei = {_pulseCouple_,_weighted_ | ancestor.theEdgeKind,  ancestor.theEdgeName + "_pulseCouple"};  return ei;
-		}
+			edgeInfo ei = {_pulseCouple_,_weighted_ | ancestor.theEdgeKind,  ancestor.theEdgeName + "_pulseCouple"};  return ei;}
+			void setParameter(vector < baseType > &parameter)
+			{
+				threshold = parameter[parameter.size() -1];
+				parameter.pop_back();
+				EDGE::setParameter(parameter);
+			}
 
 		virtual baseType getTargetState()
 		{
@@ -331,6 +357,12 @@ namespace conedy
 
 		public:
 
+			void setParameter(vector < baseType > &parameter)
+			{
+				which = parameter[parameter.size() -1];
+				parameter.pop_back();
+				EDGE::setParameter(parameter);
+			}
 
 		component ( int c) :  which ( c ) {}
 		component ( ) :  which ( 0 ) {}

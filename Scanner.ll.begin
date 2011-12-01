@@ -44,9 +44,9 @@ ID       [A-Za-z][a-z0-9A-Z\_]*
 
 		/* {digit}+"."{digit}*e     	 {return (ParserBase::DOUBLE); } */
 
-[0-9]+"."[0-9]+([eE][-+]?[0-9]+)?  {return (ParserBase::DOUBLE); }
+		/*[0-9]+"."[0-9]+([eE][-+]?[0-9]+)?  {return (ParserBase::DOUBLE);  */
 
-
+[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)? { return (ParserBase::DOUBLE); }
 
 
 
@@ -67,6 +67,9 @@ ID       [A-Za-z][a-z0-9A-Z\_]*
 "<"		{return('<');}
 ">"		{return('>');}
 "=="		{return(ParserBase::EQUAL);}
+"!="		{return(ParserBase::NEQUAL);}
+"<="		{return(ParserBase::LESSEQUAL);}
+">="		{return(ParserBase::GREATEREQUAL);}
 
 TRUE		{return(ParserBase::BOOLONE);}
 FALSE		{return(ParserBase::BOOLZERO);}

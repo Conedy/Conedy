@@ -242,7 +242,8 @@ debug: addNodesIfNecessary Scanner.ll version
 
 
 debug.install:
-	cp -f bin/gcc*/debug/conedyDebug ${dirinstall} 
+#	cp -f bin/gcc*/debug/conedyDebug ${dirinstall} 
+	cp -f bin/gcc*/debug/conedyDebug /home/alex/bin/conedyDebug
 
 debug.clean:
 

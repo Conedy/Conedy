@@ -47,7 +47,7 @@ void eventHandler::unregisterCallBack (unsigned int eventSignature){
 eventHandler::~eventHandler()
 {
 	
-	if (myEventsStartAt = numeric_limits<unsigned int>::max())
+	if (myEventsStartAt == numeric_limits<unsigned int>::max())
 		return;
 
 	unsigned int i = myEventsStartAt;

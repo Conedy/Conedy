@@ -53,6 +53,7 @@ class command
 		static map < string, baseType* > baseTypeVar;
 		static map < string, networkTemplate * > networkVar;
 		static map < string, nodeBlueprint ** > nodeVar;
+		static map < string, edgeBlueprint ** > edgeVar;
 		static map < string, string * > stringVar;
 		static map < string, nodeDescriptor*> nodeDescriptorVar;
 
@@ -76,6 +77,12 @@ class command
 			ienet = networkVar.end();
 			for (;itnet != ienet; itnet++)
 				delete itnet->second;
+
+			map <string,edgeBlueprint**>::iterator itedge, ieedge;
+			itedge = edgeVar.begin();
+			ieedge = edgeVar.end();
+			for (;itedge != ieedge; itedge++)
+				delete itedge->second;
 
 			map <string,nodeBlueprint**>::iterator itnode, ienode;
 			itnode = nodeVar.begin();
@@ -138,6 +145,10 @@ class command
 		{ 
 //			cout << "DECLARED" << endl;
 
+#ifdef DEBUG
+			cout << "declaring:" << s << " " << type << endl;
+#endif
+
 			if (varType.count(s) != 0)
 			{
 //				cout << "String:" << s << endl;
@@ -160,6 +171,18 @@ class command
 //				n = & nod;
 				nodeVar[s] = n;
 			}
+
+			if (type == _edge_)
+			{
+				edgeBlueprint **n =new edgeBlueprint*();
+				
+//				edge *nod = new node();
+//				n = & nod;
+				edgeVar[s] = n;
+			}
+
+
+
 			if (type == _string_)
 			{
 				stringVar[s] = new string();
@@ -221,7 +244,27 @@ template <>
 					return nodeVar[s];
 
 }
-		
+
+	
+	
+template <>
+ inline edgeBlueprint**  command::retrieve<edgeBlueprint *> (string s)
+{
+	if (!contextCheck (s, _edge_))
+				{
+
+					cout << "ContextError!" << endl;
+					cout << "EdgeTemplate:" << s << endl;
+					exit(1);
+				}
+				else
+					return edgeVar[s];
+
+}
+
+
+
+
 template <>
  inline nodeDescriptor*  command::retrieve<nodeDescriptor> (string s)
 {
@@ -736,6 +779,7 @@ class constantCommand : public expression<T>
 
 
 DECLAREBINARY(+, plus, nodeDescriptor)
+DECLAREBINARY(-, minus, nodeDescriptor)
 DECLAREBINARY(*,times, nodeDescriptor)
 DECLAREBINARY(/,divide, nodeDescriptor)
 
@@ -744,9 +788,19 @@ DECLAREBINARY(-,minus, baseType)
 DECLAREBINARY(*,times, baseType)
 DECLAREBINARY(/,divide, baseType)
 
+DECLAREBINARY(%,modolo, nodeDescriptor)
+
+
+
+DECLAREBINARY( != , nequal, bool)
 DECLAREBINARY( <, less, bool)
 DECLAREBINARY( >, greater, bool)
+DECLAREBINARY( >=, greaterEqual, bool)
+DECLAREBINARY( <=, lessEqual, bool)
 DECLAREBINARY( == , equal, bool)
+
+
+
 
 DECLAREUNARY(log,log,baseType)
 DECLAREUNARY(exp,exp,baseType)	

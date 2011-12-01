@@ -55,6 +55,9 @@
 #    define FLEX_STD std::
 #  endif
 
+
+#include "Parserbase.h"
+
 extern "C++" {
 
 struct yy_buffer_state;
@@ -63,7 +66,7 @@ typedef int yy_state_type;
 class FlexLexer {
 public:
 	virtual ~FlexLexer()	{ }
-
+	ParserBase::STYPE__ *d_val__;
 	const char* YYText() const	{ return yytext; }
 	int YYLeng()	const	{ return yyleng; }
 
@@ -115,7 +118,7 @@ class yyFlexLexer : public FlexLexer {
 public:
 	// arg_yyin and arg_yyout default to the cin and cout, but we
 	// only make that assignment when initializing in yylex().
-	yyFlexLexer( FLEX_STD istream* arg_yyin = 0, FLEX_STD ostream* arg_yyout = 0 );
+	yyFlexLexer( FLEX_STD istream* arg_yyin = 0, FLEX_STD ostream* arg_yyout = 0);
 
 	virtual ~yyFlexLexer();
 
