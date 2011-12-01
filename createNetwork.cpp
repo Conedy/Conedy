@@ -240,7 +240,7 @@ namespace conedy {
 						while (targetY < 0) targetY+= sizey;
 						targetX = targetX % sizex;
 						targetY = targetY % sizey;
-					} while ( network::isLinked(i+sizex*j,targetX + sizex*targetY));
+					} while ( network::isLinked(smallest + i+sizex*j,smallest + targetX + sizex*targetY));
 
 					network::addEdge ( smallest + i + sizex * j , smallest + targetX + sizex*targetY, l );
 

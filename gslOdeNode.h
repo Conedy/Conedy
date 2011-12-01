@@ -146,8 +146,8 @@ namespace conedy
 			}
 
 			virtual void operator() ( const baseType x[], baseType dydx[] )  = 0;
-
 			//! Bereitstellung des ODE-Systems: Ableitungen werden in Array geschrieben
+
 			static int dgl ( baseType t,const baseType y[], baseType f[], void *params )
 			{
 				list<containerNode<baseType,3>*>::iterator it;
