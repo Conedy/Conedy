@@ -110,7 +110,7 @@ Integrators
 Conedy offers integrators for dynamical systems of the following types:
 
 Maps (``map``)
-++++++++++++++
+``````````````
 
 Iteration of a map. The ``dynamics`` field should define the next state ``xprime`` directly as function of the current state ``x``.
 
@@ -122,7 +122,7 @@ Example:
 	xprime[0] = r * x[0] * (-x[0] + 1)
 
 Ordinary differential equations (``ode``)
-+++++++++++++++++++++++++++++++++++++++++
+`````````````````````````````````````````
 
 The ``dynamics`` field should define the derivative ``dxdt`` as function of the current state ``x`` (an example was already given above). Numerical integration algorithms are provided by the GNU Scientific Library (GSL). At the moment only those algorithms are supported, which make no use of the Jacobian. In the Python script a specific stepping function can be choosen by setting ``gslOdeNode_stepType`` to one of the following values:
 
@@ -137,23 +137,37 @@ The ``dynamics`` field should define the derivative ``dxdt`` as function of the 
 
 Example::
 
-	co.set("gslOdeNode_stepType", "gsl_odeiv_step_rkf45")
+	co.set("odeStepType", "gsl_odeiv_step_rkf45")
 
 See the `the GSL’s documentation`_ for specific information.
 
 .. _the GSL’s documentation: http://www.gnu.org/software/gsl/manual/html_node/Ordinary-Differential-Equations.html
 
-XXX Document precision for adaptive step size
+Adjusting precision
+'''''''''''''''''''
+
+With all these schemes the step size adapts such that the estimated error of integration  for each :math:`x_i` is lower than :math:`\texttt{odeAbsError} + \texttt{odeRelError} \cdot x_i`, where ``odeAbsError`` and ``odeRelError`` are parameters, that can be set in Conedy. ``odeAbsError`` defaults to 0.0, ``odeRelError`` defaults to :math:`10^{-5}`. If both are set to 0.0, the step size is not adaptive, but fixed to ``odeStepSize``. This parameter also sets the initial step size when integrating with adaptive step size. Either way the parameter ``samplingTime`` and the end of a time evolution pose upper limits to the integration step size (see :ref:`evolving`).
+
+For example, the following commands will issue a time evolution, where the step size starts at 0.1 and is then dynamically adjusted, such that the estimated integration error for each dynamical variable is one per mill of the value of this variable. However, the step size will never exceed 10.0 or the time left until the end of the time evolution:
+
+.. testcode::
+
+	co.set("odeAbsError", 0.0)
+	co.set("odeRelError", 0.001)
+	co.set("odeStepSize", 0.1)
+	co.set("samplingTime", 10.0)
+	N.evolve(0.0,100.0)
+
+
+
 
 Stochastic differential equations (``sde``)
-+++++++++++++++++++++++++++++++++++++++++++
+```````````````````````````````````````````
 
 .. math::
    dx = a(x,t)  dt + s(x,t) dW
 
-
-
-The ``dynamics`` field should define ``dxdt`` for the deterministic part and ``s`` for the stochastic part. For multiplicative noise and when using the Milstein integrator ``dsdx`` (= :math:`\frac {ds(x.t)}{dx}`) has also to be defined.
+The ``dynamics`` field should define ``dxdt`` for the deterministic part and ``s`` for the stochastic part. For multiplicative noise and when using the Milstein integrator ``dsdx`` (= :math:`\frac{ds(x.t)}{dx}`) has to be defined as well.
 
 Example (with ``drift`` and ``diffusion`` being parameters):
 
@@ -163,13 +177,13 @@ Example (with ``drift`` and ``diffusion`` being parameters):
 	dxdt[0] = -drift*x[0] + couplingSum();
 	s[0] = diffusion;
 
-An integrator can be chosen by setting ``stdSdeIntegrator_stepType`` to one of these values
+The integrator can be chosen by setting ``stdSdeIntegrator_stepType`` to one of these values
 
 -  ``euler``
 -  ``milsteinIto``
 -  ``milsteinStrato``
 
-Example::
+Example:
 
 .. code-block:: c++
 
@@ -179,7 +193,7 @@ Example::
 .. _pulse-coupled:
 
 Pulse-coupled oscillators (``pco``)
-+++++++++++++++++++++++++++++++++++
+```````````````````````````````````
 
 The state of a pulse-coupled oscillator is completely defined by its phase :math:`\phi \in [0,1]`, which has a linear time evolution :math:`\frac{d\phi}{dt} = 1`. Whenever the phase of an oscillators reaches 1, the oscillator `fires`, i.e. its phase is reset to 0 and the phase of every oscillator to which an edge is directed from the firing oscillator is influenced. The influence on an oscillator is defined by its phase-response curve :math:`\Delta(\phi)`:
 
@@ -209,7 +223,7 @@ Now, if the phase is about to be set to a value larger than 1.0, it is set to 1.
 
 
 Pulse-coupled oscillators with delay (``pcoDelay``)
-+++++++++++++++++++++++++++++++++++++++++++++++++++
+```````````````````````````````````````````````````
 
 Similar as ``pco``, however each outgoing pulse is delayed by a time given by the parameter ``timeDelay``. (Each node dynamics based on ``pcoDelay`` automatically has ``[nodeType]_timeDelay``  as first parameter.)
 

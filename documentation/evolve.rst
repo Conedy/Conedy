@@ -22,6 +22,8 @@ The columns of the created files are ordered in the way, the corresponding obser
 
 See :ref:`observeDynamics` for further observables, you can set, for example the mean value or the phase coherence.
 
+.. _evolving :
+
 Evolving
 --------
 After creating the network and setting the observables, you will usually call the ``evolve`` function, which evolves the dynamical state of all nodes in the network. In perdiodic intervals, a snapshot of all observed features is performed. The duration between snapshots can be controlled by setting the global variable ``samplingTime``::
@@ -29,7 +31,7 @@ After creating the network and setting the observables, you will usually call th
    co.set("samplingTime", 0.01)
    co.evolve (0.0, 100.0)
 
-This example will evolve the time of all nodes in the network from 0.0 to 100.0 and write the states of all observed nodes to files every 0.01. The used algorithm for time evolution depends on the node type (and parameters such as ``gslOdeNode_stepType``).
+This example will evolve the time of all nodes in the network from 0.0 to 100.0 and write the states of all observed nodes to files every 0.01. The used algorithm for time evolution depends on the node type (and parameters such as ``gslOdeNode_stepType``, see :ref:`addingNewNodes`).
 
 
 Additionally, you can issue a snapshot of all observed features manually::
@@ -37,11 +39,11 @@ Additionally, you can issue a snapshot of all observed features manually::
    co.snapshot()
 
 
-XXXXBeispiel überprüfen
-This can for example be used to observe your dynamical system at arbitrary intervals. For this sake, one would set ``samplingTime`` to a large value and call the ``evolve`` function between successive snapshots::
+This can be used to observe your dynamical system at arbitrary intervals, for example::
 
    co.set("samplingTime", 100000.0);
-   for i in range (0,100):
+   for i in range (100):
       co.evolve (i*i, (i+1)*(i+1))
       co.snapshot()
 
+Here, ``samplingTime`` is set to exceed the total evolution time in order to avoid automatic snapshots.
