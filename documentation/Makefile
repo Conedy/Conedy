@@ -43,6 +43,7 @@ getDocFromTesting:															#
 	mkdir -p reference/nodes/pco
 	mkdir -p reference/nodes/pcoDelay
 	mkdir -p reference/network/edges
+	mkdir -p reference/network/random
 
 	cd ../testing/createNetwork; find -name '*.rst' -execdir sh -c 'name={}; ../../documentation/mergeDocExample.sh {} > ../../documentation/reference/network/create\ manipulate/$${name#./}' \; 
 	cd ../testing/statisticsNetwork; find -name '*.rst' -execdir sh -c 'name={}; ../../documentation/mergeDocExample.sh {} > ../../documentation/reference/network/measures/$${name#./}' \; 
@@ -58,6 +59,7 @@ getDocFromTesting:															#
 	cd ../testing/addedNodes/sde; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/sde/$${name#./}' \; 
 	cd ../testing/addedNodes/pco; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/pco/$${name#./}' \; 
 	cd ../testing/addedNodes/pcoDelay; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/pcoDelay/$${name#./}' \; 
+	cd ../testing/random; find -name '*.rst' -execdir sh -c 'name={}; ../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/network/random/$${name#./}' \; 
 
 
 	cp network.tmpl reference/network.rst

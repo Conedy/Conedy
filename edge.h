@@ -43,9 +43,14 @@ namespace conedy
 				
 			void setParameter(vector < baseType > &parameter)
 			{
+				EDGE::setParameter(parameter);
 				weight = parameter[parameter.size() -1];
 				parameter.pop_back();
-				EDGE::setParameter(parameter);
+			}
+			void getParameter(vector < baseType > &parameter)
+			{
+				EDGE::getParamater(parameter);
+				parameter.push_back(weight);
 			}
 
 			edge *construct() { return new weightedEdge<EDGE> ( *this ); };
@@ -93,6 +98,11 @@ namespace conedy
 				return os;
 			}
 
+			void getParameter(vector < baseType > &parameter)
+			{
+				EDGE::getParamater(parameter);
+				parameter.push_back(weight);
+			}
 			void setParameter(vector < baseType > &parameter)
 			{
 				weight = parameter[parameter.size() -1];
@@ -131,6 +141,11 @@ namespace conedy
 			return new staticComponent( *this );
 		};
 
+			void getParameter(vector < baseType > &parameter)
+			{
+				EDGE::getParamater(parameter);
+				parameter.push_back(which);
+			}
 
 			void setParameter(vector < baseType > &parameter)
 			{
@@ -235,6 +250,28 @@ namespace conedy
 				edgeInfo ancestor = EDGE::getEdgeInfo();
 				edgeInfo ei = {_randomTarget_,_weighted_ | ancestor.theEdgeKind,  ancestor.theEdgeName + "_randomTarget"};  return ei;
 			}
+
+
+			void getParameter(vector < baseType > &parameter)
+			{
+				EDGE::getParamater(parameter);
+				parameter.push_back(lower);
+				parameter.push_back(upper);
+			}
+
+			void setParameter(vector < baseType > &parameter)
+			{
+				lower = parameter[parameter.size() -1];
+				parameter.pop_back();
+				upper = parameter[parameter.size() -1];
+				parameter.pop_back();
+				EDGE::setParameter(parameter);
+			}
+
+
+
+
+
 			virtual dynNode* getTarget() { return  (dynNode*)  node::theNodes[gslNoise::getUniform(lower,upper)]; }
 			randomTarget(nodeDescriptor l, nodeDescriptor u) : lower(l), upper(u) { }
 			virtual edge *construct() { return new randomTarget<EDGE> ( *this ); };

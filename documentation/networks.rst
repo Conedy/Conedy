@@ -8,7 +8,7 @@ Edges and networks
 Edges
 -----
 
-Edges in Conedy indicate that two nodes are in some way dynamically coupled. The excact form of this coupling depends on the node. For example the same edge may represent diffusive coupling for ordinary differential equations and for iterated maps coupling as one would expect from a coupled map lattice.
+Edges in Conedy indicate that two nodes are in some way dynamically coupled. The excact form of this coupling depends on the node. For example the same edge may represent diffusive coupling for ordinary differential equations or a coupling as one would expect for a coupled map lattice in case of iterated maps.
 
 Edges provide the target node with two variables:
 
@@ -16,7 +16,8 @@ Edges provide the target node with two variables:
 
 -  ``weight``: A floating point number for the coupling strength. Again, the provided number depends on the edge type.
 
-See :ref:`the section about dynamics equations<dynamicsEquations>` on how ``weight`` and ``state`` are processed by the target node.
+See subsection :ref:`equations<dynamicsEquations>` in section :ref:`Defining new node types<addingNewNodes>` on how ``weight`` and ``state`` are processed by the target node.
+
 
 Edge templates
 ``````````````
@@ -40,7 +41,7 @@ Here ``weightedEdge`` provides the edge template, which is directly passed to ``
 Edge types
 ``````````
 
-Conedy provides the several edge types:
+Conedy provides several edge types:
 
 	- ``edge``: An edge with weight 1.0.
 	- ``weightedEdge``: An edge whose weight is given as an argument.

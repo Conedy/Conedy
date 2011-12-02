@@ -14,7 +14,6 @@
   expression<nodeBlueprint*> *nodCmd;
   networkTemplate* netCmd;
   expression<edgeBlueprint*> *lCmd;
-  expression<baseType> *rCmd;
   instruction *cmd;
   vector <function <baseType() > > *randomVec;
   expressionVector <baseType> *vec;
@@ -498,11 +497,10 @@ if		: IF '(' bool ')' instruction { $$ = new ifInstruction ($3,$5);
 
 
 //: ID {  $$ = new varCommand<nodeBlueprint*> (*$1); }
+//: node '(' argList ')' {  ( (dynNode*)($1->evaluate()  ) ) ->params<baseType>::rerouteParams(($3->evaluate())); }
 
 
-node	: node '(' ')'
-      | node '(' argList ')' {  ( (dynNode*)($1->evaluate()  ) ) ->params<baseType>::rerouteParams(($3->evaluate())); }
-| NODE { nodeBlueprint *n = new nodeVirtualEdges<dynNode>(); $$ = new constantCommand<nodeBlueprint*>(n);}
+node	: NODE { nodeBlueprint *n = new nodeVirtualEdges<dynNode>(); $$ = new constantCommand<nodeBlueprint*>(n);}
 		| CNNNODE { nodeBlueprint *n = new nodeVirtualEdges<cnnNode>(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| COUPLINGSUMNODE { nodeBlueprint *n = new nodeVirtualEdges<couplingSumNode>(); $$ = new constantCommand<nodeBlueprint*>(n);}
 //		| ESCAPENOISENEURON { nodeBlueprint *n = new escapeNoiseNeuronStatic(); $$ = new constantCommand<nodeBlueprint*>(n);}
@@ -527,12 +525,15 @@ node	: node '(' ')'
 
 
 createNode	: node
-			  	| node '(' ')'
-            | node '(' argList ')' {  ( (dynNode*)($1->evaluate()  ) ) ->params<baseType>::rerouteParams(($3->evaluate())); }
 		| NODEVAR { $$ = new varCommand<nodeBlueprint *>(d_scanner->YYText()); };
 
 
+//( (dynNode*)($1->evaluate()  ) ) ->params<baseType>::rerouteParams(($3->evaluate())); }
 
+// this would be the better way, allowing for variables in parameters
+//            | node '(' argList ')' { $$ = new bindInstruction ( bind(&params<baseType>::rerouteParams, _E(nodeBlueprint*, $1), _E(vector<baseType>*,$3))); }
+
+//            | node '(' argList ')' { $$ = new bindInstruction ( bind(&edgeVirtual::setParameter, $1 
 
 
 

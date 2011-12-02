@@ -8,7 +8,7 @@ Open ``/etc/apt/sources.list`` with an editor of your choice and add a line whic
 
    deb http://conedy.org/ubuntu/maverick maverick main
 
-If you are not using Maverick, just replace ``maverick`` with your distribution’s codename in this line. For Debian, replace ``ubuntu`` with ``debian``, and ``maverick`` with your distribution’s codename (e.g. ``squeeze``).
+If you are not using Maverick, just replace ``maverick`` with your distribution’s codename (e.g. ``oneiric``) in this line. For Debian, replace ``ubuntu`` with ``debian``, and ``maverick`` with your distribution’s codename (e.g. ``squeeze``).
 
 
 Add Conedy’s gpg-key to apt with the following command::
