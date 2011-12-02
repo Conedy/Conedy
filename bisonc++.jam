@@ -32,13 +32,13 @@ feature.feature bison.prefix : : free ;
 type.register Y : y ;
 type.register YY : yy ;
 generators.register-standard bisonc++.bisonc++ : Y : C H ;
-generators.register-standard bisonc++.bisonc++ : YY : CPP HPP ;
+generators.register-standard bisonc++.bisonc++ : YY : CPP ;
 
 rule init ( )
 {
 }
 
-rule bisonc++ ( dst dst_header : src : properties * )
+rule bisonc++ ( dst : src : properties * )
 {
     local r = [ property.select bison.prefix : $(properties) ] ;
     if $(r)
@@ -49,5 +49,5 @@ rule bisonc++ ( dst dst_header : src : properties * )
 
 actions bisonc++ 
 {
-    bisonc++ $(PREFIX_OPT)  -p $(<[1])   $(>)
+    bisonc++ $(PREFIX_OPT)  -p $(<)   $(>)
 }
