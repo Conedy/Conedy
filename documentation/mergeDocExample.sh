@@ -6,15 +6,17 @@ name=${name#./}
 
 
 
-(echo -n ".. _"; echo -n "${name} "   ; echo -en ":\n\n"; 
-echo ${name}; 
+(echo -n ".. _"; echo -n "${name}"   ; echo -en ":\n\n"; 
+echo "\`\`${name}\`\`"; 
 echo -e "=====================================================\n";  
 cat $1;
 
-echo -e "\n\nExample\n-------\n::\n" ; 
+echo -e "\n\nExample (python-conedy)\n-------\n::\n" ; 
 
-sed "s/^/  /g" ${name}.py) 
+sed "s/^/  /g" ${name}.py 
 
+echo -e "\n\nExample (conedy)\n-------\n::\n" ; 
 
+sed "s/^/  /g" ${name}.co) 
 
 

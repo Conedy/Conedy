@@ -1,0 +1,13 @@
+network net;
+
+
+int source;
+int target;
+
+source = net.addNode(node());
+target = net.addNode(node());
+
+net.addEdge (source,target, weightedEdge(1.0));
+
+print "Should be true:" + str(net.isLinked (source,target));
+print "Should be false:" + str(net.isLinked (target,source));

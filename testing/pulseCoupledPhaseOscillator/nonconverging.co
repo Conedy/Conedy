@@ -19,24 +19,16 @@ setRandomSeed(0);
 
 #n.useLatticePositioning(100,100);
 
-n.torusNearestNeighbors<pcoIntegrateFire,staticWeightedEdge()>(40,40,36.0);
+
+n.torusNearestNeighbors(40,40,36.0,  pcoIntegrateFire,staticWeightedEdge(0.012));
+
 
 n.rewire(rewiring);
-
 n.randomizeStates(pcoIntegrateFire, uniform(0.0,1.0));
-n.randomizeWeights(uniform(coupling,coupling));
 
 
 n.saveAdjacencyList("output/nonconverging.co.graph");
-
-
-#	n.observeGl(1.0, phaseOfPCO);
-
-#		n.observeTime("output/excitationsAnfall");
-#
-#		n.observeEvent("output/excitationsAnfall",0);
 n.observeTime("output/nonconverging.co.phaseCoherence");
-#              n.observePhaseCoherence<pcoIntegrateFire, phaseOfPCO>("output/phaseCoherenceAnfall");
 n.observePhaseCoherence("output/nonconverging.co.phaseCoherence");
 
 

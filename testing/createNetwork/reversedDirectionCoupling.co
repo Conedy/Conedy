@@ -1,0 +1,15 @@
+
+
+
+network n;
+
+
+n.addNode <roessler>();
+n.addNode <roessler>();
+
+n.addEdge (0,1, 0.3);
+n.printNodeStatistics();
+
+
+
+

@@ -1,26 +1,11 @@
-
-network_edgeVerbosity = 1.0;
-network_nodeVerbosity = 1.0;
-
-network n;
-n.addNode<pcoNonleaky>();
-print "Should be 1:"+ n.size()+ newline;
-
-n.observe(0,"test");
-n.removeObserver();
-
-print "Should be 1:"+ n.size()+ newline;
-
-n.addNode<pcoNonleaky>();
-n.observe(0,"test");
-
-n.clear();
-
-print "Should be 0:"+ n.size()+ newline;
-
-int newNodeNumber;
-newNodeNumber = n.addNode<pcoNonleaky>();
-n.observe(newNodeNumber,"test");
+network net;
 
 
-n.saveAdjacencyList("output/clear.co.graph");
+
+
+
+net.addNode(roessler());
+print "Should be 1:" +  net.size()+ newline;
+net.clear();
+print "Should be 0:" +  net.size()+ newline;
+

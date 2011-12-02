@@ -14,16 +14,14 @@ rewiring = 0.32;
 
 setRandomSeed(0);
 
-#vectorFor (rewiring = 0.25; rewiring < 0.4; rewiring = rewiring + 0.005) {
-      net.torus<pcoNonleaky,staticWeightedEdge()>(40,40,3.14);
-		net.rewire(rewiring);
-		net.randomizeStates(pcoNonleaky, uniform(0.0,1.0));
-		net.randomizeWeights(uniform(coupling,coupling));
+net.torus(40,40,3.14,  pcoNonleaky,staticWeightedEdge());
+net.rewire(rewiring);
+net.randomizeStates(pcoNonleaky, uniform(0.0,1.0));
+net.randomizeWeights(uniform(coupling,coupling));
 
-		net.observeTime("output/problematicPotenzOf2.co.phaseCoherence");
-		net.observePhaseCoherence("output/problematicPotenzOf2.co.phaseCoherence");
-
+net.observeTime("output/problematicPotenzOf2.co.phaseCoherence");
+net.observePhaseCoherence("output/problematicPotenzOf2.co.phaseCoherence");
 
 
-		net.evolve(0.0,35.0);
-#	};
+
+net.evolve(0.0,35.0);

@@ -11,5 +11,21 @@ c = a + b + 3;
 a = b  * 2 + c * 2;
 
 
-print "should be true:"+ (a == 16);
+print "should be true:"+ (a == 16)+ newline;
+print "should be false:"+ (a == 17) + newline;
+
+print "should be true:"+ (a != 17) + newline;
+print "should be false:"+ (a != 16) + newline;
+
+print "should be true:"+ (a >= 16) + newline;
+print "should be false:"+ (a >= 17)+ newline;
+
+print "should be true:"+ (a <= 16) + newline;
+print "should be false:"+ (a >= 16)+ newline;
+
+print "should be true:"+ (a < 17) + newline;
+print "should be false:"+ (a < 16) + newline;
+
+print "should be true:"+ (a > 15) + newline;
+print "should be false:"+ (a > 16) + newline;
 

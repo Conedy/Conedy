@@ -8,10 +8,10 @@ samplingTime = 0.1;
 
 
 
-net.addNode<ornUhl>();
+net.addNode(ornUhl());
 net.setState(0, 1.0);
 net.observeTime("output/sdeIntegrator.co.series");
-net.observe<component(0)>(0, "output/sdeIntegrator.co.series");
+net.observe(0, "output/sdeIntegrator.co.series",component(0));
 net.evolve(0.0,15000.0);
 
 

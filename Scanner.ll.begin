@@ -1,11 +1,11 @@
 /*
-    Neurosim is a scientific tool which allows numerical integration of dynamical networks.
+    Conedy is a scientific tool which allows numerical integration of dynamical networks.
 
     Copyright (C) 2011 Alexander Rothkegel, Henning Dickten, Ferdinand Stolz, Justus Schwabedahl
 
     This file is part of conedy.
 
-    Neurosim is free software: you can redistribute it and/or modify
+    Conedy is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
@@ -44,9 +44,9 @@ ID       [A-Za-z][a-z0-9A-Z\_]*
 
 		/* {digit}+"."{digit}*e     	 {return (ParserBase::DOUBLE); } */
 
-[0-9]+"."[0-9]+([eE][-+]?[0-9]+)?  {return (ParserBase::DOUBLE); }
+		/*[0-9]+"."[0-9]+([eE][-+]?[0-9]+)?  {return (ParserBase::DOUBLE);  */
 
-
+[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)? { return (ParserBase::DOUBLE); }
 
 
 
@@ -67,6 +67,9 @@ ID       [A-Za-z][a-z0-9A-Z\_]*
 "<"		{return('<');}
 ">"		{return('>');}
 "=="		{return(ParserBase::EQUAL);}
+"!="		{return(ParserBase::NEQUAL);}
+"<="		{return(ParserBase::LESSEQUAL);}
+">="		{return(ParserBase::GREATEREQUAL);}
 
 TRUE		{return(ParserBase::BOOLONE);}
 FALSE		{return(ParserBase::BOOLZERO);}
@@ -111,6 +114,7 @@ periodicNode		{return(ParserBase::PERIODICNODE); }
 randomBlueprintNode {return(ParserBase::RANDOMBLUEPRINTNODE); }
 randomWalkNeuron	{return(ParserBase::RANDOMWALKNEURON); }
 setParams		{return(ParserBase::SETPARAMS); }
+setParam		{return(ParserBase::SETPARAM); }
 snapshot		{return(ParserBase::SNAPSHOT); }
 streamInLattice		{return(ParserBase::STREAMINLATTICE); }
 

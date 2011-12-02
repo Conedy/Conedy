@@ -1,4 +1,3 @@
-
 int a;
 
 double b;
@@ -12,4 +11,53 @@ c =  (a + b) / ( a - b) + 4* (12 + b);
 
 print "Should be 135.769230769:"+c+newline;
 
+
+# The same with different spacing:
+
+c = (a+b)/(a-b) + 4 *(12+b);
+
+print "Should be 135.769230769:" + c + newline;
+
+
+#Different ways to write and declare doubles
+double d = .5;
+
+double e;
+e = 15.;
+c = d+e;
+
+print "Should be 15.5:"+c+newline;
+
+
+# Assignment with arithmetics.
+
+a = 12345;
+a += 54321;
+a /= 6;
+a -= 101;
+a *= 2;
+a %= 666;
+
+print "Should be 42:"+a+newline;
+
+
+# Prefix/suffix increment/decrement
+int i = 4;
+a = 7;
+#a += ++i;
+i++;
+#a *= i--;
+a /= i;
+
+print "Should be 14:"+a+newline;
+
+
+# Combining some features in a loop:
+a = 0;
+for (int j = 0; j <= 10; j++)
+{
+	a += j;
+};
+
+print "Should be 55:"+a+newline;
 

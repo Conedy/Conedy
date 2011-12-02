@@ -34,9 +34,9 @@ samplingTime = 10000.0;
 
 :rm _tmp:;
 
-	nodeNumber = n.addNode<pcoMirollo>();
-	otherNodeNumber = n.addNode<pcoMirollo>();
-	referenceNodeNumber = n.addNode<pcoMirollo>();
+	nodeNumber = n.addNode(pcoMirollo());
+	otherNodeNumber = n.addNode(pcoMirollo());
+	referenceNodeNumber = n.addNode(pcoMirollo());
 	n.addEdge(otherNodeNumber,nodeNumber,0.01);
 	n.observe(referenceNodeNumber, "_tmp");
 	n.observe(nodeNumber, "_tmp");

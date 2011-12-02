@@ -4,14 +4,18 @@ net = co.network()
 
 
 
-net.cycle(100,3, co.node(), co.weightedEdge() )
+net.cycle( 100, 10,co.node(), co.staticWeightedEdge())
 
+#net.printNodeStatistics();
 
-
-
-print "should be 6:" + str (net.meanDegree())
+print "should be 20:"+ str(net.meanDegree())
 net.rewireUndirected(1.0)
-print "should be 6:" + str (net.meanDegree())
+print "should be 20:"+ str(net.meanDegree())
+net.saveAdjacencyList("output/rewireUndirected.py.graph")
 
-print "should be false: " + str(net.isDirected())
+if (net.isDirected()):
+	print "Error: The network is directed."
+
+
+
 

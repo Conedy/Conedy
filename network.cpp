@@ -464,16 +464,36 @@ nodeDescriptor network::addNode ( nodeBlueprint *n )
 void network::addWeightedEdge ( nodeDescriptor s, nodeDescriptor t, double weight )
 {
 
-
-	node::theNodes[s]->link ( t, weight );
-	networkType = networkType & ( 0 - 1 - directed );
+	nodeKind nk = node::theNodes[s]->getNodeInfo().theNodeKind;
+	if (nk & _ode_ || nk & _sde_ || nk & _map_)
+		node::theNodes[t]->link ( s, weight );
+	else
+		node::theNodes[s]->link ( t, weight );
+	
+	
+	//	networkType = networkType & ( 0 - 1 - directed );
 }
 
 
-
-void network::addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l )
+bool network::isLinked ( nodeDescriptor i, nodeDescriptor j)
 {
-	node::theNodes[s]->link ( t, l );
+	nodeKind nk = node::theNodes[i]->getNodeInfo().theNodeKind;
+	if (nk & _ode_ || nk & _sde_ || nk & _map_)
+		return node::theNodes[j]-> isLinked (node::theNodes[i]);
+	else
+		return node::theNodes[i]-> isLinked (node::theNodes[j]);
+
+}		
+
+
+void network::addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l ) 
+{ // differential equations mirror the direction of coupling, for performance reasons.
+	nodeKind nk = node::theNodes[s]->getNodeInfo().theNodeKind;
+	if (nk & _ode_ || nk & _sde_ || nk & _map_)
+		node::theNodes[t]->link ( s, l );
+	else
+		node::theNodes[s]->link ( t, l );
+
 }
 
 
@@ -504,9 +524,10 @@ void network::clear ()
 	numberOfNodes = 0;
 	dynNode::time = 0;
 
-	//		containerNode<baseType,0>::clear();
-	//		containerNode<baseType,1>::clear();
-	//		containerNode<baseType,2>::clear();
+			containerNode<baseType,0>::clear();
+			containerNode<baseType,1>::clear();
+			containerNode<baseType,2>::clear();
+			containerNode<baseType,3>::clear();
 
 }
 

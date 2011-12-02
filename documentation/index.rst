@@ -8,26 +8,18 @@ Welcome to Conedy’s documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 3
+	:maxdepth: 3
 
-   introduction
-   download
-   install
-   tutorial
-   nodes
-   parameters
-   edges
-   networks
-   measures
-   evolve
-   performance
-   reference
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+	introduction
+	download
+	install
+	tutorial
+	nodes
+	parameters
+	edges
+	networks
+	measures
+	evolve
+	performance
+	scripts
+	reference

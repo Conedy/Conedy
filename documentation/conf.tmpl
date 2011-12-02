@@ -135,6 +135,20 @@ html_static_path = ['_static']
 # Custom sidebar templates, maps document names to template names.
 #html_sidebars = {}
 
+
+#html_sidebars = {
+#		'**': ['globaltoc.html'],
+#		'using/windows': ['windowssidebar.html'],
+#}
+
+
+html_sidebars = {
+   'using/windows': 'windowssidebar.html'
+}
+
+
+
+
 # Additional templates that should be rendered to pages, maps page names to
 # template names.
 #html_additional_pages = {}
@@ -149,12 +163,12 @@ html_static_path = ['_static']
 #html_split_index = False
 
 # If true, links to the reST sources are added to the pages.
-#html_show_sourcelink = True
+html_show_sourcelink = False
 
 # If true, an OpenSearch description file will be output, and all pages will
 # contain a <link> tag referring to it.  The value of this option must be the
 # base URL from which the finished HTML is served.
-#html_use_opensearch = ''
+html_use_opensearch = ''
 
 # If nonempty, this is the file name suffix for HTML files (e.g. ".xhtml").
 #html_file_suffix = ''
@@ -175,7 +189,7 @@ htmlhelp_basename = 'Conedydoc'
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'Conedy.tex', u'Conedy Documentation',
-   u'Alexander Rothkegel, Ferdinand Stolz, Henning Dickten', 'manual'),
+   u'Alexander Rothkegel, Gerrit Ansmann, Ferdinand Stolz', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

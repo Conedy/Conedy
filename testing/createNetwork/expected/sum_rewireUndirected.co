@@ -1,5 +1,3 @@
 00000     0 output/rewireUndirected.co.err
 56158    16 output/rewireUndirected.co.graph
-33312    16 output/rewireUndirected.co.graph.sort
-36866    16 output/rewireUndirected.co.graph.transposed
 61496     1 output/rewireUndirected.co.out

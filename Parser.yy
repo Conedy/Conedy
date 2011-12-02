@@ -14,11 +14,8 @@
   expression<nodeBlueprint*> *nodCmd;
   networkTemplate* netCmd;
   expression<edgeBlueprint*> *lCmd;
-  expression<baseType> *rCmd;
-
   instruction *cmd;
-
- vector <function <baseType() > > *randomVec;
+  vector <function <baseType() > > *randomVec;
   expressionVector <baseType> *vec;
 }
 
@@ -34,7 +31,7 @@
 %left <doubleExpression> SIN
 %left <booleanExpression> NOT
 %left '(' ')'
-%left <booleanExpression> EQUAL
+%left <booleanExpression> EQUAL NEQUAL GREATEREQUAL LESSEQUAL
 %left '.'
 %token <booleanExpression> BOOLONE BOOLZERO
 %token <doubleExpression> DOUBLE DOUBLEVAR
@@ -45,7 +42,7 @@
 %token <stringExpression> ID SYSTEMCOMMAND WHILE STRING COMANDLINESTRING
 %token PRINT EXIT LOOP  IF FOR   VECTORFOR CHAINEDFOR NETWORKTOKEN STRINGTOKEN NODETOKEN INTTOKEN DOUBLETOKEN
 // Netzwerk-Befehle
-%token USERANDOMPOSITIONING REMOVEEDGES SNAPSHOTATEVENT USELATTICEPOSITIONING LATTICE READPARAMS NORMALIZEINWEIGHTSUM OBSERVEALL OBSERVEGL OBSERVEGLUT REWIRETARGET ADDRANDOMEDGES ADDRANDOMEDGESDEGREEDISTRIBUTION REWIRESOURCE REWIRESOURCEPERTIMESTEP DELAYLINK HIDDENCOMPONENT CYCLE LINE CYCLECLUSTER CLEAR SNAPSHOT ADDVERTEX  PRINTNODESTATISTICS ADDEDGE RANDOMNETWORK OBSERVE OBSERVECOMPONENTS OBSERVEMEANPHASE OBSERVEPHASEDISTANCE OBSERVEPHASECORRELATION OBSERVEPHASECOHERENCE OBSERVEMEAN OBSERVETIME OBSERVEEVENT OBSERVEEVENTTIMES ADDGLOBALNOISE NOISETOSTATES RANDOMIZESTATES RANDOMIZEPARAMETER MEANDEGREE RANDOMIZEWEIGHTS TORUS CONNECTCLOSENODESTORUS CONNECTCLOSENODES TORUSNEARESTNEIGHBORS READINITIALCONDITION COMPLETENETWORK MEANWEIGHT REWIRE SAVEADJACENCYLIST SAVEGRAPHML SIZE MEANCLUSTERING NEWLINE UNLINK CNNSTD CNNNEUTRAL GETPARAM EVOLVE EVOLVEALONG REALIGNWHENDISTANT REALIGNATEVENT REALIGNATEVENTSIGNATURE GETTARGET DEGREE REWIREUNDIRECTED REWIRETARGETUNDIRECTED BETWEENNESSCENTRALITY MEANPATHLENGTH DEGREECENTRALITY CLOSENESSCENTRALITY SELECT COUNTEDGES GETSTATE ISCONNECTED ISDIRECTED SETPARAM
+%token USERANDOMPOSITIONING REMOVEEDGES SNAPSHOTATEVENT USELATTICEPOSITIONING LATTICE READPARAMS NORMALIZEINWEIGHTSUM OBSERVEALL OBSERVEGL OBSERVEGLUT REWIRETARGET ADDRANDOMEDGES ADDRANDOMEDGESDEGREEDISTRIBUTION REWIRESOURCE REWIRESOURCEPERTIMESTEP DELAYLINK HIDDENCOMPONENT CYCLE LINE CYCLECLUSTER CLEAR SNAPSHOT ADDNODE  PRINTNODESTATISTICS ADDEDGE RANDOMNETWORK OBSERVE OBSERVECOMPONENTS OBSERVEMEANPHASE OBSERVEPHASEDISTANCE OBSERVEPHASECORRELATION OBSERVEPHASECOHERENCE OBSERVEMEAN OBSERVETIME OBSERVEEVENT OBSERVEEVENTTIMES ADDGLOBALNOISE NOISETOSTATES RANDOMIZESTATES RANDOMIZEPARAMETER MEANDEGREE RANDOMIZEWEIGHTS TORUS CONNECTCLOSENODESTORUS CONNECTCLOSENODES TORUSNEARESTNEIGHBORS READINITIALCONDITION COMPLETENETWORK MEANWEIGHT REWIRE SAVEADJACENCYLIST SAVEGRAPHML SIZE MEANCLUSTERING NEWLINE UNLINK CNNSTD CNNNEUTRAL GETPARAM EVOLVE EVOLVEALONG REALIGNWHENDISTANT REALIGNATEVENT REALIGNATEVENTSIGNATURE GETTARGET DEGREE REWIREUNDIRECTED REWIRETARGETUNDIRECTED BETWEENNESSCENTRALITY MEANPATHLENGTH DEGREECENTRALITY CLOSENESSCENTRALITY SELECT COUNTEDGES GETSTATE ISCONNECTED ISDIRECTED SETPARAM
 // Nodes
 %token NODE NAPK GAUSSIANNAPK NAPKKM GAUSSIANNAPKKM RANDOMWALKNEURON  IZHIKEVICHMAP PERIODICNODE  REMOVEOBSERVER REMOVEINPUT STARTINGCONDITIONOPENWAVEENDING STARTINGCONDITIONSMALLDISTURBANCE STARTINGCONDITIONOPENWAVEMIDDLE STREAMINNODE STREAMINLATTICE SETINITIALCONDITION CREATEFROMADJACENCYLIST SETPARAMS 
 %token INTEGRATEFIREQUEUE SETRANDOMSEED  CNNNODE RANDOMBLUEPRINTNODE STREAMOUTNODE COUPLINGSUMNODE SETTIME
@@ -59,6 +56,7 @@
 %token <netCmd> NETWORKVAR
 %type <cmd> loop print instruction declare assign networkCommand bluePrintCommand commands commandBlock while createNetworkCommand for if vectorFor system spatialNetworkCommand
 
+%type <stringExpression> identifier
 %type <stringExpression> string
 
 %type <doubleExpression> baseType statisticsNetworkCommandBaseType
@@ -108,11 +106,30 @@ instruction		: system
 
 commandBlock	: '{' commands '}' { $$ = $2;};
 
+
+
+
 assign		: baseType '=' baseType { $$ = new assignInstruction<baseType> ((varCommand<baseType>*)$1, $3); }
 		| nodeDescriptor '=' nodeDescriptor { $$ = new assignInstruction<nodeDescriptor> ((varCommand<nodeDescriptor>*)$1,$3); }
 		| string '=' string { $$ = new assignInstruction<string> ((varCommand<string>*)$1,$3); }
 		| SETRANDOMSEED '(' nodeDescriptor ')'  { $$ = new bindInstruction( bind(&gslNoise::setSeed,_E(nodeDescriptor,$3))); }
-		|   ADDINPUTFILE '(' string ')' { $$ = new bindInstruction(bind(&command::addInputFile, _E(string,$3))); };
+		|   ADDINPUTFILE '(' string ')' { $$ = new bindInstruction(bind(&command::addInputFile, _E(string,$3))); }
+		|  nodeDescriptor '+' '=' nodeDescriptor { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;
+				$$ = new assignInstruction<nodeDescriptor> ( var,  new plusCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> ($4,  (var)) )  ; }
+		|  nodeDescriptor '-' '=' nodeDescriptor { varCommand<nodeDescriptor> *var =  (varCommand<nodeDescriptor>*)$1;
+				$$ = new assignInstruction<nodeDescriptor> ( var,  new minusCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> ($4,  (var))); }
+		|  nodeDescriptor '/' '=' nodeDescriptor { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;
+				$$ = new assignInstruction<nodeDescriptor> ( var,  new divideCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> ($4,  (var))); }
+		|  nodeDescriptor '*' '=' nodeDescriptor { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;
+				$$ = new assignInstruction<nodeDescriptor> ( var,  new timesCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> ($4,  (var))); }
+		|  nodeDescriptor '+' '+' { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;	
+				$$ = new assignInstruction<nodeDescriptor> ( var,  new timesCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> (new constantCommand<nodeDescriptor>(1),  (var))); }
+		|  baseType '+' '+' { varCommand<baseType> *var = (varCommand<baseType>*)$1;	
+				$$ = new assignInstruction<baseType> ( var,  new timesCommandbaseType<baseType, baseType> (new constantCommand<baseType>(1),  (var))); }
+		|  nodeDescriptor '-' '-' { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;	
+				$$ = new assignInstruction<nodeDescriptor> ( var,  new minusCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> (new constantCommand<nodeDescriptor>(1),  (var))); }
+		|  baseType '-' '-' { varCommand<baseType> *var = (varCommand<baseType>*)$1;	
+				$$ = new assignInstruction<baseType> ( var,  new minusCommandbaseType<baseType, baseType> (new constantCommand<baseType>(1),  (var))); };
 
 
 declare		:
@@ -120,17 +137,21 @@ declare		:
 //	DOUBLETOKEN ID '=' baseType
 //		{ command::declare($2->evaluate(),_baseType_); $$ = new assignInstruction<baseType> ((varCommand<baseType>*)$2, $4); }
 //		|
-DOUBLETOKEN ID { command::declare(d_scanner.YYText(),_baseType_); $$ = new emptyInstruction(); }
-		| NODETOKEN ID { command::declare(d_scanner.YYText(), _node_); $$ = new emptyInstruction(); }
-		| INTTOKEN ID { command::declare(d_scanner.YYText(), _nodeDescriptor_); $$ = new emptyInstruction (); }
-		| NETWORKTOKEN ID { command::declare(d_scanner.YYText(), _network_); $$ = new emptyInstruction(); }
-		| STRINGTOKEN ID { command::declare(d_scanner.YYText(), _string_); $$ = new emptyInstruction(); };
-//		| INTTOKEN ID '=' nodeDescriptor
-//  { command::declare($2->evaluate(),_nodeDescriptor_); $$ = new assignInstruction<nodeDescriptor> ((varCommand<nodeDescriptor>*)$1, $3); };
+DOUBLETOKEN ID { command::declare($2->evaluate(),_baseType_); $$ = new emptyInstruction(); }
+		| NODETOKEN ID { command::declare($2->evaluate(), _node_); $$ = new emptyInstruction(); }
+		| INTTOKEN ID { command::declare($2->evaluate(), _nodeDescriptor_); $$ = new emptyInstruction (); }
+		| NETWORKTOKEN ID { command::declare($2->evaluate(), _network_); $$ = new emptyInstruction(); }
+		| STRINGTOKEN ID { command::declare($2->evaluate(), _string_); $$ = new emptyInstruction(); }
+		| INTTOKEN identifier '=' nodeDescriptor { command::declare($2->evaluate(),_nodeDescriptor_); $$ = new assignInstruction<nodeDescriptor> ((varCommand<nodeDescriptor>*)$2, $4); }
+		| DOUBLETOKEN identifier '=' baseType { command::declare($2->evaluate(),_baseType_); $$ = new assignInstruction<baseType> (new varCommand<baseType>($2->evaluate()), $4); };
+
+identifier : ID { $$ = $1; };
 
 
 
-system	: SYSTEMCOMMAND	{ string s(d_scanner.YYText() + 1, strlen(d_scanner.YYText()) - 2);
+
+
+system	: SYSTEMCOMMAND	{ string s(d_scanner->YYText() + 1, strlen(d_scanner->YYText()) - 2);
 	$$ = new systemInstruction(s); };
 
 
@@ -139,7 +160,7 @@ networkCommand	:  NETWORK '.' CLEAR '(' ')' { $$ = NETWORKFUNK(clear,$1); }
 //		| NETWORK '.' SIMULATE '(' nodeDescriptor ')' { $$ = NETWORKFUNK2(simulate,$1,_E(nodeDescriptor,$5),_dynNode_); }
 		| NETWORK '.' SNAPSHOT '(' ')' { $$ = NETWORKFUNK(snapshot,$1); }
 //		| NETWORK '.' SNAPSHOT '(' error ')' { $$ = new emptyInstruction(); cout << "snapshot nimmt keine Argumente"; }
-		| NETWORK '.' ADDVERTEX '<' createNode '>' '(' ')' { $$ = NETWORKFUNK1(addNode,$1,_E(nodeBlueprint*,$5)); }
+		| NETWORK '.' ADDNODE  '(' createNode ')' { $$ = NETWORKFUNK1(addNode,$1,_E(nodeBlueprint*,$5)); }
 		| NETWORK '.' PRINTNODESTATISTICS '(' ')'{ $$ = NETWORKFUNK(printNodeStatistics,$1); }
 		| NETWORK '.' ADDEDGE '(' nodeDescriptor ',' nodeDescriptor ',' baseType ')' { $$ = NETWORKFUNK3(addWeightedEdge,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(baseType,$9)); }
 		| NETWORK '.' UNLINK '(' nodeDescriptor ',' nodeDescriptor ')' { $$= NETWORKFUNK2(unlink,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7)); }
@@ -147,14 +168,12 @@ networkCommand	:  NETWORK '.' CLEAR '(' ')' { $$ = NETWORKFUNK(clear,$1); }
 
 		| NETWORK '.' SELECT '(' string  ')'
 	{ $$ = NETWORKFUNK1(select, $1, _E(string, $5)); }
-		| NETWORK '.' ADDEDGE '(' nodeDescriptor ',' nodeDescriptor ',' baseType ',' link ')'
-
+		| NETWORK '.' ADDEDGE '(' nodeDescriptor ',' nodeDescriptor ',' link ')'
  { $$ = new bindInstruction(
 		bind(&networkTemplate::addEdge,$1,
 		bind(&expression<nodeDescriptor>::evaluate, $5),
 		bind(&expression<nodeDescriptor>::evaluate, $7),
-		bind(&expression<edgeBlueprint* >::evaluate, $11)));
-//	throw "not implemented!";
+		bind(&expression<edgeBlueprint* >::evaluate, $9)));
 }
 		| NETWORK '.' EVOLVE	'(' baseType ',' baseType ')' { $$ = NETWORKFUNK2(evolve,$1,_E(baseType,$5), _E(baseType,$7)); }
 		| NETWORK '.' EVOLVE	'(' baseType ')' { $$ = NETWORKFUNK1(evolveFor,$1,_E(baseType,$5)); }
@@ -266,11 +285,11 @@ $$ =NETWORKFUNK2(readParameter, $1, _E(string,$5),_E(string,$7));
 {$$ = NETWORKFUNK2(setInitialConditionVec, $1, _E(nodeDescriptor, $5), bind(&expressionVector<baseType>::evaluate, $7)); };
 //{$$ = new bindInstruction(bind(&networkTemplate::setInitialCondition, $1, _E(nodeDescriptor, $5), bind(&expressionVector<baseType>::evaluate, $7))); };
 
-string :	STRING       {  std::string s(d_scanner.YYText()+1, strlen(d_scanner.YYText()) - 2); $$ =  new constantCommand<string>(s);}
+string :	STRING       {  std::string s(d_scanner->YYText()+1, strlen(d_scanner->YYText()) - 2); $$ =  new constantCommand<string>(s);}
 	| string '+' nodeDescriptor	{ $$ = new stringCat<string,nodeDescriptor>($1,$3); }
 	| string '+' string	{ $$ = new stringCat<string,string>($1,$3); }
 	| string '+' baseType	{ $$ = new stringCat<string,baseType>($1,$3);}
-     	| STRINGVAR {$$ = new varCommand<string>(d_scanner.YYText()); }
+     	| STRINGVAR {$$ = new varCommand<string>(d_scanner->YYText()); }
 	| string '+' bool { $$ = new stringCat <string, bool > ( $1, $3);}
 	| NEWLINE { $$ = new constantCommand<string>("\n"); }
 	// Ohne Seg-Schutz
@@ -279,7 +298,6 @@ string :	STRING       {  std::string s(d_scanner.YYText()+1, strlen(d_scanner.YY
 
 
 
-//	| NETWORK '.' RANDOMNETWORK '<' createNode ',' link '>' '(' nodeDescriptor ',' baseType ')' { $$ = NETWORKFUNK4(randomNetwork,$1,_E(nodeDescriptor,$10),_E(baseType,$12),_E(nodeBlueprint*,$5),_E(edgeBlueprint*,$7));}
 
 spatialNetworkCommand : NETWORK '.' USERANDOMPOSITIONING '(' ')'
 		 { $$ = NETWORKFUNK(useRandomPositioning, $1); }
@@ -291,23 +309,25 @@ bluePrintCommand : createNode '=' createNode { $$ = new assignInstruction<nodeBl
 	| createNode '.' SETPARAMS '(' argList ')' { $$ = new bindInstruction( bind( &params<baseType>::setSheet , bind (&expression<nodeBlueprint*>::evaluate, $1), bind(&expressionVector<baseType>::evaluate, $5))); };
 
 
-createNetworkCommand : NETWORK '.' RANDOMNETWORK '<' createNode ',' link '>' '(' nodeDescriptor ',' baseType ')' { $$ = NETWORKFUNK4(randomNetwork,$1,_E(nodeDescriptor,$10),_E(baseType,$12),_E(nodeBlueprint*,$5),_E(edgeBlueprint*,$7));}
-	| NETWORK '.' COMPLETENETWORK '<' createNode ',' link '>' '(' nodeDescriptor ')' { $$ = NETWORKFUNK3(completeNetwork,$1,_E(nodeDescriptor,$10),_E(nodeBlueprint*,$5),_E(edgeBlueprint*,$7)); }
+createNetworkCommand : NETWORK '.' RANDOMNETWORK  '(' nodeDescriptor ',' baseType ','createNode ',' link ')' { $$ = NETWORKFUNK4(randomNetwork,$1,_E(nodeDescriptor,$5),_E(baseType,$7),_E(nodeBlueprint*,$9),_E(edgeBlueprint*,$11));}
+	| NETWORK '.' RANDOMNETWORK  '(' nodeDescriptor ',' baseType ','createNode ')' { $$ = NETWORKFUNK4(randomNetwork,$1,_E(nodeDescriptor,$5),_E(baseType,$7),_E(nodeBlueprint*,$9),network::stdEdge );}
+	| NETWORK '.' COMPLETENETWORK   '(' nodeDescriptor ',' createNode ',' link ')' { $$ = NETWORKFUNK3(completeNetwork,$1,_E(nodeDescriptor,$5),_E(nodeBlueprint*,$7),_E(edgeBlueprint*,$9)); }
+	| NETWORK '.' COMPLETENETWORK   '(' nodeDescriptor ')' { $$ = NETWORKFUNK3(completeNetwork,$1,_E(nodeDescriptor,$5), network::stdNode, network::stdEdge ); }
 	| NETWORK '.' OBSERVE '(' nodeDescriptor ',' string ')'	{ $$ = NETWORKFUNK3(observe, $1,      _E(nodeDescriptor, $5), _E(string, $7)  ,network::stdEdge); }
 	| NETWORK '.' OBSERVEMEAN '(' string ')' 	{ $$ =NETWORKFUNK2(observeMean,$1,_E(string,$5), network::stdEdge ); }
 	| NETWORK '.' OBSERVEPHASECOHERENCE '(' string ')' { $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$5), network::stdEdge, network::stdNode, 0, numeric_limits<nodeDescriptor>::max()); }
-	| NETWORK '.' OBSERVEPHASECOHERENCE '<' link '>' '(' string ')' { $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$8), _E(edgeBlueprint*, $5), network::stdNode, 0, numeric_limits<nodeDescriptor>::max() ); }
-	| NETWORK '.' OBSERVEPHASECOHERENCE '<' node '>' '(' string ')' { $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$8), network::stdEdge,  _E(nodeBlueprint*, $5), 0, numeric_limits<nodeDescriptor>::max() ); }
-	| NETWORK '.' OBSERVEPHASECOHERENCE '<' node ',' link '>' '(' string ')'
-			{ $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$10) , _E(edgeBlueprint*, $7) ,_E(nodeBlueprint*, $5), 0 , numeric_limits<nodeDescriptor>::max()); }
+	| NETWORK '.' OBSERVEPHASECOHERENCE  '(' string ',' link ')' { $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$5), _E(edgeBlueprint*, $7), network::stdNode, 0, numeric_limits<nodeDescriptor>::max() ); }
+	| NETWORK '.' OBSERVEPHASECOHERENCE '(' string ',' node ')' { $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$5), network::stdEdge,  _E(nodeBlueprint*, $7), 0, numeric_limits<nodeDescriptor>::max() ); }
+	| NETWORK '.' OBSERVEPHASECOHERENCE  '(' string ',' link ',' node ')'
+			{ $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$5) ,_E(edgeBlueprint*, $7), _E(nodeBlueprint*, $9) , 0 , numeric_limits<nodeDescriptor>::max()); }
 	| NETWORK '.' OBSERVEPHASECORRELATION  '(' string ',' node  ')'
   	{ $$ = NETWORKFUNK2( observePhaseCorrelation, $1, _E(string, $5 ), _E(nodeBlueprint*, $7)); }
 	| NETWORK '.' OBSERVEPHASEDISTANCE  '(' string ',' node  ')'
   	{ $$ = NETWORKFUNK2( observePhaseDistance, $1, _E(string, $5 ), _E(nodeBlueprint*, $7)); }
-	| NETWORK '.' OBSERVEPHASECOHERENCE '<' link '>' '(' nodeDescriptor ',' nodeDescriptor ',' string ')'
-			{ $$ = NETWORKFUNK5(observePhaseCoherence,$1,  _E(string,$12) ,_E(edgeBlueprint*, $5), network::stdNode, _E(nodeDescriptor,$8), _E(nodeDescriptor,$10)    ); }
+	| NETWORK '.' OBSERVEPHASECOHERENCE '(' string ',' link ',' nodeDescriptor ',' nodeDescriptor ')'  
+			{ $$ = NETWORKFUNK5(observePhaseCoherence,$1,  _E(string,$5) ,_E(edgeBlueprint*, $7), network::stdNode, _E(nodeDescriptor,$9), _E(nodeDescriptor,$11)    ); }
 	| NETWORK '.' OBSERVEMEANPHASE '(' string ')' { $$ = NETWORKFUNK1(observeMeanPhase,$1, _E(string,$5) ); }
-	| NETWORK '.' OBSERVEMEANPHASE '<' link '>' '(' string ')' { $$ = NETWORKFUNK2(observeMeanPhase,$1, _E(string,$8), _E(edgeBlueprint*, $5) ); }
+	| NETWORK '.' OBSERVEMEANPHASE '(' string ',' link ')' { $$ = NETWORKFUNK2(observeMeanPhase,$1, _E(string,$5), _E(edgeBlueprint*, $7) ); }
 	| NETWORK '.' OBSERVETIME '(' string ')' 	{ $$ = NETWORKFUNK1(observeTime,$1, _E(string,$5)); }
 	| NETWORK '.' OBSERVEEVENT '(' string ',' nodeDescriptor ')' 	{ $$ = NETWORKFUNK2(observeEvent,$1, _E(string,$5), _E(nodeDescriptor, $7)); }
 	| NETWORK '.' SNAPSHOTATEVENT '(' nodeDescriptor ')' 	{ $$ = NETWORKFUNK1(snapshotAtEvent,$1, _E(nodeDescriptor, $5)); }
@@ -316,24 +336,28 @@ createNetworkCommand : NETWORK '.' RANDOMNETWORK '<' createNode ',' link '>' '('
 	| NETWORK '.' OBSERVEEVENTTIMES '(' string ',' nodeDescriptor  ')' 	{ $$ = NETWORKFUNK2(observeEventTimes,$1, _E(string,$5), _E(nodeDescriptor, $7)); }
 	| NETWORK '.' OBSERVEALL '(' string ')' 	{ $$ = NETWORKFUNK2(observeAll, $1, _E(string,$5), network::stdEdge); }
 	| NETWORK '.' OBSERVECOMPONENTS '(' nodeDescriptor ',' string ')' 	{ $$ = NETWORKFUNK2(observeComponents, $1, _E(nodeDescriptor, $5),_E(string,$7)); }
-	| NETWORK '.' OBSERVE '<' link '>' '(' nodeDescriptor ',' string ')' {$$ = NETWORKFUNK3(observe,$1,_E(nodeDescriptor,$8),_E(string,$10),_E(edgeBlueprint*,$5)); }
-	| NETWORK '.' OBSERVEMEAN '<' link '>' '(' string ')' { $$ = NETWORKFUNK2(observeMean,$1, _E(string,$8),_E(edgeBlueprint*,$5)); }
-	| NETWORK '.' OBSERVEALL '<' link '>' '(' string ')'  { $$ = NETWORKFUNK2(observeAll,$1,_E(string,$8), _E(edgeBlueprint*, $5));}
+	| NETWORK '.' OBSERVE '(' nodeDescriptor ',' string ',' link ')' {$$ = NETWORKFUNK3(observe,$1,_E(nodeDescriptor,$5),_E(string,$7),_E(edgeBlueprint*,$9)); }
+	| NETWORK '.' OBSERVEMEAN '(' string ',' link ')' { $$ = NETWORKFUNK2(observeMean,$1, _E(string,$5),_E(edgeBlueprint*,$7)); }
+	| NETWORK '.' OBSERVEALL '(' string ',' link ')'  { $$ = NETWORKFUNK2(observeAll,$1,_E(string,$5), _E(edgeBlueprint*, $7));}
 	| NETWORK '.' REMOVEOBSERVER '(' ')' { $$ = NETWORKFUNK(removeObserver,$1); }
 	| NETWORK '.' REMOVEINPUT   '(' ')' { $$ = NETWORKFUNK1(remove,$1,_inNode_| _dynNode_ ); }
 	| NETWORK '.' REMOVEEDGES '(' link ')' { $$ = NETWORKFUNK1 (removeEdges, $1, _E(edgeBlueprint*, $5)); }
-	| NETWORK '.' LATTICE '<' createNode '>' '(' nodeDescriptor ',' nodeDescriptor ',' baseType ')'
-  { $$ = NETWORKFUNK5(lattice,$1,_E(nodeDescriptor,$8),_E(nodeDescriptor,$10),_E(baseType,$12), _E(nodeBlueprint*,$5),networkTemplate::stdEdge); }
-	| NETWORK '.' LATTICE '<' createNode ',' link '>' '(' nodeDescriptor ',' nodeDescriptor ',' baseType ')'
-  { $$ = NETWORKFUNK5(lattice,$1,_E(nodeDescriptor,$10), _E(nodeDescriptor,$12), _E(baseType,$14), _E(nodeBlueprint*,$5), _E(edgeBlueprint*,$7)); }
-	| NETWORK '.' TORUS '<' createNode ',' link '>' '(' nodeDescriptor ',' nodeDescriptor ',' baseType ')'
-  { $$ = NETWORKFUNK5(torus,$1,_E(nodeDescriptor,$10), _E(nodeDescriptor,$12), _E(baseType,$14), _E(nodeBlueprint*,$5), _E(edgeBlueprint*, $7)); }
-	| NETWORK '.' TORUSNEARESTNEIGHBORS '<' createNode ',' link '>' '(' nodeDescriptor ',' nodeDescriptor ',' baseType ')'
-{ $$ = NETWORKFUNK5(torusNearestNeighbors,$1,_E(nodeDescriptor,$10), _E(nodeDescriptor,$12), _E(baseType,$14), _E(nodeBlueprint*,$5), _E(edgeBlueprint*, $7));  }
+	| NETWORK '.' LATTICE '(' nodeDescriptor ',' nodeDescriptor ',' baseType ',' createNode ')'
+  { $$ = NETWORKFUNK5(lattice,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(baseType,$9), _E(nodeBlueprint*,$11),networkTemplate::stdEdge); }
+	| NETWORK '.' LATTICE '(' nodeDescriptor ',' nodeDescriptor ',' baseType ','createNode ',' link ')'
+  { $$ = NETWORKFUNK5(lattice,$1,_E(nodeDescriptor,$5), _E(nodeDescriptor,$7), _E(baseType,$9), _E(nodeBlueprint*,$11), _E(edgeBlueprint*,$13)); }
+	| NETWORK '.' TORUS '(' nodeDescriptor ',' nodeDescriptor ',' baseType ',' createNode ',' link ')'
+  { $$ = NETWORKFUNK5(torus,$1,_E(nodeDescriptor,$5), _E(nodeDescriptor,$7), _E(baseType,$9), _E(nodeBlueprint*,$11), _E(edgeBlueprint*, $13)); }
+	| NETWORK '.' TORUSNEARESTNEIGHBORS '(' nodeDescriptor ',' nodeDescriptor ',' baseType ',' createNode ',' link ')'
+{ $$ = NETWORKFUNK5(torusNearestNeighbors,$1,_E(nodeDescriptor,$5), _E(nodeDescriptor,$7), _E(baseType,$9), _E(nodeBlueprint*,$11), _E(edgeBlueprint*, $13));  }
 | NETWORK '.' CONNECTCLOSENODES '(' createNode ',' createNode ',' baseType ',' link ')'
   { $$ = NETWORKFUNK4(connectCloseNodes, $1, _E(nodeBlueprint *, $5), _E(nodeBlueprint *, $7), _E(baseType, $9), _E(edgeBlueprint*,$11)); }
 	| NETWORK '.' CONNECTCLOSENODESTORUS '(' createNode ',' createNode ',' baseType ',' link ')'
   { $$ = NETWORKFUNK4(connectCloseNodesTorus, $1, _E(nodeBlueprint *, $5), _E(nodeBlueprint *, $7), _E(baseType, $9), _E(edgeBlueprint*,$11)); }
+	| NETWORK '.' SETPARAM '(' nodeDescriptor ',' string ',' baseType ')' { $$ = NETWORKFUNK3(setParam, $1, _E(nodeDescriptor,$5), _E(string, $7), _E(baseType,$9));}
+
+// at the moment not supported
+
 	| NETWORK '.' CNNSTD '<' createNode ',' link '>' '(' nodeDescriptor ',' nodeDescriptor ',' string ')'
 	{ $$ = NETWORKFUNK5(cnnStd,$1,_E(nodeDescriptor,$10), _E(nodeDescriptor,$12), _E(string,$14), _E(nodeBlueprint*,$5), _E(edgeBlueprint*, $7)); }
 	| NETWORK '.' CNNSTD '<' createNode '>' '(' nodeDescriptor ',' nodeDescriptor ',' string ')'
@@ -344,7 +368,9 @@ createNetworkCommand : NETWORK '.' RANDOMNETWORK '<' createNode ',' link '>' '('
 	{ $$ = NETWORKFUNK5(cnnNeutral,$1,_E(nodeDescriptor,$8), _E(nodeDescriptor,$10), _E(string,$12), _E(nodeBlueprint*,$5), new weightedEdgeVirtual); }
 	| NETWORK '.' STREAMINLATTICE '(' nodeDescriptor ',' nodeDescriptor ',' string ')' { $$ =NETWORKFUNK3(streamInLattice,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(string,$9)); }
 
-	| NETWORK '.' SETPARAM '(' nodeDescriptor ',' string ',' baseType ')' { $$ = NETWORKFUNK3(setParam, $1, _E(nodeDescriptor,$5), _E(string, $7), _E(baseType,$9));}
+// at the moment not supported ^
+
+
 
 	| NETWORK '.' OBSERVEGLUT '('  baseType ',' string ')'
 {
@@ -423,29 +449,27 @@ $$ = new bindInstruction(bind(&networkTemplate::rewireWeights ,$1, bind(&express
 
 
 $$ = NETWORKFUNK2(addRandomEdgesDegreeDistribution,$1,r, _E(edgeBlueprint*,$7)); }
-	| NETWORK '.' CYCLE '<' createNode '>' '(' nodeDescriptor ',' nodeDescriptor ')'{ $$ = NETWORKFUNK4(cycle,$1,_E(nodeDescriptor,$8),_E(nodeDescriptor,$10),_E(nodeBlueprint*,$5), network::stdEdge); }
-	| NETWORK '.' CYCLE '<' createNode ',' link '>' '(' nodeDescriptor ',' nodeDescriptor ')' { $$ = NETWORKFUNK4(cycle,$1,_E(nodeDescriptor,$10),_E(nodeDescriptor,$12),_E(nodeBlueprint*,$5), _E(edgeBlueprint*,$7)); }
-	| NETWORK '.' LINE '<' createNode ',' link '>' '(' nodeDescriptor ',' nodeDescriptor ')' { $$ = NETWORKFUNK4(line,$1,_E(nodeDescriptor,$10),_E(nodeDescriptor,$12),_E(nodeBlueprint*,$5), _E(edgeBlueprint*,$7)); }
-	| NETWORK '.' CYCLECLUSTER '<' createNode ',' nodeDescriptor '>' '<' createNode ',' nodeDescriptor '>' '(' nodeDescriptor ')' { $$ = NETWORKFUNK5(cycleCluster,$1, _E(nodeDescriptor,$7),_E(nodeBlueprint*,$5), _E(nodeDescriptor,$12),_E(nodeBlueprint*,$10), _E(nodeDescriptor,$15)); }
+	| NETWORK '.' CYCLE '(' nodeDescriptor ',' nodeDescriptor ',' createNode ')'{ $$ = NETWORKFUNK4(cycle,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(nodeBlueprint*,$9), network::stdEdge); }
+	| NETWORK '.' CYCLE '(' nodeDescriptor ',' nodeDescriptor ',' createNode ',' link ')' { $$ = NETWORKFUNK4(cycle,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(nodeBlueprint*,$9), _E(edgeBlueprint*,$11)); }
+	| NETWORK '.' LINE '(' nodeDescriptor ',' nodeDescriptor ',' createNode ',' link ')' { $$ = NETWORKFUNK4(line,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(nodeBlueprint*,$9), _E(edgeBlueprint*,$11)); }
+//	| NETWORK '.' CYCLECLUSTER '<' createNode ',' nodeDescriptor '>' '<' createNode ',' nodeDescriptor '>' '(' nodeDescriptor ')' { $$ = NETWORKFUNK5(cycleCluster,$1, _E(nodeDescriptor,$7),_E(nodeBlueprint*,$5), _E(nodeDescriptor,$12),_E(nodeBlueprint*,$10), _E(nodeDescriptor,$15)); }
 	| NETWORK '.' BETWEENNESSCENTRALITY '(' string  ')' { $$ = NETWORKFUNK1(betweennessCentrality,$1,_E(string,$5)); }
 	| NETWORK '.' CLOSENESSCENTRALITY '(' string ')' { $$ = NETWORKFUNK1(closenessCentrality,$1, _E(string,$5)); }
 	| NETWORK '.' DEGREECENTRALITY '(' string ')' { $$ = NETWORKFUNK1(degreeCentrality, $1, _E(string,$5)); }
 	| NETWORK '.' SAVEADJACENCYLIST '(' string ')' { $$ = NETWORKFUNK1(saveAdjacencyList,$1,_E(string,$5)); }
 	| NETWORK '.' SAVEGRAPHML '(' string ')' { $$ = NETWORKFUNK1(saveGraphML,$1,_E(string,$5)); }
-	| NETWORK '.' CREATEFROMADJACENCYLIST '<' createNode ',' link '>' '(' string')' {
-
-
+	| NETWORK '.' CREATEFROMADJACENCYLIST '(' string ',' createNode ',' link ')' {
 #if CONDOR
-$$ = new bindInstruction(bind(&command::addInputFile, _E(string,$10)));
+$$ = new bindInstruction(bind(&command::addInputFile, _E(string,$5)));
 
 #else
-$$ = NETWORKFUNK3(createFromAdjacencyList,$1,_E(string,$10),_E(nodeBlueprint*,$5),_E(edgeBlueprint*,$7));
+$$ = NETWORKFUNK3(createFromAdjacencyList,$1,_E(string,$5),_E(nodeBlueprint*,$7),_E(edgeBlueprint*,$9));
 
 #endif
 
 };
 
-print          	: PRINT baseType { $$ = new printInstruction<baseType> ($2);}
+print          	: PRINT baseType { $$ = new printInstructionDouble ($2);}
 		| PRINT bool { $$ = new printInstruction<bool> ($2); }
 		| PRINT nodeDescriptor { $$ = new printInstruction<nodeDescriptor> ($2); }
 		| PRINT string { $$ = new printInstruction<string> ($2); }
@@ -457,7 +481,12 @@ loop		: LOOP '(' nodeDescriptor ')' instruction {  $$ = new loopInstruction ($3,
 while		: WHILE '(' bool ')' instruction { $$ = new whileInstruction ($3,$5); };
 for		: FOR '(' instruction ';' bool ';' instruction ')' instruction { $$ = new forInstruction ($3,$5,$7,$9); };
 vectorFor	: VECTORFOR '(' instruction ';' bool ';' instruction ')' instruction {
- vectorForInstruction::registerNewLoop(); $$ = new vectorForInstruction ($3,$5,$7,$9, false); }
+//#ifdef CONDOR
+ 	vectorForInstruction::registerNewLoop(); $$ = new vectorForInstruction ($3,$5,$7,$9, false); 
+//#else
+//	cout << "#Warning. This Executable of Conedy was not compiled for generating condor-scripts. \n Calculating at home." << endl; $$ = new forInstruction ($3,$5,$7,$9); 
+//endif
+}
 		| CHAINEDFOR '(' instruction ';' bool ';' instruction ')' instruction {
  vectorForInstruction::registerNewLoop(); $$ = new vectorForInstruction ($3,$5,$7,$9, true); };
 
@@ -468,6 +497,7 @@ if		: IF '(' bool ')' instruction { $$ = new ifInstruction ($3,$5);
 
 
 //: ID {  $$ = new varCommand<nodeBlueprint*> (*$1); }
+//: node '(' argList ')' {  ( (dynNode*)($1->evaluate()  ) ) ->params<baseType>::rerouteParams(($3->evaluate())); }
 
 
 node	: NODE { nodeBlueprint *n = new nodeVirtualEdges<dynNode>(); $$ = new constantCommand<nodeBlueprint*>(n);}
@@ -481,20 +511,11 @@ node	: NODE { nodeBlueprint *n = new nodeVirtualEdges<dynNode>(); $$ = new const
 		| IZHIKEVICHMAP { nodeBlueprint *n = new nodeVirtualEdges<izhikevichMap>(); $$ = new constantCommand<nodeBlueprint*>(n);}
 		| NAPK { nodeBlueprint *n = new nodeVirtualEdges<napK>();$$ = new constantCommand<nodeBlueprint*>(n); }
 		| NAPKKM { nodeBlueprint *n = new nodeVirtualEdges<napKKm>();$$ = new constantCommand<nodeBlueprint*>(n); }
-//		| PCPOEXPONENTIAL { nodeBlueprint *n = new nodeVirtualEdges<pcoExponential>(); $$ = new constantCommand<nodeBlueprint*>(n);}
-//		| PCPOIFNEURONDELAY { nodeBlueprint *n = new nodeVirtualEdges<pcoIFNeuronDelay>(); $$ = new constantCommand<nodeBlueprint*>(n);}
-//		| PCPOMIROLLO { nodeBlueprint *n = new nodeVirtualEdges<pcoMirollo>(); $$ = new constantCommand<nodeBlueprint*>(n);}
-//		| PCPONONLEAKY { nodeBlueprint *n = new nodeVirtualEdges<pcoNonleaky>(); $$ = new constantCommand<nodeBlueprint*>(n);}
-//		| PCPOREALIFNEARONDELAY { nodeBlueprint *n = new pcoRealIFNeuronDelayStatic(); $$ = new constantCommand<nodeBlueprint*>(n);}
 // addNewNode.py Nodes
 %include generatedAddNewNode.yy
-//		| PCPOTRAPEZ { nodeBlueprint *n = new nodeVirtualEdges<pcoTrapez>(); $$ = new constantCommand<nodeBlueprint*>(n);}
-//		| PCPOTRIANGEL { nodeBlueprint *n = new nodeVirtualEdges<pcoTriangel>(); $$ = new constantCommand<nodeBlueprint*>(n);}
 		| PERIODICNODE { nodeBlueprint *n = new nodeVirtualEdges<periodicNode>(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| RANDOMWALKNEURON { nodeBlueprint *n = new nodeVirtualEdges<randomWalkNeuron>(); $$ = new constantCommand<nodeBlueprint*>(n); }
-//		| PCPODELAY { nodeBlueprint *n = new pcoDelay(); $$ = new constantCommand<nodeBlueprint*>(n);}
 		| RANDOMBLUEPRINTNODE '(' createNode ',' createNode ',' baseType ')' { nodeBlueprint *n = new randomBlueprintNode ( $3, $5, $7->evaluate()); $$ = new constantCommand<nodeBlueprint*>(n); }
-//		| STATIC '(' createNode ',' link ')' { nodeBlueprint *n = (dynNode*) getStaticNode ( $3 ->evaluate() , $5 ->evaluate() ); $$ = new constantCommand<nodeBlueprint*>(n);  }
 		| STREAMOUTNODE '(' string ')'	{ nodeBlueprint *n = new nodeVirtualEdges<streamOutNode> ($3->evaluate()); $$ = new constantCommand<nodeBlueprint*>(n);}
 		| STREAMINNODE '(' string ')'	{ nodeBlueprint *n = new nodeVirtualEdges<streamInNode> ($3->evaluate()); $$ = new constantCommand<nodeBlueprint*>(n);};
 //		| RANDOMNODE { nodeBlueprint * n = new randomNode<baseType>(); $$ = new constantCommand<nodeBlueprint*>(n);}
@@ -504,15 +525,25 @@ node	: NODE { nodeBlueprint *n = new nodeVirtualEdges<dynNode>(); $$ = new const
 
 
 createNode	: node
-            | node '(' argList ')' {  ( (dynNode*)($1->evaluate()  ) ) ->params<baseType>::rerouteParams(($3->evaluate())); }
-		| NODEVAR { $$ = new varCommand<nodeBlueprint *>(d_scanner.YYText()); };
+		| NODEVAR { $$ = new varCommand<nodeBlueprint *>(d_scanner->YYText()); };
 
 
-link		: DELAYLINK '(' nodeDescriptor ')' {edgeBlueprint *l = new delayEdge($3->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
-		| PULSECOUPLEEDGE'(' baseType ')' {edgeBlueprint *l = new pulseCouple< edgeVirtual>   ($3->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
+//( (dynNode*)($1->evaluate()  ) ) ->params<baseType>::rerouteParams(($3->evaluate())); }
+
+// this would be the better way, allowing for variables in parameters
+//            | node '(' argList ')' { $$ = new bindInstruction ( bind(&params<baseType>::rerouteParams, _E(nodeBlueprint*, $1), _E(vector<baseType>*,$3))); }
+
+//            | node '(' argList ')' { $$ = new bindInstruction ( bind(&edgeVirtual::setParameter, $1 
+
+
+
+link	: link
+		| DELAYLINK '(' nodeDescriptor ')' {edgeBlueprint *l = new delayEdge($3->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
+		| PULSECOUPLEEDGE'(' baseType ')' {edgeBlueprint *l = new stepEdge< edgeVirtual>   ($3->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| PULSECOUPLEDELAYEDGE'(' baseType ',' baseType ')' {edgeBlueprint *l = new pulsecoupleDelayEdge($3->evaluate(), $5->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
-		| STATICWEIGHTEDEDGE '(' ')' { edgeBlueprint *l = new staticWeightedEdgeVirtual();$$ = new constantCommand<edgeBlueprint*>(l);  }
-		| WEIGHTEDEDGE { edgeBlueprint *l = new weightedEdgeVirtual(); $$ = new constantCommand<edgeBlueprint*>(l); }
+		| STATICWEIGHTEDEDGE '(' baseType ')' { edgeBlueprint *l = new staticWeightedEdgeVirtual($3->evaluate() );$$ = new constantCommand<edgeBlueprint*>(l);  }
+		| WEIGHTEDEDGE '(' ')' { edgeBlueprint *l = new weightedEdgeVirtual(); $$ = new constantCommand<edgeBlueprint*>(l); }
+		| WEIGHTEDEDGE '(' baseType ')' { edgeBlueprint *l = new weightedEdgeVirtual($3->evaluate() ); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| EDGE { edgeBlueprint *l = new edgeVirtual(); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| STDEDGEORD3 { edgeBlueprint *l = new stdEdgeOrd3(); $$ = new constantCommand<edgeBlueprint*>(l); }
 
@@ -584,12 +615,13 @@ randomList	: randomList ',' random { $1->push_back(((bindExpression<baseType> *)
 		| random { $$ = new vector < function <double () > >(); $$ -> push_back(((bindExpression<baseType> *)$1)->_f ); };
 
 
-nodeDescriptor		: INT { $$ = new constantCommand<nodeDescriptor>(atoi(d_scanner.YYText())); }
-      		| INTVAR { $$ = new varCommand<nodeDescriptor>(d_scanner.YYText()); }
+nodeDescriptor		: INT { $$ = new constantCommand<nodeDescriptor>(atoi(d_scanner->YYText())); }
+      		| INTVAR { $$ = new varCommand<nodeDescriptor>(d_scanner->YYText()); }
 		| nodeDescriptor '+' nodeDescriptor { $$ = new plusCommandnodeDescriptor<nodeDescriptor,nodeDescriptor>($1,$3); }
 		| nodeDescriptor '*' nodeDescriptor { $$ = new timesCommandnodeDescriptor<nodeDescriptor,nodeDescriptor>($1,$3); }
 		| nodeDescriptor '/' nodeDescriptor { $$ = new divideCommandnodeDescriptor<nodeDescriptor,nodeDescriptor>($1,$3); }
-
+		| nodeDescriptor '%' nodeDescriptor { $$ = new modoloCommandnodeDescriptor<nodeDescriptor,nodeDescriptor>($1,$3); }
+		| '(' INTTOKEN ')' baseType { $$ = new convertToInt($4); }
 		| '-'nodeDescriptor { $$ = new timesCommandnodeDescriptor<nodeDescriptor,nodeDescriptor>(new constantCommand<nodeDescriptor>(-1),$2); } %prec UMINUS
 		| GETRANDOMSEED '(' ')' { $$ = new bindExpression<nodeDescriptor> (bind(&gslNoise::getSeed)); }
 		| statisticsNetworkCommandInt;
@@ -597,8 +629,8 @@ nodeDescriptor		: INT { $$ = new constantCommand<nodeDescriptor>(atoi(d_scanner.
 
 
 
-baseType		: DOUBLE { $$ = new constantCommand<baseType>(atof(d_scanner.YYText())); }
-     		| DOUBLEVAR {$$ = new varCommand<baseType>(d_scanner.YYText()); }
+baseType		: DOUBLE { $$ = new constantCommand<baseType>(atof(d_scanner->YYText())); }
+     		| DOUBLEVAR {$$ = new varCommand<baseType>(d_scanner->YYText()); }
 		| '(' baseType ')' { $$ = $2;}
 		| baseType '+' baseType {$$ = new plusCommandbaseType<baseType,baseType>($1,$3);}
 	   | baseType '-' baseType {$$ = new minusCommandbaseType<baseType,baseType>($1,$3);}
@@ -617,7 +649,7 @@ baseType		: DOUBLE { $$ = new constantCommand<baseType>(atof(d_scanner.YYText())
 		| LOG '(' baseType ')' 	{ $$ = new logCommandbaseType<baseType> ($3);}
 		| EXP '(' baseType ')' 	{ $$ = new expCommandbaseType<baseType> ($3);}
 		| SIN '(' baseType ')' 	{ $$ = new sinCommandbaseType<baseType> ($3);}
-		| '(' DOUBLE ')' nodeDescriptor { $$ = new convertToBaseType($4); }
+		| nodeDescriptor { $$ = new convertToBaseType($1); }
 		| '-' baseType { $$ = new timesCommandbaseType<baseType,baseType>(new constantCommand<baseType>(-1),$2); } %prec UMINUS
 		| statisticsNetworkCommandBaseType
 		// veraltet ohne Seg-Schutz:
@@ -626,14 +658,13 @@ baseType		: DOUBLE { $$ = new constantCommand<baseType>(atof(d_scanner.YYText())
       |	random   ;
 
 
-NETWORK		: NETWORKVAR { $$ = command::retrieve<networkTemplate>(d_scanner.YYText()); };
+NETWORK		: NETWORKVAR { $$ = command::retrieve<networkTemplate>(d_scanner->YYText()); };
 
 
 statisticsNetworkCommandBaseType:  NETWORK '.' MEANDEGREE '(' ')' { $$ = BASETYPENETWORKFUNK(meanDegree, $1); }
 		| NETWORK '.' MEANWEIGHT '(' ')' { $$= BASETYPENETWORKFUNK(meanWeight, $1);}
 		| NETWORK '.' MEANPATHLENGTH '(' ')' { $$= BASETYPENETWORKFUNK(meanPathLength, $1); }
 		| NETWORK '.' MEANCLUSTERING '(' ')' { $$= BASETYPENETWORKFUNK(meanClustering, $1); }
-		| NETWORK '.' SIZE '(' ')' {  $$= BASETYPENETWORKFUNK(size, $1); }
 		| NETWORK '.' GETPARAM '(' nodeDescriptor ',' string ')' { $$= BASETYPENETWORKFUNK2 (getParam, $1, _E(nodeDescriptor, $5), _E(string, $7)); }
 		| NETWORK '.' GETSTATE '(' nodeDescriptor ')' { $$= BASETYPENETWORKFUNK1 (getState, $1, _E(nodeDescriptor, $5)); };
 
@@ -641,7 +672,8 @@ statisticsNetworkCommandBaseType:  NETWORK '.' MEANDEGREE '(' ')' { $$ = BASETYP
 statisticsNetworkCommandInt: NETWORK '.' DEGREE '(' nodeDescriptor ')'  {  $$ = INTNETWORKFUNK1( degree, $1, _E(nodeDescriptor, $5)); }
 		| NETWORK '.' GETTARGET '(' nodeDescriptor ',' nodeDescriptor ')' {  $$ = INTNETWORKFUNK2 (getTarget, $1, _E(nodeDescriptor, $5), _E(nodeDescriptor, $7)); }
 		| NETWORK '.' COUNTEDGES '(' link ')' { $$ = INTNETWORKFUNK1 ( countEdges , $1, _E(edgeBlueprint*, $5)); }
-		| NETWORK '.' ADDVERTEX '<' createNode '>' '(' ')' { $$ = INTNETWORKFUNK1(addNode,$1,_E(nodeBlueprint*,$5)); };
+		| NETWORK '.' ADDNODE '(' createNode ')' { $$ = INTNETWORKFUNK1(addNode,$1,_E(nodeBlueprint*,$5)); }
+		| NETWORK '.' SIZE '(' ')' {  $$= INTNETWORKFUNK(size, $1); };
 
 
 statisticsNetworkCommandBool: NETWORK '.' ISCONNECTED '(' ')' { $$ = BOOLNETWORKFUNK(isConnected, $1);}
@@ -650,20 +682,35 @@ statisticsNetworkCommandBool: NETWORK '.' ISCONNECTED '(' ')' { $$ = BOOLNETWORK
 
 
 
-bool		: baseType '<' baseType {$$ = new lessCommandbool<baseType,baseType>($1,$3); }
-		| '(' bool ')' { $$ = $2; }
-		| baseType '>' baseType {$$ = new greaterCommandbool<baseType,baseType>($1,$3); }
+bool	: '(' bool ')' { $$ = $2; }
 		| nodeDescriptor EQUAL nodeDescriptor {$$ = new equalCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
+		| baseType EQUAL baseType {$$ = new equalCommandbool<baseType,baseType>($1,$3); }
+		| nodeDescriptor NEQUAL nodeDescriptor {$$ = new nequalCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
+		| baseType NEQUAL baseType {$$ = new nequalCommandbool<baseType,baseType>($1,$3); }
+		| baseType NEQUAL nodeDescriptor  {$$ = new nequalCommandbool<baseType,nodeDescriptor>($1,$3); }
+		| baseType NEQUAL baseType  {$$ = new nequalCommandbool<baseType,baseType>($1,$3); }
+
+
+		| baseType '<' baseType {$$ = new lessCommandbool<baseType,baseType>($1,$3); }
 		| nodeDescriptor '<' nodeDescriptor {$$ = new lessCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
-		| nodeDescriptor '>' nodeDescriptor {$$ = new greaterCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
-
-		| nodeDescriptor '>' baseType {$$ = new greaterCommandbool<nodeDescriptor,baseType>($1,$3); }
-		| baseType '>' nodeDescriptor {$$ = new greaterCommandbool<baseType,nodeDescriptor>($1,$3); }
-
-
 		| nodeDescriptor '<' baseType {$$ = new lessCommandbool<nodeDescriptor,baseType>($1,$3); }
 		| baseType '<' nodeDescriptor {$$ = new lessCommandbool<baseType,nodeDescriptor>($1,$3); }
-		| baseType EQUAL baseType {$$ = new equalCommandbool<baseType,baseType>($1,$3); }
+
+		| nodeDescriptor '>' nodeDescriptor {$$ = new greaterCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
+		| nodeDescriptor '>' baseType {$$ = new greaterCommandbool<nodeDescriptor,baseType>($1,$3); }
+		| baseType '>' nodeDescriptor {$$ = new greaterCommandbool<baseType,nodeDescriptor>($1,$3); }
+		| baseType '>' baseType {$$ = new greaterCommandbool<baseType,baseType>($1,$3); }
+
+		| nodeDescriptor GREATEREQUAL nodeDescriptor {$$ = new greaterEqualCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
+		| nodeDescriptor GREATEREQUAL baseType {$$ = new greaterEqualCommandbool<nodeDescriptor,baseType>($1,$3); }
+		| baseType GREATEREQUAL nodeDescriptor {$$ = new greaterEqualCommandbool<baseType,nodeDescriptor>($1,$3); }
+		| baseType GREATEREQUAL baseType {$$ = new greaterEqualCommandbool<baseType,baseType>($1,$3); }
+
+		| nodeDescriptor LESSEQUAL nodeDescriptor {$$ = new lessEqualCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
+		| nodeDescriptor LESSEQUAL baseType {$$ = new lessEqualCommandbool<nodeDescriptor,baseType>($1,$3); }
+		| baseType LESSEQUAL nodeDescriptor {$$ = new lessEqualCommandbool<baseType,nodeDescriptor>($1,$3); }
+		| baseType LESSEQUAL baseType {$$ = new lessEqualCommandbool<baseType,baseType>($1,$3); }
+
 		| bool AND bool {$$ = new andCommandbool<bool,bool>($1,$3); }
 		| bool OR bool { $$ = new orCommandbool<bool,bool>($1,$3); }
 		| bool EQUAL bool  { $$ = new equalCommandbool<bool, bool > ( $1, $3	); }

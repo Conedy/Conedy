@@ -11,9 +11,9 @@ sizey : int
         Size of the network in y-direction.
 a : int
         Every node is connected to all neighbors, if the distance is smaller than a.
-node : nodeBlueprint
-        Every added node is a copy of this blueprint.
-edge : edgeBlueprint
-        Every added edge is a copy of this blueprint.
+node : nodeTemplate
+        Every added node is a copy of this template.
+edge : edgeTemplate
+        Every added edge is a copy of this template.
 
         

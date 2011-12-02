@@ -1,21 +1,21 @@
-network.line(size, a, node=dynNode, edge=weightedEdge)
-        Adds an open chain to the network a.
+``network.line(size, a, nodeTemplate=dynNode, edgeTemplate=weightedEdge)``
+	Adds an open chain to the network.
 
 Parameters
 ----------
-size : int
-        Number of nodes in the chain
+``size`` : int
+	Number of nodes in the chain
 
-a : int
-        Number of nearest neighbours to each side, nodes not at boandaries in the chain are connected to.
+``a`` : int
+	Number of nearest neighbours to each side, a node is connected to (unless at the boundary).
 
-node : nodeBlueprint
-        Every added node is a copy of this blueprint.
+``nodeTemplate`` : nodeTemplate
+	Every added node is a copy of this template.
 
-        edge : edgeBlueprint
-        Every added edge is a copy of this blueprint.
+``edgeTemplate`` : edgeTemplate
+	Every added edge is a copy of this template.
 
 Returns
 -------
-the number of the first added node. The following nodes have consecutive numbers.
-                  
+The number of the first added node. The following nodes have consecutive numbers.
+

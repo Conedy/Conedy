@@ -304,7 +304,7 @@ namespace conedy
 			baseType linkStrength ( nodeDescriptor i, nodeDescriptor j ) { return node::theNodes[i]->linkStrength ( node::theNodes[j] ); }
 
 			//! returns true if there is a link between node i and j 
-			bool isLinked ( nodeDescriptor i, nodeDescriptor j ) { return node::theNodes[i]->isLinked ( node::theNodes[j] ); }
+			bool isLinked ( nodeDescriptor i, nodeDescriptor j ); 
 
 
 			//! returns the number of nodes in the network of kind theNodeKind 

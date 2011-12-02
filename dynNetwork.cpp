@@ -5,6 +5,8 @@
 
 #include "containerNode.h"
 
+#include "gslOdeNode.h"
+
 //##include "pulseCoupledPhaseOscillator.h"
 
 #include "pco.h"
@@ -451,7 +453,7 @@ namespace conedy
 	{
 		network::clean ( );
 		containerNode<baseType, 1>::realign();
-
+	//	gslOdeNode::cleanStepSize();
 		eventClean();
 
 	}

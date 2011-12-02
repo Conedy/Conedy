@@ -1,11 +1,11 @@
 #
-#    Neurosim is a scientific tool which allows numerical integration of dynamical networks.
+#    Conedy is a scientific tool which allows numerical integration of dynamical networks.
 #
 #    Copyright (C) 2011 Alexander Rothkegel, Henning Dickten, Ferdinand Stolz, Justus Schwabedahl
 #
 #    This file is part of conedy.
 #
-#    Neurosim is free software: you can redistribute it and/or modify
+#    Conedy is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
@@ -66,7 +66,7 @@ class NodeEditor:
 
 	def readConsole(self,inName="", inDim=-1, type = "",   events = [],inNumParam=-1, params = [], dgl = [], doku = [], staticEdges = 0, staticEdgeType = "", staticTargetNodeType= "", inFileNameOut=""):
 
-		"Klasse zum Erstellen neues Nodes in Neurosim"
+		"Klasse zum Erstellen neues Nodes in Conedy"
 
 		self.events = events
 		self.params = params
@@ -87,7 +87,7 @@ class NodeEditor:
 		# Integrator enlesen
 	
 		if (type == ""):
-			temp = raw_input("Please choose an nodeType (type) from the following list\n\todeNode, sde, stdOdeIntegrator, pco, pcoDelay , mapNode: ")
+			temp = raw_input("Please choose an nodeType (type) from the following list\n\todeNode, sde, stdOdeIntegrator, pco, pcoDelay , map: ")
 			print "\n"
 			self.type = temp
 		else:
@@ -312,7 +312,7 @@ class NodeEditor:
 			fout.write("\t\tvirtual baseType phaseResponse(baseType coupling, baseType phi);\n")
 			fout.write("\t\t\n")
 		elif self.type =="mapNode":
-			fout.write("\t\t//! Interface for map\n")
+			fout.write("\t\t//! Interface for mapNode\n")
 			fout.write("\t\tvirtual void operator() (baseType xprime [], baseType x[]);\n")
 			fout.write("\t\t\n")
 		elif self.type =="sde":
@@ -328,7 +328,7 @@ class NodeEditor:
 
 
 		fout.write("\t\t//! Inlinefunktion fuer die NodeInfo\n")
-		fout.write("\t\tvirtual const nodeInfo getNodeInfo() { nodeInfo n = {%s,_dynNode_,\"%s\" }; return n; }\n" % (self.nodeInfo, fileNameOut))
+		fout.write("\t\tvirtual const nodeInfo getNodeInfo() { nodeInfo n = {%s,_dynNode_ | _%s_,\"%s\" }; return n; }\n" % (self.nodeInfo, self.type, fileNameOut))
 		fout.write("\t\t\n")
 
 		fout.write("\t\t//! Reserviert Speicherplatz fuer die Nodeparameter\n")
@@ -450,13 +450,13 @@ class NodeEditor:
 
 		
 		if self.type =="pco":
-			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseFrequency\",0,params<baseType>::getStandardParameter (_pco_, 0));\n" % (self.nodeInfo, fileNameOut))
-			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseIntensity\",1,params<baseType>::getStandardParameter (_pco_, 1));\n" % (self.nodeInfo, fileNameOut))
+			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseFrequency\",0,params<baseType>::getStandardParameter (_pcoBase_, 0));\n" % (self.nodeInfo, fileNameOut))
+			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseIntensity\",1,params<baseType>::getStandardParameter (_pcoBase_, 1));\n" % (self.nodeInfo, fileNameOut))
 			i = 2
 		
 		if self.type =="pcoDelay":
-			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseFrequency\",0,params<baseType>::getStandardParameter (_pco_, 0));\n" % (self.nodeInfo, fileNameOut))
-			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseIntensity\",1,params<baseType>::getStandardParameter (_pco_, 1));\n" % (self.nodeInfo, fileNameOut))
+			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseFrequency\",0,params<baseType>::getStandardParameter (_pcoBase_, 0));\n" % (self.nodeInfo, fileNameOut))
+			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_noiseIntensity\",1,params<baseType>::getStandardParameter (_pcoBase_, 1));\n" % (self.nodeInfo, fileNameOut))
 			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_timeDelay\",2,params<baseType>::getStandardParameter (_pcoDelay_, 2));\n" % (self.nodeInfo, fileNameOut))
 			i = 3 
 
@@ -477,7 +477,7 @@ class NodeEditor:
 		fout.close()
 
 
-	def addNodeToNeurosim(self, fileNameOut=""):
+	def addNodeToConedy(self, fileNameOut=""):
 	
 		
 		"Fuegt die Node in den Dateien generatedNodes.cpp, networkConstants.h, fullNetwork.h, Scanner.ll, Parser.yy, ... ein"
@@ -502,6 +502,20 @@ class NodeEditor:
 		fout.write	("#include \"generated%s.cpp\"\n" % self.className)
 		fout.close()
 		del fout
+
+		#
+		# generatedRegisterStandards.h
+		#
+		fout = open ("generatedRegisterStandards.h", 'a')
+		fout.write("%s::registerStandardValues();\n" % self.className)
+		fout.close()
+		del fout
+
+
+
+
+		if (n.type == "mapNode"):	
+			n.type = "map"
 
 
 		#
@@ -528,13 +542,8 @@ class NodeEditor:
 		fout.close()
 		del fout
 
-		#
-		# generatedRegisterStandards.h
-		#
-		fout = open ("generatedRegisterStandards.h", 'a')
-		fout.write("%s::registerStandardValues();\n" % self.className)
-		fout.close()
-		del fout
+
+
 
 		#
 		# write documentation
@@ -600,7 +609,7 @@ class NodeEditor:
 
 		fout = open("testing/addedNodes/" + self.type +"/" + self.className + ".co", 'w')
 		fout.write("network net;\n\n")
-		fout.write("net.addNode<%s>(); \n\n" % fileNameOut)
+		fout.write("net.addNode(%s()); \n\n" % fileNameOut)
 		fout.close()
 
 
@@ -723,5 +732,5 @@ else:
 					
 		n.writeHeaderFile()
 		n.writeCppFile()
-		n.addNodeToNeurosim()
+		n.addNodeToConedy()
 		del (n)

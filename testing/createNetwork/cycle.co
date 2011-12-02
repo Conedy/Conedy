@@ -1,0 +1,9 @@
+
+network net;
+
+net.cycle(1000,50, node(), weightedEdge());   # Creates a closed chain of 100 nodes where each is connected to its 10 nearest neighbors to each side.
+
+
+print "should be close to 0.75:" + ( net.meanClustering() ) + newline;
+print "should be close to " + (1000.0/ 2 / 100) +":" + ( net.meanPathLength() ) + newline;
+print "should be 100:" +  net.meanDegree()  + newline;

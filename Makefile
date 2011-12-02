@@ -28,6 +28,7 @@ uninstall: ${todo:=.uninstall}
 test: ${todo:=.test}
 
 
+
 docstrings.h: addedNodes.sum.old    			# generate a c-header with docstrings for all functions of the python interpreter. The docstring is in testing/*/<functionName>.rst
 	rm -f docstrings.h 
 	touch docstrings.h
@@ -45,9 +46,13 @@ Scanner.ll: Scanner.ll.begin Scanner.ll.end Scanner.ll.generated
 addNodes: revert										# generate sourcecode for node dynamics according to configuration files in addedNodes/ or in a special monitored directory configured in the config file (${addedDir})
 	rm -f someNodeFailed
 	find -L addedNodes -maxdepth 1 -name "*.cfg" -type f -exec sh -c "python addNewNode.py {}  || touch someNodeFailed"  \;
-	find -L ${addedDir} -maxdepth 1  -name "*.cfg" -type f -exec  sh -c "python addNewNode.py  {} || touch someNodeFailed"  \; || true
+	[ -d ${addedDir} ] && find -L ${addedDir} -maxdepth 1  -name "*.cfg" -type f -exec  sh -c "python addNewNode.py  {} || touch someNodeFailed"  \; || true
 	[ ! -f someNodeFailed ]
-	sum addedNodes/*.cfg > addedNodes.sum.old; sum ${addedDir}/*.cfg  >> addedNodes.sum.old  || true
+	sum addedNodes/*.cfg > addedNodes.sum.old; 	
+	[ -d ${addedDir} ] && [ "$$(ls -A ${addedDir})" ] && (find ${addedDir} -name "*.cfg" | sort | xargs sum >> addedNodes.sum.old) || true  ; \
+	
+	
+	
 	([ -d documentation ] && cp addedNodes.sum.old documentation/addedNodes.sum) || true
 	bisonc++ Parser.yy
 
@@ -121,10 +126,9 @@ unstripped: clean addNodes
 	bash linkUnstripped.sh	
 
 
+
 conedy: addNodesIfNecessary Scanner.ll version				# build the bison-flex-interpreter of Conedy.
-	bjam conedy cflags=-D$(SVNDEV) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
-
-
+	bjam conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
 installAndTest: install test
 
@@ -234,12 +238,23 @@ documentation.uninstall:
 
 debug: addNodesIfNecessary Scanner.ll version
 #	bisonc++ Parser.yy
-	bjam conedyDebug  -j${numberCores}
-	cp -f bin/gcc*/debug/conedyDebug ~/bin/conedyDebug
+	bjam conedyDebug cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
+
+
+debug.install:
+#	cp -f bin/gcc*/debug/conedyDebug ${dirinstall} 
+	cp -f bin/gcc*/debug/conedyDebug /home/alex/bin/conedyDebug
+
+debug.clean:
+
+condor.install:
+	cp -f bin/gcc-*/debug/link-static/conedyCondor ${dirinstall}
+
+condor.clean:
+
 
 condor: addNodesIfNecessary version               # build an interpreter which does not execute network-functions, but creates Condor-scripts which distribute the execution of loops (see vectorFor)
-	bjam conedyCondor -j${numberCores}
-	cp -f bin/gcc-*/debug/link-static/conedyCondor ${dirinstall}
+	bjam conedyCondor cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
 
 installCondor: 

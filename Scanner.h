@@ -6,7 +6,7 @@
 
 
 
-#include <FlexLexer.h>
+#include "FlexLexer.h"
 
 
 
@@ -21,6 +21,11 @@
 class Scanner : public yyFlexLexer
 {
 	public:
+
+		Scanner(ParserBase::STYPE__ &d_val ) : yyFlexLexer(source) 
+		{	
+			d_val__ = & d_val;
+		}	
 		static istream* source;
 		Scanner() : yyFlexLexer(source) {};
 		int lex()

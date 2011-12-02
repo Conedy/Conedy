@@ -47,12 +47,13 @@ class command
 {
 	protected:
 
-		//! statische Zuordnung von Strings zum Type, der in einem Neurosimskript deklariert wurde
+		//! statische Zuordnung von Strings zum Type, der in einem Conedyskript deklariert wurde
 		static map < string, int > varType;
 
 		static map < string, baseType* > baseTypeVar;
 		static map < string, networkTemplate * > networkVar;
 		static map < string, nodeBlueprint ** > nodeVar;
+		static map < string, edgeBlueprint ** > edgeVar;
 		static map < string, string * > stringVar;
 		static map < string, nodeDescriptor*> nodeDescriptorVar;
 
@@ -76,6 +77,12 @@ class command
 			ienet = networkVar.end();
 			for (;itnet != ienet; itnet++)
 				delete itnet->second;
+
+			map <string,edgeBlueprint**>::iterator itedge, ieedge;
+			itedge = edgeVar.begin();
+			ieedge = edgeVar.end();
+			for (;itedge != ieedge; itedge++)
+				delete itedge->second;
 
 			map <string,nodeBlueprint**>::iterator itnode, ienode;
 			itnode = nodeVar.begin();
@@ -138,6 +145,10 @@ class command
 		{ 
 //			cout << "DECLARED" << endl;
 
+#ifdef DEBUG
+			cout << "declaring:" << s << " " << type << endl;
+#endif
+
 			if (varType.count(s) != 0)
 			{
 //				cout << "String:" << s << endl;
@@ -160,6 +171,18 @@ class command
 //				n = & nod;
 				nodeVar[s] = n;
 			}
+
+			if (type == _edge_)
+			{
+				edgeBlueprint **n =new edgeBlueprint*();
+				
+//				edge *nod = new node();
+//				n = & nod;
+				edgeVar[s] = n;
+			}
+
+
+
 			if (type == _string_)
 			{
 				stringVar[s] = new string();
@@ -221,7 +244,27 @@ template <>
 					return nodeVar[s];
 
 }
-		
+
+	
+	
+template <>
+ inline edgeBlueprint**  command::retrieve<edgeBlueprint *> (string s)
+{
+	if (!contextCheck (s, _edge_))
+				{
+
+					cout << "ContextError!" << endl;
+					cout << "EdgeTemplate:" << s << endl;
+					exit(1);
+				}
+				else
+					return edgeVar[s];
+
+}
+
+
+
+
 template <>
  inline nodeDescriptor*  command::retrieve<nodeDescriptor> (string s)
 {
@@ -570,6 +613,19 @@ class printInstruction : public instruction
 };
 
 
+#include <iomanip>
+
+class printInstructionDouble : public instruction
+{
+	private:
+		expression<baseType> *dExp;
+	public:
+		printInstructionDouble(expression<baseType> *d) : dExp(d) {};
+		void execute() { cout  << setprecision (12) << dExp->evaluate(); }
+};
+
+
+
 
 
 
@@ -589,7 +645,7 @@ class varCommand : public expression<T>
 
 
 
-//! Ausdruck, der einen Konstanten Wert zurückgibt. Wird verwendet für alle Zahlen, die in den Neurosim-Skripten stehen
+//! Ausdruck, der einen Konstanten Wert zurückgibt. Wird verwendet für alle Zahlen, die in den Conedy-Skripten stehen
 template <typename T>
 class constantCommand : public expression<T>
 {
@@ -608,6 +664,8 @@ class constantCommand : public expression<T>
 #define _E(type,pointer) (bind(&expression<type>::evaluate,(pointer)))
 
 #if CONDOR
+
+
 
 
 
@@ -671,6 +729,12 @@ class constantCommand : public expression<T>
 
 #define NETWORKFUNK6(funktionName, net, arg1, arg2,arg3,arg4,arg5, arg6) new bindInstruction(bind(&networkTemplate::funktionName, net, (arg1) , (arg2),(arg3),(arg4),(arg5), (arg6) ))
 
+
+
+
+
+
+
 #endif
 
 
@@ -715,6 +779,7 @@ class constantCommand : public expression<T>
 
 
 DECLAREBINARY(+, plus, nodeDescriptor)
+DECLAREBINARY(-, minus, nodeDescriptor)
 DECLAREBINARY(*,times, nodeDescriptor)
 DECLAREBINARY(/,divide, nodeDescriptor)
 
@@ -723,9 +788,19 @@ DECLAREBINARY(-,minus, baseType)
 DECLAREBINARY(*,times, baseType)
 DECLAREBINARY(/,divide, baseType)
 
+DECLAREBINARY(%,modolo, nodeDescriptor)
+
+
+
+DECLAREBINARY( != , nequal, bool)
 DECLAREBINARY( <, less, bool)
 DECLAREBINARY( >, greater, bool)
+DECLAREBINARY( >=, greaterEqual, bool)
+DECLAREBINARY( <=, lessEqual, bool)
 DECLAREBINARY( == , equal, bool)
+
+
+
 
 DECLAREUNARY(log,log,baseType)
 DECLAREUNARY(exp,exp,baseType)	
@@ -816,6 +891,8 @@ class stringCat : public expression<string>
 		return ss.str();
 	}
 };
+
+
 
 //! Expression-Objekt, das pwei Strings concateniort.
 template <typename X>

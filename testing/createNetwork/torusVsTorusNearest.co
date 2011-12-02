@@ -1,0 +1,17 @@
+network n;
+
+n.torus(40,40,3.17, pcoNonleaky, staticWeightedEdge());
+print "should be 36:"+n.meanDegree()+newline;
+print newline;
+n.saveAdjacencyList ("output/torusVsTorusNearest.co.graph1");
+:sort -n -k1,2 output/torusVsTorusNearest.co.graph1 > output/torusVsTorusNearest.co.graph1.sort:;
+n.clear();
+
+
+n.torusNearestNeighbors(40,40,36.0, pcoNonleaky, staticWeightedEdge());
+
+n.saveAdjacencyList ("output/torusVsTorusNearest.co.graph2");
+print "Meandegree:"+ n.meanDegree();
+print newline;
+:awk '{print $1 - 1600, $2 - 1600, $3 }'  output/torusVsTorusNearest.co.graph2 | sort -n -k1,2   > output/torusVsTorusNearest.co.graph2.sort:;
+

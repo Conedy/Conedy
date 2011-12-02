@@ -1,6 +1,6 @@
 network net;
 
-net.cycle<kuramoto>(20,1);
+net.cycle(20,1, kuramoto());
 
 net.addEdge(1,7,1.0);
 net.addEdge(7,1,1.0);

@@ -1,0 +1,13 @@
+
+
+network net;
+
+
+net.completeNetwork(10);
+
+net.saveAdjacencyList("output/createFromAdjacencyList.py.mat");
+net.clear();
+net.createFromAdjacencyList("output/createFromAdjacencyList.py.mat", node(), weightedEdge() );
+
+net.saveAdjacencyList("output/createFromAdjacencyList.py.mat2");
+

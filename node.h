@@ -25,11 +25,18 @@ namespace conedy
 
 
 
-	typedef char nodeKind;
+	typedef short int nodeKind;
 
 	const nodeKind  _inNode_ = 1 << 1;
 	const nodeKind  _outNode_ = 1 << 2;
 	const nodeKind  _dynNode_ = 1 << 3;
+	const nodeKind  _ode_ = 1 << 4;
+	const nodeKind  _sde_ = 1 << 5;
+	const nodeKind  _pco_ = 1 << 6;
+	const nodeKind  _pcoDelay_ = 1 << 7;
+	const nodeKind  _map_ = 1 << 8;
+
+
 
 	typedef char edgeKind;
 
@@ -80,6 +87,9 @@ namespace conedy
 		public:
 			//! Return pointer to the target node.
 			node* getTarget();// { return node::theNodes [targetNumber];}
+			void setParameter(vector < baseType > &parameter)  { }
+			void getParameter(vector < baseType > &parameter)  { }
+
 
 			//! Returns the state of the target node.
 			baseType getTargetState();
@@ -112,7 +122,6 @@ namespace conedy
 		public:
 			virtual node* getTarget() { return edge::getTarget();}
 			virtual baseType getTargetState(); 
-
 			virtual const edgeInfo getEdgeInfo() {edgeInfo ei = {_edgeVirtual_,0, "edgeVirtual"}; return ei;}
 			virtual edge *construct() { return new edgeVirtual ( *this ); };
 			virtual ostream& printStatistics ( ostream &os, double edgeVirtualVerbosity=1.0);

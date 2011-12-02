@@ -41,7 +41,7 @@ namespace { // Avoid cluttering the global namespace.
 
 
 
-template <class N> 
+template <class N>
 	 N* nodeFactory1 (double arg1)
 	{
 		N* res = new N();
@@ -51,7 +51,7 @@ template <class N>
 	}
 
 
-template <class N> 
+template <class N>
 	 N* nodeFactory2 (double arg1, double arg2)
 	{
 		N* res = new N();
@@ -61,7 +61,7 @@ template <class N>
 		res->rerouteParams(allParams);return res;
 	}
 
-template <class N> 
+template <class N>
 	 N* nodeFactory3 (double arg1, double arg2, double arg3)
 	{
 		N* res = new N();
@@ -72,7 +72,7 @@ template <class N>
 		res->rerouteParams(allParams);return res;
 	}
 
-template <class N> 
+template <class N>
 	 N* nodeFactory4 (double arg1, double arg2, double arg3, double arg4)
 	{
 		N* res = new N();
@@ -84,7 +84,7 @@ template <class N>
 		res->rerouteParams(allParams);return res;
 	}
 
-template <class N> 
+template <class N>
 	 N* nodeFactory5 (double arg1, double arg2, double arg3, double arg4, double arg5)
 	{
 		N* res = new N();
@@ -98,7 +98,7 @@ template <class N>
 	}
 
 
-template <class N> 
+template <class N>
 	 N* nodeFactory6 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6)
 	{
 		N* res = new N();
@@ -112,7 +112,7 @@ template <class N>
 		res->rerouteParams(allParams);return res;
 	}
 
-template <class N> 
+template <class N>
 	 N* nodeFactory7 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6, double arg7)
 	{
 		N* res = new N();
@@ -127,7 +127,7 @@ template <class N>
 		res->rerouteParams(allParams);return res;
 	}
 
-template <class N> 
+template <class N>
 	 N* nodeFactory8 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6, double arg7, double arg8)
 	{
 		N* res = new N();
@@ -144,7 +144,7 @@ template <class N>
 	}
 
 
-template <class N> 
+template <class N>
 	 N* nodeFactory9 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6, double arg7, double arg8, double arg9)
 	{
 		N* res = new N();
@@ -168,7 +168,7 @@ template <class N>
 
 
 
-	void initializeNeurosim ()
+	void initializeConedy ()
 	{
 		gslNoise::initialise();
 		//	commandLineArguments::initialize(argc, argv);
@@ -188,7 +188,7 @@ template <class N>
 		//	params<vector<double> >::initialise (&command::declare);
 
 
-		//	cout << "Neurosim erfolgreich initialisiert!" << endl;
+		//	cout << "Conedy erfolgreich initialisiert!" << endl;
 
 	};
 
@@ -245,7 +245,7 @@ template <class N>
 
 
 
-		if (!system ("recompilePython-Conedy  2> /dev/null"))
+		if (!system ("recompilePython-Conedy 2> /dev/null"))
 		{
 			cout << "Mission accomplished. You can restart your script now." << endl;
 			exit (1);
@@ -255,7 +255,7 @@ template <class N>
 
 
 
-		initializeNeurosim();
+		initializeConedy();
 
 
 		//	docstring_options doc_options(1,1,0);
@@ -269,9 +269,9 @@ template <class N>
 		//	scope().attr("aa") = &i;
 
 		scope().attr("__doc__") =
-			"What is Neurosim"
+			"What is Conedy"
 			"================"
-			"Neurosim is a tool which allows you to integrate networks where each node is represented by some dynamical system. It is designed to allow for an change of the network structure or differential equation sperarately. ";
+			"Conedy is a tool which allows you to integrate networks where each node is represented by some dynamical system. It is designed to allow for an change of the network structure or differential equation sperarately. ";
 
 
 
@@ -335,7 +335,7 @@ template <class N>
 
 			.def("torusNearestNeighbors", &MyNetwork<baseType>::torusNearestNeighbors,  reinterpret_cast<const char *>(__createNetwork_torusNearestNeighbors))
 			//		.def("loadGraphML", &MyNetwork<baseType>::loadGraphML, reinterpret_cast<const char *>(__createNetwork_loadGraphXml))
-			.def("saveGraphML", &MyNetwork<baseType>::saveGraphML, reinterpret_cast<const char *>(__statisticsNetwork_saveGraphML))
+			.def("saveGraphML", &MyNetwork<baseType>::saveGraphML, reinterpret_cast<const char *>(__createNetwork_saveGraphML))
 			.def("saveAdjacencyList", &MyNetwork<baseType>::saveAdjacencyList, reinterpret_cast<const char *>(__createNetwork_saveAdjacencyList))
 			.def("createFromAdjacencyList", &MyNetwork<baseType>::createFromAdjacencyList, createFromAdjacencyList_overloads( reinterpret_cast<const char *>(__createNetwork_createFromAdjacencyList)))
 			.def("createFromAdjacencyMatrix", &MyNetwork<baseType>::createFromAdjacencyMatrix ,  createFromAdjacencyMatrix_overloads( reinterpret_cast< const char *> (__createNetwork_createFromAdjacencyMatrix)))
@@ -403,7 +403,9 @@ template <class N>
 
 		class_< weightedEdge < edgeVirtual >, bases <edgeBlueprint> > ("weightedEdge",   reinterpret_cast<const char *>(__edges_weightedEdge)       ). def (init<baseType>());
 
-		class_< staticWeightedEdge < edgeVirtual >  , bases <edgeBlueprint> > ("staticWeightedEdge", reinterpret_cast<const char *>(__edges_staticWeightedEdge)   );
+		class_< staticWeightedEdge < edgeVirtual >  , bases <edgeBlueprint> > ("staticWeightedEdge", reinterpret_cast<const char *>(__edges_staticWeightedEdge)   )
+			, init <double>();
+
 
 
 		class_< component < edgeVirtual > , bases <edgeBlueprint> >("component", reinterpret_cast<const char *>(__edges_component) , init <int>() );
@@ -420,9 +422,9 @@ template <class N>
 		class_< randomTarget < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("randomTarget_weightedEdge",  reinterpret_cast<const char *>(__edges_weightedEdge), init <double,double>() );
 		class_< randomTarget < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("randomTarget_staticWeightedEdge", reinterpret_cast<const char *>(__edges_randomTarget_staticWeightedEdge) , init <double,double>());
 
-		class_< pulseCouple < edgeVirtual>, bases <edgeBlueprint>  > ("pulseCouple" ,reinterpret_cast<const char *>(__edges_pulseCouple) , init <double>());
-		class_< pulseCouple < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("pulseCouple_weightedEdge", reinterpret_cast<const char *>(__edges_weightedEdge) , init <double>());
-		class_< pulseCouple < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("pulseCouple_staticWeightedEdge", reinterpret_cast<const char *>(__edges_pulseCouple_staticWeightedEdge) , init <double>());
+		class_< stepEdge < edgeVirtual>, bases <edgeBlueprint>  > ("stepEdge" ,reinterpret_cast<const char *>(__edges_stepEdge) , init <double>());
+		class_< stepEdge < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("step_weightedEdge", reinterpret_cast<const char *>(__edges_weightedEdge) , init <double>());
+		class_< stepEdge < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("step_staticWeightedEdge", reinterpret_cast<const char *>(__edges_step_staticWeightedEdge) , init <double>());
 
 
 

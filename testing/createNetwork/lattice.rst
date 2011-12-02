@@ -15,11 +15,11 @@ Parameters
         a : float
                 Every node is connected to all neighbors whoose euclidian distance is smaller than a.
 
-        node : nodeBlueprint
-                Every added node is a copy of this blueprint.
+        node : nodeTemplate
+                Every added node is a copy of this template.
 
-        edge : edgeBlueprint
-                Every added edge is a copy of this blueprint.
+        edge : edgeTemplate
+                Every added edge is a copy of this template.
         
         
 Returns

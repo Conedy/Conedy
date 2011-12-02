@@ -11,16 +11,16 @@ int thirdNodeNumber;
 int fourthNodeNumber;
 
 #just one kuramoto oscillator
-firstNodeNumber = net.addNode<kuramoto>();
+firstNodeNumber = net.addNode(kuramoto());
 net.setState(firstNodeNumber, 0.0 );
 net.observeTime("output/kuramoto.co.one");
-net.observe<component(0)>(0,"output/kuramoto.co.one");
+net.observe(0,"output/kuramoto.co.one", component(0));
 net.evolve(0.0,10.0);
 net.removeObserver();
 
 
 #adding a second. They should synchronize.
-secondNodeNumber = net.addNode<kuramoto>();
+secondNodeNumber = net.addNode(kuramoto());
 net.addEdge (firstNodeNumber,secondNodeNumber  ,0.1);
 net.addEdge (secondNodeNumber, firstNodeNumber ,0.1);
 
@@ -37,8 +37,8 @@ net.observeAll("output/kuramoto.co.two");
 net.evolve(0.0,40.0);
 net.removeObserver();
 
-thirdNodeNumber = net.addNode<kuramoto>();
-fourthNodeNumber = net.addNode<kuramoto>();
+thirdNodeNumber = net.addNode(kuramoto());
+fourthNodeNumber = net.addNode(kuramoto());
 net.addEdge ( secondNodeNumber, thirdNodeNumber ,0.1);
 net.addEdge ( thirdNodeNumber, secondNodeNumber ,0.1);
 

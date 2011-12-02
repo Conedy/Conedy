@@ -46,8 +46,8 @@ namespace conedy
 			static baseType timeOffset;
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _pco_,"pcoBase_noiseFrequency",0,0.0 );
-				params<baseType>::registerStandard ( _pco_,"pcoBase_noiseIntensity",1,1.0 );
+				params<baseType>::registerStandard ( _pcoBase_,"pcoBase_noiseFrequency",0,0.0 );
+				params<baseType>::registerStandard ( _pcoBase_,"pcoBase_noiseIntensity",1,1.0 );
 			}
 
 
@@ -91,7 +91,7 @@ namespace conedy
 			virtual baseType phaseResponse(baseType c, baseType phi) { throw "phaseResponse of pcoBase called!";}
 
 
-			//		virtual const nodeInfo getNodeInfo() { nodeInfo n = {_pco_,_dynNode_};     return n; };
+			//		virtual const nodeInfo getNodeInfo() { nodeInfo n = {_pcoBase_,_dynNode_};     return n; };
 			virtual baseType callBack ( unsigned int eventSignature );
 			virtual const unsigned int dimension() const { return 1;}
 
@@ -100,7 +100,7 @@ namespace conedy
 
 
 
-			pcoBase () : dynNode ( _pco_ ) {};
+			pcoBase () : dynNode ( _pcoBase_ ) {};
 			pcoBase ( networkElementType n ) : dynNode(n) {}
 			pcoBase ( networkElementType n, unsigned int dim ) : dynNode(n, dim) {}
 
@@ -126,9 +126,9 @@ namespace conedy
 
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_noiseFrequency",0,params<baseType>::getStandardParameter ( _pco_, 0 ) );
-				params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_noiseIntensity",1,params<baseType>::getStandardParameter ( _pco_, 1 ) );
-				//			params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_t_ref",2,params<baseType>::getStandardParameter ( _pco_, 0 ) );
+				params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
+				params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_noiseIntensity",1,params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );
+				//			params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_t_ref",2,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
 				params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_timeDelay",2,0.01);
 
 
@@ -174,8 +174,8 @@ namespace conedy
 
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_noiseFrequency",0,params<baseType>::getStandardParameter ( _pco_, 0 ) );
-				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_noiseIntensity",1,params<baseType>::getStandardParameter ( _pco_, 1 ) );				
+				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
+				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_noiseIntensity",1,params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );				
 				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_timeDelay",2,0.01 );
 				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_t_ref",3, 0.05 );
 

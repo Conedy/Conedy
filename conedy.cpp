@@ -31,7 +31,7 @@ int main ( int argc,char **argv )
 #if CONDOR
 	uniqueNumber::initialize();
 #else
-	if (!system ("recompileConedy 2> /dev/null"))
+	if (!system ("recompileConedy 2> /dev/null "))
 	{
 		cout << "Mission accomplished. You can restart your script now." << endl;
 		exit (1);

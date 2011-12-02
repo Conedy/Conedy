@@ -2,7 +2,7 @@ import conedy as co
 
 net = co.network()
 
-co.set("roessler_omega", 29.0)
+co.set("roessler_omega", 20.0)
 co.set("roessler_a", 0.165)
 co.set("roessler_b", 0.2)
 co.set("roessler_c", 10.0)

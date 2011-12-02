@@ -11,14 +11,14 @@
 
 //using namespace boost;
 
-typedef double baseType;
+
 
 #define PRECALCULATEWEIGHTSUM
 
 
 //#define CALENDARQUEUE
 
-//typedef float baseType;
+typedef double baseType;
 
 
 

@@ -5,7 +5,7 @@
 #include<fstream>
 #include <sstream>
 
-#include <unistd.h>
+//#include <unistd.h>
 
 
 #define MAXTIMESTEPS 1000
@@ -35,9 +35,11 @@ map < string, int > command::varType;
 map < string, baseType* > command::baseTypeVar;
 map < string, networkTemplate* >command::networkVar;
 map < string, nodeBlueprint** >command::nodeVar;
-map < string, string* >command::stringVar;
+map < string, edgeBlueprint** >command::edgeVar;
+
 map < string, nodeDescriptor*> command::nodeDescriptorVar;
 
+map < string, string* >command::stringVar;
 vector < string > command::inputFiles;
 
 stringstream vectorForInstruction::chefDagEnding;
