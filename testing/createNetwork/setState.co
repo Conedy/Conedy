@@ -1,7 +1,8 @@
 
 network net;
 
-newNodeNumber = net.addNode(logisticMap());
+
+int newNodeNumber = net.addNode(logisticMap());
 net.observe(newNodeNumber, "output/setState.py.state");
 net.setState(newNodeNumber, 0.3);
 
