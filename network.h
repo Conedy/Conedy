@@ -39,7 +39,6 @@ namespace conedy
 
 
 
-	//double frontAndPop(queue<double> *s);
 
 	double inline frontAndPop(queue<double> *s)
 	{
@@ -51,17 +50,18 @@ namespace conedy
 
 
 	/*!
-	  \Brief Class which represents a network
+	  \Brief Class which represents a network.
 
-	  Hier finden sich funktionen, die einzelne Nodes / Edges hinzufügen oder Nodes nach bestimmten Kriterien in Listen hinzufügen.
-	  Dabei wird stets in die entsprechende Funktion eine Blaupausenzeiger node*n oder  edge<l> *l übergeben, der vorgibt welche Arte von Knoten/Verbindungen erzeugt werden sollen. Die hinzugefügten Knoten/Verbindungen werden mit n->construct() oder l->construct() erzeugt, welches den Copy-Konstruktor von sich selbst aufruft.
+	  In this class are functions which add single nodes or edges. These are called with blueprints node * n or edge * l, which specify the type of adde node/edge. Added nodes/edges are then created by node::construct(), which calls the copy constructor.
 
 
 	  bei überladenen Funktionen haben die argumentTypen die folgenden Bedeutungen
 
-	  int	networkElementType	(Nummer des NodeTypes - CNN, Rössler)
-	  nodeKind	NodeKind		(Nummer der Nodeart - Input, Output)
-	  nodeDescriptor	nodeNumber		(Nummer der Node - Wahl genau einer Node)
+	  for overloadad functions like addEdges, the argument types have the following meaning:
+
+	  int	networkElementType	(identifying integer for the node type) 
+	  nodeKind	NodeKind		(kind of the node, e.g _dynNode_, _outNode)
+	  nodeDescriptor	nodeNumber	 (identifying integer for the node)
 
 
 */
@@ -124,7 +124,7 @@ namespace conedy
 
 
 
-
+			//! The set of node numbers of all nodes which are in the network.	
 			set<nodeDescriptor> theNodes;
 
 
@@ -135,7 +135,8 @@ namespace conedy
 			//! restrict the network to the node number numbers which are in the file fileName
 			void select (string fileName) ;
 
-		
+	
+			//
 			nodeDescriptor getTarget(edgeDescriptor eD) { return node::theNodes[eD.first]->getTarget(eD.second)->getNumber(); }		
 
 

@@ -88,6 +88,8 @@ namespace conedy
 			//! Return pointer to the target node.
 			node* getTarget();// { return node::theNodes [targetNumber];}
 			void setParameter(vector < baseType > &parameter)  { }
+			void getParameter(vector < baseType > &parameter)  { }
+
 
 			//! Returns the state of the target node.
 			baseType getTargetState();

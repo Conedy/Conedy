@@ -3,7 +3,11 @@
 Defining new node types
 ///////////////////////
 
-Conedy provides nodes with iterated maps, ordinary differential equations and stochastic differential equations. In addition, pulse-coupled oscillators can be integrated by an event-based approach. All these integration schemes have a common interface in Conedy and can be employed in the same fashion.
+Conedy provides nodes with the dynamics of ordinary
+differential equations, stochastic differential equations, iterated maps, and pulse-coupled
+oscillators. The dynamics of these systems can be assessed by a common interface, which
+easily allows to investigate the same network endowed with different dynamical systems as
+node dynamics.
 
 See :ref:`nodes` for a full list of available node dynamics.
 
@@ -124,16 +128,17 @@ Example:
 Ordinary differential equations (``ode``)
 `````````````````````````````````````````
 
-The ``dynamics`` field should define the derivative ``dxdt`` as function of the current state ``x`` (an example was already given above). Numerical integration algorithms are provided by the GNU Scientific Library (GSL). At the moment only those algorithms are supported, which make no use of the Jacobian. In the Python script a specific stepping function can be choosen by setting ``gslOdeNode_stepType`` to one of the following values:
+The ``dynamics`` field should define the derivative ``dxdt`` as function of the current state ``x`` (an example was already given above). Numerical integration algorithms are provided by the GNU Scientific Library (GSL). At the moment only those algorithms are supported, which do not use the Jacobian. In the Python script a specific stepping function can be choosen by setting ``odeStepType`` to one of the following values:
 
 - ``gsl_odeiv_step_rk2``
 - ``gsl_odeiv_step_rk4``
 - ``gsl_odeiv_step_rkf45``
 - ``gsl_odeiv_step_rkck``
 - ``gsl_odeiv_step_rk8pd``
-- ``gsl_odeiv_step_rk2imp``
-- ``gsl_odeiv_step_gear1``
-- ``gsl_odeiv_step_gear2``
+.. - ``gsl_odeiv_step_rk2imp``
+.. - ``gsl_odeiv_step_gear1``
+.. - ``gsl_odeiv_step_gear2``
+- ``gsl_odeiv2_step_msadams``
 
 Example::
 
@@ -252,7 +257,7 @@ Optionally you can choose a node type for target nodes (for example, if all node
 
 You can add outgoing edges to such a node as usual, however the result will always be the predefined static edge. Also weighted static edges are still affected by ``randomizeWeights``.
 
-The following table shows memory usage of basic edges in Conedy on a 64 bit architecture.
+The following table shows memory usage in bytes of basic edges in Conedy on a 64 bit architecture.
 
 ==================   ======   =================
 edge type            static   virtual functions

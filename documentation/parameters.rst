@@ -6,7 +6,7 @@ Selecting node parameters and initial conditions
 Node templates
 --------------
 
-For network creation, Conedy supplies elementary functions which allow you to add single nodes or edges as well as higher-level functions which add random networks or lattices or manipulate an already existing network.
+For network creation, Conedy supplies elementary functions which allow you to add single nodes or edges as well as higher-level functions which manipulate or add random networks or lattices to a an already existing network. 
 
 
 .. testsetup:: *
@@ -108,9 +108,7 @@ Conedy uses the random number generators of the GNU Scientific Library (GSL). Th
 
 For the randomization of parameters (or initial conditions) objects are provided, which specify the desired random distribution. The following example will create an object for uniformly distributed random numbers between 0.2 and 0.4::
 
-   randomNumber = uniform(0.2,0.4)
-
-(Note, that here ``randomNumber`` is neither a random number nor a random number generator for use in Python, but an object, which tells certain Conedy functions, from which distribution to pick random numbers.)
+   distribution = uniform(0.2,0.4)
 
 In addition, the following distributions are available:
 
@@ -132,7 +130,7 @@ In addition, the following distributions are available:
 Parameter randomization
 ``````````````````````````
 
-Parameters are randomized with the :ref:`randomizeParameter` command. For example, the following line will randomize the parameter ``lorenz_b`` of all ``lorenz`` nodes in ``N`` with Gaussian random numbers::
+Parameters are randomized with the :ref:`randomizeParameter` command. For example, the following line will randomize the parameter ``lorenz_b`` of all ``lorenz`` nodes in the network ``N`` with Gaussian random numbers::
 
 	N.randomizeParameter("lorenz_b", co.gaussian(2.5,0.5))
 
@@ -149,7 +147,7 @@ First, the state of each node may be modified directly with the ``setState`` com
 	setState(nodeNumber, 1.0, 1.0, 1.0)
 
 
-Alternatively with the :ref:`randomizeStates` command the states all nodes of a certain node type can be randomized. Suppose we random initial conditions for the first component of 500 ``lorenz`` nodes and the other two components fixed to 1.0::
+Alternatively with the :ref:`randomizeStates` command the states all nodes of a certain node type can be randomized. For example, we randomize initial conditions for the first component of 500 ``lorenz`` nodes and fix the other two components to 1.0::
 
 	N = co.network()
 
