@@ -91,7 +91,7 @@ pulseCoupleDelayEdge	{return(ParserBase::PULSECOUPLEDELAYEDGE); }
 
 edge	{return(ParserBase::EDGE); }
 
-component	{return(ParserBase::HIDDENCOMPONENT); }
+component	{return(ParserBase::COMPONENT); }
 unlink			{return(ParserBase::UNLINK); }
 sigEdge		{return(ParserBase::SIGEDGE); }
 sigEdgeOrd3		{return(ParserBase::SIGEDGEORD3); }

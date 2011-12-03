@@ -40,6 +40,126 @@ namespace { // Avoid cluttering the global namespace.
 	using namespace conedy;
 
 
+template <class N>
+	 N* edgeFactory1 (double arg1)
+	{
+		N* res = new N();
+		vector <baseType> allParams;
+		allParams.push_back(arg1);
+		res->setParameter(allParams);return res;
+	}
+
+
+template <class N>
+	 N* edgeFactory2 (double arg1, double arg2)
+	{
+		N* res = new N();
+		vector <baseType> allParams;
+		allParams.push_back(arg1);
+		allParams.push_back(arg2);
+		res->setParameter(allParams);return res;
+	}
+
+template <class N>
+	 N* edgeFactory3 (double arg1, double arg2, double arg3)
+	{
+		N* res = new N();
+		vector <baseType> allParams;
+		allParams.push_back(arg1);
+		allParams.push_back(arg2);
+		allParams.push_back(arg3);
+		res->setParameter(allParams);return res;
+	}
+
+template <class N>
+	 N* edgeFactory4 (double arg1, double arg2, double arg3, double arg4)
+	{
+		N* res = new N();
+		vector <baseType> allParams;
+		allParams.push_back(arg1);
+		allParams.push_back(arg2);
+		allParams.push_back(arg3);
+		allParams.push_back(arg4);
+		res->setParameter(allParams);return res;
+	}
+
+template <class N>
+	 N* edgeFactory5 (double arg1, double arg2, double arg3, double arg4, double arg5)
+	{
+		N* res = new N();
+		vector <baseType> allParams;
+		allParams.push_back(arg1);
+		allParams.push_back(arg2);
+		allParams.push_back(arg3);
+		allParams.push_back(arg4);
+		allParams.push_back(arg5);
+		res->setParameter(allParams);return res;
+	}
+
+
+template <class N>
+	 N* edgeFactory6 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6)
+	{
+		N* res = new N();
+		vector <baseType> allParams;
+		allParams.push_back(arg1);
+		allParams.push_back(arg2);
+		allParams.push_back(arg3);
+		allParams.push_back(arg4);
+		allParams.push_back(arg5);
+		allParams.push_back(arg6);
+		res->setParameter(allParams);return res;
+	}
+
+template <class N>
+	 N* edgeFactory7 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6, double arg7)
+	{
+		N* res = new N();
+		vector <baseType> allParams;
+		allParams.push_back(arg1);
+		allParams.push_back(arg2);
+		allParams.push_back(arg3);
+		allParams.push_back(arg4);
+		allParams.push_back(arg5);
+		allParams.push_back(arg6);
+		allParams.push_back(arg7);
+		res->setParameter(allParams);return res;
+	}
+
+template <class N>
+	 N* edgeFactory8 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6, double arg7, double arg8)
+	{
+		N* res = new N();
+		vector <baseType> allParams;
+		allParams.push_back(arg1);
+		allParams.push_back(arg2);
+		allParams.push_back(arg3);
+		allParams.push_back(arg4);
+		allParams.push_back(arg5);
+		allParams.push_back(arg6);
+		allParams.push_back(arg7);
+		allParams.push_back(arg8);
+		res->setParameter(allParams);return res;
+	}
+
+
+template <class N>
+	 N* edgeFactory9 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6, double arg7, double arg8, double arg9)
+	{
+		N* res = new N();
+		vector <baseType> allParams;
+		allParams.push_back(arg1);
+		allParams.push_back(arg2);
+		allParams.push_back(arg3);
+		allParams.push_back(arg4);
+		allParams.push_back(arg5);
+		allParams.push_back(arg6);
+		allParams.push_back(arg7);
+		allParams.push_back(arg8);
+		allParams.push_back(arg9);
+		res->setParameter(allParams);return res;
+	}
+
 
 template <class N>
 	 N* nodeFactory1 (double arg1)
@@ -408,23 +528,38 @@ template <class N>
 
 
 
-		class_< component < edgeVirtual > , bases <edgeBlueprint> >("component", reinterpret_cast<const char *>(__edges_component) , init <int>() );
-		class_< component < weightedEdgeVirtual>, bases <edgeBlueprint>   > ("component_weightedEdge" ,reinterpret_cast<const char *>(__edges_weightedEdge) , init <int>());
-		class_< component < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("component_staticWeightedEdge" ,reinterpret_cast<const char *>(__edges_component_staticWeightedEdge) , init <int>());
+		class_< component < edgeVirtual > , bases <edgeBlueprint> >("component", reinterpret_cast<const char *>(__edges_component)) 
+					.def ("__init__", make_constructor (edgeFactory1 <component< edgeVirtual > > ));
+		class_< component < weightedEdgeVirtual>, bases <edgeBlueprint>   > ("component_weightedEdge" ,reinterpret_cast<const char *>(__edges_weightedEdge))
+					.def ("__init__", make_constructor (edgeFactory2 <component< weightedEdgeVirtual > > ));
+				
+		class_< component < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("component_staticWeightedEdge" ,reinterpret_cast<const char *>(__edges_component_staticWeightedEdge))
+					.def ("__init__", make_constructor (edgeFactory1 <staticWeightedEdgeVirtual > ));
+				
 
 
-		class_< staticComponent < edgeVirtual > , bases <edgeBlueprint> >("staticComponent", reinterpret_cast<const char *>(__edges_component) , init <int>() );
-		class_< staticComponent < weightedEdgeVirtual>, bases <edgeBlueprint>   > ("staticWomponent_weightedEdge" ,reinterpret_cast<const char *>(__edges_weightedEdge) , init <int>());
-		class_< staticComponent < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("staticComponent_staticWeightedEdge" ,reinterpret_cast<const char *>(__edges_component_staticWeightedEdge) , init <int>());
+		class_< staticComponent < edgeVirtual > , bases <edgeBlueprint> >("staticComponent", reinterpret_cast<const char *>(__edges_component))
+					.def ("__init__", make_constructor (edgeFactory1 <staticComponent < edgeVirtual > > ));
+		  
+		class_< staticComponent < weightedEdgeVirtual>, bases <edgeBlueprint>   > ("staticWomponent_weightedEdge" ,reinterpret_cast<const char *>(__edges_weightedEdge))
+					.def ("__init__", make_constructor (edgeFactory1 <staticComponent < weightedEdgeVirtual> > ));
+		class_< staticComponent < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("staticComponent_staticWeightedEdge" ,reinterpret_cast<const char *>(__edges_component_staticWeightedEdge))
+					.def ("__init__", make_constructor (edgeFactory1 <staticComponent < staticWeightedEdgeVirtual> > ));
 
 
-		class_< randomTarget < edgeVirtual>, bases <edgeBlueprint>  > ("randomTarget",  reinterpret_cast<const char *>(__edges_randomTarget) ,   init <double,double>() ) ;
-		class_< randomTarget < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("randomTarget_weightedEdge",  reinterpret_cast<const char *>(__edges_weightedEdge), init <double,double>() );
-		class_< randomTarget < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("randomTarget_staticWeightedEdge", reinterpret_cast<const char *>(__edges_randomTarget_staticWeightedEdge) , init <double,double>());
+		class_< randomTarget < edgeVirtual>, bases <edgeBlueprint>  > ("randomTarget",  reinterpret_cast<const char *>(__edges_randomTarget))
+					.def ("__init__", make_constructor (edgeFactory1 < randomTarget < edgeVirtual>   > ));
+		class_< randomTarget < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("randomTarget_weightedEdge",  reinterpret_cast<const char *>(__edges_weightedEdge))
+					.def ("__init__", make_constructor (edgeFactory1 < randomTarget < weightedEdgeVirtual>   > ));
+		class_< randomTarget < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("randomTarget_staticWeightedEdge", reinterpret_cast<const char *>(__edges_randomTarget_staticWeightedEdge)) 
+					.def ("__init__", make_constructor (edgeFactory1 < randomTarget < staticWeightedEdgeVirtual>   > ));
 
-		class_< stepEdge < edgeVirtual>, bases <edgeBlueprint>  > ("stepEdge" ,reinterpret_cast<const char *>(__edges_stepEdge) , init <double>());
-		class_< stepEdge < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("step_weightedEdge", reinterpret_cast<const char *>(__edges_weightedEdge) , init <double>());
-		class_< stepEdge < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("step_staticWeightedEdge", reinterpret_cast<const char *>(__edges_step_staticWeightedEdge) , init <double>());
+		class_< stepEdge < edgeVirtual>, bases <edgeBlueprint>  > ("stepEdge" ,reinterpret_cast<const char *>(__edges_stepEdge))
+					.def ("__init__", make_constructor (edgeFactory1 < stepEdge <edgeVirtual > > ));
+		class_< stepEdge < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("step_weightedEdge", reinterpret_cast<const char *>(__edges_weightedEdge))
+					.def ("__init__", make_constructor (edgeFactory1 < stepEdge <weightedEdgeVirtual > > ));
+		class_< stepEdge < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("step_staticWeightedEdge", reinterpret_cast<const char *>(__edges_step_staticWeightedEdge))
+					.def ("__init__", make_constructor (edgeFactory1 < stepEdge <staticWeightedEdgeVirtual > > ));
 
 
 

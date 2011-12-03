@@ -49,7 +49,7 @@ addNodes: revert										# generate sourcecode for node dynamics according to c
 	[ -d ${addedDir} ] && find -L ${addedDir} -maxdepth 1  -name "*.cfg" -type f -exec  sh -c "python addNewNode.py  {} || touch someNodeFailed"  \; || true
 	[ ! -f someNodeFailed ]
 	sum addedNodes/*.cfg > addedNodes.sum.old; 	
-	[ -d ${addedDir} ] && [ "$$(ls -A ${addedDir})" ] && (find ${addedDir} -name "*.cfg" | sort | xargs sum >> addedNodes.sum.old) || true  ; \
+	[ -d ${addedDir} ] && [ "$$(ls -A ${addedDir})/*.cfg" ] && (find ${addedDir} -maxdepth 1 -name "*.cfg" | sort | xargs sum >> addedNodes.sum.old) || true  ; \
 	
 	
 	

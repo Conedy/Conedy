@@ -274,6 +274,7 @@ namespace conedy
 
 			virtual dynNode* getTarget() { return  (dynNode*)  node::theNodes[gslNoise::getUniform(lower,upper)]; }
 			randomTarget(nodeDescriptor l, nodeDescriptor u) : lower(l), upper(u) { }
+			randomTarget() { }
 			virtual edge *construct() { return new randomTarget<EDGE> ( *this ); };
 
 	};
@@ -343,6 +344,7 @@ namespace conedy
 		double threshold;
 		public:
 		stepEdge ( double t ) : threshold ( t )  {};
+		stepEdge ( ){};
 		virtual const edgeInfo getEdgeInfo() {
 			edgeInfo ancestor = EDGE::getEdgeInfo();
 			edgeInfo ei = {_pulseCouple_,_weighted_ | ancestor.theEdgeKind,  ancestor.theEdgeName + "_pulseCouple"};  return ei;}
