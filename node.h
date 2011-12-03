@@ -87,8 +87,8 @@ namespace conedy
 		public:
 			//! Return pointer to the target node.
 			node* getTarget();// { return node::theNodes [targetNumber];}
-			void setParameter(vector < baseType > &parameter)  { }
-			void getParameter(vector < baseType > &parameter)  { }
+			void setParameter(vector < baseType > parameter)  { }
+			void getParameter(vector < baseType > parameter)  { }
 
 
 			//! Returns the state of the target node.
@@ -120,6 +120,8 @@ namespace conedy
 			edgeVirtual ( nodeDescriptor t) :edge(t ) {};
 
 		public:
+			virtual void setParameter(vector < baseType > parameter)  { }
+			virtual void getParameter(vector < baseType > parameter)  { }
 			virtual node* getTarget() { return edge::getTarget();}
 			virtual baseType getTargetState(); 
 			virtual const edgeInfo getEdgeInfo() {edgeInfo ei = {_edgeVirtual_,0, "edgeVirtual"}; return ei;}

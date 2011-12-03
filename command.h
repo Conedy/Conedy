@@ -329,8 +329,6 @@ class bindInstruction : public instruction
 };
 
 
-
-
 //! Instruction, die eine Variable im Parser declariert.
 class declareInstruction : public instruction
 {
@@ -366,8 +364,6 @@ class bindExpression : public expression<T>
 };
 
 
-
-
 //! Ausdruck für einen Vector 
 template <typename T>
 class expressionVector : public command
@@ -385,6 +381,33 @@ class expressionVector : public command
 				return resVec;
 			}
 };
+
+
+
+
+
+class setNodeParameter : public expression<nodeBlueprint*>
+{
+	private:
+		expressionVector<baseType> *parameter;
+		expression<nodeBlueprint *> *node;
+	public:
+		setNodeParameter (expressionVector<baseType> * p, expression<nodeBlueprint*> *n) : parameter(p), node(n) {}
+		virtual nodeBlueprint * evaluate() { ((dynNode*)  (node->evaluate() ))-> params<baseType>::rerouteParams((parameter->evaluate()));  return node->evaluate(); }
+};
+
+
+class setEdgeParameter : public expression<edgeBlueprint*>
+{
+	private:
+		expressionVector<baseType> * parameter;
+		expression<edgeBlueprint *>* edge;
+	public:
+		setEdgeParameter (expressionVector<baseType>* p, expression<edgeBlueprint *> *e) : parameter(p), edge(e) {}
+		virtual edgeBlueprint* evaluate() { (( edgeBlueprint *) (edge->evaluate() )) -> setParameter((parameter->evaluate()) ); return edge->evaluate();}
+
+};
+
 
 
 template <typename T>

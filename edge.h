@@ -41,15 +41,15 @@ namespace conedy
 			void setWeight(baseType newWeight) { weight = newWeight; }
 			
 				
-			void setParameter(vector < baseType > &parameter)
+			virtual void setParameter(vector < baseType > parameter)
 			{
 				EDGE::setParameter(parameter);
 				weight = parameter[parameter.size() -1];
 				parameter.pop_back();
 			}
-			void getParameter(vector < baseType > &parameter)
+			virtual void getParameter(vector < baseType > parameter)
 			{
-				EDGE::getParamater(parameter);
+				EDGE::getParameter(parameter);
 				parameter.push_back(weight);
 			}
 
@@ -98,16 +98,16 @@ namespace conedy
 				return os;
 			}
 
-			void getParameter(vector < baseType > &parameter)
+			virtual void getParameter(vector < baseType > parameter)
 			{
-				EDGE::getParamater(parameter);
+				EDGE::getParameter(parameter);
 				parameter.push_back(weight);
 			}
-			void setParameter(vector < baseType > &parameter)
+			virtual void setParameter(vector < baseType > parameter)
 			{
 				weight = parameter[parameter.size() -1];
 				parameter.pop_back();
-				EDGE::netParameter(parameter);
+				EDGE::setParameter(parameter);
 			}
 
 
@@ -141,13 +141,13 @@ namespace conedy
 			return new staticComponent( *this );
 		};
 
-			void getParameter(vector < baseType > &parameter)
+			virtual void getParameter(vector < baseType > parameter)
 			{
-				EDGE::getParamater(parameter);
+				EDGE::getParameter(parameter);
 				parameter.push_back(which);
 			}
 
-			void setParameter(vector < baseType > &parameter)
+			virtual void setParameter(vector < baseType > parameter)
 			{
 				which = parameter[parameter.size() -1];
 				parameter.pop_back();
@@ -252,14 +252,14 @@ namespace conedy
 			}
 
 
-			void getParameter(vector < baseType > &parameter)
+			virtual void getParameter(vector < baseType > parameter)
 			{
-				EDGE::getParamater(parameter);
+				EDGE::getParameter(parameter);
 				parameter.push_back(lower);
 				parameter.push_back(upper);
 			}
 
-			void setParameter(vector < baseType > &parameter)
+			virtual void setParameter(vector < baseType > parameter)
 			{
 				lower = parameter[parameter.size() -1];
 				parameter.pop_back();
@@ -346,7 +346,7 @@ namespace conedy
 		virtual const edgeInfo getEdgeInfo() {
 			edgeInfo ancestor = EDGE::getEdgeInfo();
 			edgeInfo ei = {_pulseCouple_,_weighted_ | ancestor.theEdgeKind,  ancestor.theEdgeName + "_pulseCouple"};  return ei;}
-			void setParameter(vector < baseType > &parameter)
+			virtual void setParameter(vector < baseType > parameter)
 			{
 				threshold = parameter[parameter.size() -1];
 				parameter.pop_back();
@@ -394,7 +394,7 @@ namespace conedy
 
 		public:
 
-			void setParameter(vector < baseType > &parameter)
+			virtual void setParameter(vector < baseType > parameter)
 			{
 				which = parameter[parameter.size() -1];
 				parameter.pop_back();
