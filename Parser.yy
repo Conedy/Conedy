@@ -53,7 +53,7 @@
 // Random
 %token GAUSSIAN BIMODAL EXPONENTIAL POWERLAW UNIFORM FROMFILE ADDINPUTFILE  CONSTANT POISSON  INDEGREEDISTRIBUTION OUTDEGREEDISTRIBUTION
 // Arithmetic
-%token  ASSIGNPLUS ASSIGNMINUS ASSIGNDIVIDE ASSIGNTIMES PLUSPLUS MINUSMINUS
+%token  ASSIGNPLUS ASSIGNMINUS ASSIGNDIVIDE ASSIGNTIMES PLUSPLUS MINUSMINUS ASSIGNMODOLO
 %token <netCmd> NETWORKVAR
 %type <cmd> loop print instruction declare assign networkCommand bluePrintCommand commands commandBlock while createNetworkCommand for if vectorFor system spatialNetworkCommand
 
@@ -121,12 +121,14 @@ assign		: baseType '=' baseType { $$ = new assignInstruction<baseType> ((varComm
 				$$ = new assignInstruction<nodeDescriptor> ( var,  new minusCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> ($3,  (var))); }
 		|  nodeDescriptor ASSIGNDIVIDE nodeDescriptor { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;
 				$$ = new assignInstruction<nodeDescriptor> ( var,  new divideCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> ($3,  (var))); }
+		|  nodeDescriptor ASSIGNMODOLO nodeDescriptor { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;
+				$$ = new assignInstruction<nodeDescriptor> ( var,  new modoloCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> ($3,  (var))); }
 		|  nodeDescriptor ASSIGNTIMES nodeDescriptor { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;
 				$$ = new assignInstruction<nodeDescriptor> ( var,  new timesCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> ($3,  (var))); }
 		|  nodeDescriptor PLUSPLUS { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;	
-				$$ = new assignInstruction<nodeDescriptor> ( var,  new timesCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> (new constantCommand<nodeDescriptor>(1),  (var))); }
+				$$ = new assignInstruction<nodeDescriptor> ( var,  new plusCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> (new constantCommand<nodeDescriptor>(1),  (var))); }
 		|  baseType PLUSPLUS { varCommand<baseType> *var = (varCommand<baseType>*)$1;	
-				$$ = new assignInstruction<baseType> ( var,  new timesCommandbaseType<baseType, baseType> (new constantCommand<baseType>(1),  (var))); }
+				$$ = new assignInstruction<baseType> ( var,  new plusCommandbaseType<baseType, baseType> (new constantCommand<baseType>(1),  (var))); }
 		|  nodeDescriptor MINUSMINUS { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;	
 				$$ = new assignInstruction<nodeDescriptor> ( var,  new minusCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> (new constantCommand<nodeDescriptor>(1),  (var))); }
 		|  baseType MINUSMINUS { varCommand<baseType> *var = (varCommand<baseType>*)$1;	
@@ -143,8 +145,8 @@ DOUBLETOKEN ID { command::declare($2->evaluate(),_baseType_); $$ = new emptyInst
 		| INTTOKEN ID { command::declare($2->evaluate(), _nodeDescriptor_); $$ = new emptyInstruction (); }
 		| NETWORKTOKEN ID { command::declare($2->evaluate(), _network_); $$ = new emptyInstruction(); }
 		| STRINGTOKEN ID { command::declare($2->evaluate(), _string_); $$ = new emptyInstruction(); }
-		| INTTOKEN identifier '=' nodeDescriptor { command::declare($2->evaluate(),_nodeDescriptor_); $$ = new assignInstruction<nodeDescriptor> ((varCommand<nodeDescriptor>*)$2, $4); }
-		| DOUBLETOKEN identifier '=' baseType { command::declare($2->evaluate(),_baseType_); $$ = new assignInstruction<baseType> (new varCommand<baseType>($2->evaluate()), $4); };
+		| INTTOKEN identifier '=' nodeDescriptor { command::declare($2->evaluate(),_nodeDescriptor_); $$ = new assignInstruction<nodeDescriptor> (new varCommand<nodeDescriptor> ($2->evaluate()), $4); }
+		| DOUBLETOKEN identifier '=' baseType    { command::declare($2->evaluate(),_baseType_);       $$ = new assignInstruction<baseType>       (new varCommand<baseType>($2->evaluate()), $4); };
 
 identifier : ID { $$ = $1; };
 
@@ -531,7 +533,6 @@ createNode	: node
 
 createLink : link
 	  | link '(' ')'
-	  | link '(' ')'
 	  | link '(' argList ')' { $$ = new setEdgeParameter ( $3, $1); };
 
 
@@ -647,7 +648,7 @@ baseType		: DOUBLE { $$ = new constantCommand<baseType>(atof(d_scanner->YYText()
 		| LOG '(' baseType ')' 	{ $$ = new logCommandbaseType<baseType> ($3);}
 		| EXP '(' baseType ')' 	{ $$ = new expCommandbaseType<baseType> ($3);}
 		| SIN '(' baseType ')' 	{ $$ = new sinCommandbaseType<baseType> ($3);}
-		| nodeDescriptor { $$ = new convertToBaseType($1); }
+//		| nodeDescriptor { $$ = new convertToBaseType($1); }
 		| '-' baseType { $$ = new timesCommandbaseType<baseType,baseType>(new constantCommand<baseType>(-1),$2); } %prec UMINUS
 		| statisticsNetworkCommandBaseType
 		// veraltet ohne Seg-Schutz:

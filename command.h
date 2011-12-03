@@ -156,7 +156,6 @@ class command
 	//			throw "Doppelt declared.";	
 			}
 			varType [s] = type; 
-			if (type == _baseType_) baseTypeVar[s] = new baseType(); 
 			if (type == _network_) 
 			{
 				networkTemplate n;
@@ -189,6 +188,7 @@ class command
 			}
 			
 
+			if (type == _baseType_) baseTypeVar[s] = new baseType(); 
 			if (type == _nodeDescriptor_) nodeDescriptorVar[s] = new nodeDescriptor();
 		};
 	command() {}

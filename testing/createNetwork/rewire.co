@@ -4,7 +4,7 @@ network net;
 
 
 
-net.cycle ( 10000, 10, node(), weightedEdge(1.0));
+net.cycle ( 1000, 10, node(), weightedEdge(1.0));
 
 
 

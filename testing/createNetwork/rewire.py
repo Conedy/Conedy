@@ -1,6 +1,5 @@
 import conedy as co
 
-co.setRandomSeed(0)
 
 
 net= co.network()

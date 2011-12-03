@@ -78,6 +78,7 @@ FALSE		{return(ParserBase::BOOLZERO);}
 "-=" 		{return(ParserBase::ASSIGNMINUS);}
 "*=" 		{return(ParserBase::ASSIGNTIMES);}
 "/=" 		{return(ParserBase::ASSIGNDIVIDE);}
+"%=" 		{return(ParserBase::ASSIGNMODOLO);}
 
 "++"		{return(ParserBase::PLUSPLUS);}
 "--"		{return(ParserBase::MINUSMINUS);}
