@@ -241,7 +241,7 @@ debug: addNodesIfNecessary Scanner.ll version
 	bjam conedyDebug cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
 
-debug.install:
+debug.install: debug
 #	cp -f bin/gcc*/debug/conedyDebug ${dirinstall} 
 	cp -f bin/gcc*/debug/conedyDebug /home/alex/bin/conedyDebug
 

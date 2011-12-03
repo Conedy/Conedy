@@ -74,6 +74,13 @@ ID       [A-Za-z][a-z0-9A-Z\_]*
 TRUE		{return(ParserBase::BOOLONE);}
 FALSE		{return(ParserBase::BOOLZERO);}
 
+"+=" 		{return(ParserBase::ASSIGNPLUS);}
+"-=" 		{return(ParserBase::ASSIGNMINUS);}
+"*=" 		{return(ParserBase::ASSIGNTIMES);}
+"/=" 		{return(ParserBase::ASSIGNDIVIDE);}
+
+"++"		{return(ParserBase::PLUSPLUS);}
+"--"		{return(ParserBase::MINUSMINUS);}
 
 "-"		{return('-');}
 "+"		{return('+');}
