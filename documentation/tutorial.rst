@@ -88,10 +88,7 @@ Until now all oscillators in our network are identical. The following commands c
 
 .. testcode:: TUT
 
-	N.randomizeStates( nodeTemplate, 
-      co.uniform (-0.1,0.1), 
-      co.uniform (-0.1,0.1), 
-      co.uniform (-0.1,0.1) )
+	N.randomizeStates(nodeTemplate,co.uniform(-0.1,0.1),co.uniform(-0.1,0.1),co.uniform (-0.1,0.1))
 	N.randomizeParameter( "gaussianRoessler_omega", co.uniform(0.8,1.2) )
 
 

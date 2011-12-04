@@ -5,7 +5,7 @@ loop (100) net.addNode(node());
 net.addRandomEdges (10.0, weightedEdge(0.5));
 
 
-print "should be 10:" + str(net.meanDegree())
+print "should be 10:" + net.meanDegree();
 
 
 

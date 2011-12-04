@@ -93,7 +93,7 @@ Once you have created a network, you can apply network analysis tools to it. For
 
 Conedy also includes some node-specific measures like centralities
 
-.. testcode:: TUT
+.. testcode:: 
 
 	if N.isConnected():
 		N.betweennessCentrality("betweenness")

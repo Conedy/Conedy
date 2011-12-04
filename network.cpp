@@ -382,7 +382,7 @@ unsigned int network::randomNode(nodeKind nodeKind)
 		res = noise.getUniformInt( 0, node::theNodes.size() -1);
 
 	} while (node::theNodes[res] == NULL 
-			|| nodeKind != node::theNodes[res]->getNodeInfo().theNodeKind  
+			|| ( !(nodeKind & node::theNodes[res]->getNodeInfo().theNodeKind))
 			|| (!isInsideNetwork(res)) );
 
 	return	res;

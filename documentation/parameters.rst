@@ -78,7 +78,7 @@ will create a network of 500 nodes, all with :ref:`lorenz` dynamics and all with
 .. testoutput::
   :HIDE:
 
-   1.0
+  1.0
 
 
 .. testcode::

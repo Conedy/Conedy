@@ -39,7 +39,7 @@ We illustrate the differences between both ways of using Conedy with an example 
 			N.observeTime("sw_%G_%G" % (p,k))
 			N.observeMean("sw_%G_%G" % (p,k), co.component(0))
 
-			N.evolve(0.0,10000.0)
+			#N.evolve(0.0,10000.0)
 			N.removeObserver()
 			N.clear()
 
@@ -50,8 +50,7 @@ We illustrate the differences between both ways of using Conedy with an example 
 
 The following script performs the same operations, if run with ``conedy``:
 
-.. testcode::
-
+::
 	network N;
 
 	double p;
@@ -70,12 +69,17 @@ The following script performs the same operations, if run with ``conedy``:
 
 			N.observeTime("sw_" + p + "_" + k);
 			N.observeMean("sw_" + p + "_" + k, component(0));
-
 			N.evolve(0.0,10000.0);
+
 			N.removeObserver();
 			N.clear();
 		};
 	};
+
+
+   
+
+
 
 The following differences can be spotted:
 
