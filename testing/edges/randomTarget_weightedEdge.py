@@ -11,8 +11,7 @@ net = co.network()
 firstNode = net.addNode(co.roessler())
 secondNode = net.addNode(co.roessler())
 
-net.addEdge (firstNode,secondNode, co.randomTarget_weightedEdge (2) )
-net.randomizeWeights(co.constant(0.1))
+net.addEdge (firstNode,secondNode, co.randomTarget_weightedEdge (2,3,0.3) )
 
 
 net.printNodeStatistics()

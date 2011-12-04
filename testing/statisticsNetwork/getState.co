@@ -1,1 +1,7 @@
-XXX
+network net;
+
+net.addNode(roessler());
+
+net.setState (0, 0.1,0.2 ,0.3);
+
+print "Should be 0.1 0.2 0.3:" + net.getState (0,0) + " " + net.getState (0,1) + " " + net.getState (0,2) + newline;

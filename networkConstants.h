@@ -51,6 +51,7 @@ const networkElementType _nodeVirtualEdges_=52;
 const networkElementType _node_=53;
 const networkElementType _odeNode_=54;
 const networkElementType _pcoBase_=56;
+const networkElementType _staticComponent_=57;
 //const networkElementType _pcoDelay_=57;
 const networkElementType _pcoExponential_=58;
 const networkElementType _pcoRealIFNeuronDelay_=63;

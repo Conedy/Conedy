@@ -15,7 +15,6 @@ rewiring = 0.32;
 setRandomSeed(0);
 
 net.torus(40,40,3.14,  pcoNonleaky,staticWeightedEdge(coupling));
-#net.torus(40,40,3.14,  pcoNonleaky,staticWeightedEdge(0.16));
 net.rewire(rewiring);
 net.randomizeStates(pcoNonleaky, uniform(0.0,1.0));
 #net.randomizeWeights(uniform(coupling,coupling));

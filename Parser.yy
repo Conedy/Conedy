@@ -49,7 +49,12 @@
 // addNewNode.py token
 %include generatedAddNewNodeTokens.yy
 // Edges
-%token PULSECOUPLEEDGE STATICWEIGHTEDEDGE RANDOMTARGETEDGE SIGEDGE STDEDGEORD3 SIGEDGEORD3 SIGEDGEPARAMS PULSECOUPLEDELAYEDGE WEIGHTEDEDGE EDGE
+%token COMPONENT_WEIGHTEDEDGE COMPONENT_STATICWEIGHTEDEDGE 
+%token STATICCOMPONENT STATICCOMPONENT_WEIGHTEDEDGE STATICCOMPONENT_STATICWEIGHTEDEDGE 
+%token RANDOMTARGET RANDOMTARGET_WEIGHTEDEDGE RANDOMTARGET_STATICWEIGHTEDEDGE 
+%token STEPEDGE STEPEDGE_WEIGHTEDEDGE STEPEDGE_STATICWEIGHTEDEDGE 
+
+PULSECOUPLEEDGE STATICWEIGHTEDEDGE RANDOMTARGETEDGE SIGEDGE STDEDGEORD3 SIGEDGEORD3 SIGEDGEPARAMS PULSECOUPLEDELAYEDGE WEIGHTEDEDGE EDGE
 // Random
 %token GAUSSIAN BIMODAL EXPONENTIAL POWERLAW UNIFORM FROMFILE ADDINPUTFILE  CONSTANT POISSON  INDEGREEDISTRIBUTION OUTDEGREEDISTRIBUTION
 // Arithmetic
@@ -538,12 +543,6 @@ createLink : link
 
 
 link	:  DELAYLINK '(' nodeDescriptor ')' {edgeBlueprint *l = new delayEdge($3->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
-		| PULSECOUPLEEDGE'(' baseType ')' {edgeBlueprint *l = new stepEdge< edgeVirtual>   ($3->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
-		| PULSECOUPLEDELAYEDGE'(' baseType ',' baseType ')' {edgeBlueprint *l = new pulsecoupleDelayEdge($3->evaluate(), $5->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
-		| STATICWEIGHTEDEDGE '(' baseType ')' { edgeBlueprint *l = new staticWeightedEdgeVirtual($3->evaluate() );$$ = new constantCommand<edgeBlueprint*>(l);  }
-		| WEIGHTEDEDGE  { edgeBlueprint *l = new weightedEdgeVirtual(); $$ = new constantCommand<edgeBlueprint*>(l); }
-//		| WEIGHTEDEDGE '(' baseType ')' { edgeBlueprint *l = new weightedEdgeVirtual($3->evaluate() ); $$ = new constantCommand<edgeBlueprint*>(l); }
-		| EDGE { edgeBlueprint *l = new edgeVirtual(); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| STDEDGEORD3 { edgeBlueprint *l = new stdEdgeOrd3(); $$ = new constantCommand<edgeBlueprint*>(l); }
 
 		| SIGEDGE'(' nodeDescriptor ')' {edgeBlueprint *l = new sigEdge($3->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
@@ -561,9 +560,34 @@ link	:  DELAYLINK '(' nodeDescriptor ')' {edgeBlueprint *l = new delayEdge($3->e
 	//	| PHASEOFPCPOOPT { edgeBlueprint *l = new phaseOfPCPO<baseType>(); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| RANDOMTARGETEDGE '(' nodeDescriptor ',' nodeDescriptor ')' {edgeBlueprint *l = new randomTarget < edgeVirtual> ($3->evaluate(), $5->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l);  }
 
+		| PULSECOUPLEEDGE'(' baseType ')' {edgeBlueprint *l = new stepEdge< edgeVirtual>   ($3->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
+		| PULSECOUPLEDELAYEDGE'(' baseType ',' baseType ')' {edgeBlueprint *l = new pulsecoupleDelayEdge($3->evaluate(), $5->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
+
+
+		| WEIGHTEDEDGE  { edgeBlueprint *l = new weightedEdgeVirtual(); $$ = new constantCommand<edgeBlueprint*>(l); }
+		| EDGE { edgeBlueprint *l = new edgeVirtual(); $$ = new constantCommand<edgeBlueprint*>(l); }
+		| STATICWEIGHTEDEDGE { edgeBlueprint *l = new staticWeightedEdgeVirtual();$$ = new constantCommand<edgeBlueprint*>(l);  }
 
 //		| TESTEDGE '(' baseType ')'  { edgeBlueprint *l = new testEdge<baseType>($3->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
-		| COMPONENT {edgeBlueprint * l = new component <edgeVirtual>  (); $$ = new constantCommand<edgeBlueprint*>(l); };
+		| COMPONENT { $$ = new constantCommand<edgeBlueprint*>(new component<edgeVirtual>); }
+		| COMPONENT_WEIGHTEDEDGE { $$ = new constantCommand<edgeBlueprint*>(new component<weightedEdgeVirtual>); }
+		| COMPONENT_STATICWEIGHTEDEDGE { $$ = new constantCommand<edgeBlueprint*>(new component<staticWeightedEdgeVirtual>); }
+
+		| STATICCOMPONENT { $$ = new constantCommand<edgeBlueprint*>(new staticComponent<edgeVirtual>); }
+		| STATICCOMPONENT_WEIGHTEDEDGE { $$ = new constantCommand<edgeBlueprint*>(new staticComponent<weightedEdgeVirtual>); }
+		| STATICCOMPONENT_STATICWEIGHTEDEDGE { $$ = new constantCommand<edgeBlueprint*>(new staticComponent<staticWeightedEdgeVirtual>); }
+
+
+		| RANDOMTARGET { $$ = new constantCommand<edgeBlueprint*>(new randomTarget<edgeVirtual>); }
+		| RANDOMTARGET_WEIGHTEDEDGE { $$ = new constantCommand<edgeBlueprint*>(new randomTarget<weightedEdgeVirtual>); }
+		| RANDOMTARGET_STATICWEIGHTEDEDGE { $$ = new constantCommand<edgeBlueprint*>(new randomTarget<staticWeightedEdgeVirtual>); }
+
+		| STEPEDGE { $$ = new constantCommand<edgeBlueprint*>(new stepEdge<edgeVirtual>); }
+		| STEPEDGE_WEIGHTEDEDGE { $$ = new constantCommand<edgeBlueprint*>(new stepEdge<weightedEdgeVirtual>); }
+		| STEPEDGE_STATICWEIGHTEDEDGE { $$ = new constantCommand<edgeBlueprint*>(new stepEdge<staticWeightedEdgeVirtual>); };
+
+
+
 //		| KURAMOTOEDGE	 { edgeBlueprint *l = new kuramotoEdge<baseType>(); $$ = new constantCommand<edgeBlueprint*>(l);}
 
 
@@ -607,7 +631,7 @@ random		: GAUSSIAN '(' baseType ',' baseType ')'
 
 
 argList		: argList ',' baseType  { $1->push_back($3); }
-		| argList '.' nodeDescriptor { $1->push_back(new convertToBaseType($3)); }
+		| argList ',' nodeDescriptor { $1->push_back(new convertToBaseType($3)); }
 		| baseType { $$ = new expressionVector<baseType> (); $$->push_back($1); }
 		| nodeDescriptor { $$ = new expressionVector<baseType> (); $$->push_back(new convertToBaseType($1)); };
 
@@ -667,7 +691,8 @@ statisticsNetworkCommandBaseType:  NETWORK '.' MEANDEGREE '(' ')' { $$ = BASETYP
 		| NETWORK '.' MEANPATHLENGTH '(' ')' { $$= BASETYPENETWORKFUNK(meanPathLength, $1); }
 		| NETWORK '.' MEANCLUSTERING '(' ')' { $$= BASETYPENETWORKFUNK(meanClustering, $1); }
 		| NETWORK '.' GETPARAM '(' nodeDescriptor ',' string ')' { $$= BASETYPENETWORKFUNK2 (getParam, $1, _E(nodeDescriptor, $5), _E(string, $7)); }
-		| NETWORK '.' GETSTATE '(' nodeDescriptor ')' { $$= BASETYPENETWORKFUNK2 (getState, $1, _E(nodeDescriptor, $5),0 ); };
+		| NETWORK '.' GETSTATE '(' nodeDescriptor ')' { $$= BASETYPENETWORKFUNK2 (getState, $1, _E(nodeDescriptor, $5),0 ); }
+		| NETWORK '.' GETSTATE '(' nodeDescriptor ',' nodeDescriptor  ')' { $$= BASETYPENETWORKFUNK2 (getState, $1, _E(nodeDescriptor, $5),_E(nodeDescriptor, $7) ); };
 
 
 statisticsNetworkCommandInt: NETWORK '.' DEGREE '(' nodeDescriptor ')'  {  $$ = INTNETWORKFUNK1( degree, $1, _E(nodeDescriptor, $5)); }

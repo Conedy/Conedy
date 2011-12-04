@@ -373,11 +373,11 @@ class expressionVector : public command
 	
 	public:
 		void push_back(expression<T> *el) { vec.push_back(el); }
-		vector <baseType> evaluate()
+		vector <T> evaluate()
 			{
-				vector<baseType> resVec; 
+				vector<T> resVec; 
 				for (unsigned int i = 0; i < vec.size(); i++)
-					resVec.push_back((baseType)vec[i]->evaluate());
+					resVec.push_back((T)vec[i]->evaluate());
 				return resVec;
 			}
 };
@@ -404,7 +404,7 @@ class setEdgeParameter : public expression<edgeBlueprint*>
 		expression<edgeBlueprint *>* edge;
 	public:
 		setEdgeParameter (expressionVector<baseType>* p, expression<edgeBlueprint *> *e) : parameter(p), edge(e) {}
-		virtual edgeBlueprint* evaluate() { (( edgeBlueprint *) (edge->evaluate() )) -> setParameter((parameter->evaluate()) ); return edge->evaluate();}
+		virtual edgeBlueprint* evaluate(); 
 
 };
 

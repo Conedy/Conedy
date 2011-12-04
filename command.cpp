@@ -59,6 +59,9 @@ void instructionBlock::execute ()
 				for (it = instructionList.begin(); it != instructionList.end(); it++)
 					(*it)->execute();
 }
+		
+
+edgeBlueprint* setEdgeParameter::evaluate() { (( edgeBlueprint *) (edge->evaluate() )) -> setParameter((parameter->evaluate()) ); return edge->evaluate();}
 
 string vectorForInstruction::currentJobName()
 {

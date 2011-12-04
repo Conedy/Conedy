@@ -497,7 +497,6 @@ template <class N>
 
 
 
-#define component_staticWeightedEdge     component < staticWeightedEdge >
 
 
 		// addNewNode.py Nodes begin
@@ -529,7 +528,7 @@ template <class N>
 					.def ("__init__", make_constructor (edgeFactory2 <component< weightedEdgeVirtual > > ));
 				
 		class_< component < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("component_staticWeightedEdge" ,reinterpret_cast<const char *>(__edges_component_staticWeightedEdge))
-					.def ("__init__", make_constructor (edgeFactory1 <staticWeightedEdgeVirtual > ));
+					.def ("__init__", make_constructor (edgeFactory2 <component< staticWeightedEdgeVirtual > > ));
 				
 
 
@@ -537,24 +536,24 @@ template <class N>
 					.def ("__init__", make_constructor (edgeFactory1 <staticComponent < edgeVirtual > > ));
 		  
 		class_< staticComponent < weightedEdgeVirtual>, bases <edgeBlueprint>   > ("staticWomponent_weightedEdge" ,reinterpret_cast<const char *>(__edges_weightedEdge))
-					.def ("__init__", make_constructor (edgeFactory1 <staticComponent < weightedEdgeVirtual> > ));
+					.def ("__init__", make_constructor (edgeFactory2 <staticComponent < weightedEdgeVirtual> > ));
 		class_< staticComponent < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("staticComponent_staticWeightedEdge" ,reinterpret_cast<const char *>(__edges_component_staticWeightedEdge))
-					.def ("__init__", make_constructor (edgeFactory1 <staticComponent < staticWeightedEdgeVirtual> > ));
+					.def ("__init__", make_constructor (edgeFactory2 <staticComponent < staticWeightedEdgeVirtual> > ));
 
 
 		class_< randomTarget < edgeVirtual>, bases <edgeBlueprint>  > ("randomTarget",  reinterpret_cast<const char *>(__edges_randomTarget))
-					.def ("__init__", make_constructor (edgeFactory1 < randomTarget < edgeVirtual>   > ));
+					.def ("__init__", make_constructor (edgeFactory2 < randomTarget < edgeVirtual>   > ));
 		class_< randomTarget < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("randomTarget_weightedEdge",  reinterpret_cast<const char *>(__edges_weightedEdge))
-					.def ("__init__", make_constructor (edgeFactory1 < randomTarget < weightedEdgeVirtual>   > ));
+					.def ("__init__", make_constructor (edgeFactory3 < randomTarget < weightedEdgeVirtual>   > ));
 		class_< randomTarget < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("randomTarget_staticWeightedEdge", reinterpret_cast<const char *>(__edges_randomTarget_staticWeightedEdge)) 
-					.def ("__init__", make_constructor (edgeFactory1 < randomTarget < staticWeightedEdgeVirtual>   > ));
+					.def ("__init__", make_constructor (edgeFactory3 < randomTarget < staticWeightedEdgeVirtual>   > ));
 
 		class_< stepEdge < edgeVirtual>, bases <edgeBlueprint>  > ("stepEdge" ,reinterpret_cast<const char *>(__edges_stepEdge))
 					.def ("__init__", make_constructor (edgeFactory1 < stepEdge <edgeVirtual > > ));
 		class_< stepEdge < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("step_weightedEdge", reinterpret_cast<const char *>(__edges_weightedEdge))
-					.def ("__init__", make_constructor (edgeFactory1 < stepEdge <weightedEdgeVirtual > > ));
+					.def ("__init__", make_constructor (edgeFactory2 < stepEdge <weightedEdgeVirtual > > ));
 		class_< stepEdge < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("step_staticWeightedEdge", reinterpret_cast<const char *>(__edges_step_staticWeightedEdge))
-					.def ("__init__", make_constructor (edgeFactory1 < stepEdge <staticWeightedEdgeVirtual > > ));
+					.def ("__init__", make_constructor (edgeFactory2 < stepEdge <staticWeightedEdgeVirtual > > ));
 
 
 

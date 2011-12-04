@@ -17,7 +17,7 @@ print newline;
 n.clear();
 
 
-n.cycle( 10000, 2,  node(), staticWeightedEdge());
+n.cycle( 10000, 2,  node(), staticWeightedEdge(1.0));
 
 
 n.rewire (0.5, weightedEdge);

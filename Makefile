@@ -142,6 +142,7 @@ conedy.install: conedy
 conedy.uninstall:
 	rm -f ${dirinstall}/conedy
 	rm -f ${dirinstall}/recompileConedy
+	rm -f ${dirinstall}/recompilePython-Conedy
 
 #	sed "s#DIRSRC#${dirsrc}#g" recompileNeurosimIfNecessary.sh | sed "s#ADDEDDIR#${addedDir}#g" > ${dirinstall}/recompileNeurosimIfNecessary.sh
 #	chmod +x  ${dirinstall}/recompileNeurosimIfNecessary.sh

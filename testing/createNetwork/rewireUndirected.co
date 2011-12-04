@@ -5,7 +5,7 @@ network net;
 
 
 
-net.cycle( 100, 10,node(), staticWeightedEdge());
+net.cycle( 100, 10,node(), staticWeightedEdge(1.0));
 
 #net.printNodeStatistics();
 

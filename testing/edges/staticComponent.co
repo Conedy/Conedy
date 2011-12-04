@@ -1,0 +1,22 @@
+
+
+network net;
+
+
+
+
+int firstNode;
+int secondNode;
+
+
+
+
+firstNode = net.addNode(roessler());
+secondNode = net.addNode(roessler());
+
+
+net.addEdge (firstNode,secondNode,  staticComponent (2) );
+
+
+net.printNodeStatistics();
+

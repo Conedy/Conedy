@@ -8,7 +8,10 @@ n.addNode(pcoIntegrateFire());
 n.addNode(pcoIntegrateFire());
 n.addNode(pcoIntegrateFire());
 
-n.randomizeStates(pcoIntegrateFire, uniform(0.0,1.0));
+n.randomizeStates(pcoIntegrateFire(), uniform(0.0,1.0));
+
+n.observeAll ("test");
+n.snapshot();
 
 print (n.getState (0)) ; 
 print " "+ (n.getState (1)); 

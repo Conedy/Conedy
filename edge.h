@@ -18,6 +18,10 @@ using namespace std;
 #include "node.h"
 #define Getarget(type,pointer) (bind(&expression<type>::evaluate,(pointer)))
 
+
+
+
+
 namespace conedy
 {
 
@@ -44,6 +48,7 @@ namespace conedy
 			virtual void setParameter(vector < baseType > parameter)
 			{
 				EDGE::setParameter(parameter);
+				if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
 				weight = parameter[parameter.size() -1];
 				parameter.pop_back();
 			}
@@ -105,9 +110,10 @@ namespace conedy
 			}
 			virtual void setParameter(vector < baseType > parameter)
 			{
+				EDGE::setParameter(parameter);
+				if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
 				weight = parameter[parameter.size() -1];
 				parameter.pop_back();
-				EDGE::setParameter(parameter);
 			}
 
 
@@ -129,7 +135,7 @@ namespace conedy
 
 		virtual const edgeInfo getEdgeInfo() {
 			edgeInfo ancestor = EDGE::getEdgeInfo();
-			edgeInfo ei = {_component_,_weighted_ | ancestor.theEdgeKind, ancestor.theEdgeName + "_component" }; return ei;
+			edgeInfo ei = {_staticComponent_,_weighted_ | ancestor.theEdgeKind, ancestor.theEdgeName + "_staticComponent" }; return ei;
 		}
 
 		virtual baseType getTargetState()
@@ -149,9 +155,10 @@ namespace conedy
 
 			virtual void setParameter(vector < baseType > parameter)
 			{
-				which = parameter[parameter.size() -1];
-				parameter.pop_back();
 				EDGE::setParameter(parameter);
+				if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
+				which = parameter[parameter.size() -1];        
+				parameter.pop_back();
 			}
 
 
@@ -261,11 +268,12 @@ namespace conedy
 
 			virtual void setParameter(vector < baseType > parameter)
 			{
+				EDGE::setParameter(parameter);
+				if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
 				lower = parameter[parameter.size() -1];
 				parameter.pop_back();
 				upper = parameter[parameter.size() -1];
 				parameter.pop_back();
-				EDGE::setParameter(parameter);
 			}
 
 
@@ -347,12 +355,13 @@ namespace conedy
 		stepEdge ( ){};
 		virtual const edgeInfo getEdgeInfo() {
 			edgeInfo ancestor = EDGE::getEdgeInfo();
-			edgeInfo ei = {_pulseCouple_,_weighted_ | ancestor.theEdgeKind,  ancestor.theEdgeName + "_pulseCouple"};  return ei;}
+			edgeInfo ei = {_pulseCouple_,_weighted_ | ancestor.theEdgeKind,  ancestor.theEdgeName + "_step"};  return ei;}
 			virtual void setParameter(vector < baseType > parameter)
 			{
+				EDGE::setParameter(parameter);
+				if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
 				threshold = parameter[parameter.size() -1];
 				parameter.pop_back();
-				EDGE::setParameter(parameter);
 			}
 
 		virtual baseType getTargetState()
@@ -398,9 +407,10 @@ namespace conedy
 
 			virtual void setParameter(vector < baseType > parameter)
 			{
+				EDGE::setParameter(parameter);
+				if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
 				which = parameter[parameter.size() -1];
 				parameter.pop_back();
-				EDGE::setParameter(parameter);
 			}
 
 		component ( int c) :  which ( c ) {}

@@ -6,7 +6,7 @@ net = co.network()
 
 newNodeNumber = net.addNode(co.logisticMap())
 
-net.printNodeStatistics()
+#net.printNodeStatistics()
 net.observe(newNodeNumber+1, "output/observe.py.series")
 
 

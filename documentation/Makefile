@@ -37,7 +37,7 @@ getDocFromTesting:															#
 	mkdir -p reference/network/create\ manipulate
 	mkdir -p reference/network/observe\ dynamics
 	mkdir -p reference/network/measures
-	mkdir -p reference/nodes/mapNode
+	mkdir -p reference/nodes/map
 	mkdir -p reference/nodes/ode
 	mkdir -p reference/nodes/sde
 	mkdir -p reference/nodes/pco
@@ -54,7 +54,7 @@ getDocFromTesting:															#
 	cd ../testing/global; find -name '*.rst' -execdir sh -c 'name={}; ../../documentation/mergeDocExample.sh {} > ../../documentation/reference/$${name#./}' \; 
 
 #	cd ../testing/addedNodes; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/$${name#./}' \; 
-	cd ../testing/addedNodes/map; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/mapNode/$${name#./}' \; 
+	cd ../testing/addedNodes/map; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/map/$${name#./}' \; 
 	cd ../testing/addedNodes/ode; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/ode/$${name#./}' \; 
 	cd ../testing/addedNodes/sde; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/sde/$${name#./}' \; 
 	cd ../testing/addedNodes/pco; find -name '*.rst' -execdir sh -c 'name={}; ../../../documentation/mergeDocExample.sh {} > ../../../documentation/reference/nodes/pco/$${name#./}' \; 

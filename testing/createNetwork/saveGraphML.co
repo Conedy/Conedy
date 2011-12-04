@@ -1,6 +1,6 @@
 network net;
 
-net.completeNetwork<node, weightedEdge>   (10);
+net.completeNetwork(10, node, weightedEdge );
 
 net.saveGraphML("output/saveGraphML.co.graph");
 #net.clear()

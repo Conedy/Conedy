@@ -91,7 +91,27 @@ pulseCoupleDelayEdge	{return(ParserBase::PULSECOUPLEDELAYEDGE); }
 
 edge	{return(ParserBase::EDGE); }
 
-component	{return(ParserBase::COMPONENT); }
+component							{return(ParserBase::COMPONENT); }
+component_weightedEdge			{return(ParserBase::COMPONENT_WEIGHTEDEDGE); }
+component_staticWeightedEdge	{return(ParserBase::COMPONENT_STATICWEIGHTEDEDGE); }
+
+
+staticComponent							{return(ParserBase::STATICCOMPONENT); }
+staticComponent_weightedEdge			{return(ParserBase::STATICCOMPONENT_WEIGHTEDEDGE); }
+staticComponent_staticWeightedEdge	{return(ParserBase::STATICCOMPONENT_STATICWEIGHTEDEDGE); }
+
+
+randomTarget							{return(ParserBase::RANDOMTARGET); }
+randomTarget_weightedEdge			{return(ParserBase::RANDOMTARGET_WEIGHTEDEDGE); }
+randomTarget_staticWeightedEdge	{return(ParserBase::RANDOMTARGET_STATICWEIGHTEDEDGE); }
+
+step								{return(ParserBase::STEPEDGE); }
+step_weightedEdge			{return(ParserBase::STEPEDGE_WEIGHTEDEDGE); }
+step_staticWeightedEdge	{return(ParserBase::STEPEDGE_STATICWEIGHTEDEDGE); }
+
+
+
+
 unlink			{return(ParserBase::UNLINK); }
 sigEdge		{return(ParserBase::SIGEDGE); }
 sigEdgeOrd3		{return(ParserBase::SIGEDGEORD3); }
