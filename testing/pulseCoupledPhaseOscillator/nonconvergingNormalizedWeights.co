@@ -18,7 +18,7 @@ coupling = 0.009;
 
 
 
-n.torusNearestNeighbors(40,40,36.0,  pcoIntegrateFire,staticWeightedEdge());
+n.torusNearestNeighbors(40,40,36.0,  pcoIntegrateFire,staticWeightedEdge(0.009));
 
 
 n.rewire(rewiring);
@@ -30,7 +30,7 @@ n.normalizeInWeightSum(0.27);
 
 
 n.observeTime("output/nonconvergingNormalizedWeights.co.phaseCoherence");
-n.observePhaseCoherence<pcoIntegrateFire>("output/nonconvergingNormalizedWeights.co.phaseCoherence");
+n.observePhaseCoherence("output/nonconvergingNormalizedWeights.co.phaseCoherence", pcoIntegrateFire);
 
 
 n.evolve(0.0,100.0);

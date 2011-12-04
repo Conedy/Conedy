@@ -12,7 +12,10 @@ co.set("samplingTime", 0.01)
 
 net.addNode(co.roessler())
 
-co.set("roessler_omega", 1.0)
+#co.set("roessler_omega", 1.0)
+
+net.setParam (0, "roessler_omega", 1.0);
+
 net.addNode(co.roessler())
 
 
@@ -25,6 +28,8 @@ net.addEdge(1,0,co.weightedEdge(0.5))
 
 net.setState(0, 0.0,0.0,0.0)
 net.setState(1, 1.0,1.0,0.0)
+
+net.printNodeStatistics();
 
 
 net.observeTime("output/roesslerRoesslerCoupled.py.series")

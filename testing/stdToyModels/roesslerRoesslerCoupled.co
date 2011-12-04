@@ -21,6 +21,8 @@ net.setState(0, 0.0,0.0,0.0);
 net.setState(1, 1.0,1.0,0.0);
 
 
+net.printNodeStatistics();
+
 net.observeTime("output/roesslerRoesslerCoupled.co.series");
 
 net.observe(0,"output/roesslerRoesslerCoupled.co.series",component(0));

@@ -3,4 +3,4 @@ network net;
 net.addNode(node());
 
 
-print "Should be 1:" + str( net.size() ) 
+print "Should be 1:" +  net.size() + newline;

@@ -1,10 +1,3 @@
-
-
-
-// Copyright Ralf W. Grosse-Kunstleve 2002-2004. Distributed under the Boost
-// Software License, Version 1.0. (See accompanying
-// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
-
 #include "registerStandards.h"
 
 #include <stdio.h>
@@ -348,6 +341,7 @@ template <class N>
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observePhaseCoherence_overloads, observePhaseCoherence, 1,5);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observeMean_overloads, observeMean, 1,2);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (setState_overloads, setInitialCondition, 2,13);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (getState_overloads, getState, 1,2);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (setStateTemplate_overloads, setState, 1,12);
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (addRandomEdges_overloads, addRandomEdges, 1,2);
@@ -446,11 +440,12 @@ template <class N>
 			.def("isConnected", &MyNetwork<baseType>::isConnected, reinterpret_cast<const char *>(__statisticsNetwork_isConnected))
 			.def("isLinked", &MyNetwork<baseType>::isLinked, reinterpret_cast<const char *>(__statisticsNetwork_isLinked))
 			.def("isDirected", &MyNetwork<baseType>::isDirected, reinterpret_cast<const char *>(__statisticsNetwork_isDirected))
-			.def("getState", &MyNetwork<baseType>::getState, reinterpret_cast<const char *>(__statisticsNetwork_getState))
+			.def("getState", &MyNetwork<baseType>::getState, getState_overloads(reinterpret_cast<const char *>(__statisticsNetwork_getState)))
 			.def("getParam", &MyNetwork<baseType>::getParam, reinterpret_cast<const char *>(__statisticsNetwork_getParam))
 			.def("setParam", &MyNetwork<baseType>::setParam, reinterpret_cast<const char *>(__dynNetwork_setParam))
 
 			// createNetwork commands
+			.def("removeEdges", &MyNetwork<baseType>::removeEdges, reinterpret_cast<const char *>(__createNetwork_addRandomEdges))
 			.def("addRandomEdges", &MyNetwork<baseType>::addRandomEdges, addRandomEdges_overloads (reinterpret_cast<const char *>(__createNetwork_addRandomEdges)))
 
 			.def("torusNearestNeighbors", &MyNetwork<baseType>::torusNearestNeighbors,  reinterpret_cast<const char *>(__createNetwork_torusNearestNeighbors))

@@ -7,5 +7,5 @@ nodeNumber = net.addNode (roessler());
 
 net.setParam (nodeNumber, "roessler_omega", 0.92);
 
-print "Should be 0.92:" + net.getParam(nodeNumber, "roessler_omega");
+print "Should be 0.92:" + net.getParam(nodeNumber, "roessler_omega") + newline;
 

@@ -19,7 +19,7 @@ n.clear();
 
 nodeNumber = n.addNode(exponentialGsl());
 n.setState(nodeNumber,10.0);
-gslOdeNode_stepType = "gsl_odeiv_step_rk2";
+odeStepType = "gsl_odeiv_step_rk2";
 n.observeTime("output/compareWithExponential.co.rk2");
 n.observeAll("output/compareWithExponential.co.rk2");
 n.evolve (0.0,10.0);
@@ -29,7 +29,7 @@ n.clear();
 
 nodeNumber = n.addNode(exponentialGsl());
 n.setState(nodeNumber,10.0);
-gslOdeNode_stepType = "gsl_odeiv_step_rk4";
+odeStepType = "gsl_odeiv_step_rk4";
 n.observeTime("output/compareWithExponential.co.rk4");
 n.observeAll("output/compareWithExponential.co.rk4");
 n.evolve (0.0,10.0);
@@ -39,7 +39,7 @@ n.clear();
 
 nodeNumber = n.addNode(exponentialGsl());
 n.setState(nodeNumber,10.0);
-gslOdeNode_stepType = "gsl_odeiv_step_rkf45";
+odeStepType = "gsl_odeiv_step_rkf45";
 n.observeTime("output/compareWithExponential.co.rk45");
 n.observeAll("output/compareWithExponential.co.rk45");
 n.evolve (0.0,10.0);
@@ -48,7 +48,7 @@ n.clear();
 
 nodeNumber = n.addNode(exponentialGsl());
 n.setState(nodeNumber,10.0);
-gslOdeNode_stepType = "gsl_odeiv_step_rkck";
+odeStepType = "gsl_odeiv_step_rkck";
 n.observeTime("output/compareWithExponential.co.rkck");
 n.observeAll("output/compareWithExponential.co.rkck");
 n.evolve (0.0,10.0);
@@ -57,7 +57,7 @@ n.clear();
 
 nodeNumber = n.addNode(exponentialGsl());
 n.setState(nodeNumber,10.0);
-gslOdeNode_stepType = "gsl_odeiv_step_rk8pd";
+odeStepType = "gsl_odeiv_step_rk8pd";
 n.observeTime("output/compareWithExponential.co.rk8pd");
 n.observeAll("output/compareWithExponential.co.rk8pd");
 n.evolve (0.0,10.0);

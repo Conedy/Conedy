@@ -71,7 +71,7 @@ namespace conedy
 		void removeObserver ();
 
 
-		baseType getState (nodeDescriptor node);
+		baseType getState (nodeDescriptor node, nodeDescriptor component = 0);
 
 
 		void setInitialConditionVec ( int n, vector <baseType> argList );

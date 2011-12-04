@@ -11,8 +11,8 @@ co.set("samplingTime" , 10000)
 nodeNumber = net.addNode(co.pcoIntegrateFire())
 
 
-net.observeTime("output/snapshot.py.series")
-net.observe(nodeNumber, "output/snapshot.py.series")
+net.observeTime("output/evolve2.py.series")
+net.observe(nodeNumber, "output/evolve2.py.series")
 
 
 for i in range (0, 100):                  #observe the state of the node at times 0.3 * n

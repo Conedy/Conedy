@@ -168,7 +168,7 @@ namespace conedy
 				node::theNodes[e.first]-> removeEdge (e.second);
 			}
 
-			void removeEdges (edge * e)
+			void removeEdges (edgeBlueprint * e)
 			{
 				edgeList el;
 				networkElementType edgeType = ((edgeVirtual*) e) -> getEdgeInfo().theEdgeType;

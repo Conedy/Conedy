@@ -132,6 +132,7 @@ removeObserver		{return(ParserBase::REMOVEOBSERVER);}
 addGlobalNoise		{return(ParserBase::ADDGLOBALNOISE);}
 meanDegree		{return(ParserBase::MEANDEGREE); }
 getTarget	{return(ParserBase::GETTARGET); }
+isLinked	{return(ParserBase::ISLINKED); }
 degree		{return(ParserBase::DEGREE); }
 
 

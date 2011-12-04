@@ -9,8 +9,8 @@ roessler_c = 10.0;
 
 samplingTime = 0.1;
 
-#gslOdeNode_error_abs = 0.1;
-#gslOdeNode_error_rel = 0.1;
+odeAbsError = 0.0;
+odeRelError = 0.0;
 
 
 net.addNode(roessler());
@@ -26,8 +26,8 @@ net.evolve(0.0,1500.0);
 net.clear();
 
 
-gslOdeNode_error_abs = 0.00000000000001;
-gslOdeNode_error_rel = 0.00000000000001;
+odeAbsError = 0.00000000000001;
+odeRelError = 0.00000000000001;
 
 
 

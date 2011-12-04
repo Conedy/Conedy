@@ -100,9 +100,9 @@ namespace conedy
 
 
 
-	baseType dynNetwork::getState (nodeDescriptor node)
+	baseType dynNetwork::getState (nodeDescriptor node, nodeDescriptor which)
 	{
-		return (( node::theNodes[node])->getState());
+		return (( (dynNode* )node::theNodes[node])->x[which]);
 	}
 
 	void dynNetwork::evolveFor ( double duration )

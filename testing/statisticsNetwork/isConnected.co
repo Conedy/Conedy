@@ -1,7 +1,7 @@
 network net;
 
-net.addNode<kuramoto>();
-net.addNode<kuramoto>();
+net.addNode(kuramoto());
+net.addNode(kuramoto());
 
 net.addEdge(0,1,1.0);
 print "should give an error: ";
@@ -13,6 +13,9 @@ print newline;
 
 net.clear();
 net.cycle(500,1, kuramoto());
+
+
+
 print "should be connected: ";
 if( net.isConnected() )
 { 

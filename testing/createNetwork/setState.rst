@@ -1,7 +1,7 @@
 
 
 
-network.setInitialCondition(nodeNumber, x1, ..., xn)
+network.setState(nodeNumber, x1, ..., xn)
    Specifies the state of a node.
 
 Parameters

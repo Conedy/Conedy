@@ -5,7 +5,7 @@
 
 network net;
 
-net.randomNetwork<node,edge> (1000, 0.1);
+net.randomNetwork (1000, 0.1, node, edge);
 
 
 #net.printNodeStatistics();

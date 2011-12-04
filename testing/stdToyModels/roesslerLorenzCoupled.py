@@ -16,7 +16,7 @@ co.set("samplingTime", 0.01)
 net.addNode(co.roessler())
 net.addNode(co.lorenz())
 
-net.addEdge(1,0,co.weightedEdge(2.5))
+net.addEdge(0,1,co.weightedEdge(2.5))
 
 
 net.setState(0, 0.0,0.0,0.0  )
