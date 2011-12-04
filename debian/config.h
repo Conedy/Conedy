@@ -20,12 +20,15 @@ todo =  conedy conedy-src documentation
 #dirsrc = CHANGEME
 
 
-# monitor directory for added nodes
-# Example:
-addedDir = ${HOME}/.config/conedy/addedNodes
 
 #addedDir = CHANGEME
 
+# A directory which is monitored by Conedy for files which specify new nodes with user-added dynamics.
+
+addedDir = ${HOME}/.config/conedy/addedNodes
+
+
+#In case you install Conedy's sources and executables into a directory, which is not in userspace, recompilation will require root-priviledges. Choose the tool, which allows to acquire root-priviledges. sudo or kdesudo will work fine. For an installation in userspace noUserSpace can be left empty. 
 
 noUserSpace = sudo
 

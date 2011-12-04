@@ -16,9 +16,9 @@
 .\" .sp <n>    insert n+1 empty lines
 .\" for manpage-specific macros, see man(7)
 .SH NAME
-neurosim \- program to do something
+conedy \- scientifc tool for investigation of complex network dynamics 
 .SH SYNOPSIS
-.B neurosim
+.B conedy
 .RI [ options ] " files" ...
 .br
 .B bar
@@ -53,7 +53,7 @@ The programs are documented fully by
 .IR "The Rise and Fall of a Fooish Bar" ,
 available via the Info system.
 .SH AUTHOR
-neurosim was written by <upstream author>.
+conedy was written by <Alexander Rothkegel>.
 .PP
 This manual page was written by Alexander Rothkegel <rothkegel@uni-bonn.de>,
 for the Debian project (but may be used by others).

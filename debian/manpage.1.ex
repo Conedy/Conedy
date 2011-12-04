@@ -16,7 +16,7 @@
 .\" .sp <n>    insert n+1 empty lines
 .\" for manpage-specific macros, see man(7)
 .SH NAME
-neurosim \- program to do something
+conedy \- program to do something
 .SH SYNOPSIS
 .B neurosim
 .RI [ options ] " files" ...
