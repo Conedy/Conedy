@@ -19,8 +19,7 @@ Differences to the Python module
 
 We illustrate the differences between both ways of using Conedy with an example Python script and its corresponding script for use with the script interpreter:
 
-.. testcode::
-
+::
 	#! /usr/bin/env python
 
 	import conedy as co
@@ -39,7 +38,7 @@ We illustrate the differences between both ways of using Conedy with an example 
 			N.observeTime("sw_%G_%G" % (p,k))
 			N.observeMean("sw_%G_%G" % (p,k), co.component(0))
 
-			#N.evolve(0.0,10000.0)
+			N.evolve(0.0,10000.0)
 			N.removeObserver()
 			N.clear()
 
