@@ -49,8 +49,10 @@ Conedy provides several edge types:
 	- ``stepEdge``: Takes one argument ``threshold``. The returned ``state`` is 1 if the zeroth dynamical variable of the coupled node is smaller than ``threshold`` and 0 otherwise.
 	- ``randomTarget``: Every time the target of such an edge is queried, it will return a random node. The range from which this node can be chosen can be given as an argument to ``randomTarget``. This edge type is intended for use with pulse-coupled oscillators, but may also be used with ``map`` nodes, where it randomizes the source instead of the target though. You will never want to use this edge type with differential equation dynamics (trust us).
 	- ``component``: Like edge, but with an argument you can specify ``target`` to return any dynamical variable, not just the zeroth one.
+   - ``staticComponent``: like component, but the returned dynamical variable is shared among all edges of this kind.
 
-There also exist variants of ``stepEdge``, ``randomTarget``, and ``component`` with weights and static weights. Note, that currently you cannot pass the weight as an argument to these edge templates, but have to modify it with other functions such as ``randomizeWeights``.
+
+There also exist variants of ``stepEdge``, ``randomTarget``, ``component`` and ``staticComponent`` with weights and static weights. All arguments have to be supplied in the order implied by the name. E.g. the edge staticComponent_randomTarget, will first use an number for the dynamical variable as in ``staticComponent`` and then two numbers for the range of chosen nodes as in ``randomTarget``.
 
 See the :ref:`reference for edges<edgesReference>` for a list of available edge types and their syntax.
 
