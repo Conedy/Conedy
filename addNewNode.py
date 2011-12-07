@@ -693,16 +693,28 @@ else:
 
 		for i in  range (1,config.getint(className, 'parameter')+ 1):
 			n.params.append( (config.get(className, 'parametername' + str(i)) , config.getfloat(className, 'defaultvalue' + str(i))) )
-		
+
+
+
+#staticEdges = 1 is not really needed
+
+#		try:
+#				n.static = config.getboolean(className, 'staticEdges')
+#		except:
+#				n.static = 0
+
 		try:
-				n.static = config.getboolean(className, 'staticEdges')
 				n.staticEdgeType = config.get(className, 'staticEdgeType')
-				n.staticTargetNodeType = config.get(className, 'staticTargetNodeType')
-				
+				n.static = 1
 		except:
-				n.static = 0
 				n.staticEdgeType = ""
+				n.static = 0
+		try:
+				n.staticTargetNodeType = config.get(className, 'staticTargetNodeType')
+		except:	
 				n.staticTargetNodeType = ""
+
+		
 
 		n.className = className		
 		n.nodeInfo  = "_" + n.className + "_" 
