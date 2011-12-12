@@ -34,27 +34,42 @@ network_nodeVerbosity
 Controls the amount of information that is printed about nodes after a call of :ref:`printNodeStatistics`
 
 
-streamInNode_compress
+inputCompress
 --------------------------------
 If set to 1.0, streamInNodes (which read and offer data from files) will expect gzip compressed files.
 
 
-
-streamOutNode_append
+outputAppend
 --------------------------------
 If set to 1.0, data is appended if a file with the same name already exists.
 
-streamOutNode_compress
+outputCompress
 --------------------------------
 If set to 1.0, all generated files are compressed using gzip.
 
-streamOutNode_precision
+outputPrecision
 --------------------------------
 Sets the number of digits which are written 
 
-streamOutNode_binary
+outputBinary
 --------------------------------
 If set to 1.0, data is written as 64-bit doubles in binary form without seperation for different time steps. Also, the value of streamOutNode_compress, streamOutNode_precision and streamOutNode_append will not apply.
+
+
+odeStepType
+-----------
+
+
+odeRelError
+-----------
+
+
+odeAbsError
+-----------
+
+
+odeStepSize
+-----------
 
 
 
