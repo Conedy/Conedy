@@ -51,7 +51,7 @@ eventHandler::~eventHandler()
 		return;
 
 	unsigned int i = myEventsStartAt;
-	while (eventList[i].owner == this && i < eventList.size())
+	while (i < eventList.size() &&   eventList[i].owner == this)
 	{
 		eventList[i].time = numeric_limits<baseType>::max();
 		i++;

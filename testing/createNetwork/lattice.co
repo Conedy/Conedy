@@ -3,7 +3,7 @@ network net;
 
 net.lattice (40,40,1.5, node(), weightedEdge()); #creates a lattice of nodes, where each is connected to its 8 (4 direct, 4 diagonal) nearest neighbors
 
-print "should be slightly smaller than 8:" + net.meanDegree() + "\n";
+print "should be slightly smaller than 8:" + net.meanDegree() + newline;
 print "should be close to "+ (12.0/28) +":" + (net.meanClustering());
 
 

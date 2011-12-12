@@ -884,8 +884,8 @@ nodeDescriptor createNetwork::completeNetwork ( int number, nodeBlueprint *n, ed
 		//<baseType>::addNode < nodeBlueprint< baseType > > ();
 		for ( j = 0; j < i; j++ )
 		{
-			network::addEdge ( i,j,l );
-			network::addEdge ( j,i,l );
+			network::addEdge (firstNodeNumber +  i, firstNodeNumber + j,l );
+			network::addEdge (firstNodeNumber +  j, firstNodeNumber + i,l );
 		}
 	}
 	return firstNodeNumber;
