@@ -696,6 +696,7 @@ class constantCommand : public expression<T>
 #define INTNETWORKFUNK(funktionName, net)  new constantCommand <nodeDescriptor> (0)
 #define INTNETWORKFUNK1(funktionName, net, arg1)  new constantCommand <nodeDescriptor> (0)
 #define INTNETWORKFUNK2(funktionName, net, arg1, arg2)    new constantCommand <nodeDescriptor> (0)
+#define INTNETWORKFUNK3(funktionName, net, arg1, arg2, arg3)    new constantCommand <nodeDescriptor> (0)
 
 #define BASETYPENETWORKFUNK(funktionName, net)  new constantCommand <baseType> (0)
 #define BASETYPENETWORKFUNK1(funktionName, net, arg1)  new constantCommand <baseType> (0)
@@ -735,6 +736,7 @@ class constantCommand : public expression<T>
 #define INTNETWORKFUNK(funktionName, net)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net))
 #define INTNETWORKFUNK1(funktionName, net, arg1)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net, (arg1)   ))
 #define INTNETWORKFUNK2(funktionName, net, arg1, arg2)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net, (arg1), (arg2)   ))
+#define INTNETWORKFUNK3(funktionName, net, arg1, arg2, arg3)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net, (arg1), (arg2), (arg3)   ))
 
 
 #define NETWORKFUNK(funktionName, net)  new bindInstruction(bind(&networkTemplate::funktionName, net )) 
