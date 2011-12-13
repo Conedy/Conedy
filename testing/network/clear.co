@@ -1,9 +1,5 @@
 network net;
 
-
-
-
-
 net.addNode(roessler());
 print "Should be 1:" +  net.size()+ newline;
 net.clear();

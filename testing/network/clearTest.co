@@ -3,7 +3,7 @@ network_edgeVerbosity = 1.0;
 network_nodeVerbosity = 1.0;
 
 network n;
-n.addNode<pcoNonleaky>();
+n.addNode(pcoNonleaky());
 print "Should be 1:"+ n.size()+ newline;
 
 n.observe(0,"test");
@@ -11,7 +11,7 @@ n.removeObserver();
 
 print "Should be 1:"+ n.size()+ newline;
 
-n.addNode<pcoNonleaky>();
+n.addNode(pcoNonleaky());
 n.observe(0,"test");
 
 n.clear();
@@ -19,7 +19,7 @@ n.clear();
 print "Should be 0:"+ n.size()+ newline;
 
 int newNodeNumber;
-newNodeNumber = n.addNode<pcoNonleaky>();
+newNodeNumber = n.addNode(pcoNonleaky());
 n.observe(newNodeNumber,"test");
 
 

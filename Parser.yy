@@ -99,6 +99,7 @@ instruction		: system
 | createNetworkCommand
 | spatialNetworkCommand
 | bluePrintCommand
+| statisticsNetworkCommandInt
 | for
 	| EXIT { $$ = new bindInstruction(bind(exit, 1)); }
 | if
