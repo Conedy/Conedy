@@ -58,19 +58,19 @@ If set to 1.0, data is written as 64-bit doubles in binary form without seperati
 
 odeStepType
 -----------
-
+XXX
 
 odeRelError
 -----------
-
+XXX
 
 odeAbsError
 -----------
-
+XXX
 
 odeStepSize
 -----------
-
+XXX
 
 
 
