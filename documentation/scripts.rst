@@ -10,16 +10,15 @@ Why use the script interpreter?
 
 The Python module and the script interpreter both provide everything, Conedy has to offer. Beyond this, however, the script interpreter’s functionality is rather limited, whereas Python offers a vast amount of libraries. On the other hand, the interpreter can easily be linked statically, which can be very useful, if you want to distribute computations onto a cluster. Furthermore it has support for the `Condor`_ job management system (see below).
 
-So, if you are only using Conedy on a single computer, you may usually want to use its Python module. If you want your calculations to run on other computers but a full install of Conedy on all of them is impossible or significantly troublesome, you should take a look at the script interpreter – even more, if your job management software is Condor.
+So, if you are only using Conedy on a single computer, you may usually want to use its Python module. If you want your calculations to run on other computers but a full install of Conedy on all of them is impossible or significantly troublesome, you should take a look at the script interpreter—even more, if your job management software is Condor.
 
 
 
 Differences to the Python module
 --------------------------------
 
-We illustrate the differences between both ways of using Conedy with an example Python script and its corresponding script for use with the script interpreter:
+We illustrate the differences between both ways of using Conedy with an example Python script and its corresponding script for use with the script interpreter::
 
-::
 	#! /usr/bin/env python
 
 	import conedy as co
@@ -47,9 +46,8 @@ We illustrate the differences between both ways of using Conedy with an example 
 .. _small-world: http://en.wikipedia.org/wiki/Small-world_network
 
 
-The following script performs the same operations, if run with ``conedy``:
+The following script performs the same operations, if run with ``conedy``::
 
-::
 	network N;
 
 	double p;
@@ -76,7 +74,7 @@ The following script performs the same operations, if run with ``conedy``:
 	};
 
 
-   
+
 
 
 
@@ -107,7 +105,7 @@ assuming, that the script is stored in ``script.co``. Note the zero-based enumer
 
 At the moment, Conedy only supports to vectorise two nested loops. Note, that you can however still use a regular loop in the innermost vectorised loop.
 
-Having vectorised your loops, distributed computing is quite straight-forward, since all that is needed to run such a script is the ``conedy`` executable.
+Having vectorised your loops, distributed computing is quite straightforward, since all that is needed to run such a script is the ``conedy`` executable.
 
 ``conedyCondor``
 ----------------
@@ -116,6 +114,6 @@ Having vectorised your loops, distributed computing is quite straight-forward, s
 
 ``conedyCondor`` is a tool, that automatically generates a DAG file from a script with vectorized loops (see above). To distrubute computations, all you have to do, is to call this file with ``condor_submit_dag``.
 
-In addition to ``vectorFor``, ``conedyCondor`` also interpretes the command ``chainFor``, which causes the bodies of the respective loop to be processed one after another —but possibly on different machines. “Communication” between these different iterations has to happen via files, however.
+In addition to ``vectorFor``, ``conedyCondor`` also interpretes the command ``chainFor``, which causes the bodies of the respective loop to be processed one after another—but possibly on different machines. “Communication” between these different iterations has to happen via files, however.
 
 .. _Condor: http://www.cs.wisc.edu/condor/
