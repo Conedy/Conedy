@@ -159,6 +159,7 @@ Because of this, changing the ``samplingTime`` will slightly affect the results 
 
 If both, ``odeAbsError`` and ``odeRelError`` are set to 0.0, the step size is set to the largest number smaller than ``odeStepSize`` that allows for the time until the next event to be evenly divided into steps.
 As long as ``odeStepSize`` is small in comparison to ``samplingTime`` (see :ref:`evolving`) and the total evolving time, the actual step size differs very little from it.
+Again, ``samplingTime`` slightly influences the step size and thus the results of the integration.
 
 
 For example, the following commands will issue a time evolution, where the step size starts at 0.1 and is then dynamically adjusted, such that the estimated integration error for each dynamical variable is one per mill of the value of this variable. However, the step size will never exceed 10.0 or the time left until the next event:
