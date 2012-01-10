@@ -34,6 +34,7 @@ namespace conedy
 		//			{
 
 
+		baseType startTime = dynNode::time;
 		baseType endTime = dynNode::time + timeTilEvent;
 
 		// adaptive stepsize has valgrind errors, don't know why
@@ -42,11 +43,13 @@ namespace conedy
 //		baseType *errors = ( baseType* ) calloc (p.getParams(0) ,sizeof ( baseType)  );
 //				cout << stepSize << "\n";
 
-		if ( error_abs() == 0.0 && error_rel() == 0.0)
+		if (error_abs() == 0.0 && error_rel() == 0.0)
 		{									// without stepsize control
-			double dt = timeTilEvent/ceil(timeTilEvent/stepSize);
-			for (baseType currentTime = dynNode::time; currentTime < endTime + 0.5*dt; currentTime += dt)
-				if ( gsl_odeiv_step_apply ( gslStep,currentTime,
+			int stepCount = timeTilEvent/stepSize + 1.0 - 1e-8 ;
+			double dt = timeTilEvent / stepCount;
+			for (int i = 0; i < stepCount; i++)
+			{
+				if ( gsl_odeiv_step_apply ( gslStep,dynNode::time,
 							dt,
 							containerNode<baseType,3>::dynamicVariablesOfAllDynNodes,
 							errors,
@@ -54,16 +57,18 @@ namespace conedy
 							NULL,
 							&gslOdeSys) !=GSL_SUCCESS )
 					throw "gslError!";
+				dynNode::time += dt;
+			}
 		}
 		else
 		{									// with stepsize control
-			for (baseType currentTime = dynNode::time; currentTime < endTime;)
+			while(dynNode::time < endTime)
 			{
 				int status = gsl_odeiv_evolve_apply (gslEvolve,
 						gslControl,
 						gslStep,
 						&gslOdeSys,
-						&currentTime,
+						&dynNode::time,
 						endTime,
 						&stepSize,
 						containerNode<baseType,3>::dynamicVariablesOfAllDynNodes) ;
@@ -76,7 +81,7 @@ namespace conedy
 			}
 		}
 
-		//	dynNode::time = startTime;    // changing the time is handled by the evolve-loop in dynNetwork.cpp
+		dynNode::time = startTime;    // changing the time is handled by the evolve-loop in dynNetwork.cpp
 
 
 		//
