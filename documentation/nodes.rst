@@ -157,7 +157,7 @@ The initial step size is determined by the parameter ``odeStepSize``.
 However, a step will never go beyond the next *event*, i.e. the end of the time evolution or the next automatic snapshot (controlled by the parameter ``samplingTime``, see :ref:`evolving`).
 Because of this, changing the ``samplingTime`` will slightly affect the results of the integration, which in turn may have large consequences when integrating a chaotic system.
 
-If both, ``odeAbsError`` and ``odeRelError`` are set to 0.0, the step size is set to the largest number smaller than ``odeStepSize`` that allows for the time until the next event to be evenly divided into steps.
+If both, ``odeAbsError`` and ``odeRelError`` are set to 0.0, the step size is set to the largest value, that (a) is at most marginally greater than the parameter ``odeStepSize`` and (b) allows for the time until the next event to be evenly divided into steps.
 As long as ``odeStepSize`` is small in comparison to ``samplingTime`` (see :ref:`evolving`) and the total evolving time, the actual step size differs very little from it.
 Again, ``samplingTime`` slightly influences the step size and thus the results of the integration.
 
