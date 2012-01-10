@@ -151,9 +151,18 @@ See the `the GSL’s documentation`_ for specific information.
 Adjusting precision
 '''''''''''''''''''
 
-With all these schemes the step size adapts such that the estimated error of integration  for each :math:`x_i` is lower than :math:`\texttt{odeAbsError} + \texttt{odeRelError} \cdot x_i`, where ``odeAbsError`` and ``odeRelError`` are parameters, that can be set in Conedy. ``odeAbsError`` defaults to 0.0, ``odeRelError`` defaults to :math:`10^{-5}`. If both are set to 0.0, the step size is not adaptive, but fixed to ``odeStepSize``. This parameter also sets the initial step size when integrating with adaptive step size. Either way the parameter ``samplingTime`` and the end of a time evolution pose upper limits to the integration step size (see :ref:`evolving`).
+With all these schemes the step size adapts such that the estimated error of integration for each :math:`x_i` is lower than :math:`\texttt{odeAbsError} + \texttt{odeRelError} \cdot x_i`, where ``odeAbsError`` and ``odeRelError`` are parameters, that can be set in Conedy.
+``odeAbsError`` defaults to 0.0, ``odeRelError`` defaults to :math:`10^{-5}`.
+The initial step size is determined by the parameter ``odeStepSize``.
+However, a step will never go beyond the next *event*, i.e. the end of the time evolution or the next automatic snapshot (controlled by the parameter ``samplingTime``, see :ref:`evolving`).
+Because of this, changing the ``samplingTime`` will slightly affect the results of the integration, which in turn may have large consequences when integrating a chaotic system.
 
-For example, the following commands will issue a time evolution, where the step size starts at 0.1 and is then dynamically adjusted, such that the estimated integration error for each dynamical variable is one per mill of the value of this variable. However, the step size will never exceed 10.0 or the time left until the end of the time evolution:
+If both, ``odeAbsError`` and ``odeRelError`` are set to 0.0, the step size is set to the largest number smaller than ``odeStepSize`` that allows for the time until the next event to be evenly divided into steps.
+As long as ``odeStepSize`` is small in comparison to ``samplingTime`` (see :ref:`evolving`) and the total evolving time, the actual step size differs very little from it.
+Again, ``samplingTime`` slightly influences the step size and thus the results of the integration.
+
+
+For example, the following commands will issue a time evolution, where the step size starts at 0.1 and is then dynamically adjusted, such that the estimated integration error for each dynamical variable is one per mill of the value of this variable. However, the step size will never exceed 10.0 or the time left until the next event:
 
 .. testcode::
 
@@ -163,7 +172,7 @@ For example, the following commands will issue a time evolution, where the step 
 	co.set("samplingTime", 10.0)
 	N.evolve(0.0,100.0)
 
-
+If instead ``odeRelError`` is set to 0.0 in the second line, the step size will fixed to 0.1 (or to a marginally smaller value).
 
 
 Stochastic differential equations (``sde``)

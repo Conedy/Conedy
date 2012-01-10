@@ -5,7 +5,7 @@
 
 
 
-namespace conedy 
+namespace conedy
 {
 
 
@@ -32,8 +32,9 @@ namespace conedy
 		//double endTime = dynNode::time + timeTilEvent;
 		//			while (dynNode::time <  endTime)
 		//			{
-		double dt = timeTilEvent;
 
+
+		baseType endTime = dynNode::time + timeTilEvent;
 
 		// adaptive stepsize has valgrind errors, don't know why
 		//				if ( gsl_odeiv_evolve_apply ( gslEvolve,gslControl,gslStep,&gslOdeSys,&dynNode::time,endTime ,&dt,containerNode<baseType,3>::dynamicVariablesOfAllDynNodes ) !=GSL_SUCCESS )
@@ -43,36 +44,28 @@ namespace conedy
 
 		if ( error_abs() == 0.0 && error_rel() == 0.0)
 		{									// without stepsize control
-
-			if ( gsl_odeiv_step_apply ( gslStep,dynNode::time,
-						dt,
-						containerNode<baseType,3>::dynamicVariablesOfAllDynNodes, 
-						errors,
-						NULL,
-						NULL, 
-						&gslOdeSys) !=GSL_SUCCESS )
-				throw "gslError!";
-
-
-			// with stepsize control
+			double dt = timeTilEvent/ceil(timeTilEvent/stepSize);
+			for (baseType currentTime = dynNode::time; currentTime < endTime + 0.5*dt; currentTime += dt)
+				if ( gsl_odeiv_step_apply ( gslStep,currentTime,
+							dt,
+							containerNode<baseType,3>::dynamicVariablesOfAllDynNodes,
+							errors,
+							NULL,
+							NULL,
+							&gslOdeSys) !=GSL_SUCCESS )
+					throw "gslError!";
 		}
-		else 
-		{	
-
-
-			baseType  startTime = dynNode::time;
-			baseType endTime = dynNode::time + timeTilEvent;
-
-
-			while ( dynNode::time < endTime)
+		else
+		{									// with stepsize control
+			for (baseType currentTime = dynNode::time; currentTime < endTime;)
 			{
-				int status = gsl_odeiv_evolve_apply (gslEvolve, 
-						gslControl, 
-						gslStep, 
-						&gslOdeSys, 
-						&dynNode::time, 
-						endTime,  
-						&stepSize, 
+				int status = gsl_odeiv_evolve_apply (gslEvolve,
+						gslControl,
+						gslStep,
+						&gslOdeSys,
+						&currentTime,
+						endTime,
+						&stepSize,
 						containerNode<baseType,3>::dynamicVariablesOfAllDynNodes) ;
 				if (status != GSL_SUCCESS)
 					break;
@@ -80,12 +73,10 @@ namespace conedy
 #ifdef DEBUG
 								cout << stepSize << "\n";
 #endif
-
 			}
-			dynNode::time = startTime;    // changing the time is handled by the evolve-loop in dynNetwork.cpp
+		}
 
-		} 
-
+		//	dynNode::time = startTime;    // changing the time is handled by the evolve-loop in dynNetwork.cpp
 
 
 		//
