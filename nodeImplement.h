@@ -720,9 +720,13 @@ baseType nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::couplingSum()
 void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::link (nodeDescriptor targetNumber,  edge *l )
 {
 	//			cout << "warnung, nodeTemplateEdge";
+	vector <baseType> theParameter;
+	((edgeVirtual *)l)->getParameter(theParameter);
 
+	cout << "theparameter:" << theParameter.size() ; // << " " << theParameter[0] << endl;
 
-	link(targetNumber, l->getWeight());
+	link(targetNumber, 0.0);
+	outEdges[outEdges.size()].setParameter(theParameter);
 }
 
 	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>

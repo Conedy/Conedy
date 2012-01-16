@@ -2,5 +2,5 @@ network N;
 network M;
 
 int i = N.addNode(roessler());
-N.observe(i, "output", component(0));
+N.observe(i, "output/twoNetworks.co.roessler", component(0));
 N.evolve(0.0,1.0);
