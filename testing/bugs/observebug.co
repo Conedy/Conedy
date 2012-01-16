@@ -1,12 +1,6 @@
 network N;
+network M;
+
 int i = N.addNode(roessler());
 N.observe(i, "output", component(0));
-N.evolve(0.0,1000.0);
-
-N.removeObserver();
-N.clear();
-
-
-network M;
-int j = M.addNode(roessler);
-M.observe(j, "outputb", component(0));
+N.evolve(0.0,1.0);
