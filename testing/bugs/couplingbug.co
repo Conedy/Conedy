@@ -1,0 +1,27 @@
+double startwerta = 1.0;
+double startwertb = 1.0;
+double a = 1.0;
+double b = -1.0;
+
+network N;
+
+
+int j = N.completeNetwork(2, onlyCoupling(), staticWeightedEdge());
+N.randomizeWeights(constant(1.0));
+N.setState(j, startwerta);
+N.setState(j+1, startwertb);
+N.setParam(j, "onlyCoupling_a", a);
+N.setParam(j+1, "onlyCoupling_a", b);
+
+N.observe(j, "output", component(0));
+
+
+int k = N.addNode(doubleOnlyCoupling);
+N.setState(k, startwerta, startwertb);
+N.setParam(k, "doubleOnlyCoupling_a", a);
+N.setParam(k, "doubleOnlyCoupling_b", b);
+
+N.observe(k, "output", component(0));
+
+
+N.evolve(0.0,100.0);
