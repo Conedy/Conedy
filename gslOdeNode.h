@@ -150,10 +150,17 @@ namespace conedy
 
 			static int dgl ( baseType t,const baseType y[], baseType f[], void *params )
 			{
+				baseType * originalNodeStates = containerNode<baseType,3>::dynamicVariablesOfAllDynNodes;
+				containerNode<baseType,3>::dynamicVariablesOfAllDynNodes = const_cast<baseType*> (y);
+
 				list<containerNode<baseType,3>*>::iterator it;
 				for ( it = containerNode<baseType,3>::nodeList.begin(); it != containerNode<baseType,3>::nodeList.end();it++ )
-					( * ((gslOdeNode*)*it) ) ( &y[ ( *it )->startPosGslOdeNodeArray], &f[ ( *it )->startPosGslOdeNodeArray] );
+					( * ((gslOdeNode*)*it) ) 
+							( &y[ ( *it )->startPosGslOdeNodeArray], 
+							  &f[ ( *it )->startPosGslOdeNodeArray] );
 				return GSL_SUCCESS;
+				containerNode<baseType,3>::dynamicVariablesOfAllDynNodes = originalNodeStates;
+
 			}
 			//! Kopieren der Temp-Zustände in den Zustand nach erfolgter Integration
 			//			virtual void swap()

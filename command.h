@@ -580,7 +580,7 @@ class vectorForInstruction : public instruction
 			{
 				int counter = atoi(commandLineArguments::arg[2+loopCounter].c_str());
 				loopCounter++;
-				cout << "Ausführen des " << counter<<".ten Schleifendurchlauf. " << endl;
+				cout << "executing " << counter<<". loop iteration." << endl;
 				start->execute();
 				for (int i = 0; i < counter; i++)
 				{

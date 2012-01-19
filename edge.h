@@ -140,7 +140,7 @@ namespace conedy
 
 		 baseType getTargetState()
 		{
-			return (  (dynNode*)  ( EDGE::getTarget() ) ) ->x[which]   ;
+			return (  (dynNode*)  ( EDGE::getTarget() ) ) ->getState(which)   ;
 
 		}
 		 edge *construct() {
@@ -423,7 +423,7 @@ namespace conedy
 
 		 baseType getTargetState()
 		{
-			return (  (dynNode*)  ( EDGE::getTarget() ) ) ->x[which]   ;
+			return (  (dynNode*)  ( EDGE::getTarget() ) ) ->getState(which)   ;
 
 		}
 		 edge *construct() {

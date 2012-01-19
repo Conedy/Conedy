@@ -107,7 +107,7 @@ namespace conedy
 		if (which == 0)
 			return node::theNodes[node]->getState();
 		else
-			return (( (dynNode* )node::theNodes[node])->x[which]);
+			return (( (dynNode* )node::theNodes[node])->getState(which));
 	}
 
 	void dynNetwork::evolveFor ( double duration )

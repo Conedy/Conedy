@@ -23,5 +23,7 @@ N.setParam(k, "doubleOnlyCoupling_b", b);
 
 N.observe(k, "output", component(0));
 
+N.printNodeStatistics();
+
 
 N.evolve(0.0,100.0);
