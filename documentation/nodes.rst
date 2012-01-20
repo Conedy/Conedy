@@ -86,9 +86,7 @@ Finally the dynamics of the system has to be defined. The exact syntax of this p
 		dxdt[1] = x[0] + a*x[1];
 		dxdt[2] = b + x[2] * (x[0]-c);
 
-(Note that the indenting of every line after the first is mandatory here.)
-
-These equations are directly copied into a C++ file and may contain the following elements:
+Note that the indenting of every line after the first is mandatory here. The equations are directly copied into a C++ file and may contain the following elements:
 
 -	standard C constructs like basic mathematical operators, brackets or loops
 -	functions from ``math.h``
@@ -96,7 +94,7 @@ These equations are directly copied into a C++ file and may contain the followin
 -	the dynamical variables such as ``x[0]``
 -	``weightSum()`` which returns the sum over the weights (``weight``) of the incoming edges.
 -	``couplingSum()`` which returns the sum over the ``weight`` × ``state`` as supplied by the incoming edges. For most edge types, ``state`` is the current value of the first dynamical variable of the connected node.
--	the macro ``FOREACHCONNECTEDNODE`` which provides a loop over all incoming edges. In such a loop ``weight`` returns the weight of the respective edge and ``state`` returns the state. For example the first equation of the above Rössler oscillator might as well been defined by:
+-	the macro ``FOREACHCONNECTEDNODE`` which provides a loop over all incoming edges. In such a loop ``weight`` returns the weight of the respective edge and ``state`` returns the state. For example the first equation of the above Rössler oscillator might as well have been defined by:
 
 	.. code-block:: c++
 
