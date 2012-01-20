@@ -723,7 +723,6 @@ void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::link (nodeDescriptor targe
 	vector <baseType> theParameter;
 	((edgeVirtual *)l)->getParameter(theParameter);
 
-	cout << "theparameter:" << theParameter.size() ; // << " " << theParameter[0] << endl;
 
 	link(targetNumber, 0.0);
 	outEdges[outEdges.size()].setParameter(theParameter);
