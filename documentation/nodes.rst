@@ -86,6 +86,8 @@ Finally the dynamics of the system has to be defined. The exact syntax of this p
 		dxdt[1] = x[0] + a*x[1];
 		dxdt[2] = b + x[2] * (x[0]-c);
 
+(Note that the indenting of every line after the first is mandatory here.)
+
 These equations are directly copied into a C++ file and may contain the following elements:
 
 -	standard C constructs like basic mathematical operators, brackets or loops
@@ -98,8 +100,9 @@ These equations are directly copied into a C++ file and may contain the followin
 
 	.. code-block:: c++
 
+		dxdt[0] = -omega()*x[1] - x[2];
 		FOREACHCONNECTEDNODE(
-			dxdt[0] = -omega()*x[1] - x[2] + weight*state - weight*x[0];
+			dxdt[0] += weight*state - weight*x[0];
 		)
 
 	For an example, which requires the use of ``FOREACHCONNECTEDNODE``, see the :ref:`Kuramoto oscillator <kuramoto>`.
