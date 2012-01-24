@@ -1,1 +1,9 @@
-XXX
+network N;
+
+loop(100) N.addNode(logisticMap());
+
+N.randomizeStates(logisticMap(), constant (0.4));
+N.observeMean("output/observeMean.co.mean");
+
+N.evolve(0.0,100.0);
+

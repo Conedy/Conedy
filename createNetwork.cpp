@@ -1474,40 +1474,16 @@ nodeDescriptor createNetwork::createFromAdjacencyMatrix (string fileName, nodeBl
 
 
 
-/*nodeDescriptor createNetwork::createFromMatrix ( vector <nodeBlueprint *> * nodes, vector <vector<baseType> > weights )
-{
-	network::clear();
-	for ( unsigned int n = 0; n < nodes->size(); n++ )
-	{
-		addNode ( ( *nodes ) [n] );
-	}
-
-
-	for ( unsigned int i = 0; i < nodes->size(); i++ )
-		for ( unsigned int j = 0; j < nodes->size(); j++ )
-			if ( std::abs ( weights[i][j] ) != (baseType) 0)
-				network::link ( i,j,weights[i][j] );
-
-}*/
-
-
-
-//! Fügt einen Knoten vom Typ streamOutNode hinzu, der in die Datei s schreibt. Der Knoten erhält eine stdEdge zu jedem Knoten vom Typ _dynNode_. und schreibt somit die Summe aller States weg.
-//void createNetwork::observeMean ( string s )
-//{
-//	nodeBlueprint *nod = new nodeVirtualEdges <streamOutNode> ( s );
-//	nodeDescriptor newNodeNumber = addNode ( nod );
-//	network::addEdges ( newNodeNumber,_dynNode_ );
-//	inOutNodeList.push_back ( dynamic_cast<dynNode*> (nodeBlueprint::theNodes[newNodeNumber] ));
-//	delete nod;
-//}
-//
 //! wie oben mit links vom Typ l
 void createNetwork::observeMean ( string s, edgeBlueprint *l )
 {
 
+
 	nodeBlueprint *nod = new nodeVirtualEdges <streamOutNode> ( s );
 	int newNodeNumber = addNode ( nod );
+	
+	unsigned int nodeNumbers = numberVertices(_dynNode_);
+	l->setWeight(1.0/nodeNumbers);
 	network::addEdges ( newNodeNumber,_dynNode_,l );
 
 	inOutNodeList.push_back ( dynamic_cast<dynNode*> (nodeBlueprint::theNodes[newNodeNumber] ));
