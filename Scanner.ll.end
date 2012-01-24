@@ -85,7 +85,6 @@ delayLink		{return(ParserBase::DELAYLINK); }
 cycle			{return(ParserBase::CYCLE); }
 line 			{return(ParserBase::LINE); }
 
-cycleCluster		{return(ParserBase::CYCLECLUSTER); }
 pulseCoupleEdge	{return(ParserBase::PULSECOUPLEEDGE); }
 pulseCoupleDelayEdge	{return(ParserBase::PULSECOUPLEDELAYEDGE); }
 

@@ -1,3 +1,0 @@
-network N;
-N.completeNetwork(2, exponentialStatic(), weightedEdge(0.1));
-N.saveAdjacencyList("adjacencyList");

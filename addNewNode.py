@@ -57,6 +57,7 @@ class NodeEditor:
 	type = ""
 	staticEdges = 0
 	staticEdgeType = ""
+	staticEdgeBlueprint = ""
 	staticTargetNodeType = ""
 	fileNameOut = ""
 
@@ -533,10 +534,14 @@ class NodeEditor:
 			self.staticEdgeType = self.staticEdgeType.replace ("_","<")
 			hierachy = self.staticEdgeType.count ("<")
 			self.staticEdgeType += ("<")
+			self.staticEdgeBlueprint = self.staticEdgeType + (" edgeVirtual") 
 			self.staticEdgeType = self.staticEdgeType + (" edge")
+
+
 			for i in range (0, hierachy):
 				self.staticEdgeType += (">")
-			fout.write("class_< nodeTemplateEdges< %s >  , %s , %s >, bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ) // added by addNewNodes.py\n" %(self.staticEdgeType, self.staticTargetNodeType,self.className,  fileNameOut, self.type, self.className))
+				self.staticEdgeBlueprint += (">")
+			fout.write("class_< nodeTemplateEdges< %s >  , %s > , %s >, bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ) // added by addNewNodes.py\n" %(self.staticEdgeType, self.staticEdgeBlueprint,self.className,  fileNameOut, self.type, self.className))
 			fout.write(". def (\"__init__\", make_constructor (nodeFactory%i < nodeTemplateEdges <%s >, %s, %s > > )); // added by addNewNodes.py\n"  %( len(self.params), self.staticEdgeType, self.staticTargetNodeType, self.className))   #adding constructor with different parameters
 	
 		fout.close()
@@ -633,7 +638,7 @@ class NodeEditor:
 		if (self.static == 0):
 			fout.write("\t\t| %s { nodeBlueprint *n = new nodeVirtualEdges< %s >(); $$ = new constantCommand<nodeBlueprint*>(n); }\n" % (self.className.upper(), self.className))
 		if (self.static ==1):
-			fout.write("\t\t| %s { nodeBlueprint *n = new nodeTemplateEdges< %s  >    , %s , %s >(); $$ = new constantCommand<nodeBlueprint*>(n); }\n" % (self.className.upper(), self.staticEdgeType, self.staticTargetNodeType, self.className))
+			fout.write("\t\t| %s { nodeBlueprint *n = new nodeTemplateEdges< %s  >    , %s > , %s >(); $$ = new constantCommand<nodeBlueprint*>(n); }\n" % (self.className.upper(), self.staticEdgeType, self.staticEdgeBlueprint, self.className))
 		fout.close()
 		del fout
 

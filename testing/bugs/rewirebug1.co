@@ -1,3 +1,0 @@
-network N;
-N.torusNearestNeighbors(10, 10, 4.0, exponentialStatic(), edge());
-N.rewire(1.0);
