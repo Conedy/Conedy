@@ -1,0 +1,5 @@
+network N;
+
+N.torusNearestNeighbors(5, 5, 2.0, exponentialStatic(), weightedEdge(0.002));
+
+N.observeMean("output", component(0));
