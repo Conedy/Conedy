@@ -179,14 +179,14 @@ namespace conedy
 			void observeEventCounter ( string s, unsigned int signature);
 
 			//! wie oben. Phasen werden von Edges vom Typ l übergeben.
-			void observeMeanPhase ( string s, edgeBlueprint *l );
+			void observeSumPhase ( string s, edgeBlueprint *l );
 
 
-			void observeMeanPhase ( string s );
+			void observeSumPhase ( string s );
 
 
 			//! wie oben mit links vom Typ l
-			void observeMean ( string s, edgeBlueprint *l = stdEdge );
+			void observeSum ( string s, edgeBlueprint *l = stdEdge );
 
 			void observeEvent (string s, nodeDescriptor signature);
 
@@ -212,7 +212,7 @@ namespace conedy
 
 			//! Fügt einen Knoten vom Typ streamOutNode hinzu, der in die Datei s schreibt. Der Knoten erhält eine stdEdge zu jedem Knoten vom Typ _dynNode_. und schreibt somit die Summe aller States weg.
 
-//			void observeMean ( string s );
+//			void observeSum ( string s );
 
 			//! observiert den Knoten number mit einer stdEdge und schreibt in die Datei s.
 //			void observe ( string s, nodeDescriptor number );

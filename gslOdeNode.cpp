@@ -31,23 +31,41 @@ namespace conedy
 
 		if (error_abs() == 0.0 && error_rel() == 0.0)
 		{									// without stepsize control
+
+			throw "fixed stepsize seems to be broken at the moment.";
+
 			int stepCount = timeTilEvent/stepSize + 1.0 - 1e-8 ;
 			double dt = timeTilEvent / stepCount;
-			for (int i = 0; i < stepCount; i++)
-			{
+
+
 				if ( gsl_odeiv_step_apply ( gslStep,dynNode::time,
-							dt,
+							timeTilEvent,
 							containerNode<baseType,3>::dynamicVariablesOfAllDynNodes,
 							errors,
 							NULL,
 							NULL,
 							&gslOdeSys) !=GSL_SUCCESS )
 					throw "gslError!";
-				dynNode::time += dt;
-#ifdef DEBUG
-								cout << dt << "\n";
-#endif
-			}
+	
+
+//			for (int i = 0; i < stepCount; i++)
+//			{
+//				if ( gsl_odeiv_step_apply ( gslStep,dynNode::time,
+//							dt,
+//							containerNode<baseType,3>::dynamicVariablesOfAllDynNodes,
+//							errors,
+//							NULL,
+//							NULL,
+//							&gslOdeSys) !=GSL_SUCCESS )
+//					throw "gslError!";
+////				dynNode::time += dt;
+//#ifdef DEBUG
+//								cout << dt << "\n";
+//#endif
+//			}
+//
+
+
 		}
 		else
 		{									// with stepsize control

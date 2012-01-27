@@ -1475,15 +1475,15 @@ nodeDescriptor createNetwork::createFromAdjacencyMatrix (string fileName, nodeBl
 
 
 //! wie oben mit links vom Typ l
-void createNetwork::observeMean ( string s, edgeBlueprint *l )
+void createNetwork::observeSum ( string s, edgeBlueprint *l )
 {
 
 
 	nodeBlueprint *nod = new nodeVirtualEdges <streamOutNode> ( s );
 	int newNodeNumber = addNode ( nod );
 	
-	unsigned int nodeNumbers = numberVertices(_dynNode_);
-	l->setWeight(1.0/nodeNumbers);
+//	unsigned int nodeNumbers = numberVertices(_dynNode_);
+//	l->setWeight(1.0/nodeNumbers);
 	network::addEdges ( newNodeNumber,_dynNode_,l );
 
 	inOutNodeList.push_back ( dynamic_cast<dynNode*> (nodeBlueprint::theNodes[newNodeNumber] ));
@@ -1584,7 +1584,7 @@ void createNetwork::observePhaseCorrelation ( string s, nodeBlueprint *n)
 //}
 //
 
-void createNetwork::observeMeanPhase ( string s )
+void createNetwork::observeSumPhase ( string s )
 {
 	nodeBlueprint *nod = new nodeVirtualEdges <calculateMeanPhase> ();
 	nodeDescriptor newNodeNumber = addNode ( nod );
@@ -1594,7 +1594,7 @@ void createNetwork::observeMeanPhase ( string s )
 }
 
 //! wie oben. Phasen werden von Edges vom Typ l übergeben.
-void createNetwork::observeMeanPhase ( string s, edgeBlueprint *l )
+void createNetwork::observeSumPhase ( string s, edgeBlueprint *l )
 {
 	nodeBlueprint *nod = new nodeVirtualEdges <calculateMeanPhase> ();
 	nodeDescriptor newNodeNumber = addNode ( nod );

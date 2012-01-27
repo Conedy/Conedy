@@ -54,7 +54,6 @@ namespace conedy
 			}
 			void getParameter(vector < baseType > &parameter)
 			{
-				cout <<"getParameter of weighetdEdge called";
 				EDGE::getParameter(parameter);
 				parameter.push_back(weight);
 			}

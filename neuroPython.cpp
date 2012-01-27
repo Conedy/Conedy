@@ -339,7 +339,7 @@ template <class N>
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (createFromAdjacencyList_overloads, createFromAdjacencyList, 1,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (createFromAdjacencyMatrix_overloads, createFromAdjacencyMatrix, 1,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observePhaseCoherence_overloads, observePhaseCoherence, 1,5);
-	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observeMean_overloads, observeMean, 1,2);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observeSum_overloads, observeSum, 1,2);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (setState_overloads, setInitialCondition, 2,13);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (getState_overloads, getState, 1,2);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (setStateTemplate_overloads, setState, 1,12);
@@ -417,7 +417,7 @@ template <class N>
 			.def("observeAll", &MyNetwork<baseType>::observeAll, observeAll_overloads (reinterpret_cast<const char *>(__dynNetwork_observeAll)))
 			.def("observeTime", &MyNetwork<baseType>::observeTime, reinterpret_cast<const char *>(__dynNetwork_observeTime))
 			.def("observePhaseCoherence", &MyNetwork<baseType>::observePhaseCoherence, observePhaseCoherence_overloads( reinterpret_cast<const char *>(__dynNetwork_observePhaseCoherence)))
-			.def("observeMean", &MyNetwork<baseType>::observeMean, observeMean_overloads( reinterpret_cast<const char *>(__dynNetwork_observeMean)))
+			.def("observeSum", &MyNetwork<baseType>::observeSum, observeSum_overloads( reinterpret_cast<const char *>(__dynNetwork_observeSum)))
 			.def("printNodeStatistics", &MyNetwork<baseType>::printNodeStatistics, reinterpret_cast<const char *>(__statisticsNetwork_printNodeStatistics))
 			.def("removeObserver", &MyNetwork<baseType>::removeObserver, reinterpret_cast<const char *>(__dynNetwork_removeObserver))
 

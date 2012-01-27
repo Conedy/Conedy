@@ -542,7 +542,7 @@ class NodeEditor:
 				self.staticEdgeType += (">")
 				self.staticEdgeBlueprint += (">")
 			fout.write("class_< nodeTemplateEdges< %s >  , %s > , %s >, bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ) // added by addNewNodes.py\n" %(self.staticEdgeType, self.staticEdgeBlueprint,self.className,  fileNameOut, self.type, self.className))
-			fout.write(". def (\"__init__\", make_constructor (nodeFactory%i < nodeTemplateEdges <%s >, %s, %s > > )); // added by addNewNodes.py\n"  %( len(self.params), self.staticEdgeType, self.staticTargetNodeType, self.className))   #adding constructor with different parameters
+			fout.write(". def (\"__init__\", make_constructor (nodeFactory%i < nodeTemplateEdges <%s >, %s > , %s > > )); // added by addNewNodes.py\n"  %( len(self.params), self.staticEdgeType, self.staticEdgeBlueprint, self.className))   #adding constructor with different parameters
 	
 		fout.close()
 		del fout

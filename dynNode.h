@@ -18,7 +18,7 @@
 #endif
 
 
-#define FOREACHCONNECTEDNODE(whatToDo) node::edgeDescriptor ia, ie; \
+#define forEachEdge(whatToDo) node::edgeDescriptor ia, ie; \
 	ia = 0; \
 ie = degree(); \
 for (;ia !=ie;ia++) { \
