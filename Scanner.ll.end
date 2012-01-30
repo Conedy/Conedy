@@ -35,7 +35,7 @@ addEdge		{return(ParserBase::ADDEDGE); }
 randomNetwork		{return(ParserBase::RANDOMNETWORK); }
 completeNetwork		{return(ParserBase::COMPLETENETWORK); }
 observe		{return(ParserBase::OBSERVE); }
-observeMean		{return(ParserBase::OBSERVEMEAN); }
+observeSum		{return(ParserBase::OBSERVEMEAN); }
 observePhaseCoherence	{ return (ParserBase::OBSERVEPHASECOHERENCE); }
 observePhaseCorrelation	{ return (ParserBase::OBSERVEPHASECORRELATION); }
 observePhaseDistance 	{ return (ParserBase::OBSERVEPHASEDISTANCE); }
