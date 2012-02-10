@@ -15,7 +15,6 @@ connectCloseNodes		{return(ParserBase::CONNECTCLOSENODES);}
 connectCloseNodesTorus		{return(ParserBase::CONNECTCLOSENODESTORUS);}
 
 startingConditionSmallDisturbance	{return (ParserBase::STARTINGCONDITIONSMALLDISTURBANCE); }
-randomTargetEdge				{return (ParserBase::RANDOMTARGETEDGE); }
 
 
 

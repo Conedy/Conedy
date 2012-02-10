@@ -262,8 +262,8 @@ namespace conedy
 			void getParameter(vector < baseType> & parameter)
 			{
 				EDGE::getParameter(parameter);
-				parameter.push_back(lower);
 				parameter.push_back(upper);
+				parameter.push_back(lower);
 			}
 
 			void setParameter(vector < baseType > parameter)
@@ -271,6 +271,7 @@ namespace conedy
 				EDGE::setParameter(parameter);
 				if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
 				lower = parameter[parameter.size() -1];
+
 				parameter.pop_back();
 				upper = parameter[parameter.size() -1];
 				parameter.pop_back();

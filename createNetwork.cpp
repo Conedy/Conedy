@@ -678,6 +678,7 @@ void createNetwork::addRandomEdgesDegreeDistribution ( function <double () > r ,
 	nodeIterator it;
 	vector <nodeDescriptor> nodeStubs;
 
+	unsigned int size = numberVertices(); 
 
 	unsigned int numberLinks;
 
@@ -692,7 +693,7 @@ void createNetwork::addRandomEdgesDegreeDistribution ( function <double () > r ,
 
 	unsigned int j;
 	nodeDescriptor swap;
-	for (unsigned int i = nodeStubs.size()-1; i == 1 ; i = i - 1)
+	for (unsigned int i = nodeStubs.size()-1; i > 1 ; i = i - 1)
 	{
 		j = gslNoise::getUniformInt (0, i);
 		swap = nodeStubs [j];
