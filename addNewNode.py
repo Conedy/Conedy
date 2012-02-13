@@ -462,7 +462,7 @@ class NodeEditor:
 			i = 3 
 
 		for p in self.params:
-			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_%s\",%i,%f);\n" % (self.nodeInfo, fileNameOut, p[0], i, p[1]) )
+			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_%s\",%i,%.16f);\n" % (self.nodeInfo, fileNameOut, p[0], i, p[1]) )
 			i += 1
 		del i
 		fout.write("\t}\n")
@@ -592,7 +592,7 @@ class NodeEditor:
 		fout.write ("\n\n")
 
 		for p in self.params:
-			fout.write("- %s_%s \t\t =  %f; \n" % (self.className, p[0], p[1]) )
+			fout.write("- %s_%s \t\t =  %.16f; \n" % (self.className, p[0], p[1]) )
 
 		fout.write("\n")
 
