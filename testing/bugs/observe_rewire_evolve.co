@@ -1,6 +1,7 @@
 network N;
 N.addNode(roessler());
 N.addNode(roessler());
-N.observeTime("output");
+N.observeTime("output/out");
 N.rewire(1.0);
+N.printNodeStatistics();
 N.evolve(0.0,1.0);

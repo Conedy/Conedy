@@ -1,4 +1,0 @@
-network N;
-int j = N.addNode(roessler());
-int k = N.completeNetwork(1, roessler(), edge());
-N.addEdge(k, j, edge());

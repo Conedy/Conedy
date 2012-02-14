@@ -872,7 +872,7 @@ nodeDescriptor createNetwork::createFromAdjacencyList(string fileName, nodeBluep
 nodeDescriptor createNetwork::completeNetwork ( int number, nodeBlueprint *n, edgeBlueprint *l )
 {
 	int i, j;
-	network::clear();
+//network::clear();
 	if (number == 0)
 		return -1;
 
@@ -1115,6 +1115,8 @@ void createNetwork::rewire ( double prop, nodeBlueprint *n )
 	nodeList vl;
 	network::verticesMatching(vl, n);
 	getRandomNode r (vl);
+
+
 
 	for ( it = toChange.begin(); it != toChange.end(); it++ )
 	{
