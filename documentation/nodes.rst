@@ -160,7 +160,7 @@ Because of this, changing the ``samplingTime`` will slightly affect the results 
 
 If both, ``odeAbsError`` and ``odeRelError`` are set to 0.0, the step size is set to the largest value, that (a) is at most marginally greater than the parameter ``odeStepSize`` and (b) allows for the time until the next event to be evenly divided into steps.
 As long as ``odeStepSize`` is small in comparison to ``samplingTime`` (see :ref:`evolving`) and the total evolving time, the actual step size differs very little from it.
-Again, ``samplingTime`` slightly influences the step size and thus the results of the integration.
+Again, ``samplingTime`` slightly influences the step size and thus the results of the integration. ``odeStepSize`` defaults to 0.001, ``samplingTime`` defaults to 0.01.
 
 
 For example, the following commands will issue a time evolution, where the step size starts at 0.1 and is then dynamically adjusted, such that the estimated integration error for each dynamical variable is one per mill of the value of this variable. However, the step size will never exceed 10.0 or the time left until the next event:
@@ -174,6 +174,9 @@ For example, the following commands will issue a time evolution, where the step 
 	N.evolve(0.0,100.0)
 
 If instead ``odeRelError`` is set to 0.0 in the second line, the step size will fixed to 0.1 (or to a marginally smaller value).
+
+D
+
 
 
 Stochastic differential equations (``sde``)
