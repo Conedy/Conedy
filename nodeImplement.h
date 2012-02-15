@@ -80,7 +80,7 @@ namespace conedy {
 
 
 
-				float res = 0;
+				baseType res = 0;
 				edgeIterator ei;
 				for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
 					res = res +  (*ei)->getWeight();
@@ -148,9 +148,9 @@ namespace conedy {
 			// Statistikkram
 			//		virtual void printStatistics();
 			virtual unsigned int degree() { return outEdges.size();}
-			virtual float clustering ();
-			virtual float weightSum();
-			virtual float inWeightSum();
+			virtual baseType clustering ();
+			virtual baseType weightSum();
+			virtual baseType inWeightSum();
 			//			virtual nodeDescriptor getNumber(); // { return ( nodeDescriptor ) number; };
 
 		protected:
@@ -293,8 +293,8 @@ void nodeVirtualEdges<DYNNODE>::fire ()
 
 
 template <typename DYNNODE>
-float nodeVirtualEdges<DYNNODE>::inWeightSum() {
-	float res = 0;
+baseType nodeVirtualEdges<DYNNODE>::inWeightSum() {
+	baseType res = 0;
 	vector<node *>::iterator it;
 	for (it = DYNNODE::theNodes.begin(); it != DYNNODE::theNodes.end(); it++)
 	{	
@@ -309,14 +309,14 @@ float nodeVirtualEdges<DYNNODE>::inWeightSum() {
 
 #ifdef PRECALCULATEWEIGHTSUM
 template <typename DYNNODE>
-float nodeVirtualEdges<DYNNODE>::weightSum() {
+baseType nodeVirtualEdges<DYNNODE>::weightSum() {
 	return preCalculatedWeightSum;
 }
 #else	
 	template <typename DYNNODE>
-float nodeVirtualEdges<DYNNODE>::weightSum()
+baseType nodeVirtualEdges<DYNNODE>::weightSum()
 {
-	float res = 0;
+	baseType res = 0;
 	edgeIterator ei;
 	for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
 		res = res +  (*ei)->getWeight();
@@ -389,7 +389,7 @@ baseType nodeVirtualEdges<DYNNODE>::linkStrength ( node *target )
 }
 
 	template <typename DYNNODE>
-float nodeVirtualEdges<DYNNODE>::clustering ()
+baseType nodeVirtualEdges<DYNNODE>::clustering ()
 {
 	baseType linkedFriends = 0;
 	edgeIterator s,t;
@@ -399,7 +399,7 @@ float nodeVirtualEdges<DYNNODE>::clustering ()
 			linkedFriends = linkedFriends + (( * s )->getTarget()->linkStrength ( ( *t )->getTarget() ) ) ;
 		}
 	if ( outEdges.size() > 1 )
-		return ( float ) linkedFriends / ( outEdges.size() * ( outEdges.size() -1 ) );
+		return ( baseType ) linkedFriends / ( outEdges.size() * ( outEdges.size() -1 ) );
 	else
 		return 0;
 }
@@ -455,7 +455,7 @@ class nodeTemplateEdges : public DYNNODE
 		virtual void clean () {
 #ifdef PRECALCULATEWEIGHTSUM
 
-			float res = 0;
+			baseType res = 0;
 
 			edgeIterator ei;
 			for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
@@ -525,9 +525,9 @@ class nodeTemplateEdges : public DYNNODE
 		// Statistikkram
 		//		virtual void printStatistics();
 		virtual unsigned int degree() { return outEdges.size();}
-		virtual float clustering ();
-		virtual float weightSum();
-		virtual float inWeightSum();
+		virtual baseType clustering ();
+		virtual baseType weightSum();
+		virtual baseType inWeightSum();
 		//			virtual nodeDescriptor getNumber(); // { return ( nodeDescriptor ) number; };
 
 	protected:
@@ -607,9 +607,9 @@ baseType nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::getMeanPhaseCoherence()
 
 
 	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
-float nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::inWeightSum ()
+baseType nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::inWeightSum ()
 {
-	float res = 0;
+	baseType res = 0;
 	vector<node *>::iterator it;
 	for (it = DYNNODE::theNodes.begin(); it != DYNNODE::theNodes.end(); it++)
 	{	
@@ -623,15 +623,15 @@ float nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::inWeightSum ()
 
 #ifdef PRECALCULATEWEIGHTSUM
 	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
-float nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::weightSum ()
+baseType nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::weightSum ()
 {
 	return preCalculatedWeightSum;
 }
 #else	
 	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
-float nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::weightSum ()
+baseType nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::weightSum ()
 {
-	float res = 0;
+	baseType res = 0;
 	edgeIterator ei;
 	for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
 		res = res +  ei->getWeight();
@@ -689,7 +689,7 @@ baseType nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::linkStrength ( node *targ
 
 
 	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
-float nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::clustering ()
+baseType nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::clustering ()
 {
 	baseType linkedFriends = 0;
 	edgeIterator s,t;
@@ -697,7 +697,7 @@ float nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::clustering ()
 		for ( t= outEdges.begin(); t!= outEdges.end();t++ )
 			linkedFriends = linkedFriends +  s->getTarget()->linkStrength ( t->getTarget() )  ;
 	if ( outEdges.size() > 1 )
-		return ( float ) linkedFriends / ( outEdges.size() * ( outEdges.size() -1 ) );
+		return ( baseType ) linkedFriends / ( outEdges.size() * ( outEdges.size() -1 ) );
 	else
 		return 0;
 }

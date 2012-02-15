@@ -130,9 +130,9 @@ namespace conedy
 
 
 
-	float statisticsNetwork::meanOutDegree ()
+	baseType statisticsNetwork::meanOutDegree ()
 	{
-		float f= 0 ;
+		baseType f= 0 ;
 		network::nodeIterator ia;
 		network::nodeList vl;
 		network::verticesMatching ( vl,_dynNode_ );
@@ -145,7 +145,7 @@ namespace conedy
 	}
 
 
-	float statisticsNetwork::meanInDegree ()
+	baseType statisticsNetwork::meanInDegree ()
 	{
 		unsigned int sum = 0;
 		vector <unsigned int > inDegree = inDegreeDistribution();
@@ -157,9 +157,9 @@ namespace conedy
 
 
 
-	float statisticsNetwork::meanWeight()
+	baseType statisticsNetwork::meanWeight()
 	{
-		float f= 0;
+		baseType f= 0;
 		int degreeSum = 0;
 
 		network::nodeIterator ia;
@@ -247,10 +247,10 @@ namespace conedy
 
 
 
-	float statisticsNetwork::meanClustering()
+	baseType statisticsNetwork::meanClustering()
 	{
 
-		float f= 0;
+		baseType f= 0;
 
 		network::nodeIterator ia;
 		network::nodeList vl;
@@ -319,7 +319,7 @@ namespace conedy
 
 			unsigned int i;
 
-			float sum = 0;
+			baseType sum = 0;
 			int vert = 0;
 
 			double dist;
@@ -448,7 +448,7 @@ vector<baseType> dijkstraCompare::weightMap;
 
 
 
-	float statisticsNetwork::meanPathLength() // funktioniert nur für komplett verbundene Netzwerke korrekt
+	baseType statisticsNetwork::meanPathLength() // funktioniert nur für komplett verbundene Netzwerke korrekt
 	{
 		network::nodeIterator vi;
 		network::nodeList vl;
@@ -471,9 +471,9 @@ vector<baseType> dijkstraCompare::weightMap;
 
 
 /*	template <class T>
-	float statisticsNetwork<T>::meanDistanceMult()
+	baseType statisticsNetwork<T>::meanDistanceMult()
 	{
-		float distSum = 0;
+		baseType distSum = 0;
 		vector <T> dist ( network::numberVertices() );
 		unsigned int i,j;
 

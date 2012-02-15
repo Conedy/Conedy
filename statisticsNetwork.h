@@ -25,18 +25,18 @@ namespace conedy
 			nodeDescriptor degree (nodeDescriptor v) { return node::theNodes[v]->degree(); }
 			double meanDegree() { return meanOutDegree();}
 
-			float meanInDegree ();
-			float meanOutDegree ();
-			float meanClustering();
+			baseType meanInDegree ();
+			baseType meanOutDegree ();
+			baseType meanClustering();
 			void printStatistics ( string s );
 			void dijkstra( vector<baseType>& ret, nodeList vl, unsigned int v);
-			float meanPathLength();
-//			float meanDistanceMult();
+			baseType meanPathLength();
+//			baseType meanDistanceMult();
 			void degreeCentrality ( string filename );
 			void closenessCentrality ( string filename );
 			void betweennessCentrality ( string filename );
 
-			float meanWeight();
+			baseType meanWeight();
 
 			unsigned int countEdges (edgeVirtual *e);
 

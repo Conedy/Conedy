@@ -247,14 +247,14 @@ namespace conedy
 			virtual unsigned int degree()  { throw "unimplemented function degree of node called!"; };
 
 			//! gibt den lokalen Clustering-coeffizient zurück vom Knoten
-			virtual float clustering ()  { throw "unimplemented function clustering of node called!"; };
+			virtual baseType clustering ()  { throw "unimplemented function clustering of node called!"; };
 
 			//! gibt die Summe der Verbindungsgewichte aller ausgehende Verbindungen zurück.
-			virtual float weightSum()  { throw "unimplemented function weightSum of node called!"; };
+			virtual baseType weightSum()  { throw "unimplemented function weightSum of node called!"; };
 
 
 			//! gibt die Summer der Verbindungsgewichte aller eingehenden Verbindungen zurück.
-			virtual float inWeightSum()  { throw "unimplemented function inWeightSum of node called!"; };
+			virtual baseType inWeightSum()  { throw "unimplemented function inWeightSum of node called!"; };
 
 			//! gibt die Nummer im statischen Vector theNodes zurück, andessen Stelle ein Zeiger auf den  momentanen Knotens gespeichert ist. 
 			virtual nodeDescriptor getNumber() { return number; }

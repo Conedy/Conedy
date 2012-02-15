@@ -256,7 +256,7 @@ namespace conedy
 		void smallDisturbance ( double radius, int posx, int posy, boost::function<double () > r );
 
 		   void smallDisturbance ( double radius, boost::function<double () > r )
-			{			unsigned int size = sqrt ( (float) network::theNodes.size() );
+			{			unsigned int size = sqrt ( (baseType) network::theNodes.size() );
 					smallDisturbance ( radius, size/2, size/2, r );
 				}
 		

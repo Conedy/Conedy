@@ -366,7 +366,7 @@ namespace conedy
 	{
 		queue<double> initialCond;
 
-		unsigned int size = sqrt ( (float) network::theNodes.size() );
+		unsigned int size = sqrt ( (baseType) network::theNodes.size() );
 		for ( unsigned int i = 0; i < size; i++ )
 			for ( unsigned int j = 0; j < size; j++ )
 			{
@@ -392,7 +392,7 @@ namespace conedy
 		queue<double> initialCond;
 
 
-		unsigned int size = sqrt ( (float) network::theNodes.size() );
+		unsigned int size = sqrt ( (baseType) network::theNodes.size() );
 		cout << "Size:" << size << endl;
 
 		for ( unsigned int i = 0; i < size; i++ )
@@ -471,7 +471,7 @@ namespace conedy
 		queue<double> initialCond;
 
 
-		unsigned int size = sqrt ( (float) node::theNodes.size() );
+		unsigned int size = sqrt ( (baseType) node::theNodes.size() );
 		cout << "Size:" << size << endl;
 
 		for ( unsigned int i = 0; i < size; i++ )

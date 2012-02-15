@@ -526,7 +526,7 @@ nodeDescriptor createNetwork::beeWeb ( int x, int y, nodeBlueprint *n )
 					dist_y = ( a_y - b_y ) % ( y );
 
 
-					if ( sqrt ( (float) dist_x*dist_x+dist_y*dist_y+dist_x*dist_y ) <=1 )
+					if ( sqrt ( (baseType) dist_x*dist_x+dist_y*dist_y+dist_x*dist_y ) <=1 )
 
 						network::addEdge ( a_x * x + a_y, b_x*x + b_y );
 
@@ -549,7 +549,7 @@ void createNetwork::addRandomEdges ( double meanOutDeg, edgeBlueprint *l )
 	/*       network::nodeIterator ia, ie;
 				ia = network::vertices().first;
 				ie = network::vertices().second;
-				float f= 0;
+				baseType f= 0;
 				for (;ia!= ie; ia++)
 				{
 				f = f + (*ia)->degree();
@@ -559,7 +559,7 @@ void createNetwork::addRandomEdges ( double meanOutDeg, edgeBlueprint *l )
 
 
 
-	float meanOut = ( ( statisticsNetwork* ) this )->meanOutDegree() ;
+	baseType meanOut = ( ( statisticsNetwork* ) this )->meanOutDegree() ;
 
 	int toDo = ( int ) ( ( meanOutDeg - meanOut ) * network::numberVertices() );
 
