@@ -94,16 +94,16 @@ Note that the indenting of every line after the first is mandatory here. The equ
 -	the dynamical variables such as ``x[0]``
 -	``weightSum()`` which returns the sum over the weights (``weight``) of the incoming edges.
 -	``couplingSum()`` which returns the sum over the ``weight`` × ``state`` as supplied by the incoming edges. For most edge types, ``state`` is the current value of the first dynamical variable of the connected node.
--	the macro ``FOREACHCONNECTEDNODE`` which provides a loop over all incoming edges. In such a loop ``weight`` returns the weight of the respective edge and ``state`` returns the state. For example the first equation of the above Rössler oscillator might as well have been defined by:
+-	the macro ``forEachEdge`` which provides a loop over all incoming edges. In such a loop ``weight`` returns the weight of the respective edge and ``state`` returns the state. For example the first equation of the above Rössler oscillator might as well have been defined by:
 
 	.. code-block:: c++
 
 		dxdt[0] = -omega()*x[1] - x[2];
-		FOREACHCONNECTEDNODE(
+		forEachEdge(
 			dxdt[0] += weight*state - weight*x[0];
 		)
 
-	For an example, which requires the use of ``FOREACHCONNECTEDNODE``, see the :ref:`Kuramoto oscillator <kuramoto>`.
+	For an example, which requires the use of ``forEachEdge``, see the :ref:`Kuramoto oscillator <kuramoto>`.
 
 For more information on ``weight`` and ``state``, see :ref:`edges`.
 
@@ -154,13 +154,13 @@ Adjusting precision
 
 With all these schemes the step size adapts such that the estimated error of integration for each :math:`x_i` is lower than :math:`\texttt{odeAbsError} + \texttt{odeRelError} \cdot x_i`, where ``odeAbsError`` and ``odeRelError`` are parameters, that can be set in Conedy.
 ``odeAbsError`` defaults to 0.0, ``odeRelError`` defaults to :math:`10^{-5}`.
-The initial step size is determined by the parameter ``odeStepSize``.
+The initial step size is determined by the parameter ``odeStepSize``, which defaults to 0.001.
 However, a step will never go beyond the next *event*, i.e. the end of the time evolution or the next automatic snapshot (controlled by the parameter ``samplingTime``, see :ref:`evolving`).
 Because of this, changing the ``samplingTime`` will slightly affect the results of the integration, which in turn may have large consequences when integrating a chaotic system.
 
 If both, ``odeAbsError`` and ``odeRelError`` are set to 0.0, the step size is set to the largest value, that (a) is at most marginally greater than the parameter ``odeStepSize`` and (b) allows for the time until the next event to be evenly divided into steps.
 As long as ``odeStepSize`` is small in comparison to ``samplingTime`` (see :ref:`evolving`) and the total evolving time, the actual step size differs very little from it.
-Again, ``samplingTime`` slightly influences the step size and thus the results of the integration. ``odeStepSize`` defaults to 0.001, ``samplingTime`` defaults to 0.01.
+Again, ``samplingTime`` slightly influences the step size and thus the results of the integration.
 
 
 For example, the following commands will issue a time evolution, where the step size starts at 0.1 and is then dynamically adjusted, such that the estimated integration error for each dynamical variable is one per mill of the value of this variable. However, the step size will never exceed 10.0 or the time left until the next event:
@@ -174,8 +174,6 @@ For example, the following commands will issue a time evolution, where the step 
 	N.evolve(0.0,100.0)
 
 If instead ``odeRelError`` is set to 0.0 in the second line, the step size will fixed to 0.1 (or to a marginally smaller value).
-
-D
 
 
 
@@ -226,7 +224,7 @@ Example:
 
 	delta = a() +  b() * phase;
 
-You may use the same elements as for the definition of differential equations. ``weightSum()``, ``couplingSum()`` and ``FOREACHCONNECTEDNODE`` will, however, refer to outgoing instead of incoming edges and be of little use either way. Additionally the current phase of the node is provided as ``phase``—changes of this variable are, however, without effect. Also the weight of the edge which mediated the pulse is given as ``coupling``.
+You may use the same elements as for the definition of differential equations. ``weightSum()``, ``couplingSum()`` and ``forEachEdge`` will, however, refer to outgoing instead of incoming edges and be of little use either way. Additionally the current phase of the node is provided as ``phase``—changes of this variable are, however, without effect. Also the weight of the edge which mediated the pulse is given as ``coupling``.
 
 If a pulse sets a node’s phase to a value greater than 1.0, this node also fires, but the excess phase remains. E.g., a node with a phase of 1.4 fires and its phase is set to 0.4 afterwards. If you wish the phase to be reset to 0.0 in this case, you can implement this in the ``dynamics`` field:
 

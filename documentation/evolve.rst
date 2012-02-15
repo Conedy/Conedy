@@ -26,7 +26,7 @@ See :ref:`observeDynamics` for further observables.
 
 Evolving
 --------
-After creating the network and setting the observables, you will usually call the ``evolve`` function, which evolves the dynamical state of all nodes in the network. In perdiodic intervals, a snapshot of all observed features is performed. The duration between snapshots can be controlled by setting the global variable ``samplingTime``::
+After creating the network and setting the observables, you will usually call the ``evolve`` function, which evolves the dynamical state of all nodes in the network. In perdiodic intervals, a snapshot of all observed features is performed. The duration between snapshots can be controlled by setting the global variable ``samplingTime``, which defaults to 0.01::
 
    co.set("samplingTime", 0.01)
    co.evolve (0.0, 100.0)
