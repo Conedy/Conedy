@@ -36,12 +36,17 @@ namespace conedy
 		class containerNode : public dynNode
 	{
 		protected:
-
+			//! static pointer to the dynamical variables of all nodes in the container
 			static T * dynamicVariablesOfAllDynNodes;
+			//! the number of used indices, the smallest unused index
 			static unsigned int usedIndices;
+			//! the current size of the container
 			static unsigned int sizeOfArray; 
+			//! a list of all nodes in the container
 			typedef  list<containerNode<T,N> *> containerNodeList;
 			static containerNodeList nodeList;
+
+
 			params<T> p;
 
 
@@ -51,9 +56,16 @@ namespace conedy
 
 
 		public:
-					static unsigned int containerDimension () { return usedIndices;}	
+			unsigned int startPosGslOdeNodeArray;
+
+			virtual baseType getState (unsigned int component) { return dynamicVariablesOfAllDynNodes[ startPosGslOdeNodeArray + component ]; }
+
+			static unsigned int containerDimension () { return usedIndices;}	
 			containerNode (networkElementType n ) : dynNode ( n), p ( _containerNode_ )		{		};
 			containerNode (networkElementType n, unsigned int dim ) : dynNode ( n, dim), p ( _containerNode_ )		{		};
+
+
+
 
 			static void clear()
 			{
@@ -72,7 +84,7 @@ namespace conedy
 
 
 			containerNode ( const containerNode & c ) : dynNode ( c ), p ( _containerNode_ )
-		{
+			{
 
 			free( this->x);
 			//cout << "Copy-Konstruktor" << endl;
@@ -101,7 +113,7 @@ namespace conedy
 
 					typename containerNodeList::iterator it;
 
-	
+
 
 					for (it = nodeList.begin(); it != nodeList.end(); it++)
 					{
@@ -123,14 +135,14 @@ namespace conedy
 
 
 			}
-				this->x =  &dynamicVariablesOfAllDynNodes[usedIndices];
+			this->x =  &dynamicVariablesOfAllDynNodes[usedIndices];
 
-				nodeList.push_back ( this );
-				startPosGslOdeNodeArray = usedIndices;
-				usedIndices += (&c)->dimension();
+			nodeList.push_back ( this );
+			startPosGslOdeNodeArray = usedIndices;
+			usedIndices += (&c)->dimension();
 
 #ifdef DEBUG
-				cout << "startPosGslOdeNodeArray:" << startPosGslOdeNodeArray << endl;
+			cout << "startPosGslOdeNodeArray:" << startPosGslOdeNodeArray << endl;
 #endif
 
 
@@ -177,7 +189,6 @@ namespace conedy
 
 
 
-			unsigned int startPosGslOdeNodeArray;
 
 			//! clean: wird vor der Integration aufgerufen und initialisiert diverse GSL-Parameter (Art der Stufenfunktion, Schrittweite usw.)
 			virtual void clean ()
@@ -186,33 +197,8 @@ namespace conedy
 
 			}
 
-			//			virtual void operator() ( const T x[], T dydx[] )  = 0;
-
-			//! Bereitstellung des ODE-Systems: Ableitungen werden in Array geschrieben
-
 			bool amIFirst()	 { return ( (*nodeList.begin()) == this);  }
 
-
-
-
-			//! Kopieren der Temp-Zustände in den Zustand nach erfolgter Integration
-			//		virtual void swap()
-			//		{
-			//			this->state = this->x[0];
-
-			//		};
-
-			//	virtual void clean() {};
-
-			//	virtual T getHiddenComponent(int component) { return x[component]; }
-
-
-			//	virtual T getState();
-
-			//	virtual streamIn(ifstream &in);
-			//	virtual streamOut(ofstream &out);
-
-			//			virtual node *construct() { return new node ( *this ); };
 
 			static void registerStandardValues()
 			{

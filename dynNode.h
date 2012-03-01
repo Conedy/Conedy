@@ -18,7 +18,7 @@
 #endif
 
 
-#define FOREACHCONNECTEDNODE(whatToDo) node::edgeDescriptor ia, ie; \
+#define forEachEdge(whatToDo) node::edgeDescriptor ia, ie; \
 	ia = 0; \
 ie = degree(); \
 for (;ia !=ie;ia++) { \
@@ -33,6 +33,9 @@ namespace conedy
 	class dynNode : public node, public params<baseType>
 
 	{
+			//! Zeiger auf Speicherplatz für die
+		protected:
+			baseType *  x;
 		public:
 
 
@@ -59,7 +62,7 @@ namespace conedy
 			virtual const unsigned int dimension () const { return 0; }
 
 			virtual baseType getHiddenComponent ( int component ) {return x[component];}
-			virtual baseType getState() {return x[0];  }
+			virtual baseType getState() { return this->getState(0);  }
 
 			virtual void upkeep() { throw "upkeep of dynNode called";}
 
@@ -67,12 +70,10 @@ namespace conedy
 
 			virtual void printStatistics(ostream &os, double nodeVerbosity, double edgeVerbosity);
 
-			virtual	baseType getMeanPhaseCoherence() { throw "getMeanPhaseCoherence";}
+			virtual  baseType getMeanPhaseCoherence() { throw "getMeanPhaseCoherence";}
 			virtual	baseType couplingSum() { throw "couplingSum"; }
 			virtual	void fire () { throw "fire"; }
 
-			//! Zeiger auf Speicherplatz für die
-			baseType *  x;
 
 			virtual void excite(baseType couplingStrength);
 
@@ -83,6 +84,7 @@ namespace conedy
 
 			virtual void randomizeState ( vector <boost::function<double () > > &r );
 
+			virtual baseType getState (unsigned int component) { return x[component];}
 
 			void setState(  baseType a1, baseType a2 = numeric_limits<baseType>::max(), baseType a3 = numeric_limits<baseType>::max(), baseType a4 = numeric_limits<baseType>::max(), baseType a5 = numeric_limits<baseType>::max(), baseType a6 = numeric_limits<baseType>::max(), baseType a7 = numeric_limits<baseType>::max(), baseType a8 = numeric_limits<baseType>::max(), baseType a9 = numeric_limits<baseType>::max(), baseType a10 = numeric_limits<baseType>::max(), baseType a11 = numeric_limits<baseType>::max(), baseType a12 = numeric_limits<baseType>::max());
 

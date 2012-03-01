@@ -319,8 +319,6 @@ namespace conedy
 
 
 
-
-			//! gibt Anzahl der Knoten im Netzwerk zurück
 			unsigned int numberVertices() { return theNodes.size(); } 
 			unsigned int size() { return theNodes.size(); }
 

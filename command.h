@@ -580,7 +580,7 @@ class vectorForInstruction : public instruction
 			{
 				int counter = atoi(commandLineArguments::arg[2+loopCounter].c_str());
 				loopCounter++;
-				cout << "Ausführen des " << counter<<".ten Schleifendurchlauf. " << endl;
+				cout << "executing " << counter<<". loop iteration." << endl;
 				start->execute();
 				for (int i = 0; i < counter; i++)
 				{
@@ -696,6 +696,9 @@ class constantCommand : public expression<T>
 #define INTNETWORKFUNK(funktionName, net)  new constantCommand <nodeDescriptor> (0)
 #define INTNETWORKFUNK1(funktionName, net, arg1)  new constantCommand <nodeDescriptor> (0)
 #define INTNETWORKFUNK2(funktionName, net, arg1, arg2)    new constantCommand <nodeDescriptor> (0)
+#define INTNETWORKFUNK3(funktionName, net, arg1, arg2, arg3)    new constantCommand <nodeDescriptor> (0)
+#define INTNETWORKFUNK4(funktionName, net, arg1, arg2, arg3, arg4)    new constantCommand <nodeDescriptor> (0)
+#define INTNETWORKFUNK5(funktionName, net, arg1, arg2, arg3, arg4, arg5)    new constantCommand <nodeDescriptor> (0)
 
 #define BASETYPENETWORKFUNK(funktionName, net)  new constantCommand <baseType> (0)
 #define BASETYPENETWORKFUNK1(funktionName, net, arg1)  new constantCommand <baseType> (0)
@@ -735,6 +738,9 @@ class constantCommand : public expression<T>
 #define INTNETWORKFUNK(funktionName, net)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net))
 #define INTNETWORKFUNK1(funktionName, net, arg1)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net, (arg1)   ))
 #define INTNETWORKFUNK2(funktionName, net, arg1, arg2)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net, (arg1), (arg2)   ))
+#define INTNETWORKFUNK3(funktionName, net, arg1, arg2, arg3)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net, (arg1), (arg2), (arg3)   ))
+#define INTNETWORKFUNK4(funktionName, net, arg1, arg2, arg3, arg4)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net, (arg1), (arg2), (arg3), (arg4)   ))
+#define INTNETWORKFUNK5(funktionName, net, arg1, arg2, arg3, arg4, arg5)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net, (arg1), (arg2), (arg3), (arg4), (arg5)   ))
 
 
 #define NETWORKFUNK(funktionName, net)  new bindInstruction(bind(&networkTemplate::funktionName, net )) 

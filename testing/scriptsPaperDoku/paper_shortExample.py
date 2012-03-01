@@ -1,8 +1,8 @@
 import conedy as co
 net = co.network()
-co.set ("roessler_a", 0.2925)
+co.set ("roessler_a", 0.22)
 co.set ("roessler_b", 0.1)
-co.set ("roessler_c", 10.0)
+co.set ("roessler_c", 8.5)
 r1 = net.addNode(co.roessler())
 r2 = net.addNode(co.roessler())
 r3 = net.addNode(co.roessler())

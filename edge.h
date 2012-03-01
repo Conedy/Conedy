@@ -43,22 +43,22 @@ namespace conedy
 			baseType getWeight() { return weight; }
 			//			baseType getTargetState();
 			void setWeight(baseType newWeight) { weight = newWeight; }
-			
-				
-			virtual void setParameter(vector < baseType > parameter)
+
+
+			void setParameter(vector < baseType > parameter)
 			{
 				EDGE::setParameter(parameter);
 				if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
 				weight = parameter[parameter.size() -1];
 				parameter.pop_back();
 			}
-			virtual void getParameter(vector < baseType > parameter)
+			void getParameter(vector < baseType > &parameter)
 			{
 				EDGE::getParameter(parameter);
 				parameter.push_back(weight);
 			}
 
-			edge *construct() { return new weightedEdge<EDGE> ( *this ); };
+			edgeVirtual *construct() { return new weightedEdge<EDGE> ( *this ); };
 
 			ostream& printStatistics ( ostream &os, double edgeVerbosity) 
 			{
@@ -88,13 +88,13 @@ namespace conedy
 			staticWeightedEdge() {};
 			//			staticWeightedEdge ( node* t ) : weightedEdge(t) {};
 			staticWeightedEdge (baseType newWeight)  {    weight = newWeight;};
-			
+
 			staticWeightedEdge (nodeDescriptor targetNumber, baseType newWeight) : EDGE (targetNumber)  {    weight = newWeight;};
 			const edgeInfo getEdgeInfo() {edgeInfo ei = {_staticWeightedEdge_,_weighted_,"staticWeightedEdge"}; return ei;}
 			baseType getWeight() { return weight; }
 			void  setWeight(baseType newW) { weight = newW; }
 			//			baseType getTargetState() { return EDGE::getTarget()->getState (); }
-			edge *construct() { return new staticWeightedEdge ( *this ); };
+			edgeVirtual *construct() { return new staticWeightedEdge ( *this ); };
 
 			ostream& printStatistics ( ostream &os, double edgeVerbosity) 
 			{
@@ -103,12 +103,12 @@ namespace conedy
 				return os;
 			}
 
-			virtual void getParameter(vector < baseType > parameter)
+			void getParameter(vector < baseType > &parameter)
 			{
 				EDGE::getParameter(parameter);
 				parameter.push_back(weight);
 			}
-			virtual void setParameter(vector < baseType > parameter)
+			void setParameter(vector < baseType > parameter)
 			{
 				EDGE::setParameter(parameter);
 				if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
@@ -133,33 +133,33 @@ namespace conedy
 		staticComponent ( int c) {  which = c;}
 		staticComponent ( )  { which = 0;}
 
-		virtual const edgeInfo getEdgeInfo() {
+		const edgeInfo getEdgeInfo() {
 			edgeInfo ancestor = EDGE::getEdgeInfo();
 			edgeInfo ei = {_staticComponent_,_weighted_ | ancestor.theEdgeKind, ancestor.theEdgeName + "_staticComponent" }; return ei;
 		}
 
-		virtual baseType getTargetState()
+		baseType getTargetState()
 		{
-			return (  (dynNode*)  ( EDGE::getTarget() ) ) ->x[which]   ;
+			return (  (dynNode*)  ( EDGE::getTarget() ) ) ->getState(which)   ;
 
 		}
-		virtual edge *construct() {
+		edgeVirtual *construct() {
 			return new staticComponent( *this );
 		};
 
-			virtual void getParameter(vector < baseType > parameter)
-			{
-				EDGE::getParameter(parameter);
-				parameter.push_back(which);
-			}
+		void getParameter(vector < baseType > &parameter)
+		{
+			EDGE::getParameter(parameter);
+			parameter.push_back(which);
+		}
 
-			virtual void setParameter(vector < baseType > parameter)
-			{
-				EDGE::setParameter(parameter);
-				if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
-				which = parameter[parameter.size() -1];        
-				parameter.pop_back();
-			}
+		void setParameter(vector < baseType > parameter)
+		{
+			EDGE::setParameter(parameter);
+			if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
+			which = parameter[parameter.size() -1];        
+			parameter.pop_back();
+		}
 
 
 
@@ -182,18 +182,18 @@ namespace conedy
 			weightedPolyEdge()  {};
 			weightedPolyEdge ( nodeDescriptor targetNumber) : edgeVirtual (targetNumber) {};
 
-			virtual const edgeInfo getEdgeInfo() 
+			const edgeInfo getEdgeInfo() 
 			{
 				edgeInfo ei = {_weightedEdge_,_polynomial_};
 				return ei;
 			}
 
-			//virtual void printStatistics() = 0;
+			// void printStatistics() = 0;
 
 			virtual void setWeight(vector<baseType> newWeight) = 0;
-			virtual  baseType getWeight()= 0;
+			virtual baseType getWeight()= 0;
 
-			virtual edge *construct()= 0;
+			edgeVirtual *construct()= 0;
 	};
 
 
@@ -209,7 +209,7 @@ namespace conedy
 		staticWeightedEdge() {};
 	//			staticWeightedEdge ( node* t ) : weightedEdge(t) {};
 	const edgeInfo getEdgeInfo() {edgeInfo ei = {_staticWeightedEdge_,_weighted_}; return ei;}
-	virtual void printStatistics()
+	void printStatistics()
 	{
 	cout << "("<< edge<baseType>::target->getNumber() << "," << weight << ");";
 
@@ -219,7 +219,7 @@ namespace conedy
 	baseType getTargetState() { return getTarget()->getState () * weight; }
 
 	edge *construct() { return new staticWeightedEdge ( *this ); };
-	//			virtual ~staticWeightedEdge() { cout << "Edge Destruktor called!" << endl; }
+	//			 ~staticWeightedEdge() { cout << "Edge Destruktor called!" << endl; }
 
 	// Überladung des Ausgabestreams
 	ostream& printStatistics ( ostream &os, double edgeVerbosity)
@@ -253,24 +253,25 @@ namespace conedy
 			nodeDescriptor upper;
 
 		public:
-			virtual const edgeInfo getEdgeInfo() {
+			const edgeInfo getEdgeInfo() {
 				edgeInfo ancestor = EDGE::getEdgeInfo();
 				edgeInfo ei = {_randomTarget_,_weighted_ | ancestor.theEdgeKind,  ancestor.theEdgeName + "_randomTarget"};  return ei;
 			}
 
 
-			virtual void getParameter(vector < baseType > parameter)
+			void getParameter(vector < baseType> & parameter)
 			{
 				EDGE::getParameter(parameter);
-				parameter.push_back(lower);
 				parameter.push_back(upper);
+				parameter.push_back(lower);
 			}
 
-			virtual void setParameter(vector < baseType > parameter)
+			void setParameter(vector < baseType > parameter)
 			{
 				EDGE::setParameter(parameter);
 				if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
 				lower = parameter[parameter.size() -1];
+
 				parameter.pop_back();
 				upper = parameter[parameter.size() -1];
 				parameter.pop_back();
@@ -280,10 +281,10 @@ namespace conedy
 
 
 
-			virtual dynNode* getTarget() { return  (dynNode*)  node::theNodes[gslNoise::getUniform(lower,upper)]; }
+			dynNode* getTarget() { return  (dynNode*)  node::theNodes[gslNoise::getUniform(lower,upper)]; }
 			randomTarget(nodeDescriptor l, nodeDescriptor u) : lower(l), upper(u) { }
 			randomTarget() { }
-			virtual edge *construct() { return new randomTarget<EDGE> ( *this ); };
+			edgeVirtual *construct() { return new randomTarget<EDGE> ( *this ); };
 
 	};
 
@@ -313,19 +314,19 @@ namespace conedy
 
 		weightedEdgeParams() :params<baseType>(_weightedEdgeParams_) {};
 	//			weightedEdgeParams ( node* t, baseType w ) : weightedEdge(t) {};
-	virtual const edgeInfo getEdgeInfo() {edgeInfo ei = {_weightedEdgeParams_,_weighted_}; return ei;}
+	const edgeInfo getEdgeInfo() {edgeInfo ei = {_weightedEdgeParams_,_weighted_}; return ei;}
 
-	virtual void printStatistics()
+	void printStatistics()
 	{
 	cout << "("<< edge<baseType>::target->getNumber() << "," << params<baseType>::getParams(0) << ");";
 
 	}
 
-	virtual baseType getWeight() { return params<baseType>::getParams(0); }
+	baseType getWeight() { return params<baseType>::getParams(0); }
 
-	//			virtual baseType getTargetState() { return edge::target->getState() * params<baseType>::getParams(0); }
-	virtual edge *construct() { return new weightedEdgeParams ( *this ); };
-	//			virtual ~weightedEdgeParams() { cout << "Edge Destruktor called!" << endl; }
+	//			 baseType getTargetState() { return edge::target->getState() * params<baseType>::getParams(0); }
+	edge *construct() { return new weightedEdgeParams ( *this ); };
+	//			 ~weightedEdgeParams() { cout << "Edge Destruktor called!" << endl; }
 
 	// Überladung des Ausgabestreams
 	//
@@ -334,7 +335,7 @@ namespace conedy
 
 
 
-	virtual  ostream& printStatistics ( ostream &os, double edgeVerbosity) 
+	ostream& printStatistics ( ostream &os, double edgeVerbosity) 
 	{
 	edgeInfo ei = getEdgeInfo();
 	edge::printStatistics(os, edgeVerbosity, ei.theEdgeKind, ei.theEdgeName,  getWeight());
@@ -353,10 +354,10 @@ namespace conedy
 		public:
 		stepEdge ( double t ) : threshold ( t )  {};
 		stepEdge ( ){};
-		virtual const edgeInfo getEdgeInfo() {
+		const edgeInfo getEdgeInfo() {
 			edgeInfo ancestor = EDGE::getEdgeInfo();
 			edgeInfo ei = {_pulseCouple_,_weighted_ | ancestor.theEdgeKind,  ancestor.theEdgeName + "_step"};  return ei;}
-			virtual void setParameter(vector < baseType > parameter)
+			void setParameter(vector < baseType >& parameter)
 			{
 				EDGE::setParameter(parameter);
 				if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
@@ -364,33 +365,33 @@ namespace conedy
 				parameter.pop_back();
 			}
 
-		virtual baseType getTargetState()
-		{
-			if ( EDGE::getTargetState()  >= threshold )
-				return 1;
-			else
-				return 0;
-		}
-		virtual edge *construct() { return new stepEdge<EDGE> ( *this ); };
+			baseType getTargetState()
+			{
+				if ( EDGE::getTargetState()  >= threshold )
+					return 1;
+				else
+					return 0;
+			}
+			edgeVirtual *construct() { return new stepEdge<EDGE> ( *this ); };
 
 
-		/*virtual void printStatistics()
-		  {
-		  cout << "(stepEdge,";
-		  weightedEdgeVirtual<baseType>::printStatistics();
-		  }*/
+			/* void printStatistics()
+				{
+				cout << "(stepEdge,";
+				weightedEdgeVirtual<baseType>::printStatistics();
+				}*/
 
-		// Überladung des Ausgabestreams
-		//
-		//
-		//
+			// Überladung des Ausgabestreams
+			//
+			//
+			//
 
-		virtual  ostream& printStatistics ( ostream &os, double edgeVerbosity) 
-		{
-			edgeInfo ei = getEdgeInfo();
-			edge::printStatistics(os, edgeVerbosity, ei.theEdgeKind, ei.theEdgeName,  EDGE::getWeight());
-			return os;
-		}
+			ostream& printStatistics ( ostream &os, double edgeVerbosity) 
+			{
+				edgeInfo ei = getEdgeInfo();
+				edge::printStatistics(os, edgeVerbosity, ei.theEdgeKind, ei.theEdgeName,  EDGE::getWeight());
+				return os;
+			}
 
 
 	};
@@ -405,28 +406,28 @@ namespace conedy
 
 		public:
 
-			virtual void setParameter(vector < baseType > parameter)
-			{
-				EDGE::setParameter(parameter);
-				if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
-				which = parameter[parameter.size() -1];
-				parameter.pop_back();
-			}
+		void setParameter(vector < baseType > parameter)
+		{
+			EDGE::setParameter(parameter);
+			if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
+			which = parameter[parameter.size() -1];
+			parameter.pop_back();
+		}
 
 		component ( int c) :  which ( c ) {}
 		component ( ) :  which ( 0 ) {}
 
-		virtual const edgeInfo getEdgeInfo() {
+		const edgeInfo getEdgeInfo() {
 			edgeInfo ancestor = EDGE::getEdgeInfo();
 			edgeInfo ei = {_component_,_weighted_ | ancestor.theEdgeKind, ancestor.theEdgeName + "_component" }; return ei;
 		}
 
-		virtual baseType getTargetState()
+		baseType getTargetState()
 		{
-			return (  (dynNode*)  ( EDGE::getTarget() ) ) ->x[which]   ;
+			return (  (dynNode*)  ( EDGE::getTarget() ) ) ->getState(which)   ;
 
 		}
-		virtual edge *construct() {
+		edgeVirtual *construct() {
 			return new component( *this );
 		};
 
@@ -444,8 +445,8 @@ namespace conedy
 		int timeDelay;
 		public:
 		pulsecoupleDelayEdge ( double th, double tD ) : threshold ( th ), timeDelay ( tD )  {};
-		virtual const edgeInfo getEdgeInfo() {edgeInfo ei = {_pulsecoupleDelayEdge_,_weighted_}; return ei;}
-		virtual baseType getTargetState()
+		const edgeInfo getEdgeInfo() {edgeInfo ei = {_pulsecoupleDelayEdge_,_weighted_}; return ei;}
+		baseType getTargetState()
 		{
 			if ( nextFiring == 0 )
 			{
@@ -467,20 +468,20 @@ namespace conedy
 				}
 			}
 		}
-		virtual edge *construct() { return new pulsecoupleDelayEdge ( *this ); };
+		edgeVirtual *construct() { return new pulsecoupleDelayEdge ( *this ); };
 
 
-		/*virtual void printStatistics()
-		  {
-		  cout << "(pulsecoupleDelayEdge,";
-		  weightedEdgeVirtual<baseType>::printStatistics();
-		  }*/
+		/* void printStatistics()
+			{
+			cout << "(pulsecoupleDelayEdge,";
+			weightedEdgeVirtual<baseType>::printStatistics();
+			}*/
 
 		// Überladung des Ausgabestreams
 		//
 		//
 
-		virtual  ostream& printStatistics ( ostream &os, double edgeVerbosity) 
+		ostream& printStatistics ( ostream &os, double edgeVerbosity) 
 		{
 			edgeInfo ei = getEdgeInfo();
 			edge::printStatistics(os, edgeVerbosity, ei.theEdgeKind, ei.theEdgeName,  getWeight());
@@ -498,18 +499,18 @@ namespace conedy
 		public:
 		kuramotoEdge ()  {};
 
-		virtual const edgeInfo getEdgeInfo() {edgeInfo ei = {_kuramotoEdge_,_weighted_}; return ei;}
+		const edgeInfo getEdgeInfo() {edgeInfo ei = {_kuramotoEdge_,_weighted_}; return ei;}
 
-		virtual baseType getTargetState()
+		baseType getTargetState()
 		{
 		return weightedEdge<baseType>::weight * sin ( ( weightedEdge<baseType>::target->state - weightedEdge<baseType>::source->state ) );
 		}
-		virtual void printStatistics()
+		void printStatistics()
 		{
 		cout << "(kuramotoEdge,";
 		weightedEdge<baseType>::printStatistics();
 		}
-		virtual edge<baseType> *construct() { return new  kuramotoEdge<baseType> ( *this ); };
+		edge<baseType> *construct() { return new  kuramotoEdge<baseType> ( *this ); };
 		};
 		*/
 
@@ -522,9 +523,9 @@ namespace conedy
 
 		public:
 
-		virtual const edgeInfo getEdgeInfo() {edgeInfo ei = {_delayEdge_,_weighted_}; return ei;}
+		const edgeInfo getEdgeInfo() {edgeInfo ei = {_delayEdge_,_weighted_}; return ei;}
 		delayEdge ( int d ) : memory ( d+1 ), delay ( d ), counter ( 0 ) {};
-		virtual baseType getTargetState()
+		baseType getTargetState()
 		{
 			memory[counter] = weightedEdgeVirtual::getTargetState();
 			counter++;
@@ -532,10 +533,10 @@ namespace conedy
 				counter = 0;
 			return memory[counter];
 		}
-		virtual edge*construct() { return new delayEdge ( *this ); };
+		edgeVirtual *construct() { return new delayEdge ( *this ); };
 
 		// Überladung des Ausgabestreams
-		virtual ostream& printStatistics ( ostream &os, double edgeVerbosity)
+		ostream& printStatistics ( ostream &os, double edgeVerbosity)
 		{
 			// Ausgabe Header:
 			//
@@ -585,9 +586,9 @@ namespace conedy
 		/*!
 		  \return edgeInfo ei = {_stdEdge_,_weighted_
 		  */
-		virtual const edgeInfo getEdgeInfo() {edgeInfo ei = {_stdEdgeOrd3_,_polynomial_}; return ei;}
+		const edgeInfo getEdgeInfo() {edgeInfo ei = {_stdEdgeOrd3_,_polynomial_}; return ei;}
 
-		virtual edge *construct() { return new stdEdgeOrd3 ( *this ); };
+		edgeVirtual *construct() { return new stdEdgeOrd3 ( *this ); };
 
 		//! Setter für das Gewicht: nimmt Vector von Gewichten an.
 		void setWeight(vector <baseType> newWeight)
@@ -603,13 +604,13 @@ namespace conedy
 		}			
 
 		//! Getter für das Gewicht: gibt kein Gewicht zurück, da polynomial
-		virtual baseType getWeight() { return 0;}; 
+		baseType getWeight() { return 0;}; 
 
 		//! Überladung der Ausgabe einer Zelle: Sigmoidale Ausgabe
 		/*!
 		  \return 2 / (1+exp (-beta * targetState)) -1
 		  */
-		virtual baseType getTargetState()
+		baseType getTargetState()
 		{ 
 			// alten Status abholen:
 			baseType x = getTarget()->getState();
@@ -634,7 +635,7 @@ namespace conedy
 		  edgeVerbosity >=1: Ausgabe aller EdgeInfos \n
 		  edgeVerbosity >=2: Ausgabe aller Flanken-Parameter beta \n
 		  */
-		virtual ostream& printStatistics ( ostream &os, double edgeVerbosity)
+		ostream& printStatistics ( ostream &os, double edgeVerbosity)
 		{
 
 			edgeInfo ei = getEdgeInfo();
@@ -682,9 +683,9 @@ namespace conedy
 			/*!
 			  \return edgeInfo ei = {_sigEdge_,_weighted_
 			  */
-			virtual const edgeInfo getEdgeInfo() {edgeInfo ei = {_sigEdgeOrd3_,_polynomial_}; return ei;}
+			const edgeInfo getEdgeInfo() {edgeInfo ei = {_sigEdgeOrd3_,_polynomial_}; return ei;}
 
-			virtual edge *construct() { return new sigEdgeOrd3 ( *this ); };
+			edgeVirtual *construct() { return new sigEdgeOrd3 ( *this ); };
 
 			//! Setter für das Gewicht: nimmt Vector von Gewichten an.
 			void setWeight(vector <baseType> newWeight)
@@ -700,13 +701,13 @@ namespace conedy
 			}			
 
 			//! Getter für das Gewicht: gibt kein Gewicht zurück, da polynomial
-			virtual baseType getWeight() { return 0;}; 
+			baseType getWeight() { return 0;}; 
 
 			//! Überladung der Ausgabe einer Zelle: Sigmoidale Ausgabe
 			/*!
 			  \return 2 / (1+exp (-beta * targetState)) -1
 			  */
-			virtual baseType getTargetState()
+			baseType getTargetState()
 			{ 
 				// alten Status abholen:
 				baseType x = getTarget()->getState();
@@ -726,7 +727,7 @@ namespace conedy
 			  edgeVerbosity >=1: Ausgabe aller EdgeInfos \n
 			  edgeVerbosity >=2: Ausgabe aller Flanken-Parameter beta \n
 			  */
-			virtual ostream& printStatistics ( ostream &os, double edgeVerbosity)
+			ostream& printStatistics ( ostream &os, double edgeVerbosity)
 			{
 
 				edgeInfo ei = getEdgeInfo();
@@ -778,13 +779,13 @@ namespace conedy
 				/*!
 				  \return edgeInfo ei = {_sigEdge_,_weighted_}
 				  */
-				virtual const edgeInfo getEdgeInfo() {edgeInfo ei = {_sigEdge_,_weighted_}; return ei;}
+				const edgeInfo getEdgeInfo() {edgeInfo ei = {_sigEdge_,_weighted_}; return ei;}
 
 				//! Überladung der Ausgabe einer Zelle: Sigmoidale Ausgabe
 				/*!
 				  \return 2 / (1+exp (-beta * targetState)) -1
 				  */
-				virtual baseType getTargetState()
+				baseType getTargetState()
 				{
 					baseType x = getTarget()->getState();
 
@@ -797,7 +798,7 @@ namespace conedy
 					return (newState); 
 				}
 
-				virtual edge *construct() { return new sigEdge ( *this ); };
+				edgeVirtual  *construct() { return new sigEdge ( *this ); };
 
 
 				//! Überladung des Ausgabestreams
@@ -808,7 +809,7 @@ namespace conedy
 				  edgeVerbosity >=1: Ausgabe aller EdgeInfos \n
 				  edgeVerbosity >=2: Ausgabe aller Flanken-Parameter beta \n
 				  */
-				virtual ostream& printStatistics ( ostream &os, double edgeVerbosity)
+				ostream& printStatistics ( ostream &os, double edgeVerbosity)
 				{
 					// Ausgabe Header:
 					edgeInfo ei = getEdgeInfo();
@@ -855,7 +856,7 @@ namespace conedy
 					sigEdgeParams ( int b ) : params< vector<baseType> >(_sigEdgeParams_), beta ( b ) {}; 
 
 					// Überladung edge-Konstruktor:
-					virtual edge *construct() { return new sigEdgeParams ( *this ); };
+					edgeVirtual *construct() { return new sigEdgeParams ( *this ); };
 
 					//! Registriert den Parameter (Vector double), in den die Gewichte gespeichert werden.
 					/*!
@@ -886,7 +887,7 @@ namespace conedy
 					/*!
 					  \return edgeInfo ei = {_sigEdgeParams_,_polynomial_};
 					  */
-					virtual const edgeInfo getEdgeInfo() 
+					const edgeInfo getEdgeInfo() 
 					{
 						edgeInfo ei = {_sigEdgeParams_,_polynomial_}; 
 						return ei;
@@ -897,14 +898,14 @@ namespace conedy
 					/*!
 					  \return 0, da das Gewicht polynomial und NICHT skalar.
 					  */
-					virtual baseType getWeight() {return 0;}; //return params< vector<baseType> >::getParams(0)[0]; }
+					baseType getWeight() {return 0;}; //return params< vector<baseType> >::getParams(0)[0]; }
 
 					//! Überladung der Ausgabefunktion
 					/*!
 					  output_i = sigfkt( a_i * state_i + b_i state_i² + c_i state_i³ ...) \n
 					  Normiert auf [-1:1]
 					  */
-					virtual baseType getTargetState()
+					baseType getTargetState()
 					{ 
 						baseType temp = getTarget()->getState();
 						temp = 2.0 / ( 1+ exp ( -beta* temp )) -1;
@@ -932,7 +933,7 @@ namespace conedy
 					  edgeVerbosity >=1: Ausgabe aller EdgeInfos \n
 					  edgeVerbosity >=2: Ausgabe aller Flanken-Parameter beta \n
 					  */
-					virtual ostream& printStatistics ( ostream &os, double edgeVerbosity)
+					ostream& printStatistics ( ostream &os, double edgeVerbosity)
 					{
 						// Ausgabe Header:
 						edgeInfo ei = getEdgeInfo();
@@ -953,7 +954,7 @@ namespace conedy
 						return os;
 					}
 
-					//			virtual ~sigEdgeParams() { cout << "Edge Destruktor called!" << endl; }
+					//			 ~sigEdgeParams() { cout << "Edge Destruktor called!" << endl; }
 					//ostream& operator<< (ostream& os){ os << "Selbstausgabe sigEdgeParam" << endl; return os;};
 
 		};

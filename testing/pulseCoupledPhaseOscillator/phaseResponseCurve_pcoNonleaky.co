@@ -13,7 +13,7 @@ int nodeNumber;
 int otherNodeNumber;
 int referenceNodeNumber;
 
-streamOutNode_append = 1.0;
+outputAppend = 1.0;
 
 nodeNumber = 0;
 
@@ -25,7 +25,7 @@ coupling 			 		= 0.01;
 
 print "#phi \Delta(\phi)"+newline;
 
-streamOutNode_append =1.0;
+outputAppend =1.0;
 samplingTime = 10000.0;
 
 

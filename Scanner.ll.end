@@ -15,7 +15,6 @@ connectCloseNodes		{return(ParserBase::CONNECTCLOSENODES);}
 connectCloseNodesTorus		{return(ParserBase::CONNECTCLOSENODESTORUS);}
 
 startingConditionSmallDisturbance	{return (ParserBase::STARTINGCONDITIONSMALLDISTURBANCE); }
-randomTargetEdge				{return (ParserBase::RANDOMTARGETEDGE); }
 
 
 
@@ -35,7 +34,7 @@ addEdge		{return(ParserBase::ADDEDGE); }
 randomNetwork		{return(ParserBase::RANDOMNETWORK); }
 completeNetwork		{return(ParserBase::COMPLETENETWORK); }
 observe		{return(ParserBase::OBSERVE); }
-observeMean		{return(ParserBase::OBSERVEMEAN); }
+observeSum		{return(ParserBase::OBSERVEMEAN); }
 observePhaseCoherence	{ return (ParserBase::OBSERVEPHASECOHERENCE); }
 observePhaseCorrelation	{ return (ParserBase::OBSERVEPHASECORRELATION); }
 observePhaseDistance 	{ return (ParserBase::OBSERVEPHASEDISTANCE); }
@@ -85,7 +84,6 @@ delayLink		{return(ParserBase::DELAYLINK); }
 cycle			{return(ParserBase::CYCLE); }
 line 			{return(ParserBase::LINE); }
 
-cycleCluster		{return(ParserBase::CYCLECLUSTER); }
 pulseCoupleEdge	{return(ParserBase::PULSECOUPLEEDGE); }
 pulseCoupleDelayEdge	{return(ParserBase::PULSECOUPLEDELAYEDGE); }
 

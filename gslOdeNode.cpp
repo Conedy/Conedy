@@ -5,7 +5,7 @@
 
 
 
-namespace conedy 
+namespace conedy
 {
 
 
@@ -23,56 +23,61 @@ namespace conedy
 
 	void gslOdeNode::evolve(double timeTilEvent)
 	{
-		//			dynNode::time = time;
-		//				if ( endTime <= dynNode::time )
-		//					throw "Fertig!";
-
-		//			cout << this->time << endl;
-
-		//double endTime = dynNode::time + timeTilEvent;
-		//			while (dynNode::time <  endTime)
-		//			{
-		double dt = timeTilEvent;
 
 
-		// adaptive stepsize has valgrind errors, don't know why
-		//				if ( gsl_odeiv_evolve_apply ( gslEvolve,gslControl,gslStep,&gslOdeSys,&dynNode::time,endTime ,&dt,containerNode<baseType,3>::dynamicVariablesOfAllDynNodes ) !=GSL_SUCCESS )
-		//				  throw "gslError!";
-//		baseType *errors = ( baseType* ) calloc (p.getParams(0) ,sizeof ( baseType)  );
-//				cout << stepSize << "\n";
+		baseType startTime = dynNode::time;
+		baseType endTime = dynNode::time + timeTilEvent;
 
-		if ( error_abs() == 0.0 && error_rel() == 0.0)
+
+		if (error_abs() == 0.0 && error_rel() == 0.0)
 		{									// without stepsize control
 
-			if ( gsl_odeiv_step_apply ( gslStep,dynNode::time,
-						dt,
-						containerNode<baseType,3>::dynamicVariablesOfAllDynNodes, 
-						errors,
-						NULL,
-						NULL, 
-						&gslOdeSys) !=GSL_SUCCESS )
-				throw "gslError!";
+			throw "fixed stepsize seems to be broken at the moment.";
+
+			int stepCount = timeTilEvent/stepSize + 1.0 - 1e-8 ;
+			double dt = timeTilEvent / stepCount;
 
 
-			// with stepsize control
+				if ( gsl_odeiv_step_apply ( gslStep,dynNode::time,
+							timeTilEvent,
+							containerNode<baseType,3>::dynamicVariablesOfAllDynNodes,
+							errors,
+							NULL,
+							NULL,
+							&gslOdeSys) !=GSL_SUCCESS )
+					throw "gslError!";
+	
+
+//			for (int i = 0; i < stepCount; i++)
+//			{
+//				if ( gsl_odeiv_step_apply ( gslStep,dynNode::time,
+//							dt,
+//							containerNode<baseType,3>::dynamicVariablesOfAllDynNodes,
+//							errors,
+//							NULL,
+//							NULL,
+//							&gslOdeSys) !=GSL_SUCCESS )
+//					throw "gslError!";
+////				dynNode::time += dt;
+//#ifdef DEBUG
+//								cout << dt << "\n";
+//#endif
+//			}
+//
+
+
 		}
-		else 
-		{	
-
-
-			baseType  startTime = dynNode::time;
-			baseType endTime = dynNode::time + timeTilEvent;
-
-
-			while ( dynNode::time < endTime)
+		else
+		{									// with stepsize control
+			while(dynNode::time < endTime)
 			{
-				int status = gsl_odeiv_evolve_apply (gslEvolve, 
-						gslControl, 
-						gslStep, 
-						&gslOdeSys, 
-						&dynNode::time, 
-						endTime,  
-						&stepSize, 
+				int status = gsl_odeiv_evolve_apply (gslEvolve,
+						gslControl,
+						gslStep,
+						&gslOdeSys,
+						&dynNode::time,
+						endTime,
+						&stepSize,
 						containerNode<baseType,3>::dynamicVariablesOfAllDynNodes) ;
 				if (status != GSL_SUCCESS)
 					break;
@@ -80,24 +85,12 @@ namespace conedy
 #ifdef DEBUG
 								cout << stepSize << "\n";
 #endif
-
 			}
-			dynNode::time = startTime;    // changing the time is handled by the evolve-loop in dynNetwork.cpp
+		}
 
-		} 
-
-
-
-		//
+		dynNode::time = startTime;    // changing the time is handled by the evolve-loop in dynNetwork.cpp
 
 
-		//			   list<containerNode<baseType,3> *>::iterator it;
-		//				 for (it = containerNode<baseType,3>::nodeList.begin(); it != containerNode<baseType,3>::nodeList.end(); it++)
-		//				    (*it)->swap();
-
-		//			dynNode::time -= timeTilEvent;
-
-		//			}
 
 	}
 

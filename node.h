@@ -88,7 +88,7 @@ namespace conedy
 			//! Return pointer to the target node.
 			node* getTarget();// { return node::theNodes [targetNumber];}
 			void setParameter(vector < baseType > parameter)  { }
-			void getParameter(vector < baseType > parameter)  { }
+			void getParameter(vector < baseType > &parameter)  { }
 
 
 			//! Returns the state of the target node.
@@ -121,11 +121,11 @@ namespace conedy
 
 		public:
 			virtual void setParameter(vector < baseType > parameter)  { }
-			virtual void getParameter(vector < baseType > parameter)  { }
+			virtual void getParameter(vector < baseType > &parameter)  { }
 			virtual node* getTarget() { return edge::getTarget();}
 			virtual baseType getTargetState(); 
 			virtual const edgeInfo getEdgeInfo() {edgeInfo ei = {_edgeVirtual_,0, "edgeVirtual"}; return ei;}
-			virtual edge *construct() { return new edgeVirtual ( *this ); };
+			virtual edgeVirtual *construct() { return new edgeVirtual ( *this ); };
 			virtual ostream& printStatistics ( ostream &os, double edgeVirtualVerbosity=1.0);
 
 			virtual baseType getWeight() { return (baseType)1; }
@@ -169,7 +169,7 @@ namespace conedy
 
 
 			//! returns a copy of this node instance. All nodes which are added to networks are created by such a call. Nodes which are created by standard constructors serve as blueprints only.
-			virtual node *construct()  { throw "unimplemented function of node called!"; };
+			virtual node *construct()  { throw "unimplemented function construct of node called!"; };
 
 
 			//! Identifizierungs-Objekt für die Edges des Knotens XXX obsolete ?
@@ -184,22 +184,22 @@ namespace conedy
 		public:
 
 			//! return the description object for the edge.
-			virtual edgeInfo getEdgeInfo (edgeDescriptor) { throw "unimplemented function of node called!"; };
+			virtual edgeInfo getEdgeInfo (edgeDescriptor) { throw "unimplemented function getEdgeInfo of node called!"; };
 
 			//! sets the weight of the edge ed to w. 
-			virtual void setWeight (edgeDescriptor ed, baseType w)  { throw "unimplemented function of node called!"; };
+			virtual void setWeight (edgeDescriptor ed, baseType w)  { throw "unimplemented function setWeight of node called!"; };
 
 			//! returns a pointer to the target of edge ed XXX should be returning nodedescriptor ?
-			virtual node* getTarget(edgeDescriptor ed) { throw "unimplemented function of node called!"; };
+			virtual node* getTarget(edgeDescriptor ed) { throw "unimplemented function getTarget  of node called!"; };
 
 			//! returns the weight of edge ed. 
-			virtual baseType getWeight (edgeDescriptor ed)  { throw "unimplemented function of node called!"; } ;
+			virtual baseType getWeight (edgeDescriptor ed)  { throw "unimplemented function getWeight of node called!"; } ;
 
 			//! returns the state of the target of edge ed XXX slow 
-			virtual baseType getTargetState (edgeDescriptor ed)  { throw "unimplemented function of node called!"; } ;
+			virtual baseType getTargetState (edgeDescriptor ed)  { throw "unimplemented function getTargetState of node called!"; } ;
 
 			//! return a pointer to the edge with given edgeDescriptor XXX obsolete ?
-			virtual edge * getEdge (edgeDescriptor)  { throw "unimplemented function of node called!"; };		
+			virtual edgeVirtual * getEdge (edgeDescriptor)  { throw "unimplemented function getEdge of node called!"; };		
 
 			//!  Copy-constructor. Constructed nodes are inserted into the lookup table node::theNodes 
 			node( const node &b )	{
@@ -213,28 +213,28 @@ namespace conedy
 
 			// Verbindungen hinzufügen, entfernen
 			//! removes all edges pointing to targetNumber. 
-			virtual bool unlink (nodeDescriptor targetNumber)  { throw "unimplemented function of node called!"; };
+			virtual bool unlink (nodeDescriptor targetNumber)  { throw "unimplemented function unlink of node called!"; };
 
 			//! remove edge e.
-			virtual void removeEdge (edgeDescriptor e)   { throw "unimplemented function of node called!"; };
+			virtual void removeEdge (edgeDescriptor e)   { throw "unimplemented function removeEdge of node called!"; };
 
-			virtual void removeEdges ()  { throw "unimplemented function of node called!"; };
+			virtual void removeEdges ()  { throw "unimplemented function removeEdges of node called!"; };
 
 			//! adds a link which points targetNumber with weight weight. 
-			virtual void link (nodeDescriptor targetNumber, baseType weight)  { throw "unimplemented function of node called!"; };
+			virtual void link (nodeDescriptor targetNumber, baseType weight)  { throw "unimplemented function link of node called!"; };
 
 			//! adds a link which is copied from l. 
-			virtual void link (nodeDescriptor targetNumber, edge *l)  { throw "unimplemented function of node called!"; };
+			virtual void link (nodeDescriptor targetNumber, edgeVirtual *l)  { throw "unimplemented function link of node called!"; };
 
 			//! returns true if there is at least one link which points to target 
-			virtual bool isLinked ( node *target )  { throw "unimplemented function of node called!"; };
+			virtual bool isLinked ( node *target )  { throw "unimplemented function isLinked of node called!"; };
 
 			//! returns the weight of a link which points to target. Returns 0 if no such link exists.
-			virtual baseType linkStrength ( node *target )  { throw "unimplemented function of node called!"; };
+			virtual baseType linkStrength ( node *target )  { throw "unimplemented function linkStrength of node called!"; };
 
 
 			//! 
-			virtual void normalizeInWeightSum(baseType d)  { throw "unimplemented function of node called!"; };
+			virtual void normalizeInWeightSum(baseType d)  { throw "unimplemented function normalizeInWeightSum of node called!"; };
 
 			// Statistikkram
 
@@ -244,17 +244,17 @@ namespace conedy
 
 			virtual void printEdgeStatistics ( ostream &os, double edgeVirtualVerbosity=1.0);
 			//! gibt die Anzahl der Verbindungen zurück
-			virtual unsigned int degree()  { throw "unimplemented function of node called!"; };
+			virtual unsigned int degree()  { throw "unimplemented function degree of node called!"; };
 
 			//! gibt den lokalen Clustering-coeffizient zurück vom Knoten
-			virtual float clustering ()  { throw "unimplemented function of node called!"; };
+			virtual float clustering ()  { throw "unimplemented function clustering of node called!"; };
 
 			//! gibt die Summe der Verbindungsgewichte aller ausgehende Verbindungen zurück.
-			virtual float weightSum()  { throw "unimplemented function of node called!"; };
+			virtual float weightSum()  { throw "unimplemented function weightSum of node called!"; };
 
 
 			//! gibt die Summer der Verbindungsgewichte aller eingehenden Verbindungen zurück.
-			virtual float inWeightSum()  { throw "unimplemented function of node called!"; };
+			virtual float inWeightSum()  { throw "unimplemented function inWeightSum of node called!"; };
 
 			//! gibt die Nummer im statischen Vector theNodes zurück, andessen Stelle ein Zeiger auf den  momentanen Knotens gespeichert ist. 
 			virtual nodeDescriptor getNumber() { return number; }

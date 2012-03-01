@@ -1,0 +1,17 @@
+network net;
+
+
+
+
+
+int firstNode = net.addNode(roessler());
+int secondNode = net.addNode(roessler());
+
+net.addEdge (firstNode,secondNode, staticWeightedEdge (0.1) );
+net.addEdge (secondNode,firstNode, staticWeightedEdge (0.2) );
+
+# The addition of the second edge changes the coupling strength of the first edge to 0.2!
+
+
+net.printNodeStatistics();
+

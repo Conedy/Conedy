@@ -57,6 +57,7 @@ class NodeEditor:
 	type = ""
 	staticEdges = 0
 	staticEdgeType = ""
+	staticEdgeBlueprint = ""
 	staticTargetNodeType = ""
 	fileNameOut = ""
 
@@ -461,7 +462,7 @@ class NodeEditor:
 			i = 3 
 
 		for p in self.params:
-			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_%s\",%i,%f);\n" % (self.nodeInfo, fileNameOut, p[0], i, p[1]) )
+			fout.write("\t\tparams<baseType>::registerStandard( %s, \"%s_%s\",%i,%.16f);\n" % (self.nodeInfo, fileNameOut, p[0], i, p[1]) )
 			i += 1
 		del i
 		fout.write("\t}\n")
@@ -533,11 +534,15 @@ class NodeEditor:
 			self.staticEdgeType = self.staticEdgeType.replace ("_","<")
 			hierachy = self.staticEdgeType.count ("<")
 			self.staticEdgeType += ("<")
+			self.staticEdgeBlueprint = self.staticEdgeType + (" edgeVirtual") 
 			self.staticEdgeType = self.staticEdgeType + (" edge")
+
+
 			for i in range (0, hierachy):
 				self.staticEdgeType += (">")
-			fout.write("class_< nodeTemplateEdges< %s >  , %s , %s >, bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ) // added by addNewNodes.py\n" %(self.staticEdgeType, self.staticTargetNodeType,self.className,  fileNameOut, self.type, self.className))
-			fout.write(". def (\"__init__\", make_constructor (nodeFactory%i < nodeTemplateEdges <%s >, %s, %s > > )); // added by addNewNodes.py\n"  %( len(self.params), self.staticEdgeType, self.staticTargetNodeType, self.className))   #adding constructor with different parameters
+				self.staticEdgeBlueprint += (">")
+			fout.write("class_< nodeTemplateEdges< %s >  , %s > , %s >, bases<nodeBlueprint> > (\"%s\",  reinterpret_cast<const char *>(__addedNodes_%s_%s) ) // added by addNewNodes.py\n" %(self.staticEdgeType, self.staticEdgeBlueprint,self.className,  fileNameOut, self.type, self.className))
+			fout.write(". def (\"__init__\", make_constructor (nodeFactory%i < nodeTemplateEdges <%s >, %s > , %s > > )); // added by addNewNodes.py\n"  %( len(self.params), self.staticEdgeType, self.staticEdgeBlueprint, self.className))   #adding constructor with different parameters
 	
 		fout.close()
 		del fout
@@ -587,7 +592,7 @@ class NodeEditor:
 		fout.write ("\n\n")
 
 		for p in self.params:
-			fout.write("- %s_%s \t\t =  %f; \n" % (self.className, p[0], p[1]) )
+			fout.write("- %s_%s \t\t =  %.16f; \n" % (self.className, p[0], p[1]) )
 
 		fout.write("\n")
 
@@ -633,7 +638,7 @@ class NodeEditor:
 		if (self.static == 0):
 			fout.write("\t\t| %s { nodeBlueprint *n = new nodeVirtualEdges< %s >(); $$ = new constantCommand<nodeBlueprint*>(n); }\n" % (self.className.upper(), self.className))
 		if (self.static ==1):
-			fout.write("\t\t| %s { nodeBlueprint *n = new nodeTemplateEdges< %s  >    , %s , %s >(); $$ = new constantCommand<nodeBlueprint*>(n); }\n" % (self.className.upper(), self.staticEdgeType, self.staticTargetNodeType, self.className))
+			fout.write("\t\t| %s { nodeBlueprint *n = new nodeTemplateEdges< %s  >    , %s > , %s >(); $$ = new constantCommand<nodeBlueprint*>(n); }\n" % (self.className.upper(), self.staticEdgeType, self.staticEdgeBlueprint, self.className))
 		fout.close()
 		del fout
 
@@ -693,16 +698,28 @@ else:
 
 		for i in  range (1,config.getint(className, 'parameter')+ 1):
 			n.params.append( (config.get(className, 'parametername' + str(i)) , config.getfloat(className, 'defaultvalue' + str(i))) )
-		
+
+
+
+#staticEdges = 1 is not really needed
+
+#		try:
+#				n.static = config.getboolean(className, 'staticEdges')
+#		except:
+#				n.static = 0
+
 		try:
-				n.static = config.getboolean(className, 'staticEdges')
 				n.staticEdgeType = config.get(className, 'staticEdgeType')
-				n.staticTargetNodeType = config.get(className, 'staticTargetNodeType')
-				
+				n.static = 1
 		except:
-				n.static = 0
 				n.staticEdgeType = ""
+				n.static = 0
+		try:
+				n.staticTargetNodeType = config.get(className, 'staticTargetNodeType')
+		except:	
 				n.staticTargetNodeType = ""
+
+		
 
 		n.className = className		
 		n.nodeInfo  = "_" + n.className + "_" 

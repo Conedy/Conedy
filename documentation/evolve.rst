@@ -6,9 +6,9 @@ Setting observables
 
 Conedy keeps lists of observable features for every file you wish to write to. Whenever data is written to files (due to a call of ``snapshot`` or ``evolve``), a new line is created in all these files containing a whitespace-separated line with all elements of this list.
 
-Observable features are specified by edges to nodes. 
+Observable features are specified by edges to nodes.
 
-The same state variable (see :ret:`edges`) that is supplied by an edge to a coupled node can be written to files. For example if you want Conedy to create a file named ``node0``, which contains the first three dynamical variables of node 0, you would use component edges::
+The same state variable (see :ref:`edges`) that is supplied by an edge to a coupled node can be written to files. For example if you want Conedy to create a file named ``node0``, which contains the first three dynamical variables of node 0, you would use component edges::
 
    net.observe(0,"node0", co.component(0))
    net.observe(0,"node0", co.component(1))

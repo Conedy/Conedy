@@ -52,7 +52,7 @@ namespace conedy {
 		class nodeVirtualEdges : public  DYNNODE
 	{
 		public:
-	
+
 #ifdef PRECALCULATEWEIGHTSUM
 			baseType preCalculatedWeightSum;
 #endif
@@ -80,13 +80,13 @@ namespace conedy {
 
 
 
-	float res = 0;
-	edgeIterator ei;
-	for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
-		res = res +  (*ei)->getWeight();
+				float res = 0;
+				edgeIterator ei;
+				for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
+					res = res +  (*ei)->getWeight();
 
-	preCalculatedWeightSum = res;
-		
+				preCalculatedWeightSum = res;
+
 
 
 #endif
@@ -119,20 +119,20 @@ namespace conedy {
 			virtual node* getTarget(edgeDescriptor theEdge) { return outEdges[theEdge]->getTarget(); }
 			virtual baseType getWeight (edgeDescriptor theEdge) { return outEdges[theEdge]->getWeight(); }
 			virtual baseType getTargetState (edgeDescriptor theEdge) { return outEdges[theEdge]->getTargetState(); }
-			virtual edge * getEdge (edgeDescriptor eD){ return outEdges[eD]; }	
+			virtual edgeVirtual * getEdge (edgeDescriptor eD){ return outEdges[eD]; }	
 
 			// Verbindungen hinzufügen, entfernen
 			virtual bool unlink (nodeDescriptor targetNumber);
 
 			virtual void removeEdge	(edgeDescriptor e)
 			{
-					outEdges[e]->targetNumber = -1;
+				outEdges[e]->targetNumber = -1;
 			}
 
 			virtual void removeEdges() { outEdges.clear(); }
 
 			virtual void link (nodeDescriptor targetNumber, baseType weight);
-			virtual void link (nodeDescriptor targetNumber, edge *l);
+			virtual void link (nodeDescriptor targetNumber, edgeBlueprint *l);
 			virtual bool isLinked ( node *target );
 			virtual baseType linkStrength ( node *target );
 			virtual void normalizeInWeightSum(baseType d);
@@ -179,7 +179,7 @@ namespace conedy {
 		{
 			if (edgeVirtualVerbosity > 0.9)
 				os << "virtual edges:"; 
-			
+
 
 			for (unsigned int i = 0; i < outEdges.size(); i++)
 				outEdges[i]->printStatistics(os, edgeVirtualVerbosity );
@@ -247,11 +247,11 @@ namespace conedy {
 
 
 	template <typename DYNNODE>
-void nodeVirtualEdges<DYNNODE>::link (nodeDescriptor targetNumber,  edge *l )
+void nodeVirtualEdges<DYNNODE>::link (nodeDescriptor targetNumber,  edgeBlueprint *l )
 {
-	edge *newEdge = ((edgeVirtual*)l)  ->construct();
+	edgeBlueprint *newEdge =   l->construct();
 	newEdge->targetNumber= targetNumber;
-	outEdges.push_back ( (edgeVirtual*)newEdge );
+	outEdges.push_back (newEdge );
 }
 
 
@@ -422,17 +422,17 @@ float nodeVirtualEdges<DYNNODE>::clustering ()
 
 
 //! Implementierung von node mit Edges ohne virtuelle Funktionen (brauch weniger Speicherpladz und ist theoretisch schneller.
-template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
+template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
 class nodeTemplateEdges : public DYNNODE
 {
 	public:
 
 #ifdef PRECALCULATEWEIGHTSUM
-	baseType preCalculatedWeightSum;
+		baseType preCalculatedWeightSum;
 #endif
 
 
-		typedef TARGETNODETYPE  targetNodeType;
+		typedef EDGEVIRTUAL  targetNodeType;
 		typedef EDGE edgeType; 
 		static EDGE standardEdge;
 		typedef typename DYNNODE::edgeDescriptor edgeDescriptor;
@@ -445,25 +445,25 @@ class nodeTemplateEdges : public DYNNODE
 		//! Variable, die von der Klasse offeriert wird, zum Beispiel zum Einkoppeln in andere Nodes 
 		baseType state;
 
-	
 
-			virtual void removeEdge	(edgeDescriptor e)
-			{
-					outEdges[e].targetNumber = -1;
-			}
+
+		virtual void removeEdge	(edgeDescriptor e)
+		{
+			outEdges[e].targetNumber = -1;
+		}
 
 		virtual void clean () {
 #ifdef PRECALCULATEWEIGHTSUM
 
-	float res = 0;
+			float res = 0;
 
-	edgeIterator ei;
-	for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
-		res = res +  ei->getWeight();
+			edgeIterator ei;
+			for ( ei =outEdges.begin(); ei != outEdges.end(); ei++ )
+				res = res +  ei->getWeight();
 
 
 
-	preCalculatedWeightSum = res;
+			preCalculatedWeightSum = res;
 
 #endif
 
@@ -502,11 +502,11 @@ class nodeTemplateEdges : public DYNNODE
 		virtual node* getTarget(edgeDescriptor theEdge) { return   outEdges[theEdge].getTarget(); }
 		virtual baseType getWeight (edgeDescriptor theEdge) { return outEdges[theEdge].getWeight(); }
 		virtual baseType getTargetState (edgeDescriptor theEdge) { return outEdges[theEdge].getTargetState(); }
-		virtual edge * getEdge (edgeDescriptor eD){ return &outEdges[eD]; }
+		virtual edgeVirtual * getEdge (edgeDescriptor eD);
 
 		virtual node *construct()
 		{
-			return  new nodeTemplateEdges< EDGE, TARGETNODETYPE, DYNNODE>( *this );	
+			return  new nodeTemplateEdges< EDGE, EDGEVIRTUAL, DYNNODE>( *this );	
 		};
 
 		// Verbindungen hinzufügen, entfernen
@@ -515,7 +515,7 @@ class nodeTemplateEdges : public DYNNODE
 		virtual void removeEdges () { outEdges.clear(); }
 
 		virtual void link (nodeDescriptor targetNumber, baseType weight);
-		virtual void link (nodeDescriptor targetNumber, edge *l);
+		virtual void link (nodeDescriptor targetNumber, edgeBlueprint *l);
 		virtual bool isLinked ( node *target );
 		virtual baseType linkStrength ( node *target );
 		virtual void normalizeInWeightSum(baseType d);
@@ -549,13 +549,13 @@ class nodeTemplateEdges : public DYNNODE
 };
 
 
-template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-EDGE nodeTemplateEdges<EDGE, TARGETNODETYPE, DYNNODE>::standardEdge;
+template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+EDGE nodeTemplateEdges<EDGE, EDGEVIRTUAL, DYNNODE>::standardEdge;
 
 
 
-	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::printEdgeStatistics(ostream &os, double edgeVirtualVerbosity)
+	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+void nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::printEdgeStatistics(ostream &os, double edgeVirtualVerbosity)
 {
 	os<< "static edges: ";
 
@@ -570,19 +570,28 @@ void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::printEdgeStatistics(ostrea
 }
 
 
-	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::fire ()
+	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+void nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::fire ()
 {
 	edgeIterator it, end;
 	it =  outEdges.begin();
 	end = outEdges.end();
 	for ( ;it!=end; it++ )
-		((targetNodeType*) it->getTarget())->excite ( it ->getWeight() );
+		((dynNode*)  it->getTarget())->excite ( it ->getWeight() );
 }
 
+	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+edgeVirtual * nodeTemplateEdges< EDGE,EDGEVIRTUAL, DYNNODE >::getEdge (edgeDescriptor eD)
+{ 
+	vector <baseType> parameter;
+	outEdges[eD].getParameter(parameter);
+	EDGEVIRTUAL *res = new EDGEVIRTUAL();
+	res->setParameter(parameter);
+	return res;
+}
 
-	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-baseType nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::getMeanPhaseCoherence()
+	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+baseType nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::getMeanPhaseCoherence()
 {
 	complex<baseType> re ( ( baseType ) 0, ( baseType ) 0 );
 	//	complex<double> dummy;
@@ -597,8 +606,8 @@ baseType nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::getMeanPhaseCoherence(
 }
 
 
-template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::inWeightSum ()
+	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+float nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::inWeightSum ()
 {
 	float res = 0;
 	vector<node *>::iterator it;
@@ -613,14 +622,14 @@ float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::inWeightSum ()
 
 
 #ifdef PRECALCULATEWEIGHTSUM
-template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::weightSum ()
+	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+float nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::weightSum ()
 {
 	return preCalculatedWeightSum;
 }
 #else	
-template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::weightSum ()
+	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+float nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::weightSum ()
 {
 	float res = 0;
 	edgeIterator ei;
@@ -634,8 +643,8 @@ float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::weightSum ()
 
 
 
-template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::normalizeInWeightSum(baseType d)  {
+template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+void nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::normalizeInWeightSum(baseType d)  {
 
 	nodeDescriptor i;
 	baseType a;
@@ -662,8 +671,8 @@ void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::normalizeInWeightSum(baseT
 
 
 
-	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-baseType nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::linkStrength ( node *target )
+	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+baseType nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::linkStrength ( node *target )
 {
 	baseType res = 0;
 	edgeIterator s;
@@ -679,8 +688,8 @@ baseType nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::linkStrength ( node *t
 }
 
 
-	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::clustering ()
+	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+float nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::clustering ()
 {
 	baseType linkedFriends = 0;
 	edgeIterator s,t;
@@ -701,8 +710,8 @@ float nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::clustering ()
 
 
 
-	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-baseType nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::couplingSum()
+	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+baseType nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::couplingSum()
 {
 	baseType re = 0;
 
@@ -716,17 +725,19 @@ baseType nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::couplingSum()
 
 
 
-	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::link (nodeDescriptor targetNumber,  edge *l )
+	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+void nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::link (nodeDescriptor targetNumber,  edgeBlueprint *l )
 {
-	//			cout << "warnung, nodeTemplateEdge";
+	vector <baseType> theParameter;
+	l->getParameter(theParameter);
 
 
-	link(targetNumber, l->getWeight());
+	link(targetNumber, 0.0);
+	outEdges[outEdges.size() -1].setParameter(theParameter);
 }
 
-	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::link (nodeDescriptor targetNumber, baseType w )
+	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+void nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::link (nodeDescriptor targetNumber, baseType w )
 {
 	outEdges.push_back ( standardEdge );
 
@@ -735,8 +746,8 @@ void nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::link (nodeDescriptor targe
 }
 
 
-	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-bool nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::unlink ( nodeDescriptor target )
+	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+bool nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::unlink ( nodeDescriptor target )
 {
 	bool res = false;
 	edgeIterator s;
@@ -759,8 +770,8 @@ bool nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::unlink ( nodeDescriptor ta
 	return res;
 }
 
-	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-bool nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::isLinked ( node *target )
+	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+bool nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::isLinked ( node *target )
 {
 	bool res = false;
 	edgeIterator s;
@@ -776,8 +787,8 @@ bool nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::isLinked ( node *target )
 }
 
 
-/*	template <typename EDGE, typename TARGETNODETYPE, typename DYNNODE>
-	baseType nodeTemplateEdges<EDGE,TARGETNODETYPE, DYNNODE>::ninkStrength ( node *target )
+/*	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
+	baseType nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::ninkStrength ( node *target )
 	{
 	baseType res = 0;
 	edgeIterator s;
