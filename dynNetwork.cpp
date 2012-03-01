@@ -68,7 +68,9 @@ namespace conedy
 
 	dynNetwork::dynNetwork(const dynNetwork &b) : network (b), eventHandler(b), p(b.p)
 	{
-		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() ); 
+
+		eventHandler::registerCallBack ( _ioNode_, numeric_limits<baseType>::max() ); 
+//		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() ); 
 	}
 
 	void dynNetwork::noiseToStates ( function<double () > r, networkElementType n )
@@ -105,7 +107,7 @@ namespace conedy
 		if (which == 0)
 			return node::theNodes[node]->getState();
 		else
-			return (( (dynNode* )node::theNodes[node])->x[which]);
+			return (( (dynNode* )node::theNodes[node])->getState(which));
 	}
 
 	void dynNetwork::evolveFor ( double duration )
@@ -115,6 +117,7 @@ namespace conedy
 
 	void dynNetwork::evolve ( double startTime, double endTime )
 	{
+		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() ); 
 
 
 		dynNode::startTime = startTime;

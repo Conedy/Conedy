@@ -26,11 +26,11 @@ void registerStandards()
 	dynNetwork::registerStandardValues();
 	createNetwork::registerStandardValues();
 	escapeNoiseNeuron::registerStandardValues();
-	gaussianFHN::registerStandardValues();
+//	gaussianFHN::registerStandardValues();
 //	gaussianHH::registerStandardValues();
 //	gaussianHR::registerStandardValues();
-	gaussianNapK::registerStandardValues();
-	gaussianNapKKm::registerStandardValues();
+//	gaussianNapK::registerStandardValues();
+//	gaussianNapKKm::registerStandardValues();
 	gslOdeNode::registerStandardValues();
 //	hindmarshRose::registerStandardValues();
 //	hodgkinHuxley::registerStandardValues();
@@ -38,8 +38,8 @@ void registerStandards()
 	izhikevichMap::registerStandardValues();
 //	logisticMap::registerStandardValues();
 //	membranePotentialOfIFQ::registerStandardValues();
-	napK::registerStandardValues();
-	napKKm::registerStandardValues();
+//	napK::registerStandardValues();
+//	napKKm::registerStandardValues();
 	network::registerStandardValues();
 //	neuronMap::registerStandardValues();
 //	ornUhl::registerStandardValues();
@@ -47,9 +47,9 @@ void registerStandards()
 //	pcoIFNeuronDelay::registerStandardValues();	
 	//pcoTrapez::registerStandardValues();
 //	pcoTriangel::registerStandardValues();
-	periodicNode::registerStandardValues();
+//	periodicNode::registerStandardValues();
 	pulseCoupledExcitatoryNeuron::registerStandardValues();
-	randomWalkNeuron::registerStandardValues();
+//	randomWalkNeuron::registerStandardValues();
 	sigEdgeParams::registerStandardValues();
 	streamInNode::registerStandardValues();
 	streamOutNode::registerStandardValues();

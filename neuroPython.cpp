@@ -339,7 +339,7 @@ template <class N>
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (createFromAdjacencyList_overloads, createFromAdjacencyList, 1,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (createFromAdjacencyMatrix_overloads, createFromAdjacencyMatrix, 1,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observePhaseCoherence_overloads, observePhaseCoherence, 1,5);
-	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observeMean_overloads, observeMean, 1,2);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observeSum_overloads, observeSum, 1,2);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (setState_overloads, setInitialCondition, 2,13);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (getState_overloads, getState, 1,2);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (setStateTemplate_overloads, setState, 1,12);
@@ -417,7 +417,7 @@ template <class N>
 			.def("observeAll", &MyNetwork<baseType>::observeAll, observeAll_overloads (reinterpret_cast<const char *>(__dynNetwork_observeAll)))
 			.def("observeTime", &MyNetwork<baseType>::observeTime, reinterpret_cast<const char *>(__dynNetwork_observeTime))
 			.def("observePhaseCoherence", &MyNetwork<baseType>::observePhaseCoherence, observePhaseCoherence_overloads( reinterpret_cast<const char *>(__dynNetwork_observePhaseCoherence)))
-			.def("observeMean", &MyNetwork<baseType>::observeMean, observeMean_overloads( reinterpret_cast<const char *>(__dynNetwork_observeMean)))
+			.def("observeSum", &MyNetwork<baseType>::observeSum, observeSum_overloads( reinterpret_cast<const char *>(__dynNetwork_observeSum)))
 			.def("printNodeStatistics", &MyNetwork<baseType>::printNodeStatistics, reinterpret_cast<const char *>(__statisticsNetwork_printNodeStatistics))
 			.def("removeObserver", &MyNetwork<baseType>::removeObserver, reinterpret_cast<const char *>(__dynNetwork_removeObserver))
 
@@ -535,7 +535,7 @@ template <class N>
 		class_< staticComponent < edgeVirtual > , bases <edgeBlueprint> >("staticComponent", reinterpret_cast<const char *>(__edges_component))
 					.def ("__init__", make_constructor (edgeFactory1 <staticComponent < edgeVirtual > > ));
 		  
-		class_< staticComponent < weightedEdgeVirtual>, bases <edgeBlueprint>   > ("staticWomponent_weightedEdge" ,reinterpret_cast<const char *>(__edges_weightedEdge))
+		class_< staticComponent < weightedEdgeVirtual>, bases <edgeBlueprint>   > ("staticComponent_weightedEdge" ,reinterpret_cast<const char *>(__edges_weightedEdge))
 					.def ("__init__", make_constructor (edgeFactory2 <staticComponent < weightedEdgeVirtual> > ));
 		class_< staticComponent < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("staticComponent_staticWeightedEdge" ,reinterpret_cast<const char *>(__edges_component_staticWeightedEdge))
 					.def ("__init__", make_constructor (edgeFactory2 <staticComponent < staticWeightedEdgeVirtual> > ));
@@ -548,7 +548,7 @@ template <class N>
 		class_< randomTarget < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("randomTarget_staticWeightedEdge", reinterpret_cast<const char *>(__edges_randomTarget_staticWeightedEdge)) 
 					.def ("__init__", make_constructor (edgeFactory3 < randomTarget < staticWeightedEdgeVirtual>   > ));
 
-		class_< stepEdge < edgeVirtual>, bases <edgeBlueprint>  > ("stepEdge" ,reinterpret_cast<const char *>(__edges_stepEdge))
+		class_< stepEdge < edgeVirtual>, bases <edgeBlueprint>  > ("step" ,reinterpret_cast<const char *>(__edges_stepEdge))
 					.def ("__init__", make_constructor (edgeFactory1 < stepEdge <edgeVirtual > > ));
 		class_< stepEdge < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("step_weightedEdge", reinterpret_cast<const char *>(__edges_weightedEdge))
 					.def ("__init__", make_constructor (edgeFactory2 < stepEdge <weightedEdgeVirtual > > ));

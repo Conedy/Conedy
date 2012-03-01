@@ -678,6 +678,7 @@ void createNetwork::addRandomEdgesDegreeDistribution ( function <double () > r ,
 	nodeIterator it;
 	vector <nodeDescriptor> nodeStubs;
 
+	unsigned int size = numberVertices(); 
 
 	unsigned int numberLinks;
 
@@ -692,7 +693,7 @@ void createNetwork::addRandomEdgesDegreeDistribution ( function <double () > r ,
 
 	unsigned int j;
 	nodeDescriptor swap;
-	for (unsigned int i = nodeStubs.size()-1; i == 1 ; i = i - 1)
+	for (unsigned int i = nodeStubs.size()-1; i > 1 ; i = i - 1)
 	{
 		j = gslNoise::getUniformInt (0, i);
 		swap = nodeStubs [j];
@@ -871,7 +872,7 @@ nodeDescriptor createNetwork::createFromAdjacencyList(string fileName, nodeBluep
 nodeDescriptor createNetwork::completeNetwork ( int number, nodeBlueprint *n, edgeBlueprint *l )
 {
 	int i, j;
-	network::clear();
+//network::clear();
 	if (number == 0)
 		return -1;
 
@@ -884,8 +885,8 @@ nodeDescriptor createNetwork::completeNetwork ( int number, nodeBlueprint *n, ed
 		//<baseType>::addNode < nodeBlueprint< baseType > > ();
 		for ( j = 0; j < i; j++ )
 		{
-			network::addEdge ( i,j,l );
-			network::addEdge ( j,i,l );
+			network::addEdge (firstNodeNumber +  i, firstNodeNumber + j,l );
+			network::addEdge (firstNodeNumber +  j, firstNodeNumber + i,l );
 		}
 	}
 	return firstNodeNumber;
@@ -1114,6 +1115,8 @@ void createNetwork::rewire ( double prop, nodeBlueprint *n )
 	nodeList vl;
 	network::verticesMatching(vl, n);
 	getRandomNode r (vl);
+
+
 
 	for ( it = toChange.begin(); it != toChange.end(); it++ )
 	{
@@ -1474,40 +1477,16 @@ nodeDescriptor createNetwork::createFromAdjacencyMatrix (string fileName, nodeBl
 
 
 
-/*nodeDescriptor createNetwork::createFromMatrix ( vector <nodeBlueprint *> * nodes, vector <vector<baseType> > weights )
-{
-	network::clear();
-	for ( unsigned int n = 0; n < nodes->size(); n++ )
-	{
-		addNode ( ( *nodes ) [n] );
-	}
-
-
-	for ( unsigned int i = 0; i < nodes->size(); i++ )
-		for ( unsigned int j = 0; j < nodes->size(); j++ )
-			if ( std::abs ( weights[i][j] ) != (baseType) 0)
-				network::link ( i,j,weights[i][j] );
-
-}*/
-
-
-
-//! Fügt einen Knoten vom Typ streamOutNode hinzu, der in die Datei s schreibt. Der Knoten erhält eine stdEdge zu jedem Knoten vom Typ _dynNode_. und schreibt somit die Summe aller States weg.
-//void createNetwork::observeMean ( string s )
-//{
-//	nodeBlueprint *nod = new nodeVirtualEdges <streamOutNode> ( s );
-//	nodeDescriptor newNodeNumber = addNode ( nod );
-//	network::addEdges ( newNodeNumber,_dynNode_ );
-//	inOutNodeList.push_back ( dynamic_cast<dynNode*> (nodeBlueprint::theNodes[newNodeNumber] ));
-//	delete nod;
-//}
-//
 //! wie oben mit links vom Typ l
-void createNetwork::observeMean ( string s, edgeBlueprint *l )
+void createNetwork::observeSum ( string s, edgeBlueprint *l )
 {
+
 
 	nodeBlueprint *nod = new nodeVirtualEdges <streamOutNode> ( s );
 	int newNodeNumber = addNode ( nod );
+	
+//	unsigned int nodeNumbers = numberVertices(_dynNode_);
+//	l->setWeight(1.0/nodeNumbers);
 	network::addEdges ( newNodeNumber,_dynNode_,l );
 
 	inOutNodeList.push_back ( dynamic_cast<dynNode*> (nodeBlueprint::theNodes[newNodeNumber] ));
@@ -1608,7 +1587,7 @@ void createNetwork::observePhaseCorrelation ( string s, nodeBlueprint *n)
 //}
 //
 
-void createNetwork::observeMeanPhase ( string s )
+void createNetwork::observeSumPhase ( string s )
 {
 	nodeBlueprint *nod = new nodeVirtualEdges <calculateMeanPhase> ();
 	nodeDescriptor newNodeNumber = addNode ( nod );
@@ -1618,7 +1597,7 @@ void createNetwork::observeMeanPhase ( string s )
 }
 
 //! wie oben. Phasen werden von Edges vom Typ l übergeben.
-void createNetwork::observeMeanPhase ( string s, edgeBlueprint *l )
+void createNetwork::observeSumPhase ( string s, edgeBlueprint *l )
 {
 	nodeBlueprint *nod = new nodeVirtualEdges <calculateMeanPhase> ();
 	nodeDescriptor newNodeNumber = addNode ( nod );

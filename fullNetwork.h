@@ -7,7 +7,7 @@
 #include "baseType.h"
 #include "node.h"
 #include "ioNode.h"
-#include "neuronModels.h"
+//#include "neuronModels.h"
 #include "createNetwork.h"
 #include "spatialNetwork.h"
 //#include "stdOdeIntegrator.h"

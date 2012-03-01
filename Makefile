@@ -244,12 +244,17 @@ debug: addNodesIfNecessary Scanner.ll version
 
 debug.install: debug
 #	cp -f bin/gcc*/debug/conedyDebug ${dirinstall} 
-	cp -f bin/gcc*/debug/conedyDebug /home/alex/bin/conedyDebug
+	cp -f bin/gcc*/debug/conedyDebug  ${HOME}/bin/conedyDebug
 
 debug.clean:
 
-condor.install:
-	cp -f bin/gcc-*/debug/link-static/conedyCondor ${dirinstall}
+condor.install: conedy
+	cp -f bin/gcc-*/debug/link-static/conedyCondor  ${HOME}/bin   
+	cp -f bin/gcc-*/release/link-static/conedy ~/bin/conedy.LINUX.X86_64.EXE
+#	cp -f linux32/bin/gcc-mingw-4*/release/link-static/conedy ~/bin/conedy.LINUX.INTEL.EXE
+#	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT51.INTEL.EXE
+#	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT61.INTEL.EXE
+#	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT60.INTEL.EXE
 
 condor.clean:
 
@@ -259,10 +264,5 @@ condor: addNodesIfNecessary version               # build an interpreter which d
 
 
 installCondor: 
-	cp -f bin/gcc-*/release/link-static/conedy ~/bin/conedy.LINUX.X86_64.EXE
-#	cp -f linux32/bin/gcc-mingw-4*/release/link-static/conedy ~/bin/conedy.LINUX.INTEL.EXE
-#	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT51.INTEL.EXE
-#	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT61.INTEL.EXE
-#	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT60.INTEL.EXE
 
 

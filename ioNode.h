@@ -133,9 +133,9 @@ namespace conedy
 			virtual bool timeEvolution () { return 0; }
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _streamOutNode_,"streamOutNode_compress",0,0.0 );
-				params<baseType>::registerStandard ( _streamOutNode_,"streamOutNode_append",1,0.0 );
-				params<baseType>::registerStandard ( _streamOutNode_,"streamOutNode_precision",2,15.0 );
+				params<baseType>::registerStandard ( _streamOutNode_,"outputCompress",0,0.0 );
+				params<baseType>::registerStandard ( _streamOutNode_,"outputAppend",1,0.0 );
+				params<baseType>::registerStandard ( _streamOutNode_,"outputPrecision",2,15.0 );
 //				params<baseType>::registerStandard ( _streamOutNode_,"streamOutNode_binary",3, 0.0 );
 			}
 
@@ -270,7 +270,7 @@ namespace conedy
 			virtual bool timeEvolution () { return 0; }
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _streamInNode_,"streamInNode_compress",0,0.0 );
+				params<baseType>::registerStandard ( _streamInNode_,"inputCompress",0,0.0 );
 			}
 			virtual const unsigned int dimension() const { return 1;}
 

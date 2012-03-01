@@ -7,7 +7,8 @@ roessler_c = 10.0;
 
 
 
-samplingTime = 0.1;
+samplingTime = 0.01;
+odeStepSize = 0.005;
 
 odeAbsError = 0.0;
 odeRelError = 0.0;

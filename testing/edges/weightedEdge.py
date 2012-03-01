@@ -1,21 +1,18 @@
+import conedy as co
 
-
-network net;
-
-
-
-
-int firstNode;
-int secondNode;
+net = co.network()
 
 
 
 
-firstNode = net.addNode(roessler());
-secondNode = net.addNode(roessler());
-
-net.addEdge (firstNode,secondNode, 1.0, weightedEdge (0.1) )
 
 
-net.printNodeStatistics();
+
+firstNode = net.addNode(co.roessler())
+secondNode = net.addNode(co.roessler())
+
+net.addEdge (firstNode,secondNode,co.weightedEdge (0.1) )
+
+
+net.printNodeStatistics()
 

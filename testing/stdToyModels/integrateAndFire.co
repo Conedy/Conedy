@@ -14,8 +14,6 @@ net.setState(0, 0.0, 0.0, 0.0 );
 
 net.observeTime("output/integrateAndFire.co.series");
 net.observe(0,"output/integrateAndFire.co.series",component(0));
-net.observe(0,"output/integrateAndFire.co.series",component(1));
-net.observe(0,"output/integrateAndFire.co.series",component(2));
 
 
 net.printNodeStatistics();
