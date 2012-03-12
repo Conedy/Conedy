@@ -4,6 +4,7 @@ include config.h    # include the config file, which contains install directorie
 
 
 
+
 ARCH=$(shell dpkg --print-architecture)
 
 ifeq ($(ARCH),amd64)

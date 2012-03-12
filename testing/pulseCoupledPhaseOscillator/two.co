@@ -30,3 +30,6 @@ n.observePhaseCoherence("output/two.co.phaseCoherence");
 
 n.evolve(0.0,100.0);
 
+
+
+:awk '{ print sqrt(($2 - $3)^2)  < 1 - sqrt (($2-$3)^2) ? sqrt (( $2-$3)^2) \: 1 - sqrt (($2-$3)^2)   }' output/two.series > two.difference:;

@@ -640,6 +640,8 @@ randomList	: randomList ',' random { $1->push_back(((bindExpression<baseType> *)
 nodeDescriptor		: INT { $$ = new constantCommand<nodeDescriptor>(atoi(d_scanner->YYText())); }
       		| INTVAR { $$ = new varCommand<nodeDescriptor>(d_scanner->YYText()); }
 		| nodeDescriptor '+' nodeDescriptor { $$ = new plusCommandnodeDescriptor<nodeDescriptor,nodeDescriptor>($1,$3); }
+		| '(' nodeDescriptor ')' { $$ = $2;}
+		| nodeDescriptor '-' nodeDescriptor { $$ = new minusCommandnodeDescriptor<nodeDescriptor,nodeDescriptor>($1,$3); }
 		| nodeDescriptor '*' nodeDescriptor { $$ = new timesCommandnodeDescriptor<nodeDescriptor,nodeDescriptor>($1,$3); }
 		| nodeDescriptor '/' nodeDescriptor { $$ = new divideCommandnodeDescriptor<nodeDescriptor,nodeDescriptor>($1,$3); }
 		| nodeDescriptor '%' nodeDescriptor { $$ = new modoloCommandnodeDescriptor<nodeDescriptor,nodeDescriptor>($1,$3); }
