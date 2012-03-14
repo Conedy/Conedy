@@ -1587,7 +1587,7 @@ void createNetwork::observePhaseCorrelation ( string s, nodeBlueprint *n)
 //}
 //
 
-void createNetwork::observeSumPhase ( string s )
+void createNetwork::observeMeanPhase ( string s )
 {
 	nodeBlueprint *nod = new nodeVirtualEdges <calculateMeanPhase> ();
 	nodeDescriptor newNodeNumber = addNode ( nod );
@@ -1597,7 +1597,7 @@ void createNetwork::observeSumPhase ( string s )
 }
 
 //! wie oben. Phasen werden von Edges vom Typ l übergeben.
-void createNetwork::observeSumPhase ( string s, edgeBlueprint *l )
+void createNetwork::observeMeanPhase ( string s, edgeBlueprint *l )
 {
 	nodeBlueprint *nod = new nodeVirtualEdges <calculateMeanPhase> ();
 	nodeDescriptor newNodeNumber = addNode ( nod );

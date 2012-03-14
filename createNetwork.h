@@ -179,10 +179,10 @@ namespace conedy
 			void observeEventCounter ( string s, unsigned int signature);
 
 			//! wie oben. Phasen werden von Edges vom Typ l übergeben.
-			void observeSumPhase ( string s, edgeBlueprint *l );
+			void observeMeanPhase ( string s, edgeBlueprint *l );
 
 
-			void observeSumPhase ( string s );
+			void observeMeanPhase ( string s );
 
 
 			//! wie oben mit links vom Typ l
