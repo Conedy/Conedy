@@ -22,7 +22,7 @@ namespace conedy
 
 
 		int counter;
-	
+
 		// integer, which counts the number of periodical observations of the network.
 		static unsigned int observationCounter;
 		public:
@@ -44,14 +44,16 @@ namespace conedy
 		void snapshotAtEvent( nodeDescriptor eventNumber);
 
 
-		void snapshotAtEventOfNode (nodeDescriptor nodeNumber, unsigned int eventSignature); 
+		void snapshotAtEventOfNode (nodeDescriptor nodeNumber, unsigned int eventSignature);
 
 
-		static void registerStandardValues() 
-		{ 
-			params<baseType>::registerStandard(_dynNetwork_,"samplingTime",0,0.01); 
+		static void registerStandardValues()
+		{
+			params<baseType>::registerStandard(_dynNetwork_,"samplingTime",0,0.01);
+			params<baseType>::registerStandard(_dynNetwork_,"progressVerbosity",0,100.0);
 		}
 		baseType inline ioNodeDt () { return p.getParams(0); }
+		baseType inline progressVerbosity () { return p.getParams(0); }
 
 		dynNetwork()  : p(_dynNetwork_) {};
 		void evolveAll ( double );
@@ -80,67 +82,67 @@ namespace conedy
 				vector <baseType> argList;
 				argList.push_back (a1);
 				if (a2 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a2);
 				if (a3 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a3);
 				if (a4 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a4);
 				if (a5 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a5);
 				if (a6 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a6);
 				if (a7 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a7);
 				if (a8 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a8);
 				if (a9 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a9);
 				if (a10 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a10);
 				if (a11 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a11);
 				if (a12 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
@@ -165,67 +167,67 @@ namespace conedy
 				vector <function<double () > > argList;
 				argList.push_back (a1);
 				if (a2 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a2);
 				if (a3 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a3);
 				if (a4 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a4);
 				if (a5 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a5);
 				if (a6 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a6);
 				if (a7 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a7);
 				if (a8 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a8);
 				if (a9 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a9);
 				if (a10 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a10);
 				if (a11 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a11);
 				if (a12 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
@@ -239,8 +241,8 @@ namespace conedy
 
 
 //		void randomizeStates ( nodeBlueprint *n,function<double () >r );
-		
-		
+
+
 		void readInitialCondition ( string fileName, nodeBlueprint * n );
 
 		void noiseToStates ( function<double () > r, networkElementType n = _undefinedNodeType_ );
@@ -259,7 +261,7 @@ namespace conedy
 			{			unsigned int size = sqrt ( (baseType) network::theNodes.size() );
 					smallDisturbance ( radius, size/2, size/2, r );
 				}
-		
+
 
 		virtual void clean ();
 		void evolve ( double startTime, double endTime );
@@ -275,10 +277,10 @@ namespace conedy
 		void evolveAllAlong ( double endTime, string inputFilename, networkElementType nt);
 
 		void snapshot () { 		clean ();  callBack (0); }
-		void setTime( double newTime) 
-		{ 
-			dynNode::time = newTime; 
-			eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() ); 
+		void setTime( double newTime)
+		{
+			dynNode::time = newTime;
+			eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
 		}
 		baseType getParam(nodeDescriptor nodeNumber,string name)
 		{

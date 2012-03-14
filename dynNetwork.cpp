@@ -12,6 +12,7 @@
 #include "pco.h"
 
 #include "stream.h"
+#include "math.h"
 
 
 namespace conedy
@@ -38,7 +39,7 @@ namespace conedy
 
 		streamOutNode::enter();
 
-		if (( dynNode::time /	ioNodeDt()/ 100.0) -  (int)(dynNode::time / ioNodeDt() / 100.0)    < 0.9999 / 100.0 )
+		if ( ( progressVerbosity() != 0.0 ) && ( fmod(dynNode::time/ioNodeDt(), progressVerbosity()) < 0.9999 ) )
 			cout <<"#------------Time:" << dynNode::time << endl;
 
 		return dynNode::startTime + observationCounter * ioNodeDt();
@@ -69,8 +70,8 @@ namespace conedy
 	dynNetwork::dynNetwork(const dynNetwork &b) : network (b), eventHandler(b), p(b.p)
 	{
 
-		eventHandler::registerCallBack ( _ioNode_, numeric_limits<baseType>::max() ); 
-//		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() ); 
+		eventHandler::registerCallBack ( _ioNode_, numeric_limits<baseType>::max() );
+//		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
 	}
 
 	void dynNetwork::noiseToStates ( function<double () > r, networkElementType n )
@@ -117,7 +118,7 @@ namespace conedy
 
 	void dynNetwork::evolve ( double startTime, double endTime )
 	{
-		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() ); 
+		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
 
 
 		dynNode::startTime = startTime;
@@ -136,10 +137,10 @@ namespace conedy
       eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
 
 //		updateKey(_ioNode_, dynNode::time + ioNodeDt());
-		dynNetwork::clean (  );  
-		pcoBase::timeOffset = 0;	
+		dynNetwork::clean (  );
+		pcoBase::timeOffset = 0;
 
-		observationCounter = 0; 
+		observationCounter = 0;
 
 		snapshot();
 
@@ -184,7 +185,7 @@ namespace conedy
 
 
 	void dynNetwork::realignAtEvent (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int skip)
-	{	
+	{
 		nodeList * vl = new nodeList();
 		verticesMatching(*vl, nt);
 		realign *r = new realign ( inputFilename, outputFilename, vl, epsilon, skip);
@@ -198,7 +199,7 @@ namespace conedy
 
 
 	void dynNetwork::realignWhenDistant (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int multi)
-	{	
+	{
 		nodeList * vl = new nodeList();
 		verticesMatching(*vl, nt);
 		realign *r = new realign ( inputFilename, outputFilename, vl, epsilon, multi);
@@ -214,7 +215,7 @@ namespace conedy
 
 
 	void dynNetwork::realignAtEventSignature (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int skip)
-	{	
+	{
 		nodeList * vl = new nodeList();
 		verticesMatching(*vl, nt);
 		realign *r = new realign ( inputFilename, outputFilename, vl, epsilon, skip);
@@ -233,7 +234,7 @@ namespace conedy
 		dynNode::time = 0.0;
 
 
-		clean (  );     // Dreckige 0 TODO Prüfenvi 
+		clean (  );     // Dreckige 0 TODO Prüfenvi
 
 		nodeList dynNodes;
 
@@ -531,7 +532,7 @@ namespace conedy
 
 
 	void dynNetwork::clear()
-	{				
+	{
 		//		eventHandler::clear();
 		network::clear();
 		//		myEventsStartAt = numeric_limits<unsigned int>::max();
@@ -709,7 +710,7 @@ namespace conedy
 					n = n - 1;
 			}
 
-			states.push (n);	
+			states.push (n);
 			i++;
 		}
 		boost::function<double () > r =  bind(&frontAndPop, &states);
