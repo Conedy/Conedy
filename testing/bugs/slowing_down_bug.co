@@ -1,0 +1,20 @@
+network N;
+
+int j = N.completeNetwork(2, onlyCoupling(), staticWeightedEdge());
+N.randomizeWeights(constant(1.0));
+N.setState(j, 1.0);
+N.setState(j+1, 0.0);
+N.setParam(j, "onlyCoupling_a", 1.0);
+N.setParam(j+1, "onlyCoupling_a", -1.0);
+
+int l;
+progressVerbosity = 0.0;
+
+
+while (1.0 > 0.0)
+{
+	:date +%M-%S-%N:;
+
+#	N.evolve(0.0, 10000.0);
+	for (l = 0; l <1000; l++) {N.evolve(0.0, 0.1);} ;
+};
