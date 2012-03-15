@@ -49,12 +49,19 @@ class eventHandler;
 
 
 
+	class compareEventTimes{
+		public:
+	//! Ordnungsfunktion für die Ereignisse. Geordnet wird nach event::time
+	bool operator() ( const unsigned int  s1, const unsigned int s2 ) const;
+	};
+
+
 #ifdef CALENDARQUEUE
 #include "priorityQueue.h"
 typedef calendarQueue priorityQueueTemplate;
 #else
 #include <boost/pending/relaxed_heap.hpp>
-typedef relaxed_heap < int, eventHandler> priorityQueueTemplate ;
+typedef relaxed_heap < int, compareEventTimes> priorityQueueTemplate ;
 #endif
 
 
@@ -138,10 +145,6 @@ class eventHandler
 	//! Fügt eine Funktion ein, die vor jedem Event mit der Signature signature aufgerufen wird.
 	static void insertVisiterAtSignature (function <void()> v, unsigned int signature);
 
-	//! Ordnungsfunktion für die Ereignisse. Geordnet wird nach event::time
-	bool operator() ( const unsigned int  s1, const unsigned int s2 ) const {
-		return eventList[s1].time < eventList[s2].time;
-	}
 	double priority (const unsigned int i) const { return eventList[i].time;}
 
 	//! gibt die Priorität (Integrationszeit) des obersten Elements zurück

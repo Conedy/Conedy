@@ -12,8 +12,10 @@ void eventHandler::eventClean ()
 
 	if (eventQueue != NULL)
 		delete eventQueue;
+		
+	compareEventTimes cmp;	
 
-		eventQueue = new priorityQueueTemplate ( eventsInQueue + 3 ,*this );
+		eventQueue = new priorityQueueTemplate ( eventsInQueue + 3 ,cmp );
 		for ( unsigned int i = 1; i < eventList.size(); i++ )
 			eventQueue->push ( i );
 
@@ -35,6 +37,13 @@ void eventHandler::eventClean ()
 
 
 }
+
+
+
+	bool compareEventTimes::operator() ( const unsigned int  s1, const unsigned int s2 ) const {
+		return eventHandler::eventList[s1].time < eventHandler::eventList[s2].time;
+	}
+
 
 void eventHandler::unregisterCallBack (unsigned int eventSignature){
 		
