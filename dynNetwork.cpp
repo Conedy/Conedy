@@ -381,7 +381,6 @@ namespace conedy
 
 
 		unsigned int size = sqrt ( (baseType) network::theNodes.size() );
-		cout << "Size:" << size << endl;
 
 		for ( unsigned int i = 0; i < size; i++ )
 			for ( unsigned int j = 0; j < size; j++ )
@@ -458,7 +457,6 @@ namespace conedy
 
 
 		unsigned int size = sqrt ( (baseType) node::theNodes.size() );
-		cout << "Size:" << size << endl;
 
 		for ( unsigned int i = 0; i < size; i++ )
 			for ( unsigned int j = 0; j < size; j++ )
