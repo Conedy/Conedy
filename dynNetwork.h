@@ -50,10 +50,10 @@ namespace conedy
 		static void registerStandardValues()
 		{
 			params<baseType>::registerStandard(_dynNetwork_,"samplingTime",0,0.01);
-			params<baseType>::registerStandard(_dynNetwork_,"progressVerbosity",0,100.0);
+			params<baseType>::registerStandard(_dynNetwork_,"progressVerbosity",1,100.0);
 		}
 		baseType inline ioNodeDt () { return p.getParams(0); }
-		baseType inline progressVerbosity () { return p.getParams(0); }
+		baseType inline progressVerbosity () { return p.getParams(1); }
 
 		dynNetwork()  : p(_dynNetwork_) {};
 		void evolveAll ( double );
