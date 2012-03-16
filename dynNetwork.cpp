@@ -118,30 +118,24 @@ namespace conedy
 
 	void dynNetwork::evolve ( double startTime, double endTime )
 	{
-		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
 
+
+
+
+		if (dynNode::time < startTime)   // this probabliy does not work!
+			pcoBase::timeOffset = startTime - dynNode::time;
+		else
+			pcoBase::timeOffset = 0;
 
 		dynNode::startTime = startTime;
-
-		if (dynNode::time < startTime)
-		{
-
-
-			pcoBase::timeOffset = startTime - dynNode::time;
-
-		}
-
 		dynNode::time = startTime;
 		dynNode::endTime = endTime;
 
       eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
-
-//		updateKey(_ioNode_, dynNode::time + ioNodeDt());
-		dynNetwork::clean (  );
-		pcoBase::timeOffset = 0;
-
 		observationCounter = 0;
 
+
+		dynNetwork::clean (  );
 		snapshot();
 
 
@@ -153,13 +147,9 @@ namespace conedy
 			{
 				timeTilEvent = endTime - dynNode::time;
 				for ( it = evolveList.begin(); it != evolveList.end(); it++ )
-				{
 					( *it )->evolve ( timeTilEvent );
-				}
 				for (it = upkeepList.begin(); it != upkeepList.end();it++)
-				{
 					( *it) -> upkeep();
-				}
 
 				dynNode::time += timeTilEvent;
 				break;
@@ -169,13 +159,10 @@ namespace conedy
 				timeTilEvent = eventHandler::nextEvent() - dynNode::time;
 
 			for ( it = evolveList.begin(); it != evolveList.end(); it++ )
-			{
 				( *it )->evolve ( timeTilEvent );
-			}
 			for (it = upkeepList.begin(); it != upkeepList.end();it++)
-			{
 				( *it) -> upkeep();
-			}
+
 			dynNode::time += timeTilEvent;
 
 			eventHandler::pop();
@@ -460,9 +447,7 @@ namespace conedy
 	{
 		network::clean ( );
 		containerNode<baseType, 1>::realign();
-	//	gslOdeNode::cleanStepSize();
 		eventClean();
-
 	}
 
 

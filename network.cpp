@@ -29,6 +29,7 @@ namespace conedy
 	void network::clean ( )
 	{
 		evolveList.clear();
+		upkeepList.clear();
 
 		dynNode *nod;
 		nodeList vl;
