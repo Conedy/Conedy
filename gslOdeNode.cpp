@@ -112,6 +112,7 @@ namespace conedy
 
 	gsl_odeiv_system gslOdeNode::gslOdeSys;
 
+	bool gslOdeNode::alreadyInitialized = 0;
 
 }
 

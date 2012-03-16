@@ -51,6 +51,8 @@ namespace conedy
 			static baseType stepSize;
 
 			static double * errors;
+			
+			static bool alreadyInitialized;			
 
 			inline string paramStepType() { return gslStepType->getParams(0); }
 			inline double error_abs () { return gslErrors->getParams(0); }
@@ -103,8 +105,18 @@ namespace conedy
 			virtual void clean ()
 			{
 				stepSize = gslErrors->getParams(2);
-				if ( (* containerNode<baseType,3>::nodeList.begin()) == this)
+				if ( (* containerNode<baseType,3>::nodeList.begin()) == this)   // only clean for the masternode ;-), which is the first one.
 				{
+					if (alreadyInitialized)  // free gsl-objects
+					{
+					 gsl_odeiv_step_free ( gslStep);
+					 gsl_odeiv_evolve_free (gslEvolve);
+					 gsl_odeiv_control_free(gslControl);
+					 free (errors); 
+					}
+
+					alreadyInitialized = true;	
+
 					string theStepType = paramStepType();    // determine step-type
 
 					if (theStepType == "gsl_odeiv_step_rk2")
