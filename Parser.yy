@@ -178,11 +178,15 @@ networkCommand	:  NETWORK '.' CLEAR '(' ')' { $$ = NETWORKFUNK(clear,$1); }
 		| NETWORK '.' SELECT '(' string  ')'
 	{ $$ = NETWORKFUNK1(select, $1, _E(string, $5)); }
 		| NETWORK '.' ADDEDGE '(' nodeDescriptor ',' nodeDescriptor ',' createLink ')'
- { $$ = new bindInstruction(
-		bind(&networkTemplate::addEdge,$1,
-		bind(&expression<nodeDescriptor>::evaluate, $5),
-		bind(&expression<nodeDescriptor>::evaluate, $7),
-		bind(&expression<edgeBlueprint* >::evaluate, $9)));
+ { $$ = NETWORKFUNK3(addEdge,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(edgeBlueprint*,$9)); 
+
+
+
+//$$ = new bindInstruction(
+//		bind(&networkTemplate::addEdge,$1,
+//		bind(&expression<nodeDescriptor>::evaluate, $5),
+//		bind(&expression<nodeDescriptor>::evaluate, $7),
+//		bind(&expression<edgeBlueprint* >::evaluate, $9)));
 }
 		| NETWORK '.' EVOLVE	'(' baseType ',' baseType ')' { $$ = NETWORKFUNK2(evolve,$1,_E(baseType,$5), _E(baseType,$7)); }
 		| NETWORK '.' EVOLVE	'(' baseType ')' { $$ = NETWORKFUNK1(evolveFor,$1,_E(baseType,$5)); }
