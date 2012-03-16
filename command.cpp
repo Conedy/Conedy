@@ -246,6 +246,7 @@ void vectorForInstruction::submitToCondor()
 	if ( loopCounter == nestedness )
 	{
 
+		iterations.push_back ( 0 );
 
 		iterations[loopCounter] = 0;
 		start->execute();
