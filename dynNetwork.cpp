@@ -158,6 +158,14 @@ namespace conedy
 			else
 				timeTilEvent = eventHandler::nextEvent() - dynNode::time;
 
+#ifdef DEBUG
+				if (timeTilEvent < 0)
+					throw "Something seems to be wrang with the priorityqueue";
+#endif
+
+
+
+
 			for ( it = evolveList.begin(); it != evolveList.end(); it++ )
 				( *it )->evolve ( timeTilEvent );
 			for (it = upkeepList.begin(); it != upkeepList.end();it++)
@@ -168,6 +176,8 @@ namespace conedy
 			eventHandler::pop();
 
 		}
+
+		eventHandler::finalize();
 	}
 
 
@@ -446,7 +456,7 @@ namespace conedy
 	{
 		network::clean ( );
 		containerNode<baseType, 1>::realign();
-		eventClean();
+		eventHandler::clean();
 	}
 
 
@@ -590,7 +600,7 @@ namespace conedy
 			dist += diff * diff;
 			i++;
 		}
-		dist = sqrt(dist)/ vl->size();
+		dist = sqrt(dist/ vl->size() );
 		return dist;
 
 	}
@@ -604,6 +614,11 @@ namespace conedy
 
 
 		vector <double> along(vl->size());
+//		double timeFirstRun;
+//	  in >> timeFirstRun;
+//		cout << "timeFirstRun: " << timeFirstRun << endl;
+//		cout << "time: " << dynNode::time << endl;
+
 		for (unsigned int i = 0; i < vl->size(); i++ )
 			in >>along[i];
 
@@ -632,20 +647,27 @@ namespace conedy
 
 
 		vector <double> along(vl->size());
+
+
+//		double timeFirstRun;
+//	  in >> timeFirstRun;
+//		cout << "timeFirstRun: " << timeFirstRun << endl;
+//		cout << "time: " << dynNode::time << endl;
+
 		for (unsigned int i = 0; i < vl->size(); i++ )
 			in >>along[i];
 
 		double dist = calculateDist(along);
 
-		if (dist > eps* skip)
-		{
-			out << dynNode::time << " " << dist << endl;
-			cout << "vorher:" << dist << endl;
-			realignNow(along, eps/dist);
-			cout << "nachher:" << calculateDist(along) << endl;
-		}
-		else
-		{
+	if (dist > eps* skip)
+	{
+		out << dynNode::time << " " << dist << endl;
+		cout << "vorher:" << dist << endl;
+		realignNow(along, eps/dist);
+		cout << "nachher:" << calculateDist(along) << endl;
+	}
+	else
+	{
 
 
 			out << "#" << dynNode::time << " " << dist << endl;
@@ -698,7 +720,9 @@ namespace conedy
 		}
 		boost::function<double () > r =  bind(&frontAndPop, &states);
 		for (vi = vl->begin(); vi != vl->end();vi++)
+		{
 			((dynNode*)  node::theNodes[*vi]) ->	randomizeState( r) ;
+		}
 
 	}
 

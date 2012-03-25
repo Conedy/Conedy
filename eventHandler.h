@@ -51,6 +51,7 @@ class eventHandler;
 
 	class compareEventTimes{
 		public:
+			static eventHandler * theEventHandler;
 	//! Ordnungsfunktion für die Ereignisse. Geordnet wird nach event::time
 	bool operator() ( const unsigned int  s1, const unsigned int s2 ) const;
 	};
@@ -182,7 +183,8 @@ class eventHandler
 	//
 	//
 
-	void eventClean ();
+	void clean ();
+	void finalize ();
 
 #ifdef ONETIMEEVENTS
 	void registerOneTimeCallBack (unsigned int eventSignature, baseType time);

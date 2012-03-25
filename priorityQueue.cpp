@@ -18,9 +18,9 @@ bool compare_eventTimes( const unsigned int  s1, const unsigned int s2 )
 }
 
 
-calendarQueue::calendarQueue (unsigned int size, eventHandler& p) :  head (0), nBuckets (size),currentBucket (0), isEmpty(true), bucketOf(size) {
+calendarQueue::calendarQueue (unsigned int size, compareEventTimes& p) :  head (0), nBuckets (size),currentBucket (0), isEmpty(true), bucketOf(size) {
 
-	priorities = &p;
+	priorities = p.theEventHandler;
 	list < unsigned int > dummy;
 	for (unsigned int i = 0; i < nBuckets; i++)
 		buckets.push_back(dummy);

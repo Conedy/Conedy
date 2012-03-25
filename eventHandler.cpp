@@ -7,14 +7,15 @@
 
 
 
-void eventHandler::eventClean ()
+void eventHandler::clean ()
 {
 
-	if (eventQueue != NULL)
-		delete eventQueue;
+
+//	if (eventQueue != NULL)
+//		delete eventQueue;
 		
 	compareEventTimes cmp;	
-
+	cmp.theEventHandler = this;
 		eventQueue = new priorityQueueTemplate ( eventsInQueue + 3 ,cmp );
 		for ( unsigned int i = 1; i < eventList.size(); i++ )
 			eventQueue->push ( i );
@@ -36,6 +37,13 @@ void eventHandler::eventClean ()
 #endif
 
 
+}
+
+
+void eventHandler::finalize()
+{
+	delete eventQueue;
+	eventQueue = NULL;
 }
 
 
@@ -93,9 +101,9 @@ void eventHandler::registerCallBack ( unsigned int eventSignature,  baseType tim
 	else
 	{
 		
-//		if (eventQueue != NULL)
-//					updateKey (eventSignature, time);
-//		else
+		if (eventQueue != NULL)
+					updateKey (eventSignature, time);
+		else
 			eventList[myEventsStartAt + eventSignature]. time = time;
 	}
 
@@ -303,7 +311,7 @@ vector <int> eventHandler::eventCount ( 100 );
 
 
 
-
+eventHandler * compareEventTimes::theEventHandler;
 
 
 

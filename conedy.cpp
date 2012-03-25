@@ -22,6 +22,30 @@ void *pt2FunctionForGlutWrapper;
 
 istream* Scanner::source;
 
+int printDefines () 
+
+
+{
+
+	cout <<"#";
+#if CONDOR
+	cout << "CONDOR " ;
+#endif
+
+
+#if CALENDARQUEUE
+	cout << "CALENDARQUEUE ";
+#endif
+
+
+#if DEBUG
+	cout << "DEBUG "; 
+#endif
+	cout << endl;
+
+}
+
+
 int main ( int argc,char **argv )
 {
 	//	system("mkdir output");
@@ -39,6 +63,8 @@ int main ( int argc,char **argv )
 #endif
 
 	gslNoise::initialise();
+
+	printDefines();
 
 	commandLineArguments::initialize(argc, argv);
 

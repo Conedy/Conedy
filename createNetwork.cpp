@@ -678,7 +678,6 @@ void createNetwork::addRandomEdgesDegreeDistribution ( function <double () > r ,
 	nodeIterator it;
 	vector <nodeDescriptor> nodeStubs;
 
-	unsigned int size = numberVertices(); 
 
 	unsigned int numberLinks;
 

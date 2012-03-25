@@ -20,7 +20,6 @@
 }
 
 
-//koasdfshdgfj
 %left <booleanExpression> OR
 %left <booleanExpression> AND
 %left <doubleExpression> '+' '-'
@@ -54,7 +53,7 @@
 %token RANDOMTARGET RANDOMTARGET_WEIGHTEDEDGE RANDOMTARGET_STATICWEIGHTEDEDGE 
 %token STEPEDGE STEPEDGE_WEIGHTEDEDGE STEPEDGE_STATICWEIGHTEDEDGE 
 
-PULSECOUPLEEDGE STATICWEIGHTEDEDGE RANDOMTARGETEDGE SIGEDGE STDEDGEORD3 SIGEDGEORD3 SIGEDGEPARAMS PULSECOUPLEDELAYEDGE WEIGHTEDEDGE EDGE
+PULSECOUPLEEDGE STATICWEIGHTEDEDGE SIGEDGE STDEDGEORD3 SIGEDGEORD3 SIGEDGEPARAMS PULSECOUPLEDELAYEDGE WEIGHTEDEDGE EDGE
 // Random
 %token GAUSSIAN BIMODAL EXPONENTIAL POWERLAW UNIFORM FROMFILE ADDINPUTFILE  CONSTANT POISSON  INDEGREEDISTRIBUTION OUTDEGREEDISTRIBUTION
 // Arithmetic
@@ -79,7 +78,6 @@ PULSECOUPLEEDGE STATICWEIGHTEDEDGE RANDOMTARGETEDGE SIGEDGE STDEDGEORD3 SIGEDGEO
 
 %%
 
-// asdfsjhg
 
 program: commands  { $1->execute();};
 
@@ -555,12 +553,6 @@ link	:  DELAYLINK '(' nodeDescriptor ')' {edgeBlueprint *l = new delayEdge($3->e
 		| SIGEDGEPARAMS'(' nodeDescriptor ')' {edgeBlueprint *l = new sigEdgeParams($3->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| SIGEDGEPARAMS {edgeBlueprint *l = new sigEdgeParams(); $$ = new constantCommand<edgeBlueprint*>(l); }
 
-//		| MEMBRANEPOTENTIALOFIFQ { edgeBlueprint *l = new membranePotentialOfIFQ(); $$ = new constantCommand<edgeBlueprint*>(l); }
-//		| PHASEOFIFQ { edgeBlueprint *l = new phaseOfIFQ<baseType>(); $$ = new constantCommand<edgeBlueprint*>(l); }
-//		| PHASEOFPCPO { edgeBlueprint *l = new phaseOfPCPOVirtual(); $$ = new constantCommand<edgeBlueprint*>(l); }
-	//	| PHASEOFPCPOOPT { edgeBlueprint *l = new phaseOfPCPO<baseType>(); $$ = new constantCommand<edgeBlueprint*>(l); }
-//		| RANDOMTARGETEDGE '(' nodeDescriptor ',' nodeDescriptor ')' {edgeBlueprint *l = new randomTarget < edgeVirtual> ($3->evaluate(), $5->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l);  }
-//		| RANDOMTARGETEDGE {edgeBlueprint *l = new weightedEdgeVirtual(); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| PULSECOUPLEEDGE'(' baseType ')' {edgeBlueprint *l = new stepEdge< edgeVirtual>   ($3->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| PULSECOUPLEDELAYEDGE'(' baseType ',' baseType ')' {edgeBlueprint *l = new pulsecoupleDelayEdge($3->evaluate(), $5->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
 
@@ -569,7 +561,6 @@ link	:  DELAYLINK '(' nodeDescriptor ')' {edgeBlueprint *l = new delayEdge($3->e
 		| EDGE { edgeBlueprint *l = new edgeVirtual(); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| STATICWEIGHTEDEDGE { edgeBlueprint *l = new staticWeightedEdgeVirtual();$$ = new constantCommand<edgeBlueprint*>(l);  }
 
-//		| TESTEDGE '(' baseType ')'  { edgeBlueprint *l = new testEdge<baseType>($3->evaluate()); $$ = new constantCommand<edgeBlueprint*>(l); }
 		| COMPONENT { $$ = new constantCommand<edgeBlueprint*>(new component<edgeVirtual>); }
 		| COMPONENT_WEIGHTEDEDGE { $$ = new constantCommand<edgeBlueprint*>(new component<weightedEdgeVirtual>); }
 		| COMPONENT_STATICWEIGHTEDEDGE { $$ = new constantCommand<edgeBlueprint*>(new component<staticWeightedEdgeVirtual>); }
@@ -589,7 +580,6 @@ link	:  DELAYLINK '(' nodeDescriptor ')' {edgeBlueprint *l = new delayEdge($3->e
 
 
 
-//		| KURAMOTOEDGE	 { edgeBlueprint *l = new kuramotoEdge<baseType>(); $$ = new constantCommand<edgeBlueprint*>(l);}
 
 
 

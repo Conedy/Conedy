@@ -68,7 +68,6 @@ namespace conedy
 						cout << "	" << name[make_pair(row, i)] << ": \t " << *param[row][i] << " " << endl;
 
 
-					//			cout << "UsageCounter:" << usageCounter[row] << endl;
 
 				}
 				static T getStandardParameter(networkElementType n, unsigned int number)
@@ -118,9 +117,6 @@ namespace conedy
 				//! Destruktor: Verringert den usageCounter um 1. Wenn usageCounter==1 wird der Parameter gelöscht.
 				virtual ~params() 
 				{
-#ifdef DEBUG
-					cout << "Destruktor aufgerufen: usageCounter at row " << row << " = " << usageCounter.at(row) << endl;
-#endif
 
 					if (usageCounter.at(row) == 1)
 					{
@@ -129,9 +125,6 @@ namespace conedy
 							for (unsigned int i = 0; i < param[row].size(); i++)
 								delete param[row][i];
 
-#ifdef DEBUG
-							cout << "Paramter Reihe " << row << " gelöscht!\n" << endl;
-#endif
 
 						}
 

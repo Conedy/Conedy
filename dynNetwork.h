@@ -276,7 +276,9 @@ namespace conedy
 
 		void evolveAllAlong ( double endTime, string inputFilename, networkElementType nt);
 
-		void snapshot () { 		clean ();  callBack (0); }
+		void snapshot () { //		clean (); 
+		  
+			callBack (0); }
 		void setTime( double newTime)
 		{
 			dynNode::time = newTime;
