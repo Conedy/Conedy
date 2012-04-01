@@ -597,10 +597,10 @@ namespace conedy
 
 			if (diff > abs (1.0 - diff ))
 				diff = abs ( 1.0 - diff );
-			dist += diff * diff;
+			dist += diff;
 			i++;
 		}
-		dist = sqrt(dist/ vl->size() );
+		dist = dist/ vl->size() ;
 		return dist;
 
 	}
@@ -659,7 +659,7 @@ namespace conedy
 
 		double dist = calculateDist(along);
 
-	if (dist > eps* skip)
+	if (dist > eps* skip  || dist < 0.95 * eps  )
 	{
 		out << dynNode::time << " " << dist << endl;
 		cout << "vorher:" << dist << endl;
@@ -710,7 +710,7 @@ namespace conedy
 			}
 			else
 			{
-				n = along[i] + diff;
+				n = along[i] - diff;
 				if ( n > 1)
 					n = n - 1;
 			}
