@@ -57,6 +57,7 @@ namespace conedy
 			inline string paramStepType() { return gslStepType->getParams(0); }
 			inline double error_abs () { return gslErrors->getParams(0); }
 			inline double error_rel () { return gslErrors->getParams(1); }
+			inline double minStepSize () { return gslErrors->getParams(3); }
 
 			static params<string> *gslStepType;
 			static params<baseType> *gslErrors;
@@ -69,6 +70,7 @@ namespace conedy
 				params<baseType>::registerStandard(_gslOdeNode_, "odeRelError",0,0.00001);
 				params<baseType>::registerStandard(_gslOdeNode_, "odeAbsError",1,0.0);
 				params<baseType>::registerStandard(_gslOdeNode_, "odeStepSize",2,0.001);
+				params<baseType>::registerStandard(_gslOdeNode_, "odeMinStepSize", 3, 0.000001);
 				gslStepType = new params<string>(_gslOdeNode_);
 				gslErrors = new params<baseType>(_gslOdeNode_);
 			}	

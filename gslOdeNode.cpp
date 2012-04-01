@@ -35,7 +35,7 @@ namespace conedy
 			throw "fixed stepsize seems to be broken at the moment.";
 
 			int stepCount = timeTilEvent/stepSize + 1.0 - 1e-8 ;
-			double dt = timeTilEvent / stepCount;
+//			double dt = timeTilEvent / stepCount;
 
 
 				if ( gsl_odeiv_step_apply ( gslStep,dynNode::time,
@@ -81,6 +81,9 @@ namespace conedy
 						containerNode<baseType,3>::dynamicVariablesOfAllDynNodes) ;
 				if (status != GSL_SUCCESS)
 					break;
+		
+				if (stepSize < minStepSize())
+					throw "Stepsize crossed specified minimum. Aborting !";
 
 #ifdef DEBUG
 								cout << stepSize << "\n";
