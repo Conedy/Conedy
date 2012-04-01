@@ -97,7 +97,7 @@ void vectorForInstruction::writeCondorSkript()
       condorSkript << "Executable   =  " << getenv ( "HOME" ) << "/bin/conedy.$$(OpSys).$$(Arch).EXE\n";
 
       condorSkript << "Log    =" << commandLineArguments::arg[1] << ".log" << "\n\n";
-		condorSkript << "stream_output = True \n"; 
+//		condorSkript << "stream_output = True \n";   I'm putting this out because its seems to worsen performance on the submitting pc ?
       condorSkript << "Requirements =" ; 
 
 bool first = true;
