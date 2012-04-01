@@ -120,7 +120,7 @@ conedy-src.test:   # if the testfile was already added, remove it and recompile 
 
 
 
-unstripped: clean addNodes
+unstripped: clean addNodes Scanner.ll
 	bjam conedy -o unstripped.sh
 	tail -n2 unstripped.sh | sed "s/,--strip-all//" | sed "s/conedy/conedy_unstripped/" > linkUnstripped.sh
 	make conedy	
