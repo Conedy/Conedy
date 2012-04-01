@@ -22,7 +22,7 @@ void *pt2FunctionForGlutWrapper;
 
 istream* Scanner::source;
 
-int printDefines () 
+void printDefines () 
 
 
 {
