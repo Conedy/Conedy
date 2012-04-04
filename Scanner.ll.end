@@ -180,7 +180,7 @@ select		{return (ParserBase::SELECT); }
 
 
 newline			{return(ParserBase::NEWLINE); }
-setState	{return(ParserBase::SETINITIALCONDITION); }
+setState	{return(ParserBase::SETSTATE); }
 
 
 ","		{return(','); }
