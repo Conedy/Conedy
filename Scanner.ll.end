@@ -167,6 +167,7 @@ closenessCentrality	{return(ParserBase::CLOSENESSCENTRALITY); }
 betweennessCentrality	{return(ParserBase::BETWEENNESSCENTRALITY); }
 degreeCentrality	{return(ParserBase::DEGREECENTRALITY); }
 saveAdjacencyList 	{return(ParserBase::SAVEADJACENCYLIST); }
+saveAdjacencyMatrix 	{return(ParserBase::SAVEADJACENCYMATRIX); }
 saveGraphML	 	{return(ParserBase::SAVEGRAPHML); }
 createFromAdjacencyList {return(ParserBase::CREATEFROMADJACENCYLIST); }
 startingConditionOpenWaveEnding	{return (ParserBase::STARTINGCONDITIONOPENWAVEENDING); }
