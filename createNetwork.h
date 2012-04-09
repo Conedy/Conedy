@@ -208,6 +208,7 @@ namespace conedy
 
 
 			void addRandomEdgesDegreeDistribution ( function <double () > r, edgeBlueprint *l = stdEdge );
+			void addRandomEdgesDegreeDistributionUndirected ( function <double () > r, edgeBlueprint *l = stdEdge );
 
 
 			//! Fügt einen Knoten vom Typ streamOutNode hinzu, der in die Datei s schreibt. Der Knoten erhält eine stdEdge zu jedem Knoten vom Typ _dynNode_. und schreibt somit die Summe aller States weg.

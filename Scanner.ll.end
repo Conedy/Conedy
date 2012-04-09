@@ -1,6 +1,6 @@
 getState				{return(ParserBase::GETSTATE); }
-inDegree				{return(ParserBase::GETINDEGREE); }
-outDegree				{return(ParserBase::GETOUTDEGREE); }
+inDegree				{return(ParserBase::INDEGREE); }
+outDegree				{return(ParserBase::OUTDEGREE); }
 
 
 
@@ -44,6 +44,7 @@ observePhaseDistance 	{ return (ParserBase::OBSERVEPHASEDISTANCE); }
 
 
 addRandomEdgesDegreeDistribution { return (ParserBase::ADDRANDOMEDGESDEGREEDISTRIBUTION); }
+addRandomEdgesDegreeDistributionUndirected { return (ParserBase::ADDRANDOMEDGESDEGREEDISTRIBUTIONUNDIRECTED); }
 
 
 observeMeanPhase	{ return (ParserBase::OBSERVEMEANPHASE); }

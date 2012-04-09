@@ -670,6 +670,42 @@ out.newLine();
 
 }
 */
+void createNetwork::addRandomEdgesDegreeDistributionUndirected ( function <double () > r , edgeBlueprint *l)
+{
+	nodeList vl;
+	verticesMatching (vl,_dynNode_);
+	nodeIterator it;
+	vector <nodeDescriptor> nodeStubs;
+
+
+	unsigned int numberLinks;
+
+	for 	(it = vl.begin(); it != vl.end(); it++)
+	{
+		numberLinks = r();
+		for (unsigned int i = 0; i < numberLinks ; i++)
+			nodeStubs.push_back(*it);
+	}
+
+	// shuffle the stub-list with Fisher-Yates
+
+	unsigned int j;
+	nodeDescriptor swap;
+	for (unsigned int i = nodeStubs.size()-1; i > 1 ; i = i - 1)
+	{
+		j = gslNoise::getUniformInt (0, i);
+		swap = nodeStubs [j];
+		nodeStubs [j] = nodeStubs[i];
+		nodeStubs [i] = swap;
+	}
+	for (unsigned int i = 0 ; i < nodeStubs.size() / 2; i++ )
+	{
+		addEdge ( nodeStubs[2 * i], nodeStubs [ 2 * i + 1], l);
+		addEdge ( nodeStubs[2 * i + 1], nodeStubs [ 2 * i], l);
+	}	
+
+}
+
 
 void createNetwork::addRandomEdgesDegreeDistribution ( function <double () > r , edgeBlueprint *l)
 {
@@ -699,9 +735,6 @@ void createNetwork::addRandomEdgesDegreeDistribution ( function <double () > r ,
 		nodeStubs [j] = nodeStubs[i];
 		nodeStubs [i] = swap;
 	}
-
-
-
 	for (unsigned int i = 0 ; i < nodeStubs.size() / 2; i++ )
 		addEdge ( nodeStubs[2 * i], nodeStubs [ 2 * i + 1], l);
 
