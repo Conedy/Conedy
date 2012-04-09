@@ -27,6 +27,10 @@ namespace conedy
 
 			baseType meanInDegree ();
 			baseType meanOutDegree ();
+
+			int inDegree(nodeDescriptor n);
+			int outDegree(nodeDescriptor n);
+
 			baseType meanClustering();
 			void printStatistics ( string s );
 			void dijkstra( vector<baseType>& ret, nodeList vl, unsigned int v);
@@ -35,6 +39,8 @@ namespace conedy
 			void degreeCentrality ( string filename );
 			void closenessCentrality ( string filename );
 			void betweennessCentrality ( string filename );
+
+
 
 			baseType meanWeight();
 

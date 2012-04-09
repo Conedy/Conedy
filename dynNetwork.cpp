@@ -71,7 +71,7 @@ namespace conedy
 	{
 
 		eventHandler::registerCallBack ( _ioNode_, numeric_limits<baseType>::max() );
-//		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
+		//		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
 	}
 
 	void dynNetwork::noiseToStates ( function<double () > r, networkElementType n )
@@ -131,7 +131,7 @@ namespace conedy
 		dynNode::time = startTime;
 		dynNode::endTime = endTime;
 
-      eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
+		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
 		observationCounter = 0;
 
 
@@ -159,8 +159,8 @@ namespace conedy
 				timeTilEvent = eventHandler::nextEvent() - dynNode::time;
 
 #ifdef DEBUG
-				if (timeTilEvent < 0)
-					throw "Something seems to be wrang with the priorityqueue";
+			if (timeTilEvent < -0.00000001)
+				throw "Something seems to be wrang with the priorityqueue";
 #endif
 
 
@@ -614,10 +614,10 @@ namespace conedy
 
 
 		vector <double> along(vl->size());
-//		double timeFirstRun;
-//	  in >> timeFirstRun;
-//		cout << "timeFirstRun: " << timeFirstRun << endl;
-//		cout << "time: " << dynNode::time << endl;
+		//		double timeFirstRun;
+		//	  in >> timeFirstRun;
+		//		cout << "timeFirstRun: " << timeFirstRun << endl;
+		//		cout << "time: " << dynNode::time << endl;
 
 		for (unsigned int i = 0; i < vl->size(); i++ )
 			in >>along[i];
@@ -649,25 +649,34 @@ namespace conedy
 		vector <double> along(vl->size());
 
 
-//		double timeFirstRun;
-//	  in >> timeFirstRun;
-//		cout << "timeFirstRun: " << timeFirstRun << endl;
-//		cout << "time: " << dynNode::time << endl;
+		//		double timeFirstRun;
+		//	  in >> timeFirstRun;
+		//		cout << "timeFirstRun: " << timeFirstRun << endl;
+		//		cout << "time: " << dynNode::time << endl;
 
 		for (unsigned int i = 0; i < vl->size(); i++ )
 			in >>along[i];
 
 		double dist = calculateDist(along);
 
-	if (dist > eps* skip  || dist < 0.95 * eps  )
-	{
-		out << dynNode::time << " " << dist << endl;
-		cout << "vorher:" << dist << endl;
-		realignNow(along, eps/dist);
-		cout << "nachher:" << calculateDist(along) << endl;
-	}
-	else
-	{
+		if (dist > eps* skip)
+
+
+		{
+			out << dynNode::time << " " << dist << endl;
+			cout << "diverging. vorher:" << dist << endl;
+			realignNow(along, eps/dist);
+			cout << "nachher:" << calculateDist(along) << endl;
+		}
+		if ( dist < eps / skip  )
+		{
+			out << dynNode::time << " " << dist << endl;
+			cout << "converging. vorher:" << dist << endl;
+			realignNow(along, eps/dist);
+			cout << "nachher:" << calculateDist(along) << endl;
+		}
+		else
+		{
 
 
 			out << "#" << dynNode::time << " " << dist << endl;

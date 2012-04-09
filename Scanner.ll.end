@@ -1,4 +1,7 @@
 getState				{return(ParserBase::GETSTATE); }
+inDegree				{return(ParserBase::GETINDEGREE); }
+outDegree				{return(ParserBase::GETOUTDEGREE); }
+
 
 
 evolve				{return(ParserBase::EVOLVE); }

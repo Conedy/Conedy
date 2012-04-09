@@ -33,6 +33,34 @@ namespace conedy
 			}
 
 
+
+			int statisticsNetwork::inDegree( nodeDescriptor n)
+	{
+	
+
+		node::edgeDescriptor ea;
+		node::edgeDescriptor ee;
+
+		network::nodeIterator ia;
+		network::nodeList vl;
+		network::verticesMatching ( vl,_dynNode_ );
+		int res = 0;
+
+		for ( ia = vl.begin(); ia != vl.end(); ia++ )
+		{
+			ea = 0;
+			ee = node::theNodes[*ia] ->degree();
+
+			for ( ; ea != ee; ea++ )
+				if (node::theNodes[(*ia)] ->getTarget(ea)->getNumber() == n)
+					res++;
+
+		}
+		return res;
+	}
+
+
+
 			double statisticsNetwork::networkSize()
 			{
 				network::nodeList vl;
