@@ -26,6 +26,7 @@
 %left <doubleExpression> '*' '/'
 %left <doubleExpression> UMINUS
 %left <doubleExpression> LOG
+%left <doubleExpression> SQRT
 %left <doubleExpression> EXP
 %left <doubleExpression> SIN
 %left <booleanExpression> NOT
@@ -452,10 +453,9 @@ $$ = new bindInstruction(bind(&networkTemplate::rewireWeights ,$1, bind(&express
 	| NETWORK '.' ADDRANDOMEDGES '(' baseType ',' createLink ')'
  { $$ = NETWORKFUNK2(addRandomEdges,$1,_E(baseType,$5), _E(edgeBlueprint*,$7)); }
 	| NETWORK '.' ADDRANDOMEDGESDEGREEDISTRIBUTION '(' random ',' createLink ')'
- {  function<baseType ()> r = bind(&expression<baseType>::evaluate,$5);
-
-
-$$ = NETWORKFUNK2(addRandomEdgesDegreeDistribution,$1,r, _E(edgeBlueprint*,$7)); }
+ {  function<baseType ()> r = bind(&expression<baseType>::evaluate,$5); $$ = NETWORKFUNK2(addRandomEdgesDegreeDistribution,$1,r, _E(edgeBlueprint*,$7)); }
+	| NETWORK '.' ADDRANDOMEDGESDEGREEDISTRIBUTIONUNDIRECTED '(' random ',' createLink ')'
+ {  function<baseType ()> r = bind(&expression<baseType>::evaluate,$5); $$ = NETWORKFUNK2(addRandomEdgesDegreeDistributionUndirected,$1,r, _E(edgeBlueprint*,$7)); }
 	| NETWORK '.' CYCLE '(' nodeDescriptor ',' nodeDescriptor ',' createNode ')'{ $$ = NETWORKFUNK4(cycle,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(nodeBlueprint*,$9), network::stdEdge); }
 	| NETWORK '.' CYCLE '(' nodeDescriptor ',' nodeDescriptor ',' createNode ',' createLink ')' { $$ = NETWORKFUNK4(cycle,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(nodeBlueprint*,$9), _E(edgeBlueprint*,$11)); }
 	| NETWORK '.' LINE '(' nodeDescriptor ',' nodeDescriptor ',' createNode ',' createLink ')' { $$ = NETWORKFUNK4(line,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(nodeBlueprint*,$9), _E(edgeBlueprint*,$11)); }
@@ -666,6 +666,7 @@ baseType		: DOUBLE { $$ = new constantCommand<baseType>(atof(d_scanner->YYText()
 		| nodeDescriptor '*' baseType  {$$ = new timesCommandbaseType<nodeDescriptor,baseType>($1,$3);}
 		| nodeDescriptor '/' baseType  {$$ = new divideCommandbaseType<nodeDescriptor,baseType>($1,$3);}
 		| LOG '(' baseType ')' 	{ $$ = new logCommandbaseType<baseType> ($3);}
+		| SQRT '(' baseType ')' 	{ $$ = new sqrtCommandbaseType<baseType> ($3);}
 		| EXP '(' baseType ')' 	{ $$ = new expCommandbaseType<baseType> ($3);}
 		| SIN '(' baseType ')' 	{ $$ = new sinCommandbaseType<baseType> ($3);}
 //		| nodeDescriptor { $$ = new convertToBaseType($1); }

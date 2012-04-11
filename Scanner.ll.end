@@ -81,6 +81,7 @@ rewireTargetUndirected	{return(ParserBase::REWIRETARGETUNDIRECTED); }
 "log"			{return(ParserBase::LOG); }
 "exp"			{return(ParserBase::EXP); }
 "sin"			{return(ParserBase::SIN); }
+sqrt			{return(ParserBase::SQRT); }
 
 
 getRandomSeed		{return(ParserBase::GETRANDOMSEED); }

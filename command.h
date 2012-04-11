@@ -834,6 +834,7 @@ DECLAREBINARY( == , equal, bool)
 DECLAREUNARY(log,log,baseType)
 DECLAREUNARY(exp,exp,baseType)	
 DECLAREUNARY(sin,sin,baseType)	
+DECLAREUNARY(sqrt,sqrt,baseType)	
 
 
 
