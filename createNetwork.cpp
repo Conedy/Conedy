@@ -679,10 +679,15 @@ void createNetwork::addRandomEdgesDegreeDistributionUndirected ( function <doubl
 
 
 	unsigned int numberLinks;
+	double randomNumber;	
 
 	for 	(it = vl.begin(); it != vl.end(); it++)
 	{
-		numberLinks = r();
+		randomNumber = r();	
+		if (randomNumber >= 0)
+			numberLinks = randomNumber;
+		else 
+			numberLinks = 0;	
 		for (unsigned int i = 0; i < numberLinks ; i++)
 			nodeStubs.push_back(*it);
 	}
