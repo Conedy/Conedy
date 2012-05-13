@@ -66,7 +66,7 @@ INCLUDES Scanner.ll : Parserbase.h ;
 
 
 #parser = Parser.yy <include>./
-objects =   fullNetwork.cpp  phaseResponseOscillators.cpp sdeNode.cpp  cnnNode.cpp stdSdeIntegrator.cpp odeNode.cpp gslOdeNode.cpp ioNode.cpp eventHandler.cpp pulseCoupledPhaseOscillator.cpp pulseCoupledPhaseOscillator.cpp  pulseCoupledExcitatoryNeuron.cpp network.cpp dynNetwork.cpp createNetwork.cpp spatialNetwork.cpp mapNode.cpp eventHandler.cpp node.cpp  dynNode.cpp gslNoise statisticsNetwork.cpp commandLineArguments.cpp generatedNodes.cpp priorityQueue.cpp ;
+objects =   fullNetwork.cpp  phaseResponseOscillators.cpp sdeNode.cpp   stdSdeIntegrator.cpp odeNode.cpp gslOdeNode.cpp ioNode.cpp eventHandler.cpp pulseCoupledPhaseOscillator.cpp pulseCoupledPhaseOscillator.cpp  pulseCoupledExcitatoryNeuron.cpp network.cpp dynNetwork.cpp createNetwork.cpp spatialNetwork.cpp mapNode.cpp eventHandler.cpp node.cpp  dynNode.cpp gslNoise statisticsNetwork.cpp commandLineArguments.cpp generatedNodes.cpp priorityQueue.cpp ;
 
 exe conedyCondor : Parser.yy Scanner.ll command.cpp  conedy.cpp $(objects)   m z boost_iostreams gsl gslcblas : <cxxflags>-DCONDOR debug <link>static  <include>./ ;
 exe conedy	:   Parser.yy Scanner.ll command.cpp  conedy.cpp $(objects)  m z boost_iostreams gsl gslcblas stdc++ : release <link>static <cxxflags>-g <include>./ ;

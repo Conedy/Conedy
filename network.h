@@ -157,10 +157,6 @@ namespace conedy
 			virtual ~network();
 
 
-			//			baseType& getParam(nodeDescriptor nodeNumber,string name)
-			//			{
-			//					return ((dynNode*)(theNodes[nodeNumber]))->getParam(name);
-			//			}
 
 			//! 
 			void removeEdge (edgeDescriptor e)

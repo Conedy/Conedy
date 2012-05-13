@@ -39,6 +39,10 @@ docstrings.h: addedNodes.sum.old    			# generate a c-header with docstrings for
 
 
 
+Parser.yy: Parser.yy.tokens Parser.yy.declaration generatedAddNewNodeTokens.yy generatedAddNewNode.yy  
+	cat Parser.yy.tokens generatedAddNewNodeTokens.yy Parser.yy.declaration generatedAddNewNode.yy > Parser.yy
+	echo ";" >> Parser.yy
+
 
 Scanner.ll: Scanner.ll.begin Scanner.ll.end Scanner.ll.generated
 	cat Scanner.ll.begin Scanner.ll.generated Scanner.ll.end > Scanner.ll
@@ -120,7 +124,7 @@ conedy-src.test:   # if the testfile was already added, remove it and recompile 
 
 
 
-unstripped: clean addNodes Scanner.ll
+unstripped: clean addNodes Scanner.ll Parser.yy
 	bjam conedy -o unstripped.sh
 	tail -n2 unstripped.sh | sed "s/,--strip-all//" | sed "s/conedy/conedy_unstripped/" > linkUnstripped.sh
 	make conedy	
@@ -128,7 +132,7 @@ unstripped: clean addNodes Scanner.ll
 
 
 
-conedy: addNodesIfNecessary Scanner.ll version				# build the bison-flex-interpreter of Conedy.
+conedy: addNodesIfNecessary Parser.yy Scanner.ll version				# build the bison-flex-interpreter of Conedy.
 	bjam conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
 installAndTest: install test
@@ -181,6 +185,12 @@ conedy-src.install:
 	cp -r testing ${dirsrc}/
 	sed -i "s/^VERSION.*$$/VERSION = '${VERSION}'/" ${DESTDIR}/${globalConfig}
 	sed -i "s#^include config.h#include \$${HOME}/.config/conedy/config.h#g" ${dirsrc}/Makefile
+
+
+
+doc:
+	doxygen
+
 
 conedy-src.uninstall:
 	rm -fr ${dirsrc}
@@ -238,7 +248,7 @@ win: version
 
 documentation.uninstall:
 
-debug: addNodesIfNecessary Scanner.ll version
+debug: addNodesIfNecessary Scanner.ll Parser.yy version
 #	bisonc++ Parser.yy
 	bjam conedyDebug cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 

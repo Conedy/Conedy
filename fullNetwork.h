@@ -23,10 +23,10 @@
 //#define GSLODE
 //}
 
-#include "cnnNode.h"
 #include "dynNetwork.h"
 #include "statisticsNetwork.h"
 
+//#include "cnnNode.h"
 // DOPPELT
 // #include "dynNode.h" 
 #include "mapNode.h" 

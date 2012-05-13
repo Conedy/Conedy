@@ -367,9 +367,6 @@ void network::remove ( nodeKind theNodeKind )
 	}
 
 
-	//	quequeBuffer *buf = new quequeBuffer();
-	//        streamOutSort(*buf);       Die beiden Zeilen sind notwendig, falls Knoten aus der Mitte vom Array gelÃÂÃÂ¶scht werden.
-	//	streamIn(size,*buf); 	     Allerdings werden die Parameter von den Nodes dabei gelÃÂÃÂ¶scht
 }
 
 
@@ -420,14 +417,6 @@ network::network(bool directedNess): params<baseType>(_network_), directed(direc
 	numberOfNodes = 0;
 }
 
-/*
-	void network::streamOut(string s)
-	{
-	outStream *out = new outStream(s.c_str());
-	streamOut (*out);
-	delete out;
-	}
-	*/
 
 network::~network()
 {
@@ -439,12 +428,6 @@ network::~network()
 }
 
 
-//	nodeDescriptor network::addNode()
-//	{cout <<" das macht doch keinen Sinn.";
-//		node *kno = new node ();
-//		theNodes.push_back ( kno );
-//return theNodes.size();
-//	}
 
 nodeDescriptor network::addNode ( nodeBlueprint *n )
 {

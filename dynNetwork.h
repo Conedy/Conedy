@@ -294,6 +294,11 @@ namespace conedy
 	};
 
 
+	struct meanVar {
+		double mean;
+		double var;
+	};
+
 
 	class realign
 	{
@@ -314,8 +319,8 @@ namespace conedy
 				skip = s;
 				counter = 0;
 			}
-			double calculateDist(vector <double> &states);
-			void realignNow ( vector <double> &states, double factor);
+			meanVar  calculateDist(vector <double> &states);
+			void realignNow ( vector <double> &states, double eps, meanVar dist);
 
 			void realignPeriodically();
 			void realignWhenDistant();

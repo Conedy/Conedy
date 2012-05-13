@@ -211,18 +211,6 @@ namespace conedy
 			void addRandomEdgesDegreeDistributionUndirected ( function <double () > r, edgeBlueprint *l = stdEdge );
 
 
-			//! Fügt einen Knoten vom Typ streamOutNode hinzu, der in die Datei s schreibt. Der Knoten erhält eine stdEdge zu jedem Knoten vom Typ _dynNode_. und schreibt somit die Summe aller States weg.
-
-//			void observeSum ( string s );
-
-			//! observiert den Knoten number mit einer stdEdge und schreibt in die Datei s.
-//			void observe ( string s, nodeDescriptor number );
-
-			//!
-//			void addRandomEdges ( double meanOutDegree )
-//			{
-//				addRandomEdges ( meanOutDegree, network::stdEdge );
-//			}
 			void addRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge );
 
 
@@ -233,20 +221,10 @@ namespace conedy
 				void randomInDegreeDistribution ( int number, RANDOM &r, nodeBlueprint *n );
 
 
-			//			template <typename SIZE>
-			//			void streamInBinary ( inStreamBinary in, char flags , SIZE );
 			void streamInBinary ( string s );
 
-			//			template <typename SIZE>
-			//			void streamOutBinary ( outStreamBinary out, char flags , SIZE );
 			void streamOutBinary ( string s, char flags = 24 );
 
-			//			void addSuperAttractiveNode (nodeBlueprint *n, nodeKind theNodeKind = _dynNode_);
-			//			void addSuperAttractiveNode (nodeBlueprint *n, nodeKind theNodeKind, edge *l);
-
-			//			void addSuperNode ( nodeBlueprint *n );
-			//			void addSuperNode ( nodeBlueprint *n, edge <baseType> *l);
-			//			void addSuperNodeBidirectional ( nodeBlueprint *n, edge *l);
 
 			void addEnterNode ( string s );
 

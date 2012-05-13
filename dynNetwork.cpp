@@ -584,25 +584,31 @@ namespace conedy
 
 
 
-	double realign::calculateDist(vector <double> &states)
+	meanVar realign::calculateDist(vector <double> &states)
 	{
 
 		network::nodeIterator vi;
-		double dist = 0;
+		double mean= 0;
+		double var = 0;
+		
 		double diff = 0;
 		unsigned int i=0;
 		for (vi = vl->begin(); vi != vl->end();vi++)
 		{
-			diff = abs (states[i] - node::theNodes[*vi]->getState()  );
+			diff = states[i] - node::theNodes[*vi]->getState();
+			if (diff > 0.5)
+				diff = diff - 1.0;
+			if (diff < -0.5)
+				diff = diff + 1.0;
 
-			if (diff > abs (1.0 - diff ))
-				diff = abs ( 1.0 - diff );
-			dist += diff;
+			var += diff * diff;
+			mean += diff;
 			i++;
 		}
-		dist = dist/ vl->size() ;
-		return dist;
-
+		meanVar res;
+		res.var  = var / (vl->size() - 1) - mean * mean / vl->size() / vl->size();
+		res.mean = mean / vl->size();
+		return res;
 	}
 	//		void	realign::goForIt(  )
 	//		{
@@ -622,19 +628,19 @@ namespace conedy
 		for (unsigned int i = 0; i < vl->size(); i++ )
 			in >>along[i];
 
-		double dist = calculateDist(along);
+		meanVar dist = calculateDist(along);
 		if (counter==skip)
 		{
 			counter = 0;
-			out << dynNode::time << " " << dist << endl;
-			cout << "vorher:" << dist << endl;
-			realignNow(along, eps/dist);
-			cout << "nachher:" << calculateDist(along) << endl;
+			out << dynNode::time << " " << dist.var << endl;
+			cout << "vorher:" << dist.var << endl;
+			realignNow(along, eps, dist);
+			cout << "nachher:" << calculateDist(along).var << endl;
 		}
 		else
 		{
 			counter++;
-			out << "#" << dynNode::time << " " << dist << endl;
+			out << "#" << dynNode::time << " " << dist.var << endl;
 
 		}
 
@@ -657,29 +663,29 @@ namespace conedy
 		for (unsigned int i = 0; i < vl->size(); i++ )
 			in >>along[i];
 
-		double dist = calculateDist(along);
+		meanVar  dist = calculateDist(along);
 
-		if (dist > eps* skip)
+		if (dist.var > eps* skip)
 
 
 		{
-			out << dynNode::time << " " << dist << endl;
-			cout << "diverging. vorher:" << dist << endl;
-			realignNow(along, eps/dist);
-			cout << "nachher:" << calculateDist(along) << endl;
+			out << dynNode::time << " " << dist.var << endl;
+			cout << "diverging. vorher:" << dist.var << endl;
+			realignNow(along, eps, dist);
+			cout << "nachher:" << calculateDist(along).var << endl;
 		}
-		if ( dist < eps / skip  )
+		if ( dist.var < eps / skip  )
 		{
-			out << dynNode::time << " " << dist << endl;
-			cout << "converging. vorher:" << dist << endl;
-			realignNow(along, eps/dist);
-			cout << "nachher:" << calculateDist(along) << endl;
+			out << dynNode::time << " " << dist.var << endl;
+			cout << "converging. vorher:" << dist.var << endl;
+			realignNow(along, eps, dist);
+			cout << "nachher:" << calculateDist(along).var << endl;
 		}
 		else
 		{
 
 
-			out << "#" << dynNode::time << " " << dist << endl;
+			out << "#" << dynNode::time << " " << dist.var << endl;
 
 
 
@@ -688,8 +694,9 @@ namespace conedy
 		}
 	}
 
-	void realign::realignNow(vector <double> &along, double factor)
+	void realign::realignNow(vector <double> &along, double eps, meanVar dist)
 	{
+		double factor = eps / dist.var; 
 
 		network::nodeIterator vi;
 		queue <double> states;
@@ -699,6 +706,7 @@ namespace conedy
 		{
 			//				double stat = theNodes[*vi]->getState();
 			double diff =  along[i] - node::theNodes[*vi]->getState()  ;
+			diff = diff + dist.mean; 
 
 			if (diff > 0.5)
 				diff = diff - 1;

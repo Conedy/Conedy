@@ -21,7 +21,7 @@ void registerStandards()
 		stdSdeIntegrator::registerStandardValues();	
 	
 	pcoBase::registerStandardValues();
-	cnnNode::registerStandardValues();
+//	cnnNode::registerStandardValues();
 	containerNode<baseType, 0>::registerStandardValues();
 	dynNetwork::registerStandardValues();
 	createNetwork::registerStandardValues();
