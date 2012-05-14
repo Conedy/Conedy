@@ -20,7 +20,6 @@ namespace conedy
 
 
 
-	double gslOdeNode::stepSize = 0.001;
 
 
 	void gslOdeNode::evolve(double timeTilEvent)
@@ -36,22 +35,19 @@ namespace conedy
 					&gslOdeSys,
 					&dynNode::time,
 					dynNode::time + timeTilEvent,
-					gslParams.getParamPointer(2)
+					gslParams->getParamPointer(2)
 					,
 					containerNode<baseType,3>::dynamicVariablesOfAllDynNodes)
 				!= GSL_SUCCESS)
 				throw "gslError!";
 
-			if (stepSize < minStepSize())
+			if (gslParams->getParams(2) < minStepSize())
 				throw "Stepsize crossed specified minimum (odeMinStepSize). Aborting!";
 
-#ifdef DEBUG
-								cout << stepSize << "\n";
-#endif
 		}
 		else
 		{									// without stepsize control
-			int stepCount = timeTilEvent/stepSize + 1.0 - 1e-8 ;
+			int stepCount = timeTilEvent/gslParams->getParams(2) + 1.0 - 1e-8 ;
 			double dt = timeTilEvent / stepCount;
 
 			for (int i = 0; i < stepCount; i++)

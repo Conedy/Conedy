@@ -304,7 +304,7 @@ namespace conedy
 
 				T& getParam(string name) const { return *param[row][adress[name].second]; }
 
-				T * getParamPointer (const unsigned short which) { return *param[row][which]; 
+				T * getParamPointer (const unsigned short which) { return param[row][which];} 
 
 				//		virtual valarray<T>* getParams() { return &param; }
 
@@ -394,48 +394,47 @@ namespace conedy
 	template <typename T>
 		vector <unsigned int> params<T>::usageCounter;
 
-}
 
 
 	template <typename T>
-void params<T>::printStatistics() 
-{	
-	cout << "parameter:" << endl;
-	if (isStandard())
-		cout << "	standard parameter" << endl;
-	//					cout << "	row: " << row << endl;
-	for (unsigned int i = 0; i < param[row].size(); i++)
-		cout << "	" << name[make_pair(row, i)] << ": \t " << *param[row][i] << " " << endl;
+		void params<T>::printStatistics() 
+		{	
+			cout << "parameter:" << endl;
+			if (isStandard())
+				cout << "	standard parameter" << endl;
+			//					cout << "	row: " << row << endl;
+			for (unsigned int i = 0; i < param[row].size(); i++)
+				cout << "	" << name[make_pair(row, i)] << ": \t " << *param[row][i] << " " << endl;
 
 
 
-}
+		}
 
 	template <typename T>
-params<T>::params(networkElementType theNodeType) 
-{ 
+		params<T>::params(networkElementType theNodeType) 
+		{ 
 
-	if (standardParam.count(theNodeType) == 0)
-	{
-		vector <T*> newVec; param.push_back(newVec);
-		usageCounter.push_back(0);
+			if (standardParam.count(theNodeType) == 0)
+			{
+				vector <T*> newVec; param.push_back(newVec);
+				usageCounter.push_back(0);
 
 
 
-		standardParam[theNodeType] = Nparams;
-		//usageCounter[Nparams] = 1;
+				standardParam[theNodeType] = Nparams;
+				//usageCounter[Nparams] = 1;
 
-		Nparams++;
-		numberOfStandardParameterSheets++;
+				Nparams++;
+				numberOfStandardParameterSheets++;
 
-	}
+			}
 
-	row = standardParam[theNodeType];
-	// 		        usageCounter.push_back(1);
-	//cout << theNodeType << " " << row << endl;
+			row = standardParam[theNodeType];
+			// 		        usageCounter.push_back(1);
+			//cout << theNodeType << " " << row << endl;
+		}
+
 }
-
-
 
 #endif
 
