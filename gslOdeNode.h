@@ -25,7 +25,7 @@ namespace conedy
 
 
 	//! Basisklasse für Nodes, die mit der GSL-integriert werden.
-	class gslOdeNode : public containerNode<baseType,3>
+	class gslOdeNode : public containerNode<baseType,3>, private global
 	{
 		private:
 
