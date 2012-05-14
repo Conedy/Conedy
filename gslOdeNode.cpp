@@ -36,7 +36,8 @@ namespace conedy
 					&gslOdeSys,
 					&dynNode::time,
 					dynNode::time + timeTilEvent,
-					&stepSize,
+					gslParams.getParamPointer(2)
+					,
 					containerNode<baseType,3>::dynamicVariablesOfAllDynNodes)
 				!= GSL_SUCCESS)
 				throw "gslError!";

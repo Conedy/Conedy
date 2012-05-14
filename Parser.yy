@@ -81,8 +81,8 @@ PULSECOUPLEEDGE STATICWEIGHTEDEDGE SIGEDGE STDEDGEORD3 SIGEDGEORD3 SIGEDGEPARAMS
 %start program
 
 
-%token BARKLEY
 %token GAUSSIANBARKLEY
+%token BARKLEY
 %token INTEGRATEANDFIRE
 %token HINDMARSHROSE
 %token GAUSSIANHINDMARSHROSE
@@ -91,58 +91,58 @@ PULSECOUPLEEDGE STATICWEIGHTEDEDGE SIGEDGE STDEDGEORD3 SIGEDGEORD3 SIGEDGEPARAMS
 %token LORENZ
 %token GAUSSIANLORENZ
 %token LOGISTICMAP
-%token PCONONLEAKY
 %token PCONONLEAKYDELAY
+%token PCONONLEAKY
 %token FITZHUGHNAGUMO
 %token GAUSSIANFITZHUGHNAGUMO
 %token ORNUHL
+%token EXPONENTIALSDE
+%token EXPONENTIALGSL
 %token EXPONENTIALSTATIC
 %token EXPONENTIALODE
-%token EXPONENTIALGSL
-%token EXPONENTIALSDE
 %token PCOMIROLLO
 %token PCOMIROLLODELAY
-%token ROESSLER
 %token GAUSSIANROESSLER
+%token ROESSLER
 %token VANDERPOL
-%token PCOINTEGRATEFIRE
 %token PCOINTEGRATEFIREDELAY
-%token ONLYCOUPLING
-%token ONLYCOUPLINGCOUPLINGSUM
+%token PCOINTEGRATEFIRE
 %token DOUBLEONLYCOUPLING
+%token BUGGYMAP
+%token ONLYCOUPLINGCOUPLINGSUM
+%token ONLYCOUPLING
 %token WEIGHTSUMGROWTH
 %token PARAMETERGROWTH
-%token BUGGYMAP
 %token NEURONMAP
 %token HODGKINHUXLEY
 %token GAUSSIANHODGKINHUXLEY
-%token PDEMIROLLOFIXNORMA
 %token PDEMIROLLOSPARSESMALL
 %token PDEMIROLLOSPARSELARGE
+%token PDEMIROLLOFIXNORMA
 %token INTEGRATEANDFIRESTATIC
 %token INTEGRATEANDFIRENOABS
 %token BARKLEYTEST
 %token GAUSSIANBARKLEYTEST
 %token PCONONLEAKYSTATIC
-%token PCOLARGESTIMULUS
 %token PCOSNIPER
+%token PCOLARGESTIMULUS
 %token PERCFITZHUGHNAGUMO
 %token PCOTHREEPOINT
-%token PDEDENSELIMIT
+%token PDEDENSELIMITLARGE
 %token PDEDENSELIMITFIXNORM
 %token PDEDENSELIMITSMALL
-%token PDEDENSELIMITLARGE
+%token PDEDENSELIMIT
 %token PDEDENSELIMITAUTO
+%token PCOMIROLLODELAYSTATIC
+%token PCOMIROLLONOABS
 %token PCOMIROLLOPRINTEXCITEDPHASES
 %token PCOMIROLLOROOT
-%token PCOMIROLLONOABS
-%token PCOMIROLLODELAYSTATIC
 %token ROESSLERSTATIC
 %token PCOHOMO
 %token PCOIFNEURON
 %token PCOIFNEURONDELAY
-%token PCOINTEGRATEFIREROOT
 %token PCOINTEGRATEFIRESTATIC
+%token PCOINTEGRATEFIREROOT
 %token MIROLLO
 %token PCOTRIANGEL
 %token PCOSINE
@@ -208,9 +208,9 @@ declare		:
 		| NODETOKEN ID { command::declare($2->evaluate(), _node_); $$ = new emptyInstruction(); }
 		| INTTOKEN ID { command::declare($2->evaluate(), _nodeDescriptor_); $$ = new emptyInstruction (); }
 		| NETWORKTOKEN ID { command::declare($2->evaluate(), _network_); $$ = new emptyInstruction(); }
-		| STRINGTOKEN ID { command::declare($2->evaluate(), _string_); $$ = new emptyInstruction(); };
-//		| INTTOKEN identifier '=' nodeDescriptor { command::declare($2->evaluate(),_nodeDescriptor_); $$ = new assignInstruction<nodeDescriptor> (new varCommand<nodeDescriptor> ($2->evaluate()), $4); }
-//		| DOUBLETOKEN identifier '=' baseType    { command::declare($2->evaluate(),_baseType_);       $$ = new assignInstruction<baseType>       (new varCommand<baseType>($2->evaluate()), $4); };
+		| STRINGTOKEN ID { command::declare($2->evaluate(), _string_); $$ = new emptyInstruction(); }
+		| INTTOKEN identifier '=' nodeDescriptor { command::declare($2->evaluate(),_nodeDescriptor_); $$ = new assignInstruction<nodeDescriptor> (new varCommand<nodeDescriptor> ($2->evaluate()), $4); }
+		| DOUBLETOKEN identifier '=' baseType    { command::declare($2->evaluate(),_baseType_);       $$ = new assignInstruction<baseType>       (new varCommand<baseType>($2->evaluate()), $4); };
 
 identifier : ID { $$ = $1; };
 
@@ -789,8 +789,8 @@ node	: NODE { nodeBlueprint *n = new nodeVirtualEdges<dynNode>(); $$ = new const
 		| RANDOMBLUEPRINTNODE '(' createNode ',' createNode ',' baseType ')' { nodeBlueprint *n = new randomBlueprintNode ( $3, $5, $7->evaluate()); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| STREAMOUTNODE '(' string ')'	{ nodeBlueprint *n = new nodeVirtualEdges<streamOutNode> ($3->evaluate()); $$ = new constantCommand<nodeBlueprint*>(n);}
 		| STREAMINNODE '(' string ')'	{ nodeBlueprint *n = new nodeVirtualEdges<streamInNode> ($3->evaluate()); $$ = new constantCommand<nodeBlueprint*>(n);}
-		| BARKLEY { nodeBlueprint *n = new nodeVirtualEdges< barkley >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| GAUSSIANBARKLEY { nodeBlueprint *n = new nodeVirtualEdges< gaussianBarkley >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| BARKLEY { nodeBlueprint *n = new nodeVirtualEdges< barkley >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| INTEGRATEANDFIRE { nodeBlueprint *n = new nodeVirtualEdges< integrateAndFire >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| HINDMARSHROSE { nodeBlueprint *n = new nodeVirtualEdges< hindmarshRose >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| GAUSSIANHINDMARSHROSE { nodeBlueprint *n = new nodeVirtualEdges< gaussianHindmarshRose >(); $$ = new constantCommand<nodeBlueprint*>(n); }
@@ -799,58 +799,58 @@ node	: NODE { nodeBlueprint *n = new nodeVirtualEdges<dynNode>(); $$ = new const
 		| LORENZ { nodeBlueprint *n = new nodeVirtualEdges< lorenz >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| GAUSSIANLORENZ { nodeBlueprint *n = new nodeVirtualEdges< gaussianLorenz >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| LOGISTICMAP { nodeBlueprint *n = new nodeVirtualEdges< logisticMap >(); $$ = new constantCommand<nodeBlueprint*>(n); }
-		| PCONONLEAKY { nodeBlueprint *n = new nodeVirtualEdges< pcoNonleaky >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PCONONLEAKYDELAY { nodeBlueprint *n = new nodeVirtualEdges< pcoNonleakyDelay >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| PCONONLEAKY { nodeBlueprint *n = new nodeVirtualEdges< pcoNonleaky >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| FITZHUGHNAGUMO { nodeBlueprint *n = new nodeVirtualEdges< fitzHughNagumo >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| GAUSSIANFITZHUGHNAGUMO { nodeBlueprint *n = new nodeVirtualEdges< gaussianFitzHughNagumo >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| ORNUHL { nodeBlueprint *n = new nodeVirtualEdges< ornUhl >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| EXPONENTIALSDE { nodeBlueprint *n = new nodeVirtualEdges< exponentialSde >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| EXPONENTIALGSL { nodeBlueprint *n = new nodeVirtualEdges< exponentialGsl >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| EXPONENTIALSTATIC { nodeBlueprint *n = new nodeTemplateEdges< weightedEdge< edge  >    , weightedEdge< edgeVirtual > , exponentialStatic >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| EXPONENTIALODE { nodeBlueprint *n = new nodeVirtualEdges< exponentialOde >(); $$ = new constantCommand<nodeBlueprint*>(n); }
-		| EXPONENTIALGSL { nodeBlueprint *n = new nodeVirtualEdges< exponentialGsl >(); $$ = new constantCommand<nodeBlueprint*>(n); }
-		| EXPONENTIALSDE { nodeBlueprint *n = new nodeVirtualEdges< exponentialSde >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PCOMIROLLO { nodeBlueprint *n = new nodeVirtualEdges< pcoMirollo >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PCOMIROLLODELAY { nodeBlueprint *n = new nodeVirtualEdges< pcoMirolloDelay >(); $$ = new constantCommand<nodeBlueprint*>(n); }
-		| ROESSLER { nodeBlueprint *n = new nodeVirtualEdges< roessler >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| GAUSSIANROESSLER { nodeBlueprint *n = new nodeVirtualEdges< gaussianRoessler >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| ROESSLER { nodeBlueprint *n = new nodeVirtualEdges< roessler >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| VANDERPOL { nodeBlueprint *n = new nodeVirtualEdges< vanDerPol >(); $$ = new constantCommand<nodeBlueprint*>(n); }
-		| PCOINTEGRATEFIRE { nodeBlueprint *n = new nodeVirtualEdges< pcoIntegrateFire >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PCOINTEGRATEFIREDELAY { nodeBlueprint *n = new nodeVirtualEdges< pcoIntegrateFireDelay >(); $$ = new constantCommand<nodeBlueprint*>(n); }
-		| ONLYCOUPLING { nodeBlueprint *n = new nodeVirtualEdges< onlyCoupling >(); $$ = new constantCommand<nodeBlueprint*>(n); }
-		| ONLYCOUPLINGCOUPLINGSUM { nodeBlueprint *n = new nodeVirtualEdges< onlyCouplingCouplingSum >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| PCOINTEGRATEFIRE { nodeBlueprint *n = new nodeVirtualEdges< pcoIntegrateFire >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| DOUBLEONLYCOUPLING { nodeBlueprint *n = new nodeVirtualEdges< doubleOnlyCoupling >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| BUGGYMAP { nodeBlueprint *n = new nodeVirtualEdges< buggyMap >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| ONLYCOUPLINGCOUPLINGSUM { nodeBlueprint *n = new nodeVirtualEdges< onlyCouplingCouplingSum >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| ONLYCOUPLING { nodeBlueprint *n = new nodeVirtualEdges< onlyCoupling >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| WEIGHTSUMGROWTH { nodeBlueprint *n = new nodeVirtualEdges< weightSumGrowth >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PARAMETERGROWTH { nodeBlueprint *n = new nodeVirtualEdges< parameterGrowth >(); $$ = new constantCommand<nodeBlueprint*>(n); }
-		| BUGGYMAP { nodeBlueprint *n = new nodeVirtualEdges< buggyMap >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| NEURONMAP { nodeBlueprint *n = new nodeVirtualEdges< neuronMap >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| HODGKINHUXLEY { nodeBlueprint *n = new nodeVirtualEdges< hodgkinHuxley >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| GAUSSIANHODGKINHUXLEY { nodeBlueprint *n = new nodeVirtualEdges< gaussianHodgkinHuxley >(); $$ = new constantCommand<nodeBlueprint*>(n); }
-		| PDEMIROLLOFIXNORMA { nodeBlueprint *n = new nodeVirtualEdges< pdeMirolloFixNorma >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PDEMIROLLOSPARSESMALL { nodeBlueprint *n = new nodeVirtualEdges< pdeMirolloSparseSmall >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PDEMIROLLOSPARSELARGE { nodeBlueprint *n = new nodeVirtualEdges< pdeMirolloSparseLarge >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| PDEMIROLLOFIXNORMA { nodeBlueprint *n = new nodeVirtualEdges< pdeMirolloFixNorma >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| INTEGRATEANDFIRESTATIC { nodeBlueprint *n = new nodeVirtualEdges< integrateAndFireStatic >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| INTEGRATEANDFIRENOABS { nodeBlueprint *n = new nodeVirtualEdges< integrateAndFireNoAbs >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| BARKLEYTEST { nodeBlueprint *n = new nodeVirtualEdges< barkleyTest >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| GAUSSIANBARKLEYTEST { nodeBlueprint *n = new nodeTemplateEdges< component<weightedEdge< edge>  >    , component<weightedEdge< edgeVirtual> > , gaussianBarkleyTest >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PCONONLEAKYSTATIC { nodeBlueprint *n = new nodeTemplateEdges< staticWeightedEdge< edge  >    , staticWeightedEdge< edgeVirtual > , pcoNonleakyStatic >(); $$ = new constantCommand<nodeBlueprint*>(n); }
-		| PCOLARGESTIMULUS { nodeBlueprint *n = new nodeVirtualEdges< pcoLargeStimulus >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PCOSNIPER { nodeBlueprint *n = new nodeVirtualEdges< pcoSniper >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| PCOLARGESTIMULUS { nodeBlueprint *n = new nodeVirtualEdges< pcoLargeStimulus >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PERCFITZHUGHNAGUMO { nodeBlueprint *n = new nodeVirtualEdges< percFitzHughNagumo >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PCOTHREEPOINT { nodeBlueprint *n = new nodeVirtualEdges< pcoThreePoint >(); $$ = new constantCommand<nodeBlueprint*>(n); }
-		| PDEDENSELIMIT { nodeBlueprint *n = new nodeVirtualEdges< pdeDenseLimit >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| PDEDENSELIMITLARGE { nodeBlueprint *n = new nodeVirtualEdges< pdeDenseLimitLarge >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PDEDENSELIMITFIXNORM { nodeBlueprint *n = new nodeVirtualEdges< pdeDenseLimitFixNorm >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PDEDENSELIMITSMALL { nodeBlueprint *n = new nodeVirtualEdges< pdeDenseLimitSmall >(); $$ = new constantCommand<nodeBlueprint*>(n); }
-		| PDEDENSELIMITLARGE { nodeBlueprint *n = new nodeVirtualEdges< pdeDenseLimitLarge >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| PDEDENSELIMIT { nodeBlueprint *n = new nodeVirtualEdges< pdeDenseLimit >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PDEDENSELIMITAUTO { nodeBlueprint *n = new nodeVirtualEdges< pdeDenseLimitAuto >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| PCOMIROLLODELAYSTATIC { nodeBlueprint *n = new nodeTemplateEdges< staticWeightedEdge< edge  >    , staticWeightedEdge< edgeVirtual > , pcoMirolloDelayStatic >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| PCOMIROLLONOABS { nodeBlueprint *n = new nodeVirtualEdges< pcoMirolloNoAbs >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PCOMIROLLOPRINTEXCITEDPHASES { nodeBlueprint *n = new nodeTemplateEdges< staticWeightedEdge< edge  >    , staticWeightedEdge< edgeVirtual > , pcoMirolloPrintExcitedPhases >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PCOMIROLLOROOT { nodeBlueprint *n = new nodeTemplateEdges< staticWeightedEdge< edge  >    , staticWeightedEdge< edgeVirtual > , pcoMirolloRoot >(); $$ = new constantCommand<nodeBlueprint*>(n); }
-		| PCOMIROLLONOABS { nodeBlueprint *n = new nodeVirtualEdges< pcoMirolloNoAbs >(); $$ = new constantCommand<nodeBlueprint*>(n); }
-		| PCOMIROLLODELAYSTATIC { nodeBlueprint *n = new nodeTemplateEdges< staticWeightedEdge< edge  >    , staticWeightedEdge< edgeVirtual > , pcoMirolloDelayStatic >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| ROESSLERSTATIC { nodeBlueprint *n = new nodeTemplateEdges< staticComponent<staticWeightedEdge< edge>  >    , staticComponent<staticWeightedEdge< edgeVirtual> > , roesslerStatic >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PCOHOMO { nodeBlueprint *n = new nodeVirtualEdges< pcoHomo >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PCOIFNEURON { nodeBlueprint *n = new nodeTemplateEdges< staticWeightedEdge< edge  >    , staticWeightedEdge< edgeVirtual > , pcoIFNeuron >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PCOIFNEURONDELAY { nodeBlueprint *n = new nodeTemplateEdges< staticWeightedEdge< edge  >    , staticWeightedEdge< edgeVirtual > , pcoIFNeuronDelay >(); $$ = new constantCommand<nodeBlueprint*>(n); }
-		| PCOINTEGRATEFIREROOT { nodeBlueprint *n = new nodeTemplateEdges< staticWeightedEdge< edge  >    , staticWeightedEdge< edgeVirtual > , pcoIntegrateFireRoot >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PCOINTEGRATEFIRESTATIC { nodeBlueprint *n = new nodeTemplateEdges< staticWeightedEdge< edge  >    , staticWeightedEdge< edgeVirtual > , pcoIntegrateFireStatic >(); $$ = new constantCommand<nodeBlueprint*>(n); }
+		| PCOINTEGRATEFIREROOT { nodeBlueprint *n = new nodeTemplateEdges< staticWeightedEdge< edge  >    , staticWeightedEdge< edgeVirtual > , pcoIntegrateFireRoot >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| MIROLLO { nodeBlueprint *n = new nodeTemplateEdges< staticWeightedEdge< edge  >    , staticWeightedEdge< edgeVirtual > , mirollo >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PCOTRIANGEL { nodeBlueprint *n = new nodeVirtualEdges< pcoTriangel >(); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| PCOSINE { nodeBlueprint *n = new nodeVirtualEdges< pcoSine >(); $$ = new constantCommand<nodeBlueprint*>(n); }

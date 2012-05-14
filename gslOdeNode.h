@@ -48,7 +48,6 @@ namespace conedy
 			//! Datentyp für das ODE-System
 			static gsl_odeiv2_system gslOdeSys;
 
-			static baseType stepSize;
 
 			static double * errors;
 
@@ -113,7 +112,6 @@ namespace conedy
 			//! clean: wird vor der Integration aufgerufen und initialisiert diverse GSL-Parameter (Art der Stufenfunktion, Schrittweite usw.)
 			virtual void clean ()
 			{
-				stepSize = gslParams->getParams(2);
 				if ( (* containerNode<baseType,3>::nodeList.begin()) == this)   // only clean for the masternode ;-), which is the first one.
 				{
 					if (alreadyInitialized)  // free gsl-objects
