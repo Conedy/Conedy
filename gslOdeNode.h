@@ -59,8 +59,8 @@ namespace conedy
 			inline double error_rel () { return gslParams->getParams(1); }
 			inline double minStepSize () { return gslParams->getParams(3); }
 
-//			inline double isAdaptive () { return gslBools->getParams(0); }
-			inline double isAdaptive () { return gslParams->getParams(4); }
+			inline double isAdaptive () { return gslBools->getParams(0); }
+//			inline double isAdaptive () { return gslParams->getParams(4); }
 
 			static params<string> * gslStepType;
 			static params<baseType> * gslParams;
@@ -75,8 +75,8 @@ namespace conedy
 				params<baseType>::registerStandard(_gslOdeNode_, "odeAbsError", 1, 0.0);
 				params<baseType>::registerStandard(_gslOdeNode_, "odeStepSize", 2, 0.001);
 				params<baseType>::registerStandard(_gslOdeNode_, "odeMinStepSize", 3, 0.000001);
-				params<baseType>::registerStandard(_gslOdeNode_, "odeIsAdaptive", 4, 1.0);
-//				params<bool>::registerStandard(_gslOdeNode_, "odeIsAdaptive", 0, true);
+//				params<baseType>::registerStandard(_gslOdeNode_, "odeIsAdaptive", 4, 1.0);
+				params<bool>::registerStandard(_gslOdeNode_, "odeIsAdaptive", 0, true);
 				gslStepType = new params<string>(_gslOdeNode_);
 				gslParams = new params<baseType>(_gslOdeNode_);
 				gslBools = new params<bool>(_gslOdeNode_);
