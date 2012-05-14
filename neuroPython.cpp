@@ -399,6 +399,7 @@ template <class N>
 
 		def("set", &params<baseType>::setStandard);
 		def("set", &params<string>::setStandard);
+		def("set", &params<bool>::setStandard);
 		def("setRandomSeed", &gslNoise::setSeed);
 
 		class_<createNetwork>("createNetwork");
@@ -522,19 +523,19 @@ template <class N>
 
 
 
-		class_< component < edgeVirtual > , bases <edgeBlueprint> >("component", reinterpret_cast<const char *>(__edges_component)) 
+		class_< component < edgeVirtual > , bases <edgeBlueprint> >("component", reinterpret_cast<const char *>(__edges_component))
 					.def ("__init__", make_constructor (edgeFactory1 <component< edgeVirtual > > ));
 		class_< component < weightedEdgeVirtual>, bases <edgeBlueprint>   > ("component_weightedEdge" ,reinterpret_cast<const char *>(__edges_weightedEdge))
 					.def ("__init__", make_constructor (edgeFactory2 <component< weightedEdgeVirtual > > ));
-				
+
 		class_< component < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("component_staticWeightedEdge" ,reinterpret_cast<const char *>(__edges_component_staticWeightedEdge))
 					.def ("__init__", make_constructor (edgeFactory2 <component< staticWeightedEdgeVirtual > > ));
-				
+
 
 
 		class_< staticComponent < edgeVirtual > , bases <edgeBlueprint> >("staticComponent", reinterpret_cast<const char *>(__edges_component))
 					.def ("__init__", make_constructor (edgeFactory1 <staticComponent < edgeVirtual > > ));
-		  
+
 		class_< staticComponent < weightedEdgeVirtual>, bases <edgeBlueprint>   > ("staticComponent_weightedEdge" ,reinterpret_cast<const char *>(__edges_weightedEdge))
 					.def ("__init__", make_constructor (edgeFactory2 <staticComponent < weightedEdgeVirtual> > ));
 		class_< staticComponent < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("staticComponent_staticWeightedEdge" ,reinterpret_cast<const char *>(__edges_component_staticWeightedEdge))
@@ -545,7 +546,7 @@ template <class N>
 					.def ("__init__", make_constructor (edgeFactory2 < randomTarget < edgeVirtual>   > ));
 		class_< randomTarget < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("randomTarget_weightedEdge",  reinterpret_cast<const char *>(__edges_weightedEdge))
 					.def ("__init__", make_constructor (edgeFactory3 < randomTarget < weightedEdgeVirtual>   > ));
-		class_< randomTarget < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("randomTarget_staticWeightedEdge", reinterpret_cast<const char *>(__edges_randomTarget_staticWeightedEdge)) 
+		class_< randomTarget < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("randomTarget_staticWeightedEdge", reinterpret_cast<const char *>(__edges_randomTarget_staticWeightedEdge))
 					.def ("__init__", make_constructor (edgeFactory3 < randomTarget < staticWeightedEdgeVirtual>   > ));
 
 		class_< stepEdge < edgeVirtual>, bases <edgeBlueprint>  > ("step" ,reinterpret_cast<const char *>(__edges_stepEdge))
