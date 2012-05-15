@@ -41,42 +41,18 @@ namespace conedy
 			//! Datentyp für das ODE-System
 			static gsl_odeiv2_system gslOdeSys;
 
-
-			static double * errors;
-
 			static bool alreadyInitialized;
-
-			inline string paramStepType() { return gslStepType->getParams(0); }
-			inline double error_abs () { return gslParams->getParams(0); }
-			inline double error_rel () { return gslParams->getParams(1); }
-			inline double minStepSize () { return gslParams->getParams(3); }
-
-			inline double isAdaptive () { return gslBools->getParams(0); }
-//			inline double isAdaptive () { return gslParams->getParams(4); }
-
-			static params<string> * gslStepType;
-			static params<baseType> * gslParams;
-			static params<bool> * gslBools;
 
 		public:
 
 			static void registerStandardValues()
 			{
 				registerGlobal<string>("odeStepType", "gsl_odeiv2_step_rkf45");
-				globals::set<string>("odeStepType" , "blub");
-				cout << globals::retrieve<string>("odeStepType");
-				params<string>::registerStandard(_gslOdeNode_, "odeStepType", 0, "gsl_odeiv2_step_rkf45");
-				params<baseType>::registerStandard(_gslOdeNode_, "odeRelError", 0, 0.00001);
-				params<baseType>::registerStandard(_gslOdeNode_, "odeAbsError", 1, 0.0);
-				params<baseType>::registerStandard(_gslOdeNode_, "odeStepSize", 2, 0.001);
-				params<baseType>::registerStandard(_gslOdeNode_, "odeMinStepSize", 3, 0.000001);
-//				params<baseType>::registerStandard(_gslOdeNode_, "odeIsAdaptive", 4, 1.0);
-				params<bool>::registerStandard(_gslOdeNode_, "odeIsAdaptive", 0, true);
-				gslStepType = new params<string>(_gslOdeNode_);
-				gslParams = new params<baseType>(_gslOdeNode_);
-				gslBools = new params<bool>(_gslOdeNode_);
-
-
+				registerGlobal<double>("odeRelError", 0.00001);
+				registerGlobal<double>("odeAbsError", 0.0);
+				registerGlobal<baseType>("odeStepSize", 0.001);
+				registerGlobal<baseType>("odeMinStepSize", 0.000001);
+				registerGlobal<bool>("odeIsAdaptive", true);
 			}
 
 
@@ -114,30 +90,28 @@ namespace conedy
 				{
 					if (alreadyInitialized)  // free gsl-objects
 					{
-						gsl_odeiv2_step_free ( gslStep);
-						gsl_odeiv2_evolve_free (gslEvolve);
+						gsl_odeiv2_step_free(gslStep);
+						gsl_odeiv2_evolve_free(gslEvolve);
 						gsl_odeiv2_control_free(gslControl);
-						free (errors);
 					}
 
 					alreadyInitialized = true;
 
-					string theStepType = paramStepType();    // determine step-type
-
+					string theStepType = getGlobal<string>("odeStepType");
 					if (theStepType == "gsl_odeiv2_step_rk2")
-						stepType= gsl_odeiv2_step_rk2;
+						stepType = gsl_odeiv2_step_rk2;
 					else if (theStepType == "gsl_odeiv2_step_rk4")
-						stepType= gsl_odeiv2_step_rk4;
+						stepType = gsl_odeiv2_step_rk4;
 					else if (theStepType == "gsl_odeiv2_step_rkf45")
-						stepType= gsl_odeiv2_step_rkf45;
+						stepType = gsl_odeiv2_step_rkf45;
 					else if (theStepType == "gsl_odeiv2_step_rkck")
-						stepType= gsl_odeiv2_step_rkck;
+						stepType = gsl_odeiv2_step_rkck;
 					else if (theStepType == "gsl_odeiv2_step_rk8pd")
-						stepType= gsl_odeiv2_step_rk8pd;
+						stepType = gsl_odeiv2_step_rk8pd;
 					else if (theStepType == "gsl_odeiv2_step_rk2imp")
-						stepType= gsl_odeiv2_step_rk2imp;
+						stepType = gsl_odeiv2_step_rk2imp;
 					else if (theStepType == "gsl_odeiv2_step_rk4imp")
-						stepType= gsl_odeiv2_step_rk4imp;
+						stepType = gsl_odeiv2_step_rk4imp;
 /*					else if (theStepType == "gsl_odeiv2_step_gear1")
 						stepType = gsl_odeiv2_step_gear1;
 					else if (theStepType == "gsl_odeiv2_step_gear2")
@@ -149,11 +123,13 @@ namespace conedy
 
 					unsigned int odeDimension = containerNode <baseType, 3> :: usedIndices ;
 
-					errors = ( baseType* ) calloc (odeDimension ,sizeof ( baseType)  );
-
 					gslStep = gsl_odeiv2_step_alloc ( stepType, odeDimension);
 
-					gslControl = gsl_odeiv2_control_y_new ( error_abs(), error_rel()  );
+					gslControl = gsl_odeiv2_control_y_new (
+							getGlobal<double>("odeAbsError"),
+							getGlobal<double>("odeRelError")
+						);
+
 					gslEvolve = gsl_odeiv2_evolve_alloc (odeDimension);
 
 					gsl_odeiv2_system sys = {&gslOdeNode::dgl, NULL, odeDimension, NULL};

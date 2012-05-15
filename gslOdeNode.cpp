@@ -1,32 +1,13 @@
-
-
-
 #include "gslOdeNode.h"
-
 
 
 namespace conedy
 {
-
-
-	params<string> * gslOdeNode::gslStepType;
-
-	params<baseType> * gslOdeNode::gslParams;
-
-	params<bool> * gslOdeNode::gslBools;
-
-
-	double * gslOdeNode::errors;
-
-
-
-
-
 	void gslOdeNode::evolve(double timeTilEvent)
 	{
 		baseType startTime = dynNode::time;
 
-		if (isAdaptive())
+		if (getGlobal<bool>("odeIsAdaptive"))
 		{									// with stepsize control
 			if ( gsl_odeiv2_evolve_apply (
 					gslEvolve,
@@ -35,19 +16,18 @@ namespace conedy
 					&gslOdeSys,
 					&dynNode::time,
 					dynNode::time + timeTilEvent,
-					gslParams->getParamPointer(2)
-					,
+					getPointerToGlobal<baseType>("odeStepSize"),
 					containerNode<baseType,3>::dynamicVariablesOfAllDynNodes)
 				!= GSL_SUCCESS)
 				throw "gslError!";
 
-			if (gslParams->getParams(2) < minStepSize())
+			if (getGlobal<baseType>("odeStepSize") < getGlobal<baseType>("odeMinStepSize"))
 				throw "Stepsize crossed specified minimum (odeMinStepSize). Aborting!";
 
 		}
 		else
 		{									// without stepsize control
-			int stepCount = timeTilEvent/gslParams->getParams(2) + 1.0 - 1e-8 ;
+			int stepCount = timeTilEvent/getGlobal<baseType>("odeStepSize") + 1.0 - 1e-8 ;
 			double dt = timeTilEvent / stepCount;
 
 			for (int i = 0; i < stepCount; i++)
@@ -85,7 +65,7 @@ namespace conedy
 
 	gsl_odeiv2_system gslOdeNode::gslOdeSys;
 
-	bool gslOdeNode::alreadyInitialized = 0;
+	bool gslOdeNode::alreadyInitialized = false;
 
 }
 
