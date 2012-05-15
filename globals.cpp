@@ -1,7 +1,5 @@
 #include "globals.h"
 
-
-
 template <> int typeInteger <int>() { return 0;}
 template <> int typeInteger <double>() { return 1;}
 template <> int typeInteger <string>() { return 2;}

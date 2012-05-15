@@ -4,23 +4,14 @@
 #include <map>
 #include <iostream>
 #include <string>
-
+#include "baseType.h"
 
 using namespace std;
 
 // Maps of Types to ints for identification and to strings for error texts.
 
 template <class T> int typeInteger();
-//template <> int typeInteger <int>(); 
-//template <> int typeInteger <double>(); 
-//template <> int typeInteger <string>();
-//template <> int typeInteger <bool>();
-
-
-
 template <class T> int typeInteger() {return -1;};
-
-
 
 class globals
 {
@@ -54,18 +45,26 @@ class globals
 			value[name] = new T (v);
 		}
 
-		template <typename T> initialize 
+		template <typename T> static T getGlobal(string name)
 
 
-		template <typename T> static T retrieve  (string name)
+	
 		{
 			if (type[name] == typeInteger<T>())
 				return * ((T*) value[name]) ;
-			cerr <<  "Type mismatch: You try to retrieve " << name	<<  " as " << typeString(typeInteger<T>()) << ". However, " << name <<	" is of type " << typeString(type[name]);
+			cerr <<  "Type mismatch: You try to get " << name	<<  " as " << typeString(typeInteger<T>()) << ". However, " << name <<	" is of type " << typeString(type[name]);
 			throw "\n";
 		}
 
-		template <typename T> static void set  (string name, T d)
+		template <typename T> static T* getPointerToGlobal(string name)
+		{
+			if (type[name] == typeInteger<T>())
+				return ((T*) value[name]) ;
+			cerr <<  "Type mismatch: You try to get " << name	<<  " as " << typeString(typeInteger<T>()) << ". However, " << name <<	" is of type " << typeString(type[name]);
+			throw "\n";
+		}
+
+		template <typename T> static void setGlobal(string name, T d)
 		{
 			if (type [name] == typeInteger<T>())
 				* ((T*)value[name]) = d;
@@ -76,8 +75,6 @@ class globals
 			}
 		}
 };
-
-
 
 
 #endif
