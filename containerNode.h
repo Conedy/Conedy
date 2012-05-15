@@ -33,7 +33,7 @@ namespace conedy
 
 	//! Container class, which puts nodes representing dynamical systems of the same kind (e.g. ODEs) into container. The second template is the container number. Nodes in the same container have consecutive memory for their state variables. Time evolution is handled by the first node in the container. 
 	template <typename T, int N>
-		class containerNode : public dynNode
+		class containerNode : public dynNode 
 	{
 		protected:
 			//! static pointer to the dynamical variables of all nodes in the container

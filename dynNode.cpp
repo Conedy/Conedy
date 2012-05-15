@@ -96,7 +96,7 @@ namespace conedy
 
 
 
-    void dynNode::printStatistics(ostream &os, double nodeVerbosity, double edgeVerbosity ) {
+    void dynNode::printStatistics(ostream &os, baseType nodeVerbosity, baseType edgeVerbosity ) {
         node::printStatistics(os, nodeVerbosity, edgeVerbosity);
 		  if (nodeVerbosity > 1.5)
 		  {
@@ -142,9 +142,9 @@ namespace conedy
 	}
 */
 
-    void dynNode::randomizeState ( vector<boost::function<double () > > &r )
+    void dynNode::randomizeState ( vector<boost::function<baseType () > > &r )
 	 {
-			vector<double> values (r.size());
+			vector<baseType> values (r.size());
 
         for ( unsigned int i = 0; i < r.size(); i++ )
 				values[i]=r[i]();
@@ -152,7 +152,7 @@ namespace conedy
 		  setStateVec (values);
 	 }
 	
-	void dynNode::setStateVec (vector <double> &r)
+	void dynNode::setStateVec (vector <baseType> &r)
 	{
 		for (unsigned int i = 0 ; i < dimension(); i++)
 				x[i] = r[i];

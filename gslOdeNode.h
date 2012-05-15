@@ -1,6 +1,9 @@
 #ifndef gslOdeNode_h
 #define gslOdeNode_h gslOdeNode_h
 
+#ifdef DOUBLE
+
+
 #include "node.h"
 #include "params.h"
 #include <boost/function.hpp>
@@ -179,5 +182,7 @@ namespace conedy
 	};
 
 }
+
+#endif
 
 #endif

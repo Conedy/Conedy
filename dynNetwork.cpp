@@ -74,11 +74,11 @@ namespace conedy
 		//		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
 	}
 
-	void dynNetwork::noiseToStates ( function<double () > r, networkElementType n )
+	void dynNetwork::noiseToStates ( function<baseType () > r, networkElementType n )
 	{
 		throw "fixme dynNetwork::nouseToStates";
 
-		/*		queue<double> initialCond;
+		/*		queue<baseType> initialCond;
 				nodeList vl;
 				verticesMatching (vl, n);
 				nodeIterator vi;
@@ -90,7 +90,7 @@ namespace conedy
 
 				initialCond.push ( node::theNodes[*vi]->getState() + r() );
 
-				boost::function<double () > r1 = bind ( &frontAndPop,&initialCond );
+				boost::function<baseType () > r1 = bind ( &frontAndPop,&initialCond );
 
 				for (vi = vl.begin();vi != vl.end(); vi++)
 				dynamic_cast<dynNode*>( node::theNodes[*vi] )->randomizeState ( r1 );
@@ -111,12 +111,12 @@ namespace conedy
 			return (( (dynNode* )node::theNodes[node])->getState(which));
 	}
 
-	void dynNetwork::evolveFor ( double duration )
+	void dynNetwork::evolveFor ( baseType duration )
 	{
 		evolve(dynNode::time, dynNode::time + duration);
 	}
 
-	void dynNetwork::evolve ( double startTime, double endTime )
+	void dynNetwork::evolve ( baseType startTime, baseType endTime )
 	{
 
 
@@ -140,7 +140,7 @@ namespace conedy
 
 
 		vector< dynNode *>::iterator it;
-		double timeTilEvent;
+		baseType timeTilEvent;
 		while ( dynNode::time <= endTime )
 		{
 			if ( eventHandler::nextEvent() >= endTime )
@@ -253,7 +253,7 @@ namespace conedy
 				verticesMatching(dynNodes, nt);
 
 
-				double timeTilEvent;
+				baseType timeTilEvent;
 
 				ofstream out(outputFilename.c_str());
 				while ( true )
@@ -277,7 +277,7 @@ namespace conedy
 				i = 0;
 				for (vi = dynNodes.begin(); vi != dynNodes.end();vi++)
 				{
-				double diff = abs (along[i] - theNodes[*vi]->getState()  );
+				baseType diff = abs (along[i] - theNodes[*vi]->getState()  );
 
 				if (diff > abs (1.0 - diff ))
 				diff = abs ( 1.0 - diff );
@@ -313,7 +313,7 @@ namespace conedy
 
 
 
-	void dynNetwork::randomizeParameter ( string s,function<double () > r )
+	void dynNetwork::randomizeParameter ( string s,function<baseType () > r )
 	{
 		networkElementType n = params<baseType>::getNodeTypeFromString ( s );
 		nodeIterator it;
@@ -332,7 +332,7 @@ namespace conedy
 	{
 		cout << "Reading from:" << fileName << endl;
 		cyclicStream *in = new cyclicStream ( fileName );
-		boost::function<double () > r = boost::bind ( &cyclicStream::readDouble,in );
+		boost::function<baseType () > r = boost::bind ( &cyclicStream::readDouble,in );
 		networkElementType theNodeType = params<baseType>::getNodeTypeFromString ( parameterString );
 		cout << "Reading parameter \"" << parameterString << "\" for NodeType " << theNodeType << endl;
 
@@ -360,9 +360,9 @@ namespace conedy
 	}
 
 
-	void dynNetwork::smallDisturbance ( double radius, int posx, int posy, boost::function<double () > r )
+	void dynNetwork::smallDisturbance ( baseType radius, int posx, int posy, boost::function<baseType () > r )
 	{
-		queue<double> initialCond;
+		queue<baseType> initialCond;
 
 		unsigned int size = sqrt ( (baseType) network::theNodes.size() );
 		for ( unsigned int i = 0; i < size; i++ )
@@ -387,7 +387,7 @@ namespace conedy
 
 	void dynNetwork::startingConditionOpenWaveEnding()
 	{
-		queue<double> initialCond;
+		queue<baseType> initialCond;
 
 
 		unsigned int size = sqrt ( (baseType) network::theNodes.size() );
@@ -431,7 +431,7 @@ namespace conedy
 
 
 
-		boost::function<double () > r = bind ( &frontAndPop,&initialCond );
+		boost::function<baseType () > r = bind ( &frontAndPop,&initialCond );
 
 
 		vector< node * >::iterator  it;
@@ -463,7 +463,7 @@ namespace conedy
 
 	void dynNetwork::startingConditionOpenWaveEndingMiddle()
 	{
-		queue<double> initialCond;
+		queue<baseType> initialCond;
 
 
 		unsigned int size = sqrt ( (baseType) node::theNodes.size() );
@@ -502,7 +502,7 @@ namespace conedy
 
 
 
-		boost::function<double () > r = bind ( &frontAndPop,&initialCond );
+		boost::function<baseType () > r = bind ( &frontAndPop,&initialCond );
 
 
 		vector< node * >::iterator  it;
@@ -555,14 +555,14 @@ namespace conedy
 	{
 		cout << "Reading from:" << fileName << endl;
 		cyclicStream *in = new cyclicStream ( fileName );
-		boost::function<double () > r = boost::bind ( &cyclicStream::readDouble,in );
+		boost::function<baseType () > r = boost::bind ( &cyclicStream::readDouble,in );
 		randomizeStates ( n, r );
 		delete in;
 	}
 
 
 
-	void dynNetwork::randomizeStatesVec ( nodeBlueprint *n ,vector <boost::function<double () > > r )
+	void dynNetwork::randomizeStatesVec ( nodeBlueprint *n ,vector <boost::function<baseType () > > r )
 	{
 		if (r.size() == 1)
 			while (r.size() < n->dimension())
@@ -584,14 +584,14 @@ namespace conedy
 
 
 
-	meanVar realign::calculateDist(vector <double> &states)
+	meanVar realign::calculateDist(vector <baseType> &states)
 	{
 
 		network::nodeIterator vi;
-		double mean= 0;
-		double var = 0;
+		baseType mean= 0;
+		baseType var = 0;
 		
-		double diff = 0;
+		baseType diff = 0;
 		unsigned int i=0;
 		for (vi = vl->begin(); vi != vl->end();vi++)
 		{
@@ -619,8 +619,8 @@ namespace conedy
 	{
 
 
-		vector <double> along(vl->size());
-		//		double timeFirstRun;
+		vector <baseType> along(vl->size());
+		//		baseType timeFirstRun;
 		//	  in >> timeFirstRun;
 		//		cout << "timeFirstRun: " << timeFirstRun << endl;
 		//		cout << "time: " << dynNode::time << endl;
@@ -653,10 +653,10 @@ namespace conedy
 
 
 
-		vector <double> along(vl->size());
+		vector <baseType> along(vl->size());
 
 
-		//		double timeFirstRun;
+		//		baseType timeFirstRun;
 		//	  in >> timeFirstRun;
 		//		cout << "timeFirstRun: " << timeFirstRun << endl;
 		//		cout << "time: " << dynNode::time << endl;
@@ -695,18 +695,18 @@ namespace conedy
 		}
 	}
 	// realign to eps 
-	void realign::realignNow(vector <double> &along, double eps, meanVar dist)
+	void realign::realignNow(vector <baseType> &along, baseType eps, meanVar dist)
 	{
-		double factor = sqrt(eps / dist.var); 
+		baseType factor = sqrt(eps / dist.var); 
 
 		network::nodeIterator vi;
-		queue <double> states;
+		queue <baseType> states;
 		unsigned int i = 0;
 
 		for (vi = vl->begin(); vi != vl->end();vi++)
 		{
-			//				double stat = theNodes[*vi]->getState();
-			double diff =  along[i] - node::theNodes[*vi]->getState() + dist.mean ;
+			//				baseType stat = theNodes[*vi]->getState();
+			baseType diff =  along[i] - node::theNodes[*vi]->getState() + dist.mean ;
 
 			if (diff > 0.5)
 				diff = diff - 1;
@@ -720,7 +720,7 @@ namespace conedy
 			if (diff > 0.5  || diff < -0.5)
 				throw "Fehler Abstand zu groß für den Raum (evolveAlong)";
 
-			double n;
+			baseType n;
 			if (diff > 0)
 			{
 				n = along[i] - diff;
@@ -737,7 +737,7 @@ namespace conedy
 			states.push (n);
 			i++;
 		}
-		boost::function<double () > r =  bind(&frontAndPop, &states);
+		boost::function<baseType () > r =  bind(&frontAndPop, &states);
 		for (vi = vl->begin(); vi != vl->end();vi++)
 		{
 			((dynNode*)  node::theNodes[*vi]) ->	randomizeState( r) ;

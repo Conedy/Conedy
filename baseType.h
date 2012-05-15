@@ -18,7 +18,16 @@
 
 //#define CALENDARQUEUE
 
+
+#ifdef DOUBLE
 typedef double baseType;
+
+#elif defined LDOUBLE
+typedef long double baseType;
+#else
+typedef double baseType;
+
+#endif
 
 
 

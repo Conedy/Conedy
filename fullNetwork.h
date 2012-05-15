@@ -12,8 +12,7 @@
 #include "spatialNetwork.h"
 //#include "stdOdeIntegrator.h"
 
-
-#include "gslOdeNode.h"
+#include "ode.h"
 //namespace conedy {
 //typedef odeNode stdOdeIntegrator;   // Runge-Kutta Ord4
 

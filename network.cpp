@@ -389,7 +389,7 @@ unsigned int network::randomNode(nodeKind nodeKind)
 
 
 
-void network::randomizeSomeWeights ( boost::function<double () > r,nodeKind sourceNodeKind, nodeKind targetNodeKind )
+void network::randomizeSomeWeights ( boost::function<baseType () > r,nodeKind sourceNodeKind, nodeKind targetNodeKind )
 {
 
 	network::edgeList toChange;
@@ -438,14 +438,14 @@ nodeDescriptor network::addNode ( nodeBlueprint *n )
 		inOutNodeList.push_back (  (dynNode*)   node::theNodes[newNodeNumber]);
 
 
-	//cout << ((cnnNode<double>*) n )-> row << endl;
+	//cout << ((cnnNode<baseType>*) n )-> row << endl;
 	theNodes.insert ( newNodeNumber );
 	numberOfNodes++;
-	//cout << ((cnnNode<double>*) theNodes[theNodes.size() - 1] )-> row << endl;
+	//cout << ((cnnNode<baseType>*) theNodes[theNodes.size() - 1] )-> row << endl;
 	return  newNodeNumber;
 }
 
-void network::addWeightedEdge ( nodeDescriptor s, nodeDescriptor t, double weight )
+void network::addWeightedEdge ( nodeDescriptor s, nodeDescriptor t, baseType weight )
 {
 
 	nodeKind nk = node::theNodes[s]->getNodeInfo().theNodeKind;

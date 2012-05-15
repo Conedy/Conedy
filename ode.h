@@ -7,12 +7,24 @@
 
 
 
-//#include "stdOdeIntegrator.h"
-#include "gslOdeNode.h"
 
+
+
+#ifdef DOUBLE
 namespace conedy {
-
+#include "gslOdeNode.h"
 typedef gslOdeNode ode;
-
 }
+#endif
+
+
+#ifdef LDOUBLE
+#include "stdOdeIntegrator.h"
+namespace conedy {
+typedef stdOdeIntegrator ode;
+}
+#endif
+
+
+
 #endif

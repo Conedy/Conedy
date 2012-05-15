@@ -40,9 +40,9 @@ namespace conedy
 
 
 
-	double inline frontAndPop(queue<double> *s)
+	baseType inline frontAndPop(queue<baseType> *s)
 	{
-		double res = s->front();
+		baseType res = s->front();
 		s->pop();		
 		return res;
 
@@ -181,10 +181,10 @@ namespace conedy
 
 			//! Randomizes the coupling strengths for all edges which connect nodes of kind sourcenNodeKind to nodes of kind targetNodeKind. New weights are drawn from r.
 
-			void randomizeSomeWeights( function<double()> r, nodeKind sourceNodeKind, nodeKind targetNodeKind);
+			void randomizeSomeWeights( function<baseType()> r, nodeKind sourceNodeKind, nodeKind targetNodeKind);
 
 			//! Randomizes the coupling strnegths for all dynamical nodes. New weights are drawn from r	
-			void randomizeWeights ( function<double () > r ) { randomizeSomeWeights(r,_dynNode_,_dynNode_); }
+			void randomizeWeights ( function<baseType () > r ) { randomizeSomeWeights(r,_dynNode_,_dynNode_); }
 
 
 			//! Haut einen Zeiger auf den Knoten nodeNumber in die Liste res.
@@ -246,7 +246,7 @@ namespace conedy
 			//! Verbindet Knoten source mit allen Knoten vom Typ targetNodeType
 			void addEdges (nodeDescriptor source, int targetNodeType, edgeBlueprint *l);
 
-			//	void addEdges (nodeDescriptor source, nodeDescriptor targetNodeType, double w, edge *l) { };
+			//	void addEdges (nodeDescriptor source, nodeDescriptor targetNodeType, baseType w, edge *l) { };
 
 
 			//	void edgesBetween(list< edge > res, int sourceNodeKini int targetNodeKind);
@@ -268,7 +268,7 @@ namespace conedy
 
 			//! Verbinden Knoten source mit Knoten dest über eine Verbindung mit Gewicht weight vom Typ stdEdge 
 			//! 
-			void addWeightedEdge ( nodeDescriptor source, nodeDescriptor dest, double weight);
+			void addWeightedEdge ( nodeDescriptor source, nodeDescriptor dest, baseType weight);
 
 			//! links s and t by an edge which is a copy of l
 			void addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l = stdEdge);

@@ -13,9 +13,11 @@
 
 using namespace std;
 
-// //typedef valarray<double>params;
 
 
+
+
+// using baseType instead of basetype here, as the gsl does not support long baseType anyway
 
 namespace conedy {
 
@@ -50,7 +52,7 @@ namespace conedy {
 
 			
 
-			static int dgl ( double t,const double y[], double f[], void *params );
+			static int dgl ( baseType t,const baseType y[], baseType f[], void *params );
 
 	
 

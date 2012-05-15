@@ -504,7 +504,7 @@ argList		: argList ',' baseType  { $1->push_back($3); }
 
 
 randomList	: randomList ',' random { $1->push_back(((bindExpression<baseType> *)$3) -> _f); }
-			  | random { $$ = new vector < function <double () > >(); $$ -> push_back(((bindExpression<baseType> *)$1)->_f ); };
+			  | random { $$ = new vector < function <baseType () > >(); $$ -> push_back(((bindExpression<baseType> *)$1)->_f ); };
 
 
 nodeDescriptor		: INT { $$ = new constantCommand<nodeDescriptor>(atoi(d_scanner.YYText())); }

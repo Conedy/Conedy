@@ -33,7 +33,7 @@ namespace conedy
 		dynNetwork ( const dynNetwork &b);
 
 
-		void setParam (nodeDescriptor nd, string parameterName, double value)
+		void setParam (nodeDescriptor nd, string parameterName, baseType value)
 		{
 			((dynNode *)node::theNodes[nd])-> setParam (parameterName, value);
 
@@ -56,7 +56,7 @@ namespace conedy
 		baseType inline progressVerbosity () { return p.getParams(1); }
 
 		dynNetwork()  : p(_dynNetwork_) {};
-		void evolveAll ( double );
+		void evolveAll ( baseType );
 
 
 		void realignAtEventSignature (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int skip);
@@ -156,15 +156,15 @@ namespace conedy
 
 
 
-		void randomizeStatesVec (nodeBlueprint *n, vector<function<double() > >r);
+		void randomizeStatesVec (nodeBlueprint *n, vector<function<baseType() > >r);
 
 
 
 
 
-		void randomizeStates ( nodeBlueprint *n, function<double () > a1, function<double () > a2 = NULL, function<double () > a3 = NULL, function<double () > a4 = NULL, function<double () > a5 = NULL, function<double () > a6 = NULL, function<double () > a7 = NULL, function<double () > a8 = NULL, function<double () > a9 = NULL, function<double () > a10 = NULL, function<double () > a11 = NULL, function<double () > a12 = NULL)
+		void randomizeStates ( nodeBlueprint *n, function<baseType () > a1, function<baseType () > a2 = NULL, function<baseType () > a3 = NULL, function<baseType () > a4 = NULL, function<baseType () > a5 = NULL, function<baseType () > a6 = NULL, function<baseType () > a7 = NULL, function<baseType () > a8 = NULL, function<baseType () > a9 = NULL, function<baseType () > a10 = NULL, function<baseType () > a11 = NULL, function<baseType () > a12 = NULL)
 		{
-				vector <function<double () > > argList;
+				vector <function<baseType () > > argList;
 				argList.push_back (a1);
 				if (a2 == NULL)
 				{
@@ -240,14 +240,14 @@ namespace conedy
 		}
 
 
-//		void randomizeStates ( nodeBlueprint *n,function<double () >r );
+//		void randomizeStates ( nodeBlueprint *n,function<baseType () >r );
 
 
 		void readInitialCondition ( string fileName, nodeBlueprint * n );
 
-		void noiseToStates ( function<double () > r, networkElementType n = _undefinedNodeType_ );
+		void noiseToStates ( function<baseType () > r, networkElementType n = _undefinedNodeType_ );
 
-		void randomizeParameter ( string s, function<double () > r );
+		void randomizeParameter ( string s, function<baseType () > r );
 
 		void readParameter ( string,string );
 
@@ -255,31 +255,31 @@ namespace conedy
 
 		void startingConditionOpenWaveEnding();
 		void startingConditionOpenWaveEndingMiddle();
-		void smallDisturbance ( double radius, int posx, int posy, boost::function<double () > r );
+		void smallDisturbance ( baseType radius, int posx, int posy, boost::function<baseType () > r );
 
-		   void smallDisturbance ( double radius, boost::function<double () > r )
+		   void smallDisturbance ( baseType radius, boost::function<baseType () > r )
 			{			unsigned int size = sqrt ( (baseType) network::theNodes.size() );
 					smallDisturbance ( radius, size/2, size/2, r );
 				}
 
 
 		virtual void clean ();
-		void evolve ( double startTime, double endTime );
-		void evolveFor ( double duration );
-//		void evolve ( double time );
-//		void evolve ( double startTime, double endTime) { evolve (startTime, endTime,_dynNode_);}
+		void evolve ( baseType startTime, baseType endTime );
+		void evolveFor ( baseType duration );
+//		void evolve ( baseType time );
+//		void evolve ( baseType startTime, baseType endTime) { evolve (startTime, endTime,_dynNode_);}
 
 		void evolveAllAlong (string inputFilename, string outputFilename, baseType eps, networkElementType nt);
 
 
 		void evolveAlong	(networkElementType n, baseType eps, string inputFilename, string outputFilename);
 
-		void evolveAllAlong ( double endTime, string inputFilename, networkElementType nt);
+		void evolveAllAlong ( baseType endTime, string inputFilename, networkElementType nt);
 
 		void snapshot () { //		clean (); 
 		  
 			callBack (0); }
-		void setTime( double newTime)
+		void setTime( baseType newTime)
 		{
 			dynNode::time = newTime;
 			eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
@@ -295,8 +295,8 @@ namespace conedy
 
 
 	struct meanVar {
-		double mean;
-		double var;
+		baseType mean;
+		baseType var;
 	};
 
 
@@ -319,8 +319,8 @@ namespace conedy
 				skip = s;
 				counter = 0;
 			}
-			meanVar  calculateDist(vector <double> &states);
-			void realignNow ( vector <double> &states, double eps, meanVar dist);
+			meanVar  calculateDist(vector <baseType> &states);
+			void realignNow ( vector <baseType> &states, baseType eps, meanVar dist);
 
 			void realignPeriodically();
 			void realignWhenDistant();

@@ -9,6 +9,8 @@
 
 #include "networkConstants.h"
 
+#include <valarray>
+
 namespace conedy {
 
 	//! implements two simple ode solver  (euler and runge-kutta 4th order) mainly for test purposes.

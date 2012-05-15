@@ -31,7 +31,10 @@ void registerStandards()
 //	gaussianHR::registerStandardValues();
 //	gaussianNapK::registerStandardValues();
 //	gaussianNapKKm::registerStandardValues();
+//
+#ifdef DOUBLE
 	gslOdeNode::registerStandardValues();
+#endif
 //	hindmarshRose::registerStandardValues();
 //	hodgkinHuxley::registerStandardValues();
 //	integrateAndFire::registerStandardValues();
