@@ -1,8 +1,8 @@
+#ifndef globals_h
+#define globals_h globals_h
+
 #include <map>
 #include <iostream>
-
-template <typename X, typename Y> bool isOfSameType <X,Y>()
-{ return typeInteger<X>() == typeInteger<Y>(); }
 
 // Maps of Types to ints for identification and to strings for error texts.
 
@@ -69,3 +69,5 @@ class globals
 
 template <typename T> map <string, void*> globals::value;
 template <typename T> map <string, void*> globals::typ;
+
+#endif

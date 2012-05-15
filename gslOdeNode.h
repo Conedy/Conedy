@@ -1,10 +1,5 @@
-
-
-
 #ifndef gslOdeNode_h
 #define gslOdeNode_h gslOdeNode_h
-
-
 
 #include "node.h"
 #include "params.h"
@@ -13,6 +8,7 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_odeiv2.h>
 #include "containerNode.h"
+#include "globals.h"
 // #include "baseType.h"
 
 //typedef double baseType;
@@ -21,11 +17,8 @@
 namespace conedy
 {
 
-
-
-
 	//! Basisklasse für Nodes, die mit der GSL-integriert werden.
-	class gslOdeNode : public containerNode<baseType,3> 
+	class gslOdeNode : public containerNode<baseType,3>, private globals
 	{
 		private:
 
@@ -69,6 +62,7 @@ namespace conedy
 
 			static void registerStandardValues()
 			{
+				registerGlobal<string>("odeStepType", "gsl_odeiv2_step_rkf45");
 				params<string>::registerStandard(_gslOdeNode_, "odeStepType", 0, "gsl_odeiv2_step_rkf45");
 				params<baseType>::registerStandard(_gslOdeNode_, "odeRelError", 0, 0.00001);
 				params<baseType>::registerStandard(_gslOdeNode_, "odeAbsError", 1, 0.0);
@@ -79,6 +73,8 @@ namespace conedy
 				gslStepType = new params<string>(_gslOdeNode_);
 				gslParams = new params<baseType>(_gslOdeNode_);
 				gslBools = new params<bool>(_gslOdeNode_);
+
+
 			}
 
 
@@ -204,17 +200,6 @@ namespace conedy
 
 	};
 
-
-
-
-
-
-
-
-
-
 }
-
-
 
 #endif
