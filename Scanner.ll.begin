@@ -71,8 +71,8 @@ ID       [A-Za-z][a-z0-9A-Z\_]*
 "<="		{return(ParserBase::LESSEQUAL);}
 ">="		{return(ParserBase::GREATEREQUAL);}
 
-TRUE		{return(ParserBase::BOOLONE);}
-FALSE		{return(ParserBase::BOOLZERO);}
+true		{return(ParserBase::BOOLONE);}
+false		{return(ParserBase::BOOLZERO);}
 
 "+=" 		{return(ParserBase::ASSIGNPLUS);}
 "-=" 		{return(ParserBase::ASSIGNMINUS);}
@@ -95,6 +95,7 @@ FALSE		{return(ParserBase::BOOLZERO);}
 print		{return(ParserBase::PRINT);}
 loop		{return(ParserBase::LOOP);}
 double	{return(ParserBase::DOUBLETOKEN);}
+bool	{return(ParserBase::BOOLTOKEN);}
 baseType	{return(ParserBase::DOUBLETOKEN);}
 string		{return(ParserBase::STRINGTOKEN);}
 while		{return(ParserBase::WHILE);}

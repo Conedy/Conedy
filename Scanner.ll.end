@@ -212,6 +212,8 @@ setState	{return(ParserBase::SETSTATE); }
 					return (ParserBase::STRINGVAR);
 				case _network_:
 					return (ParserBase::NETWORKVAR);
+				case _bool_:
+					return (ParserBase::BOOLVAR);
 				case _node_:
 					return (ParserBase::NODEVAR);
 				default:

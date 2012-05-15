@@ -6,6 +6,11 @@
 #include <string>
 #include "baseType.h"
 
+#include "command.h"
+
+
+
+
 using namespace std;
 
 // Maps of Types to ints for identification and to strings for error texts.
@@ -43,6 +48,7 @@ class globals
 		{
 			type[name] = typeInteger<T>();
 			value[name] = new T (v);
+			command::declare(name, (T*)value[name]);
 		}
 
 		template <typename T> static T getGlobal(string name)

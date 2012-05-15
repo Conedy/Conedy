@@ -57,6 +57,7 @@ assign		: baseType '=' baseType { $$ = new assignInstruction<baseType> ((varComm
 
 declare		:
 		DOUBLETOKEN ID { command::declare($2->evaluate(),_baseType_); $$ = new emptyInstruction(); }
+		| BOOLTOKEN ID { command::declare($2->evaluate(),_bool_); $$ = new emptyInstruction(); }
 		| NODETOKEN ID { command::declare($2->evaluate(), _node_); $$ = new emptyInstruction(); }
 		| INTTOKEN ID { command::declare($2->evaluate(), _nodeDescriptor_); $$ = new emptyInstruction (); }
 		| NETWORKTOKEN ID { command::declare($2->evaluate(), _network_); $$ = new emptyInstruction(); }
@@ -594,6 +595,7 @@ statisticsNetworkCommandBool: NETWORK '.' ISCONNECTED '(' ')' { $$ = BOOLNETWORK
 
 
 bool	: '(' bool ')' { $$ = $2; }
+		| BOOLVAR {$$ = new varCommand<bool>(d_scanner.YYText()); }
 	  | nodeDescriptor EQUAL nodeDescriptor {$$ = new equalCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
 		| baseType EQUAL baseType {$$ = new equalCommandbool<baseType,baseType>($1,$3); }
 		| nodeDescriptor NEQUAL nodeDescriptor {$$ = new nequalCommandbool<nodeDescriptor,nodeDescriptor>($1,$3); }
