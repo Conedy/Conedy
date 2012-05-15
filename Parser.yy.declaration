@@ -19,7 +19,7 @@ instruction		: system
 	| createNetworkCommand
 	| spatialNetworkCommand
 	| bluePrintCommand
-//	| statisticsNetworkCommandInt
+	| statisticsNetworkCommandInt
 	| for
 //	| EXIT { $$ = new bindInstruction(bind(exit, 1)); }
 	| if
@@ -570,8 +570,7 @@ statisticsNetworkCommandInt: NETWORK '.' DEGREE '(' nodeDescriptor ')'  {  $$ = 
 		| NETWORK '.' GETTARGET '(' nodeDescriptor ',' nodeDescriptor ')' {  $$ = INTNETWORKFUNK2 (getTarget, $1, _E(nodeDescriptor, $5), _E(nodeDescriptor, $7)); }
 		| NETWORK '.' COUNTEDGES '(' createLink ')' { $$ = INTNETWORKFUNK1 ( countEdges , $1, _E(edgeBlueprint*, $5)); }
 		| NETWORK '.' ADDNODE '(' createNode ')' { $$ = INTNETWORKFUNK1(addNode,$1,_E(nodeBlueprint*,$5)); }
-
-| NETWORK '.' COMPLETENETWORK   '(' nodeDescriptor ',' createNode ',' createLink ')' { $$ = INTNETWORKFUNK3(completeNetwork,$1,_E(nodeDescriptor,$5),_E(nodeBlueprint*,$7),_E(edgeBlueprint*,$9)); }
+		| NETWORK '.' COMPLETENETWORK   '(' nodeDescriptor ',' createNode ',' createLink ')' { $$ = INTNETWORKFUNK3(completeNetwork,$1,_E(nodeDescriptor,$5),_E(nodeBlueprint*,$7),_E(edgeBlueprint*,$9)); }
 		| NETWORK '.' COMPLETENETWORK   '(' nodeDescriptor ')' { $$ = INTNETWORKFUNK3(completeNetwork,$1,_E(nodeDescriptor,$5), network::stdNode, network::stdEdge ); }
 		| NETWORK '.' LATTICE '(' nodeDescriptor ',' nodeDescriptor ',' baseType ',' createNode ')'
   { $$ = INTNETWORKFUNK5(lattice,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(baseType,$9), _E(nodeBlueprint*,$11),networkTemplate::stdEdge); }
