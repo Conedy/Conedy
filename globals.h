@@ -64,3 +64,8 @@ class globals
 			}
 		}
 };
+
+
+
+template <typename T> map <string, void*> globals::value;
+template <typename T> map <string, void*> globals::typ;
