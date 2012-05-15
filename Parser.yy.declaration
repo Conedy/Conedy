@@ -60,7 +60,7 @@ declare		:
 		| NODETOKEN ID { command::declare($2->evaluate(), _node_); $$ = new emptyInstruction(); }
 		| INTTOKEN ID { command::declare($2->evaluate(), _nodeDescriptor_); $$ = new emptyInstruction (); }
 		| NETWORKTOKEN ID { command::declare($2->evaluate(), _network_); $$ = new emptyInstruction(); }
-		| STRINGTOKEN ID { command::declare($2->evaluate(), _string_); $$ = new emptyInstruction(); };
+		| STRINGTOKEN ID { command::declare($2->evaluate(), _string_); $$ = new emptyInstruction(); }
 		| INTTOKEN identifier '=' nodeDescriptor { command::declare($2->evaluate(),_nodeDescriptor_); $$ = new assignInstruction<nodeDescriptor> (new varCommand<nodeDescriptor> ($2->evaluate()), $4); }
 		| DOUBLETOKEN identifier '=' baseType    { command::declare($2->evaluate(),_baseType_);       $$ = new assignInstruction<baseType>       (new varCommand<baseType>($2->evaluate()), $4); };
 
