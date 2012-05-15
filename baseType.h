@@ -18,7 +18,7 @@
 
 //#define CALENDARQUEUE
 
-typedef double baseType;
+typedef long double baseType;
 
 
 

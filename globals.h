@@ -54,6 +54,9 @@ class globals
 			value[name] = new T (v);
 		}
 
+		template <typename T> initialize 
+
+
 		template <typename T> static T retrieve  (string name)
 		{
 			if (type[name] == typeInteger<T>())

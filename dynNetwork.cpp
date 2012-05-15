@@ -632,10 +632,11 @@ namespace conedy
 		if (counter==skip)
 		{
 			counter = 0;
-			out << dynNode::time << " " << dist.var << endl;
-			cout << "vorher:" << dist.var << endl;
+			out << dynNode::time << " " << dist.mean << " " << dist.var << endl;
+			cout << "vorher:" << dist.mean << " " << dist.var << endl;
 			realignNow(along, eps, dist);
-			cout << "nachher:" << calculateDist(along).var << endl;
+			meanVar newDist = calculateDist(along);
+			cout << "nachher:" << newDist.mean << " " << newDist.var << endl;
 		}
 		else
 		{
@@ -693,10 +694,10 @@ namespace conedy
 
 		}
 	}
-
+	// realign to eps 
 	void realign::realignNow(vector <double> &along, double eps, meanVar dist)
 	{
-		double factor = eps / dist.var; 
+		double factor = sqrt(eps / dist.var); 
 
 		network::nodeIterator vi;
 		queue <double> states;
@@ -705,8 +706,7 @@ namespace conedy
 		for (vi = vl->begin(); vi != vl->end();vi++)
 		{
 			//				double stat = theNodes[*vi]->getState();
-			double diff =  along[i] - node::theNodes[*vi]->getState()  ;
-			diff = diff + dist.mean; 
+			double diff =  along[i] - node::theNodes[*vi]->getState() + dist.mean ;
 
 			if (diff > 0.5)
 				diff = diff - 1;
@@ -714,9 +714,11 @@ namespace conedy
 				diff = diff + 1;
 
 			diff = diff *  factor;
+			
+
 
 			if (diff > 0.5  || diff < -0.5)
-				throw "Fehler Abstand zu groÃŸ fÃ¼r den Raum (evolveAlong)";
+				throw "Fehler Abstand zu groß für den Raum (evolveAlong)";
 
 			double n;
 			if (diff > 0)
