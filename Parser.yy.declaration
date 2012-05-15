@@ -32,6 +32,7 @@ commandBlock	: '{' commands '}' { $$ = $2;};
 
 assign		: baseType '=' baseType { $$ = new assignInstruction<baseType> ((varCommand<baseType>*)$1, $3); }
 		  | nodeDescriptor '=' nodeDescriptor { $$ = new assignInstruction<nodeDescriptor> ((varCommand<nodeDescriptor>*)$1,$3); }
+		  | bool '=' bool { $$ = new assignInstruction<bool> ((varCommand<bool>*)$1,$3); }
 		| string '=' string { $$ = new assignInstruction<string> ((varCommand<string>*)$1,$3); }
 		| SETRANDOMSEED '(' nodeDescriptor ')'  { $$ = new bindInstruction( bind(&gslNoise::setSeed,_E(nodeDescriptor,$3))); }
 		|   ADDINPUTFILE '(' string ')' { $$ = new bindInstruction(bind(&command::addInputFile, _E(string,$3))); }
@@ -278,7 +279,7 @@ createNetworkCommand : NETWORK '.' RANDOMNETWORK  '(' nodeDescriptor ',' baseTyp
 | NETWORK '.' OBSERVEGLUT '('  baseType ',' string ')'
 {
 #if OPENGL
- $$ = NETWORKFUNK2(startNeverStopGlut,$1,_E(string,$7),_E(baseType,$5));
+$$ = NETWORKFUNK2(startNeverStopGlut,$1,_E(string,$7),_E(baseType,$5));
 #else
 	throw "OpenGl nicht mitKompiliert!";
 #endif
