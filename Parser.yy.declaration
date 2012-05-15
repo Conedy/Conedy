@@ -45,13 +45,13 @@ assign		: baseType '=' baseType { $$ = new assignInstruction<baseType> ((varComm
 				$$ = new assignInstruction<nodeDescriptor> ( var,  new modoloCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> ($3,  (var))); }
 		|  nodeDescriptor ASSIGNTIMES nodeDescriptor { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;
 				$$ = new assignInstruction<nodeDescriptor> ( var,  new timesCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> ($3,  (var))); }
-		|  nodeDescriptor PLUSPLUS { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;	
+		|  nodeDescriptor PLUSPLUS { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;
 				$$ = new assignInstruction<nodeDescriptor> ( var,  new plusCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> (new constantCommand<nodeDescriptor>(1),  (var))); }
-		|  baseType PLUSPLUS { varCommand<baseType> *var = (varCommand<baseType>*)$1;	
+		|  baseType PLUSPLUS { varCommand<baseType> *var = (varCommand<baseType>*)$1;
 				$$ = new assignInstruction<baseType> ( var,  new plusCommandbaseType<baseType, baseType> (new constantCommand<baseType>(1),  (var))); }
-		|  nodeDescriptor MINUSMINUS { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;	
+		|  nodeDescriptor MINUSMINUS { varCommand<nodeDescriptor> *var = (varCommand<nodeDescriptor>*)$1;
 				$$ = new assignInstruction<nodeDescriptor> ( var,  new minusCommandnodeDescriptor<nodeDescriptor, nodeDescriptor> (new constantCommand<nodeDescriptor>(1),  (var))); }
-		|  baseType MINUSMINUS { varCommand<baseType> *var = (varCommand<baseType>*)$1;	
+		|  baseType MINUSMINUS { varCommand<baseType> *var = (varCommand<baseType>*)$1;
 				$$ = new assignInstruction<baseType> ( var,  new minusCommandbaseType<baseType, baseType> (new constantCommand<baseType>(1),  (var))); };
 
 
@@ -228,7 +228,7 @@ createNetworkCommand : NETWORK '.' RANDOMNETWORK  '(' nodeDescriptor ',' baseTyp
 	{ $$ = NETWORKFUNK2( observePhaseCorrelation, $1, _E(string, $5 ), _E(nodeBlueprint*, $7)); }
 	| NETWORK '.' OBSERVEPHASEDISTANCE  '(' string ',' node  ')'
 	{ $$ = NETWORKFUNK2( observePhaseDistance, $1, _E(string, $5 ), _E(nodeBlueprint*, $7)); }
-	| NETWORK '.' OBSERVEPHASECOHERENCE '(' string ',' createLink ',' nodeDescriptor ',' nodeDescriptor ')'  
+	| NETWORK '.' OBSERVEPHASECOHERENCE '(' string ',' createLink ',' nodeDescriptor ',' nodeDescriptor ')'
 			{ $$ = NETWORKFUNK5(observePhaseCoherence,$1,  _E(string,$5) ,_E(edgeBlueprint*, $7), network::stdNode, _E(nodeDescriptor,$9), _E(nodeDescriptor,$11)    ); }
 	| NETWORK '.' OBSERVEMEANPHASE '(' string ')' { $$ = NETWORKFUNK1(observeMeanPhase,$1, _E(string,$5) ); }
 	| NETWORK '.' OBSERVEMEANPHASE '(' string ',' createLink ')' { $$ = NETWORKFUNK2(observeMeanPhase,$1, _E(string,$5), _E(edgeBlueprint*, $7) ); }
@@ -384,9 +384,9 @@ while		: WHILE '(' bool ')' instruction { $$ = new whileInstruction ($3,$5); };
 		 for		: FOR '(' instruction ';' bool ';' instruction ')' instruction { $$ = new forInstruction ($3,$5,$7,$9); };
 vectorFor	: VECTORFOR '(' instruction ';' bool ';' instruction ')' instruction {
 			 //#ifdef CONDOR
-	vectorForInstruction::registerNewLoop(); $$ = new vectorForInstruction ($3,$5,$7,$9, false); 
+	vectorForInstruction::registerNewLoop(); $$ = new vectorForInstruction ($3,$5,$7,$9, false);
 //#else
-//	cout << "#Warning. This Executable of Conedy was not compiled for generating condor-scripts. \n Calculating at home." << endl; $$ = new forInstruction ($3,$5,$7,$9); 
+//	cout << "#Warning. This Executable of Conedy was not compiled for generating condor-scripts. \n Calculating at home." << endl; $$ = new forInstruction ($3,$5,$7,$9);
 //endif
 }
 		| CHAINEDFOR '(' instruction ';' bool ';' instruction ')' instruction {
