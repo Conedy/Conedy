@@ -63,6 +63,8 @@ namespace conedy
 			static void registerStandardValues()
 			{
 				registerGlobal<string>("odeStepType", "gsl_odeiv2_step_rkf45");
+				globals::set<string>("odeStepType" , "blub");
+				cout << globals::retrieve<string>("odeStepType");
 				params<string>::registerStandard(_gslOdeNode_, "odeStepType", 0, "gsl_odeiv2_step_rkf45");
 				params<baseType>::registerStandard(_gslOdeNode_, "odeRelError", 0, 0.00001);
 				params<baseType>::registerStandard(_gslOdeNode_, "odeAbsError", 1, 0.0);

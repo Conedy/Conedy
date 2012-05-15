@@ -3,21 +3,30 @@
 
 #include <map>
 #include <iostream>
+#include <string>
+
+
+using namespace std;
 
 // Maps of Types to ints for identification and to strings for error texts.
 
-template <typename T> int typeInteger<T>() {return -1;};
+template <class T> int typeInteger();
+//template <> int typeInteger <int>(); 
+//template <> int typeInteger <double>(); 
+//template <> int typeInteger <string>();
+//template <> int typeInteger <bool>();
 
-template <> int typeInteger <int>() { return 0;}
-template <> int typeInteger <double>() { return 1;}
-template <> int typeInteger <string>() { return 2;}
-template <> int typeInteger <bool>() { return 3;}
+
+
+template <class T> int typeInteger() {return -1;};
+
+
 
 class globals
 {
 	private:
 
-		string typeString(int type)
+		string static typeString(int type)
 		{
 			switch ( type )
 			{
@@ -30,7 +39,7 @@ class globals
 				case 3:
 					return "bool";
 				default:
-					throw "You are using a non-predefined type. To predefine this type, modify globals.h."
+					throw "You are using a non-predefined type. To predefine this type, modify globals.h.";
 			}
 		}
 
@@ -39,35 +48,33 @@ class globals
 
 	public:
 
-		template <typename T> static registerGlobal<T>(string name, T v);
+		template <typename T> static void registerGlobal(string name, T v)
 		{
-				type[name] = typeInteger<T>();
-				value[name] = new T (v);
+			type[name] = typeInteger<T>();
+			value[name] = new T (v);
 		}
 
-		template <typename T> static T retrieve <T> (string name);
+		template <typename T> static T retrieve  (string name)
 		{
-			if (context[name] == typeInteger<T>)
-				return * ((T*) map[name]) ;
-			string error = "Type mismatch: You try to retrieve " + name + " as " + typeString(typeInteger<T>()) + ". However, " + name " is of type " + typeString(type[name]);
-			throw error;
+			if (type[name] == typeInteger<T>())
+				return * ((T*) value[name]) ;
+			cerr <<  "Type mismatch: You try to retrieve " << name	<<  " as " << typeString(typeInteger<T>()) << ". However, " << name <<	" is of type " << typeString(type[name]);
+			throw "\n";
 		}
 
-		template <typename T> static void set <T> (string name, T d);
+		template <typename T> static void set  (string name, T d)
 		{
-			if (type [name] == typeInteger<T>)
-				*value[name] = d;
+			if (type [name] == typeInteger<T>())
+				* ((T*)value[name]) = d;
 			else
 			{
-				string error = "Type mismatch: " + name + " is of type " + typeString(type[name]) + ". But you try to set it as a " + typeString(typeInteger<T>());
-				throw error;
+				cerr << "Type mismatch: " << name << " is of type " << typeString(type[name]) << ". But you try to set it as a " << typeString(typeInteger<T>());
+				throw "\n";
 			}
 		}
 };
 
 
 
-template <typename T> map <string, void*> globals::value;
-template <typename T> map <string, void*> globals::typ;
 
 #endif
