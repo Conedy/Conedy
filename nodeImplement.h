@@ -177,9 +177,8 @@ namespace conedy {
 	template <typename DYNNODE>
 		void nodeVirtualEdges<DYNNODE>::printEdgeStatistics(ostream &os, int edgeVirtualVerbosity)
 		{
-			if (edgeVirtualVerbosity > 0.9)
+			if (edgeVirtualVerbosity > 0)
 				os << "virtual edges:";
-
 
 			for (unsigned int i = 0; i < outEdges.size(); i++)
 				outEdges[i]->printStatistics(os, edgeVirtualVerbosity );
