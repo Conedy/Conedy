@@ -56,7 +56,8 @@ namespace conedy
 
 			dynNode () : params <baseType> (_dynNodeNodeType_) {}
 
-			virtual void evolve(baseType time) { throw "evolve of dynNode called";}
+			virtual void evolve(baseType time) { cerr << this->getNodeInfo().theNodeName << endl;
+				throw "evolve of dynNode called";}
 			virtual bool timeEvolution () { return 0; };
 			virtual bool requiresUpkeep() { return 0;};
 			virtual const unsigned int dimension () const { return 0; }

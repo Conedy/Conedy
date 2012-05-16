@@ -52,7 +52,7 @@ namespace conedy
 
 
 
-    virtual void setStateVec ( vector <double  >  &r );
+    virtual void setStateVec ( vector <baseType  >  &r );
 
 			//			baseType inline dt () { return dynNode::dt; }
 			baseType inline nextFiring() { return eventHandler::getKey ( _fire_ ); }
@@ -69,7 +69,7 @@ namespace conedy
 		{
 
 				baseType phase = 1.0 + this->time - eventHandler::getKey ( _fire_ );
-				double newPhase = phase + phaseResponse (c, phase);
+				baseType newPhase = phase + phaseResponse (c, phase);
 		
 
 				if ( newPhase > phase)
@@ -96,7 +96,7 @@ namespace conedy
 			virtual const unsigned int dimension() const { return 1;}
 
 
-			virtual void printStatistics(ostream &os, double nodeVerbosity, double edgeVerbosity );
+			virtual void printStatistics(ostream &os, baseType nodeVerbosity, baseType edgeVerbosity );
 
 
 

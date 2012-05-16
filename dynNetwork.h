@@ -317,7 +317,7 @@ namespace conedy
 				vl = theList;
 				eps= theEpsilon;
 				skip = s;
-				counter = 0;
+				counter = skip;
 			}
 			meanVar  calculateDist(vector <baseType> &states);
 			void realignNow ( vector <baseType> &states, baseType eps, meanVar dist);

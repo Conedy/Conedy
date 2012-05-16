@@ -6,7 +6,7 @@
 namespace conedy
 {
 
-    void pcoBase::setStateVec ( vector <double  >  &r ) 
+    void pcoBase::setStateVec ( vector <baseType  >  &r ) 
 	{
 		baseType value = r[0];
 
@@ -16,7 +16,7 @@ namespace conedy
 	}
 
 
-    void pcoBase::printStatistics(ostream &os, double nodeVerbosity, double edgeVerbosity ) {
+    void pcoBase::printStatistics(ostream &os, baseType nodeVerbosity, baseType edgeVerbosity ) {
         node::printStatistics(os, nodeVerbosity, edgeVerbosity);
         if (nodeVerbosity > 1.5)
         {

@@ -74,7 +74,7 @@ namespace conedy
 			
 
 			virtual ~streamOutNodeBinary();
-			virtual void evolve(double time) {
+			virtual void evolve(baseType time) {
 			 
 				x = this->couplingSum();
 			out [localStreamNumber]->write ( (char *) &x, sizeof (baseType));
@@ -146,7 +146,7 @@ namespace conedy
 
 
 			virtual ~streamOutNode();
-			virtual void evolve(double time) ;
+			virtual void evolve(baseType time) ;
 			virtual node *construct()
 			{ cout << "I am here" << endl;
 				if (binary())
@@ -279,7 +279,7 @@ namespace conedy
 
 			virtual ~streamInNode();
 			//			streamInNode ( outStream &o, int i ) : node ( i, _streamInNode_ )  {};
-			virtual void evolve(double time) {   ( * ( in[localStreamNumber] ) ) >> dynNode::x[0]; }; //cout << x << endl; };
+			virtual void evolve(baseType time) {   ( * ( in[localStreamNumber] ) ) >> dynNode::x[0]; }; //cout << x << endl; };
 
 //			virtual void swap () { this->state = x; };
 

@@ -632,16 +632,16 @@ namespace conedy
 		if (counter==skip)
 		{
 			counter = 0;
-			out << dynNode::time << " " << dist.mean << " " << dist.var << endl;
-			cout << "vorher:" << dist.mean << " " << dist.var << endl;
+			out << dynNode::time << " " << dist.mean << " " << sqrt(dist.var) << endl;
+			cout << "vorher:" << dist.mean << " " << sqrt(dist.var) << endl;
 			realignNow(along, eps, dist);
 			meanVar newDist = calculateDist(along);
-			cout << "nachher:" << newDist.mean << " " << newDist.var << endl;
+			cout << "nachher:" << newDist.mean << " " << sqrt(newDist.var) << endl;
 		}
 		else
 		{
 			counter++;
-			out << "#" << dynNode::time << " " << dist.var << endl;
+			out << "#" << dynNode::time << " " << sqrt(dist.var) << endl;
 
 		}
 
@@ -697,7 +697,7 @@ namespace conedy
 	// realign to eps 
 	void realign::realignNow(vector <baseType> &along, baseType eps, meanVar dist)
 	{
-		baseType factor = sqrt(eps / dist.var); 
+		baseType factor = eps / sqrt(dist.var); 
 
 		network::nodeIterator vi;
 		queue <baseType> states;

@@ -397,9 +397,14 @@ template <class N>
 		// Add regular functions to the module.
 
 
-		def("set", &params<baseType>::setStandard);
-		def("set", &params<string>::setStandard);
-		def("set", &params<bool>::setStandard);
+		def("set", &globals::setGlobal<baseType>);
+		def("set", &globals::setGlobal<string>);
+		def("set", &globals::setGlobal<bool>);
+		def("set", &globals::setGlobal<int>);
+		def("get", &globals::getGlobal<baseType>);
+		def("get", &globals::getGlobal<string>);
+		def("get", &globals::getGlobal<bool>);
+		def("get", &globals::getGlobal<int>);
 		def("setRandomSeed", &gslNoise::setSeed);
 
 		class_<createNetwork>("createNetwork");

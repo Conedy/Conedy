@@ -8,7 +8,7 @@
 namespace conedy
 {
 
-	void	streamOutNode:: 			evolve(double time) 
+	void	streamOutNode:: 			evolve(baseType time) 
 
 	{  
 //		x = this->couplingSum(); 
