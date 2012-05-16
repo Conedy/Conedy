@@ -523,7 +523,7 @@ nodeDescriptor		: INT { $$ = new constantCommand<nodeDescriptor>(atoi(d_scanner.
 
 
 
-baseType		: DOUBLE { $$ = new constantCommand<baseType>(atof(d_scanner.YYText())); }
+baseType		: FLOATCONSTANT { $$ = new constantCommand<baseType>(atof(d_scanner.YYText())); }
 			 | DOUBLEVAR {$$ = new varCommand<baseType>(d_scanner.YYText()); }
 		| '(' baseType ')' { $$ = $2;}
 		| baseType '+' baseType {$$ = new plusCommandbaseType<baseType,baseType>($1,$3);}

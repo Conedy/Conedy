@@ -39,7 +39,7 @@
 %left '.'
 
 %token <booleanExpression> BOOLONE BOOLZERO
-%token <doubleExpression> DOUBLE DOUBLEVAR
+%token <doubleExpression> FLOATCONSTANT DOUBLEVAR
 %token <boolExpression> BOOL BOOLVAR
 %token <stringExpression> STRINGVAR
 %token <nodCmd> NODEVAR

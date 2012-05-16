@@ -33,9 +33,9 @@ void printDefines ()
 #endif
 
 
-#if DOUBLE
-	cout << "DOUBLE ";
-#endif
+//#if DOUBLE
+//	cout << "DOUBLE ";
+//#endif
 
 
 #if LDOUBLE

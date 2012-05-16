@@ -10,12 +10,6 @@
 
 
 
-#ifdef DOUBLE
-#include "gslOdeNode.h"
-namespace conedy {
-typedef gslOdeNode ode;
-}
-#endif
 
 
 #ifdef LDOUBLE
@@ -23,8 +17,13 @@ typedef gslOdeNode ode;
 namespace conedy {
 typedef stdOdeIntegrator ode;
 }
+#else
+#define DOUBLE
+#include "gslOdeNode.h"
+namespace conedy {
+typedef gslOdeNode ode;
+}
 #endif
-
 
 
 #endif
