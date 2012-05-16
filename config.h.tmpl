@@ -33,5 +33,10 @@ VERSION = `git describe --tags`
 
 
 
+#additional defines which determine the compilation of conedy.
+#chose CALENDARQUEUE if you want conedy tu use a calendarqueue instead of a relaxed heap as priority queue for events
+#chose DOUBLE or LDOUBLE as basetype for all computations
+defines = CALENDARQUEUE DOUBLE
+
 .SILENT:	all
 
