@@ -23,11 +23,15 @@ using namespace conedy;
 //typedef dynNode nodeBlueprint;
 //typedef edgeVirtual edgeBlueprint;
 
+void emptyFunction();
 
 namespace conedy {
 
 
 template <typename T> class MyNetwork;
+
+
+// is called by conedyCondor instead of network functions
 
 
 

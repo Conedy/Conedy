@@ -36,6 +36,8 @@ map < string, string* >command::stringVar;
 vector < string > command::inputFiles;
 
 
+void emptyFunction () {}
+
 
 
 		void command::declare(string s, int type)	// Meldet s als Variablenname an ( so wie bei  "double d;")
