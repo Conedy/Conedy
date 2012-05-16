@@ -1,7 +1,3 @@
-
-
-
-
 #include "phaseResponseOscillators.h"
 
 namespace conedy
@@ -30,19 +26,19 @@ namespace conedy
 
 
 	void pcoTrapez::excite ( baseType coupling )
-	{	
+	{
 		baseType phase = 1.0 + this->time - eventHandler::getKey ( _fire_ );
 		if (phase < a() ) {
-			return;			
+			return;
 		}
 		else if ( phase < b()) {
 				phase += (phase-a())/(b()-a()) * h1();
 		}
 		else if (phase < c()) {
-				phase += 1.0 / (c() - b()) * ((phase - b()) * h2() + (c() - phase) *h1()); 
+				phase += 1.0 / (c() - b()) * ((phase - b()) * h2() + (c() - phase) *h1());
 		}
 		else if (phase < d()) {
-			phase += (d() -phase)/(d()-c()) * h2(); 
+			phase += (d() -phase)/(d()-c()) * h2();
 		}
 		else
 			return;
@@ -60,7 +56,7 @@ namespace conedy
 					phase = 0;
 				eventHandler::increaseKey ( _fire_,1.0  + this->time - phase );
 			}
-		
+
 
 	}
 
@@ -105,7 +101,7 @@ namespace conedy
 /*	void pcoRealIFNeuronDelay::excite ( baseType c )           // gibt zurück, ob das Neuron sofort feuert.
 	{
 		baseType phase = 1.0 + this->time - eventHandler::getKey ( _fire_ );
-		if ( phase > t_ref())  
+		if ( phase > t_ref())
 		{
 			phase = 1.0 / logAlpha() * log ( pow(alpha(), phase) - (1 - alpha())/(1 - t_ref()) * c);
 			if ( c > 0 )
@@ -128,7 +124,7 @@ namespace conedy
 	void pcoIFNeuronDelay::excite ( baseType c )           // gibt zurück, ob das Neuron sofort feuert.
 	{
 		baseType phase = 1.0 + this->time - eventHandler::getKey ( _fire_ );
-		if ( phase > t_ref())  
+		if ( phase > t_ref())
 		{
 			phase = phase	 +  c * ( t_ref() - 1 ) * ( 1 - alpha() ) / exp ( logAlpha() * ( phase - t_ref()) / ( 1 - t_ref() ) ) / logAlpha();
 			if ( c > 0 )

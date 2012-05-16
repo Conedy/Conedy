@@ -5,22 +5,20 @@
 
 #include "network.h"
 #include "baseType.h"
+#include "globals.h"
 
 namespace conedy
 {
 
-
-
-
 	//! Erbe von network mit Funktionen, die Netzwerkcharacteristiken ausrechnen
-	class statisticsNetwork : public virtual network
+	class statisticsNetwork : public virtual network, private globals
 	{
 		public:
 
 			void printStatistics ();
 			void printNodeStatistics();
-			
-			bool isConnected();			
+
+			bool isConnected();
 
 			nodeDescriptor degree (nodeDescriptor v) { return node::theNodes[v]->degree(); }
 			double meanDegree() { return meanOutDegree();}
@@ -53,7 +51,7 @@ namespace conedy
 
 			void saveAdjacencyList(string fileName);
 			void saveGraphML(string fileName);
-			
+
          void saveAdjacencyMatrix (string fileName);
 
 
@@ -64,7 +62,7 @@ namespace conedy
 			void outDegreeDistributionToFile ( string fileName );
 
 			double networkSize();
-			
+
 
 			vector<unsigned int> inDegreeDistribution();
 			vector<int> outDegreeDistribution();

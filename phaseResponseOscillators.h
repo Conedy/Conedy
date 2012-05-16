@@ -1,14 +1,12 @@
-
-
 #ifndef phaseResponseOscillators_h
 #define phaseResponseOscillators_h phaseResponseOscillators_h
 
 
-#include "pulseCoupledPhaseOscillator.h" 
+#include "pulseCoupledPhaseOscillator.h"
 
 namespace conedy
 {
-	//! Integrate-and-Fire oscillator mit exponentieller Ladekurve. 
+	//! Integrate-and-Fire oscillator mit exponentieller Ladekurve.
 /*	class pcoIFNeuronDelay : public pcoDelay
 	{
 		public:
@@ -37,7 +35,7 @@ namespace conedy
 	};
 
 
-*/	
+*/
  class pcoExponential : public pcoBase
 
 
@@ -97,7 +95,7 @@ namespace conedy
 
 
 	};
-	
+
 
 
 
@@ -143,7 +141,7 @@ namespace conedy
 			baseType inline t_ref()  { return params<baseType>::getParams ( 3 ); }
 			baseType inline a() { return params<baseType>::getParams ( 4 ); }
 			baseType inline b() { return params<baseType>::getParams ( 5 ); }
-	
+
 
 			static void registerStandardValues()
 			{

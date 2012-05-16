@@ -10,7 +10,7 @@ namespace conedy
 
 	 baseType edge::getTargetState() { return node::theNodes[targetNumber]->getState(); }
 
-	node::node () { number = numeric_limits<nodeDescriptor>::max(); };  
+	node::node () { number = numeric_limits<nodeDescriptor>::max(); };
 
 			node::~node() {
 				if (number != numeric_limits<nodeDescriptor>::max())
@@ -23,68 +23,49 @@ namespace conedy
 //	inline node* edge::getTarget() { return node::theNodes [targetNumber];}
 
 
-	ostream& edge::printStatistics( ostream &os, double edgeVerbosity, int theEdgeKind, string theEdgeName, baseType weight)
+	ostream& edge::printStatistics( ostream &os, int edgeVerbosity, int theEdgeKind, string theEdgeName, baseType weight)
 			{
-				if (edgeVerbosity > 0.9)
+				if (edgeVerbosity >= 1)
 				{
 					os << node::theNodes[targetNumber]->getNumber() << "\t";
 				}
 				// Ausgabe Kind, Name
-				if (edgeVerbosity> 1.9)
-				{ 
+				if (edgeVerbosity >= 2)
+				{
 				  	cout << "(";
 
 				edgeInfo ei = getEdgeInfo();
-					
+
 //					os << "EdgeKind = " << theEdgeKind << "\t";
 					os << theEdgeName << ", ";
-
 
 				// Ausgabe Gewicht
 					os << weight;
 				}
-				if (edgeVerbosity > 1.9)
+				if (edgeVerbosity >= 2)
 					os <<  "), ";
 				return os;
 			};
 
 
 
-	        ostream& edgeVirtual::printStatistics ( ostream &os, double edgeVerbosity) 
-			  {
+	        ostream& edgeVirtual::printStatistics ( ostream &os, int edgeVerbosity)
+			{
 				edgeInfo ei = getEdgeInfo();
 				edge::printStatistics(os, edgeVerbosity, ei.theEdgeKind, ei.theEdgeName,  getWeight());
 				return os;
 			}
 
-
-	void node::printEdgeStatistics(ostream &os, double edgeVerbosity) {
-
-throw "printEdgeStatistics OBSOLETE";
-
-//		edgeDescriptor eit = 0;
-//		edgeDescriptor oit = degree();
-//
-//		cout << "Anzahl Verbindungen:\t" << degree() << endl;
-/*		cout << "Verbindung nach:\t";
-		for ( ;eit != oit; eit++ )
-		{
-			getEdge(eit)->printStatistics( os, edgeVerbosity);
-			cout << ",\t";
-			// VERALTET( *eit )->printStatistics();
-
-		}
-		cout << endl;
-*/
-
+	void node::printEdgeStatistics(ostream &os, int edgeVerbosity)
+	{
 
 	}
 
 
-	void node::printStatistics(ostream &os, double nodeVerbosity, double edgeVerbosity)
+	void node::printStatistics(ostream &os, int nodeVerbosity, int edgeVerbosity)
 	{
-		if (nodeVerbosity > 0.5)
-		{	
+		if (nodeVerbosity >= 1)
+		{
 			cout << "nodeName:\t"<< getNodeInfo().theNodeName << endl;
 //			cout << "nodeType:\t"<< (int)getNodeInfo().theNodeType << endl;
 			cout << "nodeKind:\t" ;
@@ -107,7 +88,7 @@ throw "printEdgeStatistics OBSOLETE";
 			cout << endl;
 		}
 		cout << "nodeNumber:\t" << getNumber() << endl;
-	
+
 		printEdgeStatistics(os, edgeVerbosity);
 	}
 

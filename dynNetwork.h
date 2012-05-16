@@ -1,5 +1,3 @@
-
-
 #ifndef dynNetwork_h
 #define dynNetwork_h dynNetwork_h
 
@@ -8,20 +6,18 @@
 
 #include "eventHandler.h"
 #include "dynNode.h"
+#include "globals.h"
 //#include "ioNode.h"
 
 
 namespace conedy
 {
 
-
-
 	//! Class, which supplies network function, which control features of the network related to dynamics... setting initial conditions, parameters, starting numerical integration
-	class dynNetwork : public virtual network, eventHandler
+	class dynNetwork : public virtual network, eventHandler, private globals
 	{
-
-
 		int counter;
+		baseType * samplingTime;
 
 		// integer, which counts the number of periodical observations of the network.
 		static unsigned int observationCounter;
@@ -36,9 +32,6 @@ namespace conedy
 		void setParam (nodeDescriptor nd, string parameterName, baseType value)
 		{
 			((dynNode *)node::theNodes[nd])-> setParam (parameterName, value);
-
-
-
 		}
 
 		void snapshotAtEvent( nodeDescriptor eventNumber);
@@ -49,11 +42,10 @@ namespace conedy
 
 		static void registerStandardValues()
 		{
-			params<baseType>::registerStandard(_dynNetwork_,"samplingTime",0,0.01);
-			params<baseType>::registerStandard(_dynNetwork_,"progressVerbosity",1,100.0);
+			registerGlobal<baseType>("samplingTime", 0.01);
+//			samplingTime = getPointerToGlobal<baseType>("samplingTime");
+			registerGlobal<baseType>("progressVerbosity", 100.0);
 		}
-		baseType inline ioNodeDt () { return p.getParams(0); }
-		baseType inline progressVerbosity () { return p.getParams(1); }
 
 		dynNetwork()  : p(_dynNetwork_) {};
 		void evolveAll ( baseType );
@@ -67,7 +59,7 @@ namespace conedy
 
 
 
-	void realignWhenDistant (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int multi);
+		void realignWhenDistant (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int multi);
 
 		void removeObserver ();
 
@@ -151,16 +143,11 @@ namespace conedy
 				return;
 
 
-
 		}
 
 
 
 		void randomizeStatesVec (nodeBlueprint *n, vector<function<baseType() > >r);
-
-
-
-
 
 		void randomizeStates ( nodeBlueprint *n, function<baseType () > a1, function<baseType () > a2 = NULL, function<baseType () > a3 = NULL, function<baseType () > a4 = NULL, function<baseType () > a5 = NULL, function<baseType () > a6 = NULL, function<baseType () > a7 = NULL, function<baseType () > a8 = NULL, function<baseType () > a9 = NULL, function<baseType () > a10 = NULL, function<baseType () > a11 = NULL, function<baseType () > a12 = NULL)
 		{
@@ -234,9 +221,6 @@ namespace conedy
 				argList.push_back (a12);
 				randomizeStatesVec(n, argList);
 				return;
-
-
-
 		}
 
 
@@ -276,13 +260,13 @@ namespace conedy
 
 		void evolveAllAlong ( baseType endTime, string inputFilename, networkElementType nt);
 
-		void snapshot () { //		clean (); 
-		  
+		void snapshot () { //		clean ();
+
 			callBack (0); }
 		void setTime( baseType newTime)
 		{
 			dynNode::time = newTime;
-			eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
+			eventHandler::registerCallBack ( _ioNode_, dynNode::time + *samplingTime );
 		}
 		baseType getParam(nodeDescriptor nodeNumber,string name)
 		{

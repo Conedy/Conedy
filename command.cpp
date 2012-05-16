@@ -26,6 +26,7 @@ using namespace std;
 map < string, int > command::varType;
 map < string, baseType* > command::baseTypeVar;
 map < string, bool* > command::boolVar;
+map < string, int* > command::intVar;
 map < string, networkTemplate* >command::networkVar;
 map < string, nodeBlueprint** >command::nodeVar;
 map < string, edgeBlueprint** >command::edgeVar;
@@ -41,7 +42,7 @@ void emptyFunction () {}
 
 
 		void command::declare(string s, int type)	// Meldet s als Variablenname an ( so wie bei  "double d;")
-		{ 
+		{
 //			cout << "DECLARED" << endl;
 
 #ifdef DEBUG
@@ -52,10 +53,10 @@ void emptyFunction () {}
 			{
 //				cout << "String:" << s << endl;
 //				cout << "VarType:" << varType[s] << endl;
-	//			throw "Doppelt declared.";	
+	//			throw "Doppelt declared.";
 			}
-			varType [s] = type; 
-			if (type == _network_) 
+			varType [s] = type;
+			if (type == _network_)
 			{
 				networkTemplate n;
 				networkVar[s] = new networkTemplate(n);
@@ -64,7 +65,7 @@ void emptyFunction () {}
 			if (type == _node_)
 			{
 				dynNode **n =new dynNode*();
-				
+
 //				node *nod = new node();
 //				n = & nod;
 				nodeVar[s] = n;
@@ -73,7 +74,7 @@ void emptyFunction () {}
 			if (type == _edge_)
 			{
 				edgeBlueprint **n =new edgeBlueprint*();
-				
+
 //				edge *nod = new node();
 //				n = & nod;
 				edgeVar[s] = n;
@@ -85,10 +86,11 @@ void emptyFunction () {}
 			{
 				stringVar[s] = new string();
 			}
-			
 
-			if (type == _baseType_) baseTypeVar[s] = new baseType(); 
-			if (type == _bool_) boolVar[s] = new bool(); 
+
+			if (type == _baseType_) baseTypeVar[s] = new baseType();
+			if (type == _bool_) boolVar[s] = new bool();
+			if (type == _int_) intVar[s] = new int();
 			if (type == _nodeDescriptor_) nodeDescriptorVar[s] = new nodeDescriptor();
 		};
 

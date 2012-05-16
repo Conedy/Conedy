@@ -60,7 +60,7 @@ namespace conedy
 
 			edgeVirtual *construct() { return new weightedEdge<EDGE> ( *this ); };
 
-			ostream& printStatistics ( ostream &os, double edgeVerbosity) 
+			ostream& printStatistics ( ostream &os, int edgeVerbosity)
 			{
 				edgeInfo ei = getEdgeInfo();
 				edge::printStatistics(os, edgeVerbosity, ei.theEdgeKind, ei.theEdgeName,  getWeight());
@@ -96,7 +96,7 @@ namespace conedy
 			//			baseType getTargetState() { return EDGE::getTarget()->getState (); }
 			edgeVirtual *construct() { return new staticWeightedEdge ( *this ); };
 
-			ostream& printStatistics ( ostream &os, double edgeVerbosity) 
+			ostream& printStatistics ( ostream &os, int edgeVerbosity)
 			{
 				edgeInfo ei = getEdgeInfo();
 				edge::printStatistics(os, edgeVerbosity, ei.theEdgeKind, ei.theEdgeName,  getWeight());
@@ -157,7 +157,7 @@ namespace conedy
 		{
 			EDGE::setParameter(parameter);
 			if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
-			which = parameter[parameter.size() -1];        
+			which = parameter[parameter.size() -1];
 			parameter.pop_back();
 		}
 
@@ -182,7 +182,7 @@ namespace conedy
 			weightedPolyEdge()  {};
 			weightedPolyEdge ( nodeDescriptor targetNumber) : edgeVirtual (targetNumber) {};
 
-			const edgeInfo getEdgeInfo() 
+			const edgeInfo getEdgeInfo()
 			{
 				edgeInfo ei = {_weightedEdge_,_polynomial_};
 				return ei;
@@ -234,7 +234,7 @@ namespace conedy
 
 	os << "EdgeKind = " << ei.theEdgeKind << "\t";
 	os << "EdgeName = " << ei.theEdgeName << "\t";
-	}	
+	}
 
 	// Ausgabe Gewicht
 	os << weight;
@@ -308,7 +308,7 @@ namespace conedy
 		n.push_back(newWeight);
 		if (params<baseType>::isStandard())
 		rerouteParams(n);
-		else	
+		else
 		setParams(0,newWeight);
 		}
 
@@ -335,7 +335,7 @@ namespace conedy
 
 
 
-	ostream& printStatistics ( ostream &os, double edgeVerbosity) 
+	ostream& printStatistics ( ostream &os, double edgeVerbosity)
 	{
 	edgeInfo ei = getEdgeInfo();
 	edge::printStatistics(os, edgeVerbosity, ei.theEdgeKind, ei.theEdgeName,  getWeight());
@@ -386,7 +386,7 @@ namespace conedy
 			//
 			//
 
-			ostream& printStatistics ( ostream &os, double edgeVerbosity) 
+			ostream& printStatistics ( ostream &os, int edgeVerbosity)
 			{
 				edgeInfo ei = getEdgeInfo();
 				edge::printStatistics(os, edgeVerbosity, ei.theEdgeKind, ei.theEdgeName,  EDGE::getWeight());
@@ -481,7 +481,7 @@ namespace conedy
 		//
 		//
 
-		ostream& printStatistics ( ostream &os, double edgeVerbosity) 
+		ostream& printStatistics ( ostream &os, int edgeVerbosity)
 		{
 			edgeInfo ei = getEdgeInfo();
 			edge::printStatistics(os, edgeVerbosity, ei.theEdgeKind, ei.theEdgeName,  getWeight());
@@ -536,7 +536,7 @@ namespace conedy
 		edgeVirtual *construct() { return new delayEdge ( *this ); };
 
 		// Überladung des Ausgabestreams
-		ostream& printStatistics ( ostream &os, double edgeVerbosity)
+		ostream& printStatistics ( ostream &os, int edgeVerbosity)
 		{
 			// Ausgabe Header:
 			//
@@ -564,7 +564,7 @@ namespace conedy
 
 
 	/*! \brief Definition einer weightedEdge mit Sigmoidaler Ausgabefunktion mit Ordnung 3 (by HD)
-	 * 
+	 *
 	 *	Diese Edge holt den Status der Nachbarzelle ab und gibt diese sigmoidal an die Zielzelle aus. \n
 	 *	LaTeX: \operatorname{sig}(t) = \frac{1}{1 + e^{-\beta t}} \n
 	 *
@@ -576,12 +576,12 @@ namespace conedy
 
 		public:
 		//! Konstruktor mit beta = 4 Std, a = 1, b = c = 0.
-		stdEdgeOrd3 ( ) {a = 1; b = 0; c = 0;};		
+		stdEdgeOrd3 ( ) {a = 1; b = 0; c = 0;};
 
 		/*! Konstruktor mit beta = b
 		 * \param beta int: Gibt die Flankensteilheit an
-		 */ 
-		//stdEdgeOrd3 ( int b ) : beta ( b ) {};	
+		 */
+		//stdEdgeOrd3 ( int b ) : beta ( b ) {};
 		//! Gibt die Kanteninfo zurück
 		/*!
 		  \return edgeInfo ei = {_stdEdge_,_weighted_
@@ -601,30 +601,30 @@ namespace conedy
 			}
 			else
 				cerr << "Fehler - Gewichte sind nicht on der Ordnung 3" << endl;
-		}			
+		}
 
 		//! Getter für das Gewicht: gibt kein Gewicht zurück, da polynomial
-		baseType getWeight() { return 0;}; 
+		baseType getWeight() { return 0;};
 
 		//! Überladung der Ausgabe einer Zelle: Sigmoidale Ausgabe
 		/*!
 		  \return 2 / (1+exp (-beta * targetState)) -1
 		  */
 		baseType getTargetState()
-		{ 
+		{
 			// alten Status abholen:
 			baseType x = getTarget()->getState();
 
 			//newState = ax + bx² + cx³
 			baseType newState = a * x + b * x*x + c * x*x*x;
-			/*	
-				cout << "Gewicht abgeholt: " << x << endl; 
+			/*
+				cout << "Gewicht abgeholt: " << x << endl;
 				cout << "a = " << a << endl;
 				cout << "b = " << b << endl;
 				cout << "c = " << c << endl;
-				cout << "a * x = " << a*x << ", b*x*x = " << b*x*x << "c*x*x*x = " << c*x*x*x << endl;	
-				*/	
-			return (newState); 
+				cout << "a * x = " << a*x << ", b*x*x = " << b*x*x << "c*x*x*x = " << c*x*x*x << endl;
+				*/
+			return (newState);
 		}
 
 		//! Überladung des Ausgabestreams
@@ -635,7 +635,7 @@ namespace conedy
 		  edgeVerbosity >=1: Ausgabe aller EdgeInfos \n
 		  edgeVerbosity >=2: Ausgabe aller Flanken-Parameter beta \n
 		  */
-		ostream& printStatistics ( ostream &os, double edgeVerbosity)
+		ostream& printStatistics ( ostream &os, int edgeVerbosity)
 		{
 
 			edgeInfo ei = getEdgeInfo();
@@ -660,7 +660,7 @@ namespace conedy
 
 
 	/*! \brief Definition einer weightedEdge mit Sigmoidaler Ausgabefunktion mit Ordnung 3 (by HD)
-	 * 
+	 *
 	 *	Diese Edge holt den Status der Nachbarzelle ab und gibt diese sigmoidal an die Zielzelle aus. \n
 	 *	LaTeX: \operatorname{sig}(t) = \frac{1}{1 + e^{-\beta t}} \n
 	 *
@@ -673,12 +673,12 @@ namespace conedy
 
 			public:
 			//! Konstruktor mit beta = 4 Std, a = 1, b = c = 0.
-			sigEdgeOrd3 ( ) {beta=4; a = 1; b = 0; c = 0;};		
+			sigEdgeOrd3 ( ) {beta=4; a = 1; b = 0; c = 0;};
 
 			/*! Konstruktor mit beta = b
 			 * \param beta int: Gibt die Flankensteilheit an
-			 */ 
-			sigEdgeOrd3 ( int b ) : beta ( b ) {};	
+			 */
+			sigEdgeOrd3 ( int b ) : beta ( b ) {};
 			//! Gibt die Kanteninfo zurück
 			/*!
 			  \return edgeInfo ei = {_sigEdge_,_weighted_
@@ -698,25 +698,25 @@ namespace conedy
 				}
 				else
 					cerr << "Fehler - Gewichte sind nicht on der Ordnung 3" << endl;
-			}			
+			}
 
 			//! Getter für das Gewicht: gibt kein Gewicht zurück, da polynomial
-			baseType getWeight() { return 0;}; 
+			baseType getWeight() { return 0;};
 
 			//! Überladung der Ausgabe einer Zelle: Sigmoidale Ausgabe
 			/*!
 			  \return 2 / (1+exp (-beta * targetState)) -1
 			  */
 			baseType getTargetState()
-			{ 
+			{
 				// alten Status abholen:
 				baseType x = getTarget()->getState();
-				//cout << "Gewicht abgeholt: " << x << endl; 
+				//cout << "Gewicht abgeholt: " << x << endl;
 				x = 2.0 / ( 1+ exp ( -beta* x )) -1;
 				//newState = ax + bx² + cx³
 				baseType newState = a * x + b * x*x + c * x*x*x;
 
-				return newState; 
+				return newState;
 			}
 
 			//! Überladung des Ausgabestreams
@@ -727,7 +727,7 @@ namespace conedy
 			  edgeVerbosity >=1: Ausgabe aller EdgeInfos \n
 			  edgeVerbosity >=2: Ausgabe aller Flanken-Parameter beta \n
 			  */
-			ostream& printStatistics ( ostream &os, double edgeVerbosity)
+			ostream& printStatistics ( ostream &os, int edgeVerbosity)
 			{
 
 				edgeInfo ei = getEdgeInfo();
@@ -736,18 +736,18 @@ namespace conedy
 
 
 				// Ausgabe Kind, Name
-				if (edgeVerbosity>=1)
+				if (edgeVerbosity >= 1)
 				{
 					edgeInfo ei = getEdgeInfo();
 
 					os << "EdgeKind = " << ei.theEdgeKind << "\t";
 					os << "EdgeName = " << ei.theEdgeName << "\t";
-					if (edgeVerbosity>=2)
+					if (edgeVerbosity >= 2)
 					{
 						os << "beta = " << beta << "\t";
 						os << "Ordnung = 3" << endl;
 					}
-				}	
+				}
 
 				// Ausgabe Gewichte
 				os << a << "\t" << b << "\t" << c << endl;
@@ -759,7 +759,7 @@ namespace conedy
 
 
 		/*! \brief Definition einer weightedEdge mit Sigmoidaler Ausgabefunktion (by HD)
-		 * 
+		 *
 		 *	Diese Edge holt den Status der Nachbarzelle ab und gibt diese sigmoidal an die Zielzelle aus. \n
 		 *	LaTeX: /f$\operatorname{sig}(t) = \frac{1}{1 + e^{-\beta t}}$/f \n
 		 */
@@ -769,12 +769,12 @@ namespace conedy
 
 				public:
 				//! Konstruktor mit beta = 4 Std
-				sigEdge ( ) : beta ( 4 ) {};		
+				sigEdge ( ) : beta ( 4 ) {};
 
 				/*! Konstruktor mit beta = b
 				 * \param beta int: Gibt die Flankensteilheit an
-				 */ 
-				sigEdge ( int b ) : beta ( b ) {};	
+				 */
+				sigEdge ( int b ) : beta ( b ) {};
 				//! Gibt die Kanteninfo zurück
 				/*!
 				  \return edgeInfo ei = {_sigEdge_,_weighted_}
@@ -795,7 +795,7 @@ namespace conedy
 
 					baseType newState = a*x;
 
-					return (newState); 
+					return (newState);
 				}
 
 				edgeVirtual  *construct() { return new sigEdge ( *this ); };
@@ -809,22 +809,22 @@ namespace conedy
 				  edgeVerbosity >=1: Ausgabe aller EdgeInfos \n
 				  edgeVerbosity >=2: Ausgabe aller Flanken-Parameter beta \n
 				  */
-				ostream& printStatistics ( ostream &os, double edgeVerbosity)
+				ostream& printStatistics ( ostream &os, int edgeVerbosity)
 				{
 					// Ausgabe Header:
 					edgeInfo ei = getEdgeInfo();
 					edge::printStatistics(os, edgeVerbosity, ei.theEdgeKind, ei.theEdgeName,  getWeight());
 
-					if (edgeVerbosity>=2)
+					if (edgeVerbosity >= 2)
 					{
 						os << "beta = " << beta << "\t";
-					}	
+					}
 
 					return os;
 				}
 			};
 		/*! \brief Definition einer weightedEdge höherer Ordnung mit Sigmoidaler Ausgabefunktion (by HD)
-		 * 
+		 *
 		 *	Diese Edge holt den Status der Nachbarzelle ab und gibt diese sigmoidal an die Zielzelle aus. \n
 		 *	LaTeX: \operatorname{sig}(t) = \frac{1}{1 + e^{-\beta t}} \n
 		 *
@@ -840,20 +840,20 @@ namespace conedy
 					//! Iterator über die Gewichte
 					vector<baseType>::iterator it;
 
-				public:	
+				public:
 					//! Konstruktor mit beta = 4.
 					sigEdgeParams ( ) : params< vector<baseType> >(_sigEdgeParams_),  beta ( 4 ) {};
 
 					/*! Konstruktor mit beta = 4
 					 * \param node<baseType>* t Gibt die Zielnode an.
 					 * \param baseType w	vector < double>: Gibt die Gewichte an.
-					 */ 
-					//			sigEdgeParams ( node* t, baseType w ) : weightedPolyEdge(t), beta ( 4 ) {}; 
+					 */
+					//			sigEdgeParams ( node* t, baseType w ) : weightedPolyEdge(t), beta ( 4 ) {};
 
 					/*! Konstruktor mit beta = b
 					 * \param beta int: Gibt die Flankensteilheit an
-					 */ 
-					sigEdgeParams ( int b ) : params< vector<baseType> >(_sigEdgeParams_), beta ( b ) {}; 
+					 */
+					sigEdgeParams ( int b ) : params< vector<baseType> >(_sigEdgeParams_), beta ( b ) {};
 
 					// Überladung edge-Konstruktor:
 					edgeVirtual *construct() { return new sigEdgeParams ( *this ); };
@@ -887,9 +887,9 @@ namespace conedy
 					/*!
 					  \return edgeInfo ei = {_sigEdgeParams_,_polynomial_};
 					  */
-					const edgeInfo getEdgeInfo() 
+					const edgeInfo getEdgeInfo()
 					{
-						edgeInfo ei = {_sigEdgeParams_,_polynomial_}; 
+						edgeInfo ei = {_sigEdgeParams_,_polynomial_};
 						return ei;
 					}
 
@@ -906,7 +906,7 @@ namespace conedy
 					  Normiert auf [-1:1]
 					  */
 					baseType getTargetState()
-					{ 
+					{
 						baseType temp = getTarget()->getState();
 						temp = 2.0 / ( 1+ exp ( -beta* temp )) -1;
 						baseType x=1.0;
@@ -922,7 +922,7 @@ namespace conedy
 							newState += (*it) * x;
 						}
 
-						return (newState); 
+						return (newState);
 					}
 
 					//! Überladung des Ausgabestreams
@@ -933,7 +933,7 @@ namespace conedy
 					  edgeVerbosity >=1: Ausgabe aller EdgeInfos \n
 					  edgeVerbosity >=2: Ausgabe aller Flanken-Parameter beta \n
 					  */
-					ostream& printStatistics ( ostream &os, double edgeVerbosity)
+					ostream& printStatistics ( ostream &os, int edgeVerbosity)
 					{
 						// Ausgabe Header:
 						edgeInfo ei = getEdgeInfo();

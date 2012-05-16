@@ -69,7 +69,7 @@ namespace conedy
 
 			virtual node * construct () { throw "construct of dynNode called !"; }
 
-			virtual void printStatistics(ostream &os, baseType nodeVerbosity, baseType edgeVerbosity);
+			virtual void printStatistics(ostream &os, int nodeVerbosity, int edgeVerbosity);
 
 			virtual  baseType getMeanPhaseCoherence() { throw "getMeanPhaseCoherence";}
 			virtual	baseType couplingSum() { throw "couplingSum"; }

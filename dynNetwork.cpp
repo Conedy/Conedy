@@ -27,6 +27,7 @@ namespace conedy
 		inOutNodeList.clear();
 
 	}
+
 	baseType dynNetwork::callBack ( unsigned int eventSignature )
 	{
 
@@ -39,10 +40,10 @@ namespace conedy
 
 		streamOutNode::enter();
 
-		if ( ( progressVerbosity() != 0.0 ) && ( fmod(dynNode::time/ioNodeDt(), progressVerbosity()) < 0.9999 ) )
+		if ( ( getGlobal<baseType>("progressVerbosity") != 0.0 ) && ( fmod(dynNode::time/(*samplingTime), getGlobal<baseType>("progressVerbosity")) < 0.9999 ) )
 			cout <<"#------------Time:" << dynNode::time << endl;
 
-		return dynNode::startTime + observationCounter * ioNodeDt();
+		return dynNode::startTime + observationCounter * (*samplingTime);
 
 	}
 
@@ -71,7 +72,7 @@ namespace conedy
 	{
 
 		eventHandler::registerCallBack ( _ioNode_, numeric_limits<baseType>::max() );
-		//		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
+		//		eventHandler::registerCallBack ( _ioNode_, dynNode::time + (*samplingTime) );
 	}
 
 	void dynNetwork::noiseToStates ( function<baseType () > r, networkElementType n )
@@ -131,7 +132,7 @@ namespace conedy
 		dynNode::time = startTime;
 		dynNode::endTime = endTime;
 
-		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
+		eventHandler::registerCallBack ( _ioNode_, dynNode::time + (*samplingTime) );
 		observationCounter = 0;
 
 
@@ -590,7 +591,7 @@ namespace conedy
 		network::nodeIterator vi;
 		baseType mean= 0;
 		baseType var = 0;
-		
+
 		baseType diff = 0;
 		unsigned int i=0;
 		for (vi = vl->begin(); vi != vl->end();vi++)
@@ -694,10 +695,10 @@ namespace conedy
 
 		}
 	}
-	// realign to eps 
+	// realign to eps
 	void realign::realignNow(vector <baseType> &along, baseType eps, meanVar dist)
 	{
-		baseType factor = eps / sqrt(dist.var); 
+		baseType factor = eps / sqrt(dist.var);
 
 		network::nodeIterator vi;
 		queue <baseType> states;
@@ -714,11 +715,11 @@ namespace conedy
 				diff = diff + 1;
 
 			diff = diff *  factor;
-			
+
 
 
 			if (diff > 0.5  || diff < -0.5)
-				throw "Fehler Abstand zu groß für den Raum (evolveAlong)";
+				throw "Fehler Abstand zu groï¿½ fï¿½r den Raum (evolveAlong)";
 
 			baseType n;
 			if (diff > 0)

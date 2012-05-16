@@ -1,10 +1,8 @@
-
-
 #ifndef pulseCoupledExcitatoryNeuron_h
 #define pulseCoupledExcitatoryNeuron_h pulseCoupledExcitatoryNeuron_h
 
 #include <math.h>
-#include "node.h" 
+#include "node.h"
 #include <boost/function.hpp>
 #include "dynNode.h"
 #include "eventHandler.h"
@@ -20,17 +18,15 @@
 
 namespace conedy
 {
-
-
 //! Excitatorisches Integrate-and-Fire-Neurons.
 	class pulseCoupledExcitatoryNeuron : public dynNode, public eventHandler
         // Kopplungsrichtung ist andersrum als bei allen andere nodes !
 	{
 // 1 = Ja, 0 = nicht refraktär
 		public:        // x' = -ax+b
-			
+
 			baseType lastFiring;
-			bool refractory; 
+			bool refractory;
 
 			baseType inline nextFiring() { return eventHandler::getKey(_fire_); }
 			baseType inline nextRandomExcitation() { return eventHandler::getKey(_exciteRandomly_); }
@@ -67,7 +63,7 @@ namespace conedy
 			virtual unsigned int numberOfEvents() const { return 2;  }
 
 
-				
+
 			pulseCoupledExcitatoryNeuron () : dynNode ( _pulseCoupledExcitatoryNeuron_)
 			{
 
@@ -139,7 +135,7 @@ namespace conedy
 
 
 	};
-	
+
 	//! Gibt das MembranPotential von den pulseCoupledExcitatoryNeurons zurück.
 /*	class membranePotentialOfIFQ: public weightedEdgeVirtual, params <baseType>
 	{
@@ -172,7 +168,7 @@ namespace conedy
 						       return 0;
 					}
 					else
-						return ( exp ( leakage() * ( -time() + lastFiring() )) );	
+						return ( exp ( leakage() * ( -time() + lastFiring() )) );
 				}
 				else
 					return 1.0;   // firing

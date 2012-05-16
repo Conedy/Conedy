@@ -34,6 +34,10 @@ class globals
 					return "string";
 				case 3:
 					return "bool";
+				case 4:
+					return "float";
+				case 5:
+					return "long double";
 				default:
 					throw "You are using a non-predefined type. To predefine this type, modify globals.h.";
 			}
@@ -54,7 +58,7 @@ class globals
 		template <typename T> static T getGlobal(string name)
 
 
-	
+
 		{
 			if (type[name] == typeInteger<T>())
 				return * ((T*) value[name]) ;

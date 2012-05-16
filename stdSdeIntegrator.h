@@ -1,36 +1,30 @@
-
-
 #ifndef stdSdeIntegrator_h
 #define stdSdeIntegrator_h stdSdeIntegrator_h
-
 
 #include "integrator.h"
 #include "sdeNode.h"
 #include "gslNoise.h"
-
+#include "globals.h"
 #include "networkConstants.h"
 
 namespace conedy {
 
 
-	class stdSdeIntegrator : public sdeNode 
+	class stdSdeIntegrator : public sdeNode, private globals
 	{
 		public:
 				sdeIntegrator *integ;
 
 		stdSdeIntegrator (networkElementType n, unsigned int dim) : sdeNode (n, dim)    {}
 
-		stdSdeIntegrator ( const stdSdeIntegrator &b ): sdeNode (b)
-		{		}
+		stdSdeIntegrator ( const stdSdeIntegrator &b ): sdeNode (b) {}
 
-			static unsigned int stepType_int;
-			static params<string> *stepType;
+		static unsigned int stepType_int;
 
-			static void registerStandardValues()
-			{
-				params<string>::registerStandard(_stdSdeIntegrator_, "stdSdeIntegrator_stepType",0,"euler");
-				stepType = new params<string> (_stdSdeIntegrator_);
-			}
+		static void registerStandardValues()
+		{
+			registerGlobal<string>("stdSdeIntegrator_stepType", "euler");
+		}
 
 
 //		virtual void swap(short i) { state=x[i]; }
@@ -38,18 +32,19 @@ namespace conedy {
 
 	if (amIFirst())
 	{
+			string stepType = getGlobal<string>("stdSdeIntegrator_stepType");
 
-			if (stepType->getParams(0)  == "euler")
+			if (stepType == "euler")
 			{
 				integ = new eulerMaruyama (containerDimension() );
 				stepType_int = 0;
 			}
-			else if (stepType->getParams(0)  == "milsteinIto")
+			else if (stepType == "milsteinIto")
 			{
 				integ = new milsteinIto (containerDimension() );
 				stepType_int = 1;
 			}
-			else if (stepType->getParams(0)  == "milsteinStrato")
+			else if (stepType == "milsteinStrato")
 			{
 				integ = new milsteinStrato (containerDimension() );
 				stepType_int = 2;
@@ -57,7 +52,7 @@ namespace conedy {
 
 
 			else
-	
+
 				throw "unknown steptype for stdSdeIntegrator!";
 	}
 	};

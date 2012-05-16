@@ -15,6 +15,7 @@
 #define _nodeDescriptor_ 4
 #define _string_ 5
 #define _bool_ 6
+#define _int_ 7
 
 
 using namespace std;
@@ -45,7 +46,7 @@ typedef edgeVirtual edgeBlueprint;
 
 
 //! Alle Befehle erben von Command. Außerdem werden hier die Variablen gehandhabt.
-class command				
+class command
 {
 	protected:
 
@@ -54,6 +55,7 @@ class command
 
 		static map < string, baseType* > baseTypeVar;
 		static map < string, bool* > boolVar;
+		static map < string, int* > intVar;
 		static map < string, networkTemplate * > networkVar;
 		static map < string, nodeBlueprint ** > nodeVar;
 		static map < string, edgeBlueprint ** > edgeVar;
@@ -64,7 +66,7 @@ class command
 
 
 
-		static bool contextCheck (string s, int type) 
+		static bool contextCheck (string s, int type)
 		{ if ((varType.count(s) == 0 )|| (varType[s] != type)) return 0; else return 1;} // Überprüft, ob s als Variablenname vom Type type angemeldet wurde
 
 	public:
@@ -87,42 +89,54 @@ class command
 #endif
 			//throw "vector<doubles> sind im interpreter atm not implemented!";
 		}
+
 		static void declare(string s, bool *d)
 		{
-
 			if (varType.count(s) != 0)
 			{
 				cout << "String:" << s << endl;
 				cout << "VarType:" << varType[s] << endl;
-				throw "Doppelt declared.";
+				throw "declared twice.";
 			}
 			varType[s] = _bool_;
 			boolVar[s] = d;
-		}		
-		static void declare(string s, baseType *d)
-		{
+		}
 
+		static void declare(string s, int *d)
+		{
 			if (varType.count(s) != 0)
 			{
 				cout << "String:" << s << endl;
 				cout << "VarType:" << varType[s] << endl;
-				throw "Doppelt declared.";
+				throw "declared twice.";
+			}
+			varType[s] = _int_;
+			intVar[s] = d;
+		}
+
+		static void declare(string s, baseType *d)
+		{
+			if (varType.count(s) != 0)
+			{
+				cout << "String:" << s << endl;
+				cout << "VarType:" << varType[s] << endl;
+				throw "declared twice.";
 			}
 			varType[s] = _baseType_;
 			baseTypeVar[s] = d;
-		}		
+		}
+
 		static void declare(string s, string *d)
 		{
-
 			if (varType.count(s) != 0)
 			{
 				cout << "String:" << s << endl;
 				cout << "VarType:" << varType[s] << endl;
-				throw "Doppelt declared.";
+				throw "declared twice.";
 			}
 			varType[s] = _string_;
 			stringVar[s] = d;
-		}		
+		}
 
 		static void declare(string s, int type);	// Meldet s als Variablenname an ( so wie bei  "double d;")
 		command() {}
@@ -140,13 +154,21 @@ inline baseType *  command ::retrieve<baseType> (string s)
 
 }
 
-	template <>
-inline bool *  command ::retrieve<bool> (string s)
+template <> inline bool *  command ::retrieve<bool> (string s)
 {
 	if (!contextCheck (s, _bool_))
 		throw (s +"ContextError!").c_str();
 	else
 		return boolVar[s];
+
+}
+
+template <> inline int *  command ::retrieve<int> (string s)
+{
+	if (!contextCheck (s, _int_))
+		throw (s +"ContextError!").c_str();
+	else
+		return intVar[s];
 
 }
 
