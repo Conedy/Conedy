@@ -33,6 +33,16 @@ void printDefines ()
 #endif
 
 
+#if DOUBLE
+	cout << "DOUBLE ";
+#endif
+
+
+#if LDOUBLE
+	cout << "LDOUBLE ";
+#endif
+
+
 #if CALENDARQUEUE
 	cout << "CALENDARQUEUE ";
 #endif
