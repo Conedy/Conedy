@@ -19,6 +19,7 @@
 #include <string>
 
 
+#include "globals.h"
 
 #include "docstrings.h"
 

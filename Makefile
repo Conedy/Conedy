@@ -157,7 +157,7 @@ python-conedy: addNodesIfNecessary docstrings.h # build the python bindings of C
 
 
 	
-	CFLAGS=-D$(SVNDEV) python setup.py build
+	CFLAGS="-D$(SVNDEV) $(addprefix -D,${defines})" python setup.py build
 
 
 python-conedy.install: python-conedy

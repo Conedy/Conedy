@@ -11,8 +11,8 @@
 
 
 #ifdef DOUBLE
-namespace conedy {
 #include "gslOdeNode.h"
+namespace conedy {
 typedef gslOdeNode ode;
 }
 #endif

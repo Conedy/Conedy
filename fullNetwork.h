@@ -25,13 +25,9 @@
 #include "dynNetwork.h"
 #include "statisticsNetwork.h"
 
-//#include "cnnNode.h"
-// DOPPELT
 // #include "dynNode.h" 
 #include "mapNode.h" 
 #include "pulseCoupledExcitatoryNeuron.h" 
-// DOPPELT
-// #include "cnnNode.h" 
 #include "phaseResponseOscillators.h" 
 #include "nodeImplement.h"
 
