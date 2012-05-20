@@ -1,5 +1,7 @@
 #include "instruction.h"
 
+#include "string_config.h"
+
 
 stringstream vectorForInstruction::chefDagEnding;
 vector<int> vectorForInstruction::iterations;
@@ -60,7 +62,11 @@ void vectorForInstruction::writeCondorSkript()
 
       condorSkript << "Universe     = vanilla\n";
 
-      condorSkript << "Executable   =  " << getenv ( "HOME" ) << "/bin/conedy.$$(OpSys).$$(Arch).EXE\n";
+// remove newline from dirInstall dirty
+		string dirInstall =reinterpret_cast<const char *>(dirInstall_h);
+		dirInstall = dirInstall.substr(0, dirInstall.length() - 1 );	
+
+      condorSkript << "Executable   =  " << dirInstall << "/conedy.$$(OpSys).$$(Arch).EXE\n";
 
       condorSkript << "Log    =" << commandLineArguments::arg[1] << ".log" << "\n\n";
 //		condorSkript << "stream_output = True \n";   I'm putting this out because its seems to worsen performance on the submitting pc ?

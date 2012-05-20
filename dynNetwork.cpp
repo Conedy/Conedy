@@ -40,10 +40,10 @@ namespace conedy
 
 		streamOutNode::enter();
 
-		if ( ( getGlobal<baseType>("progressVerbosity") != 0.0 ) && ( fmod(dynNode::time/(*samplingTime), getGlobal<baseType>("progressVerbosity")) < 0.9999 ) )
+		if ( ( getGlobal<baseType>("progressVerbosity") != 0.0 ) && ( fmod(dynNode::time/( samplingTime()), getGlobal<baseType>("progressVerbosity")) < 0.9999 ) )
 			cout <<"#------------Time:" << dynNode::time << endl;
 
-		return dynNode::startTime + observationCounter * (*samplingTime);
+		return dynNode::startTime + observationCounter * (samplingTime());
 
 	}
 
@@ -132,7 +132,7 @@ namespace conedy
 		dynNode::time = startTime;
 		dynNode::endTime = endTime;
 
-		eventHandler::registerCallBack ( _ioNode_, dynNode::time + (*samplingTime) );
+		eventHandler::registerCallBack ( _ioNode_, dynNode::time + samplingTime() );
 		observationCounter = 0;
 
 

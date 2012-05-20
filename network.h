@@ -65,7 +65,7 @@ namespace conedy
 
 
 
-	class network: private globals
+	class network: protected globals
 	{
 
 		protected:

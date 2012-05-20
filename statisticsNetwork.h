@@ -11,7 +11,7 @@ namespace conedy
 {
 
 	//! Erbe von network mit Funktionen, die Netzwerkcharacteristiken ausrechnen
-	class statisticsNetwork : public virtual network, private globals
+	class statisticsNetwork : public virtual network 
 	{
 		public:
 

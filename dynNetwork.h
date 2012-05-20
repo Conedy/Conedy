@@ -14,10 +14,9 @@ namespace conedy
 {
 
 	//! Class, which supplies network function, which control features of the network related to dynamics... setting initial conditions, parameters, starting numerical integration
-	class dynNetwork : public virtual network, eventHandler, private globals
+	class dynNetwork : public virtual network, eventHandler 
 	{
 		int counter;
-		baseType * samplingTime;
 
 		// integer, which counts the number of periodical observations of the network.
 		static unsigned int observationCounter;
@@ -39,6 +38,7 @@ namespace conedy
 
 		void snapshotAtEventOfNode (nodeDescriptor nodeNumber, unsigned int eventSignature);
 
+		inline double samplingTime() { return globals::getGlobal<double> ("samplingTime"); }
 
 		static void registerStandardValues()
 		{
@@ -266,7 +266,7 @@ namespace conedy
 		void setTime( baseType newTime)
 		{
 			dynNode::time = newTime;
-			eventHandler::registerCallBack ( _ioNode_, dynNode::time + *samplingTime );
+			eventHandler::registerCallBack ( _ioNode_, dynNode::time + samplingTime() );
 		}
 		baseType getParam(nodeDescriptor nodeNumber,string name)
 		{

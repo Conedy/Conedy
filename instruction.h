@@ -83,14 +83,14 @@ class declareInstruction : public instruction
 		void execute () { command::declare(ident, type); }
 };
 
-
 //! Basis-Klasse für Ausdrücke im Parser-Baum vom Typ T
 template <typename T>
-class expression : public command
+class expression : public instruction
 {
 	public:
 		//! Werte den  Ausdruck aus.
 		virtual T evaluate() { return (T)0; }
+		virtual void execute() { this->evaluate(); }
 };
 
 

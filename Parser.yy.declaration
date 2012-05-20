@@ -14,14 +14,14 @@ instruction		: system
 	| while
 	| declare
 	| assign
+	| for
 	| networkCommand
 	| commandBlock
 	| createNetworkCommand
 	| spatialNetworkCommand
 	| bluePrintCommand
-	| statisticsNetworkCommandInt
-	| for
-//	| EXIT { $$ = new bindInstruction(bind(exit, 1)); }
+	| statisticsNetworkCommandInt  { $$ = $1; }
+	| EXIT { $$ = new bindInstruction(bind(exit, 1)); }
 	| if
 	| vectorFor ;
 

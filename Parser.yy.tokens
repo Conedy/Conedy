@@ -40,7 +40,7 @@
 
 %token <booleanExpression> BOOLONE BOOLZERO
 %token <doubleExpression> FLOATCONSTANT DOUBLEVAR
-%token <boolExpression> BOOL BOOLVAR
+%token <boolExpression> BOOLVAR
 %token <stringExpression> STRINGVAR
 %token <nodCmd> NODEVAR
 %type <integerExpression> nodeDescriptor statisticsNetworkCommandInt
