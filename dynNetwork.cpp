@@ -707,13 +707,15 @@ namespace conedy
 		for (vi = vl->begin(); vi != vl->end();vi++)
 		{
 			//				baseType stat = theNodes[*vi]->getState();
-			baseType diff =  along[i] - node::theNodes[*vi]->getState() + dist.mean ;
+			baseType diff =  along[i] - node::theNodes[*vi]->getState() ;
 
 			if (diff > 0.5)
 				diff = diff - 1;
 			else if (diff < -0.5)
 				diff = diff + 1;
 
+
+			diff = diff - dist.mean;
 			diff = diff *  factor;
 
 

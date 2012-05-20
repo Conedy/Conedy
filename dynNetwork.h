@@ -38,7 +38,7 @@ namespace conedy
 
 		void snapshotAtEventOfNode (nodeDescriptor nodeNumber, unsigned int eventSignature);
 
-		inline double samplingTime() { return globals::getGlobal<double> ("samplingTime"); }
+		inline baseType samplingTime() { return globals::getGlobal<baseType> ("samplingTime"); }
 
 		static void registerStandardValues()
 		{
