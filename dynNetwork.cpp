@@ -667,27 +667,27 @@ namespace conedy
 
 		meanVar  dist = calculateDist(along);
 
-		if (dist.var > eps* skip)
+		if (sqrt(dist.var) > eps* skip)
 
 
 		{
-			out << dynNode::time << " " << dist.var << endl;
-			cout << "diverging. vorher:" << dist.var << endl;
+			out << dynNode::time << " " << sqrt(dist.var) << endl;
+			cout << "diverging. vorher:" <<sqrt( dist.var) << endl;
 			realignNow(along, eps, dist);
 			cout << "nachher:" << calculateDist(along).var << endl;
 		}
-		if ( dist.var < eps / skip  )
+		if ( sqrt(dist.var) < eps / skip  )
 		{
-			out << dynNode::time << " " << dist.var << endl;
-			cout << "converging. vorher:" << dist.var << endl;
+			out << dynNode::time << " " << sqrt(dist.var) << endl;
+			cout << "converging. vorher:" << sqrt(dist.var) << endl;
 			realignNow(along, eps, dist);
-			cout << "nachher:" << calculateDist(along).var << endl;
+			cout << "nachher:" << sqrt(calculateDist(along).var) << endl;
 		}
 		else
 		{
 
 
-			out << "#" << dynNode::time << " " << dist.var << endl;
+			out << "#" << dynNode::time << " " << sqrt(dist.var) << endl;
 
 
 
