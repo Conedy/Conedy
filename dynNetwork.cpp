@@ -674,7 +674,7 @@ namespace conedy
 			out << dynNode::time << " " << sqrt(dist.var) << endl;
 			cout << "diverging. vorher:" <<sqrt( dist.var) << endl;
 			realignNow(along, eps, dist);
-			cout << "nachher:" << calculateDist(along).var << endl;
+			cout << "nachher:" << sqrt(calculateDist(along).var) << endl;
 		}
 		if ( sqrt(dist.var) < eps / skip  )
 		{
