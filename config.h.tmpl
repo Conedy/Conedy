@@ -1,38 +1,42 @@
 
-# Specify, which parts of conedy should be build and installed. Please choose one of the following: conedy python-conedy conedy-src documentation
+# Specify, which parts of conedy should be build and installed. Please choose one of the following: conedy python-conedy conedy-src documentation condor
 
 todo = python-conedy conedy conedy-src documentation
 
 
-# Installation directory (with path)
+# Installation directory for the the conedy executable and the recompilation scripts. For convenience, choose a directory in your path.
 
-dirInstall = /home/alex/bin
+dirInstall = ${HOME}/bin
 
-# Installation directory for specific files
+# Installation directory for the source files of conedy. This allows other users to recompile conedy. 
+dirSrc = /usr/share/conedy
 
-dirsrc = /usr/share/conedy
 
+# Installation directory
+dirInstallRoot = /usr/local/bin
 
 # monitor directory for added nodes   
-addedDir = /home/alex/.config/conedy/addedNodes 
-buildDir = /home/alex/.config/conedy/build
+addedDir = ${HOME}/.config/conedy/addedNodes 
 
 
 
-#In case you install Conedy's sources and executables into a directory, which is not in userspace, recompilation will require root-priviledges. Choose the tool, which allows to acquire root-priviledges. sudo or kdesudo will work fine. For an installation in userspace noUserSpace can be left empty. 
-
-noUserSpace = sudo
 
 
+
+# Build directory. 
+buildDir = ${HOME}/.config/conedy/build
+
+
+#A place for the global config of conedy
 globalConfig = /etc/conedy.config
 
 
 #number of cores
-
 numberCores = `cat /proc/cpuinfo | grep processor | wc -l`
 
-VERSION = `git describe --tags`
 
+
+VERSION = `git describe --tags`
 
 
 #additional defines which determine the compilation of conedy.

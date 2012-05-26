@@ -148,6 +148,20 @@ conedy.install: conedy
 	cp -a recompileConedy ${dirInstall}
 	sed -i "s+/etc/conedy.config+${globalConfig}+g"   ${dirInstall}/recompileConedy 
 
+conedy-root.install: conedy
+	mkdir -p ${dirInstallRoot}
+	find  bin -name "conedy" -exec cp -fa {} ${dirInstallRoot}/conedy   \;
+	cp -a recompileConedy ${dirInstallRoot}
+	sed -i "s+/etc/conedy.config+${globalConfig}+g"   ${dirInstallRoot}/recompileConedy 
+
+
+conedy-root.uninstall:
+	rm -f ${dirInstallRoot}/conedy
+	rm -f ${dirInstallRoot}/recompileConedy
+	rm -f ${dirInstallRoot}/recompilePython-Conedy
+
+
+
 conedy.uninstall:
 	rm -f ${dirInstall}/conedy
 	rm -f ${dirInstall}/recompileConedy
@@ -165,6 +179,18 @@ python-conedy.install: python-conedy
 	python setup.py install --user
 	cp -a recompilePython-Conedy ${dirInstall}
 	sed -i "s+etc/conedy.config+${globalConfig}+g"   ${dirInstall}/recompilePython-Conedy 
+
+
+python-conedy-root.install: python-conedy
+	python setup.py install
+	cp -a recompilePython-Conedy ${dirInstallRoot}
+	sed -i "s+etc/conedy.config+${globalConfig}+g"   ${dirInstall}/recompilePython-Conedy 
+
+
+python-conedy-root.uninstall:
+	rm -f ${dirInstallRoot}/recompilePython-conedy
+	echo "Distutils does not support uninstalling. Please uninstall python-conedy manually."
+
 
 python-conedy.uninstall:
 	rm -f ${dirInstall}/recompilePython-conedy
@@ -186,7 +212,7 @@ conedy-src.install:
 	cp -r testing ${dirSrc}/
 	sed -i "s/^VERSION.*$$/VERSION = '${VERSION}'/" ${DESTDIR}/${globalConfig}
 	sed -i "s#^include config.h#include \$${HOME}/.config/conedy/config.h#g" ${dirSrc}/Makefile
-
+	
 
 
 doc:
