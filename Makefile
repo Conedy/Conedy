@@ -41,9 +41,10 @@ docstrings.h: addedNodes.sum.old    			# generate a c-header with docstrings for
 Parser.yy: Parser.yy.tokens Parser.yy.declaration generatedAddNewNodeTokens.yy generatedAddNewNode.yy  
 	cat Parser.yy.tokens generatedAddNewNodeTokens.yy Parser.yy.declaration generatedAddNewNode.yy > Parser.yy
 	echo ";" >> Parser.yy
+	bisonc++ Parser.yy
 
 
-Scanner.ll: Scanner.ll.begin Scanner.ll.end Scanner.ll.generated
+Scanner.ll: Scanner.ll.begin Scanner.ll.end Scanner.ll.generated Parser.yy
 	cat Scanner.ll.begin Scanner.ll.generated Scanner.ll.end > Scanner.ll
 
 
@@ -58,7 +59,7 @@ addNodes: revert										# generate sourcecode for node dynamics according to c
 	
 	
 	([ -d documentation ] && cp addedNodes.sum.old documentation/addedNodes.sum) || true
-	bisonc++ Parser.yy
+#	bisonc++ Parser.yy
 
 generatedAddNewNodeTokens.yy generatedAddNewNode.yy addedNodes.sum.old addNodesIfNecessary:		# check if new node configuration files have been added and call addNodes if necessary. A list of already added nodes is maintained in addedNodes.sum.old
 	sum addedNodes/*.cfg > addedNodes.sum; sum  ${addedDir}/*.cfg >> addedNodes.sum || true
@@ -75,7 +76,7 @@ revert:													# remove all added Nodes
 	rm -f testing/addedNodes/*/*.co
 	rm -f testing/addedNodes/*/expected/*
 	rm -f addedNodes.sum.old .countAddedNodes
-#	touch Parser.yy	# tricking bjam --build-dir=${buildDir} to call bisonc++ again after change of generatedAddNewNode.yy
+#	touch Parser.yy	# tricking bjam  to call bisonc++ again after change of generatedAddNewNode.yy
 
 
 string_config.h: config.h
@@ -110,25 +111,25 @@ conedy.test:
 
 
 conedy-src.test:   # if the testfile was already added, remove it and recompile first
-	[ -f "${dirsrc}/addedNodes/testNode1.cfg" ] && ( ${noUserSpace} rm ${dirsrc}/addedNodes/testNode1.cfg &&\
+	[ -f "${dirSrc}/addedNodes/testNode1.cfg" ] && ( ${noUserSpace} rm ${dirSrc}/addedNodes/testNode1.cfg &&\
 		recompileConedy &&\
 		recompilePython-Conedy) || true
-	${noUserSpace} cp testNode1.cfg ${dirsrc}/addedNodes
+	${noUserSpace} cp testNode1.cfg ${dirSrc}/addedNodes
 	recompileConedy
 	recompilePython-Conedy
-	cd ${dirsrc}/testing/addedNodes/ode;  ${noUserSpace} sh -c 'make -s test_./testNode1.co > testResult.conedy-src 2> testResult.conedy-src'
-	cd ${dirsrc}/testing/addedNodes/ode && ! grep failed testResult.conedy-src
-	cd ${dirsrc}/testing/addedNodes/ode;  ${noUserSpace} sh -c 'make -s test_./testNode1.py > testResult.conedy-src 2> testResult.conedy-src'
-	cd ${dirsrc}/testing/addedNodes/ode && ! grep failed testResult.conedy-src
-	grep succeded ${dirsrc}/testing/addedNodes/ode/testResult.conedy-src
-#	${noUserSpace} rm ${dirsrc}/addedNodes/testNode1.cfg
+	cd ${dirSrc}/testing/addedNodes/ode;  ${noUserSpace} sh -c 'make -s test_./testNode1.co > testResult.conedy-src 2> testResult.conedy-src'
+	cd ${dirSrc}/testing/addedNodes/ode && ! grep failed testResult.conedy-src
+	cd ${dirSrc}/testing/addedNodes/ode;  ${noUserSpace} sh -c 'make -s test_./testNode1.py > testResult.conedy-src 2> testResult.conedy-src'
+	cd ${dirSrc}/testing/addedNodes/ode && ! grep failed testResult.conedy-src
+	grep succeded ${dirSrc}/testing/addedNodes/ode/testResult.conedy-src
+#	${noUserSpace} rm ${dirSrc}/addedNodes/testNode1.cfg
 #	recompileConedy
 #	recompilePython-Conedy
 
 
 
 unstripped: clean addNodes Scanner.ll Parser.yy
-	bjam --build-dir=${buildDir} conedy -o unstripped.sh
+	bjam  conedy -o unstripped.sh
 	tail -n2 unstripped.sh | sed "s/,--strip-all//" | sed "s/conedy/conedy_unstripped/" > linkUnstripped.sh
 	make conedy	
 	bash linkUnstripped.sh	
@@ -136,14 +137,14 @@ unstripped: clean addNodes Scanner.ll Parser.yy
 
 
 conedy: addNodesIfNecessary Parser.yy Scanner.ll string_config.h				# build the bison-flex-interpreter of Conedy.
-	bjam --build-dir=${buildDir} conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
+	bjam  conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
 installAndTest: install test
 
 
 conedy.install: conedy
 	mkdir -p ${dirInstall}
-	find ${buildDir} -name "conedy" -exec cp -f {} ${dirInstall}/conedy   \;
+	find  bin -name "conedy" -exec cp -fa {} ${dirInstall}/conedy   \;
 	cp -a recompileConedy ${dirInstall}
 	sed -i "s+/etc/conedy.config+${globalConfig}+g"   ${dirInstall}/recompileConedy 
 
@@ -152,19 +153,16 @@ conedy.uninstall:
 	rm -f ${dirInstall}/recompileConedy
 	rm -f ${dirInstall}/recompilePython-Conedy
 
-#	sed "s#DIRSRC#${dirsrc}#g" recompileNeurosimIfNecessary.sh | sed "s#ADDEDDIR#${addedDir}#g" > ${dirInstall}/recompileNeurosimIfNecessary.sh
+#	sed "s#DIRSRC#${dirSrc}#g" recompileNeurosimIfNecessary.sh | sed "s#ADDEDDIR#${addedDir}#g" > ${dirInstall}/recompileNeurosimIfNecessary.sh
 #	chmod +x  ${dirInstall}/recompileNeurosimIfNecessary.sh
 
 
 python-conedy: addNodesIfNecessary docstrings.h # build the python bindings of Conedy.
-
-
-	
-	CFLAGS="-D$(SVNDEV) $(addprefix -D,${defines})" python setup.py build
+	CFLAGS="-D$(SVNDEV) -DPYTHON $(addprefix -D,${defines})" python setup.py build
 
 
 python-conedy.install: python-conedy
-	python setup.py install
+	python setup.py install --user
 	cp -a recompilePython-Conedy ${dirInstall}
 	sed -i "s+etc/conedy.config+${globalConfig}+g"   ${dirInstall}/recompilePython-Conedy 
 
@@ -173,21 +171,21 @@ python-conedy.uninstall:
 	echo "Distutils does not support uninstalling. Please uninstall python-conedy manually."
 
 conedy-src:
-#	cp testNode.cfg ${dirsrc} addedNodes
+#	cp testNode.cfg ${dirSrc} addedNodes
 
 
 conedy-src.install:
-	mkdir -p ${dirsrc}
-	cp `cat fileList`   ${dirsrc}/
-	cp generated* ${dirsrc}/
-	cp -r addedNodes ${dirsrc}/
+	mkdir -p ${dirSrc}
+	cp `cat fileList`   ${dirSrc}/
+	cp generated* ${dirSrc}/
+	cp -r addedNodes ${dirSrc}/
 	mkdir -p ${DESTDIR}/${dir ${globalConfig}}
 	cp config.h ${DESTDIR}/${globalConfig}
-#	ln -sf ${globalConfig} ${dirsrc}/config.h
+#	ln -sf ${globalConfig} ${dirSrc}/config.h
 	make -C testing clean
-	cp -r testing ${dirsrc}/
+	cp -r testing ${dirSrc}/
 	sed -i "s/^VERSION.*$$/VERSION = '${VERSION}'/" ${DESTDIR}/${globalConfig}
-	sed -i "s#^include config.h#include \$${HOME}/.config/conedy/config.h#g" ${dirsrc}/Makefile
+	sed -i "s#^include config.h#include \$${HOME}/.config/conedy/config.h#g" ${dirSrc}/Makefile
 
 
 
@@ -196,9 +194,9 @@ doc:
 
 
 conedy-src.uninstall:
-	rm -fr ${dirsrc}
+	rm -fr ${dirSrc}
 #	rm -fr ${globalConfig}
-#	cp -r testing ${dirsrc}/
+#	cp -r testing ${dirSrc}/
 
 python-conedy.recompile: 	
 	${noUserSpace} HOME=${HOME} make docstrings.h addNodesIfNecessary string_config.h
@@ -209,6 +207,14 @@ python-conedy.recompile:
 	${noUserSpace} rm recompilationPython-ConedyStarted
 
 
+CONEDYSRC = $(addprefix ${dirSrc}/, $(shell cat fileList) )
+
+
+copySrc:
+	mkdir -p $(buildDir)
+	ln -s $(CONEDYSRC) $(buildDir)  || true
+	ln -s ${dirSrc}/addedNodes $(buildDir) || true
+	cp -r ${dirSrc}/testing $(buildDir) || true
 
 
 conedy.recompile: 
@@ -219,7 +225,7 @@ clean: ${todo:=.clean}
 	make revert
 
 conedy.clean:
-	rm -rf ${buildDir}
+	rm -rf bin
 	rm -rf Parserbase.h
 	rm -f Scanner.ll
 	make revert
@@ -247,24 +253,24 @@ conedy-src.clean:
 
 
 win: string_config.h
-	bjam --build-dir=${buildDir} toolset=gcc-ming target-os=windows conedy  cflags=-D"ARCHITECTURE=win32" -j${numberCores}
+	bjam toolset=gcc-ming target-os=windows conedy  cflags=-D"ARCHITECTURE=win32" -j${numberCores}
 
 documentation.uninstall:
 
 debug: addNodesIfNecessary Scanner.ll Parser.yy string_config.h
 #	bisonc++ Parser.yy
-	bjam --build-dir=${buildDir} conedyDebug cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
+	bjam conedyDebug cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
 
 debug.install: debug
-	cp -f ${buildDir}/conedy/gcc*/debug/conedyDebug ${dirInstall} 
+	cp -f bin/gcc*/debug/conedyDebug ${dirInstall} 
 #	cp -f bin/gcc*/debug/conedyDebug  ${HOME}/bin/conedyDebug
 
 debug.clean:
 
-condor.install: conedy
-	cp -f ${buildDir}/conedy/gcc-*/debug/link-static/conedyCondor  ${dirInstall}   
-	cp -f ${buildDir}/conedy/gcc-*/release/link-static/conedy ${dirInstall}/conedy.LINUX.X86_64.EXE
+condor.install: conedy condor
+	cp -f bin/gcc-*/debug/link-static/conedyCondor  ${dirInstall}   
+	cp -f bin/gcc-*/release/link-static/conedy ${dirInstall}/conedy.LINUX.X86_64.EXE
 #	cp -f linux32/bin/gcc-mingw-4*/release/link-static/conedy ~/bin/conedy.LINUX.INTEL.EXE
 #	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT51.INTEL.EXE
 #	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT61.INTEL.EXE
@@ -274,9 +280,8 @@ condor.clean:
 
 
 condor: addNodesIfNecessary string_config.h               # build an interpreter which does not execute network-functions, but creates Condor-scripts which distribute the execution of loops (see vectorFor)
-	bjam --build-dir=${buildDir} conedyCondor cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
+	bjam  conedyCondor cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
 
-installCondor: 
 
 

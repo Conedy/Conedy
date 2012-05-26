@@ -17,6 +17,7 @@
 #include "command.h"
 
 
+#include <iomanip>
 
 
 
@@ -171,14 +172,32 @@ class randomVector : public command
 };
 
 
+
+class convertToNodeDescriptor : public expression <nodeDescriptor>
+{
+
+	private:
+		expression<int> *nExp;
+	public:
+		convertToNodeDescriptor(expression<int> *n) : nExp(n) {};
+		nodeDescriptor evaluate() { 
+			if (nExp->evaluate() < 0)
+				throw "Negative Node Number !";
+			return (nodeDescriptor)nExp->evaluate(); 
+		
+		};
+
+};
+
+
 //! TODO hier ist irgendwas faul. Der bison macht da eventuell unendlich lange Bäume, wenn int und double ineinander umwandelbar sind.
-class convertToInt : public expression <nodeDescriptor>
+class convertToInt : public expression <int>
 {
 	private:
 		expression<baseType> *dExp;
 	public:
 		convertToInt(expression<baseType> *d) : dExp(d) {};
-		nodeDescriptor evaluate() { return (nodeDescriptor)dExp->evaluate(); };
+		int evaluate() { return (nodeDescriptor)dExp->evaluate(); };
 };
 
 
@@ -208,11 +227,11 @@ class emptyInstruction : public instruction
 class loopInstruction : public instruction
 {
 	private:
-		expression<nodeDescriptor> * count;
+		expression<int> * count;
 		instruction *ins;
 
 	public:
-		loopInstruction(expression<nodeDescriptor> * c, instruction *i) : count (c), ins(i) {};
+		loopInstruction(expression<int> * c, instruction *i) : count (c), ins(i) {};
 		void execute() {
 			for (unsigned int i = 0; i < (unsigned int) count ->evaluate(); i++)
 				ins->execute();
@@ -379,7 +398,6 @@ class printInstruction : public instruction
 };
 
 
-#include <iomanip>
 
 class printInstructionDouble : public instruction
 {
@@ -436,12 +454,12 @@ class constantCommand : public expression<T>
 
 
 
-#define INTNETWORKFUNK(funktionName, net)  new constantCommand <nodeDescriptor> (0)
-#define INTNETWORKFUNK1(funktionName, net, arg1)  new constantCommand <nodeDescriptor> (0)
-#define INTNETWORKFUNK2(funktionName, net, arg1, arg2)    new constantCommand <nodeDescriptor> (0)
-#define INTNETWORKFUNK3(funktionName, net, arg1, arg2, arg3)    new constantCommand <nodeDescriptor> (0)
-#define INTNETWORKFUNK4(funktionName, net, arg1, arg2, arg3, arg4)    new constantCommand <nodeDescriptor> (0)
-#define INTNETWORKFUNK5(funktionName, net, arg1, arg2, arg3, arg4, arg5)    new constantCommand <nodeDescriptor> (0)
+#define INTNETWORKFUNK(funktionName, net)  new constantCommand <int> (0)
+#define INTNETWORKFUNK1(funktionName, net, arg1)  new constantCommand <int> (0)
+#define INTNETWORKFUNK2(funktionName, net, arg1, arg2)    new constantCommand <int> (0)
+#define INTNETWORKFUNK3(funktionName, net, arg1, arg2, arg3)    new constantCommand <int> (0)
+#define INTNETWORKFUNK4(funktionName, net, arg1, arg2, arg3, arg4)    new constantCommand <int> (0)
+#define INTNETWORKFUNK5(funktionName, net, arg1, arg2, arg3, arg4, arg5)    new constantCommand <int> (0)
 
 #define BASETYPENETWORKFUNK(funktionName, net)  new constantCommand <baseType> (0)
 #define BASETYPENETWORKFUNK1(funktionName, net, arg1)  new constantCommand <baseType> (0)
@@ -478,12 +496,12 @@ class constantCommand : public expression<T>
 #define BASETYPENETWORKFUNK1(funktionName, net, arg1)  new bindExpression <baseType> (bind(&networkTemplate::funktionName, net, (arg1)   ))
 #define BASETYPENETWORKFUNK2(funktionName, net, arg1, arg2)  new bindExpression <baseType> (bind(&networkTemplate::funktionName, net, (arg1), (arg2)   ))
 
-#define INTNETWORKFUNK(funktionName, net)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net))
-#define INTNETWORKFUNK1(funktionName, net, arg1)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net, (arg1)   ))
-#define INTNETWORKFUNK2(funktionName, net, arg1, arg2)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net, (arg1), (arg2)   ))
-#define INTNETWORKFUNK3(funktionName, net, arg1, arg2, arg3)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net, (arg1), (arg2), (arg3)   ))
-#define INTNETWORKFUNK4(funktionName, net, arg1, arg2, arg3, arg4)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net, (arg1), (arg2), (arg3), (arg4)   ))
-#define INTNETWORKFUNK5(funktionName, net, arg1, arg2, arg3, arg4, arg5)  new bindExpression <nodeDescriptor> (bind(&networkTemplate::funktionName, net, (arg1), (arg2), (arg3), (arg4), (arg5)   ))
+#define INTNETWORKFUNK(funktionName, net)  new bindExpression <int> (bind(&networkTemplate::funktionName, net))
+#define INTNETWORKFUNK1(funktionName, net, arg1)  new bindExpression <int> (bind(&networkTemplate::funktionName, net, (arg1)   ))
+#define INTNETWORKFUNK2(funktionName, net, arg1, arg2)  new bindExpression <int> (bind(&networkTemplate::funktionName, net, (arg1), (arg2)   ))
+#define INTNETWORKFUNK3(funktionName, net, arg1, arg2, arg3)  new bindExpression <int> (bind(&networkTemplate::funktionName, net, (arg1), (arg2), (arg3)   ))
+#define INTNETWORKFUNK4(funktionName, net, arg1, arg2, arg3, arg4)  new bindExpression <int> (bind(&networkTemplate::funktionName, net, (arg1), (arg2), (arg3), (arg4)   ))
+#define INTNETWORKFUNK5(funktionName, net, arg1, arg2, arg3, arg4, arg5)  new bindExpression <int> (bind(&networkTemplate::funktionName, net, (arg1), (arg2), (arg3), (arg4), (arg5)   ))
 
 
 #define NETWORKFUNK(funktionName, net)  new bindInstruction(bind(&networkTemplate::funktionName, net )) 
@@ -550,17 +568,17 @@ class  name ##Command ## type : public expression < type > \
 //		cout << "Result:" << ( ( left->evaluate()) x right->evaluate() )  ;
 
 
-DECLAREBINARY(+, plus, nodeDescriptor)
-DECLAREBINARY(-, minus, nodeDescriptor)
-DECLAREBINARY(*,times, nodeDescriptor)
-DECLAREBINARY(/,divide, nodeDescriptor)
+DECLAREBINARY(+, plus, int)
+DECLAREBINARY(-, minus, int)
+DECLAREBINARY(*,times, int)
+DECLAREBINARY(/,divide, int)
 
 DECLAREBINARY(+, plus, baseType)
 DECLAREBINARY(-,minus, baseType)
 DECLAREBINARY(*,times, baseType)
 DECLAREBINARY(/,divide, baseType)
 
-DECLAREBINARY(%,modolo, nodeDescriptor)
+DECLAREBINARY(%,modolo, int)
 
 
 
@@ -683,10 +701,10 @@ class stringCat<X,double> : public expression<string>
 
 			ss << left->evaluate();
 			double val = right->evaluate();
-			doublestring << val;
+			doublestring << setprecision(12) << val;
 			if (doublestring.str().find('.') == string::npos)
 				doublestring << ".0";
-			ss << doublestring.str();
+			ss   << doublestring.str();
 			return ss.str();
 		}
 
@@ -708,8 +726,7 @@ class randomBlueprintNode :  public nodeVirtualEdges <dynNode >
 	public:
 		virtual bool timeEvolution () {return 0;};
 		randomBlueprintNode(expression<nodeBlueprint*> *b1, expression<nodeBlueprint*> *b2, double p) : blueprint1(b1), blueprint2(b2), probability(p) {}	
-		virtual const nodeInfo getNodeInfo() { nodeInfo n = {_randomBlueprintNode_,_dynNode_};     return n; };
-		void printStatistics() { cout << "randomBlueprintNode" << endl; }		
+		virtual const nodeInfo getNodeInfo() { nodeInfo n = {_randomBlueprintNode_,_dynNode_, "randomBlueprintNode" };     return n; };
 		virtual const unsigned int dimension () const { return 0; }
 		virtual node * construct()
 		{

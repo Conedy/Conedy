@@ -64,7 +64,7 @@ namespace conedy {
 
 
 // RUNGE KUTTA No. 4
-		virtual void evolve(double time)
+		virtual void evolve(baseType time)
 		{
 			switch (stepType_int)
 			{
@@ -79,7 +79,7 @@ namespace conedy {
 
 		}
 
-		void rungeKutta4Step (double time)
+		void rungeKutta4Step (baseType time)
 		{
 
 
@@ -108,7 +108,7 @@ namespace conedy {
 		}
 
 
-		void eulerStep (double dt)
+		void eulerStep (baseType dt)
 		{
 			list<containerNode<baseType,1>*>::iterator it;
 			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)
@@ -126,7 +126,7 @@ namespace conedy {
 
 
 		//! erster schritt im Runge-Kutter 4.Ordnung
-		virtual void action1(double dt) {
+		virtual void action1(baseType dt) {
 			(*this)(this->x, &dydt[0]);
 
 			for (unsigned int i = 0;i < this->dimension(); i++)
@@ -137,21 +137,21 @@ namespace conedy {
 
 		}
 		//! zweiter schritt
-		virtual void action2(double dt) {
+		virtual void action2(baseType dt) {
 			(*this)(this->x, &dyt[0]);
 			for (unsigned int i = 0; i < this->dimension(); i++)
 				this->odeNodeTmp[i] = tmp2[i] + dt/2.0*dyt[i];
 
 		}
 		//! dritter Schritt
-		virtual void action3(double dt) {
+		virtual void action3(baseType dt) {
 			(*this)(this->x, &dym[0]);
 			for (unsigned int i = 0; i < this->dimension(); i++)
 				this->odeNodeTmp[i] = tmp2[i] + dt*dym[i];
 			dym += dyt;
 		}
 		//! vierter Schritt
-		virtual void action4(double dt) {
+		virtual void action4(baseType dt) {
 			(*this)(this->x, &dyt[0]);
 			for (unsigned int i = 0; i <this->dimension(); i++)
 				this->odeNodeTmp[i] = tmp2[i] + dt/6.0*(dydt[i] + dyt[i] + ((baseType)2.0)*dym)[i];

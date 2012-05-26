@@ -34,7 +34,7 @@ namespace conedy
 	const nodeKind  _sde_ = 1 << 5;
 	const nodeKind  _pco_ = 1 << 6;
 	const nodeKind  _pcoDelay_ = 1 << 7;
-	const nodeKind  _map_ = 1 << 8;
+	const nodeKind  _mapNode_ = 1 << 8;
 
 
 
@@ -127,7 +127,7 @@ namespace conedy
 			virtual const edgeInfo getEdgeInfo() {edgeInfo ei = {_edgeVirtual_,0, "edgeVirtual"}; return ei;}
 			virtual edgeVirtual *construct() { return new edgeVirtual ( *this ); };
 			virtual ostream& printStatistics ( ostream &os, int edgeVirtualVerbosity = 1);
-
+			virtual ~edgeVirtual() {}
 			virtual baseType getWeight() { return (baseType)1; }
 			virtual void setWeight(baseType newWeight)
 			{

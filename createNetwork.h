@@ -47,9 +47,9 @@ namespace conedy
 		static void registerStandardValues()
 		{
 			//! true when output should be written to binary files.
-			params<baseType>::registerStandard ( _createNetwork_,"outputBinary",0, 0.0 );
+			globals::registerGlobal<bool> ("outputBinary", false );
 		}
-		baseType inline writeBinary () { return p.getParams(0); }
+		bool  inline writeBinary () { return getGlobal<bool>("outputBinary"); }
 
 		params<baseType> p;
 

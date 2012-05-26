@@ -16,9 +16,9 @@ namespace conedy
 	}
 
 
-    void pcoBase::printStatistics(ostream &os, baseType nodeVerbosity, baseType edgeVerbosity ) {
+    void pcoBase::printStatistics(ostream &os, int nodeVerbosity, int edgeVerbosity ) {
         node::printStatistics(os, nodeVerbosity, edgeVerbosity);
-        if (nodeVerbosity > 1.5)
+        if (nodeVerbosity > 1)
         {
            params<baseType>::printStatistics();
            if (dimension() > 0)

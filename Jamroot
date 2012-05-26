@@ -19,9 +19,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 
-# Copyright David Abrahams 2006. Distributed under the Boost
-# Software License, Version 1.0. (See accompanying
-# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 # Specify the path to the Boost project.  If you move this project,
 # adjust this path to refer to the Boost root directory.
@@ -30,6 +27,8 @@
 
 #using gcc : ming  : i586-mingw32msvc-g++ : :  ;
 
+
+#using clang ;
 using gcc ;
 
 using bisonc++ ;

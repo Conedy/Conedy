@@ -31,7 +31,6 @@ map < string, networkTemplate* >command::networkVar;
 map < string, nodeBlueprint** >command::nodeVar;
 map < string, edgeBlueprint** >command::edgeVar;
 
-map < string, nodeDescriptor*> command::nodeDescriptorVar;
 
 map < string, string* >command::stringVar;
 vector < string > command::inputFiles;
@@ -91,7 +90,6 @@ void emptyFunction () {}
 			if (type == _baseType_) baseTypeVar[s] = new baseType();
 			if (type == _bool_) boolVar[s] = new bool();
 			if (type == _int_) intVar[s] = new int();
-			if (type == _nodeDescriptor_) nodeDescriptorVar[s] = new nodeDescriptor();
 		};
 
 

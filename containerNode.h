@@ -58,7 +58,7 @@ namespace conedy
 		public:
 			unsigned int startPosGslOdeNodeArray;
 
-			virtual baseType getState (unsigned int component) { return dynamicVariablesOfAllDynNodes[ startPosGslOdeNodeArray + component ]; }
+//			virtual baseType getState (unsigned int component) { return dynamicVariablesOfAllDynNodes[ startPosGslOdeNodeArray + component ]; }
 
 			static unsigned int containerDimension () { return usedIndices;}	
 			containerNode (networkElementType n ) : dynNode ( n), p ( _containerNode_ )		{		};

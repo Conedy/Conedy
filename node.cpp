@@ -83,7 +83,7 @@ namespace conedy
 				cout << "pco ";
 			if (getNodeInfo().theNodeKind & _pcoDelay_)
 				cout << "pcoDelay ";
-			if (getNodeInfo().theNodeKind & _map_)
+			if (getNodeInfo().theNodeKind & _mapNode_)
 				cout << "map ";
 			cout << endl;
 		}

@@ -4,7 +4,7 @@ network net;
 
 
 
-outputBinary= 1.0;
+outputBinary= true;
 samplingTime= 0.015;
 
 

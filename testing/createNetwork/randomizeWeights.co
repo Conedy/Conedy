@@ -1,13 +1,8 @@
-
-
-setRandomSeed(0);
-
-
 network n;
 
 
 
-n.cycle ( 100, 10,node(), weightedEdge());
+n.cycle ( 100, 1,node(), weightedEdge());
 
 n.randomizeWeights(uniform(0.0,1.50));
 

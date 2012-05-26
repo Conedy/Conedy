@@ -112,7 +112,7 @@ namespace conedy
 
 //	virtual streamIn(ifstream &in);
 //	virtual streamOut(ofstream &out);
-			virtual void printStatistics()   { cout << params<baseType>::getParams ( 0 ) << " "<< params<baseType>::getParams ( 1 ) << " " << params<baseType>::getParams ( 2 ) << " " << params<baseType>::getParams ( 3 ) <<endl;cout << "pulseCoupledExcitatoryNeuron" << endl; this->printStatistics(); }
+//			virtual void printStatistics()   { cout << params<baseType>::getParams ( 0 ) << " "<< params<baseType>::getParams ( 1 ) << " " << params<baseType>::getParams ( 2 ) << " " << params<baseType>::getParams ( 3 ) <<endl;cout << "pulseCoupledExcitatoryNeuron" << endl; this->printStatistics(); }
 
 
 

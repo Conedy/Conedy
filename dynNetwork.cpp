@@ -49,6 +49,12 @@ namespace conedy
 
 
 
+	void dynNetwork::snapshotAtEventSignature ( nodeDescriptor eventSignature)
+	{
+
+		eventHandler::insertVisiterAtSignature(bind(&dynNetwork::snapshot,this),eventSignature);
+	}
+
 
 	void dynNetwork::snapshotAtEvent( nodeDescriptor eventNumber)
 	{

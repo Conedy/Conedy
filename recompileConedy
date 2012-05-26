@@ -22,11 +22,11 @@
 
 
 
-
 include ${HOME}/.config/conedy/config.h
 
 
 doit: ${todo}
+
 
 
 conedy:
@@ -41,20 +41,21 @@ conedy-src: recompile
 
 
 recompile: ${HOME}/.config/conedy/config.h
+	[ -f ${buildDir}/Makefile ] || make -C ${dirSrc} copySrc
 	TMP=`mktemp`; \
-	cd ${dirsrc}; sum addedNodes/*.cfg > $$TMP; \
+	cd ${buildDir}; sum addedNodes/*.cfg > $$TMP; \
 	[ -d ${addedDir} ] && [ "$$(ls -A ${addedDir})" ] && (find ${addedDir} -name "*.cfg" | sort | xargs sum >> $$TMP) || true  ; \
-	diff $$TMP ${dirsrc}/addedNodes.sum.old  || ${noUserSpace} touch ${dirsrc}/recompilationConedyStarted ${dirsrc}/recompilationPython-ConedyStarted 
-	[ -f ${dirsrc}/recompilationConedyStarted  ] 
-	make -C ${dirsrc} conedy.recompile  
+	diff $$TMP ${buildDir}/addedNodes.sum.old  || touch ${buildDir}/recompilationConedyStarted ${buildDir}/recompilationPython-ConedyStarted 
+	[ -f ${buildDir}/recompilationConedyStarted  ] 
+	make -C ${buildDir} conedy.recompile  
 
 
 
 
 ${HOME}/.config/conedy/config.h:
 	mkdir -p ${HOME}/.config/conedy
-	[ -f /etc/conedy.config ] && ln -s /etc/conedy.config ${HOME}/.config/conedy/config.h && recompileConedy 
-	
+	[ -f /etc/conedy.config ] && ln -s /etc/conedy.config ${HOME}/.config/conedy/config.h && recompileConedy
 
-	
+#	ln -s ${CONEDYFILES} ${buildDir}	
+
 .PHONY:	recompile conedy python-conedy documentation conedy-src

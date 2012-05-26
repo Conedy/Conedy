@@ -7,8 +7,8 @@ net = co.network()
 net.addNode(co.roessler())
 
 
-co.set("network_nodeVerbosity" ,0.0)
-co.set("network_edgeVerbosity" ,0.0)
+co.set("nodeVerbosity" ,0)
+co.set("edgeVerbosity" ,0)
 
 
 print "nodeVerbosity =0.0, edgeVerbosity=0.0"+"\n"

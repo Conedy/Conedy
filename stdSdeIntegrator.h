@@ -60,7 +60,7 @@ namespace conedy {
 
 
 // RUNGE KUTTA No. 4
-		virtual void evolve(double time)
+		virtual void evolve(baseType time)
 		{
 			switch (stepType_int)
 			{

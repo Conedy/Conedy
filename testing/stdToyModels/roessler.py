@@ -3,11 +3,11 @@ import conedy as co
 
 net = co.network()
 
+co.set("samplingTime" , 0.01)
 co.set("roessler_omega" , 0.89)
 co.set("roessler_a" , 0.165)
 co.set("roessler_b" , 0.2)
 co.set("roessler_c" , 10.0)
-co.set("samplingTime" , 0.01)
 
 
 

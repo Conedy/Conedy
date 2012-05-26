@@ -83,7 +83,7 @@ namespace conedy
 			virtual const unsigned int dimension() const { return 1;}
 
 
-			virtual void printStatistics(ostream &os, baseType nodeVerbosity, baseType edgeVerbosity );
+			virtual void printStatistics(ostream &os, int nodeVerbosity, int edgeVerbosity );
 
 
 

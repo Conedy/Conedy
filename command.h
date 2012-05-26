@@ -12,10 +12,9 @@
 #define _baseType_ 1
 #define _network_ 2
 #define _node_ 3
-#define _nodeDescriptor_ 4
+#define _int_ 4
 #define _string_ 5
 #define _bool_ 6
-#define _int_ 7
 
 
 using namespace std;
@@ -229,20 +228,6 @@ inline edgeBlueprint**  command::retrieve<edgeBlueprint *> (string s)
 
 
 
-
-	template <>
-inline nodeDescriptor*  command::retrieve<nodeDescriptor> (string s)
-{
-	if (!contextCheck (s, _nodeDescriptor_))
-	{
-		cout << "ContextError!" << endl;
-		cout << "Long:" << "s" << endl;
-		exit(1);
-	}
-	else
-		return nodeDescriptorVar[s];
-
-}
 
 
 

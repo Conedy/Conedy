@@ -447,7 +447,7 @@ void network::addWeightedEdge ( nodeDescriptor s, nodeDescriptor t, baseType wei
 {
 
 	nodeKind nk = node::theNodes[s]->getNodeInfo().theNodeKind;
-	if (nk & _ode_ || nk & _sde_ || nk & _map_)
+	if (nk & _ode_ || nk & _sde_ || nk & _mapNode_)
 		node::theNodes[t]->link ( s, weight );
 	else
 		node::theNodes[s]->link ( t, weight );
@@ -460,7 +460,7 @@ void network::addWeightedEdge ( nodeDescriptor s, nodeDescriptor t, baseType wei
 bool network::isLinked ( nodeDescriptor i, nodeDescriptor j)
 {
 	nodeKind nk = node::theNodes[i]->getNodeInfo().theNodeKind;
-	if (nk & _ode_ || nk & _sde_ || nk & _map_)
+	if (nk & _ode_ || nk & _sde_ || nk & _mapNode_)
 		return node::theNodes[j]-> isLinked (node::theNodes[i]);
 	else
 		return node::theNodes[i]-> isLinked (node::theNodes[j]);
@@ -471,7 +471,7 @@ bool network::isLinked ( nodeDescriptor i, nodeDescriptor j)
 void network::addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l )
 { // differential equations mirror the direction of coupling, for performance reasons.
 	nodeKind nk = node::theNodes[s]->getNodeInfo().theNodeKind;
-	if (nk & _ode_ || nk & _sde_ || nk & _map_)
+	if (nk & _ode_ || nk & _sde_ || nk & _mapNode_)
 		node::theNodes[t]->link ( s, l );
 	else
 		node::theNodes[s]->link ( t, l );

@@ -34,6 +34,7 @@ namespace conedy
 		}
 
 		void snapshotAtEvent( nodeDescriptor eventNumber);
+		void snapshotAtEventSignature( nodeDescriptor eventNumber);
 
 
 		void snapshotAtEventOfNode (nodeDescriptor nodeNumber, unsigned int eventSignature);

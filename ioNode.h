@@ -16,7 +16,7 @@
 #include "dynNode.h"
 #include <iomanip>
 #include <map>
-
+#include "globals.h"
 
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <boost/iostreams/filtering_stream.hpp>
@@ -38,7 +38,7 @@ using namespace boost::iostreams;
 namespace conedy
 {
 
-	class streamOutNodeBinary : public dynNode
+	class streamOutNodeBinary : public dynNode, private globals
 	{
 
 		protected:
@@ -81,7 +81,6 @@ namespace conedy
 			};
 	//		virtual node *construct();
 
-//			virtual void printStatistics()   { cout << "StreamOutNode" << endl; node::printStatistics(); }
 
 
 			streamOutNodeBinary ( const streamOutNodeBinary& n ) : dynNode  (n) { localStreamNumber = n.localStreamNumber; counter[localStreamNumber]++; }
@@ -94,7 +93,7 @@ namespace conedy
 
 
 	//! Klasse, die Werte in Dateien wegschreibt. Verwendet Boost-iostreamm damit Dateien direkt on-the-fly gezipt werden können. Die Ausgabeobjekte werden statisch verwaltet, damit verschiedene Nodes in dieselbe Datei schreiben können.
-	class streamOutNode : public dynNode
+	class streamOutNode : public dynNode, private globals
 	{
 
 		protected:
@@ -119,9 +118,10 @@ namespace conedy
 			int localStreamNumber;
 
 
-			bool inline zipOutput() { return ( bool ) params<baseType>::getParams ( 0 ); }
-			bool inline appendOutput() { return ( bool ) params<baseType>::getParams ( 1 ); }
-			unsigned int inline precision() { return ( unsigned int ) params<baseType>::getParams (2 ); }
+			bool inline zipOutput() { return globals::getGlobal<bool> ("outputCompress"); }
+			  
+			bool inline appendOutput(){ return globals::getGlobal<bool> ("outputAppend"); } 
+			unsigned int inline precision() { return globals::getGlobal<int> ("outputPrecision");}
 		public:
 			bool inline binary() { return (bool) params<baseType>::getParams (3); }
 
@@ -133,10 +133,10 @@ namespace conedy
 			virtual bool timeEvolution () { return 0; }
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _streamOutNode_,"outputCompress",0,0.0 );
-				params<baseType>::registerStandard ( _streamOutNode_,"outputAppend",1,0.0 );
-				params<baseType>::registerStandard ( _streamOutNode_,"outputPrecision",2,15.0 );
-//				params<baseType>::registerStandard ( _streamOutNode_,"streamOutNode_binary",3, 0.0 );
+				globals::registerGlobal<bool> ("outputCompress",false);
+				globals::registerGlobal<bool> ("outputAppend", false);
+				globals::registerGlobal<int> ("outputPrecision",15);
+
 			}
 
 			//! Ausgabenodes brauchen keinen Speicherplatz von dynNode reserviert zu bekommen -> dimension = 0
@@ -161,7 +161,6 @@ namespace conedy
 
 
 
-//			virtual void printStatistics()   { cout << "StreamOutNode" << endl; node::printStatistics(); }
 
 
 
@@ -283,7 +282,6 @@ namespace conedy
 
 //			virtual void swap () { this->state = x; };
 
-//			virtual void printStatistics()   { cout << "StreamInNode" << endl; this->printStatistics(); }
 
 
 			streamInNode ( const streamInNode& n ) : dynNode(n) { localStreamNumber = n.localStreamNumber; counter[localStreamNumber]++; }
@@ -291,7 +289,7 @@ namespace conedy
 			//		virtual void streamIn(outStream & out);
 			//		streamInNode(string s, string command);
 
-			virtual const nodeInfo getNodeInfo() { nodeInfo n = {_streamInNode_,_inNode_|_dynNode_ };     return n; };
+			virtual const nodeInfo getNodeInfo() { nodeInfo n = {_streamInNode_,_inNode_|_dynNode_ , "streamInNode"};     return n; };
 
 
 };

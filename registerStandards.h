@@ -25,7 +25,7 @@ void registerStandards()
 	network::registerStandardValues();
 	pcoDelay::registerStandardValues();
 	pulseCoupledExcitatoryNeuron::registerStandardValues();
-	sigEdgeParams::registerStandardValues();
+//	sigEdgeParams::registerStandardValues();
 	streamInNode::registerStandardValues();
 	streamOutNode::registerStandardValues();
 	sdeNode::registerStandardValues();
