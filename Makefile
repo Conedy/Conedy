@@ -283,7 +283,7 @@ conedy.clean:
 	rm -rf bin
 	rm -rf Parserbase.h
 	rm -f Scanner.ll
-	rm string_config.h
+	rm -f string_config.h
 	make revert
 
 python-conedy.clean:
