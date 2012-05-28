@@ -1,6 +1,9 @@
-#ifdef DOUBLE
 
 #include "gslOdeNode.h"
+
+
+#ifdef DOUBLE
+
 
 
 namespace conedy

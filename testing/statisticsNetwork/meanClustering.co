@@ -7,5 +7,5 @@ print newline;
 
 net.clear();
 net.torus(10,10,1.5, roessler(), edge());
-print "Should be 12 / 28:"+net.meanClustering();
+print "Should be 12 / 28:"+net.meanClustering() + newline;
 

@@ -1,6 +1,9 @@
 #ifndef gslOdeNode_h
 #define gslOdeNode_h gslOdeNode_h
 
+
+#include "baseType.h"
+
 #ifdef DOUBLE
 
 

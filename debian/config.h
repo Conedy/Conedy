@@ -1,49 +1,52 @@
 
+# Specify, which parts of conedy should be build and installed. Please choose one of the following: conedy python-conedy conedy-src documentation condor
+
+todo = python-conedy-root conedy-root conedy-src documentation
 
 
-# Please choose on of the following conedy python-conedy conedy-src
+# Installation directory for the the conedy executable and the recompilation scripts. For convenience, choose a directory in your path.
 
-todo =  conedy conedy-src documentation
+dirInstall = ${HOME}/bin
+
+# Installation directory for the source files of conedy. This allows other users to recompile conedy. 
+dirSrc = ${DESTDIR}/usr/share/conedy
 
 
+# Installation directory
+dirInstallRoot = ${DESTDIR}/usr/local/bin
 
-# Installation directory (with path)
-# Example:
- dirinstall = ${DESTDIR}/usr/bin/
-
-#dirinstall = CHANGEME
-
-# Installation directory for specific files 
-# Example:
- dirsrc = ${DESTDIR}/usr/share/conedy
-
-#dirsrc = CHANGEME
+# monitor directory for added nodes   
+addedDir = ${HOME}/.config/conedy/addedNodes 
 
 
 
-#addedDir = CHANGEME
-
-# A directory which is monitored by Conedy for files which specify new nodes with user-added dynamics.
-
-addedDir = ${HOME}/.config/conedy/addedNodes
 
 
-#In case you install Conedy's sources and executables into a directory, which is not in userspace, recompilation will require root-priviledges. Choose the tool, which allows to acquire root-priviledges. sudo or kdesudo will work fine. For an installation in userspace noUserSpace can be left empty. 
 
-noUserSpace = sudo
+# Build directory. 
+buildDir = ${HOME}/.config/conedy/build
 
 
+#A place for the global config of conedy
 globalConfig = /etc/conedy.config
 
-#number of cores
 
+#number of cores
 numberCores = `cat /proc/cpuinfo | grep processor | wc -l`
+
+
+#Compile the python extension with bjam, which is much faster as distutils has no real dependenccy resolution and does not use more than one cpu core. If pythonBjam is not defined at all, distutils will build the extension.
+pythonBjam = true 
 
 
 VERSIONLONG = `head debian/changelog -n1 | awk '{print $$2}'  | sed "s/(//" | sed "s/)//" `
 
 VERSION= `head debian/changelog -n1 | awk '{print $$2}'  | sed "s/(//" | sed "s/)//" | sed "s/-.*//`
 
+#additional defines which determine the compilation of conedy.
+#chose CALENDARQUEUE if you want conedy tu use a calendarqueue instead of a relaxed heap as priority queue for events
+#chose DOUBLE or LDOUBLE as basetype for all computations
+defines = DOUBLE
 
 .SILENT:	all
 

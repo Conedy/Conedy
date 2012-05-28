@@ -639,16 +639,16 @@ namespace conedy
 		if (counter==skip)
 		{
 			counter = 0;
-			out << dynNode::time << " " << dist.mean << " " << sqrt(dist.var) << endl;
-			cout << "vorher:" << dist.mean << " " << sqrt(dist.var) << endl;
+			out << dynNode::time << " " << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
+			cout << "vorher:" << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
 			realignNow(along, eps, dist);
 			meanVar newDist = calculateDist(along);
-			cout << "nachher:" << newDist.mean << " " << sqrt(newDist.var) << endl;
+			cout << "nachher:" << setprecision(20) << newDist.mean << " " << sqrt(newDist.var) << endl;
 		}
 		else
 		{
 			counter++;
-			out << "#" << dynNode::time << " " << sqrt(dist.var) << endl;
+			out << "#" << setprecision(20) << dynNode::time << " " << sqrt(dist.var) << endl;
 
 		}
 
@@ -677,17 +677,17 @@ namespace conedy
 
 
 		{
-			out << dynNode::time << " " << sqrt(dist.var) << endl;
-			cout << "diverging. vorher:" <<sqrt( dist.var) << endl;
+			out << dynNode::time << " " << setprecision (20) << sqrt(dist.var) << endl;
+			cout << "diverging. vorher:" <<setprecision (20) << sqrt( dist.var) << endl;
 			realignNow(along, eps, dist);
-			cout << "nachher:" << sqrt(calculateDist(along).var) << endl;
+			cout << "nachher:" <<setprecision (20) <<  sqrt(calculateDist(along).var) << endl;
 		}
 		if ( sqrt(dist.var) < eps / skip  )
 		{
-			out << dynNode::time << " " << sqrt(dist.var) << endl;
-			cout << "converging. vorher:" << sqrt(dist.var) << endl;
+			out << dynNode::time << " " <<setprecision (20) <<  sqrt(dist.var) << endl;
+			cout << "converging. vorher:" <<setprecision (20) <<  sqrt(dist.var) << endl;
 			realignNow(along, eps, dist);
-			cout << "nachher:" << sqrt(calculateDist(along).var) << endl;
+			cout << "nachher:" <<setprecision (20) <<  sqrt(calculateDist(along).var) << endl;
 		}
 		else
 		{

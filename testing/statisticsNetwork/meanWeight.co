@@ -4,7 +4,6 @@ net.randomNetwork(100, 0.2, kuramoto(), weightedEdge());
 
 net.randomizeWeights( uniform (0.0,1.5) );
 
-print "Should be close to 0.75:" ;
-print net.meanWeight() ;
+print "Should be close to 0.75:" + net.meanWeight() + newline ;
 
 

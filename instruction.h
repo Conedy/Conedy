@@ -202,12 +202,12 @@ class convertToInt : public expression <int>
 
 
 //! TODO hier ist irgendwas faul. Der bison macht da eventuell unendlich lange Bäume, wenn int und double ineinander umwandelbar sind.
-class convertToBaseType : public expression <baseType>
+class convertIntegerToBaseType : public expression <baseType>
 {
 	private:
-		expression<nodeDescriptor> *dExp;
+		expression<int> *dExp;
 	public:
-		convertToBaseType(expression<nodeDescriptor> *d) : dExp(d) {};
+		convertIntegerToBaseType(expression<int> *d) : dExp(d) {};
 		baseType evaluate() { return (baseType)dExp->evaluate(); };
 };
 

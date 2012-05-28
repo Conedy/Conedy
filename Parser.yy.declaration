@@ -502,9 +502,9 @@ random		: GAUSSIAN '(' baseType ',' baseType ')'
 
 
 argList		: argList ',' baseType  { $1->push_back($3); }
-//			| argList ',' integer { $1->push_back(new convertToBaseType($3)); }
-		| baseType { $$ = new expressionVector<baseType> (); $$->push_back($1); };
-//		| integer { $$ = new expressionVector<baseType> (); $$->push_back(new convertToBaseType($1)); };
+			| argList ',' integer { $1->push_back(new convertIntegerToBaseType($3)); }
+		| baseType { $$ = new expressionVector<baseType> (); $$->push_back($1); }
+		| integer { $$ = new expressionVector<baseType> (); $$->push_back(new convertIntegerToBaseType($1)); };
 
 
 randomList	: randomList ',' random { $1->push_back(((bindExpression<baseType> *)$3) -> _f); }

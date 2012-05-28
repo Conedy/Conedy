@@ -12,7 +12,11 @@
 #include "spatialNetwork.h"
 //#include "stdOdeIntegrator.h"
 
+#include "sde.h"
 #include "ode.h"
+#include "mapNode.h" 
+#include "pulseCoupledExcitatoryNeuron.h" 
+#include "phaseResponseOscillators.h" 
 //namespace conedy {
 //typedef odeNode stdOdeIntegrator;   // Runge-Kutta Ord4
 
@@ -26,9 +30,6 @@
 #include "statisticsNetwork.h"
 
 // #include "dynNode.h" 
-#include "mapNode.h" 
-#include "pulseCoupledExcitatoryNeuron.h" 
-#include "phaseResponseOscillators.h" 
 #include "nodeImplement.h"
 
 // addNewNodes here

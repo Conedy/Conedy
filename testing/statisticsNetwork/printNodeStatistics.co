@@ -3,25 +3,25 @@ network net;
 
 net.addNode(roessler());
 
-network_nodeVerbosity =0.0;   
-network_edgeVerbosity =0.0;
-print "nodeVerbosity =0.0, edgeVerbosity=0.0"+newline;
+nodeVerbosity =0;   
+edgeVerbosity =0;
+print "nodeVerbosity =0, edgeVerbosity=0"+newline;
 print "-------------------------------------"+newline;
 net.printNodeStatistics();
 print newline;
 print newline;
 
-network_nodeVerbosity =1.0;
-network_edgeVerbosity =0.0;
-print "nodeVerbosity =1.0, edgeVerbosity=0.0"+newline;
+nodeVerbosity =1;
+edgeVerbosity =0;
+print "nodeVerbosity =1, edgeVerbosity=0"+newline;
 print "-------------------------------------"+newline;
 net.printNodeStatistics();
 print newline;
 print newline;
 
-network_nodeVerbosity =2.0;
-network_edgeVerbosity =0.0;
-print "nodeVerbosity =2.0, edgeVerbosity=0.0"+newline;
+nodeVerbosity =2;
+edgeVerbosity =0;
+print "nodeVerbosity =2, edgeVerbosity=0"+newline;
 print "-------------------------------------"+newline;
 net.printNodeStatistics();
 print newline;
@@ -33,9 +33,9 @@ net.addNode(roessler());
 net.addEdge(0,1,1.0);
 
 
-network_nodeVerbosity =2.0;
-network_edgeVerbosity =1.0;
-print "nodeVerbosity =2.0, edgeVerbosity=1.0"+newline;
+nodeVerbosity =2;
+edgeVerbosity =1;
+print "nodeVerbosity =2, edgeVerbosity=1"+newline;
 print "-------------------------------------"+newline;
 net.printNodeStatistics();
 print newline;
@@ -43,9 +43,9 @@ print newline;
 
 
 
-network_nodeVerbosity =2.0;
-network_edgeVerbosity =2.0;
-print "nodeVerbosity =2.0, edgeVerbosity=2.0"+newline;
+nodeVerbosity =2;
+edgeVerbosity =2;
+print "nodeVerbosity =2, edgeVerbosity=2"+newline;
 print "-------------------------------------"+newline;
 net.printNodeStatistics();
 print newline;

@@ -31,9 +31,13 @@ doit: ${todo}
 
 conedy:
 
+conedy-root:
+
 condor:
 
 python-conedy:
+
+python-conedy-root:
 
 documentation:
 
@@ -41,12 +45,13 @@ conedy-src: recompile
 
 
 recompile: ${HOME}/.config/conedy/config.h
-	TMP=`mktemp`; cd ${dirSrc};\
-	cd ${dirSrc}; sum addedNodes/*.cfg > $$TMP; \
+	[ -f ${buildDir}/Makefile ] || make -C ${dirSrc} copySrc
+	TMP=`mktemp`; cd ${buildDir};\
+	cd ${buildDir}; sum addedNodes/*.cfg > $$TMP; \
 	[ -d ${addedDir} ] && [ "$$(ls -A ${addedDir})" ] && (find ${addedDir} -name "*.cfg" | sort | xargs sum >> $$TMP) || true  ; \
-	diff $$TMP ${dirSrc}/addedNodes.sum.old  || ${noUserSpace} touch ${dirSrc}/recompilationConedyStarted ${dirSrc}/recompilationPython-ConedyStarted 
-	[ -f ${dirSrc}/recompilationPython-ConedyStarted  ] 
-	make -C ${dirSrc} python-conedy.recompile  
+	diff $$TMP ${buildDir}/addedNodes.sum.old  || ${noUserSpace} touch ${buildDir}/recompilationConedyStarted ${buildDir}/recompilationPython-ConedyStarted 
+	[ -f ${buildDir}/recompilationPython-ConedyStarted  ] 
+	make -C ${buildDir} python-conedy.recompile  
 
 
 

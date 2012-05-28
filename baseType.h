@@ -25,6 +25,8 @@ typedef double baseType;
 #elif defined LDOUBLE
 typedef long double baseType;
 #else
+
+#define DOUBLE
 typedef double baseType;
 
 #endif
