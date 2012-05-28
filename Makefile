@@ -198,13 +198,13 @@ python-conedy: addNodesIfNecessary docstrings.h # build the python bindings of C
 	CFLAGS="-D$(SVNDEV) -DPYTHON $(addprefix -D,${defines})" python setup.py build
 
 
-python-conedy.install: python-conedy
+python-conedy.install: python-conedy 
 	python setup.py install --user
 	cp -a recompilePython-Conedy ${dirInstall}
 	sed -i "s+etc/conedy.config+${globalConfig}+g"   ${dirInstall}/recompilePython-Conedy 
 
 
-python-conedy-root: addSharedNodesIfNecessary
+python-conedy-root: addSharedNodesIfNecessary string_config.h
 	CFLAGS="-D$(SVNDEV) -DPYTHON $(addprefix -D,${defines})" python setup.py build
 
 
@@ -283,6 +283,7 @@ conedy.clean:
 	rm -rf bin
 	rm -rf Parserbase.h
 	rm -f Scanner.ll
+	rm string_config.h
 	make revert
 
 python-conedy.clean:
