@@ -22,14 +22,14 @@
 
 # Specify the path to the Boost project.  If you move this project,
 # adjust this path to refer to the Boost root directory.
-#use-project boost 
+#use-project boost
 #  : ../../.. ;
 
 #using gcc : ming  : i586-mingw32msvc-g++ : :  ;
 
 
 #using clang ;
-using gcc ;
+#using gcc ;
 
 using bisonc++ ;
 using flex++ ;
@@ -57,7 +57,7 @@ obj gslNoise : gslNoise.cpp z gsl gslcblas ;
 
 
 #lib xxgen
-#  : 
+#  :
 #  Parser.y
 #  Scanner.l
 #  ;
@@ -77,8 +77,8 @@ objects =   fullNetwork.cpp  phaseResponseOscillators.cpp sdeNode.cpp  globals.c
 
 exe conedyCondor : Parser.yy Scanner.ll command.cpp  conedy.cpp $(objects)   m z boost_iostreams gsl gslcblas : <cxxflags>-DCONDOR debug <link>static  <include>./ ;
 exe conedy	:   Parser.yy Scanner.ll command.cpp  conedy.cpp $(objects)  m z boost_iostreams gsl gslcblas stdc++ : release <link>static <cxxflags>-g <include>./ ;
-exe conedyDebug  : Parser.yy Scanner.ll command.cpp  conedy.cpp $(objects)  z boost_iostreams gsl gslcblas : debug <cxxflags>-DDEBUG <link>shared <include>./ ; 
-#exe neuroDebug  :  conedy.cpp $(objects) m  z boost_iostreams gsl gslcblas  : debug <link>shared <include>./ ; 
+exe conedyDebug  : Parser.yy Scanner.ll command.cpp  conedy.cpp $(objects)  z boost_iostreams gsl gslcblas : debug <cxxflags>-DDEBUG <link>shared <include>./ ;
+#exe neuroDebug  :  conedy.cpp $(objects) m  z boost_iostreams gsl gslcblas  : debug <link>shared <include>./ ;
 
 
 

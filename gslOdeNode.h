@@ -83,6 +83,7 @@ namespace conedy
 					gsl_odeiv2_control_free(gslControl);
 					gsl_odeiv2_step_free(gslStep);
 					stepType = NULL;
+					alreadyInitialized = false;
 				}
 			}
 
@@ -97,7 +98,7 @@ namespace conedy
 					if (alreadyInitialized)  // free gsl-objects
 					{
 						gsl_odeiv2_step_free(gslStep);
-						gsl_odeiv2_evolve_free(gslEvolve);
+ 						gsl_odeiv2_evolve_free(gslEvolve);
 						gsl_odeiv2_control_free(gslControl);
 					}
 
