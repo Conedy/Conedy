@@ -16,7 +16,7 @@ net.addNode(roessler());
 net.addNode(lorenz());
 
 
-net.addEdge(1,0,2.5);
+net.addEdge(1,0,weightedEdge(2.5));
 
 
 net.setState(0, 0.0, 0.0, 0.0);
