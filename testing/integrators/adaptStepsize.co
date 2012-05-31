@@ -1,4 +1,4 @@
-network net;
+n	etwork N;
 
 roessler_omega = 0.89;
 roessler_a = 0.165;
@@ -12,34 +12,32 @@ odeStepSize = 0.001;
 
 odeIsAdaptive = false;
 
-net.addNode(roessler());
-net.setState(0, 0.0, 0.0, 0.0 );
+int i = N.addNode(roessler());
+N.setState(i, 0.0, 0.0, 0.0 );
+N.observeTime("output/adaptStepsize.co.series");
+N.observe(i,"output/adaptStepsize.co.series",component(0));
+N.observe(i,"output/adaptStepsize.co.series",component(1));
+N.observe(i,"output/adaptStepsize.co.series",component(2));
 
-net.observeTime("output/adaptStepsize.co.series");
-net.observe(0,"output/adaptStepsize.co.series",component(0));
-net.observe(0,"output/adaptStepsize.co.series",component(1));
-net.observe(0,"output/adaptStepsize.co.series",component(2));
+N.evolve(0.0,1500.0);
 
-net.evolve(0.0,1500.0);
-
-net.clear();
+N.clear();
 
 
 
 odeIsAdaptive = true;
 
+odeStepSize = 0.001;
 
-int nodeNumber;
 
+i = N.addNode(roessler());
+N.setState(i, 0.0, 0.0, 0.0 );
 
-nodeNumber = net.addNode(roessler());
-net.setState(nodeNumber, 0.0, 0.0, 0.0 );
+N.observeTime("output/adaptStepsize.co.series2");
+N.observe(i,"output/adaptStepsize.co.series2",component(0));
+N.observe(i,"output/adaptStepsize.co.series2",component(1));
+N.observe(i,"output/adaptStepsize.co.series2",component(2));
 
-net.observeTime("output/adaptStepsize.co.series2");
-net.observe(nodeNumber,"output/adaptStepsize.co.series2",component(0));
-net.observe(nodeNumber,"output/adaptStepsize.co.series2",component(1));
-net.observe(nodeNumber,"output/adaptStepsize.co.series2",component(2));
-
-net.evolve(0.0,1500.0);
+N.evolve(0.0,1500.0);
 
 
