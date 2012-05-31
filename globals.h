@@ -75,7 +75,11 @@ class globals
 				cerr <<  "Type mismatch: You try to get " << name	<<  " as " << typeString(typeInteger<T>(*dummy)) << ". However, " << name <<	" is of type " << typeString(type[name]);
 				throw "\n";
 			}
-			else throw "unknown string in getGlobal.";
+			else
+			{
+				cerr << name << endl;
+				throw "unknown string in getGlobal.";
+			}
 		}
 
 		template <typename T> static T* getPointerToGlobal(string name)

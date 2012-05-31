@@ -98,7 +98,7 @@ revert:
 # Create a hexadecimal representation of the users configuration file and sore it in string_config.h
 string_config.h: config.h
 	xxd -i config.h > string_config.h
-	grep dirInstall config.h | sed "s/dirInstall//g;s/=//g"  > dirInstall.h
+	sed "/dirInstallRoot/d" config.h | grep dirInstall  | sed "s/dirInstall//g;s/=//g"  > dirInstall.h
 	xxd -i dirInstall.h >> string_config.h
 
 

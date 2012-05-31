@@ -21,6 +21,11 @@ void registerStandards()
 #ifdef DOUBLE
 	gslOdeNode::registerStandardValues();
 #endif
+
+#ifdef LDOBULE
+	stdOdeIntegrator::registerStandardValues();	
+#endif
+
 	izhikevichMap::registerStandardValues();
 	network::registerStandardValues();
 	pcoDelay::registerStandardValues();

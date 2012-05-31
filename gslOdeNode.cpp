@@ -14,21 +14,23 @@ namespace conedy
 
 		if (getGlobal<bool>("odeIsAdaptive"))
 		{									// with stepsize control
-			if ( gsl_odeiv2_evolve_apply (
-					gslEvolve,
-					gslControl,
-					gslStep,
-					&gslOdeSys,
-					&dynNode::time,
-					dynNode::time + timeTilEvent,
-					getPointerToGlobal<baseType>("odeStepSize"),
-					containerNode<baseType,3>::dynamicVariablesOfAllDynNodes)
-				!= GSL_SUCCESS)
-				throw "gslError!";
+			while ( dynNode::time < endTime)
+			{
+				if ( gsl_odeiv2_evolve_apply (
+							gslEvolve,
+							gslControl,
+							gslStep,
+							&gslOdeSys,
+							&dynNode::time,
+							dynNode::time + timeTilEvent,
+							getPointerToGlobal<baseType>("odeStepSize"),
+							containerNode<baseType,3>::dynamicVariablesOfAllDynNodes)
+						!= GSL_SUCCESS)
+					throw "gslError!";
 
-			if (getGlobal<baseType>("odeStepSize") < getGlobal<baseType>("odeMinStepSize"))
-				throw "Stepsize crossed specified minimum (odeMinStepSize). Aborting!";
-
+				if (getGlobal<baseType>("odeStepSize") < getGlobal<baseType>("odeMinStepSize"))
+					throw "Stepsize crossed specified minimum (odeMinStepSize). Aborting!";
+			}
 		}
 		else
 		{									// without stepsize control
@@ -37,14 +39,14 @@ namespace conedy
 
 			for (int i = 0; i < stepCount; i++)
 				if ( gsl_odeiv2_evolve_apply_fixed_step (
-						gslEvolve,
-						gslControl,
-						gslStep,
-						&gslOdeSys,
-						&dynNode::time,
-						dt,
-						containerNode<baseType,3>::dynamicVariablesOfAllDynNodes)
-					!= GSL_SUCCESS)
+							gslEvolve,
+							gslControl,
+							gslStep,
+							&gslOdeSys,
+							&dynNode::time,
+							dt,
+							containerNode<baseType,3>::dynamicVariablesOfAllDynNodes)
+						!= GSL_SUCCESS)
 					throw "gslError! This most likely means, that the estimated error exceeded the error level as defined by odeRelError and odeAbsError.";
 		}
 
