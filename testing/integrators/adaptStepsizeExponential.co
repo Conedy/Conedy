@@ -10,13 +10,12 @@ network net;
 samplingTime = 0.01;
 odeStepSize = 0.005;
 
-odeAbsError = 0.0;
-odeRelError = 0.0;
 
+odeIsAdaptive = false;
 
 #odeStepType = "gsl_odeiv_step_rk2";
 
-odeStepType = "gsl_odeiv_step_rk4";
+odeStepType = "gsl_odeiv2_step_rk4";
 
 
 odeStepSize = 0.0001;
@@ -35,9 +34,10 @@ net.evolve(0.0,10.0);
 
 net.clear();
 
+odeIsAdaptive = true;
 
-odeAbsError = 0.00000000000001;
-odeRelError = 0.00000000000001;
+odeAbsError = 0.000000000001;
+odeRelError = 0.000000000001;
 
 
 

@@ -14,7 +14,7 @@ namespace conedy
 
 		if (getGlobal<bool>("odeIsAdaptive"))
 		{									// with stepsize control
-			while ( dynNode::time < endTime)
+			while ( dynNode::time < startTime + timeTilEvent)
 			{
 				if ( gsl_odeiv2_evolve_apply (
 							gslEvolve,

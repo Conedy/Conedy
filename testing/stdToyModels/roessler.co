@@ -19,4 +19,4 @@ net.observe(0,"output/roessler.co.series",component(0));
 net.observe(0,"output/roessler.co.series",component(1));
 net.observe(0,"output/roessler.co.series",component(2));
 
-net.evolve(0.0,1500.0);
+net.evolve(0.0,100.0);
