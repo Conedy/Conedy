@@ -30,7 +30,6 @@ namespace conedy
 
 	baseType dynNetwork::callBack ( unsigned int eventSignature )
 	{
-
 		vector< dynNode *>::iterator it;
 		for ( it= inOutNodeList.begin(); it != inOutNodeList.end(); it++ )
 			( *it )->evolve(0.0);
@@ -43,7 +42,7 @@ namespace conedy
 		if ( ( getGlobal<baseType>("progressVerbosity") != 0.0 ) && ( fmod(dynNode::time/( samplingTime()), getGlobal<baseType>("progressVerbosity")) < 0.9999 ) )
 			cout <<"#------------Time:" << dynNode::time << endl;
 
-		return dynNode::startTime + observationCounter * (samplingTime());
+		return dynNode::startTime + (observationCounter) * (samplingTime());
 
 	}
 
@@ -138,12 +137,20 @@ namespace conedy
 		dynNode::time = startTime;
 		dynNode::endTime = endTime;
 
-		eventHandler::registerCallBack ( _ioNode_, dynNode::time + samplingTime() );
+//		eventHandler::registerCallBack ( _ioNode_, dynNode::time + samplingTime() );
+		eventHandler::registerCallBack ( _ioNode_, dynNode::time);
+
+
 		observationCounter = 0;
 
 
 		dynNetwork::clean (  );
-		snapshot();
+
+
+
+// call possible visiters which may be at the snapshot event
+
+//		snapshot();
 
 
 		vector< dynNode *>::iterator it;
@@ -648,7 +655,7 @@ namespace conedy
 		else
 		{
 			counter++;
-			out << "#" << setprecision(20) << dynNode::time << " " << sqrt(dist.var) << endl;
+			out << "#" << setprecision(20) << dynNode::time <<  " " << dist.mean << " " << sqrt(dist.var) << endl;
 
 		}
 
@@ -677,23 +684,25 @@ namespace conedy
 
 
 		{
-			out << dynNode::time << " " << setprecision (20) << sqrt(dist.var) << endl;
-			cout << "diverging. vorher:" <<setprecision (20) << sqrt( dist.var) << endl;
+			out << dynNode::time << " " << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
+			cout << "vorher:" << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
 			realignNow(along, eps, dist);
-			cout << "nachher:" <<setprecision (20) <<  sqrt(calculateDist(along).var) << endl;
+			meanVar newDist = calculateDist(along);
+			cout << "nachher:" << setprecision(20) << newDist.mean << " " << sqrt(newDist.var) << endl;
 		}
-		if ( sqrt(dist.var) < eps / skip  )
+		else if ( sqrt(dist.var) < eps / skip  )
 		{
-			out << dynNode::time << " " <<setprecision (20) <<  sqrt(dist.var) << endl;
-			cout << "converging. vorher:" <<setprecision (20) <<  sqrt(dist.var) << endl;
+			out << dynNode::time << " " << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
+			cout << "vorher:" << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
 			realignNow(along, eps, dist);
-			cout << "nachher:" <<setprecision (20) <<  sqrt(calculateDist(along).var) << endl;
+			meanVar newDist = calculateDist(along);
+			cout << "nachher:" << setprecision(20) << newDist.mean << " " << sqrt(newDist.var) << endl;
 		}
 		else
 		{
 
 
-			out << "#" << dynNode::time << " " << sqrt(dist.var) << endl;
+			out << "#" << setprecision(20) <<  dynNode::time <<  " " << dist.mean << " " << sqrt(dist.var) << endl;
 
 
 

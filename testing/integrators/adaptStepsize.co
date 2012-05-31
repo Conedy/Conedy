@@ -8,11 +8,9 @@ roessler_c = 10.0;
 
 
 samplingTime = 0.01;
-odeStepSize = 0.005;
+odeStepSize = 0.001;
 
-odeAbsError = 0.0;
-odeRelError = 0.0;
-
+odeIsAdaptive = false;
 
 net.addNode(roessler());
 net.setState(0, 0.0, 0.0, 0.0 );
@@ -27,9 +25,8 @@ net.evolve(0.0,1500.0);
 net.clear();
 
 
-odeAbsError = 0.00000000000001;
-odeRelError = 0.00000000000001;
 
+odeIsAdaptive = true;
 
 
 int nodeNumber;

@@ -16,7 +16,7 @@
 #include "eventHandler.h"
 
 #include "dynNode.h"
-
+#include <iomanip>
 #include <queue>
 
 #define __MAXNUMBEROFIFNEURONS
@@ -58,6 +58,7 @@ namespace conedy
 				baseType phase = 1.0 + this->time - eventHandler::getKey ( _fire_ );
 				baseType newPhase = phase + phaseResponse (c, phase);
 
+	//			cout << node::getNumber() << setprecision(20) <<  " "  << dynNode::time << " "  << phase << " " << newPhase << endl;
 
 				if ( newPhase > phase)
 				{
