@@ -124,8 +124,8 @@ namespace conedy
 					else if (theStepType == "gsl_odeiv2_step_gear2")
 						stepType = gsl_odeiv2_step_gear2;*/
 					else
-					{	cout <<  theStepType << endl;
-						throw "unknown steptype for gslOdeNode"  ;
+					{	cerr << "unknown steptype for gslOdeNode: " <<  theStepType;
+						throw "\n";
 					}
 
 					unsigned int odeDimension = containerNode <baseType, 3> :: usedIndices ;
