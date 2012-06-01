@@ -62,11 +62,7 @@ class globals
 		}
 
 		template <typename T> static T getGlobal(string name)
-
-
-
 		{
-
 			T  dummy;
 			if (type.count(name) > 0)
 			{
@@ -107,7 +103,7 @@ class globals
 					throw "\n";
 				}
 			}
-			else 
+			else
 				params<T>::setStandard (name, d);
 		}
 };
@@ -115,7 +111,11 @@ class globals
 template <> inline int typeInteger <>(int) { return 0;}
 template <> inline int typeInteger <>(double) { return 1;}
 template <> inline int typeInteger <>(string) { return 2;}
-template <> inline int typeInteger <>(bool) { return 0;}
+#ifndef PYTHON
+	template <> inline int typeInteger <>(bool) { return 0;}
+#else
+	template <> inline int typeInteger <>(bool) { return 3;}
+#endif
 template <> inline int typeInteger <>(float) { return 4;}
 template <> inline int typeInteger <>(long double) { return 5;}
 
