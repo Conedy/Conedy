@@ -482,15 +482,15 @@ void createNetwork::addRandomEdgesDegreeDistributionUndirected ( function <doubl
 
 
 	unsigned int numberLinks;
-	double randomNumber;	
+	double randomNumber;
 
 	for 	(it = vl.begin(); it != vl.end(); it++)
 	{
-		randomNumber = r();	
+		randomNumber = r();
 		if (randomNumber >= 0)
 			numberLinks = randomNumber;
-		else 
-			numberLinks = 0;	
+		else
+			numberLinks = 0;
 		for (unsigned int i = 0; i < numberLinks ; i++)
 			nodeStubs.push_back(*it);
 	}
@@ -510,7 +510,7 @@ void createNetwork::addRandomEdgesDegreeDistributionUndirected ( function <doubl
 	{
 		addEdge ( nodeStubs[2 * i], nodeStubs [ 2 * i + 1], l);
 		addEdge ( nodeStubs[2 * i + 1], nodeStubs [ 2 * i], l);
-	}	
+	}
 
 }
 
@@ -1295,7 +1295,7 @@ void createNetwork::observeSum ( string s, edgeBlueprint *l )
 
 	nodeBlueprint *nod = new nodeVirtualEdges <streamOutNode> ( s );
 	int newNodeNumber = addNode ( nod );
-	
+
 //	unsigned int nodeNumbers = numberVertices(_dynNode_);
 //	l->setWeight(1.0/nodeNumbers);
 	network::addEdges ( newNodeNumber,_dynNode_,l );
@@ -1460,7 +1460,7 @@ void createNetwork::observeWithoutCheck (nodeDescriptor number, string s, edgeBl
 {
 	nodeBlueprint *nod;
 
-	if (writeBinary () )
+	if (getGlobal<bool>("outputBinary"))
 		nod = new nodeVirtualEdges <streamOutNodeBinary > ( s );
 	else
 		nod = new nodeVirtualEdges <streamOutNode > ( s );

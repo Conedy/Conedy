@@ -49,7 +49,6 @@ namespace conedy
 			//! true when output should be written to binary files.
 			globals::registerGlobal<bool> ("outputBinary", false );
 		}
-		bool  inline writeBinary () { return getGlobal<bool>("outputBinary"); }
 
 		params<baseType> p;
 
@@ -143,7 +142,7 @@ namespace conedy
 			void replaceEdges (double prop, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode);
 
 
-		
+
 			void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
 
 
@@ -243,7 +242,7 @@ namespace conedy
 
 
 
-	};	
+	};
 
 
 
