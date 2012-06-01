@@ -194,7 +194,7 @@ conedy.uninstall:
 #	chmod +x  ${dirInstall}/recompileNeurosimIfNecessary.sh
 
 
-python-conedy: addNodesIfNecessary docstrings.h # build the python bindings of Conedy.
+python-conedy: addNodesIfNecessary docstrings.h string_config.h # build the python bindings of Conedy.
 	CFLAGS="-D$(SVNDEV) -DPYTHON $(addprefix -D,${defines})" python setup.py build
 
 

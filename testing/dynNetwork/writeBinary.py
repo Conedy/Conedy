@@ -6,7 +6,7 @@ import conedy as co
 
 net = co.network()
 
-co.set("outputBinary", 1.0)
+co.set("outputBinary", bool (1))
 co.set("samplingTime" , 0.015)
 
 

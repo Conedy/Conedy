@@ -115,7 +115,7 @@ class globals
 template <> inline int typeInteger <>(int) { return 0;}
 template <> inline int typeInteger <>(double) { return 1;}
 template <> inline int typeInteger <>(string) { return 2;}
-template <> inline int typeInteger <>(bool) { return 3;}
+template <> inline int typeInteger <>(bool) { return 0;}
 template <> inline int typeInteger <>(float) { return 4;}
 template <> inline int typeInteger <>(long double) { return 5;}
 
