@@ -184,17 +184,17 @@ namespace conedy
 
 	baseType statisticsNetwork::meanWeight()
 	{
-		baseType f= 0;
+		baseType f = 0.0;
 		int degreeSum = 0;
 
 		network::nodeIterator ia;
 		network::nodeList vl;
-		network::verticesMatching ( vl,_dynNode_ );
+		network::verticesMatching ( vl, _dynNode_ );
 		clean();
 		for ( ia = vl.begin(); ia != vl.end(); ia++ )
 		{
-			f = f + node::theNodes[*ia] ->weightSum();
-			degreeSum = degreeSum +node::theNodes[*ia] ->degree();
+			f = f + node::theNodes[*ia]->weightSum();
+			degreeSum = degreeSum + node::theNodes[*ia]->degree();
 		}
 		f = f / degreeSum;
 		return f;

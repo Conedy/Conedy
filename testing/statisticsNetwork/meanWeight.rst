@@ -1,13 +1,10 @@
 
-
-meanWeight()
-      Returns the mean weight of the network as float.
-
+``meanWeight()``
+      Returns the mean weight of the network, taking only existing edges into account.
 
 Notes
 -----
-If k is the number of edges in the network and w(i,j) is the weight of edge(i,j),
-the mean weight of the network is defined in the following way.
+If :math:`n` is the number of nodes and :math:`m` is the number of edges in the network and :math:`W_{ij}` is the weight of the edge connecting :math:`i` and :math:`j` (and 0, if this edge does not exist), the mean weight of the network is defined as:
 
 .. math::
-   meanWeight = \frac{1}{k}\sum_{i,j}w(i,j)
+	\frac{1}{m} \sum_{i=1}^n \sum_{j=1}^n W_{ij}
