@@ -137,8 +137,8 @@ namespace conedy
 		dynNode::time = startTime;
 		dynNode::endTime = endTime;
 
-//		eventHandler::registerCallBack ( _ioNode_, dynNode::time + samplingTime() );
-		eventHandler::registerCallBack ( _ioNode_, dynNode::time);
+		eventHandler::registerCallBack ( _ioNode_, dynNode::time + samplingTime() );
+//		eventHandler::registerCallBack ( _ioNode_, dynNode::time); // sdeNodes get a step of size 0 if this is used.
 
 
 		observationCounter = 0;
@@ -150,12 +150,11 @@ namespace conedy
 
 // call possible visiters which may be at the snapshot event
 
-//		snapshot();
-
+	snapshot();
 
 		vector< dynNode *>::iterator it;
 		baseType timeTilEvent;
-		while ( dynNode::time <= endTime )
+		while ( dynNode::time < endTime )
 		{
 			if ( eventHandler::nextEvent() >= endTime )
 			{

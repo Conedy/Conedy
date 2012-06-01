@@ -1,7 +1,7 @@
 00000     0 output/compareWithExponential.co.err
-27060    24 output/compareWithExponential.co.eulerMaruyama
-61267    24 output/compareWithExponential.co.milsteinIto
-11648    24 output/compareWithExponential.co.milsteinStrato
+63086    24 output/compareWithExponential.co.eulerMaruyama
+17920    24 output/compareWithExponential.co.milsteinIto
+56873    24 output/compareWithExponential.co.milsteinStrato
 00000     0 output/compareWithExponential.co.out
 61134    24 output/compareWithExponential.co.rk2
 19736    24 output/compareWithExponential.co.rk4
