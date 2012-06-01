@@ -45,14 +45,14 @@ Conedy provides several edge types:
 
 	- ``edge``: An edge with weight 1.0.
 	- ``weightedEdge``: An edge whose weight is given as an argument.
-	- ``staticWeightedEdge``: Like ``weightedEdge``, but all edges of this type always share the same weight. The usage of ``staticWeightedEdge`` may significantly reduce the memory consumption of large networks, which is usually made up mainly by edges.
+	- ``staticWeightedEdge``: Like ``weightedEdge``, but all edges of this type share the same weight. The usage of ``staticWeightedEdge`` may significantly reduce the memory consumption of large networks, which is usually made up mainly by edges.
 	- ``stepEdge``: Takes one argument ``threshold``. The returned ``state`` is 1 if the zeroth dynamical variable of the coupled node is smaller than ``threshold`` and 0 otherwise.
 	- ``randomTarget``: Every time the target of such an edge is queried, it will return a random node. The range from which this node can be chosen can be given as an argument to ``randomTarget``. This edge type is intended for use with pulse-coupled oscillators, but may also be used with ``map`` nodes, where it randomizes the source instead of the target though. You will never want to use this edge type with differential equation dynamics (trust us).
 	- ``component``: Like edge, but with an argument you can specify ``target`` to return any dynamical variable, not just the zeroth one.
-   - ``staticComponent``: like component, but the returned dynamical variable is shared among all edges of this kind.
+	- ``staticComponent``: Like component, but the returned dynamical variable is shared among all edges of this kind.
 
 
-There also exist variants of ``stepEdge``, ``randomTarget``, ``component`` and ``staticComponent`` with weights and static weights. All arguments have to be supplied in the order implied by the name. E.g. the edge staticComponent_randomTarget, will first use an number for the dynamical variable as in ``staticComponent`` and then two numbers for the range of chosen nodes as in ``randomTarget``.
+There also exist variants of ``stepEdge``, ``randomTarget``, ``component`` and ``staticComponent`` with weights and static weights. All arguments have to be supplied in the order implied by the name. The edge ``staticComponent_randomTarget``, e.g., will first require a number for the dynamical variable as in ``staticComponent`` and then two numbers for the range of chosen nodes as in ``randomTarget``.
 
 See the :ref:`reference for edges<edgesReference>` for a list of available edge types and their syntax.
 
@@ -77,7 +77,8 @@ Beside these elementary functions, Conedy supplies more complex functions, which
 	N = co.network()
 	N.line(100, 1, co.lorenz(), co.edge())
 
-Functions, which create more than one node will return the number of the first created node. Other created nodes have consecutive numbers. Note, that most of these functions add a structure to the network without clearing it beforehand. However, if you want to clear a network, you can do so with the :ref:`clear` command.
+Functions, which create more than one node will return the number of the first created node. Other created nodes have consecutive numbers.
+Note that most of these functions add a structure to the network without clearing it beforehand. However, if you want to clear a network, you can do so with the :ref:`clear` command.
 
 Apart from such network creation functions, there are some network manipulation functions like ``rewire`` and ``rewireUndirected``, which might help you to create the desired network. An example for this is given in the :ref:`tutorial<tutorialNetworkCreation>`.
 
@@ -95,7 +96,7 @@ Once you have created a network, you can apply network analysis tools to it. For
 
 Conedy also includes some node-specific measures like centralities
 
-.. testcode:: 
+.. testcode::
 
 	if N.isConnected():
 		N.betweennessCentrality("betweenness")
