@@ -1,6 +1,6 @@
 
-network_edgeVerbosity = 1.0;
-network_nodeVerbosity = 1.0;
+edgeVerbosity = 1;
+nodeVerbosity = 1;
 
 network n;
 n.addNode(pcoNonleaky());

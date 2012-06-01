@@ -1,10 +1,9 @@
-network net;
+network N;
 
 roessler_omega = 20.0;
 roessler_a = 0.165;
 roessler_b = 0.2;
 roessler_c = 10.0;
-
 lorenz_S = 10.0;
 lorenz_r = 28.0;
 lorenz_b = 8.0/3.0;
@@ -12,27 +11,26 @@ lorenz_b = 8.0/3.0;
 samplingTime = 0.01;
 
 
-net.addNode(roessler());
-net.addNode(lorenz());
+
+int i = N.addNode(roessler());
+int j = N.addNode(lorenz());
+
+N.addEdge(i, j, weightedEdge(2.5));
 
 
-net.addEdge(1,0,weightedEdge(2.5));
+N.setState(i, 0.0, 0.0, 0.0);
+N.setState(j, 1.0, 1.0, 1.0);
 
 
-net.setState(0, 0.0, 0.0, 0.0);
-net.setState(1, 1.0, 1.0, 1.0);
+N.observeTime("output/roesslerLorenzCoupled.co.series");
+
+N.observe(i,"output/roesslerLorenzCoupled.co.series",component(0));
+N.observe(i,"output/roesslerLorenzCoupled.co.series",component(1));
+N.observe(i,"output/roesslerLorenzCoupled.co.series",component(2));
+
+N.observe(j,"output/roesslerLorenzCoupled.co.series",component(0));
+N.observe(j,"output/roesslerLorenzCoupled.co.series",component(1));
+N.observe(j,"output/roesslerLorenzCoupled.co.series",component(2));
 
 
-net.observeTime("output/roesslerLorenzCoupled.co.series");
-
-net.observe(0,"output/roesslerLorenzCoupled.co.series",component(0));
-net.observe(0,"output/roesslerLorenzCoupled.co.series",component(1));
-net.observe(0,"output/roesslerLorenzCoupled.co.series",component(2));
-
-net.observe(1,"output/roesslerLorenzCoupled.co.series",component(0));
-net.observe(1,"output/roesslerLorenzCoupled.co.series",component(1));
-net.observe(1,"output/roesslerLorenzCoupled.co.series",component(2));
-
-
-net.evolve(0.0,1500.0);
-
+N.evolve(0.0,1500.0);
