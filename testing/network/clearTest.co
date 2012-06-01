@@ -23,4 +23,4 @@ newNodeNumber = n.addNode(pcoNonleaky());
 n.observe(newNodeNumber,"test");
 
 
-n.saveAdjacencyList("output/clear.co.graph");
+n.saveAdjacencyList("output/clearTest.co.graph");
