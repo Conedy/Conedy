@@ -1,5 +1,5 @@
 Evolving and Observing
-========
+======================
 
 Setting observables
 -------------------

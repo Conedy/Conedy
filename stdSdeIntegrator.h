@@ -23,7 +23,7 @@ namespace conedy {
 
 		static void registerStandardValues()
 		{
-			registerGlobal<string>("stdSdeIntegrator_stepType", "euler");
+			registerGlobal<string>("sdeStepType", "euler");
 		}
 
 
@@ -32,7 +32,7 @@ namespace conedy {
 
 	if (amIFirst())
 	{
-			string stepType = getGlobal<string>("stdSdeIntegrator_stepType");
+			string stepType = getGlobal<string>("sdeStepType");
 
 			if (stepType == "euler")
 			{
@@ -50,10 +50,8 @@ namespace conedy {
 				stepType_int = 2;
 			}
 
-
 			else
-
-				throw "unknown steptype for stdSdeIntegrator!";
+				throw "unknown steptype for SDE Integrator!";
 	}
 	};
 

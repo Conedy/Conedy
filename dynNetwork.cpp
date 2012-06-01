@@ -1,31 +1,19 @@
-
-
 #include "dynNetwork.h"
 #include "ioNode.h"
-
 #include "containerNode.h"
-
 #include "gslOdeNode.h"
-
-//##include "pulseCoupledPhaseOscillator.h"
-
 #include "pco.h"
-
 #include "stream.h"
 #include "math.h"
 
 
 namespace conedy
 {
-
-
-
 	void dynNetwork::removeObserver ()
 	{
 		remove (_outNode_);
 		remove (_inNode_);
 		inOutNodeList.clear();
-
 	}
 
 	baseType dynNetwork::callBack ( unsigned int eventSignature )
@@ -39,7 +27,8 @@ namespace conedy
 
 		streamOutNode::enter();
 
-		if ( ( getGlobal<baseType>("progressVerbosity") != 0.0 ) && ( fmod(dynNode::time/( getGlobal<baseType> ("samplingTime") ), getGlobal<baseType>("progressVerbosity")) < 0.9999 ) )
+		baseType verb = getGlobal<baseType>("progressVerbosity");
+		if ( ( verb != 0.0 ) && ( fmod(dynNode::time/( getGlobal<baseType> ("samplingTime") ), verb) < 0.9999 ) )
 			cout <<"#------------Time:" << dynNode::time << endl;
 
 		return dynNode::startTime + (observationCounter) * getGlobal<baseType> ("samplingTime");
