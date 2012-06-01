@@ -53,7 +53,7 @@ namespace conedy
 			//! Zuordnung von Dateinamen zu der Nummer des entsprechenden Ausgabeobjekts im Vector out.
 			static std::map<string, int> streamNumber;
 
-			//! zuordnung von der Nummer der Ausgabeobjekte in out zum Namen der Datei, in die geschrieben wird.			
+			//! zuordnung von der Nummer der Ausgabeobjekte in out zum Namen der Datei, in die geschrieben wird.
 			static std::map<int,string> stringOfStreamNumber;
 
 			//! Kleinste Nummer im Ausgabeobjektvector out, die noch nicht verwendet wird.
@@ -71,11 +71,11 @@ namespace conedy
 
 			streamOutNodeBinary ( networkElementType n ) : dynNode( n ) {};
 
-			
+
 
 			virtual ~streamOutNodeBinary();
 			virtual void evolve(baseType time) {
-			 
+
 				x = this->couplingSum();
 			out [localStreamNumber]->write ( (char *) &x, sizeof (baseType));
 			};
@@ -108,7 +108,7 @@ namespace conedy
 			//! Zuordnung von Dateinamen zu der Nummer des entsprechenden Ausgabeobjekts im Vector out.
 			static std::map<string, int> streamNumber;
 
-			//! zuordnung von der Nummer der Ausgabeobjekte in out zum Namen der Datei, in die geschrieben wird.			
+			//! zuordnung von der Nummer der Ausgabeobjekte in out zum Namen der Datei, in die geschrieben wird.
 			static std::map<int,string> stringOfStreamNumber;
 
 			//! Kleinste Nummer im Ausgabeobjektvector out, die noch nicht verwendet wird.
@@ -117,26 +117,19 @@ namespace conedy
 			//! Nummer des Lokalen Ausgabeobjekts.
 			int localStreamNumber;
 
-
-			bool inline zipOutput() { return globals::getGlobal<bool> ("outputCompress"); }
-			  
-			bool inline appendOutput(){ return globals::getGlobal<bool> ("outputAppend"); } 
-			unsigned int inline precision() { return globals::getGlobal<int> ("outputPrecision");}
 		public:
-			bool inline binary() { return (bool) params<baseType>::getParams (3); }
 
 			static void enter();
-			
+
 
 
 			//! Ausgabenodes brauchen keinen Aufruf von evolve, und somit gibt timeEvolution 0 zurück.
 			virtual bool timeEvolution () { return 0; }
 			static void registerStandardValues()
 			{
-				globals::registerGlobal<bool> ("outputCompress",false);
-				globals::registerGlobal<bool> ("outputAppend", false);
-				globals::registerGlobal<int> ("outputPrecision",15);
-
+				registerGlobal<bool> ("outputCompress", false);
+				registerGlobal<bool> ("outputAppend", false);
+				registerGlobal<int> ("outputPrecision", 15);
 			}
 
 			//! Ausgabenodes brauchen keinen Speicherplatz von dynNode reserviert zu bekommen -> dimension = 0
@@ -149,7 +142,7 @@ namespace conedy
 			virtual void evolve(baseType time) ;
 			virtual node *construct()
 			{ cout << "I am here" << endl;
-				if (binary())
+				if (getGlobal<bool>("inputCompress"))
 				{
 					streamOutNodeBinary * blueprint = new streamOutNodeBinary(stringOfStreamNumber[localStreamNumber]);
 					return new streamOutNodeBinary (* blueprint );
@@ -158,11 +151,6 @@ namespace conedy
 				else
 					return new streamOutNode(*this);
 			}
-
-
-
-
-
 
 			streamOutNode ( const streamOutNode& n ) : dynNode  (n) { localStreamNumber = n.localStreamNumber; counter[localStreamNumber]++; }
 			streamOutNode ( string s, networkElementType n = _streamOutNode_ );
@@ -191,7 +179,7 @@ namespace conedy
 			virtual void clean () {};
 			virtual baseType getState();
 	};
-	
+
 
 
 		//! Berechnet die mittlere Phase der angekopplten Knoten aus.
@@ -210,48 +198,8 @@ namespace conedy
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//! Eingabe-node, der Werte aus einer Datei liest und bei Aufruf von getState zurückgibt.	
-		class streamInNode : public dynNode
+	//! Eingabe-node, der Werte aus einer Datei liest und bei Aufruf von getState zurückgibt.
+	class streamInNode : public dynNode, private globals
 
 	{
 
@@ -269,7 +217,7 @@ namespace conedy
 			virtual bool timeEvolution () { return 0; }
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _streamInNode_,"inputCompress",0,0.0 );
+				registerGlobal<bool>("inputCompress", true);
 			}
 			virtual const unsigned int dimension() const { return 1;}
 
@@ -295,20 +243,6 @@ namespace conedy
 };
 
 
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
 
 #endif

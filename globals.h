@@ -3,6 +3,7 @@
 
 #include <map>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include "baseType.h"
 
@@ -10,15 +11,20 @@
 
 #include "params.h"
 
-
 using namespace std;
+
+int typeInteger(int);
+int typeInteger(double);
+int typeInteger(string);
+int typeInteger(bool);
+int typeInteger(float);
+int typeInteger(long double);
+
 
 // Maps of Types to ints for identification and to strings for error texts.
 
 //template <class T> int typeInteger(T);
-template <class T> int typeInteger(T) {return -1;};
-
-
+// template <class T> int typeInteger(T) {return -1;};
 
 
 class globals
@@ -42,8 +48,9 @@ class globals
 				case 5:
 					return "long double";
 				default:
-					cout << "Type:"<< type << endl;
-					throw "You are using a non-predefined type. To predefine this type, modify globals.h.";
+					stringstream fehler;
+					fehler << "You are using a non-predefined type (" << type << "). To predefine this type, modify globals.h." << endl;
+					throw fehler.str().c_str();
 			}
 		}
 
@@ -54,7 +61,7 @@ class globals
 
 		template <typename T> static void registerGlobal(string name, T v)
 		{
-			type[name] = typeInteger<T>(v);
+			type[name] = typeInteger(v);
 			value[name] = new T (v);
 #ifndef PYTHON
 			command::declare(name, (T*)value[name]);
@@ -63,13 +70,16 @@ class globals
 
 		template <typename T> static T getGlobal(string name)
 		{
-			T  dummy;
+			T dummy; int typeInt = typeInteger(dummy);
+
 			if (type.count(name) > 0)
 			{
-				if (type[name] == typeInteger<T>(dummy))
+				if (type[name] == typeInt)
 					return * ((T*) value[name]) ;
-				cerr <<  "Type mismatch: You try to get " << name	<<  " as " << typeString(typeInteger<T>(dummy)) << ". However, " << name <<	" is of type " << typeString(type[name]);
-				throw "\n";
+
+				stringstream fehler;
+				fehler <<  "Type mismatch: You try to get " << name <<  " as " << typeString(typeInt) << ". However, " << name <<	" is of type " << typeString(type[name]) << endl;
+				throw fehler.str().c_str();
 			}
 			else
 			{
@@ -80,13 +90,16 @@ class globals
 
 		template <typename T> static T* getPointerToGlobal(string name)
 		{
-			T  dummy;
+			T dummy; int typeInt = typeInteger(dummy);
+
 			if (type.count(name) > 0)
 			{
-				if (type[name] == typeInteger<T>(dummy))
+				if (type[name] == typeInt)
 					return ((T*) value[name]) ;
-				cerr <<  "Type mismatch: You try to get " << name	<<  " as " << typeString(typeInteger<T>(dummy)) << ". However, " << name <<	" is of type " << typeString(type[name]);
-				throw "\n";
+
+				stringstream fehler;
+				fehler <<  "Type mismatch: You try to get " << name <<  " as " << typeString(typeInt) << ". However, " << name <<	" is of type " << typeString(type[name]) << endl;;
+				throw fehler.str().c_str();
 			}
 			else throw "unknown string in getGlobal.";
 		}
@@ -95,28 +108,18 @@ class globals
 		{
 			if (type.count(name) > 0)
 			{
-				if (type [name] == typeInteger<T>(d))
+				if (type [name] == typeInteger(d))
 					* ((T*)value[name]) = d;
 				else
 				{
-					cerr << "Type mismatch: " << name << " is of type " << typeString(type[name]) << ". But you try to set it as a " << typeString(typeInteger<T>(d));
-					throw "\n";
+					stringstream fehler;
+					fehler << "Type mismatch: " << name << " is of type " << typeString(type[name]) << ". But you try to set it as a " << typeString(typeInteger(d)) << endl;;
+					throw fehler.str().c_str();
 				}
 			}
 			else
 				params<T>::setStandard (name, d);
 		}
 };
-
-template <> inline int typeInteger <>(int) { return 0;}
-template <> inline int typeInteger <>(double) { return 1;}
-template <> inline int typeInteger <>(string) { return 2;}
-#ifndef PYTHON
-	template <> inline int typeInteger <>(bool) { return 0;}
-#else
-	template <> inline int typeInteger <>(bool) { return 3;}
-#endif
-template <> inline int typeInteger <>(float) { return 4;}
-template <> inline int typeInteger <>(long double) { return 5;}
 
 #endif
