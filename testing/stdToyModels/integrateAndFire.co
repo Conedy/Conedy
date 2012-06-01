@@ -16,6 +16,4 @@ net.observeTime("output/integrateAndFire.co.series");
 net.observe(0,"output/integrateAndFire.co.series",component(0));
 
 
-net.printNodeStatistics();
-
 net.evolve(0.0,150.0);

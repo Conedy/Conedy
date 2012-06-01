@@ -209,6 +209,7 @@ python-conedy-root: addSharedNodesIfNecessary string_config.h
 
 
 python-conedy-root.install: python-conedy
+	mkdir -p ${dirInstallRoot}
 	python setup.py install
 	cp -a recompilePython-Conedy ${dirInstallRoot}
 	sed -i "s+etc/conedy.config+${globalConfig}+g"   ${dirInstallRoot}/recompilePython-Conedy 
