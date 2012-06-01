@@ -64,5 +64,5 @@ else :
 
 			
 
-setup(name="conedy",  version="0.20",
+setup(name="conedy",  version="0.26",
 		ext_modules=[module])
