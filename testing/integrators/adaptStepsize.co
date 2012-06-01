@@ -1,4 +1,4 @@
-n	etwork N;
+network N;
 
 roessler_omega = 0.89;
 roessler_a = 0.165;

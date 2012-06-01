@@ -16,7 +16,7 @@ dirSrc = ${DESTDIR}/usr/share/conedy
 dirInstallRoot = ${DESTDIR}/usr/bin
 
 # monitor directory for added nodes   
-addedDir = ${HOME}/.config/conedy/addedNodes 
+addedDir = ${HOME}/.config/conedy/addedNodes
 
 
 
