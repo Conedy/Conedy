@@ -171,7 +171,7 @@ conedy-root: addSharedNodesIfNecessary Parser.yy Scanner.ll string_config.h
 	bjam  conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
 
-conedy-root.install: conedy
+conedy-root.install: 
 	mkdir -p ${dirInstallRoot}
 	find  bin -name "conedy" -exec cp -fa {} ${dirInstallRoot}/conedy   \;
 	cp -a recompileConedy ${dirInstallRoot}
@@ -208,7 +208,7 @@ python-conedy-root: addSharedNodesIfNecessary string_config.h
 	CFLAGS="-D$(SVNDEV) -DPYTHON $(addprefix -D,${defines})" python setup.py build
 
 
-python-conedy-root.install: python-conedy
+python-conedy-root.install: 
 	mkdir -p ${dirInstallRoot}
 	python setup.py install
 	cp -a recompilePython-Conedy ${dirInstallRoot}
