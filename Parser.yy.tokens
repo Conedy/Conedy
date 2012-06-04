@@ -2,7 +2,7 @@
 
 %scanner Scanner.h
 
-%lines
+//%lines
 %baseclass-preinclude "instruction.h"
 
 
