@@ -1,11 +1,11 @@
 network net;
 
-net.cycle(100,4, roessler());
-print "Should be 18/28 :"+ net.meanClustering();
+net.cycle(100, 4, roessler());
+print "Should be 18 / 28 (0.6429): "+ net.meanClustering();
 
 print newline;
 
 net.clear();
-net.torus(10,10,1.5, roessler(), edge());
-print "Should be 12 / 28:"+net.meanClustering() + newline;
+net.torus(10, 10, 1.5, roessler(), edge());
+print "Should be 12 / 28 (0.4286): "+net.meanClustering() + newline;
 

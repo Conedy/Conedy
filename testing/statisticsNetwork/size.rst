@@ -1,4 +1,4 @@
 
 
-size()
-      returns the number of nodes in the network
+``size()``
+      returns the network’s number of nodes.

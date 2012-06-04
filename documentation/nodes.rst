@@ -3,17 +3,17 @@
 Defining new node types
 ///////////////////////
 
-Conedy provides nodes with the dynamics of ordinary
-differential equations, stochastic differential equations, iterated maps, and pulse-coupled
-oscillators. The dynamics of these systems can be assessed by a common interface, which
-easily allows to investigate the same network endowed with different dynamical systems as
-node dynamics.
+Conedy provides nodes with the dynamics of ordinary differential equations, stochastic differential equations, iterated maps, and pulse-coupled oscillators.
+The dynamics of these systems can be assessed by a common interface, which easily allows to investigate the same network endowed with different dynamical systems as node dynamics.
 
 See :ref:`nodes` for a full list of available node dynamics.
 
-Each node dynamics is described in an INI-like description files, which is explained in the following. If the dynamics you want to investigate is not available in Conedy, you still may implement it yourself by creating such a file, which has to be stored in a directory which is specified in the ``config.h`` file (which is positioned in ``$HOME/.config/conedy`` by the ``.deb``-package). Conedy needs to be recompiled afterwards, which will be automatically issued on the next import to python if a file in this directory is modified or added.
+Each node dynamics is described in an INI-like description files, which is explained in the following.
+If the dynamics you want to investigate is not available in Conedy, you still may implement it yourself by creating such a file, which has to be stored in a directory which is specified in the ``config.h`` file (which is positioned in ``$HOME/.config/conedy`` by the ``.deb``-package).
+Conedy needs to be recompiled afterwards, which will be automatically issued on the next import to python if a file in this directory is modified or added.
 
-In the following the syntax for such a file will be explained using the Rössler oscillator as an example (available as :ref:`roessler` in Conedy). Before delving into the details we give the file’s full content for the sake of an overview:
+In the following the syntax for such a file will be explained using the Rössler oscillator as an example (available as :ref:`roessler` in Conedy).
+Before delving into the details we give the file’s full content for the sake of an overview:
 
 .. code-block:: c++
 
@@ -126,6 +126,8 @@ Example:
 	dynamics =
 	xprime[0] = r * x[0] * (-x[0] + 1)
 
+.. _odenodes :
+
 Ordinary differential equations (``ode``)
 `````````````````````````````````````````
 
@@ -146,6 +148,8 @@ Example::
 See the `the GSL’s documentation`_ for specific information.
 
 .. _the GSL’s documentation: http://www.gnu.org/software/gsl/manual/html_node/Ordinary-Differential-Equations.html
+
+.. _odeprec :
 
 Adjusting precision and step size
 '''''''''''''''''''''''''''''''''
@@ -180,6 +184,7 @@ After the evolution, the current, adapted step size is printed (and is most like
 If ``co.set("odeIsAdaptive", True)`` is issued in the beginning, the step size will be fixed to 0.1 (or to a marginally smaller value) and integration will fail if the estimated integration error of any variable exceeds one per mill of the value of this variable.
 
 
+.. _sdenodes :
 
 Stochastic differential equations (``sde``)
 ```````````````````````````````````````````
@@ -197,7 +202,7 @@ Example (with ``drift`` and ``diffusion`` being parameters):
 	dxdt[0] = -drift*x[0] + couplingSum();
 	s[0] = diffusion;
 
-The integrator can be chosen by setting ``stdSdeIntegrator_stepType`` to one of these values
+The integrator can be chosen by setting ``sdeStepType`` to one of these values
 
 -  ``euler``
 -  ``milsteinIto``
