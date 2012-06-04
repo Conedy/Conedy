@@ -439,6 +439,7 @@ template <class N>
 			.def("betweennessCentrality", &MyNetwork<baseType>::betweennessCentrality, reinterpret_cast<const char *>(__statisticsNetwork_betweennessCentrality))
 			.def("closenessCentrality", &MyNetwork<baseType>::closenessCentrality, reinterpret_cast<const char *>(__statisticsNetwork_closenessCentrality))
 			.def("degreeCentrality", &MyNetwork<baseType>::degreeCentrality, reinterpret_cast<const char *>(__statisticsNetwork_degreeCentrality))
+			.def("degree", &MyNetwork<baseType>::degree, reinterpret_cast<const char *>(__statisticsNetwork_degree))
 			.def("size", &MyNetwork<baseType>::size, reinterpret_cast<const char *>(__statisticsNetwork_size))
 			.def("meanDegree", &MyNetwork<baseType>::meanDegree, reinterpret_cast<const char *>(__statisticsNetwork_meanDegree))
 			.def("meanWeight", &MyNetwork<baseType>::meanWeight, reinterpret_cast<const char *>(__statisticsNetwork_meanWeight))

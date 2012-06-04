@@ -13,12 +13,28 @@
 
 using namespace std;
 
-int typeInteger(int);
-int typeInteger(double);
-int typeInteger(string);
-int typeInteger(bool);
-int typeInteger(float);
-int typeInteger(long double);
+
+template <typename T>
+struct typeInteger
+{
+//		enum { result = 666; }
+};
+
+
+
+template<> struct typeInteger<int> { enum { result = 0 }; };
+template<> struct typeInteger<double> { enum { result = 1 }; };
+template<> struct typeInteger<string> { enum { result = 2 }; };
+#ifndef PYTHON
+template<> struct typeInteger<bool> { enum { result = 3 }; };
+#else
+template<> struct typeInteger<bool> { enum { result = 0 }; };
+#endif
+template<> struct typeInteger<float> { enum { result = 4 }; };
+template<> struct typeInteger<long double> { enum { result = 5 }; };
+
+
+
 
 
 // Maps of Types to ints for identification and to strings for error texts.
@@ -61,7 +77,7 @@ class globals
 
 		template <typename T> static void registerGlobal(string name, T v)
 		{
-			type[name] = typeInteger(v);
+			type[name] = typeInteger<T>::result;
 			value[name] = new T (v);
 #ifndef PYTHON
 			command::declare(name, (T*)value[name]);
@@ -70,7 +86,7 @@ class globals
 
 		template <typename T> static T getGlobal(string name)
 		{
-			T dummy; int typeInt = typeInteger(dummy);
+			int typeInt = typeInteger <T>::result;
 
 			if (type.count(name) > 0)
 			{
@@ -90,7 +106,7 @@ class globals
 
 		template <typename T> static T* getPointerToGlobal(string name)
 		{
-			T dummy; int typeInt = typeInteger(dummy);
+			int typeInt = typeInteger <T>::result;
 
 			if (type.count(name) > 0)
 			{
@@ -108,12 +124,12 @@ class globals
 		{
 			if (type.count(name) > 0)
 			{
-				if (type [name] == typeInteger(d))
+				if (type [name] == typeInteger <T>::result)
 					* ((T*)value[name]) = d;
 				else
 				{
 					stringstream fehler;
-					fehler << "Type mismatch: " << name << " is of type " << typeString(type[name]) << ". But you try to set it as a " << typeString(typeInteger(d)) << endl;;
+					fehler << "Type mismatch: " << name << " is of type " << typeString(type[name]) << ". But you try to set it as a " << typeString(typeInteger<T>::result) << endl;;
 					throw fehler.str().c_str();
 				}
 			}
