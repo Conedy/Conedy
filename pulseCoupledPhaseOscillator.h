@@ -7,7 +7,8 @@
 #include <boost/function.hpp>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_matrix.h>
-#include <gsl/gsl_odeiv2.h>
+
+//#include <gsl/gsl_odeiv.h>
 #include "dynNode.h"
 #include <limits.h>
 #include <boost/pending/relaxed_heap.hpp>

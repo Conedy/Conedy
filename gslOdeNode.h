@@ -15,6 +15,16 @@
 #include <gsl/gsl_odeiv2.h>
 #include "containerNode.h"
 #include "globals.h"
+#include <gsl/gsl_version.h>
+
+
+#if GSL_MINOR_VERSION < 15
+#include <gsl/gsl_odeiv.h>
+#define odeiv2 odeiv
+#else
+#include <gsl/gsl_odeiv2.h>
+#endif
+
 // #include "baseType.h"
 
 //typedef double baseType;

@@ -2,7 +2,7 @@ Source: conedy
 Section: devel
 Priority: extra
 Maintainer: Alexander Rothkegel <rothkegel@uni-bonn.de>
-Build-Depends: debhelper (>= 7), cdbs, python-all-dev, boost-build | libboost-dev (>=1.46),libgsl0-dev, libboost-dev, libboost-python-dev, libboost-iostreams-dev, libz-dev, python-support, bisonc++, flex , texlive-latex-base, python-sphinx, texlive-latex-recommended, texlive-latex-extra, texlive-fonts-recommended, vim-common, dvipng
+Build-Depends: debhelper (>= 7), cdbs, python-all-dev, boost-build | libboost-dev (>=1.46),libgsl0-dev (>= 1.15), libboost-dev, libboost-python-dev, libboost-iostreams-dev, libz-dev, python-support, bisonc++, flex , texlive-latex-base, python-sphinx, texlive-latex-recommended, texlive-latex-extra, texlive-fonts-recommended, vim-common, dvipng
 Standards-Version: 3.7.3
 Homepage: http://www.google.de
 
