@@ -45,7 +45,10 @@ conedy-src: recompile
 
 
 recompile: ${HOME}/.config/conedy/config.h
-	[ -f ${buildDir}/Makefile ] || make -C ${dirSrc} copySrc
+
+	name=`mktemp`; make -sC ${dirSrc} version > $$name; \
+   ( [ -f ${buildDir}/Makefile ] &&  diff $$name ${buildDir}/version   ) || make -C ${dirSrc} copySrc
+	TMP=`mktemp`; \
 	TMP=`mktemp`; cd ${buildDir};\
 	cd ${buildDir}; sum addedNodes/*.cfg > $$TMP; \
 	[ -d ${addedDir} ] && [ "$$(ls -A ${addedDir})" ] && (find ${addedDir} -name "*.cfg" | sort | xargs sum >> $$TMP) || true  ; \
