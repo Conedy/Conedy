@@ -1,11 +1,8 @@
-
-
-
-network.removeEdges(edge)
+``network.removeEdges(edge)``
    Remove all edges of a certain kind from the network.
+
 Parameters
 ----------
 
-edge : edgeTemplate
-      Removed edges match this template
-
+``edge``: edge template
+      Remove edges that match this template.
