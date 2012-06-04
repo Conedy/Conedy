@@ -338,6 +338,9 @@ condor.install: conedy condor
 #	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT61.INTEL.EXE
 #	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT60.INTEL.EXE
 
+condor.uninstall:
+	rm -f ${dirInstall}/conedyCondor ${dirInstall}/conedy.LINUX.X86_64.EXE
+
 condor.clean:
 
 
