@@ -1,8 +1,8 @@
 
 
-network.getState(nodeNumber)
+``network.getState(nodeNumber)``
       Return the current states of a node.
 
 
-nodeNumber : int
-      The node number of the node which state is returned.
+``nodeNumber`` : integer
+      The number of the node, whose state is to be returned.

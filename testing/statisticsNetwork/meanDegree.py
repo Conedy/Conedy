@@ -1,11 +1,13 @@
 import conedy as co
 
 
-net = co.network()
+N = co.network()
 
-net.completeNetwork(10)  # creates a network of 10 nodes, where every pair is connected by an unweighted edge
-print "Should be 9: " + str (net.meanDegree())
+N.completeNetwork(10)  # creates a Nwork of 10 nodes, where every pair is connected by an unweighted edge
+print "Should be 9: " + str (N.meanDegree())
 
-net.clear()
-net.cycle(50,3,co.node(),co.weightedEdge())
-print "Should be 6: " + str (net.meanDegree())
+
+N.clear()
+N.cycle(50, 3, co.node(), co.weightedEdge())
+N.rewire(0.9)
+print "Should be 6: " + str (N.meanDegree())

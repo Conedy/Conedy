@@ -1,11 +1,10 @@
 
+``network.getParam(nodeNumber, parameterName)``
+   Return the value of a parameter for a given node.
 
-network.getParam(nodeNumber, parameterName)
-   Return parameter value.
+``nodeNumber``: integer
+      The number of the node.
 
-nodeNumber : int
-      The number of the node which value is returned.
-
-parameterName : string
-      The name of the returned parameter.
+``parameterName``: string
+      The name of the parameter to return.
 
