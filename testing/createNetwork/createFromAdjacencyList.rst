@@ -17,7 +17,8 @@ Parameters
 
 Returns
 -------
-the number of the first added node. The following nodes have consecutive numbers.
+the number of the first added node.
+The following nodes have consecutive numbers.
 
 
 File format
@@ -25,9 +26,9 @@ File format
 The text file should start with the number of nodes in the network.
 Afterwards for every connection a line is expected which contains the following three entries:
 
--- number of the source node,
--- number of the target node,
--- coupling strength.
+* number of the source node,
+* number of the target node,
+* coupling strength.
 
 Entries should be separated by spaces or tabs.
 
@@ -37,4 +38,4 @@ Example::
    1 0 0.3
    0 1 0.9
 
-:ref:``saveAdjacencyList`` saves files in this very format.
+:ref:`saveAdjacencyList` saves files in this very format.

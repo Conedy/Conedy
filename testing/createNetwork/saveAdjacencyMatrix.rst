@@ -18,4 +18,4 @@ The text file will contain the entries of the adjacency matrix separated by whit
    0.1   0     0.1  0
    0     0.1   0    0.1
 
-:ref:``createFromAdjacencyMatrix`` reads files in this format.
+:ref:`createFromAdjacencyMatrix` reads files in this format.

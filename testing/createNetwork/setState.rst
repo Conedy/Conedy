@@ -9,7 +9,7 @@ Parameters
 	The number of the node, whose state is set.
 
 ``x1, …, xn`` : floats
-	The new values of the 1:sup:`st`, …, n:sup`th` dynamical variable.
+	The new values of the 1\ :sup:`st`\ , …, n\ :sup:`th` dynamical variable.
 
 
 

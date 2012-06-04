@@ -4,7 +4,7 @@
 Parameters
 ----------
 
-``probability``: double (:math:``\in\left[ 0, 1 \right]``)
+``probability``: double (:math:`\in\left[ 0, 1 \right]`)
    Replacement probability.
 
 ``node``: node template

@@ -29,4 +29,4 @@ The text file should contain the entries of the adjacency matrix separated by wh
    0     0.1   0    0.1
    0.1   0     0.1  0.0
 
-:ref:``saveAdjacencyMatrix`` saves files in this very format.
+:ref:`saveAdjacencyMatrix` saves files in this very format.
