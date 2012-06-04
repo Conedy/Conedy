@@ -6,7 +6,7 @@
 Notes
 -----
 
-If :math:`n` is the number of nodes in the network and :math:`A` is its adjacency matrix (i.e. :math:`A_{ij} = 1`, if there is an edge connectiong node :math:`i` to node :math:`j`, and :math:`A_{ij} = 0` otherwise), the mean clustering coefficient is defined as:
+If :math:`n` is the number of nodes in the network and :math:`A` is its adjacency matrix (i.e. :math:`A_{ij} = 1`, if there is an edge connecting node :math:`i` to node :math:`j`, and :math:`A_{ij} = 0` otherwise), the mean clustering coefficient is defined as:
 
 .. math::
 	\binom{n}{3}^{-1}
