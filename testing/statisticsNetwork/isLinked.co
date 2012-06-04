@@ -9,5 +9,5 @@ target = net.addNode(node());
 
 net.addEdge (source,target, weightedEdge(1.0));
 
-print "Should be true:" + (net.isLinked (source,target)) + newline;
-print "Should be false:" +(net.isLinked (target,source)) + newline;
+print "Should be 1: " + (net.isLinked (source,target)) + newline;
+print "Should be 0: " +(net.isLinked (target,source)) + newline;

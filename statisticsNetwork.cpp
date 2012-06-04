@@ -265,13 +265,6 @@ namespace conedy
 	}
 
 
-
-
-
-
-
-
-
 	baseType statisticsNetwork::meanClustering()
 	{
 
