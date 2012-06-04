@@ -6,7 +6,7 @@
 
 Parameters
 ----------
-``filename``: String
+``filename``: string
          Name of the file to which the degrees will be written
 
 
@@ -17,3 +17,4 @@ If :math:`n` is the number of nodes in the network and :math:`A` is its adjacenc
 .. math::
 	\sum_{j=1}^{n} A_{ij}
 
+See also: :ref:`degree`

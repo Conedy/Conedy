@@ -1,12 +1,13 @@
-network net;
+network N;
 
-net.cycle(20,1, kuramoto());
+int i = N.cycle(20, 1, kuramoto());
 
-net.addEdge(1,7,1.0);
-net.addEdge(7,1,1.0);
-net.addEdge(1,11,1.0);
-net.addEdge(11,1,1.0);
+N.addEdge(i+ 1, i+ 7, weightedEdge(1.0));
+N.addEdge(i+ 7, i+ 1, weightedEdge(2.0));
+N.addEdge(i+ 1, i+11, weightedEdge(3.0));
+N.addEdge(i+11, i+ 1, weightedEdge(4.0));
 
-
-net.degreeCentrality( "output/degreeCentrality.co.out" );
-
+print "Should be 2: " + N.degree(i) + newline;
+print "Should be 4: " + N.degree(i+1) + newline;
+print "Should be 2: " + N.degree(i+2) + newline;
+print "Should be 3: " + N.degree(i+7) + newline;
