@@ -1,7 +1,7 @@
 
 setRandomSeed(0);
 
-network net;
+network N;
 
 
 
@@ -15,13 +15,13 @@ samplingTime = 0.01;
 
 
 
-net.addNode(gaussianLorenz());
-net.setState(0, 1.0, 1.0, 1.0);
+N.addNode(gaussianLorenz());
+N.setState(0, 1.0, 1.0, 1.0);
 
-net.observeTime("output/gaussianLorenz.co.series");
-net.observeAll("output/gaussianLorenz.co.series",component(0));
-net.observeAll("output/gaussianLorenz.co.series",component(1));
-net.observeAll("output/gaussianLorenz.co.series",component(2));
+N.observeTime("output/gaussianLorenz.co.series");
+N.observeAll("output/gaussianLorenz.co.series",component(0));
+N.observeAll("output/gaussianLorenz.co.series",component(1));
+N.observeAll("output/gaussianLorenz.co.series",component(2));
 
 
-net.evolve(0.0,1500.0);
+N.evolve(0.0,1500.0);

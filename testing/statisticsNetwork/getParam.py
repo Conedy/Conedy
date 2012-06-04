@@ -1,9 +1,9 @@
 import conedy as co
 
-net = co.network()
+N = co.network()
 
-net.addNode(co.kuramoto())
+N.addNode(co.kuramoto())
 
 
-print "kuramoto_omega:" + str ( net.getParam(0,"kuramoto_omega"))
+print "kuramoto_omega:" + str ( N.getParam(0, "kuramoto_omega"))
 

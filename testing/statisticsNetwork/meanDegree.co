@@ -1,7 +1,7 @@
 network N;
 
 
-N.completeNetwork ( 10, node(),edge());
+N.completeNetwork (10, node(), edge());
 print "Should be 9: " + N.meanDegree() + newline;
 
 N.clear();

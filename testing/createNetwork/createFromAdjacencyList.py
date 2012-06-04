@@ -1,14 +1,14 @@
 import conedy as co
 
-net = co.network()
+N = co.network()
 
 
-#net.completeNetwork (10, co.node(), co.weightedEdge());
-net.completeNetwork(10)
+#N.completeNetwork (10, co.node(), co.weightedEdge());
+N.completeNetwork(10)
 
-net.saveAdjacencyList("output/createFromAdjacencyList.py.mat")
-net.clear()
-net.createFromAdjacencyList("output/createFromAdjacencyList.py.mat", co.node(), co.weightedEdge() )
+N.saveAdjacencyList("output/createFromAdjacencyList.py.mat")
+N.clear()
+N.createFromAdjacencyList("output/createFromAdjacencyList.py.mat", co.node(), co.weightedEdge() )
 
-net.saveAdjacencyList("output/createFromAdjacencyList.py.mat2")
+N.saveAdjacencyList("output/createFromAdjacencyList.py.mat2")
 

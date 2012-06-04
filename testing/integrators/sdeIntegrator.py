@@ -1,7 +1,7 @@
 import conedy as co
 
 
-net = co.network()
+N = co.network()
 
 
 
@@ -10,11 +10,11 @@ co.set("ornUhl_diffusion" , 0.1)
 co.set("samplingTime", 0.1)
 
 
-net.addNode(co.ornUhl())
-net.setState(0, 1.0)
-net.observeTime("output/sdeIntegrator.py.series")
-net.observeAll("output/sdeIntegrator.py.series", co.component(0))
-net.evolve(0.0,15000.0)
+N.addNode(co.ornUhl())
+N.setState(0, 1.0)
+N.observeTime("output/sdeIntegrator.py.series")
+N.observeAll("output/sdeIntegrator.py.series", co.component(0))
+N.evolve(0.0,15000.0)
 
 
 

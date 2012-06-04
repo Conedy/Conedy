@@ -1,12 +1,8 @@
-network net;
+network N;
 
-net.lattice(20,20,1.5, roessler());
-print "should be 400: ";
-print net.size();
-print newline;
+N.lattice(20, 20, 1.5, roessler());
+print "Should be 400: " + N.size() + newline;
 
-net.clear();
-net.cycle(40,2, kuramoto());
-print "should be 40: ";
-print net.size();
-print newline;
+N.clear();
+N.cycle(40, 2, kuramoto());
+print "Should be 40: " + N.size() + newline;

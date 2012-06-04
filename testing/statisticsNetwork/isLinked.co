@@ -1,13 +1,13 @@
-network net;
+network N;
 
 
 int source;
 int target;
 
-source = net.addNode(node());
-target = net.addNode(node());
+source = N.addNode(node());
+target = N.addNode(node());
 
-net.addEdge (source,target, weightedEdge(1.0));
+N.addEdge(source, target, weightedEdge(1.0));
 
-print "Should be 1: " + (net.isLinked (source,target)) + newline;
-print "Should be 0: " +(net.isLinked (target,source)) + newline;
+print "Should be 1: " + (N.isLinked (source,target)) + newline;
+print "Should be 0: " +( N.isLinked (target,source)) + newline;

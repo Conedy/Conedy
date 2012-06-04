@@ -7,26 +7,26 @@ pcoIntegrateFire_noiseFrequency = 0.01;
 
 
 
-network net;
+network N;
 
 int nodeNumber;
 
 
-nodeNumber = net.addNode(pcoIntegrateFire());
-net.observeTime("output/singleNoise.co.phaseInhib");
-net.observe(nodeNumber, "output/singleNoise.co.phaseInhib");
-net.evolve(3.0,15.0);
-net.clear();
+nodeNumber = N.addNode(pcoIntegrateFire());
+N.observeTime("output/singleNoise.co.phaseInhib");
+N.observe(nodeNumber, "output/singleNoise.co.phaseInhib");
+N.evolve(3.0,15.0);
+N.clear();
 
 pcoIntegrateFire_noiseIntensity = 0.01;
 
-nodeNumber = net.addNode(pcoIntegrateFire());
-net.observeTime("output/singleNoise.co.phaseExi");
-net.observe(nodeNumber,"output/singleNoise.co.phaseExi");
-net.evolve(3.0,15.0);
+nodeNumber = N.addNode(pcoIntegrateFire());
+N.observeTime("output/singleNoise.co.phaseExi");
+N.observe(nodeNumber,"output/singleNoise.co.phaseExi");
+N.evolve(3.0,15.0);
 
 
-#net.observeTime("output/fireTimes");
+#N.observeTime("output/fireTimes");
 
-#net.printNodeStatistics();
+#N.printNodeStatistics();
 

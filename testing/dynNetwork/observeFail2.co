@@ -2,16 +2,16 @@
 samplingTime = 1.2;
 
 
-network net;
+network N;
 
 int newNodeNumber;
 
-newNodeNumber = net.addNode(logisticMap());
-net.printNodeStatistics();
-net.observe(newNodeNumber+1, "output/observe.py.series");
+newNodeNumber = N.addNode(logisticMap());
+N.printNodeStatistics();
+N.observe(newNodeNumber+1, "output/observe.py.series");
 
 
-net.evolve (0.0,10.0);
+N.evolve (0.0,10.0);
 
 
 

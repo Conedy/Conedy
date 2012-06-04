@@ -1,10 +1,10 @@
-network net;
+network N;
 
-net.completeNetwork(10, node, weightedEdge );
+N.completeNetwork(10, node, weightedEdge );
 
-net.saveGraphML("output/saveGraphML.co.graph");
-#net.clear()
-#net.createFromAdjacencyList("output/createFromAdjacencyList.py.mat")
+N.saveGraphML("output/saveGraphML.co.graph");
+#N.clear()
+#N.createFromAdjacencyList("output/createFromAdjacencyList.py.mat")
 
-#net.saveAdjacencyList("output/createFromAdjacencyList.py.mat2")
+#N.saveAdjacencyList("output/createFromAdjacencyList.py.mat2")
 

@@ -1,11 +1,11 @@
-network net;
+network N;
 
 int nodeNumber;
 
 
-nodeNumber = net.addNode (roessler());
+nodeNumber = N.addNode (roessler());
 
-net.setParam (nodeNumber, "roessler_omega", 0.92);
+N.setParam (nodeNumber, "roessler_omega", 0.92);
 
-print "Should be 0.92:" + net.getParam(nodeNumber, "roessler_omega") + newline;
+print "Should be 0.92:" + N.getParam(nodeNumber, "roessler_omega") + newline;
 

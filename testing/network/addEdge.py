@@ -1,13 +1,13 @@
 import conedy as co
 
-net = co.network()
+N = co.network()
 
-net.addNode(co.node())
-net.addNode(co.node())
+N.addNode(co.node())
+N.addNode(co.node())
 
-#net.addEdge(0,1,co.weightedEdge(0.3))
+#N.addEdge(0,1,co.weightedEdge(0.3))
 
-net.addEdge(0,1,co.weightedEdge(0.3))
+N.addEdge(0,1,co.weightedEdge(0.3))
 
 
-net.saveAdjacencyList("output/addEdge.py.adjList")
+N.saveAdjacencyList("output/addEdge.py.adjList")

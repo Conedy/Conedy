@@ -3,7 +3,7 @@ import conedy as co
 
 N = co.network()
 
-N.completeNetwork(10)  # creates a Nwork of 10 nodes, where every pair is connected by an unweighted edge
+N.completeNetwork(10)  # creates a network of 10 nodes, where every pair is connected by an unweighted edge
 print "Should be 9: " + str (N.meanDegree())
 
 

@@ -7,15 +7,15 @@ gaussianBarkley_sigma = 0.05;
 
 setRandomSeed(10);
 
-network net;
-net.lattice(1,1,1.0, gaussianBarkley());
-#net.randomizeWeights(uniform(30.0,30.0));
+network N;
+N.lattice(1,1,1.0, gaussianBarkley());
+#N.randomizeWeights(uniform(30.0,30.0));
 
-#net.setState(0,50.0,0.0);
+#N.setState(0,50.0,0.0);
 
 
-net.observeTime("output/barkley.co.single");
-net.observeAll("output/barkley.co.single", component(0));
-net.observeAll("output/barkley.co.single", component(1));
-net.evolve(0.0,500.0);
+N.observeTime("output/barkley.co.single");
+N.observeAll("output/barkley.co.single", component(0));
+N.observeAll("output/barkley.co.single", component(1));
+N.evolve(0.0,500.0);
 

@@ -1,6 +1,6 @@
 import conedy as co
 
-net = co.network()
+N = co.network()
 
 
 co.setRandomSeed(0)
@@ -11,13 +11,13 @@ co.set("gaussianLorenz_sigmaNoise", 10.0)
 co.set("samplingTime", 0.01)
 
 
-net.addNode(co.gaussianLorenz())
-net.setState(0, 1.0, 1.0, 1.0)
+N.addNode(co.gaussianLorenz())
+N.setState(0, 1.0, 1.0, 1.0)
 
-net.observeTime("output/gaussianLorenz.py.series")
-net.observeAll("output/gaussianLorenz.py.series", co.component(0))
-net.observeAll("output/gaussianLorenz.py.series", co.component(1))
-net.observeAll("output/gaussianLorenz.py.series", co.component(2))
+N.observeTime("output/gaussianLorenz.py.series")
+N.observeAll("output/gaussianLorenz.py.series", co.component(0))
+N.observeAll("output/gaussianLorenz.py.series", co.component(1))
+N.observeAll("output/gaussianLorenz.py.series", co.component(2))
 
 
-net.evolve(0.0,1500.0)
+N.evolve(0.0,1500.0)

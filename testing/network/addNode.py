@@ -1,10 +1,10 @@
 import conedy as co
 
-net = co.network()
+N = co.network()
 
 
 
-net.addNode(co.node())
+N.addNode(co.node())
 
 
-print "Should be 1:" + str( net.size() ) 
+print "Should be 1:" + str( N.size() ) 

@@ -1,20 +1,20 @@
 
 #samplingTime = 1000.0;
 
-network net;
+network N;
 
 
-net.addNode(pcoIntegrateFire());
+N.addNode(pcoIntegrateFire());
 
 
 
 
-net.observeTime("output/single.co.phase");
-net.observe(0,"output/single.co.phase");
+N.observeTime("output/single.co.phase");
+N.observe(0,"output/single.co.phase");
 
-#net.observeTime("output/fireTimes");
-net.observeEventTimes("output/single.co.fireTimes", 2);
+#N.observeTime("output/fireTimes");
+N.observeEventTimes("output/single.co.fireTimes", 2);
 
-#net.printNodeStatistics();
+#N.printNodeStatistics();
 
-net.evolve(3.0,15.0);
+N.evolve(3.0,15.0);

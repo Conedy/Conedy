@@ -1,4 +1,4 @@
-network net;
+network N;
 
 
 integrateAndFire_a = -0.2;
@@ -8,12 +8,12 @@ integrateAndFire_I = 0.3;
 samplingTime = 0.01;
 
 
-net.addNode(integrateAndFire());
-net.setState(0, 0.0, 0.0, 0.0 );
+N.addNode(integrateAndFire());
+N.setState(0, 0.0, 0.0, 0.0 );
 
 
-net.observeTime("output/integrateAndFire.co.series");
-net.observe(0,"output/integrateAndFire.co.series",component(0));
+N.observeTime("output/integrateAndFire.co.series");
+N.observe(0,"output/integrateAndFire.co.series",component(0));
 
 
-net.evolve(0.0,150.0);
+N.evolve(0.0,150.0);

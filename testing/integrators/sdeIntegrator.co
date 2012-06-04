@@ -1,4 +1,4 @@
-network net;
+network N;
 
 
 ornUhl_drift = 0.2;
@@ -8,11 +8,11 @@ samplingTime = 0.1;
 
 
 
-net.addNode(ornUhl());
-net.setState(0, 1.0);
-net.observeTime("output/sdeIntegrator.co.series");
-net.observe(0, "output/sdeIntegrator.co.series",component(0));
-net.evolve(0.0,15000.0);
+N.addNode(ornUhl());
+N.setState(0, 1.0);
+N.observeTime("output/sdeIntegrator.co.series");
+N.observe(0, "output/sdeIntegrator.co.series",component(0));
+N.evolve(0.0,15000.0);
 
 
 

@@ -1,10 +1,10 @@
-network net;
+network N;
 
-net.addNode(ornUhl());
-net.observeTime("output/doubleEvolveSde.co.series");
-net.observeAll("output/doubleEvolveSde.co.series",component(0));
-net.evolve(0.0, 1.0);
-net.evolve(1.0, 2.0);
+N.addNode(ornUhl());
+N.observeTime("output/doubleEvolveSde.co.series");
+N.observeAll("output/doubleEvolveSde.co.series",component(0));
+N.evolve(0.0, 1.0);
+N.evolve(1.0, 2.0);
 
 
 
