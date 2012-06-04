@@ -170,6 +170,8 @@ conedy.install: conedy
 conedy-root: addSharedNodesIfNecessary Parser.yy Scanner.ll string_config.h
 	bjam  conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
+conedy-root.clean: conedy.clean
+
 
 conedy-root.install:
 	mkdir -p ${dirInstallRoot}
@@ -196,6 +198,9 @@ conedy.uninstall:
 
 python-conedy: addNodesIfNecessary docstrings.h string_config.h # build the python bindings of Conedy.
 	CFLAGS="-D$(SVNDEV) -DPYTHON $(addprefix -D,${defines})" python setup.py build
+
+python-conedy-root.clean: python-conedy.clean
+
 
 
 python-conedy.install: python-conedy
