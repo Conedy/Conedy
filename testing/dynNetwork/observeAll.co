@@ -1,14 +1,14 @@
-network net;
+network N;
 
-net.randomNetwork (10,0.1,kuramoto(), weightedEdge());
+N.randomNetwork (10,0.1,kuramoto(), weightedEdge());
 
-net.observeAll ("output/observeAll.allStates");
+N.observeAll ("output/observeAll.allStates");
 
 for (int i = 0; i < 10; i++)
 {
-	net.observe (i, "output/observeAll.allStates2");
+	N.observe (i, "output/observeAll.allStates2");
 };
 
-net.evolve(0.0,10.0); 
+N.evolve(0.0,10.0); 
 
 

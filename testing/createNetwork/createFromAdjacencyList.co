@@ -1,13 +1,13 @@
 
 
-network net;
+network N;
 
 
-net.completeNetwork(10);
+N.completeNetwork(10);
 
-net.saveAdjacencyList("output/createFromAdjacencyList.py.mat");
-net.clear();
-net.createFromAdjacencyList("output/createFromAdjacencyList.py.mat", node(), weightedEdge() );
+N.saveAdjacencyList("output/createFromAdjacencyList.py.mat");
+N.clear();
+N.createFromAdjacencyList("output/createFromAdjacencyList.py.mat", node(), weightedEdge() );
 
-net.saveAdjacencyList("output/createFromAdjacencyList.py.mat2");
+N.saveAdjacencyList("output/createFromAdjacencyList.py.mat2");
 

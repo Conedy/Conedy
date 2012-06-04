@@ -1,21 +1,21 @@
 import conedy as co
 
-net = co.network()
+N = co.network()
 
 
-net.cycle(10,1,co.kuramoto())
+N.cycle(10,1,co.kuramoto())
 
 
-net.observePhaseCoherence("output/observePhaseCoherence.py.1")
-net.evolve(0.0,10.0)
-net.removeObserver()
+N.observePhaseCoherence("output/observePhaseCoherence.py.1")
+N.evolve(0.0,10.0)
+N.removeObserver()
 
 
 for i in range (0, 10):
-	net.setState(i, i/10.0)
+	N.setState(i, i/10.0)
 
 
-net.observePhaseCoherence("output/observePhaseCoherence.py.0")
-net.evolve(10.0,20.0)
+N.observePhaseCoherence("output/observePhaseCoherence.py.0")
+N.evolve(10.0,20.0)
 
 

@@ -11,7 +11,7 @@ co.set("pcoIntegrateFire_t_ref", 0.05)
 co.set("pcoIntegrateFire_alpha", 0.9)
 
 
-net = co.network()
+N = co.network()
 
 
 
@@ -21,16 +21,16 @@ coupling = 0.012
 
 #n.useLatticePositioning(100,100);
 
-net.torusNearestNeighbors(40,40,36.0, co.pcoIntegrateFire(), co.weightedEdge())
+N.torusNearestNeighbors(40,40,36.0, co.pcoIntegrateFire(), co.weightedEdge())
 
-net.rewire(rewiring)
+N.rewire(rewiring)
 
-net.randomizeStates(co.pcoIntegrateFire(), co.uniform(0.0,1.0));
-net.randomizeWeights(co.uniform(coupling,coupling));
+N.randomizeStates(co.pcoIntegrateFire(), co.uniform(0.0,1.0));
+N.randomizeWeights(co.uniform(coupling,coupling));
 
-net.saveAdjacencyList("output/nonconverging.py.graph");
+N.saveAdjacencyList("output/nonconverging.py.graph");
 
-net.observeTime("output/nonconverging.py.phaseCoherence");
-net.observePhaseCoherence("output/nonconverging.py.phaseCoherence");
-net.evolve(0.0,100.0);
+N.observeTime("output/nonconverging.py.phaseCoherence");
+N.observePhaseCoherence("output/nonconverging.py.phaseCoherence");
+N.evolve(0.0,100.0);
 

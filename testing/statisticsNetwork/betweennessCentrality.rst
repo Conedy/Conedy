@@ -1,6 +1,6 @@
 
 ``betweennessCentrality(filename)``
-	Writes the betweenness centrality of each individual node in a text file.
+	Writes the betweenness centrality of each individual node to a text file.
 	The file contains the centralities written in order of the node number.
 
 Parameters

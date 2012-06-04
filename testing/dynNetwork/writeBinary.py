@@ -4,16 +4,16 @@ import conedy as co
 
 
 
-net = co.network()
+N = co.network()
 
 co.set("outputBinary", bool (1))
 co.set("samplingTime" , 0.015)
 
 
 
-net.observeTime("output/writeBinary.py.time")
+N.observeTime("output/writeBinary.py.time")
 
 
-#net.printNodeStatistics()
+#N.printNodeStatistics()
 
-net.evolve(0.0,10.0)
+N.evolve(0.0,10.0)

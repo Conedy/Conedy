@@ -1,20 +1,20 @@
 
 
-network net;
+network N;
 
 setRandomSeed(0);
 
-net.cycle ( 1000, 10, roessler(), weightedEdge(1.0));
+N.cycle ( 1000, 10, roessler(), weightedEdge(1.0));
 
 
 
 
-print "mean degree before rewiring:" + net.meanDegree()+ newline;
-print "should be close to 0.75:" +  net.meanClustering()+ newline;
-net.rewire(1.0);
-net.saveAdjacencyList("testConedy");
-print "mean degree after rewiring:" +  net.meanDegree()+ newline;
-print "should be close to 0.0:" +  net.meanClustering()+ newline;
+print "mean degree before rewiring:" + N.meanDegree()+ newline;
+print "should be close to 0.75:" +  N.meanClustering()+ newline;
+N.rewire(1.0);
+N.saveAdjacencyList("testConedy");
+print "mean degree after rewiring:" +  N.meanDegree()+ newline;
+print "should be close to 0.0:" +  N.meanClustering()+ newline;
 
 
 

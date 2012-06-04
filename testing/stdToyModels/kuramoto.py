@@ -1,6 +1,6 @@
 import conedy as co
 
-net = co.network()
+N = co.network()
 
 co.set("kuramoto_omega", 0.1)
 
@@ -8,50 +8,50 @@ co.set("samplingTime", 0.01)
 
 
 #just one kuramoto oscillator
-firstNodeNumber = net.addNode(co.kuramoto())
-net.setState(firstNodeNumber, 0.0 )
-net.observeTime("output/kuramoto.py.one")
-net.observe(0,"output/kuramoto.py.one", co.component(0))
-net.evolve(0.0,10.0)
-net.removeObserver()
+firstNodeNumber = N.addNode(co.kuramoto())
+N.setState(firstNodeNumber, 0.0 )
+N.observeTime("output/kuramoto.py.one")
+N.observe(0,"output/kuramoto.py.one", co.component(0))
+N.evolve(0.0,10.0)
+N.removeObserver()
 
 
 #adding a second. They should synchronize.
-secondNodeNumber = net.addNode(co.kuramoto())
-net.addEdge (firstNodeNumber,secondNodeNumber  ,co.weightedEdge(0.1))
-net.addEdge (secondNodeNumber, firstNodeNumber ,co.weightedEdge(0.1))
+secondNodeNumber = N.addNode(co.kuramoto())
+N.addEdge (firstNodeNumber,secondNodeNumber  ,co.weightedEdge(0.1))
+N.addEdge (secondNodeNumber, firstNodeNumber ,co.weightedEdge(0.1))
 
 
 
 
 
 #small ring of oscillators. Should not synchronize.
-net.setState(firstNodeNumber, 0.0 )
-net.setState(secondNodeNumber, 0.3 )
+N.setState(firstNodeNumber, 0.0 )
+N.setState(secondNodeNumber, 0.3 )
 
-net.observeTime("output/kuramoto.py.two")
-net.observeAll("output/kuramoto.py.two")
-net.evolve(0.0,40.0)
-net.removeObserver()
+N.observeTime("output/kuramoto.py.two")
+N.observeAll("output/kuramoto.py.two")
+N.evolve(0.0,40.0)
+N.removeObserver()
 
-thirdNodeNumber = net.addNode(co.kuramoto())
-fourthNodeNumber = net.addNode(co.kuramoto())
-net.addEdge ( secondNodeNumber, thirdNodeNumber ,co.weightedEdge(0.1))
-net.addEdge ( thirdNodeNumber, secondNodeNumber ,co.weightedEdge(0.1))
+thirdNodeNumber = N.addNode(co.kuramoto())
+fourthNodeNumber = N.addNode(co.kuramoto())
+N.addEdge ( secondNodeNumber, thirdNodeNumber ,co.weightedEdge(0.1))
+N.addEdge ( thirdNodeNumber, secondNodeNumber ,co.weightedEdge(0.1))
 
 
-net.addEdge ( thirdNodeNumber, fourthNodeNumber ,co.weightedEdge(0.1))
-net.addEdge ( fourthNodeNumber, thirdNodeNumber ,co.weightedEdge(0.1))
+N.addEdge ( thirdNodeNumber, fourthNodeNumber ,co.weightedEdge(0.1))
+N.addEdge ( fourthNodeNumber, thirdNodeNumber ,co.weightedEdge(0.1))
 
-net.addEdge ( fourthNodeNumber, firstNodeNumber ,co.weightedEdge(0.1))
-net.addEdge ( firstNodeNumber, fourthNodeNumber ,co.weightedEdge(0.1))
-net.setState(firstNodeNumber, 0.0 )
-net.setState(secondNodeNumber, 0.245 )
-net.setState(thirdNodeNumber, 0.495 )
-net.setState(fourthNodeNumber, 0.7502 )
+N.addEdge ( fourthNodeNumber, firstNodeNumber ,co.weightedEdge(0.1))
+N.addEdge ( firstNodeNumber, fourthNodeNumber ,co.weightedEdge(0.1))
+N.setState(firstNodeNumber, 0.0 )
+N.setState(secondNodeNumber, 0.245 )
+N.setState(thirdNodeNumber, 0.495 )
+N.setState(fourthNodeNumber, 0.7502 )
 
-net.observeTime("output/kuramoto.py.ring")
-net.observeAll("output/kuramoto.py.ring")
-net.evolve(0.0,40.0)
+N.observeTime("output/kuramoto.py.ring")
+N.observeAll("output/kuramoto.py.ring")
+N.evolve(0.0,40.0)
 
 

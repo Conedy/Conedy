@@ -1,11 +1,11 @@
-network net;
+network N;
 
-loop (100) net.addNode(node());
+loop (100) N.addNode(node());
 
-net.addRandomEdges (10.0, weightedEdge(0.5));
+N.addRandomEdges (10.0, weightedEdge(0.5));
 
 
-print "should be 10:" + net.meanDegree();
+print "should be 10:" + N.meanDegree();
 
 
 

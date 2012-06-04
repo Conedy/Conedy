@@ -3,18 +3,18 @@
 
 
 
-network net;
+network N;
 
 loop (10000)
-	net.addNode (node ());
+	N.addNode (node ());
 
-net.addRandomEdgesDegreeDistribution(uniform (0.0,100.0), edge  );
-
-
+N.addRandomEdgesDegreeDistribution(uniform (0.0,100.0), edge  );
 
 
-#net.printNodeStatistics();
 
-net.inDegreeDistribution("output/addRandomEdgesDegreeDistribution.degDist");
-print net.meanDegree();
+
+#N.printNodeStatistics();
+
+N.inDegreeDistribution("output/addRandomEdgesDegreeDistribution.degDist");
+print N.meanDegree();
 
