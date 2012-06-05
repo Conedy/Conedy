@@ -4,6 +4,7 @@ Jamroot
 LICENSE
 Makefile
 Parser.h
+Parser.ih
 Parser.yy.declaration
 Parser.yy.tokens
 README

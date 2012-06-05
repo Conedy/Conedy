@@ -170,6 +170,8 @@ conedy.install: conedy
 conedy-root: addSharedNodesIfNecessary Parser.yy Scanner.ll string_config.h
 	bjam  conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
 
+conedy-root.clean: conedy.clean
+
 
 conedy-root.install:
 	mkdir -p ${dirInstallRoot}
@@ -196,6 +198,9 @@ conedy.uninstall:
 
 python-conedy: addNodesIfNecessary docstrings.h string_config.h # build the python bindings of Conedy.
 	CFLAGS="-D$(SVNDEV) -DPYTHON $(addprefix -D,${defines})" python setup.py build
+
+python-conedy-root.clean: python-conedy.clean
+
 
 
 python-conedy.install: python-conedy
@@ -266,12 +271,17 @@ endif
 CONEDYSRC = $(addprefix ${dirSrc}/, $(shell cat fileList) )
 
 
+version:
+	echo ${VERSION}
+
+
 copySrc:
 	mkdir -p $(buildDir)
 	ln -s $(CONEDYSRC) $(buildDir)  || true
 	ln -s ${dirSrc}/addedNodes $(buildDir) || true
 	cp -r ${dirSrc}/testing $(buildDir) || true
-
+	echo ${VERSION} > $(buildDir)/version
+	rm $(buildDir)/addedNodes.sum.old
 
 conedy.recompile:
 	${noUserSpace} HOME=${HOME} make conedy conedy.install
@@ -332,6 +342,9 @@ condor.install: conedy condor
 #	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT51.INTEL.EXE
 #	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT61.INTEL.EXE
 #	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT60.INTEL.EXE
+
+condor.uninstall:
+	rm -f ${dirInstall}/conedyCondor ${dirInstall}/conedy.LINUX.X86_64.EXE
 
 condor.clean:
 

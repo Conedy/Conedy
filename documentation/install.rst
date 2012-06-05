@@ -43,17 +43,24 @@ The file ``config.h`` should define the following variables
 A whitespace seperated list of the targets you want to build. Should be an arbitrary subset of: python-conedy conedy conedy-src documentation debug condor.
 Whenever the makefile targets  ``build``,  ``install``, ``test``, or ``uninstall`` are evoked, all targets in this subset are considered.
 
-- ``dirinstall``
+- ``dirInstall``
 
 The installation directory for Conedy’s script-interpreter and recompilation scripts.  Usually, you want to choose a directory which is in your path.
 
-- ``dirsrc``
+- ``dirSrc``
 
 A directory for the installation of the Conedy sources.
 
-- ``noUserSpace``
+- ``dirInstallRoot``
 
-In case you install Conedy’s sources and executables into a directory, which is not in userspace, recompilation will require root-priviledges. Choose the tool, which allows to acquire root-priviledges. ``sudo`` or ``kdesudo`` will work fine. For an installation in userspace ``noUserSpace`` can be left empty.
+
+- ``buildDir``
+
+XXX
+
+- ``pythonBjam``
+
+XXX
 
 - ``globalConfig``
 
@@ -69,7 +76,7 @@ The number of threads that should be used for recompilation of Conedy’s script
 
 - ``defines``
 
-A collection of ``#define`` macros which influence compilation of the source code. At the moment only ``CALENDARQUEUE`` can be chosen in order to use the calendarqueue instead of a relaxed heap for the event integration.
+A collection of ``#define`` macros which influence compilation of the source code. At the moment only ``CALENDARQUEUE`` can be chosen in order to use the calendarqueue instead of a relaxed heap for the event integration. XXX DOUBLE
 
 
 Dependencies

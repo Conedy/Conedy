@@ -1,7 +1,7 @@
 
 # Specify, which parts of conedy should be build and installed. Please choose one of the following: conedy python-conedy conedy-src documentation condor
 
-todo = python-conedy-root conedy-root conedy-src documentation
+todo =  conedy-root conedy-src documentation
 
 
 # Installation directory for the the conedy executable and the recompilation scripts. For convenience, choose a directory in your path.
