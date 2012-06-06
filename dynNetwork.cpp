@@ -138,8 +138,7 @@ namespace conedy
 
 
 // call possible visiters which may be at the snapshot event
-
-	snapshot();
+		eventHandler::forceEvent (_ioNode_);
 
 		vector< dynNode *>::iterator it;
 		baseType timeTilEvent;

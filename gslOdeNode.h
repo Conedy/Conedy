@@ -30,7 +30,7 @@ namespace conedy
 
 
 	//! Basisklasse für Nodes, die mit der GSL-integriert werden.	
-	class gslOdeNode : public containerNode<baseType,3>
+	class gslOdeNode : public containerNode<baseType,3>, globals
 	{    
 		private:
 
@@ -57,24 +57,18 @@ namespace conedy
 
 			static double * errors;
 
-			inline string paramStepType() { return gslStepType->getParams(0); }
-			inline double error_abs () { return gslErrors->getParams(0); }
-			inline double error_rel () { return gslErrors->getParams(1); }
 
-			static params<string> *gslStepType;
-			static params<baseType> *gslErrors;
 
 		public:
-
 			static void registerStandardValues()
 			{
-				params<string>::registerStandard(_gslOdeNode_,   "odeStepType",0,"gsl_odeiv_step_rkf45");
-				params<baseType>::registerStandard(_gslOdeNode_, "odeRelError",0,0.00001);
-				params<baseType>::registerStandard(_gslOdeNode_, "odeAbsError",1,0.0);
-				params<baseType>::registerStandard(_gslOdeNode_, "odeStepSize",2,0.001);
-				gslStepType = new params<string>(_gslOdeNode_);
-				gslErrors = new params<baseType>(_gslOdeNode_);
-			}	
+				registerGlobal<string>("odeStepType", "gsl_odeiv2_step_rkf45");
+				registerGlobal<double>("odeRelError", 0.00001);
+				registerGlobal<double>("odeAbsError", 0.0);
+				registerGlobal<baseType>("odeStepSize", 0.001);
+				registerGlobal<baseType>("odeMinStepSize", 0.000001);
+				registerGlobal<bool>("odeIsAdaptive", true);
+			}
 
 
 
@@ -107,10 +101,19 @@ namespace conedy
 			//! clean: wird vor der Integration aufgerufen und initialisiert diverse GSL-Parameter (Art der Stufenfunktion, Schrittweite usw.)
 			virtual void clean ()
 			{
-				stepSize = gslErrors->getParams(2);
 				if ( (* containerNode<baseType,3>::nodeList.begin()) == this)
 				{
-					string theStepType = paramStepType();    // determine step-type
+
+					if (alreadyInitialized)  // free gsl-objects
+					{
+						gsl_odeiv2_step_free(gslStep);
+ 						gsl_odeiv2_evolve_free(gslEvolve);
+						gsl_odeiv2_control_free(gslControl);
+					}
+
+					alreadyInitialized = true;
+
+					string theStepType = getGlobal<string>("odeStepType");
 
 					if (theStepType == "gsl_odeiv_step_rk2")
 						stepType= gsl_odeiv_step_rk2;
@@ -141,7 +144,13 @@ namespace conedy
 
 					gslStep = gsl_odeiv_step_alloc ( stepType, odeDimension);
 
-					gslControl = gsl_odeiv_control_y_new ( error_abs(), error_rel()  );
+
+					gslControl = gsl_odeiv2_control_y_new (
+							getGlobal<double>("odeAbsError"),
+							getGlobal<double>("odeRelError")
+						);
+
+
 					gslEvolve = gsl_odeiv_evolve_alloc (odeDimension); 
 
 					gsl_odeiv_system sys = {&gslOdeNode::dgl, NULL, odeDimension, NULL}; 

@@ -12,10 +12,6 @@ namespace conedy
 {
 
 
-	params<string> * gslOdeNode::gslStepType;
-
-	params<baseType> *gslOdeNode::gslErrors;
-
 
 	double * gslOdeNode::errors;
 
