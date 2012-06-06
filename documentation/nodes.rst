@@ -133,17 +133,17 @@ Ordinary differential equations (``ode``)
 
 The ``dynamics`` field should define the derivative ``dxdt`` as function of the current state ``x`` (an example was already given above). Numerical integration algorithms are provided by the GNU Scientific Library (GSL). At the moment only those algorithms are supported, which do not use the Jacobian. In the Python script a specific stepping function can be choosen by setting ``odeStepType`` to one of the following values:
 
-- ``"gsl_odeiv2_step_rk2"``
-- ``"gsl_odeiv2_step_rk4"``
-- ``"gsl_odeiv2_step_rkf45"``
-- ``"gsl_odeiv2_step_rkck"``
-- ``"gsl_odeiv2_step_rk8pd"``
-- ``"gsl_odeiv2_step_rk2imp"``
-- ``"gsl_odeiv2_step_rk4imp"``
+- ``"gsl_rk2"``
+- ``"gsl_rk4"``
+- ``"gsl_rkf45"``
+- ``"gsl_rkck"``
+- ``"gsl_rk8pd"``
+- ``"gsl_rk2imp"``
+- ``"gsl_rk4imp"``
 
 Example::
 
-	co.set("odeStepType", "gsl_odeiv_step_rkf45")
+	co.set("odeStepType", "gsl_rkf45")
 
 See the `the GSL’s documentation`_ for specific information.
 
@@ -165,7 +165,7 @@ If the parameter ``odeIsAdaptive`` is set to ``False``, the step size does not a
 (In this case, Conedy does not change the parameter ``odeStepSize``.)
 To be precise, the actual step size is the largest value, that (a) is at most marginally greater than the parameter ``odeStepSize`` and (b) allows for the time until the next event to be evenly divided into steps.
 As long as ``odeStepSize`` is small in comparison to ``samplingTime`` (see :ref:`evolving`) and the total evolution time, the actual step size differs very little from ``odeStepSize``.
-The error margin defined by ``odeAbsError`` and ``odeRelError`` is still in effect, however, if the estimated error exceeds this margin, an error is issued (instead of adapting the step size).
+If you use GSL 1.15, or higher, the error margin defined by ``odeAbsError`` and ``odeRelError`` is still in effect, however, if the estimated error exceeds this margin, an error is issued (instead of adapting the step size).
 Again, ``samplingTime`` slightly influences the step size and thus the results of the integration.
 
 For example, the following commands will issue a time evolution, where the step size starts at 0.1 and is then dynamically adjusted, such that the estimated integration error for each dynamical variable is one per mill of the value of this variable.
