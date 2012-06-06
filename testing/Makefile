@@ -12,5 +12,5 @@ clean:
 
 
 submit:
-	find ./ -mindepth 1 -maxdepth 1 -path '*/.svn' -prune  -o  -type d -exec sh -c "echo {} && make -s  -C {} submit" \;
+	find ./ -mindepth 1 -maxdepth 1 -path '*/.git' -prune  -o  -type d -exec sh -c "echo {} && make -s  -C {} submit" \;
 
