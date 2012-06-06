@@ -49,6 +49,8 @@ namespace conedy
 			static gslode(system) gslOdeSys;
 
 			static bool alreadyInitialized;
+			static bool gslFixedStepSizeWarningShown;
+
 
 		public:
 
