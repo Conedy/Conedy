@@ -112,6 +112,9 @@ namespace conedy
 			//! normalizes the sum of ingoing coupling weights to r.
 			void normalizeInputs (baseType r);
 
+			//! normalizes the sum of outgoing coupling weights to r.
+			void normalizeOutputs (baseType r);
+
 			//			void createFromMatrix ( inStream & in, unsigned int size, nodeBlueprint *n );
 
 			//! Fügt Kopien der Knoten aus nodes zum Netzwerk hinzu und verbindet mit Kopplungsgewichten aus der Matrix weights.

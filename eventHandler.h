@@ -97,7 +97,6 @@ class event
 		//! Zeiger auf die zurückzurufende Klasse
 		eventHandler *owner;
 	public:
-
 		event()  {};
 		virtual baseType action();  
 
@@ -124,6 +123,7 @@ class eventHandler
 	//! Position im Statischen vector eventList, an der die eigenen Ereignisse beginnen.
 
 	public:
+		void forceEvent(unsigned int signature);
 	static vector<event > eventList;
 
 	int top() { return eventQueue->top(); };

@@ -715,6 +715,23 @@ void createNetwork::addGlobalNoise ( boost::function <double() > r, nodeKind the
 
 }
 
+void createNetwork::normalizeOutputs (baseType r)
+{
+	throw "stub normalizeOutputs";
+
+/*	nodeIterator it;
+	nodeList dynNodes;
+	verticesMatching(dynNodes, _dynNode_);
+
+	for (it = dynNodes.begin(); it != dynNodes.end(); it++)
+	{
+
+		nodeBlueprint::theNodes[*it]->normalizeInWeightSum(r);
+
+	network::clean();*/
+}
+
+
 void createNetwork::normalizeInputs (baseType r)
 {
 	nodeIterator it;
