@@ -281,7 +281,7 @@ copySrc:
 	ln -s ${dirSrc}/addedNodes $(buildDir) || true
 	cp -r ${dirSrc}/testing $(buildDir) || true
 	echo ${VERSION} > $(buildDir)/version
-	rm $(buildDir)/addedNodes.sum.old
+	rm -f $(buildDir)/addedNodes.sum.old
 
 conedy.recompile:
 	${noUserSpace} HOME=${HOME} make conedy conedy.install
