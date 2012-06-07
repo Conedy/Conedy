@@ -16,7 +16,6 @@ Package: conedy-src
 Architecture: any
 Depends: python-all-dev, libgsl0-dev, boost-build | libboost-dev (>=1.46), libboost-dev, libboost-python-dev, libboost-iostreams-dev, libz-dev, python-support, bisonc++, flex, , make 
 Description: recompilation support for conedy
-Conflicts: python-conedy
 
 Package: python-conedy
 Architecture: any
