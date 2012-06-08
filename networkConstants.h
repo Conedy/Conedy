@@ -41,7 +41,6 @@ const networkElementType _hopfNode_=42;
 //const networkElementType _integrateAndFire_=43;
 const networkElementType _izhikevichMap_=44;
 const networkElementType _kuramotoEdge_=45;
-const networkElementType _mapNode_=46;
 const networkElementType _membranePotentialOfIFQ_=47;
 const networkElementType _napKKm_=48;
 const networkElementType _napK_=49;

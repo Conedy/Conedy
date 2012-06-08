@@ -7,13 +7,16 @@ network n;
 double phi;
 double coupling;
 
-network_nodeVerbosity=2.5;
+
+#samplingTime = 0.01;
+
+nodeVerbosity=3;
 
 int nodeNumber;
 int otherNodeNumber;
 int referenceNodeNumber;
 
-outputAppend = 1.0;
+outputAppend = true;
 
 nodeNumber = 0;
 
@@ -26,7 +29,7 @@ coupling 			 		= 0.01;
 
 print "#phi \Delta(\phi)"+newline;
 
-outputAppend =1.0;
+outputAppend = true;
 samplingTime = 10000.0;
 
 

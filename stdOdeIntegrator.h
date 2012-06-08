@@ -1,18 +1,16 @@
-
-
 #ifndef stdOdeIntegrator_h
 #define stdOdeIntegrator_h stdOdeIntegrator_h
 
-
 #include "integrator.h"
 #include "odeNode.h"
-
 #include "networkConstants.h"
+#include "globals.h"
+#include <valarray>
 
 namespace conedy {
 
 	//! implements two simple ode solver  (euler and runge-kutta 4th order) mainly for test purposes.
-	class stdOdeIntegrator : public odeNode 
+	class stdOdeIntegrator : public odeNode, private globals
 	{
 		public:
 				valarray <baseType> tmp2, dydt, dyt, dym;
@@ -32,13 +30,12 @@ namespace conedy {
 		}
 
 			static unsigned int stepType_int;
-			static params<string> *stepType;
 
 			static void registerStandardValues()
 			{
-				params<string>::registerStandard(_stdOdeIntegrator_, "stdOdeIntegrator_stepType",0,"euler");
-				stepType = new params<string> (_stdOdeIntegrator_);
+				registerGlobal<string>("stdOdeIntegrator_stepType","euler");
 			}
+
 			virtual void swap()
 			{
 				for ( unsigned int i = 0; i < this->dimension(); i++ )
@@ -49,14 +46,15 @@ namespace conedy {
 //		virtual void swap(short i) { state=x[i]; }
 		virtual void clean() {
 
-	if (amIFirst())	
+	if (amIFirst())
 	{
-			if (stepType->getParams(0)  == "euler")
+			string stepType = getGlobal<string>("stdOdeIntegrator_stepType");
+			if (stepType == "euler")
 			{
 				stepType_int = 0;
 				integ = new euler (containerDimension() );
-			}	
-			else if (stepType->getParams(0)  == "rk4")
+			}
+			else if (stepType == "rk4")
 				stepType_int = 1;
 			else
 				throw "unknown steptype for stdOdeIntegrator!";
@@ -66,7 +64,7 @@ namespace conedy {
 
 
 // RUNGE KUTTA No. 4
-		virtual void evolve(double time)
+		virtual void evolve(baseType time)
 		{
 			switch (stepType_int)
 			{
@@ -81,7 +79,7 @@ namespace conedy {
 
 		}
 
-		void rungeKutta4Step (double time)
+		void rungeKutta4Step (baseType time)
 		{
 
 
@@ -110,25 +108,25 @@ namespace conedy {
 		}
 
 
-		void eulerStep (double dt)
+		void eulerStep (baseType dt)
 		{
 			list<containerNode<baseType,1>*>::iterator it;
 			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)
 			{
 				odeNode * n = (odeNode*) *it;
-				(*n)(n->x, &dydt[0]); 
+				(*n)(n->x, &dydt[0]);
 				for (unsigned int i = 0;i < n->dimension(); i++)
 				 n->odeNodeTmp[i] = n->x[i]  + dydt[i] * dt ;
 			}
-			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)	
+			for (it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end(); it++)
 				((stdOdeIntegrator *)(*it))->swap();
 
-		}	
+		}
 
 
 
 		//! erster schritt im Runge-Kutter 4.Ordnung
-		virtual void action1(double dt) { 
+		virtual void action1(baseType dt) {
 			(*this)(this->x, &dydt[0]);
 
 			for (unsigned int i = 0;i < this->dimension(); i++)
@@ -139,21 +137,21 @@ namespace conedy {
 
 		}
 		//! zweiter schritt
-		virtual void action2(double dt) {
+		virtual void action2(baseType dt) {
 			(*this)(this->x, &dyt[0]);
 			for (unsigned int i = 0; i < this->dimension(); i++)
 				this->odeNodeTmp[i] = tmp2[i] + dt/2.0*dyt[i];
 
 		}
 		//! dritter Schritt
-		virtual void action3(double dt) {
+		virtual void action3(baseType dt) {
 			(*this)(this->x, &dym[0]);
 			for (unsigned int i = 0; i < this->dimension(); i++)
 				this->odeNodeTmp[i] = tmp2[i] + dt*dym[i];
 			dym += dyt;
 		}
 		//! vierter Schritt
-		virtual void action4(double dt) {
+		virtual void action4(baseType dt) {
 			(*this)(this->x, &dyt[0]);
 			for (unsigned int i = 0; i <this->dimension(); i++)
 				this->odeNodeTmp[i] = tmp2[i] + dt/6.0*(dydt[i] + dyt[i] + ((baseType)2.0)*dym)[i];

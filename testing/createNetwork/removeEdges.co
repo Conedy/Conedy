@@ -1,12 +1,4 @@
-
-
-
-
-
-
 network n;
-
-
 
 n.addNode (node());
 n.addEdge (0,0,weightedEdge(1.0));

@@ -1,10 +1,10 @@
-network net;
+network N;
 
-net.randomNetwork (10, 0.2, node(), weightedEdge());
+N.randomNetwork (10, 0.2, node(), weightedEdge());
 
-net.saveAdjacencyMatrix("output/saveAdjacencyMatrix.py.mat");
-net.clear();
-net.createFromAdjacencyMatrix("output/saveAdjacencyMatrix.py.mat");
+N.saveAdjacencyMatrix("output/saveAdjacencyMatrix.py.mat");
+N.clear();
+N.createFromAdjacencyMatrix("output/saveAdjacencyMatrix.py.mat");
 
-net.saveAdjacencyMatrix("output/saveAdjacencyMatrix.py.mat2");
+N.saveAdjacencyMatrix("output/saveAdjacencyMatrix.py.mat2");
 

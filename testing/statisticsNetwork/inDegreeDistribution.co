@@ -3,13 +3,13 @@
 
 
 
-network net;
+network N;
 
-net.randomNetwork (1000, 0.1, node, edge);
+N.randomNetwork (1000, 0.1, node, edge);
 
 
-#net.printNodeStatistics();
+#N.printNodeStatistics();
 
-net.inDegreeDistribution("output/inDegreeDistribution.degDist");
+N.inDegreeDistribution("output/inDegreeDistribution.degDist");
 
 

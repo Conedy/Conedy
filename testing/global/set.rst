@@ -1,84 +1,96 @@
 .. _set :
 
+``set (parameter, newValue)``
+   Sets the default value of a node parameter or a global variable to a different value. Nodes with default parameter are affected even if the ``set`` command is issued after node creation.
 
 
-set (parameter, newValue)
-   Sets the standard value of a node parameter to a different value. Nodes with standard parameter are affected even if the set command occurs after node creation.
-
-
-Example
--------
+Example (node parameter)
+++++++++++++++++++++++++
 ::
 
   import conedy as co
-  
+
   co.set("lorenz_r", 29.0)
 
 
+Global variables
+++++++++++++++++
 
-In addition Conedy has some global variable, which can also be set with this command:
+If no type is given for some variable, it is of Conedy’s floating point ``baseType``, which can be set at compile time and defaults to ``double``.
 
-
-
-samplingTime
+``samplingTime``
 --------------------------------
-Controls the interval in which registered observables are sampled.
+Controls the interval in which registered observables are sampled (see :ref:`evolving`).
 
-network_edgeVerbosity
+
+.. _edgeVerbosity :
+
+``edgeVerbosity`` (integer)
 --------------------------------
-Controls the amount of information that is printed about edges after a call of :ref:`printNodeStatistics`
+Controls the amount of information that is printed about edges by :ref:`printNodeStatistics`
 
+.. _nodeVerbosity :
 
-network_nodeVerbosity
+``nodeVerbosity`` (integer)
 --------------------------------
-Controls the amount of information that is printed about nodes after a call of :ref:`printNodeStatistics`
+Controls the amount of information that is printed about nodes by :ref:`printNodeStatistics`
 
-
-inputCompress
+``progressVerbosity``
 --------------------------------
-If set to 1.0, streamInNodes (which read and offer data from files) will expect gzip compressed files.
+Every time :math:`\text{[Conedy’s time]} / \texttt{samplingTime}` is a multiple of `progressVerbosity`, Conedy prints its time to ``stdout``. If `progressVerbosity` is set to 0.0, Conedy does not report its progress.
 
-
-outputAppend
+``inputCompress`` (boolean)
 --------------------------------
-If set to 1.0, data is appended if a file with the same name already exists.
+If ``True``, ``streamInNodes`` (which read and offer data from files) will expect Gzip-compressed files.
 
-outputCompress
+``outputAppend`` (boolean)
 --------------------------------
-If set to 1.0, all generated files are compressed using gzip.
+If ``True`` output routines will append data to existing files instead of overwriting them.
 
-outputPrecision
+``outputCompress`` (boolean)
 --------------------------------
-Sets the number of digits which are written 
+If ``True``, all generated files are compressed using Gzip.
 
-outputBinary
+``outputPrecision`` (integer)
 --------------------------------
-If set to 1.0, data is written as 64-bit doubles in binary form without seperation for different time steps. Also, the value of streamOutNode_compress, streamOutNode_precision and streamOutNode_append will not apply.
+Sets the number of digits which are written by output routines.
+
+``outputBinary`` (boolean)
+--------------------------------
+If ``True``, data is written as 64-bit doubles in binary form without seperation for different time steps. ``streamOutNode_compress``, ``streamOutNode_precision`` and ``streamOutNode_append`` will not apply.
 
 
-odeStepType
------------
-XXX
+``odeStepType`` (string)
+------------------------
+Sets the integrator used for evolving ``ode``-type nodes (see :ref:`odenodes`).
 
-odeRelError
------------
-XXX
+``odeRelError``
+---------------
+Sets the relative error not to be exceeded when evolving ``ode``-type nodes (see :ref:`odeprec`).
 
-odeAbsError
------------
-XXX
+``odeAbsError``
+---------------
+Sets the absolute error not to be exceeded when evolving ``ode``-type nodes (see :ref:`odeprec`).
 
-odeStepSize
------------
-XXX
+``odeStepSize``
+---------------
+Sets the step size used when evolving ``ode``-type nodes (see :ref:`odeprec`).
 
+``odeIsAdaptive`` (boolean)
+---------------------------
+If ``True``, ``ode``-type nodes are integrated with adaptive step size. If ``False``, a fixed step size is used (see :ref:`odeprec`).
+
+
+``sdeStepType`` (string)
+------------------------
+Sets the integrator used for evolving ``sde``-type nodes (see :ref:`sdenodes`).
 
 
 .. vectorForInstruction_linux32
 .. vectorForInstruction_linux64
-.. vectorForInstruction_windows51 
-.. vectorForInstruction_windows60 
-.. vectorForInstruction_windows61 
+.. vectorForInstruction_windows51
+.. vectorForInstruction_windows60
+.. vectorForInstruction_windows61
 
 
 

@@ -3,17 +3,17 @@
 Defining new node types
 ///////////////////////
 
-Conedy provides nodes with the dynamics of ordinary
-differential equations, stochastic differential equations, iterated maps, and pulse-coupled
-oscillators. The dynamics of these systems can be assessed by a common interface, which
-easily allows to investigate the same network endowed with different dynamical systems as
-node dynamics.
+Conedy provides nodes with the dynamics of ordinary differential equations, stochastic differential equations, iterated maps, and pulse-coupled oscillators.
+The dynamics of these systems can be assessed by a common interface, which easily allows to investigate the same network endowed with different dynamical systems as node dynamics.
 
 See :ref:`nodes` for a full list of available node dynamics.
 
-Each node dynamics is described in an INI-like description files, which is explained in the following. If the dynamics you want to investigate is not available in Conedy, you still may implement it yourself by creating such a file, which has to be stored in a directory which is specified in the ``config.h`` file (which is positioned in ``$HOME/.config/conedy`` by the ``.deb``-package). Conedy needs to be recompiled afterwards, which will be automatically issued on the next import to python if a file in this directory is modified or added.
+Each node dynamics is described in an INI-like description files, which is explained in the following.
+If the dynamics you want to investigate is not available in Conedy, you still may implement it yourself by creating such a file, which has to be stored in a directory which is specified in the ``config.h`` file (which is positioned in ``$HOME/.config/conedy`` by the ``.deb``-package).
+Conedy needs to be recompiled afterwards, which will be automatically issued on the next import to python if a file in this directory is modified or added.
 
-In the following the syntax for such a file will be explained using the Rössler oscillator as an example (available as :ref:`roessler` in Conedy). Before delving into the details we give the file’s full content for the sake of an overview:
+In the following the syntax for such a file will be explained using the Rössler oscillator as an example (available as :ref:`roessler` in Conedy).
+Before delving into the details we give the file’s full content for the sake of an overview:
 
 .. code-block:: c++
 
@@ -94,16 +94,16 @@ Note that the indenting of every line after the first is mandatory here. The equ
 -	the dynamical variables such as ``x[0]``
 -	``weightSum()`` which returns the sum over the weights (``weight``) of the incoming edges.
 -	``couplingSum()`` which returns the sum over the ``weight`` × ``state`` as supplied by the incoming edges. For most edge types, ``state`` is the current value of the first dynamical variable of the connected node.
--	the macro ``FOREACHCONNECTEDNODE`` which provides a loop over all incoming edges. In such a loop ``weight`` returns the weight of the respective edge and ``state`` returns the state. For example the first equation of the above Rössler oscillator might as well have been defined by:
+-	the macro ``forEachEdge`` which provides a loop over all incoming edges. In such a loop ``weight`` returns the weight of the respective edge and ``state`` returns the state. For example the first equation of the above Rössler oscillator might as well have been defined by:
 
 	.. code-block:: c++
 
 		dxdt[0] = -omega()*x[1] - x[2];
-		FOREACHCONNECTEDNODE(
+		forEachEdge(
 			dxdt[0] += weight*state - weight*x[0];
 		)
 
-	For an example, which requires the use of ``FOREACHCONNECTEDNODE``, see the :ref:`Kuramoto oscillator <kuramoto>`.
+	For an example, which requires the use of ``forEachEdge``, see the :ref:`Kuramoto oscillator <kuramoto>`.
 
 For more information on ``weight`` and ``state``, see :ref:`edges`.
 
@@ -126,44 +126,51 @@ Example:
 	dynamics =
 	xprime[0] = r * x[0] * (-x[0] + 1)
 
+.. _odenodes :
+
 Ordinary differential equations (``ode``)
 `````````````````````````````````````````
 
 The ``dynamics`` field should define the derivative ``dxdt`` as function of the current state ``x`` (an example was already given above). Numerical integration algorithms are provided by the GNU Scientific Library (GSL). At the moment only those algorithms are supported, which do not use the Jacobian. In the Python script a specific stepping function can be choosen by setting ``odeStepType`` to one of the following values:
 
-- ``gsl_odeiv_step_rk2``
-- ``gsl_odeiv_step_rk4``
-- ``gsl_odeiv_step_rkf45``
-- ``gsl_odeiv_step_rkck``
-- ``gsl_odeiv_step_rk8pd``
-.. - ``gsl_odeiv_step_rk2imp``
-.. - ``gsl_odeiv_step_gear1``
-.. - ``gsl_odeiv_step_gear2``
-- ``gsl_odeiv2_step_msadams``
+- ``"gsl_rk2"``
+- ``"gsl_rk4"``
+- ``"gsl_rkf45"``
+- ``"gsl_rkck"``
+- ``"gsl_rk8pd"``
+- ``"gsl_rk2imp"``
+- ``"gsl_rk4imp"``
 
 Example::
 
-	co.set("odeStepType", "gsl_odeiv_step_rkf45")
+	co.set("odeStepType", "gsl_rkf45")
 
 See the `the GSL’s documentation`_ for specific information.
 
 .. _the GSL’s documentation: http://www.gnu.org/software/gsl/manual/html_node/Ordinary-Differential-Equations.html
 
-Adjusting precision
-'''''''''''''''''''
+.. _odeprec :
 
-With all these schemes the step size adapts such that the estimated error of integration for each :math:`x_i` is lower than :math:`\texttt{odeAbsError} + \texttt{odeRelError} \cdot x_i`, where ``odeAbsError`` and ``odeRelError`` are parameters, that can be set in Conedy.
+Adjusting precision and step size
+'''''''''''''''''''''''''''''''''
+
+With all these schemes, the step size adapts such that the estimated error of integration for each :math:`x_i` is lower than :math:`\texttt{odeAbsError} + \texttt{odeRelError} \cdot x_i`, where ``odeAbsError`` and ``odeRelError`` are accessible parameters.
 ``odeAbsError`` defaults to 0.0, ``odeRelError`` defaults to :math:`10^{-5}`.
-The initial step size is determined by the parameter ``odeStepSize``.
-However, a step will never go beyond the next *event*, i.e. the end of the time evolution or the next automatic snapshot (controlled by the parameter ``samplingTime``, see :ref:`evolving`).
+The step size can be accessed as the parameter ``odeStepSize``, whose initial value is 0.001 and which is the only global parameter, Conedy changes by itself.
+It only resets, if manually changed with Conedy’s ``set`` command.
+In any case, a step will never go beyond the next *event*, i.e. the end of the time evolution or the next automatic snapshot (controlled by the parameter ``samplingTime``, see :ref:`evolving`).
 Because of this, changing the ``samplingTime`` will slightly affect the results of the integration, which in turn may have large consequences when integrating a chaotic system.
 
-If both, ``odeAbsError`` and ``odeRelError`` are set to 0.0, the step size is set to the largest value, that (a) is at most marginally greater than the parameter ``odeStepSize`` and (b) allows for the time until the next event to be evenly divided into steps.
-As long as ``odeStepSize`` is small in comparison to ``samplingTime`` (see :ref:`evolving`) and the total evolving time, the actual step size differs very little from it.
+If the parameter ``odeIsAdaptive`` is set to ``False``, the step size does not adapt but is fixed to a value that is very close to ``odeStepSize`` for most realistic applications.
+(In this case, Conedy does not change the parameter ``odeStepSize``.)
+To be precise, the actual step size is the largest value, that (a) is at most marginally greater than the parameter ``odeStepSize`` and (b) allows for the time until the next event to be evenly divided into steps.
+As long as ``odeStepSize`` is small in comparison to ``samplingTime`` (see :ref:`evolving`) and the total evolution time, the actual step size differs very little from ``odeStepSize``.
+If you use GSL 1.15, or higher, the error margin defined by ``odeAbsError`` and ``odeRelError`` is still in effect, however, if the estimated error exceeds this margin, an error is issued (instead of adapting the step size).
 Again, ``samplingTime`` slightly influences the step size and thus the results of the integration.
 
-
-For example, the following commands will issue a time evolution, where the step size starts at 0.1 and is then dynamically adjusted, such that the estimated integration error for each dynamical variable is one per mill of the value of this variable. However, the step size will never exceed 10.0 or the time left until the next event:
+For example, the following commands will issue a time evolution, where the step size starts at 0.1 and is then dynamically adjusted, such that the estimated integration error for each dynamical variable is one per mill of the value of this variable.
+However, the step size will never exceed 10.0 or the time left until the next event.
+After the evolution, the current, adapted step size is printed (and is most likely not 0.1):
 
 .. testcode::
 
@@ -171,10 +178,13 @@ For example, the following commands will issue a time evolution, where the step 
 	co.set("odeRelError", 0.001)
 	co.set("odeStepSize", 0.1)
 	co.set("samplingTime", 10.0)
-	N.evolve(0.0,100.0)
+	N.evolve(0.0, 100.0)
+	print co.get("odeStepSize")
 
-If instead ``odeRelError`` is set to 0.0 in the second line, the step size will fixed to 0.1 (or to a marginally smaller value).
+If ``co.set("odeIsAdaptive", True)`` is issued in the beginning, the step size will be fixed to 0.1 (or to a marginally smaller value) and integration will fail if the estimated integration error of any variable exceeds one per mill of the value of this variable.
 
+
+.. _sdenodes :
 
 Stochastic differential equations (``sde``)
 ```````````````````````````````````````````
@@ -192,7 +202,7 @@ Example (with ``drift`` and ``diffusion`` being parameters):
 	dxdt[0] = -drift*x[0] + couplingSum();
 	s[0] = diffusion;
 
-The integrator can be chosen by setting ``stdSdeIntegrator_stepType`` to one of these values
+The integrator can be chosen by setting ``sdeStepType`` to one of these values
 
 -  ``euler``
 -  ``milsteinIto``
@@ -223,7 +233,7 @@ Example:
 
 	delta = a() +  b() * phase;
 
-You may use the same elements as for the definition of differential equations. ``weightSum()``, ``couplingSum()`` and ``FOREACHCONNECTEDNODE`` will, however, refer to outgoing instead of incoming edges and be of little use either way. Additionally the current phase of the node is provided as ``phase``—changes of this variable are, however, without effect. Also the weight of the edge which mediated the pulse is given as ``coupling``.
+You may use the same elements as for the definition of differential equations. ``weightSum()``, ``couplingSum()`` and ``forEachEdge`` will, however, refer to outgoing instead of incoming edges and be of little use either way. Additionally the current phase of the node is provided as ``phase``—changes of this variable are, however, without effect. Also the weight of the edge which mediated the pulse is given as ``coupling``.
 
 If a pulse sets a node’s phase to a value greater than 1.0, this node also fires, but the excess phase remains. E.g., a node with a phase of 1.4 fires and its phase is set to 0.4 afterwards. If you wish the phase to be reset to 0.0 in this case, you can implement this in the ``dynamics`` field:
 

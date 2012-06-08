@@ -1,14 +1,10 @@
-network.randomizeStates (node, distribution, ...)
-   Randomizes states of neurons.
+``network.randomizeStates (node, distribution_1, …, distribution_n)``
+	Randomizes states of neurons.
 
 Parameters
 ----------
-node : nodeTemplate
-   Only randomize states from nodes of this type
+``node``: node template
+	Only randomize states of nodes of this type
 
-distribution : random
-   Chose state variable from this distribution. Specify for each component of the node one distribution.
-
-
-
-
+``distribution_1, …, distribution_n``: distributions
+	Pick the values of the 1\ :sup:`st`\ , …, n\ :sup:`th` dynamical variable from these distributions.

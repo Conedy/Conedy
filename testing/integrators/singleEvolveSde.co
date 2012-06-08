@@ -1,9 +1,9 @@
-network net;
+network N;
 
-net.addNode(ornUhl());
-net.observeTime("output/singleEvolveSde.co.series");
-net.observeAll("output/singleEvolveSde.co.series",component(0));
-net.evolve(0.0, 2.0);
+N.addNode(ornUhl());
+N.observeTime("output/singleEvolveSde.co.series");
+N.observeAll("output/singleEvolveSde.co.series",component(0));
+N.evolve(0.0, 2.0);
 
 
 

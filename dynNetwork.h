@@ -1,5 +1,3 @@
-
-
 #ifndef dynNetwork_h
 #define dynNetwork_h dynNetwork_h
 
@@ -8,21 +6,18 @@
 
 #include "eventHandler.h"
 #include "dynNode.h"
+#include "globals.h"
 //#include "ioNode.h"
 
 
 namespace conedy
 {
 
-
-
 	//! Class, which supplies network function, which control features of the network related to dynamics... setting initial conditions, parameters, starting numerical integration
 	class dynNetwork : public virtual network, eventHandler
 	{
-
-
 		int counter;
-	
+
 		// integer, which counts the number of periodical observations of the network.
 		static unsigned int observationCounter;
 		public:
@@ -33,28 +28,26 @@ namespace conedy
 		dynNetwork ( const dynNetwork &b);
 
 
-		void setParam (nodeDescriptor nd, string parameterName, double value)
+		void setParam (nodeDescriptor nd, string parameterName, baseType value)
 		{
 			((dynNode *)node::theNodes[nd])-> setParam (parameterName, value);
-
-
-
 		}
 
 		void snapshotAtEvent( nodeDescriptor eventNumber);
+		void snapshotAtEventSignature( nodeDescriptor eventNumber);
 
 
-		void snapshotAtEventOfNode (nodeDescriptor nodeNumber, unsigned int eventSignature); 
+		void snapshotAtEventOfNode (nodeDescriptor nodeNumber, unsigned int eventSignature);
 
-
-		static void registerStandardValues() 
-		{ 
-			params<baseType>::registerStandard(_dynNetwork_,"samplingTime",0,0.01); 
+		static void registerStandardValues()
+		{
+			registerGlobal<baseType>("samplingTime", 0.01);
+//			samplingTime = getPointerToGlobal<baseType>("samplingTime");
+			registerGlobal<baseType>("progressVerbosity", 100.0);
 		}
-		baseType inline ioNodeDt () { return p.getParams(0); }
 
 		dynNetwork()  : p(_dynNetwork_) {};
-		void evolveAll ( double );
+		void evolveAll ( baseType );
 
 
 		void realignAtEventSignature (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int skip);
@@ -65,7 +58,7 @@ namespace conedy
 
 
 
-	void realignWhenDistant (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int multi);
+		void realignWhenDistant (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int multi);
 
 		void removeObserver ();
 
@@ -80,67 +73,67 @@ namespace conedy
 				vector <baseType> argList;
 				argList.push_back (a1);
 				if (a2 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a2);
 				if (a3 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a3);
 				if (a4 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a4);
 				if (a5 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a5);
 				if (a6 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a6);
 				if (a7 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a7);
 				if (a8 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a8);
 				if (a9 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a9);
 				if (a10 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a10);
 				if (a11 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
 				argList.push_back (a11);
 				if (a12 == numeric_limits<baseType>::max())
-				{	
+				{
 					setInitialConditionVec(n, argList);
 					return;
 				}
@@ -149,103 +142,95 @@ namespace conedy
 				return;
 
 
-
 		}
 
 
 
-		void randomizeStatesVec (nodeBlueprint *n, vector<function<double() > >r);
+		void randomizeStatesVec (nodeBlueprint *n, vector<function<baseType() > >r);
 
-
-
-
-
-		void randomizeStates ( nodeBlueprint *n, function<double () > a1, function<double () > a2 = NULL, function<double () > a3 = NULL, function<double () > a4 = NULL, function<double () > a5 = NULL, function<double () > a6 = NULL, function<double () > a7 = NULL, function<double () > a8 = NULL, function<double () > a9 = NULL, function<double () > a10 = NULL, function<double () > a11 = NULL, function<double () > a12 = NULL)
+		void randomizeStates ( nodeBlueprint *n, function<baseType () > a1, function<baseType () > a2 = NULL, function<baseType () > a3 = NULL, function<baseType () > a4 = NULL, function<baseType () > a5 = NULL, function<baseType () > a6 = NULL, function<baseType () > a7 = NULL, function<baseType () > a8 = NULL, function<baseType () > a9 = NULL, function<baseType () > a10 = NULL, function<baseType () > a11 = NULL, function<baseType () > a12 = NULL)
 		{
-				vector <function<double () > > argList;
+				vector <function<baseType () > > argList;
 				argList.push_back (a1);
 				if (a2 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a2);
 				if (a3 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a3);
 				if (a4 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a4);
 				if (a5 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a5);
 				if (a6 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a6);
 				if (a7 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a7);
 				if (a8 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a8);
 				if (a9 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a9);
 				if (a10 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a10);
 				if (a11 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a11);
 				if (a12 == NULL)
-				{	
+				{
 					randomizeStatesVec(n, argList);
 					return;
 				}
 				argList.push_back (a12);
 				randomizeStatesVec(n, argList);
 				return;
-
-
-
 		}
 
 
-//		void randomizeStates ( nodeBlueprint *n,function<double () >r );
-		
-		
+//		void randomizeStates ( nodeBlueprint *n,function<baseType () >r );
+
+
 		void readInitialCondition ( string fileName, nodeBlueprint * n );
 
-		void noiseToStates ( function<double () > r, networkElementType n = _undefinedNodeType_ );
+		void noiseToStates ( function<baseType () > r, networkElementType n = _undefinedNodeType_ );
 
-		void randomizeParameter ( string s, function<double () > r );
+		void randomizeParameter ( string s, function<baseType () > r );
 
 		void readParameter ( string,string );
 
@@ -253,32 +238,34 @@ namespace conedy
 
 		void startingConditionOpenWaveEnding();
 		void startingConditionOpenWaveEndingMiddle();
-		void smallDisturbance ( double radius, int posx, int posy, boost::function<double () > r );
+		void smallDisturbance ( baseType radius, int posx, int posy, boost::function<baseType () > r );
 
-		   void smallDisturbance ( double radius, boost::function<double () > r )
-			{			unsigned int size = sqrt ( (float) network::theNodes.size() );
+		   void smallDisturbance ( baseType radius, boost::function<baseType () > r )
+			{			unsigned int size = sqrt ( (baseType) network::theNodes.size() );
 					smallDisturbance ( radius, size/2, size/2, r );
 				}
-		
+
 
 		virtual void clean ();
-		void evolve ( double startTime, double endTime );
-		void evolveFor ( double duration );
-//		void evolve ( double time );
-//		void evolve ( double startTime, double endTime) { evolve (startTime, endTime,_dynNode_);}
+		void evolve ( baseType startTime, baseType endTime );
+		void evolveFor ( baseType duration );
+//		void evolve ( baseType time );
+//		void evolve ( baseType startTime, baseType endTime) { evolve (startTime, endTime,_dynNode_);}
 
 		void evolveAllAlong (string inputFilename, string outputFilename, baseType eps, networkElementType nt);
 
 
 		void evolveAlong	(networkElementType n, baseType eps, string inputFilename, string outputFilename);
 
-		void evolveAllAlong ( double endTime, string inputFilename, networkElementType nt);
+		void evolveAllAlong ( baseType endTime, string inputFilename, networkElementType nt);
 
-		void snapshot () { 		clean ();  callBack (0); }
-		void setTime( double newTime) 
-		{ 
-			dynNode::time = newTime; 
-			eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() ); 
+		void snapshot () { //		clean ();
+
+			callBack (0); }
+		void setTime( baseType newTime)
+		{
+			dynNode::time = newTime;
+			eventHandler::registerCallBack ( _ioNode_, dynNode::time + getGlobal<baseType> ("samplingTime") );
 		}
 		baseType getParam(nodeDescriptor nodeNumber,string name)
 		{
@@ -289,6 +276,11 @@ namespace conedy
 		virtual unsigned int numberOfEvents() const { return 3; }
 	};
 
+
+	struct meanVar {
+		baseType mean;
+		baseType var;
+	};
 
 
 	class realign
@@ -308,10 +300,10 @@ namespace conedy
 				vl = theList;
 				eps= theEpsilon;
 				skip = s;
-				counter = 0;
+				counter = skip;
 			}
-			double calculateDist(vector <double> &states);
-			void realignNow ( vector <double> &states, double factor);
+			meanVar  calculateDist(vector <baseType> &states);
+			void realignNow ( vector <baseType> &states, baseType eps, meanVar dist);
 
 			void realignPeriodically();
 			void realignWhenDistant();

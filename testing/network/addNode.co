@@ -1,6 +1,6 @@
-network net;
+network N;
 
-net.addNode(node());
+N.addNode(node());
 
 
-print "Should be 1:" +  net.size() + newline;
+print "Should be 1:" +  N.size() + newline;

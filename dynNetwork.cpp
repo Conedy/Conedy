@@ -1,34 +1,23 @@
-
-
 #include "dynNetwork.h"
 #include "ioNode.h"
-
 #include "containerNode.h"
-
 #include "gslOdeNode.h"
-
-//##include "pulseCoupledPhaseOscillator.h"
-
 #include "pco.h"
-
 #include "stream.h"
+#include "math.h"
 
 
 namespace conedy
 {
-
-
-
 	void dynNetwork::removeObserver ()
 	{
 		remove (_outNode_);
 		remove (_inNode_);
 		inOutNodeList.clear();
-
 	}
+
 	baseType dynNetwork::callBack ( unsigned int eventSignature )
 	{
-
 		vector< dynNode *>::iterator it;
 		for ( it= inOutNodeList.begin(); it != inOutNodeList.end(); it++ )
 			( *it )->evolve(0.0);
@@ -38,14 +27,21 @@ namespace conedy
 
 		streamOutNode::enter();
 
-		if (( dynNode::time /	ioNodeDt()/ 100.0) -  (int)(dynNode::time / ioNodeDt() / 100.0)    < 0.9999 / 100.0 )
+		baseType verb = getGlobal<baseType>("progressVerbosity");
+		if ( ( verb != 0.0 ) && ( fmod(dynNode::time/( getGlobal<baseType> ("samplingTime") ), verb) < 0.9999 ) )
 			cout <<"#------------Time:" << dynNode::time << endl;
 
-		return dynNode::startTime + observationCounter * ioNodeDt();
+		return dynNode::startTime + (observationCounter) * getGlobal<baseType> ("samplingTime");
 
 	}
 
 
+
+	void dynNetwork::snapshotAtEventSignature ( nodeDescriptor eventSignature)
+	{
+
+		eventHandler::insertVisiterAtSignature(bind(&dynNetwork::snapshot,this),eventSignature);
+	}
 
 
 	void dynNetwork::snapshotAtEvent( nodeDescriptor eventNumber)
@@ -69,15 +65,15 @@ namespace conedy
 	dynNetwork::dynNetwork(const dynNetwork &b) : network (b), eventHandler(b), p(b.p)
 	{
 
-		eventHandler::registerCallBack ( _ioNode_, numeric_limits<baseType>::max() ); 
-//		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() ); 
+		eventHandler::registerCallBack ( _ioNode_, numeric_limits<baseType>::max() );
+		//		eventHandler::registerCallBack ( _ioNode_, dynNode::time + (*samplingTime) );
 	}
 
-	void dynNetwork::noiseToStates ( function<double () > r, networkElementType n )
+	void dynNetwork::noiseToStates ( function<baseType () > r, networkElementType n )
 	{
 		throw "fixme dynNetwork::nouseToStates";
 
-		/*		queue<double> initialCond;
+		/*		queue<baseType> initialCond;
 				nodeList vl;
 				verticesMatching (vl, n);
 				nodeIterator vi;
@@ -89,7 +85,7 @@ namespace conedy
 
 				initialCond.push ( node::theNodes[*vi]->getState() + r() );
 
-				boost::function<double () > r1 = bind ( &frontAndPop,&initialCond );
+				boost::function<baseType () > r1 = bind ( &frontAndPop,&initialCond );
 
 				for (vi = vl.begin();vi != vl.end(); vi++)
 				dynamic_cast<dynNode*>( node::theNodes[*vi] )->randomizeState ( r1 );
@@ -110,55 +106,51 @@ namespace conedy
 			return (( (dynNode* )node::theNodes[node])->getState(which));
 	}
 
-	void dynNetwork::evolveFor ( double duration )
+	void dynNetwork::evolveFor ( baseType duration )
 	{
 		evolve(dynNode::time, dynNode::time + duration);
 	}
 
-	void dynNetwork::evolve ( double startTime, double endTime )
+	void dynNetwork::evolve ( baseType startTime, baseType endTime )
 	{
-		eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() ); 
 
+
+
+
+		if (dynNode::time < startTime)   // this probabliy does not work!
+			pcoBase::timeOffset = startTime - dynNode::time;
+		else
+			pcoBase::timeOffset = 0;
 
 		dynNode::startTime = startTime;
-
-		if (dynNode::time < startTime)
-		{
-
-
-			pcoBase::timeOffset = startTime - dynNode::time;
-
-		}
-
 		dynNode::time = startTime;
 		dynNode::endTime = endTime;
 
-      eventHandler::registerCallBack ( _ioNode_, dynNode::time + ioNodeDt() );
+		eventHandler::registerCallBack ( _ioNode_, dynNode::time + getGlobal<baseType> ("samplingTime") );
+//		eventHandler::registerCallBack ( _ioNode_, dynNode::time); // sdeNodes get a step of size 0 if this is used.
 
-//		updateKey(_ioNode_, dynNode::time + ioNodeDt());
-		dynNetwork::clean (  );  
-		pcoBase::timeOffset = 0;	
 
-		observationCounter = 0; 
+		observationCounter = 0;
 
-		snapshot();
 
+		dynNetwork::clean (  );
+
+
+
+// call possible visiters which may be at the snapshot event
+		eventHandler::forceEvent (_ioNode_);
 
 		vector< dynNode *>::iterator it;
-		double timeTilEvent;
-		while ( dynNode::time <= endTime )
+		baseType timeTilEvent;
+		while ( dynNode::time < endTime )
 		{
 			if ( eventHandler::nextEvent() >= endTime )
 			{
 				timeTilEvent = endTime - dynNode::time;
 				for ( it = evolveList.begin(); it != evolveList.end(); it++ )
-				{
 					( *it )->evolve ( timeTilEvent );
-				}
 				for (it = upkeepList.begin(); it != upkeepList.end();it++)
-				{
 					( *it) -> upkeep();
-				}
 
 				dynNode::time += timeTilEvent;
 				break;
@@ -167,24 +159,31 @@ namespace conedy
 			else
 				timeTilEvent = eventHandler::nextEvent() - dynNode::time;
 
+#ifdef DEBUG
+			if (timeTilEvent < -0.00000001)
+				throw "Something seems to be wrang with the priorityqueue";
+#endif
+
+
+
+
 			for ( it = evolveList.begin(); it != evolveList.end(); it++ )
-			{
 				( *it )->evolve ( timeTilEvent );
-			}
 			for (it = upkeepList.begin(); it != upkeepList.end();it++)
-			{
 				( *it) -> upkeep();
-			}
+
 			dynNode::time += timeTilEvent;
 
 			eventHandler::pop();
 
 		}
+
+		eventHandler::finalize();
 	}
 
 
 	void dynNetwork::realignAtEvent (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int skip)
-	{	
+	{
 		nodeList * vl = new nodeList();
 		verticesMatching(*vl, nt);
 		realign *r = new realign ( inputFilename, outputFilename, vl, epsilon, skip);
@@ -198,7 +197,7 @@ namespace conedy
 
 
 	void dynNetwork::realignWhenDistant (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int multi)
-	{	
+	{
 		nodeList * vl = new nodeList();
 		verticesMatching(*vl, nt);
 		realign *r = new realign ( inputFilename, outputFilename, vl, epsilon, multi);
@@ -214,7 +213,7 @@ namespace conedy
 
 
 	void dynNetwork::realignAtEventSignature (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int skip)
-	{	
+	{
 		nodeList * vl = new nodeList();
 		verticesMatching(*vl, nt);
 		realign *r = new realign ( inputFilename, outputFilename, vl, epsilon, skip);
@@ -233,7 +232,7 @@ namespace conedy
 		dynNode::time = 0.0;
 
 
-		clean (  );     // Dreckige 0 TODO Prüfenvi 
+		clean (  );     // Dreckige 0 TODO Prüfenvi
 
 		nodeList dynNodes;
 
@@ -255,7 +254,7 @@ namespace conedy
 				verticesMatching(dynNodes, nt);
 
 
-				double timeTilEvent;
+				baseType timeTilEvent;
 
 				ofstream out(outputFilename.c_str());
 				while ( true )
@@ -279,7 +278,7 @@ namespace conedy
 				i = 0;
 				for (vi = dynNodes.begin(); vi != dynNodes.end();vi++)
 				{
-				double diff = abs (along[i] - theNodes[*vi]->getState()  );
+				baseType diff = abs (along[i] - theNodes[*vi]->getState()  );
 
 				if (diff > abs (1.0 - diff ))
 				diff = abs ( 1.0 - diff );
@@ -315,7 +314,7 @@ namespace conedy
 
 
 
-	void dynNetwork::randomizeParameter ( string s,function<double () > r )
+	void dynNetwork::randomizeParameter ( string s,function<baseType () > r )
 	{
 		networkElementType n = params<baseType>::getNodeTypeFromString ( s );
 		nodeIterator it;
@@ -334,7 +333,7 @@ namespace conedy
 	{
 		cout << "Reading from:" << fileName << endl;
 		cyclicStream *in = new cyclicStream ( fileName );
-		boost::function<double () > r = boost::bind ( &cyclicStream::readDouble,in );
+		boost::function<baseType () > r = boost::bind ( &cyclicStream::readDouble,in );
 		networkElementType theNodeType = params<baseType>::getNodeTypeFromString ( parameterString );
 		cout << "Reading parameter \"" << parameterString << "\" for NodeType " << theNodeType << endl;
 
@@ -362,11 +361,11 @@ namespace conedy
 	}
 
 
-	void dynNetwork::smallDisturbance ( double radius, int posx, int posy, boost::function<double () > r )
+	void dynNetwork::smallDisturbance ( baseType radius, int posx, int posy, boost::function<baseType () > r )
 	{
-		queue<double> initialCond;
+		queue<baseType> initialCond;
 
-		unsigned int size = sqrt ( (float) network::theNodes.size() );
+		unsigned int size = sqrt ( (baseType) network::theNodes.size() );
 		for ( unsigned int i = 0; i < size; i++ )
 			for ( unsigned int j = 0; j < size; j++ )
 			{
@@ -389,11 +388,10 @@ namespace conedy
 
 	void dynNetwork::startingConditionOpenWaveEnding()
 	{
-		queue<double> initialCond;
+		queue<baseType> initialCond;
 
 
-		unsigned int size = sqrt ( (float) network::theNodes.size() );
-		cout << "Size:" << size << endl;
+		unsigned int size = sqrt ( (baseType) network::theNodes.size() );
 
 		for ( unsigned int i = 0; i < size; i++ )
 			for ( unsigned int j = 0; j < size; j++ )
@@ -434,7 +432,7 @@ namespace conedy
 
 
 
-		boost::function<double () > r = bind ( &frontAndPop,&initialCond );
+		boost::function<baseType () > r = bind ( &frontAndPop,&initialCond );
 
 
 		vector< node * >::iterator  it;
@@ -459,20 +457,17 @@ namespace conedy
 	{
 		network::clean ( );
 		containerNode<baseType, 1>::realign();
-	//	gslOdeNode::cleanStepSize();
-		eventClean();
-
+		eventHandler::clean();
 	}
 
 
 
 	void dynNetwork::startingConditionOpenWaveEndingMiddle()
 	{
-		queue<double> initialCond;
+		queue<baseType> initialCond;
 
 
-		unsigned int size = sqrt ( (float) node::theNodes.size() );
-		cout << "Size:" << size << endl;
+		unsigned int size = sqrt ( (baseType) node::theNodes.size() );
 
 		for ( unsigned int i = 0; i < size; i++ )
 			for ( unsigned int j = 0; j < size; j++ )
@@ -508,7 +503,7 @@ namespace conedy
 
 
 
-		boost::function<double () > r = bind ( &frontAndPop,&initialCond );
+		boost::function<baseType () > r = bind ( &frontAndPop,&initialCond );
 
 
 		vector< node * >::iterator  it;
@@ -531,7 +526,7 @@ namespace conedy
 
 
 	void dynNetwork::clear()
-	{				
+	{
 		//		eventHandler::clear();
 		network::clear();
 		//		myEventsStartAt = numeric_limits<unsigned int>::max();
@@ -561,14 +556,14 @@ namespace conedy
 	{
 		cout << "Reading from:" << fileName << endl;
 		cyclicStream *in = new cyclicStream ( fileName );
-		boost::function<double () > r = boost::bind ( &cyclicStream::readDouble,in );
+		boost::function<baseType () > r = boost::bind ( &cyclicStream::readDouble,in );
 		randomizeStates ( n, r );
 		delete in;
 	}
 
 
 
-	void dynNetwork::randomizeStatesVec ( nodeBlueprint *n ,vector <boost::function<double () > > r )
+	void dynNetwork::randomizeStatesVec ( nodeBlueprint *n ,vector <boost::function<baseType () > > r )
 	{
 		if (r.size() == 1)
 			while (r.size() < n->dimension())
@@ -590,25 +585,31 @@ namespace conedy
 
 
 
-	double realign::calculateDist(vector <double> &states)
+	meanVar realign::calculateDist(vector <baseType> &states)
 	{
 
 		network::nodeIterator vi;
-		double dist = 0;
-		double diff = 0;
+		baseType mean= 0;
+		baseType var = 0;
+
+		baseType diff = 0;
 		unsigned int i=0;
 		for (vi = vl->begin(); vi != vl->end();vi++)
 		{
-			diff = abs (states[i] - node::theNodes[*vi]->getState()  );
+			diff = states[i] - node::theNodes[*vi]->getState();
+			if (diff > 0.5)
+				diff = diff - 1.0;
+			if (diff < -0.5)
+				diff = diff + 1.0;
 
-			if (diff > abs (1.0 - diff ))
-				diff = abs ( 1.0 - diff );
-			dist += diff * diff;
+			var += diff * diff;
+			mean += diff;
 			i++;
 		}
-		dist = sqrt(dist)/ vl->size();
-		return dist;
-
+		meanVar res;
+		res.var  = var / (vl->size() - 1) - mean * mean / vl->size() / vl->size();
+		res.mean = mean / vl->size();
+		return res;
 	}
 	//		void	realign::goForIt(  )
 	//		{
@@ -619,23 +620,29 @@ namespace conedy
 	{
 
 
-		vector <double> along(vl->size());
+		vector <baseType> along(vl->size());
+		//		baseType timeFirstRun;
+		//	  in >> timeFirstRun;
+		//		cout << "timeFirstRun: " << timeFirstRun << endl;
+		//		cout << "time: " << dynNode::time << endl;
+
 		for (unsigned int i = 0; i < vl->size(); i++ )
 			in >>along[i];
 
-		double dist = calculateDist(along);
+		meanVar dist = calculateDist(along);
 		if (counter==skip)
 		{
 			counter = 0;
-			out << dynNode::time << " " << dist << endl;
-			cout << "vorher:" << dist << endl;
-			realignNow(along, eps/dist);
-			cout << "nachher:" << calculateDist(along) << endl;
+			out << dynNode::time << " " << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
+			cout << "vorher:" << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
+			realignNow(along, eps, dist);
+			meanVar newDist = calculateDist(along);
+			cout << "nachher:" << setprecision(20) << newDist.mean << " " << sqrt(newDist.var) << endl;
 		}
 		else
 		{
 			counter++;
-			out << "#" << dynNode::time << " " << dist << endl;
+			out << "#" << setprecision(20) << dynNode::time <<  " " << dist.mean << " " << sqrt(dist.var) << endl;
 
 		}
 
@@ -647,24 +654,42 @@ namespace conedy
 
 
 
-		vector <double> along(vl->size());
+		vector <baseType> along(vl->size());
+
+
+		//		baseType timeFirstRun;
+		//	  in >> timeFirstRun;
+		//		cout << "timeFirstRun: " << timeFirstRun << endl;
+		//		cout << "time: " << dynNode::time << endl;
+
 		for (unsigned int i = 0; i < vl->size(); i++ )
 			in >>along[i];
 
-		double dist = calculateDist(along);
+		meanVar  dist = calculateDist(along);
 
-		if (dist > eps* skip)
+		if (sqrt(dist.var) > eps* skip)
+
+
 		{
-			out << dynNode::time << " " << dist << endl;
-			cout << "vorher:" << dist << endl;
-			realignNow(along, eps/dist);
-			cout << "nachher:" << calculateDist(along) << endl;
+			out << dynNode::time << " " << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
+			cout << "vorher:" << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
+			realignNow(along, eps, dist);
+			meanVar newDist = calculateDist(along);
+			cout << "nachher:" << setprecision(20) << newDist.mean << " " << sqrt(newDist.var) << endl;
+		}
+		else if ( sqrt(dist.var) < eps / skip  )
+		{
+			out << dynNode::time << " " << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
+			cout << "vorher:" << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
+			realignNow(along, eps, dist);
+			meanVar newDist = calculateDist(along);
+			cout << "nachher:" << setprecision(20) << newDist.mean << " " << sqrt(newDist.var) << endl;
 		}
 		else
 		{
 
 
-			out << "#" << dynNode::time << " " << dist << endl;
+			out << "#" << setprecision(20) <<  dynNode::time <<  " " << dist.mean << " " << sqrt(dist.var) << endl;
 
 
 
@@ -672,30 +697,35 @@ namespace conedy
 
 		}
 	}
-
-	void realign::realignNow(vector <double> &along, double factor)
+	// realign to eps
+	void realign::realignNow(vector <baseType> &along, baseType eps, meanVar dist)
 	{
+		baseType factor = eps / sqrt(dist.var);
 
 		network::nodeIterator vi;
-		queue <double> states;
+		queue <baseType> states;
 		unsigned int i = 0;
 
 		for (vi = vl->begin(); vi != vl->end();vi++)
 		{
-			//				double stat = theNodes[*vi]->getState();
-			double diff =  along[i] - node::theNodes[*vi]->getState()  ;
+			//				baseType stat = theNodes[*vi]->getState();
+			baseType diff =  along[i] - node::theNodes[*vi]->getState() ;
 
 			if (diff > 0.5)
 				diff = diff - 1;
 			else if (diff < -0.5)
 				diff = diff + 1;
 
+
+			diff = diff - dist.mean;
 			diff = diff *  factor;
 
-			if (diff > 0.5  || diff < -0.5)
-				throw "Fehler Abstand zu groß für den Raum (evolveAlong)";
 
-			double n;
+
+			if (diff > 0.5  || diff < -0.5)
+				throw "Fehler Abstand zu gro� f�r den Raum (evolveAlong)";
+
+			baseType n;
 			if (diff > 0)
 			{
 				n = along[i] - diff;
@@ -704,17 +734,19 @@ namespace conedy
 			}
 			else
 			{
-				n = along[i] + diff;
+				n = along[i] - diff;
 				if ( n > 1)
 					n = n - 1;
 			}
 
-			states.push (n);	
+			states.push (n);
 			i++;
 		}
-		boost::function<double () > r =  bind(&frontAndPop, &states);
+		boost::function<baseType () > r =  bind(&frontAndPop, &states);
 		for (vi = vl->begin(); vi != vl->end();vi++)
+		{
 			((dynNode*)  node::theNodes[*vi]) ->	randomizeState( r) ;
+		}
 
 	}
 

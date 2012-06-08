@@ -312,193 +312,6 @@ namespace conedy {
 
 
 
-	/*
-		void createNetwork::streamInBinary ( string s )
-		{
-		unsigned char c;
-		unsigned nodeKind ss;
-		unsigned int i;
-		network::clear();
-		char flags;
-		inStreamBinary in ( s.c_str() );
-		in >> flags;
-		if ( flags & CHARSIZE )
-		streamInBinary ( in, flags,  c );
-		else if ( flags & SHORTSIZE )
-		streamInBinary ( in, flags,  ss );
-		else if ( flags & INTSIZE )
-		streamInBinary ( in, flags,  i );
-
-		}*/
-	/*
-
-		template < SIZE>
-		void createNetwork::streamInBinary(inStreamBinary in,char flags ,SIZE)
-		{
-		SIZE networkSize;
-		in >> networkSize;
-
-		SIZE dest;
-
-		double weight;
-		int theNodeTypeBinary;
-		char dummy;
-
-
-		nodeBlueprint * n;
-
-		if (flags & EQUALWEIGHTS)
-		in >> weight;
-
-		if (flags & EQUALNODES)
-		in >> dummy;
-
-		theNodeTypeBinary = dummy;
-
-
-		for (unsigned int i = 0; i < networkSize; i++)
-		{
-		if (!flags & EQUALNODES)
-		{
-		in >> dummy;
-		theNodeTypeBinary = dummy;
-		}
-		n = (nodeBlueprint*)nodeNoTemplate::standardBuild(nodeNoTemplate::getNodeType(theNodeTypeBinary),0);
-		addNode(n);
-
-
-
-		}
-
-		for (unsigned int i = 0; i < network::theNodes.size(); i++)
-		{
-		do {
-		if (!flags & EQUALWEIGHTS)
-		in >> weight;
-		in >> dest;
-		if (dest == (SIZE) -1)
-		break;
-		network::addEdge(i,dest,weight);
-		} while(true);
-		}
-
-
-
-
-		}
-
-
-
-		template < SIZE>
-		void createNetwork::streamOutBinary(outStreamBinary out, char flags, SIZE)
-		{
-		out << ((SIZE) network::theNodes.size());
-
-
-		if (flags & EQUALWEIGHTS)
-		out <<  (double) network::theNodes[0]->weightSum()/network::theNodes[0]->degree();
-		if (flags & EQUALNODES)
-		out <<   (char)network::theNodes[0]->getNodeBinary();
-		else
-		{
-
-	for (unsigned int j = 0; j < network::theNodes.size(); j++)
-		out <<   network::theNodes[j]->getNodeInfo().theNodeType;
-}
-
-network::nodeIterator it;
-network::outEdgeIterator ea,ee;
-for (unsigned int i = 0; i < network::theNodes.size(); i++)
-{
-	if (!(flags & EQUALNODES))
-		out <<  (char) network::theNodes[i]->getNodeBinary();
-
-
-	ea = network::theNodes[i]->getEdges().first;
-	ee = network::theNodes[i]->getEdges().second;
-	for (;ea != ee; ea++)
-	{
-
-		if (!(flags & EQUALWEIGHTS))
-			out <<   (*ea)->weight;
-
-		out << (SIZE) (*ea)->target->getNumber();
-	}
-
-	out << (SIZE) -1;
-
-
-}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-void createNetwork::streamOutBinary(string s,char flags)
-{
-	unsigned char c;
-	unsigned nodeKind ss;
-	unsigned int i;
-
-
-
-
-
-
-	outStreamBinary out(s.c_str());
-
-
-	if (flags & CHARSIZE)
-	{
-		out << flags;
-		streamOutBinary(out, flags,c);
-	}
-	else if (flags & SHORTSIZE)
-	{
-		out << flags;
-		streamOutBinary(out, flags,ss);
-	}
-	else if (flags & INTSIZE)
-	{
-		out << flags;
-		streamOutBinary(out, flags,i);
-	}
-	else if (network::numberVertices() < 254)
-	{
-		out << (char)(flags |CHARSIZE);
-		streamOutBinary(out, flags,c);
-	}
-	else if (network::numberVertices() < 65534)
-	{
-		out <<(char)( flags | SHORTSIZE);
-		streamOutBinary(out, flags,ss);
-	}
-	else
-	{
-		out << (char)(flags | INTSIZE);
-		streamOutBinary(out, flags,i);
-	}
-
-
-
-
-
-}
-
-
-
-*/
-
-
 
 
 
@@ -526,7 +339,7 @@ nodeDescriptor createNetwork::beeWeb ( int x, int y, nodeBlueprint *n )
 					dist_y = ( a_y - b_y ) % ( y );
 
 
-					if ( sqrt ( (float) dist_x*dist_x+dist_y*dist_y+dist_x*dist_y ) <=1 )
+					if ( sqrt ( (baseType) dist_x*dist_x+dist_y*dist_y+dist_x*dist_y ) <=1 )
 
 						network::addEdge ( a_x * x + a_y, b_x*x + b_y );
 
@@ -546,20 +359,10 @@ void createNetwork::addRandomEdges ( double meanOutDeg, edgeBlueprint *l )
 
 	int source, target;
 
-	/*       network::nodeIterator ia, ie;
-				ia = network::vertices().first;
-				ie = network::vertices().second;
-				float f= 0;
-				for (;ia!= ie; ia++)
-				{
-				f = f + (*ia)->degree();
-				}
-				f = f / network::numberVertices();
-				*/
 
 
 
-	float meanOut = ( ( statisticsNetwork* ) this )->meanOutDegree() ;
+	baseType meanOut = ( ( statisticsNetwork* ) this )->meanOutDegree() ;
 
 	int toDo = ( int ) ( ( meanOutDeg - meanOut ) * network::numberVertices() );
 
@@ -634,7 +437,7 @@ void createNetwork::randomInDegreeDistribution ( int number, RANDOM &r, nodeBlue
 		{
 			do { rnd = randomNode(); }
 			while ( ( rnd == i ) || network::isLinked ( i,rnd ) );
-			network::addEdge ( rnd,i,1 );
+			network::addEdge ( rnd,i );
 		}
 	}
 }
@@ -670,6 +473,47 @@ out.newLine();
 
 }
 */
+void createNetwork::addRandomEdgesDegreeDistributionUndirected ( function <double () > r , edgeBlueprint *l)
+{
+	nodeList vl;
+	verticesMatching (vl,_dynNode_);
+	nodeIterator it;
+	vector <nodeDescriptor> nodeStubs;
+
+
+	unsigned int numberLinks;
+	double randomNumber;
+
+	for 	(it = vl.begin(); it != vl.end(); it++)
+	{
+		randomNumber = r();
+		if (randomNumber >= 0)
+			numberLinks = randomNumber;
+		else
+			numberLinks = 0;
+		for (unsigned int i = 0; i < numberLinks ; i++)
+			nodeStubs.push_back(*it);
+	}
+
+	// shuffle the stub-list with Fisher-Yates
+
+	unsigned int j;
+	nodeDescriptor swap;
+	for (unsigned int i = nodeStubs.size()-1; i > 1 ; i = i - 1)
+	{
+		j = gslNoise::getUniformInt (0, i);
+		swap = nodeStubs [j];
+		nodeStubs [j] = nodeStubs[i];
+		nodeStubs [i] = swap;
+	}
+	for (unsigned int i = 0 ; i < nodeStubs.size() / 2; i++ )
+	{
+		addEdge ( nodeStubs[2 * i], nodeStubs [ 2 * i + 1], l);
+		addEdge ( nodeStubs[2 * i + 1], nodeStubs [ 2 * i], l);
+	}
+
+}
+
 
 void createNetwork::addRandomEdgesDegreeDistribution ( function <double () > r , edgeBlueprint *l)
 {
@@ -678,7 +522,6 @@ void createNetwork::addRandomEdgesDegreeDistribution ( function <double () > r ,
 	nodeIterator it;
 	vector <nodeDescriptor> nodeStubs;
 
-	unsigned int size = numberVertices(); 
 
 	unsigned int numberLinks;
 
@@ -700,9 +543,6 @@ void createNetwork::addRandomEdgesDegreeDistribution ( function <double () > r ,
 		nodeStubs [j] = nodeStubs[i];
 		nodeStubs [i] = swap;
 	}
-
-
-
 	for (unsigned int i = 0 ; i < nodeStubs.size() / 2; i++ )
 		addEdge ( nodeStubs[2 * i], nodeStubs [ 2 * i + 1], l);
 
@@ -838,35 +678,6 @@ nodeDescriptor createNetwork::createFromAdjacencyList(string fileName, nodeBluep
 
 
 
-/*
-	void createNetwork::addSuperAttractiveNode (nodeBlueprint *n, nodeKind theNodeKind)
-	{
-	edge * l = new edge();
-	addSuperAttractiveNode(n, theNodeKind, l);
-	}
-
-
-
-
-	void createNetwork::addSuperAttractiveNode (nodeBlueprint *n, nodeKind theNodeKind, edge* l)
-	{
-	int i = addNode ( n );
-	int j;
-
-	for ( j = 0; j < i; j++ )
-	if (coincide ( network::theNodes[j]->getNodeInfo().theNodeKind , theNodeKind))
-	network::addEdge ( j,i,1,l );
-	}
-
-
-
-*/
-
-
-
-
-
-
 
 
 nodeDescriptor createNetwork::completeNetwork ( int number, nodeBlueprint *n, edgeBlueprint *l )
@@ -903,6 +714,23 @@ void createNetwork::addGlobalNoise ( boost::function <double() > r, nodeKind the
 
 
 }
+
+void createNetwork::normalizeOutputs (baseType r)
+{
+	throw "stub normalizeOutputs";
+
+/*	nodeIterator it;
+	nodeList dynNodes;
+	verticesMatching(dynNodes, _dynNode_);
+
+	for (it = dynNodes.begin(); it != dynNodes.end(); it++)
+	{
+
+		nodeBlueprint::theNodes[*it]->normalizeInWeightSum(r);
+
+	network::clean();*/
+}
+
 
 void createNetwork::normalizeInputs (baseType r)
 {
@@ -1484,7 +1312,7 @@ void createNetwork::observeSum ( string s, edgeBlueprint *l )
 
 	nodeBlueprint *nod = new nodeVirtualEdges <streamOutNode> ( s );
 	int newNodeNumber = addNode ( nod );
-	
+
 //	unsigned int nodeNumbers = numberVertices(_dynNode_);
 //	l->setWeight(1.0/nodeNumbers);
 	network::addEdges ( newNodeNumber,_dynNode_,l );
@@ -1587,7 +1415,7 @@ void createNetwork::observePhaseCorrelation ( string s, nodeBlueprint *n)
 //}
 //
 
-void createNetwork::observeSumPhase ( string s )
+void createNetwork::observeMeanPhase ( string s )
 {
 	nodeBlueprint *nod = new nodeVirtualEdges <calculateMeanPhase> ();
 	nodeDescriptor newNodeNumber = addNode ( nod );
@@ -1597,7 +1425,7 @@ void createNetwork::observeSumPhase ( string s )
 }
 
 //! wie oben. Phasen werden von Edges vom Typ l übergeben.
-void createNetwork::observeSumPhase ( string s, edgeBlueprint *l )
+void createNetwork::observeMeanPhase ( string s, edgeBlueprint *l )
 {
 	nodeBlueprint *nod = new nodeVirtualEdges <calculateMeanPhase> ();
 	nodeDescriptor newNodeNumber = addNode ( nod );
@@ -1649,7 +1477,7 @@ void createNetwork::observeWithoutCheck (nodeDescriptor number, string s, edgeBl
 {
 	nodeBlueprint *nod;
 
-	if (writeBinary () )
+	if (getGlobal<bool>("outputBinary"))
 		nod = new nodeVirtualEdges <streamOutNodeBinary > ( s );
 	else
 		nod = new nodeVirtualEdges <streamOutNode > ( s );
@@ -1660,208 +1488,6 @@ void createNetwork::observeWithoutCheck (nodeDescriptor number, string s, edgeBl
 	delete nod;
 
 }
-
-
-// #### Definition cnnStd ###################################################################
-/* Definition eines StandardCNN mit %sizex% x %sizey% mit Nachbarschaften aus %params%:
-	/  params: "params_a": enthält die Koordinaten und Gewichte für Nachbarschaft. z.B.:
-	/
-	/	"-3	-4	0.8"
-	/
-	/	entspricht:
-	/	Die Zelle 3 nach links, 4 nach unten ist mit 0.8 in aktuelle Zelle gekoppelt:
-	/
-	/	# # # # # #	Syntax:
-	/	# +---> baseType #
-	/	# | # # # #	"addWeightedEdge ( nodeDescriptor source, nodeDescriptor dest, double weight);"
-	/	# | # # # #
-	/	# | # # # #
-	/	# S # # # #
-	/	# # # # # #
-	/
-	*/
-
-// Definition eines Standard-CNN-Netzwerkes (Polynomial gewichtet) mit Zyklischen Randb.: geschlossene Spirale+1 in x-Richtung und y-Richtung
-void createNetwork::cnnStd ( int sizex, int sizey, string parameter, nodeBlueprint *n, edgeBlueprint *l )
-{
-	//cout << ((cnnNode<baseType>*) n )-> row << endl;
-	ifstream in ( parameter.c_str() );		// liest Datei %parameter% ein
-
-
-	// Erstelle Grundgitter mit %sizex% x %sizey% = j x i
-	//
-	for ( int i=0; i< sizey; i++ )			// i Zeilen
-	{
-		for ( int j = 0; j < sizex; j++ )	// j Spalten
-		{
-			addNode ( n );
-		}
-	}
-
-	int distx, disty;	// Abstand Source->Target x und y
-	double weight;		// Kopplungsgewicht
-	int source;		// Zellennummer der Quellzelle, die in die Zielzelle einkoppeln soll
-
-	// Auslesen der Koordinaten / Gewichte der Nachbarn bis EOF (peek() != -1)
-	//
-	while ( in.peek() != -1 )
-	{
-		string linebuffer;
-		vector <baseType> buffer;
-
-		in >> distx;
-		in >> disty;
-
-		// Einlesen der Gewichte (1. bis n. Ordnung):
-		getline ( in,linebuffer );
-
-		// zerlegen des Puffers:
-		istringstream isstr ( linebuffer );
-
-		// Einlesen der Einzelgewichte für m. Koordinate in Vector buffer
-
-		while ( isstr.peek() != -1 )
-		{
-			isstr >> weight;
-			buffer.push_back ( weight );
-		}
-
-
-		if ( in.eof() )
-			break;
-
-		// Spirale in x - Zyklisch in y:
-		for ( int j = 0; j < sizex; j++ )		// Zellen in x-Richtung durchlaufen
-			for ( int i = 0; i < sizey; i++ )	// Zellen in y-Richtung durchlaufen
-			{
-				// Zellennummer der aktuellen Zelle = i*sizex + j
-				// -> neu	= alt + distx	+ disty*sizex
-				source 		= i*sizex + j 	+ distx + disty*sizex;
-				/*
-					while ( source<0 )
-					source = source + ( sizex*sizey );
-					while ( source> ( sizex*sizey-1 ) )
-					source = source - ( sizex*sizey );
-					*/
-				while ( source<0 )
-					source = source + ( sizex*sizey -1);
-				while ( source> ( sizex*sizey-1 ) )
-					source = source - ( sizex*sizey -1);
-
-
-				// Füge Verbindung hinzu:
-				// source = siehe oben
-				// target = aktuelle Zelle = i * sizex + j
-
-				// Fall: edge polynomial:
-				if ( l->getEdgeInfo().theEdgeKind & _polynomial_ )
-				{
-					( ( weightedPolyEdge* ) l )->setWeight (buffer);
-				}
-
-				// Fall: edge weighted:
-				else if ( l->getEdgeInfo().theEdgeKind & _weighted_ )
-				{
-					  l ->setWeight ( buffer.at(0) );
-				}
-
-				//network::addEdge ( source, i*sizex + j, l );
-				network::addEdge ( i*sizex + j, source, l );
-			}
-	} // Auslesen ENDE
-
-	in.close();
-
-} // ENDE cnnStd
-
-
-// Definition eines cnn-Netzwerkes (Polynomial gewichtet) mit NEUTRALEN RANDBEDINGUNGEN
-//
-void createNetwork::cnnNeutral ( int sizex, int sizey, string params, nodeBlueprint *n, edgeBlueprint *l )
-{
-	ifstream in ( params.c_str() );		// liest Datei %params% ein
-
-	// Erstelle Grundgitter mit %sizex% x %sizey% = j x i
-	//
-	for ( int i=0; i< sizey; i++ )			// i Zeilen
-	{
-		for ( int j = 0; j < sizex; j++ )	// j Spalten
-		{
-			addNode ( n );
-		}
-	}
-
-	int distx, disty;	// Abstand Source->Target x und y
-	double weight;		// Kopplungsgewicht
-	int source;		// Zellennummer der Quellzelle, die in die Zielzelle einkoppeln soll
-
-	// Auslesen der Koordinaten / Gewichte der Nachbarn bis EOF (peek() != -1)
-	//
-	while ( in.peek() != -1 )
-	{
-		string linebuffer;
-		vector <baseType> buffer;
-
-		in >> distx;
-		in >> disty;
-
-		// Einlesen der Gewichte (1. bis n. Ordnung):
-		getline ( in,linebuffer );
-
-		// zerlegen des Puffers:
-		istringstream isstr ( linebuffer );
-
-		// Einlesen der Einzelgewichte für m. Koordinate in Vector buffer
-
-		while ( isstr.peek() != -1 )
-		{
-			isstr >> weight;
-			buffer.push_back ( weight );
-		}
-
-
-		if ( in.eof() )
-			break;
-
-		// Neutrale Randbedingung
-		for ( int j = 0; j < sizex; j++ )		// Zellen in x-Richtung durchlaufen
-			for ( int i = 0; i < sizey; i++ )	// Zellen in y-Richtung durchlaufen
-			{
-				// Zellennummer der aktuellen Zelle = i*sizex + j
-				// -> neu	= alt + distx	+ disty*sizex
-				source 		= i*sizex + j 	+ distx + disty*sizex;
-
-				// Prüfung, ob source-Zelle noch innerhalb CNN:
-				if ( ( i+disty>=sizey ) || ( i+disty<0 ) )
-					continue;
-				if ( ( j+distx>=sizex ) || ( j+distx<0 ) )
-					continue;
-
-				// Wenn im Bereich: füge Verbindung hinzu:
-				// source = siehe oben
-				// target = aktuelle Zelle = i * sizex + j
-
-				// Fall: edge polynomial:
-				if ( l->getEdgeInfo().theEdgeKind & _polynomial_ )
-				{
-					( ( weightedPolyEdge* ) l )->setWeight (buffer);
-				}
-
-				// Fall: edge weighted:
-				else if ( l->getEdgeInfo().theEdgeKind & _weighted_ )
-				{
-					( l )->setWeight ( buffer.at(0) );
-					//( ( weightedEdge* ) l )->setWeight ( buffer.at ( 0 ) );
-				}
-				//	network::addEdge ( source, i*sizex + j, l );
-				network::addEdge ( i*sizex + j, source, l );
-			}
-	} // Auslesen ENDE
-
-	in.close();
-
-} // ENDE cnnNeutral
-
 
 
 

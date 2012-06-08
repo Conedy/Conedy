@@ -1,0 +1,10 @@
+network N;
+
+N.completeNetwork(100, buggyMap(), edge());
+progressVerbosity = 0.0;
+
+while(1.0>0.0)
+{
+	:date +%M-%S-%N:;
+	N.evolve(0.0, 10.0);
+};

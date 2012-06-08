@@ -1,12 +1,10 @@
-network net;
+network N;
 
-net.cycle(20,1, kuramoto());
+int i = N.cycle(20, 1, kuramoto());
 
-net.addEdge(1,7,1.0);
-net.addEdge(7,1,1.0);
-net.addEdge(1,11,1.0);
-net.addEdge(11,1,1.0);
+N.addEdge(i+ 1, i+ 7, weightedEdge(1.0));
+N.addEdge(i+ 7, i+ 1, weightedEdge(2.0));
+N.addEdge(i+ 1, i+11, weightedEdge(3.0));
+N.addEdge(i+11, i+ 1, weightedEdge(4.0));
 
-
-net.closenessCentrality( "output/closenessCentrality.co.out" );
-
+N.closenessCentrality( "output/closenessCentrality.co.out" );

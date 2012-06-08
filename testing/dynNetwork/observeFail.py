@@ -2,12 +2,12 @@ import conedy as co
 
 
 
-net = co.network()
+N = co.network()
 
-newNodeNumber = net.addNode(co.logisticMap())
-net.observe(newNodeNumber, "thisDirectoryDoesNotExist/observe.py.series")
+newNodeNumber = N.addNode(co.logisticMap())
+N.observe(newNodeNumber, "thisDirectoryDoesNotExist/observe.py.series")
 
-net.evolve (0.0,10.0)
+N.evolve (0.0,10.0)
 
 
 

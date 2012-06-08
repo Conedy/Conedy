@@ -1,4 +1,4 @@
-network net;
+network N;
 
 kuramoto_omega = 0.1;
 
@@ -11,50 +11,50 @@ int thirdNodeNumber;
 int fourthNodeNumber;
 
 #just one kuramoto oscillator
-firstNodeNumber = net.addNode(kuramoto());
-net.setState(firstNodeNumber, 0.0 );
-net.observeTime("output/kuramoto.co.one");
-net.observe(0,"output/kuramoto.co.one", component(0));
-net.evolve(0.0,10.0);
-net.removeObserver();
+firstNodeNumber = N.addNode(kuramoto());
+N.setState(firstNodeNumber, 0.0 );
+N.observeTime("output/kuramoto.co.one");
+N.observe(0,"output/kuramoto.co.one", component(0));
+N.evolve(0.0,10.0);
+N.removeObserver();
 
 
 #adding a second. They should synchronize.
-secondNodeNumber = net.addNode(kuramoto());
-net.addEdge (firstNodeNumber,secondNodeNumber  ,0.1);
-net.addEdge (secondNodeNumber, firstNodeNumber ,0.1);
+secondNodeNumber = N.addNode(kuramoto());
+N.addEdge (firstNodeNumber,secondNodeNumber  ,0.1);
+N.addEdge (secondNodeNumber, firstNodeNumber ,0.1);
 
 
 
 
 
 #small ring of oscillators. Should not synchronize.
-net.setState(firstNodeNumber, 0.0 );
-net.setState(secondNodeNumber, 0.3 );
+N.setState(firstNodeNumber, 0.0 );
+N.setState(secondNodeNumber, 0.3 );
 
-net.observeTime("output/kuramoto.co.two");
-net.observeAll("output/kuramoto.co.two");
-net.evolve(0.0,40.0);
-net.removeObserver();
+N.observeTime("output/kuramoto.co.two");
+N.observeAll("output/kuramoto.co.two");
+N.evolve(0.0,40.0);
+N.removeObserver();
 
-thirdNodeNumber = net.addNode(kuramoto());
-fourthNodeNumber = net.addNode(kuramoto());
-net.addEdge ( secondNodeNumber, thirdNodeNumber ,0.1);
-net.addEdge ( thirdNodeNumber, secondNodeNumber ,0.1);
+thirdNodeNumber = N.addNode(kuramoto());
+fourthNodeNumber = N.addNode(kuramoto());
+N.addEdge ( secondNodeNumber, thirdNodeNumber ,0.1);
+N.addEdge ( thirdNodeNumber, secondNodeNumber ,0.1);
 
 
-net.addEdge ( thirdNodeNumber, fourthNodeNumber ,0.1);
-net.addEdge ( fourthNodeNumber, thirdNodeNumber ,0.1);
+N.addEdge ( thirdNodeNumber, fourthNodeNumber ,0.1);
+N.addEdge ( fourthNodeNumber, thirdNodeNumber ,0.1);
 
-net.addEdge ( fourthNodeNumber, firstNodeNumber ,0.1);
-net.addEdge ( firstNodeNumber, fourthNodeNumber ,0.1);
-net.setState(firstNodeNumber, 0.0 );
-net.setState(secondNodeNumber, 0.245 );
-net.setState(thirdNodeNumber, 0.495 );
-net.setState(fourthNodeNumber, 0.7502 );
+N.addEdge ( fourthNodeNumber, firstNodeNumber ,0.1);
+N.addEdge ( firstNodeNumber, fourthNodeNumber ,0.1);
+N.setState(firstNodeNumber, 0.0 );
+N.setState(secondNodeNumber, 0.245 );
+N.setState(thirdNodeNumber, 0.495 );
+N.setState(fourthNodeNumber, 0.7502 );
 
-net.observeTime("output/kuramoto.co.ring");
-net.observeAll("output/kuramoto.co.ring");
-net.evolve(0.0,40.0);
+N.observeTime("output/kuramoto.co.ring");
+N.observeAll("output/kuramoto.co.ring");
+N.evolve(0.0,40.0);
 
 

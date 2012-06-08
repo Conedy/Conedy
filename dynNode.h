@@ -35,9 +35,9 @@ namespace conedy
 	{
 			//! Zeiger auf Speicherplatz für die
 		protected:
-			baseType *  x;
 		public:
 
+			baseType *  x;
 
 
 			virtual const nodeInfo getNodeInfo() { nodeInfo n = {_dynNodeNodeType_,_dynNode_,"dynNode"};  return n;};
@@ -56,7 +56,8 @@ namespace conedy
 
 			dynNode () : params <baseType> (_dynNodeNodeType_) {}
 
-			virtual void evolve(double time) { throw "evolve of dynNode called";}
+			virtual void evolve(baseType time) { cerr << this->getNodeInfo().theNodeName << endl;
+				throw "evolve of dynNode called";}
 			virtual bool timeEvolution () { return 0; };
 			virtual bool requiresUpkeep() { return 0;};
 			virtual const unsigned int dimension () const { return 0; }
@@ -68,7 +69,7 @@ namespace conedy
 
 			virtual node * construct () { throw "construct of dynNode called !"; }
 
-			virtual void printStatistics(ostream &os, double nodeVerbosity, double edgeVerbosity);
+			virtual void printStatistics(ostream &os, int nodeVerbosity, int edgeVerbosity);
 
 			virtual  baseType getMeanPhaseCoherence() { throw "getMeanPhaseCoherence";}
 			virtual	baseType couplingSum() { throw "couplingSum"; }
@@ -79,10 +80,10 @@ namespace conedy
 
 			dynNode( const dynNode &b);
 
-			virtual void setStateVec (vector <double>  &r);
-			virtual void randomizeState ( boost::function<double () > &r ) { vector <boost::function<double () > >  dummy; dummy.push_back(r); randomizeState(dummy); }
+			virtual void setStateVec (vector <baseType>  &r);
+			virtual void randomizeState ( boost::function<baseType () > &r ) { vector <boost::function<baseType () > >  dummy; dummy.push_back(r); randomizeState(dummy); }
 
-			virtual void randomizeState ( vector <boost::function<double () > > &r );
+			virtual void randomizeState ( vector <boost::function<baseType () > > &r );
 
 			virtual baseType getState (unsigned int component) { return x[component];}
 

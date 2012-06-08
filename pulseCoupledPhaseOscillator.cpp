@@ -6,7 +6,7 @@
 namespace conedy
 {
 
-    void pcoBase::setStateVec ( vector <double  >  &r ) 
+    void pcoBase::setStateVec ( vector <baseType  >  &r ) 
 	{
 		baseType value = r[0];
 
@@ -16,9 +16,9 @@ namespace conedy
 	}
 
 
-    void pcoBase::printStatistics(ostream &os, double nodeVerbosity, double edgeVerbosity ) {
+    void pcoBase::printStatistics(ostream &os, int nodeVerbosity, int edgeVerbosity ) {
         node::printStatistics(os, nodeVerbosity, edgeVerbosity);
-        if (nodeVerbosity > 1.5)
+        if (nodeVerbosity > 1)
         {
            params<baseType>::printStatistics();
            if (dimension() > 0)
@@ -45,8 +45,15 @@ namespace conedy
 
 		if ( eventSignature == _fire_ )
 		{
+
+#ifdef DEBUG			
+//			cout << "Firing:" << getNumber() << endl;
+#endif
 			this->fire();
-			return this->time + 1.0;// + gslNoise::getGaussian ( 0, numeric_limits<baseType>::epsilon() * 1000.0 );
+//			return this->time + 1.0;// + gslNoise::getGaussian ( 0, numeric_limits<baseType>::epsilon() * 1000.0 );
+
+			return nextEvent() + 1;
+				
 		}
 
 		else // if (eventSignature == _exciteRandomly_)

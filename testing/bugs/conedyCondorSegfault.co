@@ -1,0 +1,11 @@
+network N;
+
+int j;
+int k;
+
+vectorFor (int a = 0; a < 3; a++)
+{
+	j = N.addNode(roessler());
+	k = N.addNode(roessler());
+	N.addEdge(j, k, edge());
+};

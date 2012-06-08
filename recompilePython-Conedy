@@ -1,24 +1,4 @@
 #!/usr/bin/make -sf
-#
-#    Neurosim is a scientific tool which allows numerical integration of dynamical networks.
-#
-#    Copyright (C) 2011 Alexander Rothkegel, Henning Dickten, Ferdinand Stolz, Justus Schwabedahl
-#
-#    This file is part of conedy.
-#
-#    Neurosim is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>
-
 
 
 
@@ -31,7 +11,13 @@ doit: ${todo}
 
 conedy:
 
+conedy-root:
+
+condor:
+
 python-conedy:
+
+python-conedy-root:
 
 documentation:
 
@@ -39,12 +25,16 @@ conedy-src: recompile
 
 
 recompile: ${HOME}/.config/conedy/config.h
-	TMP=`mktemp`; cd ${dirsrc};\
-	cd ${dirsrc}; sum addedNodes/*.cfg > $$TMP; \
+
+	name=`mktemp`; make -sC ${dirSrc} version > $$name; \
+   ( [ -f ${buildDir}/Makefile ] &&  diff $$name ${buildDir}/version   ) || make -C ${dirSrc} copySrc
+	TMP=`mktemp`; \
+	TMP=`mktemp`; cd ${buildDir};\
+	cd ${buildDir}; sum addedNodes/*.cfg > $$TMP; \
 	[ -d ${addedDir} ] && [ "$$(ls -A ${addedDir})" ] && (find ${addedDir} -name "*.cfg" | sort | xargs sum >> $$TMP) || true  ; \
-	diff $$TMP ${dirsrc}/addedNodes.sum.old  || ${noUserSpace} touch ${dirsrc}/recompilationConedyStarted ${dirsrc}/recompilationPython-ConedyStarted 
-	[ -f ${dirsrc}/recompilationPython-ConedyStarted  ] 
-	make -C ${dirsrc} python-conedy.recompile  
+	diff $$TMP ${buildDir}/addedNodes.sum.old  || ${noUserSpace} touch ${buildDir}/recompilationConedyStarted ${buildDir}/recompilationPython-ConedyStarted 
+	[ -f ${buildDir}/recompilationPython-ConedyStarted  ] 
+	make -C ${buildDir} python-conedy.recompile  
 
 
 

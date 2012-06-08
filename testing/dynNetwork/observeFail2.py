@@ -2,15 +2,15 @@ import conedy as co
 
 
 
-net = co.network()
+N = co.network()
 
-newNodeNumber = net.addNode(co.logisticMap())
+newNodeNumber = N.addNode(co.logisticMap())
 
-#net.printNodeStatistics()
-net.observe(newNodeNumber+1, "output/observe.py.series")
+#N.printNodeStatistics()
+N.observe(newNodeNumber+1, "output/observe.py.series")
 
 
-net.evolve (0.0,10.0)
+N.evolve (0.0,10.0)
 
 
 

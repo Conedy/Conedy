@@ -1,5 +1,3 @@
-
-
 #ifndef pulseCoupledPhaseOscillator_h
 #define pulseCoupledPhaseOscillator_h pulseCoupledPhaseOscillator_h
 
@@ -9,7 +7,8 @@
 #include <boost/function.hpp>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_matrix.h>
-#include <gsl/gsl_odeiv.h>
+
+//#include <gsl/gsl_odeiv.h>
 #include "dynNode.h"
 #include <limits.h>
 #include <boost/pending/relaxed_heap.hpp>
@@ -18,25 +17,14 @@
 #include "eventHandler.h"
 
 #include "dynNode.h"
-
+#include <iomanip>
 #include <queue>
 
 #define __MAXNUMBEROFIFNEURONS
 
 namespace conedy
 {
-
-
-
-
-
 	// Membranpotential ausrechnen aus dynNode::x[0]:
-
-
-
-	//!
-	//
-
 
 	//! Basis-Klasse für alle pulsegekoppelten Oscillatoren
 	class pcoBase : public  dynNode, public eventHandler
@@ -52,7 +40,7 @@ namespace conedy
 
 
 
-    virtual void setStateVec ( vector <double  >  &r );
+    virtual void setStateVec ( vector <baseType  >  &r );
 
 			//			baseType inline dt () { return dynNode::dt; }
 			baseType inline nextFiring() { return eventHandler::getKey ( _fire_ ); }
@@ -65,12 +53,13 @@ namespace conedy
 
 	virtual void clean ();
 
-		virtual void excite ( baseType c ) 
+		virtual void excite ( baseType c )
 		{
 
 				baseType phase = 1.0 + this->time - eventHandler::getKey ( _fire_ );
-				double newPhase = phase + phaseResponse (c, phase);
-		
+				baseType newPhase = phase + phaseResponse (c, phase);
+
+	//			cout << node::getNumber() << setprecision(20) <<  " "  << dynNode::time << " "  << phase << " " << newPhase << endl;
 
 				if ( newPhase > phase)
 				{
@@ -96,7 +85,7 @@ namespace conedy
 			virtual const unsigned int dimension() const { return 1;}
 
 
-			virtual void printStatistics(ostream &os, double nodeVerbosity, double edgeVerbosity );
+			virtual void printStatistics(ostream &os, int nodeVerbosity, int edgeVerbosity );
 
 
 
@@ -130,8 +119,6 @@ namespace conedy
 				params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_noiseIntensity",1,params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );
 				//			params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_t_ref",2,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
 				params<baseType>::registerStandard ( _pcoDelay_,"pcoDelay_timeDelay",2,0.01);
-
-
 			}
 
 			virtual unsigned int numberOfOneTimeEvents() const { return 5;  }
@@ -149,19 +136,8 @@ namespace conedy
 			virtual baseType callBack ( unsigned int eventSignature );
 			//         virtual node *construct() { return new pcoDelay(*this);};
 
-
-
 			void sendExcitations();
-
-
 	};
-
-
-
-
-
-
-
 
 	//! Oscillator, bei dem die Zeit zum feuern Poissontverteilt ist mit Rate e hoch Membranpotential.
 	class escapeNoiseNeuron : public pcoBase
@@ -175,11 +151,9 @@ namespace conedy
 			static void registerStandardValues()
 			{
 				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
-				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_noiseIntensity",1,params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );				
+				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_noiseIntensity",1,params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );
 				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_timeDelay",2,0.01 );
 				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_t_ref",3, 0.05 );
-
-
 
 				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_escapeNoise_a",4,1.0 );
 				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_escapeNoise_b",5,1.0 );
@@ -187,13 +161,10 @@ namespace conedy
 			baseType pot;
 			baseType lastFiring;
 			escapeNoiseNeuron () : pcoBase ( _escapeNoiseNeuron_ ) { pot = lastFiring = 0;};
-			virtual const nodeInfo getNodeInfo() { nodeInfo n = {_escapeNoiseNeuron_,_dynNode_ , "escapeNoiseNeuron"}; return n; } 
+			virtual const nodeInfo getNodeInfo() { nodeInfo n = {_escapeNoiseNeuron_,_dynNode_ , "escapeNoiseNeuron"}; return n; }
 			virtual baseType callBack ( unsigned int eventSignature );
 			virtual void excite ( baseType c );
 	};
-
-
-
 
 
 	//! OBSOLETE Edge, die bei allen Pulsegekoppelten Oscillatoren, die Phase zurückgibt. Eventuell nicht mehr benötigt, wenn pcoBase mit getState, die Phase zurückgibt.
@@ -219,16 +190,7 @@ namespace conedy
 
 	};
 */
-
-
-
-
 }
-
-
-
-
-
 
 
 #endif

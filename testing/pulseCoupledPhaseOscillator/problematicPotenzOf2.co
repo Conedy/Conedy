@@ -2,7 +2,7 @@
 pcoNonleaky_timeDelay = 0.01;
 pcoNonleaky_t_ref = 0.05;
 
-network net;
+network N;
 double rewiring;
 double coupling;
 
@@ -14,14 +14,14 @@ rewiring = 0.32;
 
 setRandomSeed(0);
 
-net.torus(40,40,3.14,  pcoNonleaky,staticWeightedEdge(coupling));
-net.rewire(rewiring);
-net.randomizeStates(pcoNonleaky, uniform(0.0,1.0));
-#net.randomizeWeights(uniform(coupling,coupling));
+N.torus(40,40,3.14,  pcoNonleaky,staticWeightedEdge(coupling));
+N.rewire(rewiring);
+N.randomizeStates(pcoNonleaky, uniform(0.0,1.0));
+#N.randomizeWeights(uniform(coupling,coupling));
 
-net.observeTime("output/problematicPotenzOf2.co.phaseCoherence");
-net.observePhaseCoherence("output/problematicPotenzOf2.co.phaseCoherence");
+N.observeTime("output/problematicPotenzOf2.co.phaseCoherence");
+N.observePhaseCoherence("output/problematicPotenzOf2.co.phaseCoherence");
 
 
 
-net.evolve(0.0,35.0);
+N.evolve(0.0,35.0);

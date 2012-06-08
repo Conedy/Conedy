@@ -1,6 +1,6 @@
 import conedy as co
 
-net = co.network()
+N = co.network()
 
 co.set("roessler_omega", 20.0)
 co.set("roessler_a", 0.165)
@@ -12,25 +12,22 @@ co.set("lorenz_b", 8.0/3.0)
 
 co.set("samplingTime", 0.01)
 
+i = N.addNode(co.roessler())
+j = N.addNode(co.lorenz())
 
-net.addNode(co.roessler())
-net.addNode(co.lorenz())
-
-net.addEdge(0,1,co.weightedEdge(2.5))
-
-
-net.setState(0, 0.0,0.0,0.0  )
-net.setState(1, 1.0,1.0,1.0  )
+N.addEdge(i, j, co.weightedEdge(2.5))
 
 
-net.observeTime("output/roesslerLorenzCoupled.py.series")
-net.observe(0,"output/roesslerLorenzCoupled.py.series",co.component(0))
-net.observe(0,"output/roesslerLorenzCoupled.py.series",co.component(1))
-net.observe(0,"output/roesslerLorenzCoupled.py.series",co.component(2))
-net.observe(1,"output/roesslerLorenzCoupled.py.series",co.component(0))
-net.observe(1,"output/roesslerLorenzCoupled.py.series",co.component(1))
-net.observe(1,"output/roesslerLorenzCoupled.py.series",co.component(2))
+N.setState(i, 0.0, 0.0, 0.0)
+N.setState(j, 1.0, 1.0, 1.0)
+
+N.observeTime("output/roesslerLorenzCoupled.py.series")
+N.observe(i,"output/roesslerLorenzCoupled.py.series",co.component(0))
+N.observe(i,"output/roesslerLorenzCoupled.py.series",co.component(1))
+N.observe(i,"output/roesslerLorenzCoupled.py.series",co.component(2))
+N.observe(j,"output/roesslerLorenzCoupled.py.series",co.component(0))
+N.observe(j,"output/roesslerLorenzCoupled.py.series",co.component(1))
+N.observe(j,"output/roesslerLorenzCoupled.py.series",co.component(2))
 
 
-net.evolve(0.0,1500.0)
-
+N.evolve(0.0,1500.0)

@@ -1,12 +1,5 @@
-
-
-
-int nodeNumber;
-
-
 network n;
-
-
+int nodeNumber;
 
 
 nodeNumber = n.addNode(exponentialStatic());
@@ -19,7 +12,7 @@ n.clear();
 
 nodeNumber = n.addNode(exponentialGsl());
 n.setState(nodeNumber,10.0);
-odeStepType = "gsl_odeiv_step_rk2";
+odeStepType = "gsl_rk2";
 n.observeTime("output/compareWithExponential.co.rk2");
 n.observeAll("output/compareWithExponential.co.rk2");
 n.evolve (0.0,10.0);
@@ -29,7 +22,7 @@ n.clear();
 
 nodeNumber = n.addNode(exponentialGsl());
 n.setState(nodeNumber,10.0);
-odeStepType = "gsl_odeiv_step_rk4";
+odeStepType = "gsl_rk4";
 n.observeTime("output/compareWithExponential.co.rk4");
 n.observeAll("output/compareWithExponential.co.rk4");
 n.evolve (0.0,10.0);
@@ -39,7 +32,7 @@ n.clear();
 
 nodeNumber = n.addNode(exponentialGsl());
 n.setState(nodeNumber,10.0);
-odeStepType = "gsl_odeiv_step_rkf45";
+odeStepType = "gsl_rkf45";
 n.observeTime("output/compareWithExponential.co.rk45");
 n.observeAll("output/compareWithExponential.co.rk45");
 n.evolve (0.0,10.0);
@@ -48,7 +41,7 @@ n.clear();
 
 nodeNumber = n.addNode(exponentialGsl());
 n.setState(nodeNumber,10.0);
-odeStepType = "gsl_odeiv_step_rkck";
+odeStepType = "gsl_rkck";
 n.observeTime("output/compareWithExponential.co.rkck");
 n.observeAll("output/compareWithExponential.co.rkck");
 n.evolve (0.0,10.0);
@@ -57,14 +50,14 @@ n.clear();
 
 nodeNumber = n.addNode(exponentialGsl());
 n.setState(nodeNumber,10.0);
-odeStepType = "gsl_odeiv_step_rk8pd";
+odeStepType = "gsl_rk8pd";
 n.observeTime("output/compareWithExponential.co.rk8pd");
 n.observeAll("output/compareWithExponential.co.rk8pd");
 n.evolve (0.0,10.0);
 n.removeObserver();
 n.clear();
 
-stdSdeIntegrator_stepType = "euler";
+sdeStepType = "euler";
 nodeNumber = n.addNode(exponentialSde());
 exponentialSde_sigmaNoise = 0.1;
 n.setState(nodeNumber,10.0);
@@ -74,7 +67,7 @@ n.evolve (0.0,10.0);
 n.removeObserver();
 n.clear();
 
-stdSdeIntegrator_stepType = "milsteinIto";
+sdeStepType = "milsteinIto";
 nodeNumber = n.addNode(exponentialSde());
 exponentialSde_sigmaNoise = 0.1;
 n.setState(nodeNumber,10.0);
@@ -84,7 +77,7 @@ n.evolve (0.0,10.0);
 n.removeObserver();
 n.clear();
 
-stdSdeIntegrator_stepType = "milsteinStrato";
+sdeStepType = "milsteinStrato";
 nodeNumber = n.addNode(exponentialSde());
 exponentialSde_sigmaNoise = 0.1;
 n.setState(nodeNumber,10.0);

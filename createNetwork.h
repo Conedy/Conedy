@@ -47,9 +47,8 @@ namespace conedy
 		static void registerStandardValues()
 		{
 			//! true when output should be written to binary files.
-			params<baseType>::registerStandard ( _createNetwork_,"outputBinary",0, 0.0 );
+			globals::registerGlobal<bool> ("outputBinary", false );
 		}
-		baseType inline writeBinary () { return p.getParams(0); }
 
 		params<baseType> p;
 
@@ -113,6 +112,9 @@ namespace conedy
 			//! normalizes the sum of ingoing coupling weights to r.
 			void normalizeInputs (baseType r);
 
+			//! normalizes the sum of outgoing coupling weights to r.
+			void normalizeOutputs (baseType r);
+
 			//			void createFromMatrix ( inStream & in, unsigned int size, nodeBlueprint *n );
 
 			//! Fügt Kopien der Knoten aus nodes zum Netzwerk hinzu und verbindet mit Kopplungsgewichten aus der Matrix weights.
@@ -143,7 +145,7 @@ namespace conedy
 			void replaceEdges (double prop, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode);
 
 
-		
+
 			void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
 
 
@@ -179,10 +181,10 @@ namespace conedy
 			void observeEventCounter ( string s, unsigned int signature);
 
 			//! wie oben. Phasen werden von Edges vom Typ l übergeben.
-			void observeSumPhase ( string s, edgeBlueprint *l );
+			void observeMeanPhase ( string s, edgeBlueprint *l );
 
 
-			void observeSumPhase ( string s );
+			void observeMeanPhase ( string s );
 
 
 			//! wie oben mit links vom Typ l
@@ -208,20 +210,9 @@ namespace conedy
 
 
 			void addRandomEdgesDegreeDistribution ( function <double () > r, edgeBlueprint *l = stdEdge );
+			void addRandomEdgesDegreeDistributionUndirected ( function <double () > r, edgeBlueprint *l = stdEdge );
 
 
-			//! Fügt einen Knoten vom Typ streamOutNode hinzu, der in die Datei s schreibt. Der Knoten erhält eine stdEdge zu jedem Knoten vom Typ _dynNode_. und schreibt somit die Summe aller States weg.
-
-//			void observeSum ( string s );
-
-			//! observiert den Knoten number mit einer stdEdge und schreibt in die Datei s.
-//			void observe ( string s, nodeDescriptor number );
-
-			//!
-//			void addRandomEdges ( double meanOutDegree )
-//			{
-//				addRandomEdges ( meanOutDegree, network::stdEdge );
-//			}
 			void addRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge );
 
 
@@ -232,20 +223,10 @@ namespace conedy
 				void randomInDegreeDistribution ( int number, RANDOM &r, nodeBlueprint *n );
 
 
-			//			template <typename SIZE>
-			//			void streamInBinary ( inStreamBinary in, char flags , SIZE );
 			void streamInBinary ( string s );
 
-			//			template <typename SIZE>
-			//			void streamOutBinary ( outStreamBinary out, char flags , SIZE );
 			void streamOutBinary ( string s, char flags = 24 );
 
-			//			void addSuperAttractiveNode (nodeBlueprint *n, nodeKind theNodeKind = _dynNode_);
-			//			void addSuperAttractiveNode (nodeBlueprint *n, nodeKind theNodeKind, edge *l);
-
-			//			void addSuperNode ( nodeBlueprint *n );
-			//			void addSuperNode ( nodeBlueprint *n, edge <baseType> *l);
-			//			void addSuperNodeBidirectional ( nodeBlueprint *n, edge *l);
 
 			void addEnterNode ( string s );
 
@@ -264,7 +245,7 @@ namespace conedy
 
 
 
-	};	
+	};
 
 
 

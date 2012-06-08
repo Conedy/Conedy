@@ -16,7 +16,7 @@
 #include "dynNode.h"
 #include <iomanip>
 #include <map>
-
+#include "globals.h"
 
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <boost/iostreams/filtering_stream.hpp>
@@ -38,7 +38,7 @@ using namespace boost::iostreams;
 namespace conedy
 {
 
-	class streamOutNodeBinary : public dynNode
+	class streamOutNodeBinary : public dynNode, private globals
 	{
 
 		protected:
@@ -53,7 +53,7 @@ namespace conedy
 			//! Zuordnung von Dateinamen zu der Nummer des entsprechenden Ausgabeobjekts im Vector out.
 			static std::map<string, int> streamNumber;
 
-			//! zuordnung von der Nummer der Ausgabeobjekte in out zum Namen der Datei, in die geschrieben wird.			
+			//! zuordnung von der Nummer der Ausgabeobjekte in out zum Namen der Datei, in die geschrieben wird.
 			static std::map<int,string> stringOfStreamNumber;
 
 			//! Kleinste Nummer im Ausgabeobjektvector out, die noch nicht verwendet wird.
@@ -71,17 +71,16 @@ namespace conedy
 
 			streamOutNodeBinary ( networkElementType n ) : dynNode( n ) {};
 
-			
+
 
 			virtual ~streamOutNodeBinary();
-			virtual void evolve(double time) {
-			 
+			virtual void evolve(baseType time) {
+
 				x = this->couplingSum();
 			out [localStreamNumber]->write ( (char *) &x, sizeof (baseType));
 			};
 	//		virtual node *construct();
 
-//			virtual void printStatistics()   { cout << "StreamOutNode" << endl; node::printStatistics(); }
 
 
 			streamOutNodeBinary ( const streamOutNodeBinary& n ) : dynNode  (n) { localStreamNumber = n.localStreamNumber; counter[localStreamNumber]++; }
@@ -94,7 +93,7 @@ namespace conedy
 
 
 	//! Klasse, die Werte in Dateien wegschreibt. Verwendet Boost-iostreamm damit Dateien direkt on-the-fly gezipt werden können. Die Ausgabeobjekte werden statisch verwaltet, damit verschiedene Nodes in dieselbe Datei schreiben können.
-	class streamOutNode : public dynNode
+	class streamOutNode : public dynNode, private globals
 	{
 
 		protected:
@@ -109,7 +108,7 @@ namespace conedy
 			//! Zuordnung von Dateinamen zu der Nummer des entsprechenden Ausgabeobjekts im Vector out.
 			static std::map<string, int> streamNumber;
 
-			//! zuordnung von der Nummer der Ausgabeobjekte in out zum Namen der Datei, in die geschrieben wird.			
+			//! zuordnung von der Nummer der Ausgabeobjekte in out zum Namen der Datei, in die geschrieben wird.
 			static std::map<int,string> stringOfStreamNumber;
 
 			//! Kleinste Nummer im Ausgabeobjektvector out, die noch nicht verwendet wird.
@@ -118,25 +117,19 @@ namespace conedy
 			//! Nummer des Lokalen Ausgabeobjekts.
 			int localStreamNumber;
 
-
-			bool inline zipOutput() { return ( bool ) params<baseType>::getParams ( 0 ); }
-			bool inline appendOutput() { return ( bool ) params<baseType>::getParams ( 1 ); }
-			unsigned int inline precision() { return ( unsigned int ) params<baseType>::getParams (2 ); }
 		public:
-			bool inline binary() { return (bool) params<baseType>::getParams (3); }
 
 			static void enter();
-			
+
 
 
 			//! Ausgabenodes brauchen keinen Aufruf von evolve, und somit gibt timeEvolution 0 zurück.
 			virtual bool timeEvolution () { return 0; }
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _streamOutNode_,"outputCompress",0,0.0 );
-				params<baseType>::registerStandard ( _streamOutNode_,"outputAppend",1,0.0 );
-				params<baseType>::registerStandard ( _streamOutNode_,"outputPrecision",2,15.0 );
-//				params<baseType>::registerStandard ( _streamOutNode_,"streamOutNode_binary",3, 0.0 );
+				registerGlobal<bool> ("outputCompress", false);
+				registerGlobal<bool> ("outputAppend", false);
+				registerGlobal<int> ("outputPrecision", 15);
 			}
 
 			//! Ausgabenodes brauchen keinen Speicherplatz von dynNode reserviert zu bekommen -> dimension = 0
@@ -146,10 +139,10 @@ namespace conedy
 
 
 			virtual ~streamOutNode();
-			virtual void evolve(double time) ;
+			virtual void evolve(baseType time) ;
 			virtual node *construct()
 			{ cout << "I am here" << endl;
-				if (binary())
+				if (getGlobal<bool>("inputCompress"))
 				{
 					streamOutNodeBinary * blueprint = new streamOutNodeBinary(stringOfStreamNumber[localStreamNumber]);
 					return new streamOutNodeBinary (* blueprint );
@@ -158,12 +151,6 @@ namespace conedy
 				else
 					return new streamOutNode(*this);
 			}
-
-
-
-//			virtual void printStatistics()   { cout << "StreamOutNode" << endl; node::printStatistics(); }
-
-
 
 			streamOutNode ( const streamOutNode& n ) : dynNode  (n) { localStreamNumber = n.localStreamNumber; counter[localStreamNumber]++; }
 			streamOutNode ( string s, networkElementType n = _streamOutNode_ );
@@ -192,7 +179,7 @@ namespace conedy
 			virtual void clean () {};
 			virtual baseType getState();
 	};
-	
+
 
 
 		//! Berechnet die mittlere Phase der angekopplten Knoten aus.
@@ -211,48 +198,8 @@ namespace conedy
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//! Eingabe-node, der Werte aus einer Datei liest und bei Aufruf von getState zurückgibt.	
-		class streamInNode : public dynNode
+	//! Eingabe-node, der Werte aus einer Datei liest und bei Aufruf von getState zurückgibt.
+	class streamInNode : public dynNode, private globals
 
 	{
 
@@ -265,12 +212,12 @@ namespace conedy
 			static int smallestUnusedNumber;
 			int localStreamNumber;
 
-			bool inline zipInput() { return ( bool ) params<baseType>::getParams ( 0 ); }
+			bool inline zipInput() { return ( bool ) getGlobal<bool>("inputCompress");  }
 		public:
 			virtual bool timeEvolution () { return 0; }
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _streamInNode_,"inputCompress",0,0.0 );
+				registerGlobal<bool>("inputCompress", false);
 			}
 			virtual const unsigned int dimension() const { return 1;}
 
@@ -279,11 +226,10 @@ namespace conedy
 
 			virtual ~streamInNode();
 			//			streamInNode ( outStream &o, int i ) : node ( i, _streamInNode_ )  {};
-			virtual void evolve(double time) {   ( * ( in[localStreamNumber] ) ) >> dynNode::x[0]; }; //cout << x << endl; };
+			virtual void evolve(baseType time) {   ( * ( in[localStreamNumber] ) ) >> dynNode::x[0]; }; //cout << x << endl; };
 
 //			virtual void swap () { this->state = x; };
 
-//			virtual void printStatistics()   { cout << "StreamInNode" << endl; this->printStatistics(); }
 
 
 			streamInNode ( const streamInNode& n ) : dynNode(n) { localStreamNumber = n.localStreamNumber; counter[localStreamNumber]++; }
@@ -291,26 +237,12 @@ namespace conedy
 			//		virtual void streamIn(outStream & out);
 			//		streamInNode(string s, string command);
 
-			virtual const nodeInfo getNodeInfo() { nodeInfo n = {_streamInNode_,_inNode_|_dynNode_ };     return n; };
+			virtual const nodeInfo getNodeInfo() { nodeInfo n = {_streamInNode_,_inNode_|_dynNode_ , "streamInNode"};     return n; };
 
 
 };
 
 
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
 
 #endif

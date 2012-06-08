@@ -1,14 +1,14 @@
 
-network net;
+network N;
 
 int nodeNumber; 
 
 
-nodeNumber = net.addNode(roessler());
+nodeNumber = N.addNode(roessler());
 
-net.observe (nodeNumber, "output/removeObserver.co.series");
-net.removeObserver();
+N.observe (nodeNumber, "output/removeObserver.co.series");
+N.removeObserver();
 
-net.evolve(0.0,100.0);
+N.evolve(0.0,100.0);
 
 

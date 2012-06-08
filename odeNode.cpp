@@ -9,7 +9,7 @@ namespace conedy {
 
 
 
-	int odeNode::dgl ( double t,const double y[], double f[], void *params )
+	int odeNode::dgl ( baseType t,const baseType y[], baseType f[], void *params )
 	{
 		list<containerNode<baseType,1>*>::iterator it;
 		for ( it = nodeList.begin(); it != nodeList.end();it++ )

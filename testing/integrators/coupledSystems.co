@@ -4,6 +4,8 @@ double a = 1.0;
 double b = -1.0;
 
 
+odeStepSize = 0.001;
+
 
 network N;
 
@@ -17,6 +19,7 @@ N.observe(j, "output/coupledSystems.co.single", component(0));
 N.evolve(0.0,100.0);
 N.clear();
 
+odeStepSize = 0.001;
 
 j = N.completeNetwork(2, onlyCouplingCouplingSum(), staticWeightedEdge());
 N.randomizeWeights(constant(1.0));
@@ -29,6 +32,7 @@ N.evolve(0.0,100.0);
 N.clear();
 
 
+odeStepSize = 0.001;
 
 int k = N.addNode(doubleOnlyCoupling);
 N.setState(k, startwerta, startwertb);

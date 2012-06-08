@@ -1,63 +1,48 @@
-
-
 #include "ioNode.h"
-
 #include <complex>
-
 
 namespace conedy
 {
-
-	void	streamOutNode:: 			evolve(double time) 
-
-	{  
-//		x = this->couplingSum(); 
-		( * ( out[localStreamNumber] ) ) << setprecision((int)precision()) << this->couplingSum(); 
+	void	streamOutNode:: 			evolve(baseType time)
+	{
+//		x = this->couplingSum();
+		( * ( out[localStreamNumber] ) ) << setprecision( getGlobal<int>("outputPrecision") ) << this->couplingSum();
 		( * ( out[localStreamNumber] ) ) << ' ';
-
 	};
 
+	baseType calculateMeanPhase::getState()
+	{
+		complex<baseType> re ( ( baseType ) 0, ( baseType ) 0 );
 
-			baseType calculateMeanPhase::getState()
-			{
+		node::edgeDescriptor i, end;
+		i = 0;
+		end = degree();
 
+		for (; i != end; i++ )
+		{
+			complex<baseType> dummy ( ( baseType ) 0, getTargetState(i )*2*M_PI );
+			re = re + exp ( dummy );
 
+		}
+		return std::arg ( re );
 
+	}
 
-				complex<baseType> re ( ( baseType ) 0, ( baseType ) 0 );
+	baseType calculateMeanPhaseCoherence::getState()
+	{
+		complex<baseType> re ( ( baseType ) 0, ( baseType ) 0 );
+		node::edgeDescriptor i, end;
+		i = 0;
+		end = degree();
 
-				node::edgeDescriptor i, end;
-				i = 0;
-				end = degree();
+		for (; i != end; i++ )
+		{
+			complex<baseType> dummy ( ( baseType ) 0, getTargetState( i) *2 * M_PI );
+			re = re + exp ( dummy );
 
-				for (; i != end; i++ )
-				{
-					complex<baseType> dummy ( ( baseType ) 0, getTargetState(i )*2*M_PI );
-					re = re + exp ( dummy );
-
-				}
-				return std::arg ( re );
-
-			}
-
-			baseType calculateMeanPhaseCoherence::getState()
-			{
-				complex<baseType> re ( ( baseType ) 0, ( baseType ) 0 );
-				node::edgeDescriptor i, end;
-				i = 0;
-				end = degree();
-
-				for (; i != end; i++ )
-				{
-					complex<baseType> dummy ( ( baseType ) 0, getTargetState( i) *2 * M_PI );
-					re = re + exp ( dummy );
-
-				}
-				return abs ( re ) / ((int)this->degree());
-
-			}
-
-
+		}
+		return abs ( re ) / ((int)this->degree());
+	}
 
 	streamOutNodeBinary::~streamOutNodeBinary()
 	{
@@ -159,12 +144,12 @@ namespace conedy
 		{
 			io::filtering_ostream *newOut = new io::filtering_ostream();
 
-			if ( zipOutput() )
+			if ( getGlobal<bool> ("outputCompress") )
 			{
 				newOut->push ( gzip_compressor() );
 				//				cout << "Schreibe Daten gepackt ..." << endl;
 			}
-			if ( appendOutput())
+			if ( getGlobal<bool> ("outputAppend") )
 			{
 				io::file_sink fs = file_sink( s.c_str(), ios_base::out | ios_base::app);
 				if (!fs.is_open())
@@ -176,7 +161,7 @@ namespace conedy
 			{
 				io::file_sink fs = file_sink( s.c_str(), ios_base::out);
 //				io::file_sink fs = file_sink("stupid", ios_base::out);
-			
+
 				if (!fs.is_open())
 					throw "cannot open file for writing. ";
 				newOut->push (fs );
@@ -198,8 +183,6 @@ namespace conedy
 
 		}
 	}
-
-
 
 
 	std::vector<io::filtering_ostream*> streamOutNode::out;
@@ -235,7 +218,7 @@ namespace conedy
 			io::filtering_istream *newIn = new io::filtering_istream();
 
 			if ( zipInput() )
-			{			
+			{
 				newIn->push ( gzip_decompressor() );
 			}
 
@@ -244,9 +227,6 @@ namespace conedy
 				throw "cannot open file for reading. ";
 
 			newIn->push ( file_source ( s.c_str() ) );
-
-
-
 
 			in.push_back ( newIn );
 			streamNumber[s] = smallestUnusedNumber;
@@ -263,37 +243,16 @@ namespace conedy
 
 		}
 
-
-
-
-
 	}
-
-
-
-
-
-
 
 
 	std::vector<io::filtering_istream*> streamInNode::in;
 
-
 	std::map<int, unsigned int> streamInNode::counter;
-
 
 	std::map<string, int> streamInNode::streamNumber;
 	int streamInNode::smallestUnusedNumber;
 
-
 	std::map<int,string> streamInNode::stringOfStreamNumber;
-
-
-
-
-
-
-
-
 }
 

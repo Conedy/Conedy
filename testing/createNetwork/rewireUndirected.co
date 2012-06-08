@@ -1,21 +1,21 @@
 
 
 
-network net;
+network N;
 
 
 
-net.cycle( 100, 10,node(), staticWeightedEdge(1.0));
+N.cycle( 100, 10,node(), staticWeightedEdge(1.0));
 
-#net.printNodeStatistics();
+#N.printNodeStatistics();
 
-print "should be 20:"+ net.meanDegree()+ newline;
-net.rewireUndirected(1.0);
-print "should be 20:"+ net.meanDegree()+ newline;
-net.saveAdjacencyList("output/rewireUndirected.co.graph");
+print "should be 20:"+ N.meanDegree()+ newline;
+N.rewireUndirected(1.0);
+print "should be 20:"+ N.meanDegree()+ newline;
+N.saveAdjacencyList("output/rewireUndirected.co.graph");
 
 
-if (net.isDirected())
+if (N.isDirected())
 	print "Error: The network is directed.";
 
 

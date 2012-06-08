@@ -1,3 +1,3 @@
-network net;
-net.cycle(100,1, roessler());
-print net.meanPathLength();
+network N;
+N.cycle(99, 1, roessler(), weightedEdge(0.25));
+print "Should be 100: " + N.meanPathLength() + newline;

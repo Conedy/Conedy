@@ -12,45 +12,25 @@ using namespace conedy;
 void registerStandards()
 {
 	
-	//	dynNode::registerStandardValues();
-	//	gslOdeNode::registerStandardValues();
-	//	odeNode::registerStandardValues();
-	//	pcoDelay::registerStandardValues();
-	//	sdeNode::registerStandardValues();
-//		stdOdeIntegrator::registerStandardValues();	
-		stdSdeIntegrator::registerStandardValues();	
-	
+	stdSdeIntegrator::registerStandardValues();	
 	pcoBase::registerStandardValues();
-	cnnNode::registerStandardValues();
 	containerNode<baseType, 0>::registerStandardValues();
 	dynNetwork::registerStandardValues();
 	createNetwork::registerStandardValues();
 	escapeNoiseNeuron::registerStandardValues();
-//	gaussianFHN::registerStandardValues();
-//	gaussianHH::registerStandardValues();
-//	gaussianHR::registerStandardValues();
-//	gaussianNapK::registerStandardValues();
-//	gaussianNapKKm::registerStandardValues();
+#ifdef DOUBLE
 	gslOdeNode::registerStandardValues();
-//	hindmarshRose::registerStandardValues();
-//	hodgkinHuxley::registerStandardValues();
-//	integrateAndFire::registerStandardValues();
+#endif
+
+#ifdef LDOBULE
+	stdOdeIntegrator::registerStandardValues();	
+#endif
+
 	izhikevichMap::registerStandardValues();
-//	logisticMap::registerStandardValues();
-//	membranePotentialOfIFQ::registerStandardValues();
-//	napK::registerStandardValues();
-//	napKKm::registerStandardValues();
 	network::registerStandardValues();
-//	neuronMap::registerStandardValues();
-//	ornUhl::registerStandardValues();
 	pcoDelay::registerStandardValues();
-//	pcoIFNeuronDelay::registerStandardValues();	
-	//pcoTrapez::registerStandardValues();
-//	pcoTriangel::registerStandardValues();
-//	periodicNode::registerStandardValues();
 	pulseCoupledExcitatoryNeuron::registerStandardValues();
-//	randomWalkNeuron::registerStandardValues();
-	sigEdgeParams::registerStandardValues();
+//	sigEdgeParams::registerStandardValues();
 	streamInNode::registerStandardValues();
 	streamOutNode::registerStandardValues();
 	sdeNode::registerStandardValues();

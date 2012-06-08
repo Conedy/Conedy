@@ -60,7 +60,7 @@ namespace conedy
 
 			};
 
-			virtual void evolve ( double time )
+			virtual void evolve ( baseType time )
 			{
 				list<containerNode<baseType,2>*>::iterator it;
 //			dynNode::dt = time;

@@ -3,6 +3,7 @@
 #include "statisticsNetwork.h"
 
 #include <limits.h>
+#include "globals.h"
 
 #include <boost/pending/relaxed_heap.hpp>
 #include <fstream>
@@ -10,9 +11,6 @@
 
 namespace conedy
 {
-
-
-
 			void statisticsNetwork::inDegreeDistributionToFile ( string fileName )
 			{
 				ofstream out;
@@ -33,6 +31,34 @@ namespace conedy
 			}
 
 
+
+			int statisticsNetwork::inDegree( nodeDescriptor n)
+	{
+
+
+		node::edgeDescriptor ea;
+		node::edgeDescriptor ee;
+
+		network::nodeIterator ia;
+		network::nodeList vl;
+		network::verticesMatching ( vl,_dynNode_ );
+		int res = 0;
+
+		for ( ia = vl.begin(); ia != vl.end(); ia++ )
+		{
+			ea = 0;
+			ee = node::theNodes[*ia] ->degree();
+
+			for ( ; ea != ee; ea++ )
+				if (node::theNodes[(*ia)] ->getTarget(ea)->getNumber() == n)
+					res++;
+
+		}
+		return res;
+	}
+
+
+
 			double statisticsNetwork::networkSize()
 			{
 				network::nodeList vl;
@@ -41,7 +67,7 @@ namespace conedy
 				int counter = 0;
 				for (it = vl.begin(); it != vl.end(); it++)
 					counter++;
-				
+
 				return (double)counter;
 			}
 
@@ -52,7 +78,7 @@ namespace conedy
 
 
 	class dijkstraCompare {
-	
+
 		public:
 			static vector<baseType> weightMap;
 
@@ -69,9 +95,8 @@ namespace conedy
 
 		for (it = theNodes.begin(); it != theNodes.end(); it++)
 		{
-			node::theNodes[ *it] ->printStatistics(cout, nodeVerbosity(), edgeVerbosity());
+			node::theNodes[ *it] ->printStatistics(cout, getGlobal<int>("nodeVerbosity"), getGlobal<int>("edgeVerbosity"));
 			cout << endl;
-
 		}
 	}
 
@@ -92,7 +117,7 @@ namespace conedy
 		unsigned	int n,i;
 		n = vl.size();
 
-		vector<unsigned int> connect; 
+		vector<unsigned int> connect;
 		connect.resize(n);
 		nodeDescriptor v,t;
 
@@ -113,7 +138,7 @@ namespace conedy
 				{
 					t = node::theNodes[v]->getTarget(l)->getNumber();
 					if (connect[ t - *vl.begin()] == 0)
-					{	
+					{
 						connect[ t - *vl.begin() ] = 1;
 						Sub.push_back(t+1);
 					}
@@ -130,9 +155,9 @@ namespace conedy
 
 
 
-	float statisticsNetwork::meanOutDegree ()
+	baseType statisticsNetwork::meanOutDegree ()
 	{
-		float f= 0 ;
+		baseType f= 0 ;
 		network::nodeIterator ia;
 		network::nodeList vl;
 		network::verticesMatching ( vl,_dynNode_ );
@@ -145,7 +170,7 @@ namespace conedy
 	}
 
 
-	float statisticsNetwork::meanInDegree ()
+	baseType statisticsNetwork::meanInDegree ()
 	{
 		unsigned int sum = 0;
 		vector <unsigned int > inDegree = inDegreeDistribution();
@@ -157,19 +182,19 @@ namespace conedy
 
 
 
-	float statisticsNetwork::meanWeight()
+	baseType statisticsNetwork::meanWeight()
 	{
-		float f= 0;
+		baseType f = 0.0;
 		int degreeSum = 0;
 
 		network::nodeIterator ia;
 		network::nodeList vl;
-		network::verticesMatching ( vl,_dynNode_ );
+		network::verticesMatching ( vl, _dynNode_ );
 		clean();
 		for ( ia = vl.begin(); ia != vl.end(); ia++ )
 		{
-			f = f + node::theNodes[*ia] ->weightSum();
-			degreeSum = degreeSum +node::theNodes[*ia] ->degree();
+			f = f + node::theNodes[*ia]->weightSum();
+			degreeSum = degreeSum + node::theNodes[*ia]->degree();
 		}
 		f = f / degreeSum;
 		return f;
@@ -240,17 +265,10 @@ namespace conedy
 	}
 
 
-
-
-
-
-
-
-
-	float statisticsNetwork::meanClustering()
+	baseType statisticsNetwork::meanClustering()
 	{
 
-		float f= 0;
+		baseType f= 0;
 
 		network::nodeIterator ia;
 		network::nodeList vl;
@@ -319,7 +337,7 @@ namespace conedy
 
 			unsigned int i;
 
-			float sum = 0;
+			baseType sum = 0;
 			int vert = 0;
 
 			double dist;
@@ -386,8 +404,8 @@ namespace conedy
 	{
 		network::nodeIterator it;
 		network::nodeList vl;
-		verticesMatching(vl, _dynNode_);	
-	
+		verticesMatching(vl, _dynNode_);
+
 		ofstream out (filename.c_str() );
 		for( it = vl.begin(); it != vl.end(); it++)
 			out << node::theNodes[*it]->degree() <<endl;
@@ -418,7 +436,7 @@ vector<baseType> dijkstraCompare::weightMap;
 		theQueue.push ( v+1 -*vl.begin() ); // um nicht 0 zu pushen sind die Knotennrn in theQueue um 1 verschoben
 
 		while (!theQueue.empty())
-		{		
+		{
 			j = theQueue.top()-1 +*vl.begin();
 			theQueue.pop();
 
@@ -448,7 +466,7 @@ vector<baseType> dijkstraCompare::weightMap;
 
 
 
-	float statisticsNetwork::meanPathLength() // funktioniert nur für komplett verbundene Netzwerke korrekt
+	baseType statisticsNetwork::meanPathLength() // funktioniert nur für komplett verbundene Netzwerke korrekt
 	{
 		network::nodeIterator vi;
 		network::nodeList vl;
@@ -471,9 +489,9 @@ vector<baseType> dijkstraCompare::weightMap;
 
 
 /*	template <class T>
-	float statisticsNetwork<T>::meanDistanceMult()
+	baseType statisticsNetwork<T>::meanDistanceMult()
 	{
-		float distSum = 0;
+		baseType distSum = 0;
 		vector <T> dist ( network::numberVertices() );
 		unsigned int i,j;
 
@@ -517,7 +535,7 @@ vector<baseType> dijkstraCompare::weightMap;
 		unsigned int i;
 		double distSum;
 		vector <double> CC (vl.size());
-	
+
 
 		vector<baseType> distance;
 		distance.resize(vl.size());
@@ -548,7 +566,7 @@ vector<baseType> dijkstraCompare::weightMap;
 	{
 		network::nodeIterator ia;
 		nodeList vl;
-		verticesMatching(vl, _dynNode_);	
+		verticesMatching(vl, _dynNode_);
 		unsigned int t;
 		nodeDescriptor v, w;
 		double d;
@@ -561,18 +579,18 @@ vector<baseType> dijkstraCompare::weightMap;
 		vector < list<int> > P (vl.size());   // listen P[w] für jedes w aus n
 
 		vector <double> sigma (vl.size());  // array sigma der Länge vl.size()
-		
+
 		dijkstraCompare dC;
 		relaxed_heap < nodeDescriptor, dijkstraCompare > Q (vl.size()+3, dC); // queue Q
 		dC.weightMap.resize(vl.size());
-		
+
 		vector <double> delta (vl.size());// array delta der Länge vl.size()
 
 		for ( ia=vl.begin() ; ia!=vl.end() ; ia++ )
 		{
 			while(!S.empty())  // S leeren
 				S.pop_back();
-	
+
  			for ( t=0 ; t<vl.size() ; t++) // alle P[t] leeren
  				while( !P[t].empty() )
  					P[t].pop_back();
@@ -581,7 +599,7 @@ vector<baseType> dijkstraCompare::weightMap;
 				sigma[t]=0;
 
 			sigma[*ia -*vl.begin()]=1;
-	
+
 			for ( t=0 ; t<vl.size() ; t++ )
 				dC.weightMap[t]=numeric_limits<baseType>::infinity();
 
@@ -591,14 +609,14 @@ vector<baseType> dijkstraCompare::weightMap;
 				Q.pop();
 
 			Q.push( *ia+1 -*vl.begin() ); // +1 um nicht 0 zu pushen, daher sind die Knotennrn in Q um 1 verschoben
-	
+
 			while(!Q.empty())
 			{
 				v = Q.top()-1 +*vl.begin();
 				Q.pop();
-				
+
 				S.push_back( v+1 -*vl.begin() );
-			
+
 				for ( node::edgeDescriptor l=0 ; l<node::theNodes[v]->degree() ; l++ ) //weightMap aktualisieren
 				{
 					w = node::theNodes[v]->getTarget(l)->getNumber(); // alle Nachbarn w von v
@@ -609,7 +627,7 @@ vector<baseType> dijkstraCompare::weightMap;
 						dC.weightMap[w -*vl.begin()] = dC.weightMap[v -*vl.begin()] + d;
 						Q.push(w+1 -*vl.begin());
 					}
-					
+
 					else if ( dC.weightMap[w -*vl.begin()] > (dC.weightMap[v -*vl.begin()] + d) && dC.weightMap[w -*vl.begin()] < numeric_limits<baseType>::infinity() )
 					{
 						dC.weightMap[w -*vl.begin()] = dC.weightMap[v -*vl.begin()] + d;
@@ -621,7 +639,7 @@ vector<baseType> dijkstraCompare::weightMap;
 				{
 					w = node::theNodes[v]->getTarget(l)->getNumber(); // alle Nachbarn w von v
 					d = 1/( node::theNodes[v]->getWeight(l) ); // d misst die Entfernung zw w und v
-					
+
 // hier soll auf gleichheit kontrolliert werden...
 					if ( dC.weightMap[v -*vl.begin()] == dC.weightMap[w -*vl.begin()] + d ) // kürzester Weg nach v via w?
 					{
@@ -629,7 +647,7 @@ vector<baseType> dijkstraCompare::weightMap;
 						P[v -*vl.begin()].push_back(w+1 -*vl.begin()); // ggf w Prezedessor von v
 					}
 	// Ähnlichkeitsvergleich für d!= integer: relative Abweicheichung
-					else if ( dC.weightMap[v -*vl.begin()] > dC.weightMap[w -*vl.begin()] ) 
+					else if ( dC.weightMap[v -*vl.begin()] > dC.weightMap[w -*vl.begin()] )
 					{
 						double relativeError = 0.001;
 						if( fabs(dC.weightMap[v -*vl.begin()] - dC.weightMap[w -*vl.begin()] - d) / dC.weightMap[v -*vl.begin()] < relativeError )
@@ -648,14 +666,14 @@ vector<baseType> dijkstraCompare::weightMap;
 			{
 				w = S.back() -1;
 				S.pop_back();
-				
+
 				while ( !P[w].empty() )
 				{
 					v = P[w].back() -1;
 					P[w].pop_back();
 					delta[v] = delta[v] + (1+delta[w])*sigma[v]/sigma[w];
 				}
-				
+
 				if ( w != *ia  -*vl.begin())
 					CB[w] = CB[w] + delta[w];
 			}
@@ -669,7 +687,7 @@ vector<baseType> dijkstraCompare::weightMap;
 		for( t=0 ; t<vl.size() ; t++ ){
 			out << CB[t] << endl ; }
 
-		out.close();		
+		out.close();
 	}
 
 
@@ -718,7 +736,7 @@ vector<baseType> dijkstraCompare::weightMap;
 	}
 
 
-   void statisticsNetwork::saveAdjacencyMatrix (string fileName) 
+   void statisticsNetwork::saveAdjacencyMatrix (string fileName)
 	{
 		nodeIterator vi;
 		nodeIterator vj;
@@ -735,12 +753,12 @@ vector<baseType> dijkstraCompare::weightMap;
 			}
 			out << "\n";
 	}
-	}		
+	}
 
 	void statisticsNetwork::saveAdjacencyList(string fileName)
 	{
 		ofstream out(fileName.c_str());
-		
+
 		network::nodeIterator it;
 		network::nodeList vl;
 		verticesMatching(vl, _dynNode_);
@@ -751,7 +769,7 @@ vector<baseType> dijkstraCompare::weightMap;
 			for( node::edgeDescriptor l=0; l<node::theNodes[*it]->degree() ;l++)
 				if (isInsideNetwork(getTarget (*it, l)	))
 				out << *it <<' '<< node::theNodes[*it]->getTarget(l)->getNumber() <<' '<< node::theNodes[*it]->getWeight(l) <<"\n";
-		
+
 
 // VERÄNDERT
 //
@@ -766,31 +784,31 @@ vector<baseType> dijkstraCompare::weightMap;
 ////			{
 //				// Ausgabe der Nodenummer:
 //				out << *it << " ";
-//				
+//
 //				//Ausgabe der jeweiligen Edge
 //				node::theNodes[*it]->printEdgeStatistics(out, network::edgeVerbosity());
 //				out << endl;
 //				// ENDE
 ////				out << endl;
-//				
+//
 //				/* VERALTET
 //				out << i << " "	<<(*ea)->target->getNumber() << " ";
 //				if ((*ea)->getEdgeInfo().theEdgeKind & _weighted_)
 //					out << ((weightedEdge*)(*ea))->getWeight() << "\n";
-//				else 
+//				else
 //					out << "\n";
 //				*/
 ////			}
 //		}
 		out.close();
-	}		
+	}
 
 
 	void statisticsNetwork::printAdjacencyList()
 	{
-		
+
 		node::edgeDescriptor ea, ee;
-		
+
 
 //			out << "#source target weight\n";
 		cout << node::theNodes.size()  << "\n";
@@ -807,38 +825,38 @@ vector<baseType> dijkstraCompare::weightMap;
 			{
 				// Ausgabe der Nodenummer:
 				cout << i << " ";
-				
+
 				//Ausgabe der jeweiligen Edge
 //				node::theNodes[i]->getEdge(ea)->printStatistics(cout,  network::edgeVerbosity());
-				throw "statisticsNetwork::printAdjacencyList. repair me!";				
+				throw "statisticsNetwork::printAdjacencyList. repair me!";
 				// ENDE
 				cout << endl;
 				/*
 				cout << i << " "<<(*ea)->target->getNumber() << " ";
 				if ((*ea)->getEdgeInfo().theEdgeKind & _weighted_)
 					cout << ((weightedEdge*)(*ea))->getWeight() << "\n";
-				else 
+				else
 					cout << "\n";
 				*/
 
 			}
 		}
 
-	}		
+	}
 
 
 
-	
+
 	// Funktion für den Export nach GraphML
-	
+
 
 			void statisticsNetwork::saveGraphML(string fileName)
 	{
 		ofstream out(fileName.c_str());		// Datei für Export
-		
+
 		node::edgeDescriptor ea, ee;			// Iterator für die Edges
 		int edge=0;
-		
+
 		//out << theNodes.size()  << "\n";	// gibt Anzahl der Nodes aus
 
 		// Ausgabe header
@@ -852,12 +870,12 @@ vector<baseType> dijkstraCompare::weightMap;
 		out << '\t' << "<graph id=\"Graph\" edgedefault=\"directed\">\n";
 
 		// Erstelle nodes in Datei:
-		
+
 		for (unsigned int i = 0; i < node::theNodes.size(); i++)
 		{
 			out << '\t' << '\t' << "<node id=\"n"<< i << "\"/>\n";
 		}
-		
+
 		// Erstelle edges in Datei:
 		for (unsigned int i = 0; i < node::theNodes.size(); i++)
 		{
@@ -872,9 +890,7 @@ vector<baseType> dijkstraCompare::weightMap;
 		// Ausgabe footer
 		//
 		out << "\t</graph>\n" << "</graphml>";
-		
+
 	}
-	
-	
 
 }
