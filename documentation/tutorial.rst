@@ -57,7 +57,7 @@ We want to create a `small-world`_ network which is based on a closed chain of 1
    N.cycle(100, 4, nodeTemplate, co.weightedEdge(0.1))
    N.rewireUndirected(0.1)
 
-Note, that if the network ``N`` already contains nodes, the ``cycle`` method will add a set of circularly connected nodes without affecting the existing ones.
+Note that if the network ``N`` already contains nodes, the ``cycle`` method will add a set of circularly connected nodes without affecting the existing ones.
 
 In order to verify the network’s topology, you can calculate measures like the mean shortest path length or the mean clustering coefficient:
 
@@ -111,12 +111,12 @@ After this we want the integration time and the z-component (component 2 in zero
    N.observeAll("output_Roessler", co.component(2))
    co.set("samplingTime", 0.01)
 
-During a second calling of ``evolve``, Conedy will compute the time series of the 100 Rössler oscillators. For each time step, the time and the z-component of all oscillators will be written to the file ``output_Roessler``
+During a second calling of ``evolve``, Conedy will compute the time series of the 100 Rössler oscillators. For each time step, the time and the z-component of all oscillators will be written to the file ``output_Roessler``.
 
 .. testcode:: TUT
 
    N.evolve(100.0, 200.0)
 
-Note, that in our example the absolute time values only affect the time which is saved to the file. Since the oscillator dynamics do not depend on absolute time, their time evolution would not have been affected, if we had used ``N.evolve(0.0, 100.0)`` instead.
+Note that in our example the absolute time values only affect the time which is saved to the file. Since the oscillator dynamics do not depend on absolute time, their time evolution would not have been affected, if we had used ``N.evolve(0.0, 100.0)`` instead.
 
 See :ref:`observeDynamics` for a list of commands in Conedy, which involve numerical integration of the created networks.

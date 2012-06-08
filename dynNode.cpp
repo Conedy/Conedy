@@ -5,7 +5,7 @@
 #include "gslNoise.h"
 
 
-namespace conedy 
+namespace conedy
 {
 	baseType dynNode::time = 0.0;
 
@@ -16,67 +16,67 @@ namespace conedy
 				vector <baseType> argList;
 				argList.push_back (a1);
 				if (a2 == numeric_limits<baseType>::max())
-				{	
+				{
 					setStateVec( argList);
 					return;
 				}
 				argList.push_back (a2);
 				if (a3 == numeric_limits<baseType>::max())
-				{	
+				{
 					setStateVec( argList);
 					return;
 				}
 				argList.push_back (a3);
 				if (a4 == numeric_limits<baseType>::max())
-				{	
+				{
 					setStateVec( argList);
 					return;
 				}
 				argList.push_back (a4);
 				if (a5 == numeric_limits<baseType>::max())
-				{	
+				{
 					setStateVec( argList);
 					return;
 				}
 				argList.push_back (a5);
 				if (a6 == numeric_limits<baseType>::max())
-				{	
+				{
 					setStateVec( argList);
 					return;
 				}
 				argList.push_back (a6);
 				if (a7 == numeric_limits<baseType>::max())
-				{	
+				{
 					setStateVec( argList);
 					return;
 				}
 				argList.push_back (a7);
 				if (a8 == numeric_limits<baseType>::max())
-				{	
+				{
 					setStateVec( argList);
 					return;
 				}
 				argList.push_back (a8);
 				if (a9 == numeric_limits<baseType>::max())
-				{	
+				{
 					setStateVec( argList);
 					return;
 				}
 				argList.push_back (a9);
 				if (a10 == numeric_limits<baseType>::max())
-				{	
+				{
 					setStateVec( argList);
 					return;
 				}
 				argList.push_back (a10);
 				if (a11 == numeric_limits<baseType>::max())
-				{	
+				{
 					setStateVec( argList);
 					return;
 				}
 				argList.push_back (a11);
 				if (a12 == numeric_limits<baseType>::max())
-				{	
+				{
 					setStateVec( argList);
 					return;
 				}
@@ -96,13 +96,13 @@ namespace conedy
 
 
 
-    void dynNode::printStatistics(ostream &os, double nodeVerbosity, double edgeVerbosity ) {
+    void dynNode::printStatistics(ostream &os, int nodeVerbosity, int edgeVerbosity ) {
         node::printStatistics(os, nodeVerbosity, edgeVerbosity);
-		  if (nodeVerbosity > 1.5)
+		  if (nodeVerbosity >= 2)
 		  {
 	        params<baseType>::printStatistics();
 			  if (dimension() > 0)
-			  {	  
+			  {
 	        	cout << "state: " ;
 	        	for (unsigned int i = 0; i <dimension(); i++)
            	     cout << x[i]<<  " " ;
@@ -117,7 +117,7 @@ namespace conedy
 	{
 		x = (baseType* ) calloc ( dim, sizeof (baseType));
 	}
-		
+
 
 
     dynNode::dynNode( const dynNode &b ) : node ( b ), params<baseType>(b)
@@ -142,17 +142,17 @@ namespace conedy
 	}
 */
 
-    void dynNode::randomizeState ( vector<boost::function<double () > > &r )
+    void dynNode::randomizeState ( vector<boost::function<baseType () > > &r )
 	 {
-			vector<double> values (r.size());
+			vector<baseType> values (r.size());
 
         for ( unsigned int i = 0; i < r.size(); i++ )
 				values[i]=r[i]();
-		
+
 		  setStateVec (values);
 	 }
-	
-	void dynNode::setStateVec (vector <double> &r)
+
+	void dynNode::setStateVec (vector <baseType> &r)
 	{
 		for (unsigned int i = 0 ; i < dimension(); i++)
 				x[i] = r[i];

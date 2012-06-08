@@ -6,7 +6,7 @@ Selecting node parameters and initial conditions
 Node templates
 --------------
 
-For network creation, Conedy supplies elementary functions which allow you to add single nodes or edges as well as higher-level functions which manipulate or add random networks or lattices to a an already existing network. 
+For network creation, Conedy supplies elementary functions which allow you to add single nodes or edges as well as higher-level functions which manipulate or add random networks or lattices to a an already existing network.
 
 
 .. testsetup:: *
@@ -157,14 +157,6 @@ Alternatively with the :ref:`randomizeStates` command the states all nodes of a 
 	N.randomizeStates(co.lorenz(), co.gaussian(1.0, 0.5), co.constant(1.0), co.constant(1.0))
 
 
-Note that here node templates are used in a different way than before, namely to specify the nodes in the network which are manipulated (in this case all nodes of type ``lorenz``). To target only nodes with certain parameters, these can be specified. The following command will set uniformly distributed states to all ``logisticMap``-nodes in the network N, which have a parameter ``logisticMap_r`` of 3.59::
+Note that here node templates are used in a different way than before, namely to specify the nodes in the network which are manipulated (in this case all nodes of type ``lorenz``). To target only nodes with certain parameters, these can be specified. The following command will set uniformly distributed states to all ``logisticMap`` nodes in the network N, which have a parameter ``logisticMap_r`` of 3.59::
 
 	N.randomizeStates(co.lorenz(3.59), uniform (0.0,1.0))
-
-
-
-
-
-
-
-

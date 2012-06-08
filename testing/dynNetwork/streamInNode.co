@@ -1,18 +1,10 @@
-network net;
+network N;
 
-samplingTime=1.0;
+samplingTime = 1.0;
 
+int i = N.addNode(streamInNode("streamInNodeInput"));
+N.observe(i, "output/streamInNode.co.copyOfInput");
 
-net.addNode(streamInNode("streamInNodeInput"));
-net.observe(0,"output/streamInNode.co.copyOfInput");
+N.printNodeStatistics();
 
-net.printNodeStatistics();
-
-
-net.evolve (0.0,11.0);
-
-
-
-
-
-
+N.evolve (0.0,11.0);

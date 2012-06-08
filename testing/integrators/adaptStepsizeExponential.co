@@ -1,4 +1,4 @@
-network net;
+network N;
 
 #exponentialGsl_omega = 0.89;
 #exponentialGsl_a = 0.165;
@@ -10,47 +10,47 @@ network net;
 samplingTime = 0.01;
 odeStepSize = 0.005;
 
-odeAbsError = 0.0;
-odeRelError = 0.0;
 
+odeIsAdaptive = false;
 
-#odeStepType = "gsl_odeiv_step_rk2";
+#odeStepType = "gsl_odeiv2_step_rk2";
 
-odeStepType = "gsl_odeiv_step_rk4";
+odeStepType = "gsl_rk4";
 
 
 odeStepSize = 0.0001;
 samplingTime = 0.0001;
 
 
-net.addNode(exponentialGsl());
-#net.setState(0, 0.0, 0.0, 0.0 );
-net.setState (0,10.0);
+N.addNode(exponentialGsl());
+#N.setState(0, 0.0, 0.0, 0.0 );
+N.setState (0,10.0);
 
 
 
-net.observeTime("output/adaptStepsizeExponential.co.series");
-net.observe(0,"output/adaptStepsizeExponential.co.series",component(0));
-net.evolve(0.0,10.0);
+N.observeTime("output/adaptStepsizeExponential.co.series");
+N.observe(0,"output/adaptStepsizeExponential.co.series",component(0));
+N.evolve(0.0,10.0);
 
-net.clear();
+N.clear();
 
+odeIsAdaptive = true;
 
-odeAbsError = 0.00000000000001;
-odeRelError = 0.00000000000001;
+odeAbsError = 0.000000000001;
+odeRelError = 0.000000000001;
 
 
 
 int nodeNumber;
 
 
-nodeNumber = net.addNode(exponentialGsl());
-#net.setState(nodeNumber, 0.0, 0.0, 0.0 );
-net.setState (nodeNumber,10.0);
+nodeNumber = N.addNode(exponentialGsl());
+#N.setState(nodeNumber, 0.0, 0.0, 0.0 );
+N.setState (nodeNumber,10.0);
 
-net.observeTime("output/adaptStepsizeExponential.co.series2");
-net.observe(nodeNumber,"output/adaptStepsizeExponential.co.series2",component(0));
+N.observeTime("output/adaptStepsizeExponential.co.series2");
+N.observe(nodeNumber,"output/adaptStepsizeExponential.co.series2",component(0));
 
-net.evolve(0.0,10.0);
+N.evolve(0.0,10.0);
 
 

@@ -1,17 +1,17 @@
-network net;
+network N;
 
 
 
 
 
-outputBinary= 1.0;
+outputBinary= true;
 samplingTime= 0.015;
 
 
 
-net.observeTime("output/writeBinary.co.time");
+N.observeTime("output/writeBinary.co.time");
 
 
-#net.printNodeStatistics();
+#N.printNodeStatistics();
 
-net.evolve(0.0,10.0);
+N.evolve(0.0,10.0);

@@ -1,10 +1,10 @@
 
-network net;
+network N;
 
 
-net.completeNetwork(10); # adds 10 nodes, which are mutually connected by unweighted edges
+N.completeNetwork(10); # adds 10 nodes, which are mutually connected by unweighted edges
 
 
-print "should be 9:" + net.meanDegree() + newline;
-print "should be 1.0:" + net.meanClustering() + newline;
-print "should be 1.0:" + net.meanPathLength() + newline;
+print "should be 9:" + N.meanDegree() + newline;
+print "should be 1.0:" + N.meanClustering() + newline;
+print "should be 1.0:" + N.meanPathLength() + newline;

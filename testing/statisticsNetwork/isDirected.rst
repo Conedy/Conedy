@@ -1,8 +1,3 @@
 
-
-isDirected()
-      Returns false if the weight of edge(i,j) is the same as
-      the weight of the edge(j,i) for all nodes in the network.
-      Returns false otherwise.
-
-
+``isDirected()``
+      Returns ``True``, iff there are at least two nodes :math:`i` and :math:`j` in the network, such that the weight of the edge from :math:`i` to :math:`j` differs from the weight of the edge from :math:`j` to :math:`i`.

@@ -17,9 +17,9 @@ namespace conedy
 	using namespace std;
 
 	/*!
-		\Brief  Class for storing parameters.
-		
-		Via registerStandard parameters are registered with standard values. Parameters are stored in sheets which allows nodes to share parameters to conserve memory. Each node only remembers the sheet number of its parameters.
+	  \Brief  Class for storing parameters.
+
+	  Via registerStandard parameters are registered with standard values. Parameters are stored in sheets which allows nodes to share parameters to conserve memory. Each node only remembers the sheet number of its parameters.
 
 
 
@@ -58,23 +58,9 @@ namespace conedy
 				unsigned int row;
 
 				//! Prints all prameters to the console for debug reasons. 
-				void printStatistics() 
-				{	
-					cout << "parameter:" << endl;
-					if (isStandard())
-						cout << "	standard parameter" << endl;
-//					cout << "	row: " << row << endl;
-					for (unsigned int i = 0; i < param[row].size(); i++)
-						cout << "	" << name[make_pair(row, i)] << ": \t " << *param[row][i] << " " << endl;
+				void printStatistics();
 
-
-					//			cout << "UsageCounter:" << usageCounter[row] << endl;
-
-				}
-				static T getStandardParameter(networkElementType n, unsigned int number)
-				{
-					return * param[standardParam[n]][number];
-				}
+				static T getStandardParameter(networkElementType n, unsigned int number) {	return * param[standardParam[n]][number]; }
 
 				// ###### KONSTRUKTOREN ######
 				//! Copyconstructor: Copies the sheet-number for the new node.
@@ -88,39 +74,15 @@ namespace conedy
 
 				}
 
-				params(const unsigned int N) {  vector <T> newVec(N); param.push_back(newVec); row = Nparams; Nparams++; }//usageCounter.push_back(1);};
+				params(const unsigned int N) {  vector <T> newVec(N); param.push_back(newVec); row = Nparams; Nparams++; }
 
-				//! Copy-Konstructor, der für das erstellte Objekt, Standard-Parameter verwendet (Ist das sinnvoll?) TODO
-				params(networkElementType theNodeType) 
-				{ 
-
-					if (standardParam.count(theNodeType) == 0)
-					{
-						vector <T*> newVec; param.push_back(newVec);
-						usageCounter.push_back(0);
-
-
-
-						standardParam[theNodeType] = Nparams;
-						//usageCounter[Nparams] = 1;
-
-						Nparams++;
-						numberOfStandardParameterSheets++;
-
-					}
-
-					row = standardParam[theNodeType];
-					// 		        usageCounter.push_back(1);
-					//cout << theNodeType << " " << row << endl;
-				}
+				//! Copy-Konstructor, der f�r das erstellte Objekt, Standard-Parameter verwendet (Ist das sinnvoll?) TODO
+				params(networkElementType theNodeType); 
 
 
 				//! Destruktor: Verringert den usageCounter um 1. Wenn usageCounter==1 wird der Parameter gelöscht.
 				virtual ~params() 
 				{
-#ifdef DEBUG
-					cout << "Destruktor aufgerufen: usageCounter at row " << row << " = " << usageCounter.at(row) << endl;
-#endif
 
 					if (usageCounter.at(row) == 1)
 					{
@@ -129,9 +91,6 @@ namespace conedy
 							for (unsigned int i = 0; i < param[row].size(); i++)
 								delete param[row][i];
 
-#ifdef DEBUG
-							cout << "Paramter Reihe " << row << " gelöscht!\n" << endl;
-#endif
 
 						}
 
@@ -151,11 +110,11 @@ namespace conedy
 
 
 				/*!
-					Funktion zum Abfragen der NodeType
+				  Funktion zum Abfragen der NodeType
 
-					\param string s
-					\return networkElementType
-					*/
+				  \param string s
+				  \return networkElementType
+				  */
 				static networkElementType getNodeTypeFromString(string s)
 				{
 
@@ -175,7 +134,7 @@ namespace conedy
 				}
 
 				/*!
-					Funktion zum Randomisieren der Parameter für ??????
+				  Funktion zum Randomisieren der Parameter für ??????
 				//TODO: Alex: bitte ändern!
 
 				\param string s	String für ...
@@ -228,8 +187,8 @@ namespace conedy
 
 				//! Funktion zum Erstellen individueller Parameter aus einer Blaupause heraus. Neuer Speicherplatz wird hier zur Verfügung gestellt.
 				//
-				
-				
+
+
 				void rerouteParams (vector <T>  argList)           // am Besten nur einmal aufrufen solange die Parameter noch an der Standardstelle stehen
 				{
 					if (argList.size() != param[row].size())
@@ -252,32 +211,31 @@ namespace conedy
 				}	
 				//! Definiert die Parameter vom Momentanen sheet um.
 				void setSheet (unsigned int theRow, vector <T> argList)
+				{
+					if (argList.size() != param[theRow].size())
 					{
-          if (argList.size() != param[theRow].size())
-						          {
-												            throw "Fehler. falsche Argumenten Anzahl für Node";
+						throw "Fehler. falsche Argumenten Anzahl für Node";
 
-																		          }
-					          else
-											          {
-																	            for (unsigned int i = 0; i < argList.size(); i++)
-																								              *param[theRow][i] = argList[i];
-																							          }
-
-
-
-
-
+					}
+					else
+					{
+						for (unsigned int i = 0; i < argList.size(); i++)
+							*param[theRow][i] = argList[i];
 					}
 
 
-				//! Setzt alle Parameter, im lokalen sheet
+
+
+
+				}
+
+
 
 				bool compareSheets (unsigned int sheet1, unsigned int sheet2)
 				{
 					if (param [sheet1].size() != param [sheet2].size())
 						return 0;
-				
+
 					for (unsigned int i = 0 ; i < param[sheet1].size() ; i++)
 					{
 						if (param[sheet1][i] != param [sheet2][i])
@@ -288,6 +246,7 @@ namespace conedy
 				}
 
 
+				//! Setzt alle Parameter, im lokalen sheet
 				void setSheet( vector <T> argList)
 				{
 					if (argList.size() != param[row].size())
@@ -313,7 +272,7 @@ namespace conedy
 				T operator[] (const unsigned int n) { return param[row][n]; };
 				void setParams(const unsigned short i, T value) { *param[row][i]=value; }
 				//		void setParams(inStream& in) { for (unsigned short i = 0; i < param[row].size(); i++) in >> param[row][i]; }
-	
+
 				//! obsolete ?
 				T getParams(const unsigned short which)  const { return *param[row][which]; };
 
@@ -321,17 +280,17 @@ namespace conedy
 				{
 					if (isStandard())
 					{
-							vector <T> newParams;
-							unsigned int toChange = adress[parameterName].second;
-							for (unsigned int i = 0; i < param[row].size(); i++)
-							{
-								if (toChange == i)
-									newParams.push_back(value);
-								else
-									newParams.push_back(*param[row][i]);
-							}
-					rerouteParams(newParams);
-				}
+						vector <T> newParams;
+						unsigned int toChange = adress[parameterName].second;
+						for (unsigned int i = 0; i < param[row].size(); i++)
+						{
+							if (toChange == i)
+								newParams.push_back(value);
+							else
+								newParams.push_back(*param[row][i]);
+						}
+						rerouteParams(newParams);
+					}
 
 
 
@@ -344,10 +303,13 @@ namespace conedy
 
 
 				T& getParam(string name) const { return *param[row][adress[name].second]; }
+
+				T * getParamPointer (const unsigned short which) { return param[row][which];} 
+
 				//		virtual valarray<T>* getParams() { return &param; }
 
 
-				
+
 
 				//! Setzt Standardparameter fest für den nodeType theNodeType. Mitübergeben wird der Name des Parameters (Im Parser), ein Standarwert und eine laufende Nummer
 				static void registerStandard(networkElementType theNodeType, string s, unsigned int paramNumber, T value) 
@@ -387,7 +349,7 @@ namespace conedy
 				static void setStandard(string name, T d) 
 				{
 					if (adress.count (name) != 0 )
-				  		*param[adress[name].first][adress[name].second] = d;
+						*param[adress[name].first][adress[name].second] = d;
 					else 
 						throw "setting with unknown string!";
 				}
@@ -395,7 +357,7 @@ namespace conedy
 
 				//! obsolete
 				static void printAll() { 
-					
+
 					map<string, pair<int,int> >::iterator it;
 					for (it = adress.begin(); it != adress.end();it++)
 						cout << it->first << " " << *param[it->second.first][it->second.second] << endl; 	
@@ -404,36 +366,75 @@ namespace conedy
 
 
 
-};
+		};
 
 
 
-template <typename T>
-vector<vector<T*> >  params<T>::param;
+	template <typename T>
+		vector<vector<T*> >  params<T>::param;
 
-template <typename T>
-unsigned int params<T>::Nparams;
-
-
-template <typename T>
-unsigned int params<T>::numberOfStandardParameterSheets = 0;
-
-template <typename T>
-map<networkElementType, int> params<T>::standardParam;
-
-template <typename T>
-map <string, pair<int, int> > params<T>::adress;
+	template <typename T>
+		unsigned int params<T>::Nparams;
 
 
-template <typename T>
-map <pair<int, int>,string > params<T>::name;
+	template <typename T>
+		unsigned int params<T>::numberOfStandardParameterSheets = 0;
+
+	template <typename T>
+		map<networkElementType, int> params<T>::standardParam;
+
+	template <typename T>
+		map <string, pair<int, int> > params<T>::adress;
 
 
-template <typename T>
-vector <unsigned int> params<T>::usageCounter;
+	template <typename T>
+		map <pair<int, int>,string > params<T>::name;
+
+
+	template <typename T>
+		vector <unsigned int> params<T>::usageCounter;
+
+
+
+	template <typename T>
+		void params<T>::printStatistics() 
+		{	
+			cout << "parameter:" << endl;
+			if (isStandard())
+				cout << "	standard parameter" << endl;
+			//					cout << "	row: " << row << endl;
+			for (unsigned int i = 0; i < param[row].size(); i++)
+				cout << "	" << name[make_pair(row, i)] << ": \t " << *param[row][i] << " " << endl;
+
+
+
+		}
+
+	template <typename T>
+		params<T>::params(networkElementType theNodeType) 
+		{ 
+
+			if (standardParam.count(theNodeType) == 0)
+			{
+				vector <T*> newVec; param.push_back(newVec);
+				usageCounter.push_back(0);
+
+
+
+				standardParam[theNodeType] = Nparams;
+				//usageCounter[Nparams] = 1;
+
+				Nparams++;
+				numberOfStandardParameterSheets++;
+
+			}
+
+			row = standardParam[theNodeType];
+			// 		        usageCounter.push_back(1);
+			//cout << theNodeType << " " << row << endl;
+		}
 
 }
-
 
 #endif
 

@@ -1,4 +1,4 @@
-network net;
+network N;
 
 roessler_omega = 0.89;
 roessler_a = 0.165;
@@ -7,16 +7,12 @@ roessler_c = 10.0;
 
 samplingTime = 0.01;
 
+int i = N.addNode (roessler());
+N.setState(i, 0.0, 0.0, 0.0);
 
-net.addNode (roessler());
+N.observeTime("output/roessler.co.series");
+N.observe(i,"output/roessler.co.series",component(0));
+N.observe(i,"output/roessler.co.series",component(1));
+N.observe(i,"output/roessler.co.series",component(2));
 
-
-net.setState(0, 0.0, 0.0, 0.0 );
-
-
-net.observeTime("output/roessler.co.series");
-net.observe(0,"output/roessler.co.series",component(0));
-net.observe(0,"output/roessler.co.series",component(1));
-net.observe(0,"output/roessler.co.series",component(2));
-
-net.evolve(0.0,1500.0);
+N.evolve(0.0,1500.0);

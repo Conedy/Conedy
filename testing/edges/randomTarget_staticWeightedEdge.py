@@ -1,6 +1,6 @@
 import conedy as co
 
-net = co.network()
+N = co.network()
 
 
 
@@ -8,11 +8,11 @@ net = co.network()
 
 
 
-firstNode = net.addNode(co.roessler())
-secondNode = net.addNode(co.roessler())
+firstNode = N.addNode(co.roessler())
+secondNode = N.addNode(co.roessler())
 
-net.addEdge (firstNode,secondNode, co.randomTarget_staticWeightedEdge (2, 100, 0.7) )
+N.addEdge (firstNode,secondNode, co.randomTarget_staticWeightedEdge (2, 100, 0.7) )
 
 
-net.printNodeStatistics()
+N.printNodeStatistics()
 

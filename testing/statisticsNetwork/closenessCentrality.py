@@ -1,13 +1,12 @@
 import conedy as co
 
-net =co.network()
+N = co.network()
 
-net.cycle(20,1,co.node(), co.weightedEdge() )
+i = N.cycle(20, 1, co.node(), co.weightedEdge())
 
-net.addEdge(1,7,co.weightedEdge(1.0) )
-net.addEdge(7,1,co.weightedEdge(1.0) )
-net.addEdge(1,11,co.weightedEdge(1.0) )
-net.addEdge(11,1,co.weightedEdge(1.0) )
+N.addEdge(i + 1, i + 7, co.weightedEdge(1.0))
+N.addEdge(i + 7, i + 1, co.weightedEdge(2.0))
+N.addEdge(i + 1, i +11, co.weightedEdge(3.0))
+N.addEdge(i +11, i + 1, co.weightedEdge(4.0))
 
-
-net.closenessCentrality("output/closenessCentrality.py.out")
+N.closenessCentrality("output/closenessCentrality.py.out")

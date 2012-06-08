@@ -1,20 +1,21 @@
-network.torusNearestNeighbors(sizex, sizey, neighbors, node= dynNode, edge = weightedEdge)
-   Adds a torus to the network, in which each node is connected to a fixed number of nearest neighbors
-
+``network.torusNearestNeighbors(sizex, sizey, neighbours, node= dynNode, edge = weightedEdge)``
+	Adds a 2-dimensional, cyclic lattice (torus) to the network, in which each node is connected to a fixed number of nearest neighbours.
 
 Parameters
 ----------
-sizex : int
+``sizex``: integer
    Size of the torus in x-direction
 
-sizey : int
+``sizey``: integer
    Size of the torus in y-direction
 
-neighbors : float
-   The number of neighbors each node is connected to. If the choice cannot be made unique, neighbors are chosen randomly.
+``neighbours`` : integer
+	The number of neighbours each node is connected to.
+	If the choice cannot be made unique, neighbours are chosen randomly.
 
-node : nodeTemplate
-        Every added node is a copy of this template.
-edge : edgeTemplate
-        Every added edge is a copy of this template.
+``node``: node template
+	Every added node is a copy of this template.
+
+``edge``: edge template
+	Every added edge is a copy of this template.
 

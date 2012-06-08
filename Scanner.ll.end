@@ -1,4 +1,7 @@
 getState				{return(ParserBase::GETSTATE); }
+inDegree				{return(ParserBase::INDEGREE); }
+outDegree				{return(ParserBase::OUTDEGREE); }
+
 
 
 evolve				{return(ParserBase::EVOLVE); }
@@ -22,6 +25,7 @@ noiseToStates		{ return (ParserBase::NOISETOSTATES); }
 
 getParam		{ return (ParserBase::GETPARAM); }
 snapshotAtEvent		{ return (ParserBase::SNAPSHOTATEVENT); }
+snapshotAtEventSignature		{ return (ParserBase::SNAPSHOTATEVENTSIGNATURE); }
 size			{ return (ParserBase::SIZE); }
 removeInput		{return(ParserBase::REMOVEINPUT); }
 removeEdges		{return(ParserBase::REMOVEEDGES); }
@@ -41,6 +45,7 @@ observePhaseDistance 	{ return (ParserBase::OBSERVEPHASEDISTANCE); }
 
 
 addRandomEdgesDegreeDistribution { return (ParserBase::ADDRANDOMEDGESDEGREEDISTRIBUTION); }
+addRandomEdgesDegreeDistributionUndirected { return (ParserBase::ADDRANDOMEDGESDEGREEDISTRIBUTIONUNDIRECTED); }
 
 
 observeMeanPhase	{ return (ParserBase::OBSERVEMEANPHASE); }
@@ -66,8 +71,6 @@ rewireTarget		{return(ParserBase::REWIRETARGET); }
 rewire			{return(ParserBase::REWIRE); }
 rewireSourcePerTimestep	{return(ParserBase::REWIRESOURCEPERTIMESTEP);}
 addRandomEdges		{return(ParserBase::ADDRANDOMEDGES); }
-cnnStd		{return(ParserBase::CNNSTD); }
-cnnNeutral		{return(ParserBase::CNNNEUTRAL); }
 readParams		{return(ParserBase::READPARAMS); }
 setTime			{return(ParserBase::SETTIME); }
 rewireUndirected	{return(ParserBase::REWIREUNDIRECTED); }
@@ -77,6 +80,7 @@ rewireTargetUndirected	{return(ParserBase::REWIRETARGETUNDIRECTED); }
 "log"			{return(ParserBase::LOG); }
 "exp"			{return(ParserBase::EXP); }
 "sin"			{return(ParserBase::SIN); }
+sqrt			{return(ParserBase::SQRT); }
 
 
 getRandomSeed		{return(ParserBase::GETRANDOMSEED); }
@@ -111,10 +115,6 @@ step_staticWeightedEdge	{return(ParserBase::STEPEDGE_STATICWEIGHTEDEDGE); }
 
 
 unlink			{return(ParserBase::UNLINK); }
-sigEdge		{return(ParserBase::SIGEDGE); }
-sigEdgeOrd3		{return(ParserBase::SIGEDGEORD3); }
-stdEdgeOrd3		{return(ParserBase::STDEDGEORD3); }
-sigEdgeParams		{return(ParserBase::SIGEDGEPARAMS); }
 staticWeightedEdge	{return(ParserBase::STATICWEIGHTEDEDGE);}
 weightedEdge		{return(ParserBase::WEIGHTEDEDGE); }
 streamOutNode		{return(ParserBase::STREAMOUTNODE); }
@@ -167,6 +167,7 @@ closenessCentrality	{return(ParserBase::CLOSENESSCENTRALITY); }
 betweennessCentrality	{return(ParserBase::BETWEENNESSCENTRALITY); }
 degreeCentrality	{return(ParserBase::DEGREECENTRALITY); }
 saveAdjacencyList 	{return(ParserBase::SAVEADJACENCYLIST); }
+saveAdjacencyMatrix 	{return(ParserBase::SAVEADJACENCYMATRIX); }
 saveGraphML	 	{return(ParserBase::SAVEGRAPHML); }
 createFromAdjacencyList {return(ParserBase::CREATEFROMADJACENCYLIST); }
 startingConditionOpenWaveEnding	{return (ParserBase::STARTINGCONDITIONOPENWAVEENDING); }
@@ -180,7 +181,7 @@ select		{return (ParserBase::SELECT); }
 
 
 newline			{return(ParserBase::NEWLINE); }
-setState	{return(ParserBase::SETINITIALCONDITION); }
+setState	{return(ParserBase::SETSTATE); }
 
 
 ","		{return(','); }
@@ -198,7 +199,7 @@ setState	{return(ParserBase::SETINITIALCONDITION); }
 
 //				yylval.id = (char*) strdup (yytext);
 
-				case _nodeDescriptor_:
+				case _int_:
 					return (ParserBase::INTVAR);
 				case _baseType_:
 					return (ParserBase::DOUBLEVAR);
@@ -206,6 +207,8 @@ setState	{return(ParserBase::SETINITIALCONDITION); }
 					return (ParserBase::STRINGVAR);
 				case _network_:
 					return (ParserBase::NETWORKVAR);
+				case _bool_:
+					return (ParserBase::BOOLVAR);
 				case _node_:
 					return (ParserBase::NODEVAR);
 				default:

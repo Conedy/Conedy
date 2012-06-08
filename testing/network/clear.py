@@ -1,10 +1,10 @@
 import conedy as co
 
-net = co.network()
+N = co.network()
 
 
-net.addNode(co.roessler())
-print "Should be 1:" + str (net.size())
-net.clear()
-print "Should be 0:" + str (net.size())
+N.addNode(co.roessler())
+print "Should be 1:" + str (N.size())
+N.clear()
+print "Should be 0:" + str (N.size())
 

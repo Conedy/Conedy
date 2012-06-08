@@ -1,5 +1,3 @@
-
-
 #ifndef neuronModels_h
 #define neuronModels_h neuronModels_h
 
@@ -190,7 +188,7 @@ class napK		: public odeNode
 //! Aus Izhikevich S. 89, äquivalent zu Morris-Lecar
 class gaussianNapK		: public sdeNode
 {
-		
+
 	private:
 		inline baseType gl() {return params<baseType>::getParams ( 0 );}
 		inline baseType el() {return params<baseType>::getParams ( 1 );}
@@ -384,7 +382,7 @@ class hodgkinHuxley    : public odeNode
 		inline baseType constCurrent() { return params<baseType>::getParams ( 7 ); }
 	public:
 		virtual const unsigned int dimension() const { return 4;}
-		
+
 
 		hodgkinHuxley() : odeNode ( _hodgkinHuxley_ ) { }
 //		hodgkinHuxley(inStream& in) : odeNode(4), params(_hodgkinHuxley_) { setParams(in);}

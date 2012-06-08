@@ -19,17 +19,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 
-# Copyright David Abrahams 2006. Distributed under the Boost
-# Software License, Version 1.0. (See accompanying
-# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 # Specify the path to the Boost project.  If you move this project,
 # adjust this path to refer to the Boost root directory.
-#use-project boost 
+#use-project boost
 #  : ../../.. ;
 
 #using gcc : ming  : i586-mingw32msvc-g++ : :  ;
 
+
+#using clang ;
+#using gcc ;
 
 using bisonc++ ;
 using flex++ ;
@@ -37,7 +37,14 @@ using flex++ ;
 lib libboost_python : : <name>boost_python ;
 lib stdc++ ;
 lib z boost_iostreams gsl gslcblas ;
-#project : requirements <library>libboost_python ;
+project conedy ;
+# : requirements <library>libboost_python ;
+
+
+
+using python ;
+
+#project : conedy ? ;
 
 lib Xxf86vm ;
 lib X11 : : <use>Xxf86vm ;
@@ -50,7 +57,7 @@ obj gslNoise : gslNoise.cpp z gsl gslcblas ;
 
 
 #lib xxgen
-#  : 
+#  :
 #  Parser.y
 #  Scanner.l
 #  ;
@@ -66,12 +73,12 @@ INCLUDES Scanner.ll : Parserbase.h ;
 
 
 #parser = Parser.yy <include>./
-objects =   fullNetwork.cpp  phaseResponseOscillators.cpp sdeNode.cpp  cnnNode.cpp stdSdeIntegrator.cpp odeNode.cpp gslOdeNode.cpp ioNode.cpp eventHandler.cpp pulseCoupledPhaseOscillator.cpp pulseCoupledPhaseOscillator.cpp  pulseCoupledExcitatoryNeuron.cpp network.cpp dynNetwork.cpp createNetwork.cpp spatialNetwork.cpp mapNode.cpp eventHandler.cpp node.cpp  dynNode.cpp gslNoise statisticsNetwork.cpp commandLineArguments.cpp generatedNodes.cpp priorityQueue.cpp ;
+objects =   fullNetwork.cpp  phaseResponseOscillators.cpp sdeNode.cpp  globals.cpp instruction.cpp stdOdeIntegrator.cpp stdSdeIntegrator.cpp odeNode.cpp gslOdeNode.cpp ioNode.cpp eventHandler.cpp pulseCoupledPhaseOscillator.cpp pulseCoupledPhaseOscillator.cpp  pulseCoupledExcitatoryNeuron.cpp network.cpp dynNetwork.cpp createNetwork.cpp spatialNetwork.cpp mapNode.cpp eventHandler.cpp node.cpp  dynNode.cpp gslNoise statisticsNetwork.cpp commandLineArguments.cpp generatedNodes.cpp priorityQueue.cpp ;
 
 exe conedyCondor : Parser.yy Scanner.ll command.cpp  conedy.cpp $(objects)   m z boost_iostreams gsl gslcblas : <cxxflags>-DCONDOR debug <link>static  <include>./ ;
 exe conedy	:   Parser.yy Scanner.ll command.cpp  conedy.cpp $(objects)  m z boost_iostreams gsl gslcblas stdc++ : release <link>static <cxxflags>-g <include>./ ;
-exe conedyDebug  : Parser.yy Scanner.ll command.cpp  conedy.cpp $(objects)  z boost_iostreams gsl gslcblas : debug <cxxflags>-DDEBUG <link>shared <include>./ ; 
-#exe neuroDebug  :  conedy.cpp $(objects) m  z boost_iostreams gsl gslcblas  : debug <link>shared <include>./ ; 
+exe conedyDebug  : Parser.yy Scanner.ll command.cpp  conedy.cpp $(objects)  z boost_iostreams gsl gslcblas : debug <cxxflags>-DDEBUG <link>shared <include>./ ;
+#exe neuroDebug  :  conedy.cpp $(objects) m  z boost_iostreams gsl gslcblas  : debug <link>shared <include>./ ;
 
 
 
@@ -87,7 +94,7 @@ exe conedyDebug  : Parser.yy Scanner.ll command.cpp  conedy.cpp $(objects)  z bo
 # Declare the three extension modules.  You can specify multiple
 # source files after the colon separated by spaces.
 
-#python-extension python-conedy : neuroPython.cpp $(objects)  z boost_iostreams gsl gslcblas libboost_python : release ;
+python-extension python-conedy : neuroPython.cpp command.cpp $(objects)  z boost_iostreams gsl gslcblas libboost_python : release ;
 
 #using python : 2.5 ;
 #python-extension python-conedyDebug : neuroPython.cpp $(objects)  z boost_iostreams gsl gslcblas libboost_python : debug ;

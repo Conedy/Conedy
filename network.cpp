@@ -1,5 +1,3 @@
-
-
 #include "network.h"
 #include "containerNode.h"
 
@@ -19,7 +17,7 @@ namespace conedy
 	}
 
 
-	//! Verbindet sourceNode und targetNode bidirektional mit einer Verbindung vom Typ l 
+	//! Verbindet sourceNode und targetNode bidirektional mit einer Verbindung vom Typ l
 	void network::link( nodeDescriptor  sourceNode, nodeDescriptor targetNode, edgeBlueprint *l)
 	{
 		addEdge(sourceNode, targetNode, l);
@@ -29,6 +27,7 @@ namespace conedy
 	void network::clean ( )
 	{
 		evolveList.clear();
+		upkeepList.clear();
 
 		dynNode *nod;
 		nodeList vl;
@@ -50,7 +49,7 @@ namespace conedy
 
 	bool network::isDirected()
 	{
-		
+
 		nodeIterator vi, vj;
 		network::nodeList vl;
 		verticesMatching(vl, _dynNode_ );
@@ -100,16 +99,16 @@ namespace conedy
 			nodeIterator vi;
 			for(vi = theNodes.begin(); vi != theNodes.end();vi++)                      // if n has standard parameter -> match if node type is equal
 			{
-				dynNode *x = (dynNode*)node::theNodes[*vi]; 
+				dynNode *x = (dynNode*)node::theNodes[*vi];
 				if ( ((dynNode*)  n)->isStandard())
 				{
-					if (node::theNodes[*vi]->getNodeInfo().theNodeType == nodeType) 
+					if (node::theNodes[*vi]->getNodeInfo().theNodeType == nodeType)
 							res.insert(*vi);
 				}
 				else 																							// if n has	specified parameter -> match after node type and parameters
 				{
-					if ((node::theNodes[*vi]->getNodeInfo().theNodeType == nodeType) &&  
-						((  x-> row == ((dynNode*)n)-> params<baseType>::row) || ( x->compareSheets( x-> row    , ((dynNode*)n)-> params<baseType>::row)  )))   // match nodes, if their parameter are the same. 
+					if ((node::theNodes[*vi]->getNodeInfo().theNodeType == nodeType) &&
+						((  x-> row == ((dynNode*)n)-> params<baseType>::row) || ( x->compareSheets( x-> row    , ((dynNode*)n)-> params<baseType>::row)  )))   // match nodes, if their parameter are the same.
 						res.insert(*vi);
 				}
 			}
@@ -136,7 +135,7 @@ void network::edgesMatching (edgeList &res, networkElementType edgeType)
 	nodeIterator vi;
 
 	for (vi = theNodes.begin(); vi != theNodes.end();vi++)
-	{	
+	{
 		ea = 0;
 		ee = node::theNodes[*vi]->degree();
 		for (; ea != ee; ea++)
@@ -306,7 +305,7 @@ void network::edgesBetween(list<edgeDescriptor> &res, nodeBlueprint *sourceNode,
 	for (va = theNodes.begin(); va != theNodes.end(); va++)
 	{
 		if ( matches ( sourceNode,(dynNode*) node::theNodes[*va] ))
-			edgesBetween(res, *va, targetNode);	
+			edgesBetween(res, *va, targetNode);
 	}
 }
 
@@ -366,9 +365,6 @@ void network::remove ( nodeKind theNodeKind )
 	}
 
 
-	//	quequeBuffer *buf = new quequeBuffer();
-	//        streamOutSort(*buf);       Die beiden Zeilen sind notwendig, falls Knoten aus der Mitte vom Array gelÃÂÃÂ¶scht werden.
-	//	streamIn(size,*buf); 	     Allerdings werden die Parameter von den Nodes dabei gelÃÂÃÂ¶scht
 }
 
 
@@ -381,7 +377,7 @@ unsigned int network::randomNode(nodeKind nodeKind)
 	{
 		res = noise.getUniformInt( 0, node::theNodes.size() -1);
 
-	} while (node::theNodes[res] == NULL 
+	} while (node::theNodes[res] == NULL
 			|| ( !(nodeKind & node::theNodes[res]->getNodeInfo().theNodeKind))
 			|| (!isInsideNetwork(res)) );
 
@@ -391,7 +387,7 @@ unsigned int network::randomNode(nodeKind nodeKind)
 
 
 
-void network::randomizeSomeWeights ( boost::function<double () > r,nodeKind sourceNodeKind, nodeKind targetNodeKind )
+void network::randomizeSomeWeights ( boost::function<baseType () > r,nodeKind sourceNodeKind, nodeKind targetNodeKind )
 {
 
 	network::edgeList toChange;
@@ -408,25 +404,17 @@ void network::randomizeSomeWeights ( boost::function<double () > r,nodeKind sour
 
 
 //
-network::network(): params<baseType>(_network_), directed(true)
+network::network(): directed(true)
 {
 	numberOfNodes = 0;
 }
 
 
-network::network(bool directedNess): params<baseType>(_network_), directed(directedNess)
+network::network(bool directedNess): directed(directedNess)
 {
 	numberOfNodes = 0;
 }
 
-/*
-	void network::streamOut(string s)
-	{
-	outStream *out = new outStream(s.c_str());
-	streamOut (*out);
-	delete out;
-	}
-	*/
 
 network::~network()
 {
@@ -438,12 +426,6 @@ network::~network()
 }
 
 
-//	nodeDescriptor network::addNode()
-//	{cout <<" das macht doch keinen Sinn.";
-//		node *kno = new node ();
-//		theNodes.push_back ( kno );
-//return theNodes.size();
-//	}
 
 nodeDescriptor network::addNode ( nodeBlueprint *n )
 {
@@ -454,23 +436,23 @@ nodeDescriptor network::addNode ( nodeBlueprint *n )
 		inOutNodeList.push_back (  (dynNode*)   node::theNodes[newNodeNumber]);
 
 
-	//cout << ((cnnNode<double>*) n )-> row << endl;
+	//cout << ((cnnNode<baseType>*) n )-> row << endl;
 	theNodes.insert ( newNodeNumber );
 	numberOfNodes++;
-	//cout << ((cnnNode<double>*) theNodes[theNodes.size() - 1] )-> row << endl;
+	//cout << ((cnnNode<baseType>*) theNodes[theNodes.size() - 1] )-> row << endl;
 	return  newNodeNumber;
 }
 
-void network::addWeightedEdge ( nodeDescriptor s, nodeDescriptor t, double weight )
+void network::addWeightedEdge ( nodeDescriptor s, nodeDescriptor t, baseType weight )
 {
 
 	nodeKind nk = node::theNodes[s]->getNodeInfo().theNodeKind;
-	if (nk & _ode_ || nk & _sde_ || nk & _map_)
+	if (nk & _ode_ || nk & _sde_ || nk & _mapNode_)
 		node::theNodes[t]->link ( s, weight );
 	else
 		node::theNodes[s]->link ( t, weight );
-	
-	
+
+
 	//	networkType = networkType & ( 0 - 1 - directed );
 }
 
@@ -478,18 +460,18 @@ void network::addWeightedEdge ( nodeDescriptor s, nodeDescriptor t, double weigh
 bool network::isLinked ( nodeDescriptor i, nodeDescriptor j)
 {
 	nodeKind nk = node::theNodes[i]->getNodeInfo().theNodeKind;
-	if (nk & _ode_ || nk & _sde_ || nk & _map_)
+	if (nk & _ode_ || nk & _sde_ || nk & _mapNode_)
 		return node::theNodes[j]-> isLinked (node::theNodes[i]);
 	else
 		return node::theNodes[i]-> isLinked (node::theNodes[j]);
 
-}		
+}
 
 
-void network::addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l ) 
+void network::addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l )
 { // differential equations mirror the direction of coupling, for performance reasons.
 	nodeKind nk = node::theNodes[s]->getNodeInfo().theNodeKind;
-	if (nk & _ode_ || nk & _sde_ || nk & _map_)
+	if (nk & _ode_ || nk & _sde_ || nk & _mapNode_)
 		node::theNodes[t]->link ( s, l );
 	else
 		node::theNodes[s]->link ( t, l );
@@ -499,7 +481,7 @@ void network::addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l )
 
 
 
-			// edges are described by an integer for the source node and an identifier which is defined in node.	
+			// edges are described by an integer for the source node and an identifier which is defined in node.
 //			typedef pair<nodeDescriptor, node::edgeDescriptor> edgeDescriptor;
 
 void network::link ( nodeDescriptor s, nodeDescriptor t, baseType weight )

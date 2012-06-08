@@ -1,25 +1,16 @@
+network N;
 
-network net;
+int i = N.addNode(kuramoto());
+int j = N.addNode(kuramoto());
 
-net.addNode (kuramoto());
-net.addNode (kuramoto());
+N.addEdge(i, j, 2.0);
 
-net.addEdge(0,1, 2.0);
+print "Should be 1: " + N.isDirected() + newline;
 
-print "Should be true: ";
-print net.isDirected();
-print newline;
+N.addEdge (j, i, 0.1);
+print "Should be 1: " + N.isDirected() + newline;
 
-net.addEdge (1,0, 0.1);
-print "Should be true: ";
-print net.isDirected();
-print newline;
-
-net.clear();
-net.cycle(10,1, kuramoto());
-net.randomizeWeights(uniform(3.0,3.0));
-print "Should be false: ";
-print net.isDirected();
-print newline;
-
-
+N.clear();
+N.cycle(10, 1, kuramoto());
+N.randomizeWeights( uniform(3.0, 3.0) );
+print "Should be 0: " + N.isDirected() + newline;

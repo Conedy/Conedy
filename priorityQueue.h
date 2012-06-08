@@ -15,15 +15,15 @@
 using namespace std;
 
 
+class compareEventTimes;
 class eventHandler;
-
 
 class calendarQueue
 {
 
 
 	public:
-		calendarQueue (unsigned int size, eventHandler& p) ;
+		calendarQueue (unsigned int size, compareEventTimes& p) ;
 		
 		void cycleMarker();
 

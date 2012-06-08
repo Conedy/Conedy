@@ -1,16 +1,18 @@
 
-
-meanClustering()
+``meanClustering()``
       Returns the mean clustering coefficient of the network as a float.
 
 
 Notes
 -----
-The mean clustering coefficient of a network is defined in the following way.
-     
+
+If :math:`n` is the number of nodes in the network and :math:`A` is its adjacency matrix (i.e. :math:`A_{ij} = 1`, if there is an edge connecting node :math:`i` to node :math:`j`, and :math:`A_{ij} = 0` otherwise), the mean clustering coefficient is defined as:
+
 .. math::
-      meanClustering = \frac{3\times \textnormal{\# of triangles in the network}}{\textnormal{\# of connected triplets of nodes in the network}}
+	\binom{n}{3}^{-1}
+	\sum\limits_{i=1}^n
+	\sum\limits_{j=1}^{i-1}
+	\sum\limits_{k=1}^{j-1}
+	{A_{ij} A_{jk} A_{ki}}
 
-The 3 in the numerator normalises the coefficent to the range of [0:1]
-since a triplet can appear in three different positionings.
-
+This is the mean over all nodes of the node-wise clustering coefficent, which is defined as the rate at which two neighbours *of a given node* are neighbours. This usually differs from the global clustering coefficient, which is the rate at which two nodes that have a common neighbour are neighbours.

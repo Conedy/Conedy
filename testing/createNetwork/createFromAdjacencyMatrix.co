@@ -1,12 +1,12 @@
-network net;
+network N;
 
-net.completeNetwork (10, node(), weightedEdge());
+N.completeNetwork (10, node(), weightedEdge());
 
-net.saveAdjacencyMatrix("output/createFromAdjacencyMatrix.co.mat");
-net.clear();
-net.createFromAdjacencyMatrix("output/createFromAdjacencyMatrix.co.mat");
+N.saveAdjacencyMatrix("output/createFromAdjacencyMatrix.co.mat");
+N.clear();
+N.createFromAdjacencyMatrix("output/createFromAdjacencyMatrix.co.mat");
 
-net.saveAdjacencyMatrix("output/createFromAdjacencyMatrix.co.mat2");
+N.saveAdjacencyMatrix("output/createFromAdjacencyMatrix.co.mat2");
 
 
 

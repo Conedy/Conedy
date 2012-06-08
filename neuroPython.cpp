@@ -19,6 +19,7 @@
 #include <string>
 
 
+#include "globals.h"
 
 #include "docstrings.h"
 
@@ -397,8 +398,14 @@ template <class N>
 		// Add regular functions to the module.
 
 
-		def("set", &params<baseType>::setStandard);
-		def("set", &params<string>::setStandard);
+		def("set", &globals::setGlobal<baseType>);
+		def("set", &globals::setGlobal<string>);
+		def("set", &globals::setGlobal<bool>);
+		def("set", &globals::setGlobal<int>);
+		def("get", &globals::getGlobal<baseType>);
+		def("get", &globals::getGlobal<string>);
+		def("get", &globals::getGlobal<bool>);
+		def("get", &globals::getGlobal<int>);
 		def("setRandomSeed", &gslNoise::setSeed);
 
 		class_<createNetwork>("createNetwork");
@@ -432,6 +439,7 @@ template <class N>
 			.def("betweennessCentrality", &MyNetwork<baseType>::betweennessCentrality, reinterpret_cast<const char *>(__statisticsNetwork_betweennessCentrality))
 			.def("closenessCentrality", &MyNetwork<baseType>::closenessCentrality, reinterpret_cast<const char *>(__statisticsNetwork_closenessCentrality))
 			.def("degreeCentrality", &MyNetwork<baseType>::degreeCentrality, reinterpret_cast<const char *>(__statisticsNetwork_degreeCentrality))
+			.def("degree", &MyNetwork<baseType>::degree, reinterpret_cast<const char *>(__statisticsNetwork_degree))
 			.def("size", &MyNetwork<baseType>::size, reinterpret_cast<const char *>(__statisticsNetwork_size))
 			.def("meanDegree", &MyNetwork<baseType>::meanDegree, reinterpret_cast<const char *>(__statisticsNetwork_meanDegree))
 			.def("meanWeight", &MyNetwork<baseType>::meanWeight, reinterpret_cast<const char *>(__statisticsNetwork_meanWeight))
@@ -522,19 +530,19 @@ template <class N>
 
 
 
-		class_< component < edgeVirtual > , bases <edgeBlueprint> >("component", reinterpret_cast<const char *>(__edges_component)) 
+		class_< component < edgeVirtual > , bases <edgeBlueprint> >("component", reinterpret_cast<const char *>(__edges_component))
 					.def ("__init__", make_constructor (edgeFactory1 <component< edgeVirtual > > ));
 		class_< component < weightedEdgeVirtual>, bases <edgeBlueprint>   > ("component_weightedEdge" ,reinterpret_cast<const char *>(__edges_weightedEdge))
 					.def ("__init__", make_constructor (edgeFactory2 <component< weightedEdgeVirtual > > ));
-				
+
 		class_< component < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("component_staticWeightedEdge" ,reinterpret_cast<const char *>(__edges_component_staticWeightedEdge))
 					.def ("__init__", make_constructor (edgeFactory2 <component< staticWeightedEdgeVirtual > > ));
-				
+
 
 
 		class_< staticComponent < edgeVirtual > , bases <edgeBlueprint> >("staticComponent", reinterpret_cast<const char *>(__edges_component))
 					.def ("__init__", make_constructor (edgeFactory1 <staticComponent < edgeVirtual > > ));
-		  
+
 		class_< staticComponent < weightedEdgeVirtual>, bases <edgeBlueprint>   > ("staticComponent_weightedEdge" ,reinterpret_cast<const char *>(__edges_weightedEdge))
 					.def ("__init__", make_constructor (edgeFactory2 <staticComponent < weightedEdgeVirtual> > ));
 		class_< staticComponent < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("staticComponent_staticWeightedEdge" ,reinterpret_cast<const char *>(__edges_component_staticWeightedEdge))
@@ -545,7 +553,7 @@ template <class N>
 					.def ("__init__", make_constructor (edgeFactory2 < randomTarget < edgeVirtual>   > ));
 		class_< randomTarget < weightedEdgeVirtual>, bases <edgeBlueprint>  > ("randomTarget_weightedEdge",  reinterpret_cast<const char *>(__edges_weightedEdge))
 					.def ("__init__", make_constructor (edgeFactory3 < randomTarget < weightedEdgeVirtual>   > ));
-		class_< randomTarget < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("randomTarget_staticWeightedEdge", reinterpret_cast<const char *>(__edges_randomTarget_staticWeightedEdge)) 
+		class_< randomTarget < staticWeightedEdgeVirtual>, bases <edgeBlueprint>  >("randomTarget_staticWeightedEdge", reinterpret_cast<const char *>(__edges_randomTarget_staticWeightedEdge))
 					.def ("__init__", make_constructor (edgeFactory3 < randomTarget < staticWeightedEdgeVirtual>   > ));
 
 		class_< stepEdge < edgeVirtual>, bases <edgeBlueprint>  > ("step" ,reinterpret_cast<const char *>(__edges_stepEdge))

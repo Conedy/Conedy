@@ -1,7 +1,6 @@
 
 
-isConnected()
-      Returns true if every node is reachable from any other node in the network.
-      Returns false otherwise.
+``isConnected()``
+      Returns ``True``, iff every node is reachable from every other node in the network.
 
 

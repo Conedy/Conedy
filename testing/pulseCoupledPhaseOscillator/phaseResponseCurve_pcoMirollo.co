@@ -7,13 +7,13 @@ network n;
 double phi;
 double coupling;
 
-network_nodeVerbosity=2.5;
+nodeVerbosity=3;
 
 int nodeNumber;
 int otherNodeNumber;
 int referenceNodeNumber;
 
-outputAppend = 1.0;
+outputAppend = true;
 
 nodeNumber = 0;
 
@@ -26,7 +26,6 @@ coupling 			 		= 0.01;
 
 print "#phi \Delta(\phi)"+newline;
 
-outputAppend =1.0;
 samplingTime = 10000.0;
 
 
@@ -62,7 +61,7 @@ for (phi = 0.0;phi < 1.0; phi = phi + 0.001)
 
 n.clear();	
 
-:awk '{ if (NR % 2 == 0) print $1 " " $2 - $1}' _tmp > output/phaseResponseCurve_pcoMirollo.co.curve :;
+:awk '{ if (NR % 2 == 0) { if ( $2 - $1 > 0.0)  print $1 " " $2 - $1; else print $1, $2 - $1 + 1;  }} ' _tmp  > output/phaseResponseCurve_pcoMirollo.co.curve :;
 
 
 

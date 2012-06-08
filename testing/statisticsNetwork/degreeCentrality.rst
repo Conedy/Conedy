@@ -1,21 +1,20 @@
 
-
-degreeCentrality(filename)
-      Writes the degree centrality of each individual node in a textfile.
-      The file contains the centralities written in order of the nodenumber.
+``degreeCentrality(filename)``
+	Writes the degree of each individual node to a text file.
+	The file contains the degrees written in order of the node number.
+	The redundant name was only chosen to distinguish this function from :ref:`degree`.
 
 Parameters
 ----------
-filename : string
-         name of the file to which the degree centralities will be written
-   
+``filename``: string
+         Name of the file to which the degrees will be written
+
 
 Notes
 -----
-If d(i) is the degree of node i, the Degree Centrality is defined in the
-following way.
+If :math:`n` is the number of nodes in the network and :math:`A` is its adjacency matrix (i.e. :math:`A_{ij} = 1`, if there is an edge connecting node :math:`i` to node :math:`j`, and :math:`A_{ij} = 0` otherwise), the degree is  of node :math:`i` is defined as:
 
 .. math::
-   degreeCentrality(i) = d(i)
+	\sum_{j=1}^{n} A_{ij}
 
-
+See also: :ref:`degree`

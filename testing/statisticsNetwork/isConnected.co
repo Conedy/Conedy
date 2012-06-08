@@ -1,31 +1,30 @@
-network net;
+network N;
 
-net.addNode(kuramoto());
-net.addNode(kuramoto());
+N.addNode(kuramoto());
+N.addNode(kuramoto());
 
-net.addEdge(0,1,1.0);
+N.addEdge(0,1,1.0);
 print "should give an error: ";
-if( net.isConnected() )
+if( N.isConnected() )
 {
 print "";
 };
 print newline;
 
-net.clear();
-net.cycle(500,1, kuramoto());
-
+N.clear();
+N.cycle(500,1, kuramoto());
 
 
 print "should be connected: ";
-if( net.isConnected() )
-{ 
+if( N.isConnected() )
+{
 	print "connected ";
 };
 print newline;
 
-net.addNode(kuramoto());
+N.addNode(kuramoto());
 print "should be disconnected: ";
-if( !net.isConnected() )
-{ 
+if( !N.isConnected() )
+{
 	print "disconnected ";
 };

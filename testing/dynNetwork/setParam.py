@@ -1,10 +1,10 @@
 import conedy as co
 
-net = co.network()
+N = co.network()
 
-nodeNumber = net.addNode (co.roessler())
+nodeNumber = N.addNode (co.roessler())
 
-net.setParam (nodeNumber, "roessler_omega", 0.92)
+N.setParam (nodeNumber, "roessler_omega", 0.92)
 
 
-print "Should be 0.92:" + str(net.getParam(nodeNumber, "roessler_omega"))
+print "Should be 0.92:" + str(N.getParam(nodeNumber, "roessler_omega"))

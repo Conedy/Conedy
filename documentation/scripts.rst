@@ -32,7 +32,7 @@ We illustrate the differences between both ways of using Conedy with an example 
 			N.randomizeStates(co.lorenz(), co.gaussian(0.0, 2.0), co.gaussian(0.0, 2.0), co.gaussian(0.0, 2.0))
 
 			co.set("samplingTime", 1.0)
-			co.set("odeStepType", "gsl_odeiv_step_rk8pd")
+			co.set("odeStepType", "gsl_rk8pd")
 
 			N.observeTime("sw_%G_%G" % (p,k))
 			N.observeMean("sw_%G_%G" % (p,k), co.component(0))
@@ -62,7 +62,7 @@ The following script performs the same operations, if run with ``conedy``::
 			N.randomizeStates(lorenz, gaussian(0.0, 2.0), gaussian(0.0, 2.0), gaussian(0.0, 2.0));
 
 			samplingTime = 1.0;
-			odeStepType = "gsl_odeiv_step_rk8pd";
+			odeStepType = "gsl_rk8pd";
 
 			N.observeTime("sw_" + p + "_" + k);
 			N.observeMean("sw_" + p + "_" + k, component(0));
@@ -86,7 +86,9 @@ The following differences can be spotted:
 - Calls of ``co.set`` have been replaced by direct assignments.
 - Strings are handled differently.
 
-Note, that most commands in the :ref:`reference` have an example for use with the script interpreter. If you are familiar with Bison/flex grammar files you may also look into the files ``Parser.yy`` and ``Scanner.ll`` of Conedy’s source code. Although the built-in interpreter supports some C-constructs, it may still be limited in some cases.
+Note that most commands in the :ref:`reference` have an example for use with the script interpreter.
+If you are familiar with Bison/flex grammar files, you may also look into the files ``Parser.yy`` and ``Scanner.ll`` of Conedy’s source code.
+Although the built-in interpreter supports some C-constructs, it may still be limited in some cases.
 
 
 Vectorising Loops
@@ -103,7 +105,8 @@ In the above example both loops are vectorisable. If you replace both occurences
 
 assuming, that the script is stored in ``script.co``. Note the zero-based enumeration.
 
-At the moment, Conedy only supports to vectorise two nested loops. Note, that you can however still use a regular loop in the innermost vectorised loop.
+At the moment, Conedy only supports to vectorise two nested loops.
+Note, however, that you can still use a regular loop in the innermost vectorised loop.
 
 Having vectorised your loops, distributed computing is quite straightforward, since all that is needed to run such a script is the ``conedy`` executable.
 

@@ -1,12 +1,12 @@
 import conedy as co
 
-net = co.network()
+N = co.network()
 
-nodeNumber = net.addNode(co.roessler())
+nodeNumber = N.addNode(co.roessler())
 
-net.observe (nodeNumber, "output/removeObserver.py.series")
-net.removeObserver()
+N.observe (nodeNumber, "output/removeObserver.py.series")
+N.removeObserver()
 
-net.evolve(0.0,100.0)  # This command should not write values to the file.
+N.evolve(0.0,100.0)  # This command should not write values to the file.
 
 

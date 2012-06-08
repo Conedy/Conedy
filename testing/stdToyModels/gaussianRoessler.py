@@ -1,7 +1,7 @@
 import conedy as co
 
 
-net = co.network()
+N = co.network()
 
 co.set("gaussianRoessler_omega" , 0.89)
 co.set("gaussianRoessler_a" , 0.165)
@@ -12,12 +12,12 @@ co.set("samplingTime" , 0.01)
 
 
 
-net.addNode(co.gaussianRoessler())
-net.setState(0, 0.0, 0.0, 0.0)
-net.observeTime("output/gaussianRoessler.py.series")
-net.observeAll("output/gaussianRoessler.py.series", co.component(0))
-net.observeAll("output/gaussianRoessler.py.series", co.component(1))
-net.observeAll("output/gaussianRoessler.py.series", co.component(2))
-net.evolve(0.0,1500.0)
+N.addNode(co.gaussianRoessler())
+N.setState(0, 0.0, 0.0, 0.0)
+N.observeTime("output/gaussianRoessler.py.series")
+N.observeAll("output/gaussianRoessler.py.series", co.component(0))
+N.observeAll("output/gaussianRoessler.py.series", co.component(1))
+N.observeAll("output/gaussianRoessler.py.series", co.component(2))
+N.evolve(0.0,1500.0)
 
 

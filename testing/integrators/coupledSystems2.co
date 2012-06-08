@@ -1,0 +1,46 @@
+double startwerta = 0.234908;
+double startwertb = 0.018974;
+double a = 0.9934;
+double b = 1.0002349;
+double gewicht = 1.000285;
+
+
+odeStepSize = 0.001;
+
+network N;
+
+int j = N.completeNetwork(2, onlyCoupling(), staticWeightedEdge());
+N.randomizeWeights(constant(gewicht));
+N.setState(j, startwerta);
+N.setState(j+1, startwertb);
+N.setParam(j, "onlyCoupling_a", a);
+N.setParam(j+1, "onlyCoupling_a", b);
+N.observe(j, "output/coupledSystems2.co.single", component(0));
+N.evolve(0.0,40.0);
+N.clear();
+
+odeStepSize = 0.001;
+
+j = N.completeNetwork(2, onlyCouplingCouplingSum(), staticWeightedEdge());
+N.randomizeWeights(constant(gewicht));
+N.setState(j, startwerta);
+N.setState(j+1, startwertb);
+N.setParam(j, "onlyCoupling_a", a);
+N.setParam(j+1, "onlyCoupling_a", b);
+N.observe(j, "output/coupledSystems2.co.singleCouplingSum", component(0));
+N.evolve(0.0,40.0);
+N.clear();
+
+
+odeStepSize = 0.001;
+
+int k = N.addNode(doubleOnlyCoupling);
+N.setState(k, startwerta, startwertb);
+N.setParam(k, "doubleOnlyCoupling_a", gewicht*a);
+N.setParam(k, "doubleOnlyCoupling_b", gewicht*b);
+N.observe(k, "output/coupledSystems2.co.double", component(0));
+N.evolve(0.0,40.0);
+N.clear();
+
+#:diff output/coupledSystems2.co.single output/coupledSystems2.co.double:;
+#:diff output/coupledSystems2.co.singleCouplingSum output/coupledSystems2.co.double:;

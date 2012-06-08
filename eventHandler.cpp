@@ -7,13 +7,16 @@
 
 
 
-void eventHandler::eventClean ()
+void eventHandler::clean ()
 {
 
-	if (eventQueue != NULL)
-		delete eventQueue;
 
-		eventQueue = new priorityQueueTemplate ( eventsInQueue + 3 ,*this );
+//	if (eventQueue != NULL)
+//		delete eventQueue;
+		
+	compareEventTimes cmp;	
+	cmp.theEventHandler = this;
+		eventQueue = new priorityQueueTemplate ( eventsInQueue + 3 ,cmp );
 		for ( unsigned int i = 1; i < eventList.size(); i++ )
 			eventQueue->push ( i );
 
@@ -35,6 +38,20 @@ void eventHandler::eventClean ()
 
 
 }
+
+
+void eventHandler::finalize()
+{
+	delete eventQueue;
+	eventQueue = NULL;
+}
+
+
+
+	bool compareEventTimes::operator() ( const unsigned int  s1, const unsigned int s2 ) const {
+		return eventHandler::eventList[s1].time < eventHandler::eventList[s2].time;
+	}
+
 
 void eventHandler::unregisterCallBack (unsigned int eventSignature){
 		
@@ -84,9 +101,9 @@ void eventHandler::registerCallBack ( unsigned int eventSignature,  baseType tim
 	else
 	{
 		
-//		if (eventQueue != NULL)
-//					updateKey (eventSignature, time);
-//		else
+		if (eventQueue != NULL)
+					updateKey (eventSignature, time);
+		else
 			eventList[myEventsStartAt + eventSignature]. time = time;
 	}
 
@@ -238,6 +255,11 @@ void eventHandler::insertVisiterAtSignature( function <void()> v, unsigned int s
 			insertVisiter (v, i);
 }
 
+void eventHandler::forceEvent(unsigned int eventNumber)
+{
+	eventList[eventNumber+myEventsStartAt ].action();
+}
+
 
 void eventHandler::pop()
 {
@@ -294,7 +316,7 @@ vector <int> eventHandler::eventCount ( 100 );
 
 
 
-
+eventHandler * compareEventTimes::theEventHandler;
 
 
 

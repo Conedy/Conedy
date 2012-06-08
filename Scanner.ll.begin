@@ -46,7 +46,7 @@ ID       [A-Za-z][a-z0-9A-Z\_]*
 
 		/*[0-9]+"."[0-9]+([eE][-+]?[0-9]+)?  {return (ParserBase::DOUBLE);  */
 
-[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)? { return (ParserBase::DOUBLE); }
+[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)? { return (ParserBase::FLOATCONSTANT); }
 
 
 
@@ -71,8 +71,8 @@ ID       [A-Za-z][a-z0-9A-Z\_]*
 "<="		{return(ParserBase::LESSEQUAL);}
 ">="		{return(ParserBase::GREATEREQUAL);}
 
-TRUE		{return(ParserBase::BOOLONE);}
-FALSE		{return(ParserBase::BOOLZERO);}
+true		{return(ParserBase::BOOLONE);}
+false		{return(ParserBase::BOOLZERO);}
 
 "+=" 		{return(ParserBase::ASSIGNPLUS);}
 "-=" 		{return(ParserBase::ASSIGNMINUS);}
@@ -95,6 +95,7 @@ FALSE		{return(ParserBase::BOOLZERO);}
 print		{return(ParserBase::PRINT);}
 loop		{return(ParserBase::LOOP);}
 double	{return(ParserBase::DOUBLETOKEN);}
+bool	{return(ParserBase::BOOLTOKEN);}
 baseType	{return(ParserBase::DOUBLETOKEN);}
 string		{return(ParserBase::STRINGTOKEN);}
 while		{return(ParserBase::WHILE);}
@@ -110,9 +111,7 @@ readInitialCondition	{return(ParserBase::READINITIALCONDITION); }
 
 %{		// Nodes
 %}
-cnnNode			{return(ParserBase::CNNNODE); }
 countEdges		{return(ParserBase::COUNTEDGES); }
-couplingSumNode			{return(ParserBase::COUPLINGSUMNODE); }
 izhikevichMap		{return(ParserBase::IZHIKEVICHMAP);}
 randomBlueprintNode {return(ParserBase::RANDOMBLUEPRINTNODE); }
 setParams		{return(ParserBase::SETPARAMS); }

@@ -1,14 +1,14 @@
-network net;
+network N;
 
 
 
 
 
 
-int firstNode = net.addNode(roessler());
-int secondNode = net.addNode(roessler());
+int firstNode = N.addNode(roessler());
+int secondNode = N.addNode(roessler());
 
-net.addEdge (firstNode,secondNode, staticComponent_staticWeightedEdge (2, 3.2) );
+N.addEdge (firstNode,secondNode, staticComponent_staticWeightedEdge (2, 3.2) );
 
-net.printNodeStatistics();
+N.printNodeStatistics();
 

@@ -1,9 +1,9 @@
 
-network.isLinked(source, target)
-      Return true if there is an edge in the network which connects source with target
+``network.isLinked(source, target)``
+      Returns ``True`` iff there is an edge in the network which connects node ``source`` to node ``target``.
 
-source : int
+``source``: integer
    The node number of the source node.
 
-target : int
+``target``: integer
    The node number of the target node.

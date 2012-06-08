@@ -1,4 +1,4 @@
-network net;
+network N;
 
 
 gaussianRoessler_omega = 0.89;
@@ -9,14 +9,14 @@ gaussianRoessler_sigmaNoise = 1.0;
 samplingTime = 0.01;
 
 
-net.addNode(gaussianRoessler());
-net.setState(0, 0.0, 0.0, 0.0);
+N.addNode(gaussianRoessler());
+N.setState(0, 0.0, 0.0, 0.0);
 
-net.observeTime("output/gaussianRoessler.co.series");
-net.observe(0, "output/gaussianRoessler.co.series",component(0));
-net.observe(0, "output/gaussianRoessler.co.series",component(1));
-net.observe(0, "output/gaussianRoessler.co.series",component(2));
+N.observeTime("output/gaussianRoessler.co.series");
+N.observe(0, "output/gaussianRoessler.co.series",component(0));
+N.observe(0, "output/gaussianRoessler.co.series",component(1));
+N.observe(0, "output/gaussianRoessler.co.series",component(2));
 
 
-net.evolve(0.0,1500.0);
+N.evolve(0.0,1500.0);
 

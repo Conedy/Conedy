@@ -83,15 +83,6 @@ class euler : public odeIntegrator
 };
 
 
-// ->DIRTY<- Explicit Strong Scheme O(dt^1.5)             ___ auskommentiert: der Algorithmus mit dem Wendling arbeitet!!!
-///	void action1() {
-///		double phi = noise.getGaussian();
-///		dW = sqdt*zeta;
-///		(*this)(x, dxdt, dydW);																				                                    
-///		x = x + dxdt*dt + dydW*sqdt*(phi - zeta);																                        
-///		zeta = phi;
-///	};
-
 
 class eulerMaruyama : public sdeIntegrator
 {

@@ -1,27 +1,20 @@
 
-
-betweennessCentrality(filename)
-      Writes the betweenness centrality of each individual node in a textfile.
-      The file contains the centralities written in order of the nodenumber.
+``betweennessCentrality(filename)``
+	Writes the betweenness centrality of each individual node to a text file.
+	The file contains the centralities written in order of the node number.
 
 Parameters
 ----------
-filename : string
-         name of the file to which the betweenness centralities will be written
+``filename``: String
+         Name of the file to which the betweenness centralities will be written
 
 
 Notes
 -----
-If n is the number of nodes in the network, :math:`\zeta_{jk}` is the
-number of shortest paths between the nodes j and k
-and :math:`\zeta_{jk}(i)` is the number of shortest paths between the nodes
-j and k that pass through node i, the Betweenness Centrality of node i is
-defined in the following way.
+If :math:`n` is the number of nodes in the network and :math:`\mathcal{D}_{jk}` is the set of all shortest path between node :math:`j` and node :math:`k`, the betweenness centrality of node :math:`i` is:
 
 .. math::
-   betweennessCentrality(i)=\frac{1}{n(n-1)}\sum_{j,k}\frac{\zeta_{jk}(i)}{\zeta_{jk}}
+   \frac{1}{n (n-1)} \sum_{j,k} \frac{ \left\lvert \left\{ D \in \mathcal{D}_{jk} \middle | i \in D \right\} \right\rvert}{ \left\lvert \mathcal{D}_{jk} \right\rvert }
 
-The normalisation is done in such a way that the Betweenness Centrality is in
-the range [0:1].
-The distance between two nodes is calculated by taking the inverse of the
-weight of the connecting edge.
+The normalisation is such that the betweenness centrality is always in the interval :math:`\left[ 0, 1 \right]`.
+The distance between two nodes is defined as described in :ref:`meanPathLength`.

@@ -1,19 +1,18 @@
 
+``network.torus(sizex, sizey, a, node=dynNode, edge=weightedEdge)``
+  Adds a 2-dimensional, cyclic lattice to the network.
 
-network.torus(sizex, sizey, a, node=dynNode, edge=weightedEdge)
-  Adds a 2 dimensional lattice to the network.
-  
 Parameters
 ----------
-sizex : int
+``sizex``: integer
         Size of the lattice in x-direction.
-sizey : int
+``sizey``: integer
         Size of the network in y-direction.
-a : int
-        Every node is connected to all neighbors, if the distance is smaller than a.
-node : nodeTemplate
+``a`` : double
+        Every node is connected to all neighbours in a distance smaller than ``a``.
+``node`` : node template
         Every added node is a copy of this template.
-edge : edgeTemplate
+``edge`` : edge template
         Every added edge is a copy of this template.
 
-        
+

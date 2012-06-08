@@ -1,6 +1,6 @@
 
 
-network net;
+network N;
 
 
 
@@ -11,12 +11,12 @@ int secondNode;
 
 
 
-firstNode = net.addNode(roessler());
-secondNode = net.addNode(roessler());
+firstNode = N.addNode(roessler());
+secondNode = N.addNode(roessler());
 
 
-net.addEdge (firstNode,secondNode,  step (2) );
+N.addEdge (firstNode,secondNode,  step (2) );
 
 
-net.printNodeStatistics();
+N.printNodeStatistics();
 
