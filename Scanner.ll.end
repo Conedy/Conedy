@@ -173,6 +173,7 @@ createFromAdjacencyList {return(ParserBase::CREATEFROMADJACENCYLIST); }
 startingConditionOpenWaveEnding	{return (ParserBase::STARTINGCONDITIONOPENWAVEENDING); }
 startingConditionOpenWaveMiddle	{return (ParserBase::STARTINGCONDITIONOPENWAVEMIDDLE); }
 normalizeInWeightSum { return(ParserBase::NORMALIZEINWEIGHTSUM); }
+normalizeOutWeightSum { return(ParserBase::NORMALIZEOUTWEIGHTSUM); }
 
 
 
