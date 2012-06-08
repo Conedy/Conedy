@@ -1,12 +1,10 @@
 conedy (0.26) unstable; urgency=low
 
-  * added defines variable to config.h, which allows to specify the desired
-    numeric basetype (double, long double, etc.) and priority queue.
-  * Conedy compiles now in userspace new taregts conedy-root
-    python-conedy-root are introduced for system-wide installs.
+  * added defines variable to config.h, which allows to specify the desired numeric basetype (double, long double, etc.) and priority queue.
+  * Conedy compiles now in userspace new taregts conedy-root python-conedy-root are introduced for system-wide installs.
   * global parameters like "samplingTime" now have sensible types
 
- -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Mon, 28 May 2012 11:44:36 +0100
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de>  Fri, 8 Jun 2012 12:46:55 +0100
 
 conedy (0.251) unstable; urgency=low
 
