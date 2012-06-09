@@ -1204,9 +1204,9 @@ nodeDescriptor createNetwork::randomNetwork ( nodeDescriptor size, double promil
 		for ( j = 0; j < i; j++ )
 		{
 			if ( network::noise.getUniform() <= promille )
-				network::addEdge ( i,j,l );
+				network::addEdge ( smallest + i,smallest + j,l );
 			if ( network::noise.getUniform() <= promille )
-				network::addEdge ( j,i,l );
+				network::addEdge ( smallest + j,smallest + i,l );
 
 		}
 

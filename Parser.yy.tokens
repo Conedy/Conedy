@@ -68,7 +68,7 @@ PULSECOUPLEEDGE STATICWEIGHTEDEDGE PULSECOUPLEDELAYEDGE WEIGHTEDEDGE EDGE
 // Arithmetic
 %token  ASSIGNPLUS ASSIGNMINUS ASSIGNDIVIDE ASSIGNTIMES PLUSPLUS MINUSMINUS ASSIGNMODOLO
 %token <netCmd> NETWORKVAR
-%type <cmd> loop print instruction declare assign networkCommand bluePrintCommand commands commandBlock while createNetworkCommand for if vectorFor system spatialNetworkCommand
+%type <cmd> loop print instruction declare assign networkCommand bluePrintCommand commands commandBlock while createNetworkCommand globalCommand for if vectorFor system spatialNetworkCommand
 
 %type <stringExpression> identifier
 %type <stringExpression> string
