@@ -78,10 +78,11 @@ namespace conedy
 
 				#endif
 			}
+
+			#if GSL_MINOR_VERSION < 15
 			free (yerr);
 			free (dydt);
-
-
+			#endif
 		}
 
 		dynNode::time = startTime;  // changing the time is handled by the evolve-loop in dynNetwork.cpp

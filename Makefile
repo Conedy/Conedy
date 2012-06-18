@@ -1,33 +1,18 @@
-
 include config.h    # include the config file, which contains install directories.
 
 
-
-
-
-ARCH=$(shell dpkg --print-architecture)
-
-ifeq ($(ARCH),amd64)
-	BJAMARCH = "x86_64"
-else
-	BJAMARCH = "x86"
-endif
-
+ARCH=$(shell arch)
 
 build: ${todo}
 
 config.h:
 	./configure.sh
 
-
-
 install: all ${todo:=.install}
 
 uninstall: ${todo:=.uninstall}
 
-
 test: ${todo:=.test}
-
 
 # generate a c-header with docstrings for all functions of the python interpreter. The docstring is in testing/*/<functionName>.rst
 docstrings.h: addedNodes.sum.old
@@ -95,15 +80,11 @@ revert:
 
 
 
-# Create a hexadecimal representation of the users configuration file and sore it in string_config.h
+# Create a hexadecimal representation of the users configuration file and store it in string_config.h
 string_config.h: config.h
 	xxd -i config.h > string_config.h
-	sed "/dirInstallRoot/d" config.h | grep dirInstall  | sed "s/dirInstall//g;s/=//g"  > dirInstall.h
+	sed "/dirInstallRoot/d" config.h | grep dirInstall  | sed "s/dirInstall//;s/=//;s/\$${HOME}/\$$ENV(HOME)/"  > dirInstall.h
 	xxd -i dirInstall.h >> string_config.h
-
-
-
-
 
 
 documentation:											# compile the documentation
@@ -156,7 +137,7 @@ unstripped: clean addNodes Scanner.ll Parser.yy
 
 # build the bison-flex-interpreter of Conedy.
 conedy: addNodesIfNecessary Parser.yy Scanner.ll string_config.h
-	bjam  conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
+	bjam  conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags='-DARCHITECTURE="${ARCH}"'  -j${numberCores}
 
 installAndTest: install test
 
@@ -168,7 +149,7 @@ conedy.install: conedy
 	sed -i "s+/etc/conedy.config+${globalConfig}+g"   ${dirInstall}/recompileConedy
 
 conedy-root: addSharedNodesIfNecessary Parser.yy Scanner.ll string_config.h
-	bjam  conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
+	bjam  conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=${ARCH}"  -j${numberCores}
 
 conedy-root.clean: conedy.clean
 
@@ -260,7 +241,7 @@ conedy-src.uninstall:
 python-conedy.recompile:
 	${noUserSpace} HOME=${HOME} make docstrings.h addNodesIfNecessary string_config.h
 ifdef pythonBjam
-	([ -d build ] && ${noUserSpace} HOME=${HOME} bjam  python-conedy  cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines}) cflags=-D"ARCHITECTURE=linux64"  -j${numberCores} &&\
+	([ -d build ] && ${noUserSpace} HOME=${HOME} bjam  python-conedy  cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines}) cflags=-D"ARCHITECTURE=${ARCH}"  -j${numberCores} &&\
 			${noUserSpace} cp -f bin/gcc*/release/python-conedy.so build/lib*/conedy.so ) \
 		|| ( ${noUserSpace} make python-conedy python-conedy.install)
 endif
@@ -326,7 +307,7 @@ documentation.uninstall:
 
 debug: addNodesIfNecessary Scanner.ll Parser.yy string_config.h
 #	bisonc++ Parser.yy
-	bjam conedyDebug cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
+	bjam conedyDebug cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=${ARCH}"  -j${numberCores}
 
 
 debug.install: debug
@@ -350,7 +331,7 @@ condor.clean:
 
 
 condor: addNodesIfNecessary string_config.h               # build an interpreter which does not execute network-functions, but creates Condor-scripts which distribute the execution of loops (see vectorFor)
-	bjam  conedyCondor cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=linux64"  -j${numberCores}
+	bjam  conedyCondor cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=${ARCH}"  -j${numberCores}
 
 
 
