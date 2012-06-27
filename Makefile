@@ -117,13 +117,13 @@ documentation.install:
 #	doxygen
 
 python-conedy.test:														# call all test-scripts in the testing directory and display failed scripts and scripts for which no checksum is present.
-	cd testing; sh -c "make -s testPython-Conedy > ../testResult.python-conedy 2> ../testResult.python-conedy "
+	cd testing; sh -c "make -s testPython-Conedy > ../testResult.python-conedy 2> /dev/null"
 	cat testResult.python-conedy
 	grep present testResult.python-conedy || true
 	! grep failed testResult.python-conedy
 
 conedy.test:
-	cd testing;  sh -c " make -s testConedy > ../testResult.conedy 2> ../testResult.conedy"
+	cd testing;  sh -c "make -s testConedy > ../testResult.conedy 2> /dev/null"
 	cat testResult.conedy
 	! grep present testResult.conedy || true
 	! grep failed testResult.conedy
@@ -281,7 +281,7 @@ copySrc:
 	ln -s ${dirSrc}/addedNodes $(buildDir) || true
 	cp -r ${dirSrc}/testing $(buildDir) || true
 	echo ${VERSION} > $(buildDir)/version
-	rm $(buildDir)/addedNodes.sum.old
+	rm -f $(buildDir)/addedNodes.sum.old
 
 conedy.recompile:
 	${noUserSpace} HOME=${HOME} make conedy conedy.install

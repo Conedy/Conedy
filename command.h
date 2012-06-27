@@ -35,6 +35,7 @@ template <typename T> class MyNetwork;
 
 
 
+
 typedef MyNetwork<baseType> networkTemplate;
 
 class dynNode;
@@ -64,11 +65,11 @@ class command
 		static vector <string> inputFiles;
 
 
-
 		static bool contextCheck (string s, int type)
 		{ if ((varType.count(s) == 0 )|| (varType[s] != type)) return 0; else return 1;} // Überprüft, ob s als Variablenname vom Type type angemeldet wurde
 
 	public:
+		static void clear ();
 
 		static int getType(string s) {return varType[s]; }
 

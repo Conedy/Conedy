@@ -32,7 +32,7 @@ We illustrate the differences between both ways of using Conedy with an example 
 			N.randomizeStates(co.lorenz(), co.gaussian(0.0, 2.0), co.gaussian(0.0, 2.0), co.gaussian(0.0, 2.0))
 
 			co.set("samplingTime", 1.0)
-			co.set("odeStepType", "gsl_odeiv2_step_rk8pd")
+			co.set("odeStepType", "gsl_rk8pd")
 
 			N.observeTime("sw_%G_%G" % (p,k))
 			N.observeMean("sw_%G_%G" % (p,k), co.component(0))
@@ -62,7 +62,7 @@ The following script performs the same operations, if run with ``conedy``::
 			N.randomizeStates(lorenz, gaussian(0.0, 2.0), gaussian(0.0, 2.0), gaussian(0.0, 2.0));
 
 			samplingTime = 1.0;
-			odeStepType = "gsl_odeiv2_step_rk8pd";
+			odeStepType = "gsl_rk8pd";
 
 			N.observeTime("sw_" + p + "_" + k);
 			N.observeMean("sw_" + p + "_" + k, component(0));

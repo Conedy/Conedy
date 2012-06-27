@@ -71,6 +71,7 @@ rewireTarget		{return(ParserBase::REWIRETARGET); }
 rewire			{return(ParserBase::REWIRE); }
 rewireSourcePerTimestep	{return(ParserBase::REWIRESOURCEPERTIMESTEP);}
 addRandomEdges		{return(ParserBase::ADDRANDOMEDGES); }
+addRandomEdgesUndirected		{return(ParserBase::ADDRANDOMEDGESUNDIRECTED); }
 readParams		{return(ParserBase::READPARAMS); }
 setTime			{return(ParserBase::SETTIME); }
 rewireUndirected	{return(ParserBase::REWIREUNDIRECTED); }
@@ -173,6 +174,7 @@ createFromAdjacencyList {return(ParserBase::CREATEFROMADJACENCYLIST); }
 startingConditionOpenWaveEnding	{return (ParserBase::STARTINGCONDITIONOPENWAVEENDING); }
 startingConditionOpenWaveMiddle	{return (ParserBase::STARTINGCONDITIONOPENWAVEMIDDLE); }
 normalizeInWeightSum { return(ParserBase::NORMALIZEINWEIGHTSUM); }
+normalizeOutWeightSum { return(ParserBase::NORMALIZEOUTWEIGHTSUM); }
 
 
 

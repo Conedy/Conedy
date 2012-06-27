@@ -36,6 +36,10 @@ map < string, string* >command::stringVar;
 vector < string > command::inputFiles;
 
 
+
+
+
+
 void emptyFunction () {}
 
 
@@ -92,6 +96,22 @@ void emptyFunction () {}
 			if (type == _int_) intVar[s] = new int();
 		};
 
+void command::clear()
+
+{
+
+	node::theNodes.clear();
+
+
+			map <string,networkTemplate*>::iterator itnet, ienet;
+			itnet = networkVar.begin();
+			ienet = networkVar.end();
+			for (;itnet != ienet; itnet++)
+				itnet->second->clear();
+
+
+
+}
 
 
 void command::finalize()

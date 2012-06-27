@@ -1,15 +1,12 @@
-network.rewire(prop, node)
+``network.rewire(probability, node)``
    Replaces connections in the network by connections between randomly chosen source and target nodes.
 
 Parameters
 ----------
 
-prop : double
-   Replacement propability.
+``probability``: double (:math:`\in\left[ 0, 1 \right]`)
+   Replacement probability.
 
-node : nodeTemplate
-   Only consider edges for replacement if both source and target node is of this type. If no nodeTemplate is specified, all edges are considered.
-
-
-
-
+``node``: node template
+	Only consider edges for replacement if both, source and target node are of this type.
+	If not specified, all edges are considered.

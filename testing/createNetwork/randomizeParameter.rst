@@ -1,13 +1,13 @@
-network.randomizeParameter(parameterName, distribution)
-   Randomizes a specific parameter for all corresponding nodes.
+``network.randomizeParameter(parameterName, distribution)``
+	Randomizes a specific parameter for all corresponding nodes.
 
 
 Parameters
 ----------
-parameterName : string
-   Name of the parameter that should be randomized.
+``parameterName``: string
+	Name of the parameter to be randomized.
 
-distribution : random
-   Chose parameter from this distribution. (See :ref:`randomizing`).
+``distribution`` : distribution
+	Pick the parameter value from this distribution (see :ref:`randomizing`).
 
 

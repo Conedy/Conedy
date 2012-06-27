@@ -212,12 +212,12 @@ namespace conedy
 			static int smallestUnusedNumber;
 			int localStreamNumber;
 
-			bool inline zipInput() { return ( bool ) params<baseType>::getParams ( 0 ); }
+			bool inline zipInput() { return ( bool ) getGlobal<bool>("inputCompress");  }
 		public:
 			virtual bool timeEvolution () { return 0; }
 			static void registerStandardValues()
 			{
-				registerGlobal<bool>("inputCompress", true);
+				registerGlobal<bool>("inputCompress", false);
 			}
 			virtual const unsigned int dimension() const { return 1;}
 

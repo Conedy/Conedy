@@ -15,7 +15,7 @@ odeIsAdaptive = false;
 
 #odeStepType = "gsl_odeiv2_step_rk2";
 
-odeStepType = "gsl_odeiv2_step_rk4";
+odeStepType = "gsl_rk4";
 
 
 odeStepSize = 0.0001;

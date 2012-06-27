@@ -255,6 +255,11 @@ void eventHandler::insertVisiterAtSignature( function <void()> v, unsigned int s
 			insertVisiter (v, i);
 }
 
+void eventHandler::forceEvent(unsigned int eventNumber)
+{
+	eventList[eventNumber+myEventsStartAt ].action();
+}
+
 
 void eventHandler::pop()
 {

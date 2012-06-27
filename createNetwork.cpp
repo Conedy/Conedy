@@ -352,6 +352,37 @@ nodeDescriptor createNetwork::beeWeb ( int x, int y, nodeBlueprint *n )
 
 
 
+void createNetwork::addRandomEdgesUndirected ( double meanOutDeg, edgeBlueprint *l )
+{
+
+	int source, target;
+
+
+
+
+	baseType meanOut = ( ( statisticsNetwork* ) this )->meanOutDegree() ;
+
+	int toDo = ( int ) ( ( meanOutDeg - meanOut ) * network::numberVertices() / 2 );
+
+
+
+	if ( toDo > 0 )
+	{
+		for ( int i = 0; i < toDo; i++ )
+		{
+			do
+			{
+				source = network::randomNode();
+				target = network::randomNode();
+			}
+			while ( source == target || network::isLinked ( source,target ) );
+			network::addEdge ( source,target,l );
+			network::addEdge ( target,source,l );
+		}
+	}
+
+}
+
 
 
 void createNetwork::addRandomEdges ( double meanOutDeg, edgeBlueprint *l )
@@ -714,6 +745,27 @@ void createNetwork::addGlobalNoise ( boost::function <double() > r, nodeKind the
 
 
 }
+
+void createNetwork::normalizeOutputs (baseType r)
+{
+	nodeIterator it;
+	nodeList dynNodes;
+	verticesMatching(dynNodes, _dynNode_);
+	
+
+	unsigned int degree;
+
+	for (it = dynNodes.begin(); it != dynNodes.end(); it++)
+	{
+		degree =		nodeBlueprint::theNodes[*it]->degree();
+		for (unsigned int i = 0 ; i < nodeBlueprint::theNodes[*it]->degree(); i ++)
+		{
+			nodeBlueprint::theNodes[*it]->setWeight (i, r / degree);
+		}
+	}
+
+}
+
 
 void createNetwork::normalizeInputs (baseType r)
 {
@@ -1183,9 +1235,9 @@ nodeDescriptor createNetwork::randomNetwork ( nodeDescriptor size, double promil
 		for ( j = 0; j < i; j++ )
 		{
 			if ( network::noise.getUniform() <= promille )
-				network::addEdge ( i,j,l );
+				network::addEdge ( smallest + i,smallest + j,l );
 			if ( network::noise.getUniform() <= promille )
-				network::addEdge ( j,i,l );
+				network::addEdge ( smallest + j,smallest + i,l );
 
 		}
 
