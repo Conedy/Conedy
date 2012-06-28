@@ -355,8 +355,8 @@ $$ = NETWORKFUNK2(startNeverStopGlut,$1,_E(string,$7),_E(baseType,$5));
 	| NETWORK '.' REWIRE '(' baseType ',' random ')'
   { function<baseType ()> r = bind(&expression<baseType>::evaluate,$7);
 $$ = new bindInstruction(bind(&networkTemplate::rewireWeights ,$1, bind(&expression<baseType>::evaluate, $5),r,_dynNode_)); }
-	| NETWORK '.' ADDRANDOMEDGES '(' baseType ',' createLink ')'
- { $$ = NETWORKFUNK2(addRandomEdges,$1,_E(baseType,$5), _E(edgeBlueprint*,$7)); }
+	| NETWORK '.' ADDRANDOMEDGES '(' baseType ',' createLink ')' { $$ = NETWORKFUNK2(addRandomEdges,$1,_E(baseType,$5), _E(edgeBlueprint*,$7)); }
+	| NETWORK '.' ADDRANDOMEDGESUNDIRECTED '(' baseType ',' createLink ')' { $$ = NETWORKFUNK2(addRandomEdgesUndirected,$1,_E(baseType,$5), _E(edgeBlueprint*,$7)); }
 	| NETWORK '.' ADDRANDOMEDGESDEGREEDISTRIBUTION '(' random ',' createLink ')'
  {  function<baseType ()> r = bind(&expression<baseType>::evaluate,$5); $$ = NETWORKFUNK2(addRandomEdgesDegreeDistribution,$1,r, _E(edgeBlueprint*,$7)); }
 	| NETWORK '.' ADDRANDOMEDGESDEGREEDISTRIBUTIONUNDIRECTED '(' random ',' createLink ')'

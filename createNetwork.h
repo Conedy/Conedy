@@ -214,6 +214,7 @@ namespace conedy
 
 
 			void addRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge );
+			void addRandomEdgesUndirected ( double meanOutDegree, edgeBlueprint * l = stdEdge );
 
 
 			template <typename RANDOM>

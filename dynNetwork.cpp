@@ -621,8 +621,8 @@ namespace conedy
 
 
 		vector <baseType> along(vl->size());
-		//		baseType timeFirstRun;
-		//	  in >> timeFirstRun;
+				baseType timeFirstRun;
+			  in >> timeFirstRun;
 		//		cout << "timeFirstRun: " << timeFirstRun << endl;
 		//		cout << "time: " << dynNode::time << endl;
 
@@ -657,10 +657,10 @@ namespace conedy
 		vector <baseType> along(vl->size());
 
 
-		//		baseType timeFirstRun;
-		//	  in >> timeFirstRun;
-		//		cout << "timeFirstRun: " << timeFirstRun << endl;
-		//		cout << "time: " << dynNode::time << endl;
+			baseType timeFirstRun;
+		  in >> timeFirstRun;
+//			cout << "timeFirstRun: " << timeFirstRun << endl;
+//			cout << "time: " << dynNode::time << endl;
 
 		for (unsigned int i = 0; i < vl->size(); i++ )
 			in >>along[i];
