@@ -8,9 +8,10 @@ The dynamics of these systems can be assessed by a common interface, which easil
 
 See :ref:`nodes` for a full list of available node dynamics.
 
-Each node dynamics is described in an INI-like description files, which is explained in the following.
+Each node dynamics is described in an INI-like description file, which is explained in the following.
 If the dynamics you want to investigate is not available in Conedy, you still may implement it yourself by creating such a file, which has to be stored in a directory which is specified in the ``config.h`` file (which is positioned in ``$HOME/.config/conedy`` by the ``.deb``-package).
 Conedy needs to be recompiled afterwards, which will be automatically issued on the next import to python if a file in this directory is modified or added.
+See :ref:`recompilation` for more details on this.
 
 In the following the syntax for such a file will be explained using the Rössler oscillator as an example (available as :ref:`roessler` in Conedy).
 Before delving into the details we give the file’s full content for the sake of an overview:
@@ -170,7 +171,7 @@ Again, ``samplingTime`` slightly influences the step size and thus the results o
 
 For example, the following commands will issue a time evolution, where the step size starts at 0.1 and is then dynamically adjusted, such that the estimated integration error for each dynamical variable is one per mill of the value of this variable.
 However, the step size will never exceed 10.0 or the time left until the next event.
-After the evolution, the current, adapted step size is printed (and is most likely not 0.1):
+After the evolution, the current, adapted step size is printed (which is most likely not 0.1):
 
 .. testcode::
 
