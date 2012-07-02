@@ -39,16 +39,12 @@ The different packages
 
 Three different Debian packages are available with names ``conedy``, ``python-conedy`` and ``conedy-src``. The package ``conedy`` contains the script interpreter conedy, ``python-conedy`` installs the Python bindings. Both packages only allow for the predefined node dynamics that ship with conedy. To use user-defined node dynamics, ``conedy-src`` needs to be installed, which depends (in the Debian sense) on the libraries and compiler tools that are needed to build conedy. In addition to the full source code of conedy, ``conedy-src`` contains recompilation scripts (see :ref:`recompilation`) and a global config file.
 
+.. _building:
 
 Building from source
 ++++++++++++++++++++
 
-You can obtain the latest version of Conedy’s source from `its Github repository`_, for example with the following command::
-
-	git clone http://github.com/Wrzlprmft/Conedy
-
-.. _its Github repository: http://github.com/Conedy/Conedy
-
+(See the :ref:`download section<sourcedownload>` for instructions on dowloading the source.)
 
 Conedy provides a Makefile, which handles compilation (``make; make install``).
 

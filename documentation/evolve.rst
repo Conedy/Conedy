@@ -10,14 +10,14 @@ Observable features are specified by edges to nodes.
 
 The same state variable (see :ref:`edges`) that is supplied by an edge to a coupled node can be written to files. For example if you want Conedy to create a file named ``node0``, which contains the first three dynamical variables of node 0, you would use component edges::
 
-   net.observe(0,"node0", co.component(0))
-   net.observe(0,"node0", co.component(1))
-   net.observe(0,"node0", co.component(2))
+   net.observe(0, "node0", co.component(0))
+   net.observe(0, "node0", co.component(1))
+   net.observe(0, "node0", co.component(2))
 
 The columns of the created files are ordered in the way, the corresponding observe commands had been called. The created files remain open until a call of :ref:`removeObserver` or :ref:`clear` had been issued to the network. Therefore, you can evolve, change some parameter and evolve further in time. The following global variables allow to specify further how the data is written:
 
- - ``streamOutNode_compress``: If this is set to 1, the  files will automatically be compressed with bzip2.
- - ``streamOutNode_append``: If this is set to 1, data is appended to an existing file instead of creating a new one.
+ - ``streamOutNode_compress``: If this is set to ``True``, the  files will automatically be compressed with bzip2.
+ - ``streamOutNode_append``: If this is set to ``True``, data is appended to an existing file instead of creating a new one.
  - ``streamOutNode_precision``: Sets the number of counting digits for written floats.
 
 See :ref:`observeDynamics` for further observables.
