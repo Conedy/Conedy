@@ -1,4 +1,0 @@
-network N;
-network M;
-
-M.addNode(pcoIntegrateFire);
