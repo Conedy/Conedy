@@ -3,6 +3,8 @@ inDegree				{return(ParserBase::INDEGREE); }
 outDegree				{return(ParserBase::OUTDEGREE); }
 
 
+time { return (ParserBase::TIME); }
+
 
 evolve				{return(ParserBase::EVOLVE); }
 evolveAlong				{return(ParserBase::EVOLVEALONG); }
