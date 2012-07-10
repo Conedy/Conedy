@@ -1,2 +1,0 @@
-network N;
-N.rewire(0.1,roessler());

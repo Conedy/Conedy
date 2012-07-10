@@ -65,11 +65,11 @@ The file ``config.h`` should define the following variables
 
 - ``dirSrc``: A directory for the installation of the Conedy sources.
 
-- ``dirInstallRoot`` XXX
+- ``dirInstallRoot``: A directory in which conedy is installed if conedy-root ist set in todo.
 
-- ``buildDir`` XXX
+- ``buildDir``: The directory in which conedy rebuilds, when new nodes are added
 
-- ``pythonBjam`` XXXa
+- ``pythonBjam``: If set to true, Coendy will rebuild the python extension using bjam instead of distutils. While this is much faster, it is experimental for the moment.
 
 - ``globalConfig``: The filename for the global config file of Conedy. During installation ``config.h`` is copied to this location, which allows you to change variables later.
 
