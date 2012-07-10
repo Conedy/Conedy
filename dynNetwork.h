@@ -42,7 +42,6 @@ namespace conedy
 		static void registerStandardValues()
 		{
 			registerGlobal<baseType>("samplingTime", 0.01);
-//			samplingTime = getPointerToGlobal<baseType>("samplingTime");
 			registerGlobal<baseType>("progressVerbosity", 100.0);
 		}
 

@@ -536,13 +536,12 @@ baseType		: FLOATCONSTANT { $$ = new constantCommand<baseType>(atof(d_scanner.YY
 		| baseType '-' baseType {$$ = new minusCommandbaseType<baseType,baseType>($1,$3);}
 		| baseType '*' baseType {$$ = new timesCommandbaseType<baseType,baseType>($1,$3);}
 		| baseType '/' baseType {$$ = new divideCommandbaseType<baseType,baseType>($1,$3);}
-
-| baseType '+' integer  {$$ = new plusCommandbaseType<baseType,int>($1,$3);}
+		| baseType '+' integer  {$$ = new plusCommandbaseType<baseType,int>($1,$3);}
 		| baseType '-' integer  {$$ = new minusCommandbaseType<baseType,int>($1,$3);}
 		| baseType '*' integer  {$$ = new timesCommandbaseType<baseType,int>($1,$3);}
 		| baseType '/' integer  {$$ = new divideCommandbaseType<baseType,int>($1,$3);}
 
-| integer '-' baseType  {$$ = new minusCommandbaseType<int,baseType>($1,$3);}
+		| integer '-' baseType  {$$ = new minusCommandbaseType<int,baseType>($1,$3);}
 		| integer '+' baseType  {$$ = new plusCommandbaseType<int,baseType>($1,$3);}
 		| integer '*' baseType  {$$ = new timesCommandbaseType<int,baseType>($1,$3);}
 		| integer '/' baseType  {$$ = new divideCommandbaseType<int,baseType>($1,$3);}
@@ -612,29 +611,23 @@ bool	: '(' bool ')' { $$ = $2; }
 		| baseType NEQUAL baseType {$$ = new nequalCommandbool<baseType,baseType>($1,$3); }
 		| baseType NEQUAL integer  {$$ = new nequalCommandbool<baseType,int>($1,$3); }
 		| baseType NEQUAL baseType  {$$ = new nequalCommandbool<baseType,baseType>($1,$3); }
-
-
-| baseType '<' baseType {$$ = new lessCommandbool<baseType,baseType>($1,$3); }
+		| baseType '<' baseType {$$ = new lessCommandbool<baseType,baseType>($1,$3); }
 		| integer '<' integer {$$ = new lessCommandbool<int,int>($1,$3); }
 		| integer '<' baseType {$$ = new lessCommandbool<int,baseType>($1,$3); }
 		| baseType '<' integer {$$ = new lessCommandbool<baseType,int>($1,$3); }
-
-| integer '>' integer {$$ = new greaterCommandbool<int,int>($1,$3); }
+		| integer '>' integer {$$ = new greaterCommandbool<int,int>($1,$3); }
 		| integer '>' baseType {$$ = new greaterCommandbool<int,baseType>($1,$3); }
 		| baseType '>' integer {$$ = new greaterCommandbool<baseType,int>($1,$3); }
 		| baseType '>' baseType {$$ = new greaterCommandbool<baseType,baseType>($1,$3); }
-
 		| integer GREATEREQUAL integer {$$ = new greaterEqualCommandbool<int,int>($1,$3); }
 		| integer GREATEREQUAL baseType {$$ = new greaterEqualCommandbool<int,baseType>($1,$3); }
 		| baseType GREATEREQUAL integer {$$ = new greaterEqualCommandbool<baseType,int>($1,$3); }
 		| baseType GREATEREQUAL baseType {$$ = new greaterEqualCommandbool<baseType,baseType>($1,$3); }
-
-| integer LESSEQUAL integer {$$ = new lessEqualCommandbool<int,int>($1,$3); }
+		| integer LESSEQUAL integer {$$ = new lessEqualCommandbool<int,int>($1,$3); }
 		| integer LESSEQUAL baseType {$$ = new lessEqualCommandbool<int,baseType>($1,$3); }
 		| baseType LESSEQUAL integer {$$ = new lessEqualCommandbool<baseType,int>($1,$3); }
 		| baseType LESSEQUAL baseType {$$ = new lessEqualCommandbool<baseType,baseType>($1,$3); }
-
-| bool AND bool {$$ = new andCommandbool<bool,bool>($1,$3); }
+		| bool AND bool {$$ = new andCommandbool<bool,bool>($1,$3); }
 		| bool OR bool { $$ = new orCommandbool<bool,bool>($1,$3); }
 		| bool EQUAL bool  { $$ = new equalCommandbool<bool, bool > ( $1, $3	); }
 		| NOT bool { $$ = new notCommand($2); }
