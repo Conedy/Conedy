@@ -3,7 +3,7 @@
 %scanner Scanner.h
 
 //%lines
-%baseclass-preinclude "instruction.h"
+%baseclass-preinclude "parserSemantic.h"
 
 
 

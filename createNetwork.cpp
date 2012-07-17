@@ -4,7 +4,6 @@
 
 #include "specialNodes.h"
 #include "pulseCoupledPhaseOscillator.h"
-#include "phaseResponseOscillators.h"
 #include "nodeImplement.h"
 #include "statisticsNetwork.h"
 #include <cmath>
@@ -440,7 +439,7 @@ void createNetwork::randomOutDegreeDistribution ( int number, RANDOM &r, nodeBlu
 		{
 			do { rnd = randomNode(); }
 			while ( ( rnd == i ) || network::isLinked ( i,rnd ) );
-			network::addEdge ( i,rnd,1 );
+			network::addEdge ( i,rnd );
 		}
 	}
 }

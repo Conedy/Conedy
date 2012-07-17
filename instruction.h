@@ -18,14 +18,8 @@
 #include "globals.h"
 
 #include <iomanip>
+#include "expression.h"
 
-
-//! Basis-Klasse für alle Instructionen.
-class instruction : public command
-{
-	public:
-		virtual void execute() {};
-};
 
 
 //! Instruction, die einen shell-Befehl ausführt.
@@ -79,65 +73,6 @@ class declareInstruction : public instruction
 	public:
 		declareInstruction(string i, int t) : ident(i), type(t) {};
 		void execute () { command::declare(ident, type); }
-};
-
-
-
-template <typename T>
-class randomVector : public command
-{
-	private:
-		vector <bindExpression <T>*> vec;
-
-	public:
-		void push_back(bindExpression<T> *el) { vec.push_back(el); }
-		vector < function<T() > > evaluate()
-		{
-			vector<function <T()>  > resVec;
-			for (unsigned int i = 0; i < vec.size(); i++)
-				resVec.push_back((baseType)vec[i]->_f);
-			return resVec;
-		}
-};
-
-
-
-class convertToNodeDescriptor : public expression <nodeDescriptor>
-{
-
-	private:
-		expression<int> *nExp;
-	public:
-		convertToNodeDescriptor(expression<int> *n) : nExp(n) {};
-		nodeDescriptor evaluate() {
-			if (nExp->evaluate() < 0)
-				throw "Negative Node Number !";
-			return (nodeDescriptor)nExp->evaluate();
-
-		};
-
-};
-
-
-//! TODO hier ist irgendwas faul. Der bison macht da eventuell unendlich lange Bäume, wenn int und double ineinander umwandelbar sind.
-class convertToInt : public expression <int>
-{
-	private:
-		expression<baseType> *dExp;
-	public:
-		convertToInt(expression<baseType> *d) : dExp(d) {};
-		int evaluate() { return (nodeDescriptor)dExp->evaluate(); };
-};
-
-
-//! TODO hier ist irgendwas faul. Der bison macht da eventuell unendlich lange Bäume, wenn int und double ineinander umwandelbar sind.
-class convertIntegerToBaseType : public expression <baseType>
-{
-	private:
-		expression<int> *dExp;
-	public:
-		convertIntegerToBaseType(expression<int> *d) : dExp(d) {};
-		baseType evaluate() { return (baseType)dExp->evaluate(); };
 };
 
 
