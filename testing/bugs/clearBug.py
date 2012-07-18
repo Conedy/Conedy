@@ -13,6 +13,6 @@ def foo():
 for i in range(0,10):
 	print i
 	co.set("progressVerbosity", 0.0)
-	co.set("stepSize", 0.01)
+#	co.set("stepSize", 0.01)
 	foo()
 	#N.clear()
