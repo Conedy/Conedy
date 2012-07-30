@@ -3,6 +3,8 @@ inDegree				{return(ParserBase::INDEGREE); }
 outDegree				{return(ParserBase::OUTDEGREE); }
 
 
+time { return (ParserBase::TIME); }
+
 
 evolve				{return(ParserBase::EVOLVE); }
 evolveAlong				{return(ParserBase::EVOLVEALONG); }
@@ -71,6 +73,7 @@ rewireTarget		{return(ParserBase::REWIRETARGET); }
 rewire			{return(ParserBase::REWIRE); }
 rewireSourcePerTimestep	{return(ParserBase::REWIRESOURCEPERTIMESTEP);}
 addRandomEdges		{return(ParserBase::ADDRANDOMEDGES); }
+addRandomEdgesUndirected		{return(ParserBase::ADDRANDOMEDGESUNDIRECTED); }
 readParams		{return(ParserBase::READPARAMS); }
 setTime			{return(ParserBase::SETTIME); }
 rewireUndirected	{return(ParserBase::REWIREUNDIRECTED); }

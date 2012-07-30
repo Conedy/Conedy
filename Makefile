@@ -190,7 +190,7 @@ python-conedy.install: python-conedy
 	sed -i "s+etc/conedy.config+${globalConfig}+g"   ${dirInstall}/recompilePython-Conedy
 
 
-python-conedy-root: addSharedNodesIfNecessary string_config.h
+python-conedy-root: addSharedNodesIfNecessary docstrings.h string_config.h
 	CFLAGS="-D$(SVNDEV) -DPYTHON $(addprefix -D,${defines})" python setup.py build
 
 

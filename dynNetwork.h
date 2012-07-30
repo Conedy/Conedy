@@ -48,7 +48,8 @@ namespace conedy
 
 		dynNetwork()  : p(_dynNetwork_) {};
 		void evolveAll ( baseType );
-
+	
+		baseType time () { return dynNode::time; }
 
 		void realignAtEventSignature (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int skip);
 

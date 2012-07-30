@@ -8,9 +8,13 @@ Conedy does not only ship with a Python module, but also with its own script int
 Why use the script interpreter?
 -------------------------------
 
-The Python module and the script interpreter both provide everything, Conedy has to offer. Beyond this, however, the script interpreter’s functionality is rather limited, whereas Python offers a vast amount of libraries. On the other hand, the interpreter can easily be linked statically, which can be very useful, if you want to distribute computations onto a cluster. Furthermore it has support for the `Condor`_ job management system (see below).
+The Python module and the script interpreter both provide everything, Conedy has to offer.
+Beyond this, however, the script interpreter’s functionality is rather limited, whereas Python offers a vast amount of libraries.
+On the other hand, the interpreter can easily be linked statically, which can be very useful, if you want to distribute computations onto a cluster.
+Furthermore supports the `Condor`_ job management system (see below).
 
-So, if you are only using Conedy on a single computer, you may usually want to use its Python module. If you want your calculations to run on other computers but a full install of Conedy on all of them is impossible or significantly troublesome, you should take a look at the script interpreter—even more, if your job management software is Condor.
+So, if you are only using Conedy on a single computer, you will usually want to use its Python module.
+If you want your calculations to run on other computers but a full install of Conedy on all of them is impossible or significantly troublesome, you should take a look at the script interpreter—even more, if your job management software is Condor.
 
 
 
@@ -35,13 +39,16 @@ We illustrate the differences between both ways of using Conedy with an example 
 			co.set("odeStepType", "gsl_rk8pd")
 
 			N.observeTime("sw_%G_%G" % (p,k))
-			N.observeMean("sw_%G_%G" % (p,k), co.component(0))
+			N.observeSum("sw_%G_%G" % (p,k), co.component(0))
 
 			N.evolve(0.0,10000.0)
+
 			N.removeObserver()
 			N.clear()
 
-(This example script generates `small-world`_ networks based on a 100×100 torus of ``lorenz`` oscillators with rewiring probabilities p and mean degrees k. P is varied between 0.1 and 1.0, k between 4 and 10. The dynamics on each of these networks is integrated for 10000 time units and the averaged (over all nodes) dynamics of the first component is written to a file, whose name contains the actual values of p and k.)
+(This example script generates `small-world`_ networks based on a 100×100 torus of ``lorenz`` oscillators with rewiring probabilities p and mean degrees k.
+P is varied between 0.1 and 1.0, k between 4 and 10.
+The dynamics on each of these networks is integrated for 10000 time units and the sum over all nodes of the first component is written to a file, whose name contains the current values of p and k.)
 
 .. _small-world: http://en.wikipedia.org/wiki/Small-world_network
 
@@ -50,12 +57,9 @@ The following script performs the same operations, if run with ``conedy``::
 
 	network N;
 
-	double p;
-	int k;
-
-	for (p = 0.0; p <= 1.0; p += 0.1)
+	for (double p = 0.0; p <= 1.0; p += 0.1)
 	{
-		for (k = 4; k <= 10; k++)
+		for (int k = 4; k <= 10; k++)
 		{
 			N.torusNearestNeighbors(100, 100, k, lorenz(), staticWeightedEdge(0.1));
 			N.rewireUndirected(p);
@@ -65,7 +69,8 @@ The following script performs the same operations, if run with ``conedy``::
 			odeStepType = "gsl_rk8pd";
 
 			N.observeTime("sw_" + p + "_" + k);
-			N.observeMean("sw_" + p + "_" + k, component(0));
+			N.observeSum("sw_" + p + "_" + k, component(0));
+
 			N.evolve(0.0,10000.0);
 
 			N.removeObserver();
@@ -81,13 +86,13 @@ The following script performs the same operations, if run with ``conedy``::
 The following differences can be spotted:
 
 - Commands are separated by semicola instead of newlines.
-- The name space declaration `co.` has vanished.
-- Loops are done in C-style. Note, however, the semicolon at the end of each loop.
+- The name-space declaration `co.` has vanished.
+- Loops are done in C-style, except for a semicolon at the end of each loop.
 - Calls of ``co.set`` have been replaced by direct assignments.
 - Strings are handled differently.
 
 Note that most commands in the :ref:`reference` have an example for use with the script interpreter.
-If you are familiar with Bison/flex grammar files, you may also look into the files ``Parser.yy`` and ``Scanner.ll`` of Conedy’s source code.
+If you are familiar with Bison/Flex grammar files, you may also look into the files ``Parser.yy`` and ``Scanner.ll`` of Conedy’s source code.
 Although the built-in interpreter supports some C-constructs, it may still be limited in some cases.
 
 
@@ -108,14 +113,14 @@ assuming, that the script is stored in ``script.co``. Note the zero-based enumer
 At the moment, Conedy only supports to vectorise two nested loops.
 Note, however, that you can still use a regular loop in the innermost vectorised loop.
 
-Having vectorised your loops, distributed computing is quite straightforward, since all that is needed to run such a script is the ``conedy`` executable.
+Having vectorised your loops, distributed computing is quite straightforward, since only the ``conedy`` executable is needed to run such a script.
 
 ``conedyCondor``
 ----------------
 
 `Condor`_ is a job management system developed at the Computer Science Department of the University of Wisconsin.
 
-``conedyCondor`` is a tool, that automatically generates a DAG file from a script with vectorized loops (see above). To distrubute computations, all you have to do, is to call this file with ``condor_submit_dag``.
+``conedyCondor`` is a tool, that automatically generates a DAG file from a script with vectorized loops (see above). All you need to do to distribute computations is calling this file with ``condor_submit_dag``.
 
 In addition to ``vectorFor``, ``conedyCondor`` also interpretes the command ``chainFor``, which causes the bodies of the respective loop to be processed one after another—but possibly on different machines. “Communication” between these different iterations has to happen via files, however.
 
