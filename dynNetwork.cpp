@@ -71,25 +71,20 @@ namespace conedy
 
 	void dynNetwork::noiseToStates ( function<baseType () > r, networkElementType n )
 	{
-		throw "fixme dynNetwork::nouseToStates";
-
-		/*		queue<baseType> initialCond;
+		
 				nodeList vl;
 				verticesMatching (vl, n);
 				nodeIterator vi;
-
+				unsigned int dim =				((dynNode*) node::theNodes[*vi]) -> dimension();
+				vector <baseType> argList;
 				for (vi = vl.begin();vi != vl.end(); vi++ )
-
-
-				dynamic_cast<dynNode*>( node::theNodes[*vi] )->setInitial ( r1 );
-
-				initialCond.push ( node::theNodes[*vi]->getState() + r() );
-
-				boost::function<baseType () > r1 = bind ( &frontAndPop,&initialCond );
-
-				for (vi = vl.begin();vi != vl.end(); vi++)
-				dynamic_cast<dynNode*>( node::theNodes[*vi] )->randomizeState ( r1 );
-				*/
+				{
+					for (unsigned int i = 0; i < dim; i++)
+					{
+						argList[i] = getState (*vi, i) + r();	
+					}
+					setInitialConditionVec (*vi, argList);
+				}
 	}
 
 
