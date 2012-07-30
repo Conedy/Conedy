@@ -551,7 +551,7 @@ baseType		: FLOATCONSTANT { $$ = new constantCommand<baseType>(atof(d_scanner.YY
 		| SQRT '(' baseType ')' 	{ $$ = new sqrtCommandbaseType<baseType> ($3);}
 		| EXP '(' baseType ')' 	{ $$ = new expCommandbaseType<baseType> ($3);}
 		| SIN '(' baseType ')' 	{ $$ = new sinCommandbaseType<baseType> ($3);}
-//		| integer { $$ = new convertToBaseType($1); }
+		| '(' DOUBLETOKEN ')' integer { $$ = new convertIntegerToBaseType($4); }
 		| '-' baseType { $$ = new timesCommandbaseType<baseType,baseType>(new constantCommand<baseType>(-1),$2); } %prec UMINUS
 		| statisticsNetworkCommandBaseType
 		// veraltet ohne Seg-Schutz:

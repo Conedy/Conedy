@@ -101,6 +101,12 @@ void command::clear()
 {
 
 	node::theNodes.clear();
+	containerNode<baseType,1>::clear();
+	containerNode<baseType,2>::clear();
+	containerNode<baseType,3>::clear();
+	containerNode<baseType,4>::clear();
+
+
 
 
 			map <string,networkTemplate*>::iterator itnet, ienet;
