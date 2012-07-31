@@ -69,24 +69,6 @@ namespace conedy
 		//		eventHandler::registerCallBack ( _ioNode_, dynNode::time + (*samplingTime) );
 	}
 
-	void dynNetwork::noiseToStates ( function<baseType () > r, networkElementType n )
-	{
-		
-				nodeList vl;
-				verticesMatching (vl, n);
-				nodeIterator vi;
-				unsigned int dim =				((dynNode*) node::theNodes[*vi]) -> dimension();
-				vector <baseType> argList;
-				for (vi = vl.begin();vi != vl.end(); vi++ )
-				{
-					for (unsigned int i = 0; i < dim; i++)
-					{
-						argList[i] = getState (*vi, i) + r();	
-					}
-					setInitialConditionVec (*vi, argList);
-				}
-	}
-
 
 
 
@@ -554,6 +536,30 @@ namespace conedy
 		boost::function<baseType () > r = boost::bind ( &cyclicStream::readDouble,in );
 		randomizeStates ( n, r );
 		delete in;
+	}
+
+	void dynNetwork::noiseToStatesVec ( nodeBlueprint *n ,vector <boost::function<baseType () > > r )
+	{
+		if (r.size() == 1)
+			while (r.size() < n->dimension())
+				r.push_back(r[0]);
+		
+		if (r.size() !=  n->dimension())
+			throw "wrong dimension for randomizeStates!";
+
+
+				nodeList vl;
+				verticesMatching (vl, n);
+				nodeIterator vi;
+				vector <baseType> argList(n->dimension());
+				for (vi = vl.begin();vi != vl.end(); vi++ )
+				{
+					for (unsigned int i = 0; i < n->dimension() ; i++)
+					{
+						argList[i] = getState (*vi, i) + r[i]();	
+					}
+					setInitialConditionVec (*vi, argList);
+				}
 	}
 
 

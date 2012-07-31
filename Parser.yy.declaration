@@ -134,21 +134,8 @@ $$ = NETWORKFUNK6(realignAtEventSignature,$1,  _E(string, $5 ),_E(string, $7 ) ,
 }
 		| NETWORK '.' INDEGREEDISTRIBUTION '(' string ')' { $$ = NETWORKFUNK1(inDegreeDistributionToFile,$1,_E(string,$5));}
 		| NETWORK '.' OUTDEGREEDISTRIBUTION '(' string ')' { $$ = NETWORKFUNK1(outDegreeDistributionToFile,$1,_E(string,$5)); }
-		| NETWORK '.' NOISETOSTATES '(' createNode ',' random ')'
-  { function<baseType ()> r = bind(&expression<baseType>::evaluate,$7);
-	$$ = new bindInstruction(
-		bind(&networkTemplate::noiseToStates,$1, r, $5->evaluate()->getNodeInfo().theNodeType)); }
-		| NETWORK '.' RANDOMIZESTATES '(' createNode ',' randomList ')'
-  {
-
-//	function<baseType()> r =bind(&expression<baseType>::evaluate,*$7);
-//	vector <function<double() > > vec;
-//	vec.push_back(r);
-
-$$ = NETWORKFUNK2(randomizeStatesVec, $1,  _E(nodeBlueprint*, $5),*$7 ); }
-//function<baseType ()> r = bind(&expression<baseType>::evaluate,$7);
-//	$$ = new bindInstruction(
-//		bind(&networkTemplate::randomizeStates,$1, r, $5->evaluate()->getNodeInfo().theNodeType)); }
+		| NETWORK '.' NOISETOSTATES '(' createNode ',' randomList ')' { $$ = NETWORKFUNK2(noiseToStatesVec, $1,  _E(nodeBlueprint*, $5),*$7 ); }
+		| NETWORK '.' RANDOMIZESTATES '(' createNode ',' randomList ')'{ $$ = NETWORKFUNK2(randomizeStatesVec, $1,  _E(nodeBlueprint*, $5),*$7 ); }
 
 | NETWORK '.' RANDOMIZEPARAMETER '(' string ',' random ')'
  { function<baseType ()> r = bind(&expression<baseType>::evaluate,$7);

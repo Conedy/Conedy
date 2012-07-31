@@ -145,9 +145,9 @@ namespace conedy
 
 		}
 
-
-
+		void noiseToStatesVec (nodeBlueprint *n,      vector<function<baseType() > >r);
 		void randomizeStatesVec (nodeBlueprint *n, vector<function<baseType() > >r);
+
 
 		void randomizeStates ( nodeBlueprint *n, function<baseType () > a1, function<baseType () > a2 = NULL, function<baseType () > a3 = NULL, function<baseType () > a4 = NULL, function<baseType () > a5 = NULL, function<baseType () > a6 = NULL, function<baseType () > a7 = NULL, function<baseType () > a8 = NULL, function<baseType () > a9 = NULL, function<baseType () > a10 = NULL, function<baseType () > a11 = NULL, function<baseType () > a12 = NULL)
 		{
@@ -229,7 +229,6 @@ namespace conedy
 
 		void readInitialCondition ( string fileName, nodeBlueprint * n );
 
-		void noiseToStates ( function<baseType () > r, networkElementType n = _undefinedNodeType_ );
 
 		void randomizeParameter ( string s, function<baseType () > r );
 
