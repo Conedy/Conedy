@@ -44,7 +44,7 @@ observeSum		{return(ParserBase::OBSERVEMEAN); }
 observePhaseCoherence	{ return (ParserBase::OBSERVEPHASECOHERENCE); }
 observePhaseCorrelation	{ return (ParserBase::OBSERVEPHASECORRELATION); }
 observePhaseDistance 	{ return (ParserBase::OBSERVEPHASEDISTANCE); }
-
+dynamics {return (ParserBase::DYNAMICS);}
 
 addRandomEdgesDegreeDistribution { return (ParserBase::ADDRANDOMEDGESDEGREEDISTRIBUTION); }
 addRandomEdgesDegreeDistributionUndirected { return (ParserBase::ADDRANDOMEDGESDEGREEDISTRIBUTIONUNDIRECTED); }
@@ -62,6 +62,7 @@ observeGl		{return(ParserBase::OBSERVEGL); }
 observeGlut		{return(ParserBase::OBSERVEGLUT); }
 observeEvent  {return(ParserBase::OBSERVEEVENT); }
 observeEventTimes  {return(ParserBase::OBSERVEEVENTTIMES); }
+observeEventSignatureTimes  {return(ParserBase::OBSERVEEVENTSIGNATURETIMES); }
 
 
 

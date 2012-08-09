@@ -35,6 +35,12 @@ namespace conedy
 
 	}
 
+	void dynNetwork::dynamics(nodeDescriptor n)
+	{
+		((dynNode*)node::theNodes[n]) -> dynamics();
+	}
+
+
 
 
 	void dynNetwork::snapshotAtEventSignature ( nodeDescriptor eventSignature)

@@ -1,19 +1,25 @@
 #include "gslOdeNode.h"
 
+
+
 #ifdef DOUBLE
+
+#include <gsl/gsl_errno.h>
 
 namespace conedy
 {
 	void gslOdeNode::evolve(double timeTilEvent)
 	{
 		baseType startTime = dynNode::time;
+		unsigned int gslStatus;
 
 		if (getGlobal<bool>("odeIsAdaptive"))
 		{
 			// with stepsize control
 			while ( dynNode::time < startTime + timeTilEvent)
 			{
-				if ( gslode(evolve_apply) (
+			
+				if ( (gslStatus = gslode(evolve_apply) (
 							gslEvolve,
 							gslControl,
 							gslStep,
@@ -21,10 +27,12 @@ namespace conedy
 							&dynNode::time,
 							startTime + timeTilEvent,
 							getPointerToGlobal<baseType>("odeStepSize"),
-							containerNode<baseType,3>::dynamicVariablesOfAllDynNodes)
+							containerNode<baseType,3>::dynamicVariablesOfAllDynNodes))
 						!= GSL_SUCCESS)
+				{
+					printf ("error: %s\n", gsl_strerror (gslStatus));
 					throw "gslError!";
-
+				}
 				if (getGlobal<baseType>("odeStepSize") < getGlobal<baseType>("odeMinStepSize"))
 					throw "Stepsize crossed specified minimum (odeMinStepSize). Aborting!";
 			}

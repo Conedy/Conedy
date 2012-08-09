@@ -24,6 +24,28 @@ namespace conedy {
 
 			}
 
+	void createNetwork::observeEventSignatureTimes( string fileName,nodeDescriptor eventNumber) {
+		nodeBlueprint* nod = new nodeVirtualEdges<timeNode<baseType> >();
+		nodeDescriptor timeNodeNumber = addNode ( nod );
+		delete nod;
+
+		nod = new  nodeVirtualEdges<streamOutNode>(fileName);
+		nodeDescriptor streamOutNodeNumber = addNode(nod);
+		streamOutNode *s = dynamic_cast<streamOutNode*>( nodeBlueprint::theNodes[streamOutNodeNumber]);
+
+		eventHandler::insertVisiterAtSignature(bind(&streamOutNode::evolve,s, 0.0),eventNumber);
+		delete nod;
+
+
+
+
+		network::addEdge( streamOutNodeNumber, timeNodeNumber);
+
+
+
+
+
+	}
 
 
 	void createNetwork::observeEventTimes( string fileName,nodeDescriptor eventNumber) {

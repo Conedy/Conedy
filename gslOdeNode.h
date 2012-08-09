@@ -135,8 +135,20 @@ namespace conedy
 			}
 
 			virtual void operator() ( const baseType x[], baseType dydx[] ) = 0;
-			//! Bereitstellung des ODE-Systems: Ableitungen werden in Array geschrieben
 
+			//! Print the derivative of the node's state
+			virtual void dynamics()
+			{
+				cout << this->dimension() << endl;
+
+				double  * dxdt = (double*) calloc (this->dimension(), sizeof(double));
+				(*(this))(x, dxdt);
+				for (unsigned int i = 0; i < this->dimension(); i++)
+					cout << i << " " << dxdt[i] << endl;
+
+			}
+
+			//! Bereitstellung des ODE-Systems: Ableitungen werden in Array geschrieben
 			static int dgl ( baseType t,const baseType y[], baseType f[], void *params )
 			{
 				baseType * originalNodeStates = containerNode<baseType,3>::dynamicVariablesOfAllDynNodes;

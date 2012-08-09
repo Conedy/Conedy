@@ -71,6 +71,8 @@ namespace conedy
 
 			virtual void printStatistics(ostream &os, int nodeVerbosity, int edgeVerbosity);
 
+			virtual void dynamics() { throw "dynamics of dynNode called !"; }
+
 			virtual  baseType getMeanPhaseCoherence() { throw "getMeanPhaseCoherence";}
 			virtual	baseType couplingSum() { throw "couplingSum"; }
 			virtual	void fire () { throw "fire"; }

@@ -63,6 +63,7 @@ namespace conedy
 
 		void removeObserver ();
 
+		void dynamics (nodeDescriptor n);
 
 		baseType getState (nodeDescriptor node, nodeDescriptor component = 0);
 

@@ -181,7 +181,7 @@ $$ =NETWORKFUNK2(readParameter, $1, _E(string,$5),_E(string,$7));
 | NETWORK '.' STARTINGCONDITIONSMALLDISTURBANCE '(' baseType ',' integer ',' integer ',' random ')'
   { function<baseType ()> r = bind(&expression<baseType>::evaluate,$11);
 	 $$ = NETWORKFUNK4(smallDisturbance,$1,_E(baseType,$5), _E(int,$7), _E(int,$9), r); }
-
+| NETWORK '.' DYNAMICS '(' nodeDescriptor ')' { $$=NETWORKFUNK1(dynamics, $1, _E(nodeDescriptor, $5)); } 
 | NETWORK '.' SETSTATE '(' nodeDescriptor ',' argList ')'
 //  {	$$ = NETWORKFUNK2(setInitialCondition, $1, _E(int, $5),  bind(&expressionVector<baseType>::evaluate, $7)); };
 {$$ = NETWORKFUNK2(setInitialConditionVec, $1, _E(nodeDescriptor, $5), bind(&expressionVector<baseType>::evaluate, $7)); };
@@ -235,6 +235,7 @@ createNetworkCommand : NETWORK '.' RANDOMNETWORK  '(' nodeDescriptor ',' baseTyp
 	| NETWORK '.' SNAPSHOTATEVENT '(' nodeDescriptor ',' integer ')' 	{ $$ = NETWORKFUNK2(snapshotAtEventOfNode,$1, _E(nodeDescriptor, $5), _E(int,$7)); }
 
 | NETWORK '.' OBSERVEEVENTTIMES '(' string ',' integer  ')' 	{ $$ = NETWORKFUNK2(observeEventTimes,$1, _E(string,$5), _E(int, $7)); }
+| NETWORK '.' OBSERVEEVENTSIGNATURETIMES '(' string ',' integer  ')' 	{ $$ = NETWORKFUNK2(observeEventSignatureTimes,$1, _E(string,$5), _E(int, $7)); }
 	| NETWORK '.' OBSERVEALL '(' string ')' 	{ $$ = NETWORKFUNK2(observeAll, $1, _E(string,$5), network::stdEdge); }
 	| NETWORK '.' OBSERVECOMPONENTS '(' nodeDescriptor ',' string ')' 	{ $$ = NETWORKFUNK2(observeComponents, $1, _E(nodeDescriptor, $5),_E(string,$7)); }
 	| NETWORK '.' OBSERVE '(' nodeDescriptor ',' string ',' createLink ')' {$$ = NETWORKFUNK3(observe,$1,_E(nodeDescriptor,$5),_E(string,$7),_E(edgeBlueprint*,$9)); }
