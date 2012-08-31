@@ -444,7 +444,7 @@ template <class N>
 			.def("meanDegree", &MyNetwork<baseType>::meanDegree, reinterpret_cast<const char *>(__statisticsNetwork_meanDegree))
 			.def("meanWeight", &MyNetwork<baseType>::meanWeight, reinterpret_cast<const char *>(__statisticsNetwork_meanWeight))
 			.def("meanClustering", &MyNetwork<baseType>::meanClustering, reinterpret_cast<const char *>(__statisticsNetwork_meanClustering))
-			.def("readInitialCondition", &MyNetwork<baseType>::readInitialCondition, reinterpret_cast<const char *>(__statisticsNetwork_readInitialCondition))
+			.def("readInitialCondition", &MyNetwork<baseType>::readInitialCondition, reinterpret_cast<const char *>(__createNetwork_readInitialCondition))
 			.def("meanPathLength", &MyNetwork<baseType>::meanPathLength, reinterpret_cast<const char *>(__statisticsNetwork_meanPathLength))
 			.def("isConnected", &MyNetwork<baseType>::isConnected, reinterpret_cast<const char *>(__statisticsNetwork_isConnected))
 			.def("isLinked", &MyNetwork<baseType>::isLinked, reinterpret_cast<const char *>(__statisticsNetwork_isLinked))
