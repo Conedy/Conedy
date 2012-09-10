@@ -64,7 +64,7 @@ namespace conedy
 
 
 
-	dynNetwork::dynNetwork(const dynNetwork &b) : network (b), eventHandler(b), p(b.p)
+	dynNetwork::dynNetwork(const dynNetwork &b) : network (b), eventHandler(b)
 	{
 
 		eventHandler::registerCallBack ( _ioNode_, numeric_limits<baseType>::max() );
@@ -218,7 +218,7 @@ namespace conedy
 
 	}
 
-		void randomizeStates ( nodeBlueprint *n, function<baseType () > a1, function<baseType () > a2 = NULL, function<baseType () > a3 = NULL, function<baseType () > a4 = NULL, function<baseType () > a5 = NULL, function<baseType () > a6 = NULL, function<baseType () > a7 = NULL, function<baseType () > a8 = NULL, function<baseType () > a9 = NULL, function<baseType () > a10 = NULL, function<baseType () > a11 = NULL, function<baseType () > a12 = NULL)
+		void dynNetwork::randomizeStates ( nodeBlueprint *n, function<baseType () > a1, function<baseType () > a2 , function<baseType () > a3 , function<baseType () > a4 , function<baseType () > a5 , function<baseType () > a6 , function<baseType () > a7 , function<baseType () > a8 , function<baseType () > a9 , function<baseType () > a10 , function<baseType () > a11 , function<baseType () > a12)
 		{
 				vector <function<baseType () > > argList;
 				argList.push_back (a1);
@@ -294,7 +294,7 @@ namespace conedy
 
 
 
-		void setInitialCondition ( int n, baseType a1, baseType a2 = numeric_limits<baseType>::max(), baseType a3 = numeric_limits<baseType>::max(), baseType a4 = numeric_limits<baseType>::max(), baseType a5 = numeric_limits<baseType>::max(), baseType a6 = numeric_limits<baseType>::max(), baseType a7 = numeric_limits<baseType>::max(), baseType a8 = numeric_limits<baseType>::max(), baseType a9 = numeric_limits<baseType>::max(), baseType a10 = numeric_limits<baseType>::max(), baseType a11 = numeric_limits<baseType>::max(), baseType a12 = numeric_limits<baseType>::max())
+		void dynNetwork::setInitialCondition ( int n, baseType a1, baseType a2 , baseType a3 , baseType a4 , baseType a5 , baseType a6 , baseType a7 , baseType a8 , baseType a9 , baseType a10 , baseType a11 , baseType a12)
 		{
 				vector <baseType> argList;
 				argList.push_back (a1);

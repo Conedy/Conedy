@@ -235,7 +235,7 @@ namespace conedy
 		public:
 			const edgeInfo getEdgeInfo() {
 				edgeInfo ancestor = EDGE::getEdgeInfo();
-				edgeInfo ei = {_randomTarget_,_weighted_ | ancestor.theEdgeKind,  ancestor.theEdgeName + "_randomTarget"};  return ei;
+				edgeInfo ei = {_randomTarget_, (char)  _weighted_ | ancestor.theEdgeKind,  ancestor.theEdgeName + "_randomTarget"};  return ei;
 			}
 
 
@@ -336,7 +336,7 @@ namespace conedy
 		stepEdge ( ){};
 		const edgeInfo getEdgeInfo() {
 			edgeInfo ancestor = EDGE::getEdgeInfo();
-			edgeInfo ei = {_pulseCouple_,_weighted_ | ancestor.theEdgeKind,  ancestor.theEdgeName + "_step"};  return ei;}
+			edgeInfo ei = {_pulseCouple_,(char)( _weighted_ | ancestor.theEdgeKind),  ancestor.theEdgeName + "_step"};  return ei;}
 			void setParameter(vector < baseType >& parameter)
 			{
 				EDGE::setParameter(parameter);

@@ -101,9 +101,10 @@ class event
 		virtual baseType action();  
 
 };
-//! Klasse, die eine Prioritätswarteschlange mit "Rückruf-Ereignisse" beinhaltet. Erben von eventHandler können die Funktion callBack überladen. Wird pop() aufgerufen, bekommt die Instanz, die die kleinste Priorität in der Warteschlange einen Rückruf.
+//! Class, which contains a priority queue of call-back events. Classes which inherit from eventHandler can overload the callBack function. If pop() is called, the callback function of the instanz with the smallest priority 
 
 
+//!
 class eventHandler
 {
 

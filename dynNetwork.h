@@ -47,16 +47,17 @@ namespace conedy
 		dynNetwork()  {};
 		void evolveAll ( baseType );
 	
+		//! return the 
 		baseType time () { return dynNode::time; }
 
+
+		//! rescale all nodestates of nodes which match nt, such that they have a distance of epsilon from nodestates which are read from file (filename input=ilename). Rescaling is done at every skip-th event with signature eventNumber
 		void realignAtEventSignature (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int skip);
-
-
+		//! rescale all nodestates of nodes which match nt, such that they have a distance of epsilon from nodestates which are read from file (filename input=ilename). Rescaling is done at every skip-th event with number eventNumber
 		void realignAtEvent (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int skip);
 
 
-
-
+		//! rescale all nodestates of nodes which match nt, such that they have a distance of epsilon from nodestates which are read from file (filename input=ilename). Rescaling is done whenever distance reaches epsilon * mult. This is checked at every periodic snapshot of observables.
 		void realignWhenDistant (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int multi);
 
 
@@ -80,42 +81,51 @@ namespace conedy
 
 //		void randomizeStates ( nodeBlueprint *n,function<baseType () >r );
 
-
+		//! Set states of all nodes which match n. Values are read from a file with name fileName.
 		void readInitialCondition ( string fileName, nodeBlueprint * n );
 
+		//! Set states of all nodes which match n. Such that newstate = oldstate + r(). 
 		void noiseToStates ( function<baseType () > r, networkElementType n = _undefinedNodeType_ );
 
+		//! Draw a random value for parameter s for each node in the network to which s belongs.
 		void randomizeParameter ( string s, function<baseType () > r );
+	
 
 		void readParameter ( string,string );
 
+
+		//! obsolete ?
 		void startingConditionOpenWaveEnding();
+		//! obsolete ?
 		void startingConditionOpenWaveEndingMiddle();
+		//! obsolete ?
 		void smallDisturbance ( baseType radius, int posx, int posy, boost::function<baseType () > r );
 
-		   void smallDisturbance ( baseType radius, boost::function<baseType () > r )
+		//! obsolete ?
+		void smallDisturbance ( baseType radius, boost::function<baseType () > r )
 			{			unsigned int size = sqrt ( (baseType) network::theNodes.size() );
 					smallDisturbance ( radius, size/2, size/2, r );
 				}
 
-
+		
 		virtual void clean ();
+
+		//! Evolve the system time from startTime to endTime
 		void evolve ( baseType startTime, baseType endTime );
+		//! Evolve the system time for a time of length duration
 		void evolveFor ( baseType duration );
 
+		//! Print the value of all registered observables to files.
+		void snapshot () { callBack (0); }
 
-		void snapshot () { //		clean ();
-
-			callBack (0); }
 		void setTime( baseType newTime)
 		{
 			dynNode::time = newTime;
 			eventHandler::registerCallBack ( _ioNode_, dynNode::time + getGlobal<baseType> ("samplingTime") );
 		}
-		baseType getParam(nodeDescriptor nodeNumber,string name)
-		{
-			return ((dynNode*) (node::theNodes[nodeNumber]))->getParam(name);
-		}
+		baseType getParam(nodeDescriptor nodeNumber,string name) {	return ((dynNode*) (node::theNodes[nodeNumber]))->getParam(name); }
+
+		//! Event-callback function, we use here _ioNode_ for snapshot of observables.
 		virtual baseType callBack ( unsigned int eventSignature );
 
 		virtual unsigned int numberOfEvents() const { return 3; }

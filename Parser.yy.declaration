@@ -91,14 +91,6 @@ networkCommand	:  NETWORK '.' CLEAR '(' ')' { $$ = NETWORKFUNK(clear,$1); }
 		| NETWORK '.' ADDEDGE '(' nodeDescriptor ',' nodeDescriptor ',' createLink ')'   { $$ = NETWORKFUNK3(addEdge,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(edgeBlueprint*,$9)); }
 		| NETWORK '.' EVOLVE	'(' baseType ',' baseType ')' { $$ = NETWORKFUNK2(evolve,$1,_E(baseType,$5), _E(baseType,$7)); }
 		| NETWORK '.' EVOLVE	'(' baseType ')' { $$ = NETWORKFUNK1(evolveFor,$1,_E(baseType,$5)); }
-		| NETWORK '.' EVOLVEALONG	'(' createNode ',' baseType ',' string ',' string ')'
-{
-#if CONDOR
-$$ = new bindInstruction(bind(&command::addInputFile, _E(string,$9)));
-#else
-$$ = NETWORKFUNK4(evolveAlong,$1, $5->evaluate()->getNodeInfo().theNodeType, _E(baseType,$7), _E(string, $9 ),_E(string, $11 )  );
-#endif
-}
 		| NETWORK '.' REALIGNATEVENT  '(' string ',' string ','  createNode ',' baseType ',' integer ',' integer ')'
 {
 #if CONDOR
