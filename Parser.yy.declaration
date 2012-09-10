@@ -30,8 +30,7 @@ instruction		: system
 commandBlock	: '{' commands '}' { $$ = $2;};
 
 
-globalCommand:
-		| SETRANDOMSEED '(' integer ')'  { $$ = new bindInstruction( bind(&gslNoise::setSeed,_E(int,$3))); }
+globalCommand:  SETRANDOMSEED '(' integer ')'  { $$ = new bindInstruction( bind(&gslNoise::setSeed,_E(int,$3))); }
 		|   ADDINPUTFILE '(' string ')' { $$ = new bindInstruction(bind(&command::addInputFile, _E(string,$3))); }
 		| CLEAR '(' ')' { $$ = new bindInstruction( bind(&command::clear)); };
 
