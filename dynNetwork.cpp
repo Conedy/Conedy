@@ -5,6 +5,8 @@
 #include "pco.h"
 #include "stream.h"
 #include "math.h"
+#include "lyapunov.h"
+
 
 
 namespace conedy
@@ -68,7 +70,7 @@ namespace conedy
 
 
 
-	dynNetwork::dynNetwork(const dynNetwork &b) : network (b), eventHandler(b), p(b.p)
+	dynNetwork::dynNetwork(const dynNetwork &b) : network (b), eventHandler(b)
 	{
 
 		eventHandler::registerCallBack ( _ioNode_, numeric_limits<baseType>::max() );
@@ -188,8 +190,6 @@ namespace conedy
 
 		//		insertVisiter( bind(&dynNetwork::snapshot, this), eventNumber);
 
-
-
 	}
 
 
@@ -206,92 +206,157 @@ namespace conedy
 
 	}
 
-
-	void dynNetwork::evolveAlong	(networkElementType n, baseType eps,  string inputFilename, string outputFilename)
-	{
-
-		dynNode::startTime = 0.0;
-		observationCounter = 1;
-		dynNode::time = 0.0;
-
-
-		clean (  );     // Dreckige 0 TODO Prüfenvi
-
-		nodeList dynNodes;
-
-		//	realign r(inputFilename, outputFilename, l);
-		//		evolveAllAlong (inputFilename, outputFilename, eps ,n);
-
-	}
-
-
-
-
-	void dynNetwork::evolveAllAlong (string inputFilename, string outputFilename, baseType eps, networkElementType nt)
-	{
-
-		/*		ifstream in(inputFilename.c_str());
-				vector< dynNode *>::iterator it;
-				nodeList dynNodes;
-				nodeIterator vi;
-				verticesMatching(dynNodes, nt);
-
-
-				baseType timeTilEvent;
-
-				ofstream out(outputFilename.c_str());
-				while ( true )
+		void dynNetwork::randomizeStates ( nodeBlueprint *n, function<baseType () > a1, function<baseType () > a2 , function<baseType () > a3 , function<baseType () > a4 , function<baseType () > a5 , function<baseType () > a6 , function<baseType () > a7 , function<baseType () > a8 , function<baseType () > a9 , function<baseType () > a10 , function<baseType () > a11 , function<baseType () > a12)
+		{
+				vector <function<baseType () > > argList;
+				argList.push_back (a1);
+				if (a2 == NULL)
 				{
-
-
-				timeTilEvent = eventHandler::nextEvent() - dynNode::time;
-
-				for ( it = evolveList.begin(); it != evolveList.end(); it++ )
-				( *it )->evolve ( timeTilEvent );
-				dynNode::time += timeTilEvent;
-
-
-				if (top() == 1)
+					randomizeStatesVec(n, argList);
+					return;
+				}
+				argList.push_back (a2);
+				if (a3 == NULL)
 				{
-
-
-
-
-				dist = 0;
-				i = 0;
-				for (vi = dynNodes.begin(); vi != dynNodes.end();vi++)
+					randomizeStatesVec(n, argList);
+					return;
+				}
+				argList.push_back (a3);
+				if (a4 == NULL)
 				{
-				baseType diff = abs (along[i] - theNodes[*vi]->getState()  );
-
-				if (diff > abs (1.0 - diff ))
-				diff = abs ( 1.0 - diff );
-				dist += diff * diff;
-				i++;
+					randomizeStatesVec(n, argList);
+					return;
 				}
-				dist = sqrt(dist)/ dynNodes.size();
-				cout << "nachher:" << dist << endl;
-
-
-
-
-
-
-
-
-				eventHandler::pop();
-
-				}
-				else
+				argList.push_back (a4);
+				if (a5 == NULL)
 				{
-				eventHandler::pop();
-
+					randomizeStatesVec(n, argList);
+					return;
 				}
-
-
+				argList.push_back (a5);
+				if (a6 == NULL)
+				{
+					randomizeStatesVec(n, argList);
+					return;
 				}
-				*/
+				argList.push_back (a6);
+				if (a7 == NULL)
+				{
+					randomizeStatesVec(n, argList);
+					return;
+				}
+				argList.push_back (a7);
+				if (a8 == NULL)
+				{
+					randomizeStatesVec(n, argList);
+					return;
+				}
+				argList.push_back (a8);
+				if (a9 == NULL)
+				{
+					randomizeStatesVec(n, argList);
+					return;
+				}
+				argList.push_back (a9);
+				if (a10 == NULL)
+				{
+					randomizeStatesVec(n, argList);
+					return;
+				}
+				argList.push_back (a10);
+				if (a11 == NULL)
+				{
+					randomizeStatesVec(n, argList);
+					return;
+				}
+				argList.push_back (a11);
+				if (a12 == NULL)
+				{
+					randomizeStatesVec(n, argList);
+					return;
+				}
+				argList.push_back (a12);
+				randomizeStatesVec(n, argList);
+				return;
+		}
 
-	}
+
+
+		void dynNetwork::setInitialCondition ( int n, baseType a1, baseType a2 , baseType a3 , baseType a4 , baseType a5 , baseType a6 , baseType a7 , baseType a8 , baseType a9 , baseType a10 , baseType a11 , baseType a12)
+		{
+				vector <baseType> argList;
+				argList.push_back (a1);
+				if (a2 == numeric_limits<baseType>::max())
+				{
+					setInitialConditionVec(n, argList);
+					return;
+				}
+				argList.push_back (a2);
+				if (a3 == numeric_limits<baseType>::max())
+				{
+					setInitialConditionVec(n, argList);
+					return;
+				}
+				argList.push_back (a3);
+				if (a4 == numeric_limits<baseType>::max())
+				{
+					setInitialConditionVec(n, argList);
+					return;
+				}
+				argList.push_back (a4);
+				if (a5 == numeric_limits<baseType>::max())
+				{
+					setInitialConditionVec(n, argList);
+					return;
+				}
+				argList.push_back (a5);
+				if (a6 == numeric_limits<baseType>::max())
+				{
+					setInitialConditionVec(n, argList);
+					return;
+				}
+				argList.push_back (a6);
+				if (a7 == numeric_limits<baseType>::max())
+				{
+					setInitialConditionVec(n, argList);
+					return;
+				}
+				argList.push_back (a7);
+				if (a8 == numeric_limits<baseType>::max())
+				{
+					setInitialConditionVec(n, argList);
+					return;
+				}
+				argList.push_back (a8);
+				if (a9 == numeric_limits<baseType>::max())
+				{
+					setInitialConditionVec(n, argList);
+					return;
+				}
+				argList.push_back (a9);
+				if (a10 == numeric_limits<baseType>::max())
+				{
+					setInitialConditionVec(n, argList);
+					return;
+				}
+				argList.push_back (a10);
+				if (a11 == numeric_limits<baseType>::max())
+				{
+					setInitialConditionVec(n, argList);
+					return;
+				}
+				argList.push_back (a11);
+				if (a12 == numeric_limits<baseType>::max())
+				{
+					setInitialConditionVec(n, argList);
+					return;
+				}
+				argList.push_back (a12);
+				setInitialConditionVec(n, argList);
+				return;
+
+
+		}
 
 
 
@@ -591,171 +656,6 @@ namespace conedy
 	}
 
 
-
-	meanVar realign::calculateDist(vector <baseType> &states)
-	{
-
-		network::nodeIterator vi;
-		baseType mean= 0;
-		baseType var = 0;
-
-		baseType diff = 0;
-		unsigned int i=0;
-		for (vi = vl->begin(); vi != vl->end();vi++)
-		{
-			diff = states[i] - node::theNodes[*vi]->getState();
-			if (diff > 0.5)
-				diff = diff - 1.0;
-			if (diff < -0.5)
-				diff = diff + 1.0;
-
-			var += diff * diff;
-			mean += diff;
-			i++;
-		}
-		meanVar res;
-		res.var  = var / (vl->size() - 1) - mean * mean / vl->size() / vl->size();
-		res.mean = mean / vl->size();
-		return res;
-	}
-	//		void	realign::goForIt(  )
-	//		{
-
-
-
-	void realign::realignPeriodically()
-	{
-
-
-		vector <baseType> along(vl->size());
-				baseType timeFirstRun;
-			  in >> timeFirstRun;
-		//		cout << "timeFirstRun: " << timeFirstRun << endl;
-		//		cout << "time: " << dynNode::time << endl;
-
-		for (unsigned int i = 0; i < vl->size(); i++ )
-			in >>along[i];
-
-		meanVar dist = calculateDist(along);
-		if (counter==skip)
-		{
-			counter = 0;
-			out << dynNode::time << " " << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
-			cout << "vorher:" << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
-			realignNow(along, eps, dist);
-			meanVar newDist = calculateDist(along);
-			cout << "nachher:" << setprecision(20) << newDist.mean << " " << sqrt(newDist.var) << endl;
-		}
-		else
-		{
-			counter++;
-			out << "#" << setprecision(20) << dynNode::time <<  " " << dist.mean << " " << sqrt(dist.var) << endl;
-
-		}
-
-	}
-
-
-	void realign::realignWhenDistant()
-	{
-
-
-
-		vector <baseType> along(vl->size());
-
-
-			baseType timeFirstRun;
-		  in >> timeFirstRun;
-//			cout << "timeFirstRun: " << timeFirstRun << endl;
-//			cout << "time: " << dynNode::time << endl;
-
-		for (unsigned int i = 0; i < vl->size(); i++ )
-			in >>along[i];
-
-		meanVar  dist = calculateDist(along);
-
-		if (sqrt(dist.var) > eps* skip)
-
-
-		{
-			out << dynNode::time << " " << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
-			cout << "vorher:" << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
-			realignNow(along, eps, dist);
-			meanVar newDist = calculateDist(along);
-			cout << "nachher:" << setprecision(20) << newDist.mean << " " << sqrt(newDist.var) << endl;
-		}
-		else if ( sqrt(dist.var) < eps / skip  )
-		{
-			out << dynNode::time << " " << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
-			cout << "vorher:" << setprecision(20) << dist.mean << " " << sqrt(dist.var) << endl;
-			realignNow(along, eps, dist);
-			meanVar newDist = calculateDist(along);
-			cout << "nachher:" << setprecision(20) << newDist.mean << " " << sqrt(newDist.var) << endl;
-		}
-		else
-		{
-
-
-			out << "#" << setprecision(20) <<  dynNode::time <<  " " << dist.mean << " " << sqrt(dist.var) << endl;
-
-
-
-
-
-		}
-	}
-	// realign to eps
-	void realign::realignNow(vector <baseType> &along, baseType eps, meanVar dist)
-	{
-		baseType factor = eps / sqrt(dist.var);
-
-		network::nodeIterator vi;
-		queue <baseType> states;
-		unsigned int i = 0;
-
-		for (vi = vl->begin(); vi != vl->end();vi++)
-		{
-			//				baseType stat = theNodes[*vi]->getState();
-			baseType diff =  along[i] - node::theNodes[*vi]->getState() ;
-
-			if (diff > 0.5)
-				diff = diff - 1;
-			else if (diff < -0.5)
-				diff = diff + 1;
-
-
-			diff = diff - dist.mean;
-			diff = diff *  factor;
-
-
-
-			if (diff > 0.5  || diff < -0.5)
-				throw "Fehler Abstand zu gro� f�r den Raum (evolveAlong)";
-
-			baseType n;
-			if (diff > 0)
-			{
-				n = along[i] - diff;
-				if (n < 0)
-					n=n + 1;
-			}
-			else
-			{
-				n = along[i] - diff;
-				if ( n > 1)
-					n = n - 1;
-			}
-
-			states.push (n);
-			i++;
-		}
-		boost::function<baseType () > r =  bind(&frontAndPop, &states);
-		for (vi = vl->begin(); vi != vl->end();vi++)
-		{
-			((dynNode*)  node::theNodes[*vi]) ->	randomizeState( r) ;
-		}
-
-	}
 
 
 

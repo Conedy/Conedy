@@ -22,7 +22,7 @@ using namespace std;
 namespace conedy {
 
 
-	//! Basis-Klasse, die Runge-Kutter 4. Ordnung implementiert.
+	//! base class for nodes representing an ODE
 	class odeNode : public containerNode<baseType,1> {
 		private:
 

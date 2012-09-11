@@ -144,6 +144,25 @@ class command
 };
 
 
+//! Basis-Klasse für alle Instructionen.
+class instruction : public command
+{
+	public:
+		virtual void execute() {};
+};
+
+//! Basis-Klasse für Ausdrücke im Parser-Baum vom Typ T
+template <typename T>
+class expression : public instruction
+{
+	public:
+		//! Werte den  Ausdruck aus.
+		virtual T evaluate() { return (T)0; }
+		virtual void execute() { this->evaluate(); }
+};
+
+
+
 	template <>
 inline baseType *  command ::retrieve<baseType> (string s)
 {

@@ -50,9 +50,8 @@ namespace conedy
 			globals::registerGlobal<bool> ("outputBinary", false );
 		}
 
-		params<baseType> p;
 
-			createNetwork() :p (_createNetwork_)   {};
+			createNetwork()  {};
 
 			//! creates a chain in which nodes are connected to its a nearest neighbors
 			nodeDescriptor line ( unsigned int number, unsigned int a, nodeBlueprint *n = stdNode, edgeBlueprint *l=stdEdge);

@@ -69,10 +69,9 @@ odeNode.cpp
 odeNode.h
 params.cpp
 params.h
+parserSemantic
 pco.h
 pcoDelay.h
-phaseResponseOscillators.cpp
-phaseResponseOscillators.h
 priorityQueue.cpp
 priorityQueue.h
 pulseCoupledExcitatoryNeuron.cpp

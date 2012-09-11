@@ -7,7 +7,6 @@ time { return (ParserBase::TIME); }
 
 
 evolve				{return(ParserBase::EVOLVE); }
-evolveAlong				{return(ParserBase::EVOLVEALONG); }
 realignAtEvent 		{return(ParserBase::REALIGNATEVENT ); }
 realignAtEventSignature {return(ParserBase::REALIGNATEVENTSIGNATURE);}
 realignWhenDistant {return(ParserBase::REALIGNWHENDISTANT);}
