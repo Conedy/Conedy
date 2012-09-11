@@ -72,6 +72,13 @@ namespace conedy
 
 
 	//! base class for all edges. Has no virtual functions. Specialized edges should be defined as template, such that the template parameter is the base class. In this way both edges with and without virtual functions can use the same code.
+	//! The inheritance looks as following. For static edges:
+	//!	 edge -> edge1 -> edge2 -> edge...
+	//! 	edge1, edge2 are here different 'features' for edges like coupling weights, edges which point to specific components of nodes, etc.
+	//! 	Filter chains can also be implemeted in this way, but is not at the moment.
+	//! For virtual edges:
+	//		 edge -> edgeVirtual -> edge1 -> dege2 -> edge...
+	//		 Class which contain the edge features edge1, edge2, ... are the same as for static edges. However, functions like getWeight, getTarget and getTargetSTate are  differently interpreted by the compiler. For the static approach they are  overloadad funtcions, for the virtual approach they are virtual functions. This allows
 	class edge
 	{
 
