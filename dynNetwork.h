@@ -86,6 +86,9 @@ namespace conedy
 		//! Set states of all nodes which match n. Values are read from a file with name fileName.
 		void readInitialCondition ( string fileName, nodeBlueprint * n );
 
+
+		void noiseToStatesVec (nodeBlueprint *n,      vector<function<baseType() > >r);
+
 		//! Set states of all nodes which match n. Such that newstate = oldstate + r(). 
 		void noiseToStates ( function<baseType () > r, networkElementType n = _undefinedNodeType_ );
 
