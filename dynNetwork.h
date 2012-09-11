@@ -61,12 +61,9 @@ namespace conedy
 		void realignWhenDistant (string inputFilename, string outputFilename, networkElementType nt, baseType epsilon, unsigned int eventNumber, unsigned int multi);
 
 
-<<<<<<< HEAD
 		void dynamics (nodeDescriptor n);
-=======
 		//! remove all registered observables. This also closes all open files.
 		void removeObserver ();
->>>>>>> 49e6b56f09397fc21e45b8589545a905eda0c655
 
 		//! return component <component> of node <node>
 		baseType getState (nodeDescriptor node, nodeDescriptor component = 0);
@@ -74,162 +71,6 @@ namespace conedy
 		//! set state of node n with the values given in the vector <argList>
 		void setInitialConditionVec ( int n, vector <baseType> argList );
 
-<<<<<<< HEAD
-		void setInitialCondition ( int n, baseType a1, baseType a2 = numeric_limits<baseType>::max(), baseType a3 = numeric_limits<baseType>::max(), baseType a4 = numeric_limits<baseType>::max(), baseType a5 = numeric_limits<baseType>::max(), baseType a6 = numeric_limits<baseType>::max(), baseType a7 = numeric_limits<baseType>::max(), baseType a8 = numeric_limits<baseType>::max(), baseType a9 = numeric_limits<baseType>::max(), baseType a10 = numeric_limits<baseType>::max(), baseType a11 = numeric_limits<baseType>::max(), baseType a12 = numeric_limits<baseType>::max())
-		{
-				vector <baseType> argList;
-				argList.push_back (a1);
-				if (a2 == numeric_limits<baseType>::max())
-				{
-					setInitialConditionVec(n, argList);
-					return;
-				}
-				argList.push_back (a2);
-				if (a3 == numeric_limits<baseType>::max())
-				{
-					setInitialConditionVec(n, argList);
-					return;
-				}
-				argList.push_back (a3);
-				if (a4 == numeric_limits<baseType>::max())
-				{
-					setInitialConditionVec(n, argList);
-					return;
-				}
-				argList.push_back (a4);
-				if (a5 == numeric_limits<baseType>::max())
-				{
-					setInitialConditionVec(n, argList);
-					return;
-				}
-				argList.push_back (a5);
-				if (a6 == numeric_limits<baseType>::max())
-				{
-					setInitialConditionVec(n, argList);
-					return;
-				}
-				argList.push_back (a6);
-				if (a7 == numeric_limits<baseType>::max())
-				{
-					setInitialConditionVec(n, argList);
-					return;
-				}
-				argList.push_back (a7);
-				if (a8 == numeric_limits<baseType>::max())
-				{
-					setInitialConditionVec(n, argList);
-					return;
-				}
-				argList.push_back (a8);
-				if (a9 == numeric_limits<baseType>::max())
-				{
-					setInitialConditionVec(n, argList);
-					return;
-				}
-				argList.push_back (a9);
-				if (a10 == numeric_limits<baseType>::max())
-				{
-					setInitialConditionVec(n, argList);
-					return;
-				}
-				argList.push_back (a10);
-				if (a11 == numeric_limits<baseType>::max())
-				{
-					setInitialConditionVec(n, argList);
-					return;
-				}
-				argList.push_back (a11);
-				if (a12 == numeric_limits<baseType>::max())
-				{
-					setInitialConditionVec(n, argList);
-					return;
-				}
-				argList.push_back (a12);
-				setInitialConditionVec(n, argList);
-				return;
-
-
-		}
-
-		void noiseToStatesVec (nodeBlueprint *n,      vector<function<baseType() > >r);
-		void randomizeStatesVec (nodeBlueprint *n, vector<function<baseType() > >r);
-
-
-		void randomizeStates ( nodeBlueprint *n, function<baseType () > a1, function<baseType () > a2 = NULL, function<baseType () > a3 = NULL, function<baseType () > a4 = NULL, function<baseType () > a5 = NULL, function<baseType () > a6 = NULL, function<baseType () > a7 = NULL, function<baseType () > a8 = NULL, function<baseType () > a9 = NULL, function<baseType () > a10 = NULL, function<baseType () > a11 = NULL, function<baseType () > a12 = NULL)
-		{
-				vector <function<baseType () > > argList;
-				argList.push_back (a1);
-				if (a2 == NULL)
-				{
-					randomizeStatesVec(n, argList);
-					return;
-				}
-				argList.push_back (a2);
-				if (a3 == NULL)
-				{
-					randomizeStatesVec(n, argList);
-					return;
-				}
-				argList.push_back (a3);
-				if (a4 == NULL)
-				{
-					randomizeStatesVec(n, argList);
-					return;
-				}
-				argList.push_back (a4);
-				if (a5 == NULL)
-				{
-					randomizeStatesVec(n, argList);
-					return;
-				}
-				argList.push_back (a5);
-				if (a6 == NULL)
-				{
-					randomizeStatesVec(n, argList);
-					return;
-				}
-				argList.push_back (a6);
-				if (a7 == NULL)
-				{
-					randomizeStatesVec(n, argList);
-					return;
-				}
-				argList.push_back (a7);
-				if (a8 == NULL)
-				{
-					randomizeStatesVec(n, argList);
-					return;
-				}
-				argList.push_back (a8);
-				if (a9 == NULL)
-				{
-					randomizeStatesVec(n, argList);
-					return;
-				}
-				argList.push_back (a9);
-				if (a10 == NULL)
-				{
-					randomizeStatesVec(n, argList);
-					return;
-				}
-				argList.push_back (a10);
-				if (a11 == NULL)
-				{
-					randomizeStatesVec(n, argList);
-					return;
-				}
-				argList.push_back (a11);
-				if (a12 == NULL)
-				{
-					randomizeStatesVec(n, argList);
-					return;
-				}
-				argList.push_back (a12);
-				randomizeStatesVec(n, argList);
-				return;
-		}
-
-=======
 		//! Does the same as setInitialConditionVec. However, values are given seperately. Is used to generate function wrappers for the python interface in a simple way.
 		void setInitialCondition ( int n, baseType a1, baseType a2 = numeric_limits<baseType>::max(), baseType a3 = numeric_limits<baseType>::max(), baseType a4 = numeric_limits<baseType>::max(), baseType a5 = numeric_limits<baseType>::max(), baseType a6 = numeric_limits<baseType>::max(), baseType a7 = numeric_limits<baseType>::max(), baseType a8 = numeric_limits<baseType>::max(), baseType a9 = numeric_limits<baseType>::max(), baseType a10 = numeric_limits<baseType>::max(), baseType a11 = numeric_limits<baseType>::max(), baseType a12 = numeric_limits<baseType>::max());
 
@@ -238,18 +79,15 @@ namespace conedy
 
 		//! Does the same as randomizeStatesVec. However, values are given seperately. Is used to generate function wrappers for the python interface in a simple way.
 		void randomizeStates ( nodeBlueprint *n, function<baseType () > a1, function<baseType () > a2 = NULL, function<baseType () > a3 = NULL, function<baseType () > a4 = NULL, function<baseType () > a5 = NULL, function<baseType () > a6 = NULL, function<baseType () > a7 = NULL, function<baseType () > a8 = NULL, function<baseType () > a9 = NULL, function<baseType () > a10 = NULL, function<baseType () > a11 = NULL, function<baseType () > a12 = NULL);
->>>>>>> 49e6b56f09397fc21e45b8589545a905eda0c655
+
 
 //		void randomizeStates ( nodeBlueprint *n,function<baseType () >r );
 
 		//! Set states of all nodes which match n. Values are read from a file with name fileName.
 		void readInitialCondition ( string fileName, nodeBlueprint * n );
 
-<<<<<<< HEAD
-=======
 		//! Set states of all nodes which match n. Such that newstate = oldstate + r(). 
 		void noiseToStates ( function<baseType () > r, networkElementType n = _undefinedNodeType_ );
->>>>>>> 49e6b56f09397fc21e45b8589545a905eda0c655
 
 		//! Draw a random value for parameter s for each node in the network to which s belongs.
 		void randomizeParameter ( string s, function<baseType () > r );
