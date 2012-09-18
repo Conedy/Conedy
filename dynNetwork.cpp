@@ -316,7 +316,7 @@ namespace conedy
 	{
 		cout << "Reading from:" << fileName << endl;
 		cyclicStream *in = new cyclicStream ( fileName );
-		boost::function<baseType () > r = boost::bind ( &cyclicStream::readDouble,in );
+		boost::function<baseType () > r = boost::bind ( &cyclicStream::readBaseType,in );
 		networkElementType theNodeType = params<baseType>::getNodeTypeFromString ( parameterString );
 		cout << "Reading parameter \"" << parameterString << "\" for NodeType " << theNodeType << endl;
 
@@ -539,7 +539,7 @@ namespace conedy
 	{
 		cout << "Reading from:" << fileName << endl;
 		cyclicStream *in = new cyclicStream ( fileName );
-		boost::function<baseType () > r = boost::bind ( &cyclicStream::readDouble,in );
+		boost::function<baseType () > r = boost::bind ( &cyclicStream::readBaseType,in );
 		randomizeStates ( n, r );
 		delete in;
 	}

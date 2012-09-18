@@ -481,7 +481,7 @@ random		: GAUSSIAN '(' baseType ',' baseType ')'
 		| FROMFILE '(' string ')'
 	 {
 		cyclicStream *cs = new cyclicStream ( $3->evaluate());
-	$$ = new bindExpression <baseType>(bind (&cyclicStream::readDouble, cs));
+	$$ = new bindExpression <baseType>(bind (&cyclicStream::readBaseType, cs));
 };
 
 
