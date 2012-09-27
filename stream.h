@@ -3,7 +3,7 @@
 #ifndef stream_h
 #define stream_h stream_h 
 
-
+#include "baseType.h"
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
@@ -16,6 +16,7 @@ using namespace std;
 
 
 namespace conedy
+
 {
 
 
@@ -37,9 +38,9 @@ namespace conedy
 				}
 			}
 
-			double readDouble()
+			baseType readBaseType()
 			{
-				double res;
+				baseType res;
 				ifstream::operator >> ( res );
 
 				if (eof())
