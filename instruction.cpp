@@ -109,9 +109,14 @@ void vectorForInstruction::writeCondorSkript()
 			condorSkript << "    (Arch == \"INTEL\" && OpSys == \"WINNT61\")";
 			first = false;
 		}
+	
 		condorSkript << "\n\n";
 
-
+		if (getGlobal<bool>("niceUser"))
+		{
+			condorSkript << "niceUser = True\n";
+		}
+		
 		condorSkript << "transfer_files = ALWAYS\n";
 		//    out <<"notification = Complete\n";
 		//    out <<"notify_user=alex@goedel\n";
