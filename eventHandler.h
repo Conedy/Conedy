@@ -67,15 +67,6 @@ typedef relaxed_heap < int, compareEventTimes> priorityQueueTemplate ;
 
 
 
-//        class event
-
-
-
-//        int get (eventIdentifier, event a )
-//        {
-//                return a.owner->getNumber()  ;
-//        }
-
 class neuronNumberProperty
 {
 };

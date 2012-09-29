@@ -32,7 +32,8 @@ commandBlock	: '{' commands '}' { $$ = $2;};
 
 globalCommand:  SETRANDOMSEED '(' integer ')'  { $$ = new bindInstruction( bind(&gslNoise::setSeed,_E(int,$3))); }
 		|   ADDINPUTFILE '(' string ')' { $$ = new bindInstruction(bind(&command::addInputFile, _E(string,$3))); }
-		| CLEAR '(' ')' { $$ = new bindInstruction( bind(&command::clear)); };
+		| CLEAR '(' ')' { $$ = new bindInstruction( bind(&command::clear)); }
+		| SYSTEM '(' string ')' { $$ = new systemInstruction( $3);    };
 
 
 assign		: baseType '=' baseType { $$ = new assignInstruction<baseType> ((varCommand<baseType>*)$1, $3); }
@@ -75,7 +76,7 @@ declare		:
 identifier : ID { $$ = $1; };
 
 system	: SYSTEMCOMMAND	{ string s(d_scanner.YYText() + 1, strlen(d_scanner.YYText()) - 2);
-		 $$ = new systemInstruction(s); };
+		 $$ = new systemInstruction(  new constantCommand<string> (s)); };
 
 
 
@@ -226,6 +227,7 @@ createNetworkCommand : NETWORK '.' RANDOMNETWORK  '(' nodeDescriptor ',' baseTyp
 	| NETWORK '.' SNAPSHOTATEVENT '(' nodeDescriptor ',' integer ')' 	{ $$ = NETWORKFUNK2(snapshotAtEventOfNode,$1, _E(nodeDescriptor, $5), _E(int,$7)); }
 
 | NETWORK '.' OBSERVEEVENTTIMES '(' string ',' integer  ')' 	{ $$ = NETWORKFUNK2(observeEventTimes,$1, _E(string,$5), _E(int, $7)); }
+| NETWORK '.' OBSERVEEVENTTIMESEQUALS '(' string ',' integer  ')' 	{ $$ = NETWORKFUNK2(observeEventTimesEquals,$1, _E(string,$5), _E(int, $7)); }
 | NETWORK '.' OBSERVEEVENTSIGNATURETIMES '(' string ',' integer  ')' 	{ $$ = NETWORKFUNK2(observeEventSignatureTimes,$1, _E(string,$5), _E(int, $7)); }
 	| NETWORK '.' OBSERVEALL '(' string ')' 	{ $$ = NETWORKFUNK2(observeAll, $1, _E(string,$5), network::stdEdge); }
 	| NETWORK '.' OBSERVECOMPONENTS '(' nodeDescriptor ',' string ')' 	{ $$ = NETWORKFUNK2(observeComponents, $1, _E(nodeDescriptor, $5),_E(string,$7)); }

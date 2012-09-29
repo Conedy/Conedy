@@ -42,7 +42,7 @@ project conedy ;
 
 
 
-using python ;
+#using python : 2.5 ;
 
 #project : conedy ? ;
 

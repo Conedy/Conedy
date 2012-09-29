@@ -26,12 +26,12 @@
 class systemInstruction : public instruction
 {
 	private:
-		string theCommand;
+		expression <string> *theCommand;
 	public:
-		systemInstruction(string c) : theCommand(c) {};
+		systemInstruction(expression<string> *c) : theCommand(c) {};
 		virtual void execute()
 		{
-			if (system(theCommand.c_str()))
+			if (system(theCommand->evaluate().c_str()))
 			{
 				cout <<  "system Command Failed!" << endl;
 				//				throw theCommand.c_str();
@@ -169,6 +169,7 @@ class vectorForInstruction : public instruction, private globals
 			registerGlobal<bool>("WINNT51_x86", false);
 			registerGlobal<bool>("WINNT60_x86", false);
 			registerGlobal<bool>("WINNT61_x86", false);
+			registerGlobal<string>("universe", "vanilla");
 
 #ifdef ARCHITECTURE
 #define linuxify(y) LINUX_ ## y

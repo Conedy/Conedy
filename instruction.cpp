@@ -60,7 +60,7 @@ void vectorForInstruction::writeCondorSkript()
 		jobName.str("");
 
 
-		condorSkript << "Universe = vanilla\n";
+		condorSkript << "Universe = " << getGlobal<string>("universe") << endl; 
 
 		// remove newline from dirInstall dirty
 		string dirInstall = reinterpret_cast<const char *>(dirInstall_h);

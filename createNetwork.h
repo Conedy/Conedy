@@ -165,6 +165,9 @@ namespace conedy
 
 
 			void observeEventTimes( string fileName,nodeDescriptor eventNumber );
+			void observeEventTimesEquals ( string fileName, nodeDescriptor eventNumber );
+
+
 			void observeEventSignatureTimes( string fileName,nodeDescriptor eventNumber );
 
 

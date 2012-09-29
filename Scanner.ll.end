@@ -3,6 +3,8 @@ inDegree				{return(ParserBase::INDEGREE); }
 outDegree				{return(ParserBase::OUTDEGREE); }
 
 
+system { return (ParserBase::SYSTEM); }
+
 time { return (ParserBase::TIME); }
 
 
@@ -61,6 +63,7 @@ observeGl		{return(ParserBase::OBSERVEGL); }
 observeGlut		{return(ParserBase::OBSERVEGLUT); }
 observeEvent  {return(ParserBase::OBSERVEEVENT); }
 observeEventTimes  {return(ParserBase::OBSERVEEVENTTIMES); }
+observeEventTimesEquals  {return(ParserBase::OBSERVEEVENTTIMESEQUALS); }
 observeEventSignatureTimes  {return(ParserBase::OBSERVEEVENTSIGNATURETIMES); }
 
 

@@ -3,6 +3,21 @@
 
 namespace conedy
 {
+
+	void streamOutNodeCountEquals::evolve (baseType time)
+	{
+		baseType newValue = this-> couplingSum();
+		if (newValue == lastValue)
+			count++;
+		else
+		{
+			( * ( out[localStreamNumber] ) ) << setprecision( getGlobal<int>("outputPrecision") ) << lastValue << " " << count << ' ';
+	  		lastValue = newValue;
+			count= 1;
+		}	
+	}
+
+
 	void	streamOutNode:: 			evolve(baseType time)
 	{
 //		x = this->couplingSum();
