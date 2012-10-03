@@ -171,6 +171,24 @@ namespace conedy
 		streamOutNodeCountEquals ( string s, networkElementType n = _streamOutNode_ ) : streamOutNode(s, n) {};
 		virtual void evolve (baseType time);	
 	};
+	
+	
+	class streamOutNodeHist : public streamOutNode
+	{
+		public:
+			static void registerStandardValues()
+			{
+				registerGlobal<baseType> ("streamOutNodeHist_lowest", 0.0);
+				registerGlobal<baseType> ("streamOutNodeHist_highest", 1.0);
+				registerGlobal<int> ("streamOutNodeHist_bins", 200);
+			}
+
+
+		streamOutNodeHist ( networkElementType n ) : streamOutNode( n ) {} 
+		streamOutNodeHist ( string s, networkElementType n = _streamOutNode_) : streamOutNode(s, n) {};
+		virtual void evolve (baseType time);	
+	};
+
 
 	//! Klasse, die Werte in Dateien wegschreibt. Verwendet Boost-iostreamm damit Dateien direkt on-the-fly gezipt werden können. Die Ausgabeobjekte werden statisch verwaltet, damit verschiedene Nodes in dieselbe Datei schreiben können.
 

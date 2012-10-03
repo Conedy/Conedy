@@ -33,7 +33,14 @@ commandBlock	: '{' commands '}' { $$ = $2;};
 globalCommand:  SETRANDOMSEED '(' integer ')'  { $$ = new bindInstruction( bind(&gslNoise::setSeed,_E(int,$3))); }
 		|   ADDINPUTFILE '(' string ')' { $$ = new bindInstruction(bind(&command::addInputFile, _E(string,$3))); }
 		| CLEAR '(' ')' { $$ = new bindInstruction( bind(&command::clear)); }
-		| SYSTEM '(' string ')' { $$ = new systemInstruction( $3);    };
+		| SYSTEM '(' string ')' { 
+#if CONDOR
+$$ = new emptyInstruction();
+#else
+$$ = new systemInstruction( $3);    
+#endif
+};
+
 
 
 assign		: baseType '=' baseType { $$ = new assignInstruction<baseType> ((varCommand<baseType>*)$1, $3); }
@@ -207,6 +214,7 @@ createNetworkCommand : NETWORK '.' RANDOMNETWORK  '(' nodeDescriptor ',' baseTyp
 							| NETWORK '.' RANDOMNETWORK  '(' nodeDescriptor ',' baseType ','createNode ')' { $$ = NETWORKFUNK4(randomNetwork,$1,_E(nodeDescriptor,$5),_E(baseType,$7),_E(nodeBlueprint*,$9),network::stdEdge );}
 	| NETWORK '.' OBSERVE '(' nodeDescriptor ',' string ')'	{ $$ = NETWORKFUNK3(observe, $1,      _E(nodeDescriptor, $5), _E(string, $7)  ,network::stdEdge); }
 	| NETWORK '.' OBSERVEMEAN '(' string ')' 	{ $$ =NETWORKFUNK2(observeSum,$1,_E(string,$5), network::stdEdge ); }
+	| NETWORK '.' OBSERVEHIST '(' string ',' createNode ')' 	{ $$ =NETWORKFUNK2(observeHist,$1,_E(string,$5), _E(nodeBlueprint*, $7 ) ); }
 	| NETWORK '.' OBSERVEPHASECOHERENCE '(' string ')' { $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$5), network::stdEdge, network::stdNode, 0, numeric_limits<nodeDescriptor>::max()); }
 	| NETWORK '.' OBSERVEPHASECOHERENCE  '(' string ',' createLink ')' { $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$5), _E(edgeBlueprint*, $7), network::stdNode, 0, numeric_limits<nodeDescriptor>::max() ); }
 	| NETWORK '.' OBSERVEPHASECOHERENCE '(' string ',' node ')' { $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$5), network::stdEdge,  _E(nodeBlueprint*, $7), 0, numeric_limits<nodeDescriptor>::max() ); }

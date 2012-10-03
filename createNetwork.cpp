@@ -1457,6 +1457,21 @@ void createNetwork::observePhaseDistance ( string s, nodeBlueprint *n)
 
 }
 
+void createNetwork::observeHist ( string fileName,    nodeBlueprint *n)
+{
+	nodeBlueprint *nod = new  nodeVirtualEdges<streamOutNodeHist>(fileName);
+		nodeDescriptor streamOutNodeNumber = addNode(nod);
+		network::addEdges ( streamOutNodeNumber, n->getNodeInfo().theNodeType);
+
+	inOutNodeList.push_back ( dynamic_cast<dynNode*> ( nodeBlueprint::theNodes[streamOutNodeNumber] ));
+
+
+
+	}
+
+
+
+
 
 void createNetwork::observePhaseCorrelation ( string s, nodeBlueprint *n)
 {

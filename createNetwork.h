@@ -207,6 +207,7 @@ namespace conedy
 			void observePhaseCoherence ( string s, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode, nodeDescriptor lower = 0, nodeDescriptor upper = numeric_limits<nodeDescriptor>::max());
 
 
+			void observeHist ( string s,    nodeBlueprint *n);
 
 			void observePhaseCorrelation ( string s, nodeBlueprint *n);
 			void observePhaseDistance ( string s, nodeBlueprint *n);
