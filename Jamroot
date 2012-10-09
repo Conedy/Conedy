@@ -31,6 +31,8 @@
 #using clang ;
 #using gcc ;
 
+using python : ;
+
 using bisonc++ ;
 using flex++ ;
 
