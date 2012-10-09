@@ -73,6 +73,7 @@ pco.h
 pcoDelay.h
 expression.h
 parserSemantic.h
+lyapunov.h
 lyapunov.cpp
 priorityQueue.cpp
 priorityQueue.h
