@@ -71,6 +71,8 @@ params.cpp
 params.h
 pco.h
 pcoDelay.h
+parserSemantic.h
+lyapunov.cpp
 priorityQueue.cpp
 priorityQueue.h
 pulseCoupledExcitatoryNeuron.cpp
