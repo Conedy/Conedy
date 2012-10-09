@@ -71,6 +71,7 @@ params.cpp
 params.h
 pco.h
 pcoDelay.h
+expression.h
 parserSemantic.h
 lyapunov.cpp
 priorityQueue.cpp
