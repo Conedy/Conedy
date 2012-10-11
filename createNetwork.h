@@ -50,9 +50,8 @@ namespace conedy
 			globals::registerGlobal<bool> ("outputBinary", false );
 		}
 
-		params<baseType> p;
 
-			createNetwork() :p (_createNetwork_)   {};
+			createNetwork()  {};
 
 			//! creates a chain in which nodes are connected to its a nearest neighbors
 			nodeDescriptor line ( unsigned int number, unsigned int a, nodeBlueprint *n = stdNode, edgeBlueprint *l=stdEdge);
@@ -166,6 +165,10 @@ namespace conedy
 
 
 			void observeEventTimes( string fileName,nodeDescriptor eventNumber );
+			void observeEventTimesEquals ( string fileName, nodeDescriptor eventNumber );
+
+
+			void observeEventSignatureTimes( string fileName,nodeDescriptor eventNumber );
 
 
 
@@ -204,6 +207,7 @@ namespace conedy
 			void observePhaseCoherence ( string s, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode, nodeDescriptor lower = 0, nodeDescriptor upper = numeric_limits<nodeDescriptor>::max());
 
 
+			void observeHist ( string s,    nodeBlueprint *n);
 
 			void observePhaseCorrelation ( string s, nodeBlueprint *n);
 			void observePhaseDistance ( string s, nodeBlueprint *n);
@@ -214,6 +218,7 @@ namespace conedy
 
 
 			void addRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge );
+			void addRandomEdgesUndirected ( double meanOutDegree, edgeBlueprint * l = stdEdge );
 
 
 			template <typename RANDOM>

@@ -4,7 +4,6 @@
 
 #include "specialNodes.h"
 #include "pulseCoupledPhaseOscillator.h"
-#include "phaseResponseOscillators.h"
 #include "nodeImplement.h"
 #include "statisticsNetwork.h"
 #include <cmath>
@@ -23,6 +22,56 @@ namespace conedy {
 				return ( a.first * a.first + a.second * a.second ) < ( b.first * b.first + b.second * b.second );
 
 			}
+
+	void createNetwork::observeEventSignatureTimes( string fileName,nodeDescriptor eventNumber) {
+		nodeBlueprint* nod = new nodeVirtualEdges<timeNode<baseType> >();
+		nodeDescriptor timeNodeNumber = addNode ( nod );
+		delete nod;
+
+		nod = new  nodeVirtualEdges<streamOutNode>(fileName);
+		nodeDescriptor streamOutNodeNumber = addNode(nod);
+		streamOutNode *s = dynamic_cast<streamOutNode*>( nodeBlueprint::theNodes[streamOutNodeNumber]);
+
+		eventHandler::insertVisiterAtSignature(bind(&streamOutNode::evolve,s, 0.0),eventNumber);
+		delete nod;
+
+
+
+
+		network::addEdge( streamOutNodeNumber, timeNodeNumber);
+
+
+
+
+
+	}
+
+
+
+
+	
+	void createNetwork::observeEventTimesEquals( string fileName,nodeDescriptor eventNumber) {
+
+		nodeBlueprint* nod = new nodeVirtualEdges<timeNode<baseType> >();
+		nodeDescriptor timeNodeNumber = addNode ( nod );
+		delete nod;
+
+		nod = new  nodeVirtualEdges<streamOutNodeCountEquals>(fileName);
+		nodeDescriptor streamOutNodeNumber = addNode(nod);
+		streamOutNode *s = dynamic_cast<streamOutNode*>( nodeBlueprint::theNodes[streamOutNodeNumber]);
+
+		eventHandler::insertVisiter(bind(&streamOutNode::evolve,s, 0.0),eventNumber);
+		delete nod;
+
+
+
+
+		network::addEdge( streamOutNodeNumber, timeNodeNumber);
+
+
+	}
+
+
 
 
 
@@ -352,6 +401,37 @@ nodeDescriptor createNetwork::beeWeb ( int x, int y, nodeBlueprint *n )
 
 
 
+void createNetwork::addRandomEdgesUndirected ( double meanOutDeg, edgeBlueprint *l )
+{
+
+	int source, target;
+
+
+
+
+	baseType meanOut = ( ( statisticsNetwork* ) this )->meanOutDegree() ;
+
+	int toDo = ( int ) ( ( meanOutDeg - meanOut ) * network::numberVertices() / 2 );
+
+
+
+	if ( toDo > 0 )
+	{
+		for ( int i = 0; i < toDo; i++ )
+		{
+			do
+			{
+				source = network::randomNode();
+				target = network::randomNode();
+			}
+			while ( source == target || network::isLinked ( source,target ) );
+			network::addEdge ( source,target,l );
+			network::addEdge ( target,source,l );
+		}
+	}
+
+}
+
 
 
 void createNetwork::addRandomEdges ( double meanOutDeg, edgeBlueprint *l )
@@ -409,7 +489,7 @@ void createNetwork::randomOutDegreeDistribution ( int number, RANDOM &r, nodeBlu
 		{
 			do { rnd = randomNode(); }
 			while ( ( rnd == i ) || network::isLinked ( i,rnd ) );
-			network::addEdge ( i,rnd,1 );
+			network::addEdge ( i,rnd );
 		}
 	}
 }
@@ -717,18 +797,22 @@ void createNetwork::addGlobalNoise ( boost::function <double() > r, nodeKind the
 
 void createNetwork::normalizeOutputs (baseType r)
 {
-	throw "stub normalizeOutputs";
-
-/*	nodeIterator it;
+	nodeIterator it;
 	nodeList dynNodes;
 	verticesMatching(dynNodes, _dynNode_);
+	
+
+	unsigned int degree;
 
 	for (it = dynNodes.begin(); it != dynNodes.end(); it++)
 	{
+		degree =		nodeBlueprint::theNodes[*it]->degree();
+		for (unsigned int i = 0 ; i < nodeBlueprint::theNodes[*it]->degree(); i ++)
+		{
+			nodeBlueprint::theNodes[*it]->setWeight (i, r / degree);
+		}
+	}
 
-		nodeBlueprint::theNodes[*it]->normalizeInWeightSum(r);
-
-	network::clean();*/
 }
 
 
@@ -1200,9 +1284,9 @@ nodeDescriptor createNetwork::randomNetwork ( nodeDescriptor size, double promil
 		for ( j = 0; j < i; j++ )
 		{
 			if ( network::noise.getUniform() <= promille )
-				network::addEdge ( i,j,l );
+				network::addEdge ( smallest + i,smallest + j,l );
 			if ( network::noise.getUniform() <= promille )
-				network::addEdge ( j,i,l );
+				network::addEdge ( smallest + j,smallest + i,l );
 
 		}
 
@@ -1372,6 +1456,21 @@ void createNetwork::observePhaseDistance ( string s, nodeBlueprint *n)
 	observe(newNodeNumber,s);
 
 }
+
+void createNetwork::observeHist ( string fileName,    nodeBlueprint *n)
+{
+	nodeBlueprint *nod = new  nodeVirtualEdges<streamOutNodeHist>(fileName);
+		nodeDescriptor streamOutNodeNumber = addNode(nod);
+		network::addEdges ( streamOutNodeNumber, n->getNodeInfo().theNodeType);
+
+	inOutNodeList.push_back ( dynamic_cast<dynNode*> ( nodeBlueprint::theNodes[streamOutNodeNumber] ));
+
+
+
+	}
+
+
+
 
 
 void createNetwork::observePhaseCorrelation ( string s, nodeBlueprint *n)

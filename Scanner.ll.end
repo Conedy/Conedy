@@ -3,9 +3,12 @@ inDegree				{return(ParserBase::INDEGREE); }
 outDegree				{return(ParserBase::OUTDEGREE); }
 
 
+system { return (ParserBase::SYSTEM); }
+
+time { return (ParserBase::TIME); }
+
 
 evolve				{return(ParserBase::EVOLVE); }
-evolveAlong				{return(ParserBase::EVOLVEALONG); }
 realignAtEvent 		{return(ParserBase::REALIGNATEVENT ); }
 realignAtEventSignature {return(ParserBase::REALIGNATEVENTSIGNATURE);}
 realignWhenDistant {return(ParserBase::REALIGNWHENDISTANT);}
@@ -42,7 +45,10 @@ observeSum		{return(ParserBase::OBSERVEMEAN); }
 observePhaseCoherence	{ return (ParserBase::OBSERVEPHASECOHERENCE); }
 observePhaseCorrelation	{ return (ParserBase::OBSERVEPHASECORRELATION); }
 observePhaseDistance 	{ return (ParserBase::OBSERVEPHASEDISTANCE); }
+observeHist 				{ return (ParserBase::OBSERVEHIST); }
 
+
+dynamics {return (ParserBase::DYNAMICS);}
 
 addRandomEdgesDegreeDistribution { return (ParserBase::ADDRANDOMEDGESDEGREEDISTRIBUTION); }
 addRandomEdgesDegreeDistributionUndirected { return (ParserBase::ADDRANDOMEDGESDEGREEDISTRIBUTIONUNDIRECTED); }
@@ -60,6 +66,8 @@ observeGl		{return(ParserBase::OBSERVEGL); }
 observeGlut		{return(ParserBase::OBSERVEGLUT); }
 observeEvent  {return(ParserBase::OBSERVEEVENT); }
 observeEventTimes  {return(ParserBase::OBSERVEEVENTTIMES); }
+observeEventTimesEquals  {return(ParserBase::OBSERVEEVENTTIMESEQUALS); }
+observeEventSignatureTimes  {return(ParserBase::OBSERVEEVENTSIGNATURETIMES); }
 
 
 
@@ -71,6 +79,7 @@ rewireTarget		{return(ParserBase::REWIRETARGET); }
 rewire			{return(ParserBase::REWIRE); }
 rewireSourcePerTimestep	{return(ParserBase::REWIRESOURCEPERTIMESTEP);}
 addRandomEdges		{return(ParserBase::ADDRANDOMEDGES); }
+addRandomEdgesUndirected		{return(ParserBase::ADDRANDOMEDGESUNDIRECTED); }
 readParams		{return(ParserBase::READPARAMS); }
 setTime			{return(ParserBase::SETTIME); }
 rewireUndirected	{return(ParserBase::REWIREUNDIRECTED); }
@@ -173,6 +182,7 @@ createFromAdjacencyList {return(ParserBase::CREATEFROMADJACENCYLIST); }
 startingConditionOpenWaveEnding	{return (ParserBase::STARTINGCONDITIONOPENWAVEENDING); }
 startingConditionOpenWaveMiddle	{return (ParserBase::STARTINGCONDITIONOPENWAVEMIDDLE); }
 normalizeInWeightSum { return(ParserBase::NORMALIZEINWEIGHTSUM); }
+normalizeOutWeightSum { return(ParserBase::NORMALIZEOUTWEIGHTSUM); }
 
 
 

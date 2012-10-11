@@ -16,7 +16,8 @@
 #include "ode.h"
 #include "mapNode.h" 
 #include "pulseCoupledExcitatoryNeuron.h" 
-#include "phaseResponseOscillators.h" 
+#include "pco.h"
+
 //namespace conedy {
 //typedef odeNode stdOdeIntegrator;   // Runge-Kutta Ord4
 

@@ -71,8 +71,10 @@ params.cpp
 params.h
 pco.h
 pcoDelay.h
-phaseResponseOscillators.cpp
-phaseResponseOscillators.h
+expression.h
+parserSemantic.h
+lyapunov.h
+lyapunov.cpp
 priorityQueue.cpp
 priorityQueue.h
 pulseCoupledExcitatoryNeuron.cpp

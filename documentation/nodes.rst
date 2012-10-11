@@ -8,9 +8,10 @@ The dynamics of these systems can be assessed by a common interface, which easil
 
 See :ref:`nodes` for a full list of available node dynamics.
 
-Each node dynamics is described in an INI-like description files, which is explained in the following.
+Each node dynamics is described in an INI-like description file, which is explained in the following.
 If the dynamics you want to investigate is not available in Conedy, you still may implement it yourself by creating such a file, which has to be stored in a directory which is specified in the ``config.h`` file (which is positioned in ``$HOME/.config/conedy`` by the ``.deb``-package).
 Conedy needs to be recompiled afterwards, which will be automatically issued on the next import to python if a file in this directory is modified or added.
+See :ref:`recompilation` for more details on this.
 
 In the following the syntax for such a file will be explained using the Rössler oscillator as an example (available as :ref:`roessler` in Conedy).
 Before delving into the details we give the file’s full content for the sake of an overview:
@@ -133,17 +134,17 @@ Ordinary differential equations (``ode``)
 
 The ``dynamics`` field should define the derivative ``dxdt`` as function of the current state ``x`` (an example was already given above). Numerical integration algorithms are provided by the GNU Scientific Library (GSL). At the moment only those algorithms are supported, which do not use the Jacobian. In the Python script a specific stepping function can be choosen by setting ``odeStepType`` to one of the following values:
 
-- ``"gsl_odeiv2_step_rk2"``
-- ``"gsl_odeiv2_step_rk4"``
-- ``"gsl_odeiv2_step_rkf45"``
-- ``"gsl_odeiv2_step_rkck"``
-- ``"gsl_odeiv2_step_rk8pd"``
-- ``"gsl_odeiv2_step_rk2imp"``
-- ``"gsl_odeiv2_step_rk4imp"``
+- ``"gsl_rk2"``
+- ``"gsl_rk4"``
+- ``"gsl_rkf45"``
+- ``"gsl_rkck"``
+- ``"gsl_rk8pd"``
+- ``"gsl_rk2imp"``
+- ``"gsl_rk4imp"``
 
 Example::
 
-	co.set("odeStepType", "gsl_odeiv_step_rkf45")
+	co.set("odeStepType", "gsl_rkf45")
 
 See the `the GSL’s documentation`_ for specific information.
 
@@ -165,12 +166,12 @@ If the parameter ``odeIsAdaptive`` is set to ``False``, the step size does not a
 (In this case, Conedy does not change the parameter ``odeStepSize``.)
 To be precise, the actual step size is the largest value, that (a) is at most marginally greater than the parameter ``odeStepSize`` and (b) allows for the time until the next event to be evenly divided into steps.
 As long as ``odeStepSize`` is small in comparison to ``samplingTime`` (see :ref:`evolving`) and the total evolution time, the actual step size differs very little from ``odeStepSize``.
-The error margin defined by ``odeAbsError`` and ``odeRelError`` is still in effect, however, if the estimated error exceeds this margin, an error is issued (instead of adapting the step size).
+If you use GSL 1.15, or higher, the error margin defined by ``odeAbsError`` and ``odeRelError`` is still in effect, however, if the estimated error exceeds this margin, an error is issued (instead of adapting the step size).
 Again, ``samplingTime`` slightly influences the step size and thus the results of the integration.
 
 For example, the following commands will issue a time evolution, where the step size starts at 0.1 and is then dynamically adjusted, such that the estimated integration error for each dynamical variable is one per mill of the value of this variable.
 However, the step size will never exceed 10.0 or the time left until the next event.
-After the evolution, the current, adapted step size is printed (and is most likely not 0.1):
+After the evolution, the current, adapted step size is printed (which is most likely not 0.1):
 
 .. testcode::
 

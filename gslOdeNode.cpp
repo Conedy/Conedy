@@ -1,19 +1,25 @@
 #include "gslOdeNode.h"
 
+
+
 #ifdef DOUBLE
+
+#include <gsl/gsl_errno.h>
 
 namespace conedy
 {
 	void gslOdeNode::evolve(double timeTilEvent)
 	{
 		baseType startTime = dynNode::time;
+		unsigned int gslStatus;
 
 		if (getGlobal<bool>("odeIsAdaptive"))
 		{
 			// with stepsize control
 			while ( dynNode::time < startTime + timeTilEvent)
 			{
-				if ( gslode(evolve_apply) (
+			
+				if ( (gslStatus = gslode(evolve_apply) (
 							gslEvolve,
 							gslControl,
 							gslStep,
@@ -21,10 +27,12 @@ namespace conedy
 							&dynNode::time,
 							startTime + timeTilEvent,
 							getPointerToGlobal<baseType>("odeStepSize"),
-							containerNode<baseType,3>::dynamicVariablesOfAllDynNodes)
+							containerNode<baseType,3>::dynamicVariablesOfAllDynNodes))
 						!= GSL_SUCCESS)
+				{
+					printf ("error: %s\n", gsl_strerror (gslStatus));
 					throw "gslError!";
-
+				}
 				if (getGlobal<baseType>("odeStepSize") < getGlobal<baseType>("odeMinStepSize"))
 					throw "Stepsize crossed specified minimum (odeMinStepSize). Aborting!";
 			}
@@ -41,8 +49,9 @@ namespace conedy
 				cerr << "---------------------------\nCaveat:\nThough integrating with fixed step size seems to be working correctly with GSL 1.14, or lower, this is only by bizarre means. It is therefore recommended to treat its results with high caution (or to upgrade to GSL 1.15, or higher).\n------------------------------" << endl;
 				gslOdeNode::gslFixedStepSizeWarningShown = true;
 			}
-			double yerr[containerNode <baseType, 3> :: usedIndices];
-			double dydt[containerNode <baseType, 3> :: usedIndices];
+
+			double *yerr =  (double*) calloc (containerNode <baseType, 3> :: usedIndices, sizeof(double));
+			double *dydt =  (double*) calloc (containerNode <baseType, 3> :: usedIndices, sizeof(double));
 			#endif
 
 			for (int i = 0; i < stepCount; i++)
@@ -77,6 +86,11 @@ namespace conedy
 
 				#endif
 			}
+
+			#if GSL_MINOR_VERSION < 15
+			free (yerr);
+			free (dydt);
+			#endif
 		}
 
 		dynNode::time = startTime;  // changing the time is handled by the evolve-loop in dynNetwork.cpp

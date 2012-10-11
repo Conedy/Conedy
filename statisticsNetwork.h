@@ -10,11 +10,11 @@
 namespace conedy
 {
 
-	//! Erbe von network mit Funktionen, die Netzwerkcharacteristiken ausrechnen
+	//! Contains functions, which calculate network characteristics
 	class statisticsNetwork : public virtual network 
 	{
 		public:
-
+			
 			void printStatistics ();
 			void printNodeStatistics();
 

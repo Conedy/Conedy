@@ -19,6 +19,7 @@ instruction		: system
 	| commandBlock
 	| createNetworkCommand
 	| spatialNetworkCommand
+	| globalCommand
 	| bluePrintCommand
 	| statisticsNetworkCommandInt  { $$ = $1; }
 	| EXIT { $$ = new bindInstruction(bind(exit, 1)); }
@@ -29,13 +30,23 @@ instruction		: system
 commandBlock	: '{' commands '}' { $$ = $2;};
 
 
+globalCommand:  SETRANDOMSEED '(' integer ')'  { $$ = new bindInstruction( bind(&gslNoise::setSeed,_E(int,$3))); }
+		|   ADDINPUTFILE '(' string ')' { $$ = new bindInstruction(bind(&command::addInputFile, _E(string,$3))); }
+		| CLEAR '(' ')' { $$ = new bindInstruction( bind(&command::clear)); }
+		| SYSTEM '(' string ')' { 
+#if CONDOR
+$$ = new emptyInstruction();
+#else
+$$ = new systemInstruction( $3);    
+#endif
+};
+
+
 
 assign		: baseType '=' baseType { $$ = new assignInstruction<baseType> ((varCommand<baseType>*)$1, $3); }
 		  | integer '=' integer { $$ = new assignInstruction<int> ((varCommand<int>*)$1,$3); }
 		  | bool '=' bool { $$ = new assignInstruction<bool> ((varCommand<bool>*)$1,$3); }
 		| string '=' string { $$ = new assignInstruction<string> ((varCommand<string>*)$1,$3); }
-		| SETRANDOMSEED '(' integer ')'  { $$ = new bindInstruction( bind(&gslNoise::setSeed,_E(int,$3))); }
-		|   ADDINPUTFILE '(' string ')' { $$ = new bindInstruction(bind(&command::addInputFile, _E(string,$3))); }
 		|  integer ASSIGNPLUS integer { varCommand<int> *var = (varCommand<int>*)$1;
 				$$ = new assignInstruction<int> ( var,  new plusCommandint<int, int> ($3,  (var)) )  ; }
 		|  integer ASSIGNMINUS integer { varCommand<int> *var =  (varCommand<int>*)$1;
@@ -72,7 +83,7 @@ declare		:
 identifier : ID { $$ = $1; };
 
 system	: SYSTEMCOMMAND	{ string s(d_scanner.YYText() + 1, strlen(d_scanner.YYText()) - 2);
-		 $$ = new systemInstruction(s); };
+		 $$ = new systemInstruction(  new constantCommand<string> (s)); };
 
 
 
@@ -88,14 +99,6 @@ networkCommand	:  NETWORK '.' CLEAR '(' ')' { $$ = NETWORKFUNK(clear,$1); }
 		| NETWORK '.' ADDEDGE '(' nodeDescriptor ',' nodeDescriptor ',' createLink ')'   { $$ = NETWORKFUNK3(addEdge,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(edgeBlueprint*,$9)); }
 		| NETWORK '.' EVOLVE	'(' baseType ',' baseType ')' { $$ = NETWORKFUNK2(evolve,$1,_E(baseType,$5), _E(baseType,$7)); }
 		| NETWORK '.' EVOLVE	'(' baseType ')' { $$ = NETWORKFUNK1(evolveFor,$1,_E(baseType,$5)); }
-		| NETWORK '.' EVOLVEALONG	'(' createNode ',' baseType ',' string ',' string ')'
-{
-#if CONDOR
-$$ = new bindInstruction(bind(&command::addInputFile, _E(string,$9)));
-#else
-$$ = NETWORKFUNK4(evolveAlong,$1, $5->evaluate()->getNodeInfo().theNodeType, _E(baseType,$7), _E(string, $9 ),_E(string, $11 )  );
-#endif
-}
 		| NETWORK '.' REALIGNATEVENT  '(' string ',' string ','  createNode ',' baseType ',' integer ',' integer ')'
 {
 #if CONDOR
@@ -130,21 +133,8 @@ $$ = NETWORKFUNK6(realignAtEventSignature,$1,  _E(string, $5 ),_E(string, $7 ) ,
 }
 		| NETWORK '.' INDEGREEDISTRIBUTION '(' string ')' { $$ = NETWORKFUNK1(inDegreeDistributionToFile,$1,_E(string,$5));}
 		| NETWORK '.' OUTDEGREEDISTRIBUTION '(' string ')' { $$ = NETWORKFUNK1(outDegreeDistributionToFile,$1,_E(string,$5)); }
-		| NETWORK '.' NOISETOSTATES '(' createNode ',' random ')'
-  { function<baseType ()> r = bind(&expression<baseType>::evaluate,$7);
-	$$ = new bindInstruction(
-		bind(&networkTemplate::noiseToStates,$1, r, $5->evaluate()->getNodeInfo().theNodeType)); }
-		| NETWORK '.' RANDOMIZESTATES '(' createNode ',' randomList ')'
-  {
-
-//	function<baseType()> r =bind(&expression<baseType>::evaluate,*$7);
-//	vector <function<double() > > vec;
-//	vec.push_back(r);
-
-$$ = NETWORKFUNK2(randomizeStatesVec, $1,  _E(nodeBlueprint*, $5),*$7 ); }
-//function<baseType ()> r = bind(&expression<baseType>::evaluate,$7);
-//	$$ = new bindInstruction(
-//		bind(&networkTemplate::randomizeStates,$1, r, $5->evaluate()->getNodeInfo().theNodeType)); }
+		| NETWORK '.' NOISETOSTATES '(' createNode ',' randomList ')' { $$ = NETWORKFUNK2(noiseToStatesVec, $1,  _E(nodeBlueprint*, $5),*$7 ); }
+		| NETWORK '.' RANDOMIZESTATES '(' createNode ',' randomList ')'{ $$ = NETWORKFUNK2(randomizeStatesVec, $1,  _E(nodeBlueprint*, $5),*$7 ); }
 
 | NETWORK '.' RANDOMIZEPARAMETER '(' string ',' random ')'
  { function<baseType ()> r = bind(&expression<baseType>::evaluate,$7);
@@ -190,7 +180,7 @@ $$ =NETWORKFUNK2(readParameter, $1, _E(string,$5),_E(string,$7));
 | NETWORK '.' STARTINGCONDITIONSMALLDISTURBANCE '(' baseType ',' integer ',' integer ',' random ')'
   { function<baseType ()> r = bind(&expression<baseType>::evaluate,$11);
 	 $$ = NETWORKFUNK4(smallDisturbance,$1,_E(baseType,$5), _E(int,$7), _E(int,$9), r); }
-
+| NETWORK '.' DYNAMICS '(' nodeDescriptor ')' { $$=NETWORKFUNK1(dynamics, $1, _E(nodeDescriptor, $5)); } 
 | NETWORK '.' SETSTATE '(' nodeDescriptor ',' argList ')'
 //  {	$$ = NETWORKFUNK2(setInitialCondition, $1, _E(int, $5),  bind(&expressionVector<baseType>::evaluate, $7)); };
 {$$ = NETWORKFUNK2(setInitialConditionVec, $1, _E(nodeDescriptor, $5), bind(&expressionVector<baseType>::evaluate, $7)); };
@@ -224,6 +214,7 @@ createNetworkCommand : NETWORK '.' RANDOMNETWORK  '(' nodeDescriptor ',' baseTyp
 							| NETWORK '.' RANDOMNETWORK  '(' nodeDescriptor ',' baseType ','createNode ')' { $$ = NETWORKFUNK4(randomNetwork,$1,_E(nodeDescriptor,$5),_E(baseType,$7),_E(nodeBlueprint*,$9),network::stdEdge );}
 	| NETWORK '.' OBSERVE '(' nodeDescriptor ',' string ')'	{ $$ = NETWORKFUNK3(observe, $1,      _E(nodeDescriptor, $5), _E(string, $7)  ,network::stdEdge); }
 	| NETWORK '.' OBSERVEMEAN '(' string ')' 	{ $$ =NETWORKFUNK2(observeSum,$1,_E(string,$5), network::stdEdge ); }
+	| NETWORK '.' OBSERVEHIST '(' string ',' createNode ')' 	{ $$ =NETWORKFUNK2(observeHist,$1,_E(string,$5), _E(nodeBlueprint*, $7 ) ); }
 	| NETWORK '.' OBSERVEPHASECOHERENCE '(' string ')' { $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$5), network::stdEdge, network::stdNode, 0, numeric_limits<nodeDescriptor>::max()); }
 	| NETWORK '.' OBSERVEPHASECOHERENCE  '(' string ',' createLink ')' { $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$5), _E(edgeBlueprint*, $7), network::stdNode, 0, numeric_limits<nodeDescriptor>::max() ); }
 	| NETWORK '.' OBSERVEPHASECOHERENCE '(' string ',' node ')' { $$ = NETWORKFUNK5(observePhaseCoherence,$1, _E(string,$5), network::stdEdge,  _E(nodeBlueprint*, $7), 0, numeric_limits<nodeDescriptor>::max() ); }
@@ -244,6 +235,8 @@ createNetworkCommand : NETWORK '.' RANDOMNETWORK  '(' nodeDescriptor ',' baseTyp
 	| NETWORK '.' SNAPSHOTATEVENT '(' nodeDescriptor ',' integer ')' 	{ $$ = NETWORKFUNK2(snapshotAtEventOfNode,$1, _E(nodeDescriptor, $5), _E(int,$7)); }
 
 | NETWORK '.' OBSERVEEVENTTIMES '(' string ',' integer  ')' 	{ $$ = NETWORKFUNK2(observeEventTimes,$1, _E(string,$5), _E(int, $7)); }
+| NETWORK '.' OBSERVEEVENTTIMESEQUALS '(' string ',' integer  ')' 	{ $$ = NETWORKFUNK2(observeEventTimesEquals,$1, _E(string,$5), _E(int, $7)); }
+| NETWORK '.' OBSERVEEVENTSIGNATURETIMES '(' string ',' integer  ')' 	{ $$ = NETWORKFUNK2(observeEventSignatureTimes,$1, _E(string,$5), _E(int, $7)); }
 	| NETWORK '.' OBSERVEALL '(' string ')' 	{ $$ = NETWORKFUNK2(observeAll, $1, _E(string,$5), network::stdEdge); }
 	| NETWORK '.' OBSERVECOMPONENTS '(' nodeDescriptor ',' string ')' 	{ $$ = NETWORKFUNK2(observeComponents, $1, _E(nodeDescriptor, $5),_E(string,$7)); }
 	| NETWORK '.' OBSERVE '(' nodeDescriptor ',' string ',' createLink ')' {$$ = NETWORKFUNK3(observe,$1,_E(nodeDescriptor,$5),_E(string,$7),_E(edgeBlueprint*,$9)); }
@@ -337,7 +330,10 @@ $$ = NETWORKFUNK2(startNeverStopGlut,$1,_E(string,$7),_E(baseType,$5));
 	| NETWORK '.' REWIRETARGET '(' baseType ')' { $$ = NETWORKFUNK2(rewireTarget,$1,_E(baseType,$5),_dynNode_); }
 	| NETWORK '.' REWIRE '(' baseType ')' { $$ = NETWORKFUNK2(rewire,$1,_E(baseType,$5), network::stdNode); }
 	| NETWORK '.' NORMALIZEINWEIGHTSUM '(' baseType ')' { $$ = NETWORKFUNK1(normalizeInputs,$1,_E(baseType,$5)); }
-	| NETWORK '.' REWIRE '(' baseType  ',' createLink ')' { $$ = NETWORKFUNK3(replaceEdges,$1,_E(baseType,$5), _E(edgeBlueprint*,$7),network::stdNode); }
+	| NETWORK '.' NORMALIZEOUTWEIGHTSUM '(' baseType ')' { $$ = NETWORKFUNK1(normalizeOutputs,$1,_E(baseType,$5)); }
+//	| NETWORK '.' REWIRE '(' baseType  ',' createLink ')' { $$ = NETWORKFUNK3(replaceEdges,$1,_E(baseType,$5), _E(edgeBlueprint*,$7),network::stdNode); }
+	| NETWORK '.' REWIRE '(' baseType  ',' createNode ')' { $$ = NETWORKFUNK2(rewire,$1,_E(baseType,$5), _E(nodeBlueprint*,$7)); }
+
 	| NETWORK '.' REWIREUNDIRECTED '(' baseType ')' { $$ = NETWORKFUNK2(rewireUndirected,$1,_E(baseType,$5),_dynNode_); }
 	| NETWORK '.' REWIRETARGETUNDIRECTED '(' baseType ')' { $$ = NETWORKFUNK2(rewireTargetUndirected,$1,_E(baseType,$5),_dynNode_); }
 
@@ -350,8 +346,8 @@ $$ = NETWORKFUNK2(startNeverStopGlut,$1,_E(string,$7),_E(baseType,$5));
 	| NETWORK '.' REWIRE '(' baseType ',' random ')'
   { function<baseType ()> r = bind(&expression<baseType>::evaluate,$7);
 $$ = new bindInstruction(bind(&networkTemplate::rewireWeights ,$1, bind(&expression<baseType>::evaluate, $5),r,_dynNode_)); }
-	| NETWORK '.' ADDRANDOMEDGES '(' baseType ',' createLink ')'
- { $$ = NETWORKFUNK2(addRandomEdges,$1,_E(baseType,$5), _E(edgeBlueprint*,$7)); }
+	| NETWORK '.' ADDRANDOMEDGES '(' baseType ',' createLink ')' { $$ = NETWORKFUNK2(addRandomEdges,$1,_E(baseType,$5), _E(edgeBlueprint*,$7)); }
+	| NETWORK '.' ADDRANDOMEDGESUNDIRECTED '(' baseType ',' createLink ')' { $$ = NETWORKFUNK2(addRandomEdgesUndirected,$1,_E(baseType,$5), _E(edgeBlueprint*,$7)); }
 	| NETWORK '.' ADDRANDOMEDGESDEGREEDISTRIBUTION '(' random ',' createLink ')'
  {  function<baseType ()> r = bind(&expression<baseType>::evaluate,$5); $$ = NETWORKFUNK2(addRandomEdgesDegreeDistribution,$1,r, _E(edgeBlueprint*,$7)); }
 	| NETWORK '.' ADDRANDOMEDGESDEGREEDISTRIBUTIONUNDIRECTED '(' random ',' createLink ')'
@@ -486,7 +482,7 @@ random		: GAUSSIAN '(' baseType ',' baseType ')'
 		| FROMFILE '(' string ')'
 	 {
 		cyclicStream *cs = new cyclicStream ( $3->evaluate());
-	$$ = new bindExpression <baseType>(bind (&cyclicStream::readDouble, cs));
+	$$ = new bindExpression <baseType>(bind (&cyclicStream::readBaseType, cs));
 };
 
 
@@ -531,13 +527,12 @@ baseType		: FLOATCONSTANT { $$ = new constantCommand<baseType>(atof(d_scanner.YY
 		| baseType '-' baseType {$$ = new minusCommandbaseType<baseType,baseType>($1,$3);}
 		| baseType '*' baseType {$$ = new timesCommandbaseType<baseType,baseType>($1,$3);}
 		| baseType '/' baseType {$$ = new divideCommandbaseType<baseType,baseType>($1,$3);}
-
-| baseType '+' integer  {$$ = new plusCommandbaseType<baseType,int>($1,$3);}
+		| baseType '+' integer  {$$ = new plusCommandbaseType<baseType,int>($1,$3);}
 		| baseType '-' integer  {$$ = new minusCommandbaseType<baseType,int>($1,$3);}
 		| baseType '*' integer  {$$ = new timesCommandbaseType<baseType,int>($1,$3);}
 		| baseType '/' integer  {$$ = new divideCommandbaseType<baseType,int>($1,$3);}
 
-| integer '-' baseType  {$$ = new minusCommandbaseType<int,baseType>($1,$3);}
+		| integer '-' baseType  {$$ = new minusCommandbaseType<int,baseType>($1,$3);}
 		| integer '+' baseType  {$$ = new plusCommandbaseType<int,baseType>($1,$3);}
 		| integer '*' baseType  {$$ = new timesCommandbaseType<int,baseType>($1,$3);}
 		| integer '/' baseType  {$$ = new divideCommandbaseType<int,baseType>($1,$3);}
@@ -545,7 +540,7 @@ baseType		: FLOATCONSTANT { $$ = new constantCommand<baseType>(atof(d_scanner.YY
 		| SQRT '(' baseType ')' 	{ $$ = new sqrtCommandbaseType<baseType> ($3);}
 		| EXP '(' baseType ')' 	{ $$ = new expCommandbaseType<baseType> ($3);}
 		| SIN '(' baseType ')' 	{ $$ = new sinCommandbaseType<baseType> ($3);}
-//		| integer { $$ = new convertToBaseType($1); }
+		| '(' DOUBLETOKEN ')' integer { $$ = new convertIntegerToBaseType($4); }
 		| '-' baseType { $$ = new timesCommandbaseType<baseType,baseType>(new constantCommand<baseType>(-1),$2); } %prec UMINUS
 		| statisticsNetworkCommandBaseType
 		// veraltet ohne Seg-Schutz:
@@ -564,7 +559,8 @@ statisticsNetworkCommandBaseType:  NETWORK '.' MEANDEGREE '(' ')' { $$ = BASETYP
 		| NETWORK '.' MEANCLUSTERING '(' ')' { $$= BASETYPENETWORKFUNK(meanClustering, $1); }
 		| NETWORK '.' GETPARAM '(' nodeDescriptor ',' string ')' { $$= BASETYPENETWORKFUNK2 (getParam, $1, _E(nodeDescriptor, $5), _E(string, $7)); }
 		| NETWORK '.' GETSTATE '(' nodeDescriptor ')' { $$= BASETYPENETWORKFUNK2 (getState, $1, _E(nodeDescriptor, $5),0 ); }
-		| NETWORK '.' GETSTATE '(' nodeDescriptor ',' integer  ')' { $$= BASETYPENETWORKFUNK2 (getState, $1, _E(nodeDescriptor, $5),_E(int, $7) ); };
+		| NETWORK '.' GETSTATE '(' nodeDescriptor ',' integer  ')' { $$= BASETYPENETWORKFUNK2 (getState, $1, _E(nodeDescriptor, $5),_E(int, $7) ); }
+		| NETWORK '.' TIME '(' ')' { $$= BASETYPENETWORKFUNK (time, $1); };
 
 
 statisticsNetworkCommandInt: NETWORK '.' DEGREE '(' nodeDescriptor ')'  {  $$ = INTNETWORKFUNK1( degree, $1, _E(nodeDescriptor, $5)); }
@@ -607,29 +603,23 @@ bool	: '(' bool ')' { $$ = $2; }
 		| baseType NEQUAL baseType {$$ = new nequalCommandbool<baseType,baseType>($1,$3); }
 		| baseType NEQUAL integer  {$$ = new nequalCommandbool<baseType,int>($1,$3); }
 		| baseType NEQUAL baseType  {$$ = new nequalCommandbool<baseType,baseType>($1,$3); }
-
-
-| baseType '<' baseType {$$ = new lessCommandbool<baseType,baseType>($1,$3); }
+		| baseType '<' baseType {$$ = new lessCommandbool<baseType,baseType>($1,$3); }
 		| integer '<' integer {$$ = new lessCommandbool<int,int>($1,$3); }
 		| integer '<' baseType {$$ = new lessCommandbool<int,baseType>($1,$3); }
 		| baseType '<' integer {$$ = new lessCommandbool<baseType,int>($1,$3); }
-
-| integer '>' integer {$$ = new greaterCommandbool<int,int>($1,$3); }
+		| integer '>' integer {$$ = new greaterCommandbool<int,int>($1,$3); }
 		| integer '>' baseType {$$ = new greaterCommandbool<int,baseType>($1,$3); }
 		| baseType '>' integer {$$ = new greaterCommandbool<baseType,int>($1,$3); }
 		| baseType '>' baseType {$$ = new greaterCommandbool<baseType,baseType>($1,$3); }
-
 		| integer GREATEREQUAL integer {$$ = new greaterEqualCommandbool<int,int>($1,$3); }
 		| integer GREATEREQUAL baseType {$$ = new greaterEqualCommandbool<int,baseType>($1,$3); }
 		| baseType GREATEREQUAL integer {$$ = new greaterEqualCommandbool<baseType,int>($1,$3); }
 		| baseType GREATEREQUAL baseType {$$ = new greaterEqualCommandbool<baseType,baseType>($1,$3); }
-
-| integer LESSEQUAL integer {$$ = new lessEqualCommandbool<int,int>($1,$3); }
+		| integer LESSEQUAL integer {$$ = new lessEqualCommandbool<int,int>($1,$3); }
 		| integer LESSEQUAL baseType {$$ = new lessEqualCommandbool<int,baseType>($1,$3); }
 		| baseType LESSEQUAL integer {$$ = new lessEqualCommandbool<baseType,int>($1,$3); }
 		| baseType LESSEQUAL baseType {$$ = new lessEqualCommandbool<baseType,baseType>($1,$3); }
-
-| bool AND bool {$$ = new andCommandbool<bool,bool>($1,$3); }
+		| bool AND bool {$$ = new andCommandbool<bool,bool>($1,$3); }
 		| bool OR bool { $$ = new orCommandbool<bool,bool>($1,$3); }
 		| bool EQUAL bool  { $$ = new equalCommandbool<bool, bool > ( $1, $3	); }
 		| NOT bool { $$ = new notCommand($2); }

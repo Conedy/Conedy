@@ -3,6 +3,7 @@
 #include "string_config.h"
 
 
+
 stringstream vectorForInstruction::chefDagEnding;
 vector<int> vectorForInstruction::iterations;
 ofstream vectorForInstruction::condorSkript;
@@ -21,13 +22,13 @@ string getCurrentPath()
 	return CurrentPath;
 }
 
-void instructionBlock::execute () 
+void instructionBlock::execute ()
 {
 				list <instruction *> :: iterator it;
 				for (it = instructionList.begin(); it != instructionList.end(); it++)
 					(*it)->execute();
 }
-		
+
 
 edgeBlueprint* setEdgeParameter::evaluate() { (( edgeBlueprint *) (edge->evaluate() )) -> setParameter((parameter->evaluate()) ); return edge->evaluate();}
 
@@ -48,129 +49,110 @@ string vectorForInstruction::currentJobName()
 
 void vectorForInstruction::writeCondorSkript()
 {
+		cout << "ID: " << uniqueNumber::number << endl;
+		cout << getCurrentPath();
 
-      cout <<"Die Nummer:" << uniqueNumber::number << endl;
-      cout << getCurrentPath();
-
-      jobName.str ( "" );
-      jobName << "__" << uniqueNumber::number << ".dag";
-      jobName.str ( "" );
-      jobName << "__" << uniqueNumber::number << ".condor";
-      condorSkript.open ( jobName.str().c_str() );
-      jobName.str("");
-
-
-      condorSkript << "Universe     = vanilla\n";
-
-// remove newline from dirInstall dirty
-		string dirInstall =reinterpret_cast<const char *>(dirInstall_h);
-		dirInstall = dirInstall.substr(0, dirInstall.length() - 1 );	
-
-      condorSkript << "Executable   =  " << dirInstall << "/conedy.$$(OpSys).$$(Arch).EXE\n";
-
-      condorSkript << "Log    =" << commandLineArguments::arg[1] << ".log" << "\n\n";
-//		condorSkript << "stream_output = True \n";   I'm putting this out because its seems to worsen performance on the submitting pc ?
-      condorSkript << "Requirements =" ; 
-
-bool first = true;
-
-	if (linux64())
-	{
-		if (!first)
-			condorSkript << " || \\\n";
-		condorSkript << "(Arch == \"X86_64\" && OpSys == \"LINUX\")";
-		first = false;
-	}
-	if (linux32())
-	{
-		if (!first)
-			condorSkript << " || \\\n";
-		condorSkript << "    (Arch == \"INTEL\" && OpSys == \"LINUX\")";
-		first = false;
-	}
-	if (win51())
-	{
-		if (!first)
-			condorSkript << " || \\\n";
-		condorSkript << "    (Arch == \"INTEL\" && OpSys == \"WINNT51\")";
-		first = false;
-	}
-	if (win60())
-	{
-		if (!first)
-			condorSkript << " || \\\n";
-		condorSkript << "    (Arch == \"INTEL\" && OpSys == \"WINNT60\")";
-		first = false;
-	}
-	if (win61())
-	{
-		if (!first)
-			condorSkript << " || \\\n";
-		condorSkript << "    (Arch == \"INTEL\" && OpSys == \"WINNT61\")";
-		first = false;
-	}
-	condorSkript << "\n\n";
+		jobName.str ( "" );
+		jobName << "__" << uniqueNumber::number << ".dag";
+		jobName.str ( "" );
+		jobName << "__" << uniqueNumber::number << ".condor";
+		condorSkript.open ( jobName.str().c_str() );
+		jobName.str("");
 
 
-      condorSkript << " TRANSFER_FILES  = ALWAYS\n";
-//    out <<"notification = Complete\n";
-//    out <<"notify_user=alex@goedel\n";
-//    out << "next_job_start_delay = 100 \n";
-      condorSkript << "should_transfer_files = YES \n";
-//	   condorSkript << "on_exit_remove = (ExitBySignal == False) && (ExitCode == 0)\n";
-      condorSkript << "WhenToTransferOutput = ON_EXIT\n\n";
+		condorSkript << "Universe = " << getGlobal<string>("universe") << endl; 
 
-      size_t found;
-      found=commandLineArguments::arg[1].find_last_of("/\\");
-      string fileName = commandLineArguments::arg[1].substr(found+1);
+		// remove newline from dirInstall dirty
+		string dirInstall = reinterpret_cast<const char *>(dirInstall_h);
+		dirInstall = dirInstall.substr(0, dirInstall.length() - 1 );
+
+		condorSkript << "Executable = " << dirInstall << "/conedy.$$(OpSys).$$(Arch).EXE\n";
+
+		condorSkript << "Log = " << commandLineArguments::arg[1] << ".log" << "\n\n";
+		//		condorSkript << "stream_output = True \n";   I'm putting this out because its seems to worsen performance on the submitting pc ?
+		condorSkript << "Requirements = " ;
+
+		bool first = true;
+
+		if (getGlobal<bool>("LINUX_x86_64"))
+		{
+			if (!first)
+				condorSkript << " || \\\n";
+			condorSkript << "(Arch == \"X86_64\" && OpSys == \"LINUX\")";
+			first = false;
+		}
+		if (getGlobal<bool>("LINUX_x86"))
+		{
+			if (!first)
+				condorSkript << " || \\\n";
+			condorSkript << "    (Arch == \"INTEL\" && OpSys == \"LINUX\")";
+			first = false;
+		}
+		if (getGlobal<bool>("WINNT51_x86"))
+		{
+			if (!first)
+				condorSkript << " || \\\n";
+			condorSkript << "    (Arch == \"INTEL\" && OpSys == \"WINNT51\")";
+			first = false;
+		}
+		if (getGlobal<bool>("WINNT60_x86"))
+		{
+			if (!first)
+				condorSkript << " || \\\n";
+			condorSkript << "    (Arch == \"INTEL\" && OpSys == \"WINNT60\")";
+			first = false;
+		}
+		if (getGlobal<bool>("WINNT61_x86"))
+		{
+			if (!first)
+				condorSkript << " || \\\n";
+			condorSkript << "    (Arch == \"INTEL\" && OpSys == \"WINNT61\")";
+			first = false;
+		}
+		condorSkript << "\n\n";
 
 
-if (nestedness == 0)
-		condorSkript << "transfer_input_files =" << fileName << "\n";
-else
-      condorSkript << "transfer_input_files     = $(transfer)\n";
+		condorSkript << "transfer_files = ALWAYS\n";
+		//    out <<"notification = Complete\n";
+		//    out <<"notify_user=alex@goedel\n";
+		//    out << "next_job_start_delay = 100 \n";
+		condorSkript << "should_transfer_files = YES \n";
+		//	   condorSkript << "on_exit_remove = (ExitBySignal == False) && (ExitCode == 0)\n";
+		condorSkript << "WhenToTransferOutput = ON_EXIT\n\n";
 
+		size_t found;
+		found=commandLineArguments::arg[1].find_last_of("/\\");
+		string fileName = commandLineArguments::arg[1].substr(found+1);
+
+
+		if (nestedness == 0)
+				condorSkript << "transfer_input_files =" << fileName << "\n";
+		else
+				condorSkript << "transfer_input_files     = $(transfer)\n";
+
+		condorSkript << "\n";
+		condorSkript << "Arguments =" << fileName;
+
+		for ( unsigned int i =1 ; i <= nestedness; i++ )
+			condorSkript << " $(arg" << i << ") ";
 
 
 		condorSkript << "\n";
+		condorSkript << "Error  =__" << fileName;
+		for ( unsigned int i =1 ; i <= nestedness; i++ )
+			condorSkript << "_$(arg" << i << ")";
+		condorSkript <<  ".err\n";
+
+		condorSkript << "Output =__" << fileName;
+		for ( unsigned int i =1 ; i <= nestedness; i++ )
+			condorSkript << "_$(arg" << i << ")";
+		condorSkript << ".out\n";
 
 
-      condorSkript << "Arguments =" << fileName;
+		condorSkript  << "Queue \n";
 
 
-      for ( unsigned int i =1 ; i <= nestedness; i++ )
-         condorSkript << " $(arg" << i << ") ";
-
-
-      condorSkript << "\n";
-      condorSkript << "Error  =__" << fileName;
-      for ( unsigned int i =1 ; i <= nestedness; i++ )
-         condorSkript << "_$(arg" << i << ")";
-      condorSkript <<  ".err\n";
-
-      condorSkript << "Output =__" << fileName;
-      for ( unsigned int i =1 ; i <= nestedness; i++ )
-         condorSkript << "_$(arg" << i << ")";
-      condorSkript << ".out\n";
-
-
-      condorSkript  << "Queue \n";
-
-
-      condorSkript.close();
-
-
-
-
-
-
-
-
-
-
-
-
-
+		condorSkript.close();
 }
 
 
@@ -184,7 +166,7 @@ void vectorForInstruction::submitToCondor()
 		iterations.push_back ( 0 );
 
 
-		cout <<"Die Nummer:" << uniqueNumber::number << endl;
+		cout <<"ID: " << uniqueNumber::number << endl;
 		cout << getCurrentPath();
 
 //		writeCondorSkript();
@@ -228,14 +210,6 @@ void vectorForInstruction::submitToCondor()
 
 			inc->execute();
 
-
-
-
-
-
-
-
-
 			chefDag << "JOB J" << currentJobName() << " __" << uniqueNumber::number << ".condor" << "\n";
 			chefDag << "VARS J" << currentJobName() << " ";
 			for ( unsigned int i =1 ; i <= loopCounter; i++ )
@@ -243,7 +217,7 @@ void vectorForInstruction::submitToCondor()
 
 			chefDag << "transfer=\""<< commandLineArguments::arg[1];
 			for ( unsigned int i = 0; i < inputFiles.size(); i++ )
-				chefDag << "," << inputFiles[i];	
+				chefDag << "," << inputFiles[i];
 			chefDag << "\"\n";
 
 			if ( cond->evaluate() && isChained )
@@ -262,19 +236,11 @@ void vectorForInstruction::submitToCondor()
 
 		}
 
-
-
-
-
-
-
-
 	}
+
+
 	if ( loopCounter == 1 )
 	{
-
-
-
 		/*	stringstream startSkriptFilename;
 			startSkriptFilename << "__start" << uniqueNumber::number << ".sh";
 
@@ -342,18 +308,6 @@ void vectorForInstruction::submitToCondor()
 
 */
 
-
-
-
-
-
-
-
-
-
-
-
-
 //	stringstream command;
 //	command << "condor_submit " << jobName.str();
 
@@ -363,22 +317,12 @@ void vectorForInstruction::submitToCondor()
 //		throw "condor_submit failed!";
 //	}
 
-
-
-
-
 	}
-
-
-
-
-
 
 //	system ("scp " << commandLineArguments::arg[0] << " " << commandLineArguments::arg[1] <<
 
 #else
 	throw "condor nicht mitkompiliert!";
-
 
 #endif
 

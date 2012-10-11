@@ -3,6 +3,51 @@
 
 namespace conedy
 {
+
+	void streamOutNodeHist::evolve (baseType time)
+	{
+		
+		node::edgeDescriptor i, end;
+		end = degree();
+
+		unsigned int bins = getGlobal<int> ("streamOutNodeHist_bins");
+		baseType lowest = getGlobal <baseType> ("streamOutNodeHist_lowest");
+		baseType highest = getGlobal <baseType> ("streamOutNodeHist_highest");
+
+		vector <double > histo (bins,0);
+		
+
+		for (unsigned int i = 0; i != end; i++ )
+		{	
+				baseType normed = (getTargetState (i) - lowest) / (highest - lowest);
+				unsigned int round = (unsigned int )  (normed * bins );
+
+				histo[round ]++;
+		}
+		
+		for (unsigned int i = 0; i != bins; i++ )
+		{
+			(* (out[localStreamNumber ])) << setprecision( getGlobal<int>("outputPrecision") ) << histo[i] /end    << " " ;
+		}	
+	}
+
+
+
+
+	void streamOutNodeCountEquals::evolve (baseType time)
+	{
+		baseType newValue = this-> couplingSum();
+		if (newValue == lastValue)
+			count++;
+		else
+		{
+			( * ( out[localStreamNumber] ) ) << setprecision( getGlobal<int>("outputPrecision") ) << lastValue << " " << count << ' ';
+	  		lastValue = newValue;
+			count= 1;
+		}	
+	}
+
+
 	void	streamOutNode:: 			evolve(baseType time)
 	{
 //		x = this->couplingSum();

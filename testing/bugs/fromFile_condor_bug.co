@@ -1,0 +1,8 @@
+# "myfile" wird beim Aufruf durch conedyCondor
+# nicht in die transfer-Variable der zu übergebenen Dateien geschrieben (in dag)
+
+int i;
+
+vectorFor(i=0;i<2;i=i+1) {
+	print fromFile("myfile");
+};

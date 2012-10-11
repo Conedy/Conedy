@@ -33,6 +33,7 @@ void registerStandards()
 //	sigEdgeParams::registerStandardValues();
 	streamInNode::registerStandardValues();
 	streamOutNode::registerStandardValues();
+	streamOutNodeHist::registerStandardValues();
 	sdeNode::registerStandardValues();
 #if OPENGL
 	GLNetwork<baseType>::registerStandardValues();

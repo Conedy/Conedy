@@ -18,7 +18,7 @@ Initial conditions and parameters can be chosen individually or drawn from rando
 Conedy can be interfaced via `Python`_ bindings (recommended) or with a built-in script interpreter, using a C-like syntax. The latter may be useful if you want to distribute computations onto a cluster as the interpreter can easily be linked statically (in contrast to Python) and also has support for the `Condor`_ job management system. Because the main syntax difference is that commands are separated by semicola instead of new lines, we only refer to the Python interface in most of this manual. However, there also is a :ref:`chapter<scriptInterpreter>` devoted to the script interpreter and its features.
 
 .. _Condor: http://www.cs.wisc.edu/condor/
-.. _Python: http://python.org 
+.. _Python: http://python.org
 
 
 In the following, a short example is given which shows how to use the Python bindings to obtain time series from coupled dynamical systems.
@@ -32,33 +32,35 @@ We create a simple network with two nodes, one with Rössler and one with Lorenz
 
 .. testcode:: INTRO
 
-   #! /usr/bin/env python
-   import conedy as co
+	#! /usr/bin/env python
+	# -*- coding: utf-8 -*-
 
-   # Create an empty network, …
-   N = co.network()
+	import conedy as co
 
-   # add the nodes, …
-   nodeNumberRoessler = N.addNode(co.roessler())
-   nodeNumberLorenz = N.addNode(co.lorenz())
+	# Create an empty network, …
+	N = co.network()
 
-   # and connect them with a directed edge with weight 1.0 (Roessler to Lorenz).
-   N.addEdge(nodeNumberLorenz, nodeNumberRoessler, co.weightedEdge(1.))
+	# add the nodes, …
+	nodeNumberRoessler = N.addNode(co.roessler())
+	nodeNumberLorenz = N.addNode(co.lorenz())
 
-   # Set the oscillators’ intial states.
-   N.setState(nodeNumberRoessler, 0., 0., 0.)
-   N.setState(nodeNumberLorenz, 1., 1., 1.)
+	# and connect them with a directed edge with weight 1.0 (Roessler to Lorenz).
+	N.addEdge(nodeNumberLorenz, nodeNumberRoessler, co.weightedEdge(1.))
 
-   # Let 100.0 units of time pass, in order for transients to die out.
-   N.evolve(0., 100.)
+	# Set the oscillators’ intial states.
+	N.setState(nodeNumberRoessler, 0., 0., 0.)
+	N.setState(nodeNumberLorenz, 1., 1., 1.)
 
-   # Set the time and each oscillator’s third component (zero-based) to be written to the file roesslerLorenzOut.
-   N.observeTime("roesslerLorenzOut")
-   N.observe(nodeNumberRoessler, "roesslerLorenzOut", co.component(2))
-   N.observe(nodeNumberLorenz, "roesslerLorenzOut", co.component(2))
+	# Let 100.0 units of time pass, in order for transients to die out.
+	N.evolve(0., 100.)
 
-   # Let 400.0 units of time pass.
-   N.evolve(100.,500.)
+	# Set the time and each oscillator’s third component (zero-based) to be written to the file roesslerLorenzOut.
+	N.observeTime("roesslerLorenzOut")
+	N.observe(nodeNumberRoessler, "roesslerLorenzOut", co.component(2))
+	N.observe(nodeNumberLorenz, "roesslerLorenzOut", co.component(2))
+
+	# Let 400.0 units of time pass.
+	N.evolve(100.,500.)
 
 
 Voilà: Now we have timeseries of the two coupled oscillators written to a text file.
@@ -75,15 +77,11 @@ Free Software
 Conedy is free software licensed under the GPL:
 
 
-    Conedy is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+    Conedy is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful, but *without any warranty*; without even the implied warranty of *merchantability* or *fitness for a particular purpose*. See the `GNU General Public License`_ for more details.
 
+.. _GNU General Public License: http://www.gnu.org/copyleft/gpl.html
 
 
