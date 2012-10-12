@@ -23,8 +23,6 @@ void *pt2FunctionForGlutWrapper;
 istream* Scanner::source;
 
 void printDefines () 
-
-
 {
 
 	cout <<"#";
