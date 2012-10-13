@@ -20,33 +20,11 @@ testPython-Conedy:
 
 
 test_./%.py:
-	sed 's/import conedy as co/import conedy as co\nco.setRandomSeed(0)/' $*.py | python > output/$*.py.out 2> output/$*.py.err || true
-	sed -i "/#/d" output/$*.py.out
-	sum output/$*.py*  > results/sum_$*.py 
-	if [ -e "expected/sum_$*.py" ]; then \
-		if [ "`diff expected/sum_$*.py results/sum_$*.py`" = "" ]; then \
-			echo "test `pwd`/$*.py succeded"; \
-		else echo "test `pwd`/$*.py failed !"; diff expected/sum_$*.py results/sum_$*.py; \
-			echo "standard out of $*.py:" ; cat output/$*.py.out| sed "s/^/\t/g"; \
-			echo "standard error of $*.py:" ; cat output/$*.py.err| sed "s/^/\t/g"; \
-		fi; \
-	else echo "warning checksum for $*.py not present !"; \
-	fi
+	../testPythonConedyScript.sh $*.py
+	
 
 test_./%.co:
-	(echo "setRandomSeed(0);";cat $*.co) | conedy  > output/$*.co.out 2> output/$*.co.err || true
-	sed -i "/#/d" output/$*.co.out
-	sum output/$*.co* > results/sum_$*.co 
-	if [ -e "expected/sum_$*.co" ]; then \
-		if [ "`diff expected/sum_$*.co results/sum_$*.co`" = "" ]; then \
-			echo "test `pwd`/$*.co succeded"; \
-		else echo "test `pwd`/$*.co failed !"; diff expected/sum_$*.co results/sum_$*.co;  \
-			echo "standard out of $*.co:" ; cat output/$*.co.out | sed "s/^/\t/g"; \
-			echo "standard error of $*.co:" ; cat output/$*.co.err| sed "s/^/\t/g"; \
-		fi \
-	else \
-		echo "warning checksum for $*.co not present !"; \
-	fi
+	../testConedyScript.sh $*.co
 
 confirmBoth_./%: confirm_./%.py confirm_./%.co
 	sed 's/import conedy as co/import conedy as co\nco.setRandomSeed(0)/' $*.py | python > output/$*.py.out 2> output/$*.py.err || true
