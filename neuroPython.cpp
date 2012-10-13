@@ -501,7 +501,7 @@ template <class N>
 
 
 		class_<nodeBlueprint> ("nodeBlueprint")
-			.def("setState", &dynNode::setState, setStateTemplate_overloads ( reinterpret_cast <const char *> (__addedNodes_setState)))  ;
+			.def("setState", &dynNode::setState, setStateTemplate_overloads ( reinterpret_cast <const char *> (__dynNetwork_setState)))  ;
 
 
 
