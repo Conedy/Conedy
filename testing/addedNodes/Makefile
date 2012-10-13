@@ -1,1 +1,1 @@
-../subMake
+../Makefile

@@ -4,7 +4,7 @@ network N;
 
 outputPrecision = 4.0;
 
-N.cycle(1000,50, node(), weightedEdge());   # Creates a closed chain of 100 nodes where each is connected to its 10 nearest neighbors to each side.
+N.cycle(1000,50, node(), weightedEdge());   # Creates a closed chain of 1000 nodes where each is connected to its 50 nearest neighbors to each side.
 
 
 print "should be close to 0.75:" + ( N.meanClustering() ) + newline;
