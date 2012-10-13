@@ -7,7 +7,7 @@ co.setRandomSeed(0)
 N = co.network()
 
 
-N.cycle(1000,50, co.node(), co.weightedEdge())   # Creates a closed chain of 100 nodes where each is connected to its 10 nearest neighbors to each side.
+N.cycle(1000,50, co.node(), co.weightedEdge())   # Creates a closed chain of 1000 nodes where each is connected to its 50 nearest neighbors to each side.
 
 
 print "should be close to 0.75:" + str ( N.meanClustering() ) 
