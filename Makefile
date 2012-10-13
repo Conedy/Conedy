@@ -261,6 +261,7 @@ copySrc:
 	ln -s $(CONEDYSRC) $(buildDir)  || true
 	ln -s ${dirSrc}/addedNodes $(buildDir) || true
 	cp -r ${dirSrc}/testing $(buildDir) || true
+	cp addedNodes.sum.old $(buildDir)
 	echo ${VERSION} > $(buildDir)/version
 	rm -f $(buildDir)/addedNodes.sum.old
 

@@ -33,7 +33,7 @@ namespace conedy {
 
 			static void registerStandardValues()
 			{
-				registerGlobal<string>("stdOdeIntegrator_stepType","euler");
+				registerGlobal<string>("odeStepType","euler");
 			}
 
 			virtual void swap()
@@ -48,7 +48,7 @@ namespace conedy {
 
 	if (amIFirst())
 	{
-			string stepType = getGlobal<string>("stdOdeIntegrator_stepType");
+			string stepType = getGlobal<string>("odeStepType");
 			if (stepType == "euler")
 			{
 				stepType_int = 0;
