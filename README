@@ -7,3 +7,8 @@ Conedy is a scientific tool for the numerical integration of dynamical systems, 
 see http://www.conedy.org for documentation
 
 
+Build dependencies on a debian-based system:
+
+
+sudo aptitude install debhelper  cdbs python-all-dev boost-build  libboost-dev libgsl0-dev libboost-dev libboost-python-dev libboost-iostreams-dev libz-dev python-support bisonc++ flex  texlive-latex-base python-sphinx texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended vim-common dvipng
+
