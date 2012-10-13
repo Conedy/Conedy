@@ -139,7 +139,7 @@ unstripped: clean addNodes Scanner.ll Parser.yy
 conedy: addNodesIfNecessary Parser.yy Scanner.ll string_config.h
 	bjam  conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags='-DARCHITECTURE="${ARCH}"'  -j${numberCores}
 
-installAndTest: install test
+installAndnest: install test
 
 
 conedy.install: conedy
