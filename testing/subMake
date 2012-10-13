@@ -27,6 +27,8 @@ test_./%.py:
 		if [ "`diff expected/sum_$*.py results/sum_$*.py`" = "" ]; then \
 			echo "test `pwd`/$*.py succeded"; \
 		else echo "test `pwd`/$*.py failed !"; diff expected/sum_$*.py results/sum_$*.py; \
+			echo "standard out of $*.py:" ; cat output/$*.py.out| sed "s/^/\t/g"; \
+			echo "standard error of $*.py:" ; cat output/$*.py.err| sed "s/^/\t/g"; \
 		fi; \
 	else echo "warning checksum for $*.py not present !"; \
 	fi
@@ -36,7 +38,12 @@ test_./%.co:
 	sed -i "/#/d" output/$*.co.out
 	sum output/$*.co* > results/sum_$*.co 
 	if [ -e "expected/sum_$*.co" ]; then \
-		if [ "`diff expected/sum_$*.co results/sum_$*.co`" = "" ]; then echo "test `pwd`/$*.co succeded"; else echo "test `pwd`/$*.co failed !"; diff expected/sum_$*.co results/sum_$*.co;  fi \
+		if [ "`diff expected/sum_$*.co results/sum_$*.co`" = "" ]; then \
+			echo "test `pwd`/$*.co succeded"; \
+		else echo "test `pwd`/$*.co failed !"; diff expected/sum_$*.co results/sum_$*.co;  \
+			echo "standard out of $*.co:" ; cat output/$*.co.out | sed "s/^/\t/g"; \
+			echo "standard error of $*.co:" ; cat output/$*.co.err| sed "s/^/\t/g"; \
+		fi \
 	else \
 		echo "warning checksum for $*.co not present !"; \
 	fi
