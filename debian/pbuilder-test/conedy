@@ -1,0 +1,6 @@
+#!/bin/bash
+
+make conedy.test
+
+
+#false
