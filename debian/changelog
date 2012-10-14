@@ -1,3 +1,9 @@
+conedy (0.262) unstable; urgency=low
+
+  * fixed automatic compilation 
+
+ -- Alexander Rothkegel <rothkegel@uni-bonn.de> Sun, 14 Oct 2012 18:38:43 +0200
+
 conedy (0.261) unstable; urgency=low
 
   * various bugfixes
