@@ -3,6 +3,7 @@ FlexLexer.h
 Jamroot
 LICENSE
 Makefile
+addedNodes.sum.old
 Parser.h
 Parser.ih
 Parser.yy.declaration
