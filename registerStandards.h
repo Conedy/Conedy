@@ -22,7 +22,7 @@ void registerStandards()
 	gslOdeNode::registerStandardValues();
 #endif
 
-#ifdef LDOBULE
+#ifdef LDOUBLE
 	stdOdeIntegrator::registerStandardValues();	
 #endif
 
