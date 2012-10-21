@@ -14,6 +14,12 @@ namespace conedy
 //		updateKey(_fire_, dynNode::time + ( 1 - value ));
 
 	}
+	void pcoBase::exciteRange (baseType c, unsigned  int range)
+	{
+		for (unsigned int i = 0; i < range ; i++)
+				 ((pcoBase *)node::theNodes[i])->excite(c);
+
+	}
 
 		void pcoBase::exciteAll(baseType c)
 		{

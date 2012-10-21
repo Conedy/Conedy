@@ -54,7 +54,8 @@ namespace conedy
 	virtual void clean ();
 			
 	void exciteAll(baseType couplingStrength);
-
+	void exciteRange (baseType couplingStrength, unsigned int range);
+	
 		virtual void excite ( baseType c )
 		{
 
