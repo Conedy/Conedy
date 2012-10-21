@@ -15,6 +15,21 @@ namespace conedy
 
 	}
 
+		void pcoBase::exciteAll(baseType c)
+		{
+
+
+			for (unsigned int i = 0; i < node::theNodes.size(); i++)
+			{
+				if (node::theNodes[i] -> getNodeInfo().theNodeKind & _pco_)
+				 ((pcoBase *)node::theNodes[i])->excite(c);
+
+
+
+			}
+
+		}
+
 
     void pcoBase::printStatistics(ostream &os, int nodeVerbosity, int edgeVerbosity ) {
         node::printStatistics(os, nodeVerbosity, edgeVerbosity);
@@ -51,6 +66,8 @@ namespace conedy
 #endif
 			this->fire();
 //			return this->time + 1.0;// + gslNoise::getGaussian ( 0, numeric_limits<baseType>::epsilon() * 1000.0 );
+			this->upkeep();
+
 
 			return nextEvent() + 1;
 				

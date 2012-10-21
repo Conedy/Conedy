@@ -10,7 +10,6 @@ namespace conedy
 	baseType dynNode::time = 0.0;
 
 
-
 		void dynNode::setState(  baseType a1, baseType a2 , baseType a3 , baseType a4 , baseType a5 , baseType a6 , baseType a7 , baseType a8 , baseType a9 , baseType a10 , baseType a11 , baseType a12 )
 		{
 				vector <baseType> argList;

@@ -279,8 +279,9 @@ class NodeEditor:
 
 
 
+			if (self.type != "pco" and self.type != "pcoDelay"):
+				fout.write ("\t\tvirtual bool requiresUpkeep() { return true;}\n")
 
-			fout.write ("\t\tvirtual bool requiresUpkeep() { return true;}\n")
 			fout.write ("\t\tvirtual void upkeep (); \n")
 
 		if (len (self.events) > 0):

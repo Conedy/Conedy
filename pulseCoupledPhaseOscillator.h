@@ -52,6 +52,8 @@ namespace conedy
 			virtual unsigned int numberOfEvents() const { return 2;};
 
 	virtual void clean ();
+			
+	void exciteAll(baseType couplingStrength);
 
 		virtual void excite ( baseType c )
 		{
