@@ -18,10 +18,9 @@ Add Conedy’s GPG key to apt with the following command::
 
 	wget http://conedy.org/download/conedy_gpg.pub -O - | sudo apt-key add -
 
+And finally update your package index and install Conedy via::
 
-And finally install Conedy via::
-
-	sudo aptitude install conedy python-conedy conedy-src
+	sudo apt-get update && sudo apt-get install conedy python-conedy conedy-src
 
 (The different packages are described further below)
 
