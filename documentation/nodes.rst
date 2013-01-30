@@ -46,7 +46,7 @@ Begin with the name of the desired dynamics, enclosed in square brackets::
 
    [roessler]
 
-The name should not match with a previously defined node and be a valid python token. For example, it should not begin with a number.
+The name should not match with a previously defined node and be a valid python token. For example, it should not begin with a number and contain no special characters but ``_`` (and also no spaces).
 
 
 Parameters
