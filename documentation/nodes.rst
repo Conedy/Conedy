@@ -36,7 +36,7 @@ Before delving into the details we give the file’s full content for the sake o
 	dynamics =
 		dxdt[0] = -omega*x[1] - x[2] + couplingSum() - weightSum()*x[0];
 		dxdt[1] = x[0] + a*x[1];
-		dxdt[2] = b() + x[2] * (x[0]-c);
+		dxdt[2] = b + x[2] * (x[0]-c);
 
 
 Name
