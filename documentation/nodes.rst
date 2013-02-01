@@ -10,6 +10,7 @@ See :ref:`nodes` for a full list of available node dynamics.
 
 Each node dynamics is described in an INI-like description file, which is explained in the following.
 If the dynamics you want to investigate is not available in Conedy, you still may implement it yourself by creating such a file, which has to be stored in a directory which is specified in the ``config.h`` file (which is positioned in ``$HOME/.config/conedy`` by the ``.deb``-package).
+These files need to have the ending ``.cfg``.
 Conedy needs to be recompiled afterwards, which will be automatically issued on the next import to python if a file in this directory is modified or added.
 See :ref:`recompilation` for more details on this.
 
