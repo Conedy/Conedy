@@ -32,7 +32,6 @@ using clang ;
 #
 #using gcc ;
 
-using clang ;
 using python : ;
 
 using bisonc++ ;
