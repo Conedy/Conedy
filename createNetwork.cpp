@@ -60,7 +60,7 @@ namespace conedy {
 		nodeDescriptor streamOutNodeNumber = addNode(nod);
 		streamOutNode *s = dynamic_cast<streamOutNode*>( nodeBlueprint::theNodes[streamOutNodeNumber]);
 
-		eventHandler::insertVisiter(bind(&streamOutNode::evolve,s, 0.0),eventNumber);
+		eventHandler::insertVisiterAtSignature(bind(&streamOutNode::evolve,s, 0.0),eventNumber);
 		delete nod;
 
 

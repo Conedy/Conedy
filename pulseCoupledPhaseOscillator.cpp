@@ -67,16 +67,14 @@ namespace conedy
 		if ( eventSignature == _fire_ )
 		{
 
-#ifdef DEBUG			
-//			cout << "Firing:" << getNumber() << endl;
-#endif
 			this->fire();
 //			return this->time + 1.0;// + gslNoise::getGaussian ( 0, numeric_limits<baseType>::epsilon() * 1000.0 );
 			this->upkeep();
 
 
-			return nextEvent() + 1;
-				
+			return nextEvent() + period();
+
+
 		}
 
 		else // if (eventSignature == _exciteRandomly_)

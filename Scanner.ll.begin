@@ -58,7 +58,7 @@ ID       [A-Za-z][a-z0-9A-Z\_]*
 
 "\""[^\"]*"\""	{return (ParserBase::STRING);}
 
-:[^\:]*:	{return (ParserBase::SYSTEMCOMMAND);}
+":"	{return (ParserBase::SYSTEMCOMMAND);}
 
 
 "&&"		{return(ParserBase::AND);}

@@ -41,7 +41,7 @@ namespace conedy
 			count++;
 		else
 		{
-			( * ( out[localStreamNumber] ) ) << setprecision( getGlobal<int>("outputPrecision") ) << lastValue << " " << count << ' ';
+			( * ( out[localStreamNumber] ) ) << setprecision( getGlobal<int>("outputPrecision") ) << lastValue << " " << count << endl;
 	  		lastValue = newValue;
 			count= 1;
 		}	

@@ -40,7 +40,7 @@ namespace conedy
 
 
 
-    virtual void setStateVec ( vector <baseType  >  &r );
+			virtual void setStateVec ( vector <baseType  >  &r );
 
 			//			baseType inline dt () { return dynNode::dt; }
 			baseType inline nextFiring() { return eventHandler::getKey ( _fire_ ); }
@@ -51,34 +51,37 @@ namespace conedy
 
 			virtual unsigned int numberOfEvents() const { return 2;};
 
-	virtual void clean ();
-			
-	void exciteAll(baseType couplingStrength);
-	void exciteRange (baseType couplingStrength, unsigned int range);
-	
-		virtual void excite ( baseType c )
-		{
+			virtual void clean ();
+
+			void exciteAll(baseType couplingStrength);
+			void exciteRange (baseType couplingStrength, unsigned int range);
+			virtual baseType period() { return 1.0;}
+
+			virtual void excite ( baseType c )
+			{
 
 				baseType phase = 1.0 + this->time - eventHandler::getKey ( _fire_ );
 				baseType newPhase = phase + phaseResponse (c, phase);
 
-	//			cout << node::getNumber() << setprecision(20) <<  " "  << dynNode::time << " "  << phase << " " << newPhase << endl;
+				//			cout << node::getNumber() << setprecision(20) <<  " "  << dynNode::time << " "  << phase << " " << newPhase << endl;
 
 				if ( newPhase > phase)
 				{
-//					if ( newPhase > 1  )
-//						newPhase = 1;
+					//					if ( newPhase > 1  )
+					//						newPhase = 1;
 					eventHandler::decreaseKey ( _fire_,1.0  + this->time - newPhase );
 				}
 				else if (newPhase < phase )
 				{
-//				if ( phase < 0)
-//						newPhase = 0;
+					//				if ( phase < 0)
+					//						newPhase = 0;
 					eventHandler::increaseKey ( _fire_,1.0  + this->time - newPhase );
 				}
 
 
-		}
+			}
+
+					
 
 			virtual baseType phaseResponse(baseType c, baseType phi) { throw "phaseResponse of pcoBase called!";}
 
@@ -171,28 +174,28 @@ namespace conedy
 
 
 	//! OBSOLETE Edge, die bei allen Pulsegekoppelten Oscillatoren, die Phase zurückgibt. Eventuell nicht mehr benötigt, wenn pcoBase mit getState, die Phase zurückgibt.
-/*	template <typename EDGE>
+	/*	template <typename EDGE>
 		class phaseOfPCPO: public EDGE
-	{
+		{
 		private:
-			baseType inline time() { return dynNode::time;}
-			baseType inline nextEvent () { return ((pcoBase*) (EDGE::getTarget() ))-> nextFiring(); }
+		baseType inline time() { return dynNode::time;}
+		baseType inline nextEvent () { return ((pcoBase*) (EDGE::getTarget() ))-> nextFiring(); }
 
 		public:
 
-			const edgeInfo getEdgeInfo() {edgeInfo ei = {_phaseOfPCPO_,0,"phaseOfPCPO"}; return ei;}
-			phaseOfPCPO (nodeDescriptor targetNumber) : EDGE (targetNumber) {};
-			phaseOfPCPO (nodeDescriptor targetNumber, baseType w) : EDGE (targetNumber) {};
-			phaseOfPCPO () {};
-			baseType getTargetState()
-			{
-				return ( 1- nextEvent() + time() );
-			}
-			weightedEdge *construct() { return new phaseOfPCPO ( *this ); };
+		const edgeInfo getEdgeInfo() {edgeInfo ei = {_phaseOfPCPO_,0,"phaseOfPCPO"}; return ei;}
+		phaseOfPCPO (nodeDescriptor targetNumber) : EDGE (targetNumber) {};
+		phaseOfPCPO (nodeDescriptor targetNumber, baseType w) : EDGE (targetNumber) {};
+		phaseOfPCPO () {};
+		baseType getTargetState()
+		{
+		return ( 1- nextEvent() + time() );
+		}
+		weightedEdge *construct() { return new phaseOfPCPO ( *this ); };
 
 
-	};
-*/
+		};
+		*/
 }
 
 
