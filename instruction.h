@@ -170,6 +170,7 @@ class vectorForInstruction : public instruction, private globals
 			registerGlobal<bool>("WINNT60_x86", false);
 			registerGlobal<bool>("WINNT61_x86", false);
 			registerGlobal<string>("universe", "vanilla");
+			registerGlobal<bool>("niceUser",false);
 
 #ifdef ARCHITECTURE
 #define linuxify(y) LINUX_ ## y
@@ -512,24 +513,24 @@ class stringCat : public expression<string>
 
 //! Expression-Objekt, das pwei Strings concateniort.
 template <typename X>
-class stringCat<X,double> : public expression<string>
+class stringCat<X,baseType> : public expression<string>
 {
 	private:
 		expression <X> *left;
-		expression <double> *right;
+		expression <baseType> *right;
 	public:
-		stringCat (expression <X> *l, expression <double> *r): left(l), right(r) {};
+		stringCat (expression <X> *l, expression <baseType> *r): left(l), right(r) {};
 		string evaluate()
 		{
 			stringstream ss;
-			stringstream doublestring;
+			stringstream baseTypestring;
 
 			ss << left->evaluate();
-			double val = right->evaluate();
-			doublestring << setprecision(12) << val;
-			if (doublestring.str().find('.') == string::npos)
-				doublestring << ".0";
-			ss   << doublestring.str();
+			baseType val = right->evaluate();
+			baseTypestring << setprecision(12) << val;
+			if (baseTypestring.str().find('.') == string::npos)
+				baseTypestring << ".0";
+			ss   << baseTypestring.str();
 			return ss.str();
 		}
 

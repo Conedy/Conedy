@@ -96,7 +96,7 @@ namespace conedy
 	class streamOutNode : public dynNode, public globals
 	{
 
-		protected:
+		public:
 			baseType x;
 
 			//! Vector mit allen Ausgabeobjekten.
@@ -120,8 +120,6 @@ namespace conedy
 		public:
 
 			static void enter();
-
-
 
 			//! Ausgabenodes brauchen keinen Aufruf von evolve, und somit gibt timeEvolution 0 zurück.
 			virtual bool timeEvolution () { return 0; }

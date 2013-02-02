@@ -14,6 +14,27 @@ namespace conedy
 //		updateKey(_fire_, dynNode::time + ( 1 - value ));
 
 	}
+	void pcoBase::exciteRange (baseType c, unsigned  int range)
+	{
+		for (unsigned int i = 0; i < range ; i++)
+				 ((pcoBase *)node::theNodes[i])->excite(c);
+
+	}
+
+		void pcoBase::exciteAll(baseType c)
+		{
+
+
+			for (unsigned int i = 0; i < node::theNodes.size(); i++)
+			{
+				if (node::theNodes[i] -> getNodeInfo().theNodeKind & _pco_)
+				 ((pcoBase *)node::theNodes[i])->excite(c);
+
+
+
+			}
+
+		}
 
 
     void pcoBase::printStatistics(ostream &os, int nodeVerbosity, int edgeVerbosity ) {
@@ -46,14 +67,14 @@ namespace conedy
 		if ( eventSignature == _fire_ )
 		{
 
-#ifdef DEBUG			
-//			cout << "Firing:" << getNumber() << endl;
-#endif
 			this->fire();
 //			return this->time + 1.0;// + gslNoise::getGaussian ( 0, numeric_limits<baseType>::epsilon() * 1000.0 );
+			this->upkeep();
 
-			return nextEvent() + 1;
-				
+
+			return nextEvent() + period();
+
+
 		}
 
 		else // if (eventSignature == _exciteRandomly_)

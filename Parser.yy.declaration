@@ -1,6 +1,5 @@
 %%
 
-
 program: commands  { $1->execute();};
 
 commands:   commands instruction ';' {  ((instructionBlock*)$1)->addInstruction($2); $$ = $1; }
@@ -22,7 +21,7 @@ instruction		: system
 	| globalCommand
 	| bluePrintCommand
 	| statisticsNetworkCommandInt  { $$ = $1; }
-	| EXIT { $$ = new bindInstruction(bind(exit, 1)); }
+//	| EXIT { $$ = new bindInstruction(bind(exit, 1)); }
 	| if
 	| vectorFor ;
 
@@ -82,10 +81,13 @@ declare		:
 
 identifier : ID { $$ = $1; };
 
-system	: SYSTEMCOMMAND	{ string s(d_scanner.YYText() + 1, strlen(d_scanner.YYText()) - 2);
-		 $$ = new systemInstruction(  new constantCommand<string> (s)); };
-
-
+system	: SYSTEMCOMMAND string SYSTEMCOMMAND  {  
+#if CONDOR
+$$ = new emptyInstruction (); 
+#else
+$$ = new systemInstruction($2  ); 
+#endif
+};
 
 networkCommand	:  NETWORK '.' CLEAR '(' ')' { $$ = NETWORKFUNK(clear,$1); }
 					| NETWORK '.' SNAPSHOT '(' ')' { $$ = NETWORKFUNK(snapshot,$1); }
@@ -331,7 +333,7 @@ $$ = NETWORKFUNK2(startNeverStopGlut,$1,_E(string,$7),_E(baseType,$5));
 	| NETWORK '.' REWIRE '(' baseType ')' { $$ = NETWORKFUNK2(rewire,$1,_E(baseType,$5), network::stdNode); }
 	| NETWORK '.' NORMALIZEINWEIGHTSUM '(' baseType ')' { $$ = NETWORKFUNK1(normalizeInputs,$1,_E(baseType,$5)); }
 	| NETWORK '.' NORMALIZEOUTWEIGHTSUM '(' baseType ')' { $$ = NETWORKFUNK1(normalizeOutputs,$1,_E(baseType,$5)); }
-//	| NETWORK '.' REWIRE '(' baseType  ',' createLink ')' { $$ = NETWORKFUNK3(replaceEdges,$1,_E(baseType,$5), _E(edgeBlueprint*,$7),network::stdNode); }
+	| NETWORK '.' REWIRE '(' baseType  ',' createLink ')' { $$ = NETWORKFUNK3(replaceEdges,$1,_E(baseType,$5), _E(edgeBlueprint*,$7),network::stdNode); }
 	| NETWORK '.' REWIRE '(' baseType  ',' createNode ')' { $$ = NETWORKFUNK2(rewire,$1,_E(baseType,$5), _E(nodeBlueprint*,$7)); }
 
 	| NETWORK '.' REWIREUNDIRECTED '(' baseType ')' { $$ = NETWORKFUNK2(rewireUndirected,$1,_E(baseType,$5),_dynNode_); }
@@ -633,7 +635,6 @@ bool	: '(' bool ')' { $$ = $2; }
 
 node	: NODE { nodeBlueprint *n = new nodeVirtualEdges<dynNode>(); $$ = new constantCommand<nodeBlueprint*>(n);}
 	  | INTEGRATEFIREQUEUE { nodeBlueprint *n = new nodeVirtualEdges<pulseCoupledExcitatoryNeuron>(); $$ = new constantCommand<nodeBlueprint*>(n);}
-		| IZHIKEVICHMAP { nodeBlueprint *n = new nodeVirtualEdges<izhikevichMap>(); $$ = new constantCommand<nodeBlueprint*>(n);}
 		| RANDOMBLUEPRINTNODE '(' createNode ',' createNode ',' baseType ')' { nodeBlueprint *n = new randomBlueprintNode ( $3, $5, $7->evaluate()); $$ = new constantCommand<nodeBlueprint*>(n); }
 		| STREAMOUTNODE '(' string ')'	{ nodeBlueprint *n = new nodeVirtualEdges<streamOutNode> ($3->evaluate()); $$ = new constantCommand<nodeBlueprint*>(n);}
 		| STREAMINNODE '(' string ')'	{ nodeBlueprint *n = new nodeVirtualEdges<streamInNode> ($3->evaluate()); $$ = new constantCommand<nodeBlueprint*>(n);}

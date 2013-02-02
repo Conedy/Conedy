@@ -230,7 +230,7 @@ namespace conedy
 			//! Verbindet Knoten source mit allen Knoten der Art targedNodeKind
 			void addEdges (nodeDescriptor source, nodeKind targetNodeKind, edgeBlueprint *l = stdEdge);
 			//! Verbindet Knoten source mit allen Knoten vom Typ targetNodeType
-			void addEdges (nodeDescriptor source, int targetNodeType, edgeBlueprint *l);
+			void addEdges (nodeDescriptor source, int targetNodeType, edgeBlueprint *l = stdEdge);
 
 			//	void addEdges (nodeDescriptor source, nodeDescriptor targetNodeType, baseType w, edge *l) { };
 

@@ -57,7 +57,7 @@ namespace conedy {
 			else if (stepType == "rk4")
 				stepType_int = 1;
 			else
-				throw "unknown steptype for stdOdeIntegrator!";
+				throw "unknown steptype for odeStepType!";
 	}
 
 		};

@@ -137,7 +137,7 @@ namespace conedy
 
 
 
-				// only consider edges which start and end at nodes of type n
+			// only consider edges which start and end at nodes of type n
 			void rewire (double prop, nodeBlueprint *n = stdNode);
 
 

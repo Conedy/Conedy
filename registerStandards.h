@@ -22,11 +22,10 @@ void registerStandards()
 	gslOdeNode::registerStandardValues();
 #endif
 
-#ifdef LDOBULE
+#ifdef LDOUBLE
 	stdOdeIntegrator::registerStandardValues();	
 #endif
 
-	izhikevichMap::registerStandardValues();
 	network::registerStandardValues();
 	pcoDelay::registerStandardValues();
 	pulseCoupledExcitatoryNeuron::registerStandardValues();

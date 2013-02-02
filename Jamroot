@@ -28,7 +28,8 @@
 #using gcc : ming  : i586-mingw32msvc-g++ : :  ;
 
 
-#using clang ;
+using clang ;
+#
 #using gcc ;
 
 using python : ;

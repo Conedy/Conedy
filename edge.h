@@ -5,7 +5,7 @@
 
 #include <boost/function.hpp>
 #include <iostream>
-#include <boost/bind.hpp>
+//#include <boost/bind.hpp>
 #include "params.h"
 #include "dynNode.h"
 
@@ -135,7 +135,7 @@ namespace conedy
 
 		const edgeInfo getEdgeInfo() {
 			edgeInfo ancestor = EDGE::getEdgeInfo();
-			edgeInfo ei = {_staticComponent_,_weighted_ | ancestor.theEdgeKind, ancestor.theEdgeName + "_staticComponent" }; return ei;
+			edgeInfo ei = {_staticComponent_,(edgeKind)(_weighted_ | ancestor.theEdgeKind), ancestor.theEdgeName + "_staticComponent" }; return ei;
 		}
 
 		baseType getTargetState()
@@ -235,7 +235,7 @@ namespace conedy
 		public:
 			const edgeInfo getEdgeInfo() {
 				edgeInfo ancestor = EDGE::getEdgeInfo();
-				edgeInfo ei = {_randomTarget_, (char)  _weighted_ | ancestor.theEdgeKind,  ancestor.theEdgeName + "_randomTarget"};  return ei;
+				edgeInfo ei = {_randomTarget_, (char) ( _weighted_ | ancestor.theEdgeKind) ,  ancestor.theEdgeName + "_randomTarget"};  return ei;
 			}
 
 
@@ -337,7 +337,7 @@ namespace conedy
 		const edgeInfo getEdgeInfo() {
 			edgeInfo ancestor = EDGE::getEdgeInfo();
 			edgeInfo ei = {_pulseCouple_,(char)( _weighted_ | ancestor.theEdgeKind),  ancestor.theEdgeName + "_step"};  return ei;}
-			void setParameter(vector < baseType >& parameter)
+			void setParameter(vector < baseType > parameter)
 			{
 				EDGE::setParameter(parameter);
 				if (parameter.size() == 0)					return ;  // not all parameter have been specified. Stopping.
@@ -399,7 +399,7 @@ namespace conedy
 
 		const edgeInfo getEdgeInfo() {
 			edgeInfo ancestor = EDGE::getEdgeInfo();
-			edgeInfo ei = {_component_,_weighted_ | ancestor.theEdgeKind, ancestor.theEdgeName + "_component" }; return ei;
+			edgeInfo ei = {_component_,(edgeKind) (_weighted_ | ancestor.theEdgeKind), ancestor.theEdgeName + "_component" }; return ei;
 		}
 
 		baseType getTargetState()

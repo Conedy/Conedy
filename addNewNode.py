@@ -49,6 +49,7 @@ class NodeEditor:
 	functions = [ "getWeightedSum()", "getCouplingSum()", "getWeighedInSum()" ]
 	dgl = []
 	upkeep = []
+	period = []
 	doku = []
 	dim = 0
 	numParam = 0
@@ -267,10 +268,21 @@ class NodeEditor:
 		fout.write("\t\t\n")
 
 		fout.write("\tpublic:\n")
-	
+
+
+		if (self.period != ""):
+			dyn = self.period       #replace all parameter by the inline functions 
+			for p in self.params:
+				dyn = re.sub ("\\b" + p[0] + "\\b", p[0] + "()", dyn)
+
+			self.period = dyn
+			if (self.type == "pco" or self.type != "pcoDelay"):
+				fout.write("\t\t baseType period (); \n")
+
+
 		if (self.upkeep != ""):
 
-
+		
 			dyn = self.upkeep       #replace all parameter by the inline functions 
 			for p in self.params:
 				dyn = re.sub ("\\b" + p[0] + "\\b", p[0] + "()", dyn)
@@ -279,8 +291,9 @@ class NodeEditor:
 
 
 
+			if (self.type != "pco" and self.type != "pcoDelay"):
+				fout.write ("\t\tvirtual bool requiresUpkeep() { return true;}\n")
 
-			fout.write ("\t\tvirtual bool requiresUpkeep() { return true;}\n")
 			fout.write ("\t\tvirtual void upkeep (); \n")
 
 		if (len (self.events) > 0):
@@ -383,6 +396,14 @@ class NodeEditor:
 			fout.write ("\t{\n")
 			fout.write(self.upkeep)
 			fout.write ("\t}\n")
+
+
+		if (self.period != ""):
+			fout.write ("\t baseType %s::period()" % self.className)
+			fout.write ("\t{\n")
+			fout.write(self.period)
+			fout.write ("\t}\n")
+
 
 
 		dyn = self.dgl         #replace all parameter by the inline functions 
@@ -739,7 +760,16 @@ else:
 		except:
 			n.documentation = []
 		n.nodeInfo  = "_" + n.className + "_" 
-		
+
+
+		try:
+			n.period = config.get(className, 'period')
+		except:
+			n.period = ""
+
+
+
+
 		try:
 			n.upkeep = config.get(className, 'upkeep')
 		except:

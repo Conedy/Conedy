@@ -2,6 +2,7 @@
 #define gslOdeNode_h gslOdeNode_h
 
 #include "baseType.h"
+#include <iomanip>
 
 #ifdef DOUBLE
 
@@ -144,7 +145,7 @@ namespace conedy
 				double  * dxdt = (double*) calloc (this->dimension(), sizeof(double));
 				(*(this))(x, dxdt);
 				for (unsigned int i = 0; i < this->dimension(); i++)
-					cout << i << " " << dxdt[i] << endl;
+					cout << i <<   setprecision (15) << " " << dxdt[i] << endl;
 
 			}
 

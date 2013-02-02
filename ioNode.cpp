@@ -17,7 +17,7 @@ namespace conedy
 		vector <double > histo (bins,0);
 		
 
-		for (unsigned int i = 0; i != end; i++ )
+		for (i = 0; i != end; i++ )
 		{	
 				baseType normed = (getTargetState (i) - lowest) / (highest - lowest);
 				unsigned int round = (unsigned int )  (normed * bins );
@@ -25,7 +25,7 @@ namespace conedy
 				histo[round ]++;
 		}
 		
-		for (unsigned int i = 0; i != bins; i++ )
+		for (i = 0; i != bins; i++ )
 		{
 			(* (out[localStreamNumber ])) << setprecision( getGlobal<int>("outputPrecision") ) << histo[i] /end    << " " ;
 		}	
@@ -41,7 +41,7 @@ namespace conedy
 			count++;
 		else
 		{
-			( * ( out[localStreamNumber] ) ) << setprecision( getGlobal<int>("outputPrecision") ) << lastValue << " " << count << ' ';
+			( * ( out[localStreamNumber] ) ) << setprecision( getGlobal<int>("outputPrecision") ) << lastValue << " " << count << endl;
 	  		lastValue = newValue;
 			count= 1;
 		}	

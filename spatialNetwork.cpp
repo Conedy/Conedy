@@ -60,7 +60,8 @@ void spatialNetwork::connectCloseNodesTorus(node *source, node * target, baseTyp
 
 nodeDescriptor spatialNetwork::addNode( nodeBlueprint *n)
 {
-	if ((n->getNodeInfo().theNodeKind == _dynNode_) && nodePositioner != NULL)
+
+	if (((n->getNodeInfo().theNodeKind & _dynNode_) != 0) && nodePositioner != NULL)
 	{
 		nodePos.push_back(nodePositioner->getNodePosition());
 		return network::addNode(n);

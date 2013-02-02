@@ -65,7 +65,9 @@ namespace conedy
 			virtual baseType getHiddenComponent ( int component ) {return x[component];}
 			virtual baseType getState() { return this->getState(0);  }
 
-			virtual void upkeep() { throw "upkeep of dynNode called";}
+			virtual void upkeep() { }
+				
+			//	throw "upkeep of dynNode called";
 
 			virtual node * construct () { throw "construct of dynNode called !"; }
 
@@ -76,7 +78,7 @@ namespace conedy
 			virtual  baseType getMeanPhaseCoherence() { throw "getMeanPhaseCoherence";}
 			virtual	baseType couplingSum() { throw "couplingSum"; }
 			virtual	void fire () { throw "fire"; }
-
+			
 
 			virtual void excite(baseType couplingStrength);
 
