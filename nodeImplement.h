@@ -132,7 +132,7 @@ namespace conedy {
 			virtual void removeEdges() { outEdges.clear(); }
 
 			virtual void link (nodeDescriptor targetNumber, baseType weight);
-			virtual void link (nodeDescriptor targetNumber, edgeBlueprint *l);
+			virtual void link (nodeDescriptor targetNumber, edgeVirtual	*l);
 			virtual bool isLinked ( node *target );
 			virtual baseType linkStrength ( node *target );
 			virtual void normalizeInWeightSum(baseType d);
@@ -246,9 +246,9 @@ namespace conedy {
 
 
 	template <typename DYNNODE>
-void nodeVirtualEdges<DYNNODE>::link (nodeDescriptor targetNumber,  edgeBlueprint *l )
+void nodeVirtualEdges<DYNNODE>::link (nodeDescriptor targetNumber,  edgeVirtual *l )
 {
-	edgeBlueprint *newEdge =   l->construct();
+	edgeVirtual *newEdge =   l->construct();
 	newEdge->targetNumber= targetNumber;
 	outEdges.push_back (newEdge );
 }
@@ -514,7 +514,7 @@ class nodeTemplateEdges : public DYNNODE
 		virtual void removeEdges () { outEdges.clear(); }
 
 		virtual void link (nodeDescriptor targetNumber, baseType weight);
-		virtual void link (nodeDescriptor targetNumber, edgeBlueprint *l);
+		virtual void link (nodeDescriptor targetNumber, edgeVirtual *l);
 		virtual bool isLinked ( node *target );
 		virtual baseType linkStrength ( node *target );
 		virtual void normalizeInWeightSum(baseType d);
@@ -726,7 +726,7 @@ baseType nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::couplingSum()
 
 
 	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
-void nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::link (nodeDescriptor targetNumber,  edgeBlueprint *l )
+void nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::link (nodeDescriptor targetNumber,  edgeVirtual *l )
 {
 	vector <baseType> theParameter;
 	l->getParameter(theParameter);

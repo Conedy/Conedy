@@ -112,7 +112,6 @@ readInitialCondition	{return(ParserBase::READINITIALCONDITION); }
 %{		// Nodes
 %}
 countEdges		{return(ParserBase::COUNTEDGES); }
-izhikevichMap		{return(ParserBase::IZHIKEVICHMAP);}
 randomBlueprintNode {return(ParserBase::RANDOMBLUEPRINTNODE); }
 setParams		{return(ParserBase::SETPARAMS); }
 setParam		{return(ParserBase::SETPARAM); }

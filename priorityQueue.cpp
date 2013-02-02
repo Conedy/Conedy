@@ -267,7 +267,7 @@ void calendarQueue::cycleMarker()
 	{
 		if (newMarker == buckets[currentBucket].end())
 		{
-			currentBucket = currentBucket++;
+			currentBucket++;
 			if (currentBucket == nBuckets)
 			{
 				if (alreadyBeenHere == true)   // I havent found any event, assuming queue is empty

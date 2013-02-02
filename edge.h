@@ -135,7 +135,7 @@ namespace conedy
 
 		const edgeInfo getEdgeInfo() {
 			edgeInfo ancestor = EDGE::getEdgeInfo();
-			edgeInfo ei = {_staticComponent_,_weighted_ | ancestor.theEdgeKind, ancestor.theEdgeName + "_staticComponent" }; return ei;
+			edgeInfo ei = {_staticComponent_,(edgeKind)(_weighted_ | ancestor.theEdgeKind), ancestor.theEdgeName + "_staticComponent" }; return ei;
 		}
 
 		baseType getTargetState()
@@ -235,7 +235,7 @@ namespace conedy
 		public:
 			const edgeInfo getEdgeInfo() {
 				edgeInfo ancestor = EDGE::getEdgeInfo();
-				edgeInfo ei = {_randomTarget_, (char)  _weighted_ | ancestor.theEdgeKind,  ancestor.theEdgeName + "_randomTarget"};  return ei;
+				edgeInfo ei = {_randomTarget_, (char) ( _weighted_ | ancestor.theEdgeKind) ,  ancestor.theEdgeName + "_randomTarget"};  return ei;
 			}
 
 
@@ -399,7 +399,7 @@ namespace conedy
 
 		const edgeInfo getEdgeInfo() {
 			edgeInfo ancestor = EDGE::getEdgeInfo();
-			edgeInfo ei = {_component_,_weighted_ | ancestor.theEdgeKind, ancestor.theEdgeName + "_component" }; return ei;
+			edgeInfo ei = {_component_,(edgeKind) (_weighted_ | ancestor.theEdgeKind), ancestor.theEdgeName + "_component" }; return ei;
 		}
 
 		baseType getTargetState()

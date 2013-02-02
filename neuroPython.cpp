@@ -414,7 +414,7 @@ template <class N>
 		class_<MyNetwork<baseType>, bases <createNetwork, dynNetwork> >("network")
 			//	 class_<MyNetwork<baseType> >("directedNetwork")
 			.def("__init__", make_constructor(networkFactory))
-
+			.def("__del__", &MyNetwork<baseType>::clear, reinterpret_cast<const char *>(__network_clear))
 			.def("lattice", &MyNetwork<baseType>::lattice, lattice_overloads(reinterpret_cast<const char *>(__createNetwork_lattice)))
 
 			// dynNetwork commands

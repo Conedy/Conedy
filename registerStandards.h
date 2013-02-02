@@ -26,7 +26,6 @@ void registerStandards()
 	stdOdeIntegrator::registerStandardValues();	
 #endif
 
-	izhikevichMap::registerStandardValues();
 	network::registerStandardValues();
 	pcoDelay::registerStandardValues();
 	pulseCoupledExcitatoryNeuron::registerStandardValues();
