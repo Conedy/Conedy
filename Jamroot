@@ -28,7 +28,7 @@
 #using gcc : ming  : i586-mingw32msvc-g++ : :  ;
 
 
-#using clang ;
+using clang ;
 #using gcc ;
 
 using python : ;
@@ -38,7 +38,7 @@ using flex++ ;
 
 lib libboost_python : : <name>boost_python ;
 lib stdc++ ;
-lib z boost_iostreams gsl gslcblas ;
+lib z boost_iostreams ;
 project conedy ;
 # : requirements <library>libboost_python ;
 
@@ -52,7 +52,7 @@ lib Xxf86vm ;
 lib X11 : : <use>Xxf86vm ;
 lib glut : : <use>X11 ;
 
-lib gsl : : <use> gslcblas ;
+lib gsl : : <use>gslcblas ;
 lib gslcblas ;
 
 lib GLU ;
