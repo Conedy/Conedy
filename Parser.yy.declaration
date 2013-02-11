@@ -360,17 +360,7 @@ $$ = new bindInstruction(bind(&networkTemplate::rewireWeights ,$1, bind(&express
 	| NETWORK '.' DEGREECENTRALITY '(' string ')' { $$ = NETWORKFUNK1(degreeCentrality, $1, _E(string,$5)); }
 	| NETWORK '.' SAVEADJACENCYLIST '(' string ')' { $$ = NETWORKFUNK1(saveAdjacencyList,$1,_E(string,$5)); }
 	| NETWORK '.' SAVEADJACENCYMATRIX '(' string ')' { $$ = NETWORKFUNK1(saveAdjacencyMatrix,$1,_E(string,$5)); }
-	| NETWORK '.' SAVEGRAPHML '(' string ')' { $$ = NETWORKFUNK1(saveGraphML,$1,_E(string,$5)); }
-	| NETWORK '.' CREATEFROMADJACENCYLIST '(' string ',' createNode ',' createLink ')' {
-#if CONDOR
-$$ = new bindInstruction(bind(&command::addInputFile, _E(string,$5)));
-
-#else
-$$ = NETWORKFUNK3(createFromAdjacencyList,$1,_E(string,$5),_E(nodeBlueprint*,$7),_E(edgeBlueprint*,$9));
-
-#endif
-
-};
+	| NETWORK '.' SAVEGRAPHML '(' string ')' { $$ = NETWORKFUNK1(saveGraphML,$1,_E(string,$5)); };
 
 print          	: PRINT baseType { $$ = new printInstructionDouble ($2);}
 					 | PRINT bool { $$ = new printInstruction<bool> ($2); }
@@ -584,9 +574,13 @@ statisticsNetworkCommandInt: NETWORK '.' DEGREE '(' nodeDescriptor ')'  {  $$ = 
 	| NETWORK '.' LINE '(' nodeDescriptor ',' nodeDescriptor ',' createNode ',' createLink ')' { $$ = INTNETWORKFUNK4(line,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(nodeBlueprint*,$9), _E(edgeBlueprint*,$11)); }
 		| NETWORK '.' TORUSNEARESTNEIGHBORS '(' integer ',' integer ',' baseType ',' createNode ',' createLink ')'
 { $$ = INTNETWORKFUNK5(torusNearestNeighbors,$1,_E(int,$5), _E(int,$7), _E(baseType,$9), _E(nodeBlueprint*,$11), _E(edgeBlueprint*, $13));  }
-
-
-
+	| NETWORK '.' CREATEFROMADJACENCYLIST '(' string ',' createNode ',' createLink ')' {
+#if CONDOR
+$$ = new bindInstruction(bind(&command::addInputFile, _E(string,$5)));
+#else
+$$ = INTNETWORKFUNK3(createFromAdjacencyList,$1,_E(string,$5),_E(nodeBlueprint*,$7),_E(edgeBlueprint*,$9));
+#endif
+}
 | NETWORK '.' SIZE '(' ')' {  $$= INTNETWORKFUNK(size, $1); };
 
 
