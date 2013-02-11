@@ -55,6 +55,9 @@ namespace conedy
 
 			void exciteAll(baseType couplingStrength);
 			void exciteRange (baseType couplingStrength, unsigned int range);
+			void exciteRandomRange (baseType couplingStrength, unsigned int range, double meanDegree);
+	
+
 			virtual baseType period() { return 1.0;}
 
 			virtual void excite ( baseType c )

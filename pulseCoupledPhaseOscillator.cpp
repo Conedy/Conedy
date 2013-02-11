@@ -21,7 +21,26 @@ namespace conedy
 
 	}
 
-		void pcoBase::exciteAll(baseType c)
+			void pcoBase::exciteRandomRange (baseType couplingStrength, unsigned int range, double meanDegree)
+			{
+				for (unsigned int i = 0 ; i < meanDegree; i++)
+				{
+					unsigned int target = gslNoise::getUniform (0, range);
+					((pcoBase *)node::theNodes[target]) -> excite (couplingStrength);
+				}
+				if (gslNoise::getUniform (0.0, 1.0) >  meanDegree - (unsigned int) meanDegree)
+				{
+					unsigned int target = gslNoise::getUniform (0, range);
+					((pcoBase *)node::theNodes[target]) -> excite (couplingStrength);
+				}
+			
+		
+		
+			}
+
+
+
+			void pcoBase::exciteAll(baseType c)
 		{
 
 
