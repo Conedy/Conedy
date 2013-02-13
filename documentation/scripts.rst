@@ -124,4 +124,6 @@ Having vectorised your loops, distributed computing is quite straightforward, si
 
 In addition to ``vectorFor``, ``conedyCondor`` also interpretes the command ``chainFor``, which causes the bodies of the respective loop to be processed one after another—but possibly on different machines. “Communication” between these different iterations has to happen via files, however.
 
+``conedyCondor`` is not installed by default; you need to add ``condor`` to the ``todo`` list in your ``config.h`` and than recompile ``conedy``.
+
 .. _Condor: http://www.cs.wisc.edu/condor/
