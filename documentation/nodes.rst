@@ -10,6 +10,7 @@ See :ref:`nodes` for a full list of available node dynamics.
 
 Each node dynamics is described in an INI-like description file, which is explained in the following.
 If the dynamics you want to investigate is not available in Conedy, you still may implement it yourself by creating such a file, which has to be stored in a directory which is specified in the ``config.h`` file (which is positioned in ``$HOME/.config/conedy`` by the ``.deb``-package).
+These files need to have the ending ``.cfg``.
 Conedy needs to be recompiled afterwards, which will be automatically issued on the next import to python if a file in this directory is modified or added.
 See :ref:`recompilation` for more details on this.
 
@@ -36,7 +37,7 @@ Before delving into the details we give the file’s full content for the sake o
 	dynamics =
 		dxdt[0] = -omega*x[1] - x[2] + couplingSum() - weightSum()*x[0];
 		dxdt[1] = x[0] + a*x[1];
-		dxdt[2] = b() + x[2] * (x[0]-c);
+		dxdt[2] = b + x[2] * (x[0]-c);
 
 
 Name
@@ -46,7 +47,7 @@ Begin with the name of the desired dynamics, enclosed in square brackets::
 
    [roessler]
 
-The name should not match with a previously defined node and be a valid python token. For example, it should not begin with a number.
+The name should not match with a previously defined node and be a valid python token. For example, it should not begin with a number and contain no special characters but ``_`` (and also no spaces).
 
 
 Parameters

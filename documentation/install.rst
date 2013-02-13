@@ -18,10 +18,9 @@ Add Conedy’s GPG key to apt with the following command::
 
 	wget http://conedy.org/download/conedy_gpg.pub -O - | sudo apt-key add -
 
+And finally update your package index and install Conedy via::
 
-And finally install Conedy via::
-
-	sudo aptitude install conedy python-conedy conedy-src
+	sudo apt-get update && sudo apt-get install conedy python-conedy conedy-src
 
 (The different packages are described further below)
 
@@ -114,12 +113,13 @@ Recompilation
 In the following, we explain Conedy’s recompilation mechanism, which allows for the efficient use of user-defined node dynamics (see :ref:`addingNewNodes`).
 
 For the global install of Conedy, the script interpreter compiled with the predefined node dynamics is installed into a global root-directory.
-If a user adds node dynamics , Conedy is recompiled and the executable is stored in a directory in user-space, which is intended to have a higher priority in the system ``PATH``.
+If a user adds node dynamics, Conedy is recompiled and the executable is stored in a directory in user-space (defaults to ``~/bin/``), which is intended to have a higher priority in the system ``PATH``.
 This way the executable is preferred to the global Conedy executable.
 
 Whenever a user calls ``recompileConedy`` or ``conedy`` for the first time, the directory ``${HOME}/.config/conedy`` in the users's home directory is created, which contains a config file, a build directory for internal use, and a monitored directory ``${HOME}/.config/conedy/addedNodes``, in which new node dynamics can be stored.
 At every successive call of ``conedy``, this directory is monitored for all files which end with ``.cfg``.
 Whenever one of these files changes or if a new file has been stored, Conedy will recompile and restart itself.
+Calling ``recompileConedy`` is deprecated and results in an error message when no recompilation is necessary.
 
 If no config file is present at ``${HOME}/.config/conedy/config.h``, the global config file at ``/etc/conedy.config`` will be linked into this directory.
 However, this link can be replaced by a modified copy in order to change how Conedy is compiled.
