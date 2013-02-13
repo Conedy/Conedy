@@ -74,6 +74,7 @@ class command
 		static int getType(string s) {return varType[s]; }
 
 		static void addInputFile(string s) { inputFiles.push_back(s);};
+		static  int addInputFileInt(string s) { inputFiles.push_back(s);  return 0;};
 
 
 		//! delete all variables in the interpreter.

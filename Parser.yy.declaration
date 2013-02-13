@@ -576,7 +576,7 @@ statisticsNetworkCommandInt: NETWORK '.' DEGREE '(' nodeDescriptor ')'  {  $$ = 
 { $$ = INTNETWORKFUNK5(torusNearestNeighbors,$1,_E(int,$5), _E(int,$7), _E(baseType,$9), _E(nodeBlueprint*,$11), _E(edgeBlueprint*, $13));  }
 	| NETWORK '.' CREATEFROMADJACENCYLIST '(' string ',' createNode ',' createLink ')' {
 #if CONDOR
-$$ = new bindInstruction(bind(&command::addInputFile, _E(string,$5)));
+$$ = new bindExpression<int>(bind(&command::addInputFileInt, _E(string,$5)));
 #else
 $$ = INTNETWORKFUNK3(createFromAdjacencyList,$1,_E(string,$5),_E(nodeBlueprint*,$7),_E(edgeBlueprint*,$9));
 #endif
