@@ -46,16 +46,11 @@ void emptyFunction () {}
 
 		void command::declare(string s, int type)	// Meldet s als Variablenname an ( so wie bei  "double d;")
 		{
-//			cout << "DECLARED" << endl;
-
-#ifdef DEBUG
-			cout << "declaring:" << s << " " << type << endl;
-#endif
 
 			if (varType.count(s) != 0)
 			{
-//				cout << "String:" << s << endl;
-//				cout << "VarType:" << varType[s] << endl;
+	//			cout << "String:" << s << endl;
+	//			cout << "VarType:" << varType[s] << endl;
 	//			throw "Doppelt declared.";
 			}
 			varType [s] = type;

@@ -65,6 +65,7 @@ namespace conedy
 			containerNode (networkElementType n, unsigned int dim ) : dynNode ( n, dim), p ( _containerNode_ )		{		};
 
 
+			virtual void dynamics() { throw "dynamics of containerNode called"; }
 
 
 			static void clear()
@@ -141,9 +142,6 @@ namespace conedy
 			startPosGslOdeNodeArray = usedIndices;
 			usedIndices += (&c)->dimension();
 
-#ifdef DEBUG
-			cout << "startPosGslOdeNodeArray:" << startPosGslOdeNodeArray << endl;
-#endif
 
 
 		}
