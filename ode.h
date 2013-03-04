@@ -1,15 +1,5 @@
-
-
-
-
 #ifndef ode_h
 #define ode_h ode_h
-
-
-
-
-
-
 
 
 #ifdef LDOUBLE
