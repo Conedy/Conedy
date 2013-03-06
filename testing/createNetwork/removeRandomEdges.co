@@ -1,19 +1,8 @@
- network N;
+network N;
 
-nodeTemplate=pcoIntegrateFireDelay();
+N.cycle(100, 4, node(), weightedEdge(0.1));
+N.rewireUndirected(0.3);
+print "Initial mean degree:" + N.meanDegree() + newline;
 
-N.cycle(100, 4, nodeTemplate, weightedEdge(0.1));
-N.rewireUndirected(0.1);
-
-N.observePhaseCoherence("meanPhase0");
-N.evolve(0.0, 100.0);
-N.removeObserver();
-
-N.observePhaseCoherence("meanPhase1");
-N.evolve(100.0, 200.0);
-N.removeObserver();
-
-N.removeRandomEdges(0.1, weightedEdge(0.1));
-
-N.observePhaseCoherence("NewMeanPhase");
-N.evolve(100.0, 200.0);
+N.removeRandomEdges(0.5, weightedEdge(0.1));
+print "Should have changed:" + N.meanDegree() + newline;
