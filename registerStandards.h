@@ -1,5 +1,3 @@
-
-
 #ifndef registerStandards_h
 #define registerStandards registerStandards_h
 
@@ -11,8 +9,8 @@ using namespace conedy;
 
 void registerStandards()
 {
-	
-	stdSdeIntegrator::registerStandardValues();	
+
+	stdSdeIntegrator::registerStandardValues();
 	pcoBase::registerStandardValues();
 	containerNode<baseType, 0>::registerStandardValues();
 	dynNetwork::registerStandardValues();
@@ -23,7 +21,7 @@ void registerStandards()
 #endif
 
 #ifdef LDOUBLE
-	stdOdeIntegrator::registerStandardValues();	
+	stdOdeIntegrator::registerStandardValues();
 #endif
 
 	network::registerStandardValues();

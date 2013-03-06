@@ -94,13 +94,14 @@ class globals
 					return * ((T*) value[name]) ;
 
 				stringstream fehler;
-				fehler <<  "Type mismatch: You try to get " << name <<  " as " << typeString(typeInt) << ". However, " << name <<	" is of type " << typeString(type[name]) << endl;
+				fehler <<  "Type mismatch: You try to get " << name <<  " as " << typeString(typeInt) << ". However, " << name << " is of type " << typeString(type[name]) << endl;
 				throw fehler.str().c_str();
 			}
 			else
 			{
-				cerr << name << endl;
-				throw "unknown string in getGlobal.";
+				stringstream fehler;
+				fehler << "Unknown string in getGlobal: " << name << endl;
+				throw fehler.str().c_str();
 			}
 		}
 
@@ -114,10 +115,15 @@ class globals
 					return ((T*) value[name]) ;
 
 				stringstream fehler;
-				fehler <<  "Type mismatch: You try to get " << name <<  " as " << typeString(typeInt) << ". However, " << name <<	" is of type " << typeString(type[name]) << endl;;
+				fehler <<  "Type mismatch: You try to get " << name <<  " as " << typeString(typeInt) << ". However, " << name <<	" is of type " << typeString(type[name]) << endl;
 				throw fehler.str().c_str();
 			}
-			else throw "unknown string in getGlobal.";
+			else
+			{
+				stringstream fehler;
+				fehler << "Unknown string in getPointerToGlobal: " << name << endl;
+				throw fehler.str().c_str();
+			}
 		}
 
 		template <typename T> static void setGlobal(string name, T d)
