@@ -24,6 +24,10 @@ typedef double baseType;
 
 #elif defined LDOUBLE
 typedef long double baseType;
+
+#elif defined FLOAT
+typedef float baseType;
+
 #else
 
 #define DOUBLE

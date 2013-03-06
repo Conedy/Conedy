@@ -216,7 +216,7 @@ void vectorForInstruction::submitToCondor()
 			inc->execute();
 
 			chefDag << "JOB J" << currentJobName() << " __" << uniqueNumber::number << ".condor" << "\n";
-			chefDag << "PRIORITY J" << currentJobName() << " " << getGlobal<double>("priority") << "\n"; 
+			chefDag << "PRIORITY J" << currentJobName() << " " << getGlobal<baseType>("priority") << "\n"; 
 			chefDag << "VARS J" << currentJobName() << " ";
 			for ( unsigned int i =1 ; i <= loopCounter; i++ )
 				chefDag << " arg" << i << "=\"" <<  iterations[i] << "\" ";
