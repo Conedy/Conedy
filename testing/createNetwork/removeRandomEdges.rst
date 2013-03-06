@@ -1,5 +1,5 @@
 ``N.removeRandomEdges(fraction, edge)``
-	Removes a randomly chosen fraction of edges of a certain kind from the network.
+	Removes a fraction of edges of a certain kind from the network which had been chosen randomly.
 
 
 Parameters
