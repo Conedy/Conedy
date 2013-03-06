@@ -433,6 +433,39 @@ void createNetwork::addRandomEdgesUndirected ( double meanOutDeg, edgeBlueprint 
 }
 
 
+void createNetwork::removeRandomEdges ( double prop, edgeBlueprint * l)
+{
+
+
+	network::edgeList toChange;
+	network::edgeIterator it;
+	network::edgesMatching (toChange, l->getEdgeInfo().theEdgeType);
+
+
+
+	for ( it = toChange.begin(); it != toChange.end(); it++ )
+	{
+
+		if ( network::noise.getUniform() > prop )
+			continue;
+
+		nodeDescriptor newSource, source;
+		nodeDescriptor newTarget, target;
+
+		source = it->first ;
+		target = getTarget ( *it);
+
+		network::unlink ( source, target );
+
+	}
+
+	network::clean();
+
+
+
+}
+
+
 
 void createNetwork::addRandomEdges ( double meanOutDeg, edgeBlueprint *l )
 {

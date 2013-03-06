@@ -62,7 +62,6 @@ namespace conedy {
 			}
 	}
 
-		};
 
 
 // RUNGE KUTTA No. 4
