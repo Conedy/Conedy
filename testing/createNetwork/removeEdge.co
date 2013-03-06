@@ -1,0 +1,22 @@
+network N;
+
+nodeTemplate=pcoIntegrateFireDelay();
+
+
+N.cycle(100, 4, nodeTemplate, weightedEdge(0.1));
+N.rewireUndirected(0.1);
+
+N.observePhaseCoherence("meanPhase0");
+N.evolve(0.0, 100.0);
+N.removeObserver();
+
+
+N.observePhaseCoherence("meanPhase1");
+N.degreeCentrality("degrees0");
+N.evolve(100.0, 200.0);
+N.removeObserver();
+
+N.removeSingleEdge(88, 5, weightedEdge(0.1));  
+
+N.observePhaseCoherence("NewMeanPhase");
+N.evolve(100.0, 200.0);
