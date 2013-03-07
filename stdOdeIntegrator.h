@@ -13,8 +13,9 @@ namespace conedy {
 	class stdOdeIntegrator : public odeNode, private globals
 	{
 		public:
-				valarray <baseType> tmp2, dydt, dyt, dym;
-				odeIntegrator *integ;
+
+		valarray <baseType> tmp2, dydt, dyt, dym;
+		odeIntegrator *integ;
 
 		stdOdeIntegrator (networkElementType n, unsigned int dim) : odeNode (n, dim)    {}
 
@@ -29,38 +30,38 @@ namespace conedy {
 
 		}
 
-			static unsigned int stepType_int;
+		static unsigned int stepType_int;
 
-			static void registerStandardValues()
-			{
-				registerGlobal<string>("odeStepType","euler");
-			}
+		static void registerStandardValues()
+		{
+			registerGlobal<string>("odeStepType","euler");
+		}
 
-			virtual void swap()
-			{
-				for ( unsigned int i = 0; i < this->dimension(); i++ )
-					this->x[i] = odeNodeTmp [i];
-			}
+		virtual void swap()
+		{
+			for ( unsigned int i = 0; i < this->dimension(); i++ )
+				this->x[i] = odeNodeTmp [i];
+		}
 
 
 //		virtual void swap(short i) { state=x[i]; }
-		virtual void clean() {
-
-	if (amIFirst())
-	{
-			string stepType = getGlobal<string>("odeStepType");
-			if (stepType == "euler")
+		virtual void clean()
+		{
+			if (amIFirst())
 			{
-				stepType_int = 0;
-				integ = new euler (containerDimension() );
-			}
-			else if (stepType == "rk4")
-				stepType_int = 1;
-			else
+				string stepType = getGlobal<string>("odeStepType");
+				if (stepType == "euler")
+				{
+					stepType_int = 0;
+					integ = new euler (containerDimension() );
+				}
+				else if (stepType == "rk4")
+					stepType_int = 1;
+				else
 				throw "unknown steptype for odeStepType!";
+			}
 	}
 
-		};
 
 
 // RUNGE KUTTA No. 4
@@ -124,7 +125,6 @@ namespace conedy {
 		}
 
 
-
 		//! erster schritt im Runge-Kutter 4.Ordnung
 		virtual void action1(baseType dt) {
 			(*this)(this->x, &dydt[0]);
@@ -157,14 +157,7 @@ namespace conedy {
 				this->odeNodeTmp[i] = tmp2[i] + dt/6.0*(dydt[i] + dyt[i] + ((baseType)2.0)*dym)[i];
 		}
 
-
-
-
 	};
-
-
-
-
 
 //	typedef odeNode stdOdeIntegrator;   // Runge-Kutta Ord4
 

@@ -454,8 +454,10 @@ template <class N>
 			.def("getParam", &MyNetwork<baseType>::getParam, reinterpret_cast<const char *>(__statisticsNetwork_getParam))
 			.def("setParam", &MyNetwork<baseType>::setParam, reinterpret_cast<const char *>(__dynNetwork_setParam))
 
+			.def("removeEdge", &MyNetwork<baseType>::unlink, reinterpret_cast<const char *>(__createNetwork_removeEdge))
 			// createNetwork commands
 			.def("removeEdges", &MyNetwork<baseType>::removeEdges, reinterpret_cast<const char *>(__createNetwork_addRandomEdges))
+			.def("removeRandomEdges", &MyNetwork<baseType>::removeRandomEdges, reinterpret_cast<const char *>(__createNetwork_removeRandomEdges))
 			.def("addRandomEdges", &MyNetwork<baseType>::addRandomEdges, addRandomEdges_overloads (reinterpret_cast<const char *>(__createNetwork_addRandomEdges)))
 
 			.def("torusNearestNeighbors", &MyNetwork<baseType>::torusNearestNeighbors,  reinterpret_cast<const char *>(__createNetwork_torusNearestNeighbors))

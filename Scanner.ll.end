@@ -33,6 +33,11 @@ size			{ return (ParserBase::SIZE); }
 removeInput		{return(ParserBase::REMOVEINPUT); }
 removeEdges		{return(ParserBase::REMOVEEDGES); }
 
+removeEdge		{return(ParserBase::REMOVEEDGE); }
+
+removeRandomEdges		{return(ParserBase::REMOVERANDOMEDGES); }
+
+
 
 clear		{return(ParserBase::CLEAR); }
 addNode	{return(ParserBase::ADDNODE); }

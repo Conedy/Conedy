@@ -171,6 +171,7 @@ class vectorForInstruction : public instruction, private globals
 			registerGlobal<bool>("WINNT61_x86", false);
 			registerGlobal<string>("universe", "vanilla");
 			registerGlobal<bool>("niceUser",false);
+			registerGlobal<baseType>("priority",0.0);
 
 #ifdef ARCHITECTURE
 #define linuxify(y) LINUX_ ## y

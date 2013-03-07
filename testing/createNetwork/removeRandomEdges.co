@@ -1,0 +1,8 @@
+network N;
+
+N.cycle(100, 4, node(), weightedEdge(0.1));
+N.rewireUndirected(0.3);
+print "Initial mean degree:" + N.meanDegree() + newline;
+
+N.removeRandomEdges(0.5, weightedEdge(0.1));
+print "Should be close to 4:" + N.meanDegree() + newline;

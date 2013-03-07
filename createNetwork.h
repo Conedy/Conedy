@@ -217,6 +217,7 @@ namespace conedy
 			void addRandomEdgesDegreeDistributionUndirected ( function <double () > r, edgeBlueprint *l = stdEdge );
 
 
+			void removeRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge );
 			void addRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge );
 			void addRandomEdgesUndirected ( double meanOutDegree, edgeBlueprint * l = stdEdge );
 

@@ -154,18 +154,18 @@ namespace conedy
 		public:
 			baseType inline t_ref()  { return params<baseType>::getParams ( 2 ); }
 			baseType inline timeDelay() { return params<baseType>::getParams ( 3 ); }
-			baseType inline escapeNoise_a()	{ return params<baseType>::getParams ( 4 ); }
-			baseType inline escapeNoise_b()	{ return params<baseType>::getParams ( 5 ); }
+			baseType inline escapeNoise_a() { return params<baseType>::getParams ( 4 ); }
+			baseType inline escapeNoise_b() { return params<baseType>::getParams ( 5 ); }
 
 			static void registerStandardValues()
 			{
-				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_noiseFrequency",0,params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
-				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_noiseIntensity",1,params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );
-				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_timeDelay",2,0.01 );
-				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_t_ref",3, 0.05 );
+				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_noiseFrequency", 0, params<baseType>::getStandardParameter ( _pcoBase_, 0 ) );
+				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_noiseIntensity", 1, params<baseType>::getStandardParameter ( _pcoBase_, 1 ) );
+				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_timeDelay", 2, 0.01 );
+				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_t_ref", 3, 0.05 );
 
-				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_escapeNoise_a",4,1.0 );
-				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_escapeNoise_b",5,1.0 );
+				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_escapeNoise_a", 4, 1.0 );
+				params<baseType>::registerStandard ( _escapeNoiseNeuron_,"escapeNoiseNeuron_escapeNoise_b", 5, 1.0 );
 			}
 			baseType pot;
 			baseType lastFiring;
