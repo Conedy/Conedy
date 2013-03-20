@@ -15,8 +15,6 @@ Scanner.ll.end
 addNewNode.py
 baseType.h
 bisonc++.jam
-cnnNode.cpp
-cnnNode.h
 command.cpp
 command.h
 commandLineArguments.cpp
