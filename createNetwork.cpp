@@ -561,31 +561,6 @@ void createNetwork::randomInDegreeDistribution ( int number, RANDOM &r, nodeBlue
 
 
 
-/*
-
-	void createNetwork::streamOutMatrix ( string s )
-	{
-	outStream out ( s.c_str(), fstream::out | fstream::binary );
-
-
-//	out << 3;
-//	out << network::numberVertices();
-//	out << network::numberVertices();
-
-
-for ( unsigned int i = 0; i < network::numberVertices();i++ )
-{
-out << network::linkStrength ( i,0 );
-for ( unsigned int j = 1; j < network::numberVertices();j++ )
-{
-out << ' ';
-out << network::linkStrength ( i,j );
-}
-out.newLine();
-}
-
-}
-*/
 void createNetwork::addRandomEdgesDegreeDistributionUndirected ( function <double () > r , edgeBlueprint *l)
 {
 	nodeList vl;
@@ -1335,28 +1310,6 @@ nodeDescriptor createNetwork::randomNetwork ( nodeDescriptor size, double promil
 //baseType limit() { return 0; };
 
 
-
-/*
-	void createNetwork::createFromMatrix ( inStream & in, unsigned int size, nodeBlueprint *n )
-	{
-	baseType nextWeight;
-
-	network::clear();
-	for ( unsigned int l = 0;l < size; l++ )
-	{
-	addNode ( n );
-	}
-	for ( unsigned int i = 0; i < size; i++ )
-	for ( unsigned int j = 0; j < size; j++ )
-	{
-	in >> nextWeight;
-	if ( std::abs ( nextWeight ) != limit<baseType>() )
-	network::addEdge ( i,j,nextWeight );
-
-	}
-
-	}
-	*/
 
 nodeDescriptor createNetwork::createFromMatrix ( vector <vector<baseType> > weights, nodeBlueprint *n )
 {

@@ -144,20 +144,15 @@ namespace conedy
 			else
 				timeTilEvent = eventHandler::nextEvent() - dynNode::time;
 
-#ifdef DEBUG
-			if (timeTilEvent < -0.00000001)
-				throw "Something seems to be wrang with the priorityqueue";
-#endif
 
-
-
-
-			for ( it = evolveList.begin(); it != evolveList.end(); it++ )
-				( *it )->evolve ( timeTilEvent );
-			for (it = upkeepList.begin(); it != upkeepList.end();it++)
-				( *it) -> upkeep();
-
-			dynNode::time += timeTilEvent;
+			if (timeTilEvent > -0.0)
+			{
+				for ( it = evolveList.begin(); it != evolveList.end(); it++ )
+					( *it )->evolve ( timeTilEvent );
+				for (it = upkeepList.begin(); it != upkeepList.end();it++)
+					( *it) -> upkeep();
+				dynNode::time += timeTilEvent;
+			}
 
 			eventHandler::pop();
 

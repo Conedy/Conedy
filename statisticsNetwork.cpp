@@ -283,122 +283,6 @@ namespace conedy
 
 
 
-/*	template <typename T>
-	void statisticsNetwork<T>::printStatistics ( string s )
-	{nsigned int v
-		outStream out ( s.c_str() );
-		typename network::nodeIterator ia, ie;
-		ia = network::vertices().first;
-		ie = network::vertices().second;
-		cout << endl;
-		cout << "---------------------------------------"<<endl;
-		cout << "Grapheigenschaften:"<<endl;
-		cout << "---------------------------------------"<<endl;
-		cout << "Anzahl node:" << network::numberVertices() << endl;
-		cout << "Durchschnittlicher Grad:" << meanOutDegree() << endl;
-		cout << "Durchschnittlicher ClusteringCoefficiant:" << meanClustering() << endl;
-
-		out.newLine();
-		out << "---------------------------------------";
-		out.newLine();
-
-		out << "Grapheigenschaften:";
-		out.newLine();
-
-		out << "---------------------------------------";
-		out.newLine();
-
-		out << "Anzahl node:" << network::numberVertices() ;
-		out.newLine();
-
-		out << "Durchschnittlicher Grad:" << meanOutDegree();
-		out.newLine();
-
-		out << "Durchschnittlicher ClusteringCoefficiant:" << meanClustering();
-		out.newLine();
-
-
-
-
-		if ( network::getNetworkType() & directed != 0 )
-		{
-
-
-			vector <statisticsNetwork <T> *> comp;
-			components ( comp );
-
-			cout << "Anzahl Zusammenhangskomponenten:" << comp.size() << endl;
-
-			out << "Anzahl Zusammenhangskomponenten:" << comp.size() ;
-			out.newLine();
-
-
-
-
-			unsigned int i;
-
-			baseType sum = 0;
-			int vert = 0;
-
-			double dist;
-
-			for ( i = 0; i < comp.size(); i++ )
-			{
-
-				comp[i]->printNodeStatistics();
-				dist = comp[i]->meanPathLength();
-				cout <<"Anzahl Vertices in Zusammenhangskomponente "<<i<< ":" << comp[i]->numberVertices() <<endl;
-				out <<"Anzahl Vertices in Zusammenhangskomponente "<<i<< ":" << comp[i]->numberVertices() ;
-				out.newLine();
-				cout <<"Durchschnittliche Weglänge in Zusammenhangskomponente "<< i<< ":"<< dist<<endl ;
-				out <<"Durchschnittliche Weglänge in Zusammenhangskomponente "<< i<< ":"<< dist;
-				out.newLine();
-
-				if ( dist != 0 )
-				{
-					sum = sum + ( dist * comp[i]->numberVertices() * ( comp[i]->numberVertices() - 1 ) );
-					vert = vert + comp[i]->numberVertices() * ( comp[i]->numberVertices() - 1 );
-				}
-
-			}
-
-
-		}
-
-
-
-
-		else
-		{
-			cout << "Gerichteter Graph!" << endl;
-			out << "Gerichteter Graph!";
-			out.newLine();
-			double dist = meanPathLength();
-
-			cout <<"Mittlere Weglänge:" << dist;
-			cout << endl;
-			out <<"Mittlere Weglänge:" << dist;
-			out.newLine();
-
-		}
-		cout << "Degree Distribution:"<<endl ;
-		out << "Degree Distribution:" ;
-		out.newLine();
-		vector <int> deg = inDegreeDistribution();
-		for ( unsigned int i= 0; i< deg.size();i++ )
-		{
-			cout << i << ":" << deg[i] << endl;
-			out << i << ":" << deg[i];
-			out.newLine();
-
-
-		}
-
-
-
-	}
-*/
-
 
 	void statisticsNetwork::degreeCentrality( string filename )
 	{
@@ -488,41 +372,6 @@ vector<baseType> dijkstraCompare::weightMap;
 	}
 
 
-/*	template <class T>
-	baseType statisticsNetwork<T>::meanDistanceMult()
-	{
-		baseType distSum = 0;
-		vector <T> dist ( network::numberVertices() );
-		unsigned int i,j;
-
-		typename network::nodeIterator ia, ie;
-		ia = network::vertices().first;
-		ie = network::vertices().second;
-
-		int counter = 0;
-
-		for ( j = 0; j < network::numberVertices();j++ )
-		{
-			if ( j % 1000 == 0 )
-				print ( ( int ) ( j * 100  / network::numberVertices() ) );	// Statusbalken
-			dijkstraMult ( j, dist );
-			for ( i = 0; i < network::numberVertices(); i++ )
-			{
-				if ( i != j && dist[i] != DIJKSTRA_ZERO )
-				{
-					distSum = distSum + dist[i];
-					counter ++;
-				}
-			}
-		}
-		if ( network::numberVertices() > 1 )
-			return distSum / counter;
-		else
-			return 0;
-	}
-
-
-*/
 
 
 	void statisticsNetwork::closenessCentrality ( string filename ) // funktioniert nur für komplett verbundene Netzwerke korrekt
@@ -692,42 +541,6 @@ vector<baseType> dijkstraCompare::weightMap;
 
 
 
-/*	template <class T>
-	void statisticsNetwork<T>::components ( vector<statisticsNetwork<T> *> & res )
-	{
-
-
-		statisticsNetwork<T> *net;
-		network::reset();
-		quequeBuffer *buf = new quequeBuffer();
-
-
-		typename network::nodeIterator ia, ie;
-		ia = network::vertices().first;
-		ie = network::vertices().second;
-
-		for ( ; ia != ie; ia++ )
-		{
-			if ( ! ( *ia )->alreadyVisited() )
-			{
-				( *buf ) << '[';
-
-				t.clean ( 0 );
-				( *ia )->streamOutSort ( *buf );
-				( *buf ) << ']';
-
-
-
-				net = new statisticsNetwork<T> ( t.getTime(),*buf );
-				res.push_back ( net );
-
-			}
-		}
-	}
-*/
-
-
-
 	unsigned int statisticsNetwork::countEdges (edgeVirtual * e)
 	{
 		edgeList el;
@@ -771,35 +584,6 @@ vector<baseType> dijkstraCompare::weightMap;
 				out << *it <<' '<< node::theNodes[*it]->getTarget(l)->getNumber() <<' '<< node::theNodes[*it]->getWeight(l) <<"\n";
 
 
-// VERÄNDERT
-//
-//		node::edgeDescriptor ea, ee;
-//		for ( it = theNodes.begin() ; it != theNodes.end() ; it++)
-//		{
-//
-//			ea = 0;
-//			ee = node::theNodes[*it] ->degree();
-//
-//	//		for (; ea != ee; ea++)
-////			{
-//				// Ausgabe der Nodenummer:
-//				out << *it << " ";
-//
-//				//Ausgabe der jeweiligen Edge
-//				node::theNodes[*it]->printEdgeStatistics(out, network::edgeVerbosity());
-//				out << endl;
-//				// ENDE
-////				out << endl;
-//
-//				/* VERALTET
-//				out << i << " "	<<(*ea)->target->getNumber() << " ";
-//				if ((*ea)->getEdgeInfo().theEdgeKind & _weighted_)
-//					out << ((weightedEdge*)(*ea))->getWeight() << "\n";
-//				else
-//					out << "\n";
-//				*/
-////			}
-//		}
 		out.close();
 	}
 

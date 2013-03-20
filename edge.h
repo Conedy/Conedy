@@ -177,53 +177,6 @@ namespace conedy
 
 
 
-	//! Verbindungsklasse, die das Kopplungsgewicht statisch speichert. Damit haben alle Edges dieses Typs dasselbe Gewicht und verbrauchen nicht so viel Speicherplatz
-
-	/*	class staticWeightedEdge : public weightedEdge
-		{
-		public:  // private
-
-		static baseType weight;
-
-		public:
-		staticWeightedEdge() {};
-	//			staticWeightedEdge ( node* t ) : weightedEdge(t) {};
-	const edgeInfo getEdgeInfo() {edgeInfo ei = {_staticWeightedEdge_,_weighted_}; return ei;}
-	void printStatistics()
-	{
-	cout << "("<< edge<baseType>::target->getNumber() << "," << weight << ");";
-
-	}
-	baseType getWeight() { return weight; }
-	void  setWeight(baseType newW) { weight = newW; }
-	baseType getTargetState() { return getTarget()->getState () * weight; }
-
-	edge *construct() { return new staticWeightedEdge ( *this ); };
-	//			 ~staticWeightedEdge() { cout << "Edge Destruktor called!" << endl; }
-
-	// Überladung des Ausgabestreams
-	ostream& printStatistics ( ostream &os, double edgeVerbosity)
-	{
-	// Ausgabe Header:
-	edge::printStatistics(os);
-
-	// Ausgabe Kind, Name
-	if (edgeVerbosity>=1)
-	{
-	edgeInfo ei = getEdgeInfo();
-
-	os << "EdgeKind = " << ei.theEdgeKind << "\t";
-	os << "EdgeName = " << ei.theEdgeName << "\t";
-	}
-
-	// Ausgabe Gewicht
-	os << weight;
-
-	return os;
-	}
-	};
-	*/
-
 
 	template <class EDGE>
 		class randomTarget : public EDGE
@@ -268,59 +221,6 @@ namespace conedy
 
 	};
 
-
-	//! gewichtete Edge, die das Kopplungsgewicht mit Param speichert
-	/*	class weightedEdgeParams : public weightedEdge, public params<baseType>
-		{
-		public:  // private
-
-
-
-		static void registerStandardValues()
-		{
-		params<baseType>::registerStandard ( _weightedEdgeParams_,"weightedEdgeParams",0,1.0 );
-		}
-		public:
-
-		void setWeight(baseType newWeight)
-		{
-		vector <baseType> n;
-		n.push_back(newWeight);
-		if (params<baseType>::isStandard())
-		rerouteParams(n);
-		else
-		setParams(0,newWeight);
-		}
-
-		weightedEdgeParams() :params<baseType>(_weightedEdgeParams_) {};
-	//			weightedEdgeParams ( node* t, baseType w ) : weightedEdge(t) {};
-	const edgeInfo getEdgeInfo() {edgeInfo ei = {_weightedEdgeParams_,_weighted_}; return ei;}
-
-	void printStatistics()
-	{
-	cout << "("<< edge<baseType>::target->getNumber() << "," << params<baseType>::getParams(0) << ");";
-
-	}
-
-	baseType getWeight() { return params<baseType>::getParams(0); }
-
-	//			 baseType getTargetState() { return edge::target->getState() * params<baseType>::getParams(0); }
-	edge *construct() { return new weightedEdgeParams ( *this ); };
-	//			 ~weightedEdgeParams() { cout << "Edge Destruktor called!" << endl; }
-
-	// Überladung des Ausgabestreams
-	//
-	//
-	//
-
-
-
-	ostream& printStatistics ( ostream &os, double edgeVerbosity)
-	{
-	edgeInfo ei = getEdgeInfo();
-	edge::printStatistics(os, edgeVerbosity, ei.theEdgeKind, ei.theEdgeName,  getWeight());
-	return os;
-	}
 
 
 
@@ -471,28 +371,6 @@ namespace conedy
 
 
 
-
-	/*	template <typename baseType>
-		class kuramotoEdge : public weightedEdgeVirtual<baseType>
-		{
-		private:
-		public:
-		kuramotoEdge ()  {};
-
-		const edgeInfo getEdgeInfo() {edgeInfo ei = {_kuramotoEdge_,_weighted_}; return ei;}
-
-		baseType getTargetState()
-		{
-		return weightedEdge<baseType>::weight * sin ( ( weightedEdge<baseType>::target->state - weightedEdge<baseType>::source->state ) );
-		}
-		void printStatistics()
-		{
-		cout << "(kuramotoEdge,";
-		weightedEdge<baseType>::printStatistics();
-		}
-		edge<baseType> *construct() { return new  kuramotoEdge<baseType> ( *this ); };
-		};
-		*/
 
 	//! Edge mit Delay
 	class delayEdge : public weightedEdgeVirtual
