@@ -67,8 +67,6 @@ namespace conedy
 				return os;
 			}
 
-
-
 	};
 
 	typedef weightedEdge < edgeVirtual > weightedEdgeVirtual;
@@ -120,8 +118,6 @@ namespace conedy
 
 
 	};
-
-
 
 	template <class EDGE>
 		class staticComponent: public EDGE
@@ -175,9 +171,6 @@ namespace conedy
 	template <typename EDGE>
 		unsigned int staticComponent<EDGE>::which;
 
-
-
-
 	template <class EDGE>
 		class randomTarget : public EDGE
 	{
@@ -210,10 +203,6 @@ namespace conedy
 				parameter.pop_back();
 			}
 
-
-
-
-
 			dynNode* getTarget() { return  (dynNode*)  node::theNodes[gslNoise::getUniform(lower,upper)]; }
 			randomTarget(nodeDescriptor l, nodeDescriptor u) : lower(l), upper(u) { }
 			randomTarget() { }
@@ -222,10 +211,8 @@ namespace conedy
 	};
 
 
+// 	};
 
-
-	};
-	*/
 	//! edge-Klasse, die nur States weitergibt, wenn sie einin bestimmten Wert überschreiten.
 	template <class EDGE>
 		class stepEdge: public EDGE
@@ -417,12 +404,6 @@ namespace conedy
 			return os;
 		}
 	};
-
-
-
-
-
-
 
 
 	}
