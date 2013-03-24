@@ -28,14 +28,14 @@ from distutils.core import setup
 from distutils.extension import Extension
 import os.path
 import sys
-
+from os import system
 
 files = ["neuroPython.cpp", "command.cpp" ,"instruction.cpp", "stdOdeIntegrator.cpp","lyapunov.cpp",  "fullNetwork.cpp",  "generatedNodes.cpp",   "globals.cpp", "sdeNode.cpp",   "stdSdeIntegrator.cpp","odeNode.cpp",  "gslOdeNode.cpp" ,"ioNode.cpp" ,"pulseCoupledPhaseOscillator.cpp","pulseCoupledExcitatoryNeuron.cpp" ,"network.cpp" ,"dynNetwork.cpp" ,"createNetwork.cpp", "spatialNetwork.cpp","mapNode.cpp" ,"eventHandler.cpp" ,"node.cpp"  ,"priorityQueue.cpp", "dynNode.cpp" ,"gslNoise.cpp" ,"statisticsNetwork.cpp" ,"commandLineArguments.cpp" ]
 
 
 if sys.platform == "win32" :
 	include_dirs = ["C:\\Program Files (x86)\\boost\\boost_1_46_1"]
-	libraries=["gsl", "cblas"]
+	libraries=["gsl", "gslcblas"]
 	library_dirs=['C:\\Program Files (x86)\\boost\\boost_1_46_1\\lib']
 
 	module = Extension("conedy",  files, library_dirs=library_dirs,
@@ -43,8 +43,8 @@ if sys.platform == "win32" :
 				include_dirs=include_dirs,
 				depends=[])
 
-	module.extra_compile_args = ['/GX']			
-
+	module.extra_compile_args = ['/GX', '-DPYTHON', '-DSVN_REV=0.264']			
+	
 else :
 	include_dirs = ["/usr/include/boost","."]
 	libraries=["boost_python","gsl", "gslcblas", "boost_iostreams", "z"]
@@ -62,7 +62,7 @@ else :
 
 
 
-			
 
-setup(name="conedy",  version="0.26",
+
+setup(name="conedy",  version="0.264",
 		ext_modules=[module])
