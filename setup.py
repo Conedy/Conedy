@@ -30,6 +30,12 @@ import os.path
 import sys
 from os import system
 
+
+
+
+
+
+
 files = ["neuroPython.cpp", "command.cpp" ,"instruction.cpp", "stdOdeIntegrator.cpp","lyapunov.cpp",  "fullNetwork.cpp",  "generatedNodes.cpp",   "globals.cpp", "sdeNode.cpp",   "stdSdeIntegrator.cpp","odeNode.cpp",  "gslOdeNode.cpp" ,"ioNode.cpp" ,"pulseCoupledPhaseOscillator.cpp","pulseCoupledExcitatoryNeuron.cpp" ,"network.cpp" ,"dynNetwork.cpp" ,"createNetwork.cpp", "spatialNetwork.cpp","mapNode.cpp" ,"eventHandler.cpp" ,"node.cpp"  ,"priorityQueue.cpp", "dynNode.cpp" ,"gslNoise.cpp" ,"statisticsNetwork.cpp" ,"commandLineArguments.cpp" ]
 
 
@@ -43,7 +49,7 @@ if sys.platform == "win32" :
 				include_dirs=include_dirs,
 				depends=[])
 
-	module.extra_compile_args = ['/GX', '-DPYTHON', '-DSVN_REV=0.264']			
+	module.extra_compile_args = ['/GX', '-DPYTHON', '-DSVN_REV=0.262']			
 	
 else :
 	include_dirs = ["/usr/include/boost","."]
@@ -64,5 +70,5 @@ else :
 
 
 
-setup(name="conedy",  version="0.264",
+setup(name="conedy",  version="0.262",
 		ext_modules=[module])
