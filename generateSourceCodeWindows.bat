@@ -14,8 +14,8 @@ cd testing
 for /r %%i in (*.rst) do (
     python ../makeDocstringsWindows.py %%i
 )
+cd ..
 
-
-xxd -i config.h > string_config.h
+xxd -i config.h.tmpl > string_config.h
 echo WINDOWS > dirInstall.h
 xxd -i dirInstall.h >> string_config.h
