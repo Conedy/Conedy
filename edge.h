@@ -224,8 +224,6 @@ namespace conedy
 
 
 
-	};
-	*/
 	//! edge-Klasse, die nur States weitergibt, wenn sie einin bestimmten Wert überschreiten.
 	template <class EDGE>
 		class stepEdge: public EDGE
