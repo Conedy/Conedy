@@ -49,7 +49,7 @@ namespace conedy {
 
 
 
-	
+
 	void createNetwork::observeEventTimesEquals( string fileName,nodeDescriptor eventNumber) {
 
 		nodeBlueprint* nod = new nodeVirtualEdges<timeNode<baseType> >();
@@ -808,7 +808,7 @@ void createNetwork::normalizeOutputs (baseType r)
 	nodeIterator it;
 	nodeList dynNodes;
 	verticesMatching(dynNodes, _dynNode_);
-	
+
 
 	unsigned int degree;
 
@@ -1226,13 +1226,6 @@ void createNetwork::rewireTargetUndirected ( double prop, nodeKind theNodeKind )
 }
 
 
-
-
-
-
-
-
-
 void createNetwork::rewireSource ( double prop, nodeKind theNodeKind )
 {
 	network::edgeList toChange;
@@ -1262,19 +1255,9 @@ void createNetwork::rewireSource ( double prop, nodeKind theNodeKind )
 }
 
 
-
-
-
-
-
-
-
-
-
 nodeDescriptor createNetwork::randomNetwork ( nodeDescriptor size, double promille, nodeBlueprint *n, edgeBlueprint *l )
 {
 	nodeDescriptor i, j;
-
 
 	network::clear();
 
@@ -1284,10 +1267,7 @@ nodeDescriptor createNetwork::randomNetwork ( nodeDescriptor size, double promil
 	nodeDescriptor smallest= addNode(n);
 	for ( i = 1; i < size; i++ )
 	{
-
 		addNode ( n );
-
-
 
 		for ( j = 0; j < i; j++ )
 		{
@@ -1297,12 +1277,36 @@ nodeDescriptor createNetwork::randomNetwork ( nodeDescriptor size, double promil
 				network::addEdge ( smallest + j,smallest + i,l );
 
 		}
-
 	}
 	return smallest;
-
 }
 
+
+nodeDescriptor createNetwork::randomUndirectedNetwork ( nodeDescriptor size, double promille, nodeBlueprint *n, edgeBlueprint *l )
+{
+	nodeDescriptor i, j;
+
+	network::clear();
+
+	if (size == 0)
+		return -1;
+
+	nodeDescriptor smallest= addNode(n);
+	for ( i = 1; i < size; i++ )
+	{
+		addNode ( n );
+
+		for ( j = 0; j < i; j++ )
+		{
+			if ( network::noise.getUniform() <= promille )
+			{
+				network::addEdge ( smallest + i,smallest + j,l );
+				network::addEdge ( smallest + j,smallest + i,l );
+			}
+		}
+	}
+	return smallest;
+}
 
 //baseType limit();
 
