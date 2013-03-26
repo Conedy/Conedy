@@ -12,7 +12,7 @@ setlocal enabledelayedexpansion
 echo  //generatedBy makeDocstringsWindows.bat > docstrings.h
 cd testing
 for /r %%i in (*.rst) do (
-    python ../makeDocstringsWindows.py %%i
+    python ../makeDocstringsWindows.py "%%i"
 )
 cd ..
 
