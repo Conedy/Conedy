@@ -44,7 +44,7 @@ namespace conedy
 			double dt = timeTilEvent / stepCount;
 
 			#if GSL_MINOR_VERSION < 15
-			if (not gslOdeNode::gslFixedStepSizeWarningShown)
+			if (!gslOdeNode::gslFixedStepSizeWarningShown)
 			{
 				cerr << "---------------------------\nCaveat:\nThough integrating with fixed step size seems to be working correctly with GSL 1.14, or lower, this is only by bizarre means. It is therefore recommended to treat its results with high caution (or to upgrade to GSL 1.15, or higher).\n------------------------------" << endl;
 				gslOdeNode::gslFixedStepSizeWarningShown = true;

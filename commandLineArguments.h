@@ -77,20 +77,8 @@ class uniqueNumber
 		
 		static void initialize()
 		{
-			/*std::stringstream ssCommand;
-			
-			string homePath;
-			homePath = getenv("HOME");
-			
-			ssCommand << "scp redwood2:/home/condor/.conedy " << homePath << "/.conedy";
-			if (system(ssCommand.str().c_str()))
-			{
-				cout << "scp redwood2 to home failed! (for unique number.)" << endl;
-				exit (1);
-			}
-	
-			ssCommand.clear();
-			*/
+
+#if CONDOR
 			stringstream ss;
 			ss << getenv("HOME")<< "/.conedy";			
 
@@ -109,21 +97,8 @@ class uniqueNumber
 			out << number;
 			out.close();
 	
+#endif	
 	
-	
-			/*if (system("scp $HOME/.conedy redwood2:/home/condor/.conedy"))
-			{
-				cout << "scp home to redwood2 failed! (for unique number.)" << endl;
-				exit (1);
-			}
-			
-	
-			if (system("ssh redwood2 chmod 666 /home/condor/.conedy"))
-			{
-				cout << "ssh redwood2:chmod failed! (for unique number)";
-				exit(1);
-			}
-			*/
 	
 		}	
 

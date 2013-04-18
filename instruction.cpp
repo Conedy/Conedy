@@ -14,6 +14,7 @@ unsigned int vectorForInstruction::nestedness;
 params<baseType>  *vectorForInstruction::p;
 
 
+#if CONDOR
 string getCurrentPath()
 {
 	char CurrentPath[200];
@@ -21,6 +22,8 @@ string getCurrentPath()
 		throw "getcwd failed!";
 	return CurrentPath;
 }
+
+#endif
 
 void instructionBlock::execute ()
 {
@@ -49,6 +52,7 @@ string vectorForInstruction::currentJobName()
 
 void vectorForInstruction::writeCondorSkript()
 {
+#if CONDOR
 		cout << "ID: " << uniqueNumber::number << endl;
 		cout << getCurrentPath();
 
@@ -158,6 +162,7 @@ void vectorForInstruction::writeCondorSkript()
 
 
 		condorSkript.close();
+#endif
 }
 
 

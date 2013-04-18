@@ -359,7 +359,7 @@ template <class N>
 
 		register_exception_translator<const char *>(translator);
 
-
+#if RECOMPILE
 
 		if (!system ("recompilePython-Conedy 2> /dev/null"))
 		{
@@ -367,7 +367,7 @@ template <class N>
 			exit (1);
 		}
 
-
+#endif
 
 
 
