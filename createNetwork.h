@@ -79,9 +79,17 @@ namespace conedy
 			nodeDescriptor streamInLattice ( int sizex, int sizey, string s );
 
 			//! Zufallsgraph mit number Knoten vom Typ *n, bei dem je zwei mit der Wahrscheinlichkeit prop miteinander verbunden werden. Verbindungen sind vom Typ l
-			nodeDescriptor randomNetwork ( nodeDescriptor number, double prop, nodeBlueprint *n = stdNode, edgeBlueprint *l = network::stdEdge );
-			nodeDescriptor randomUndirectedNetwork ( nodeDescriptor number, double prop, nodeBlueprint *n = stdNode, edgeBlueprint *l = network::stdEdge );
+			nodeDescriptor randomNetwork ( int number, double prop, nodeBlueprint *n = stdNode, edgeBlueprint *l = network::stdEdge );
+			nodeDescriptor randomUndirectedNetwork ( int number, double prop, nodeBlueprint *n = stdNode, edgeBlueprint *l = network::stdEdge );
 
+			//! Erzeugt ein skalenfreies Netzwerk nach Barabasi und Albert
+ 			nodeDescriptor scaleFreeNetwork ( int size, int c, nodeBlueprint *n, edgeBlueprint *l );
+			
+			
+			
+			
+			
+			
 			//! ein Netzwerk aus x * y Knoten vom Typ n
 			nodeDescriptor beeWeb ( int x, int y, nodeBlueprint *n );
 

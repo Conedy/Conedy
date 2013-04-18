@@ -565,6 +565,10 @@ statisticsNetworkCommandInt: NETWORK '.' DEGREE '(' nodeDescriptor ')'  {  $$ = 
 		| NETWORK '.' RANDOMNETWORK  '(' nodeDescriptor ',' baseType ','createNode ')' { $$ = INTNETWORKFUNK4(randomNetwork,$1,_E(nodeDescriptor,$5),_E(baseType,$7),_E(nodeBlueprint*,$9),network::stdEdge );}
 		| NETWORK '.' RANDOMUNDIRECTEDNETWORK  '(' nodeDescriptor ',' baseType ','createNode ',' createLink ')' { $$ = INTNETWORKFUNK4(randomUndirectedNetwork,$1,_E(nodeDescriptor,$5),_E(baseType,$7),_E(nodeBlueprint*,$9),_E(edgeBlueprint*,$11));}
 		| NETWORK '.' RANDOMUNDIRECTEDNETWORK  '(' nodeDescriptor ',' baseType ','createNode ')' { $$ = INTNETWORKFUNK4(randomUndirectedNetwork,$1,_E(nodeDescriptor,$5),_E(baseType,$7),_E(nodeBlueprint*,$9),network::stdEdge );}
+		
+		| NETWORK '.' SCALEFREENETWORK  '(' nodeDescriptor ',' nodeDescriptor ','createNode ',' createLink ')' { $$ = INTNETWORKFUNK4(scaleFreeNetwork,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(nodeBlueprint*,$9),_E(edgeBlueprint*,$11));}
+		| NETWORK '.' SCALEFREENETWORK  '(' nodeDescriptor ',' nodeDescriptor ','createNode ')' { $$ = INTNETWORKFUNK4(scaleFreeNetwork,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(nodeBlueprint*,$9),network::stdEdge );}
+
 		| NETWORK '.' COMPLETENETWORK   '(' integer ',' createNode ',' createLink ')' { $$ = INTNETWORKFUNK3(completeNetwork,$1,_E(int,$5),_E(nodeBlueprint*,$7),_E(edgeBlueprint*,$9)); }
 		| NETWORK '.' COMPLETENETWORK   '(' integer ')' { $$ = INTNETWORKFUNK3(completeNetwork,$1,_E(int,$5), network::stdNode, network::stdEdge ); }
 		| NETWORK '.' LATTICE '(' integer ',' integer ',' baseType ',' createNode ')'
