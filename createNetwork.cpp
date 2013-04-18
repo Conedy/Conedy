@@ -1255,11 +1255,10 @@ void createNetwork::rewireSource ( double prop, nodeKind theNodeKind )
 }
 
 
-nodeDescriptor createNetwork::randomNetwork ( nodeDescriptor size, double promille, nodeBlueprint *n, edgeBlueprint *l )
+nodeDescriptor createNetwork::randomNetwork ( int size, double promille, nodeBlueprint *n, edgeBlueprint *l )
 {
-	nodeDescriptor i, j;
+	int i, j;
 
-	network::clear();
 
 	if (size == 0)
 		return -1;
@@ -1282,11 +1281,10 @@ nodeDescriptor createNetwork::randomNetwork ( nodeDescriptor size, double promil
 }
 
 
-nodeDescriptor createNetwork::randomUndirectedNetwork ( nodeDescriptor size, double promille, nodeBlueprint *n, edgeBlueprint *l )
+nodeDescriptor createNetwork::randomUndirectedNetwork ( int size, double promille, nodeBlueprint *n, edgeBlueprint *l )
 {
-	nodeDescriptor i, j;
+	int i, j;
 
-	network::clear();
 
 	if (size == 0)
 		return -1;
@@ -1310,6 +1308,69 @@ nodeDescriptor createNetwork::randomUndirectedNetwork ( nodeDescriptor size, dou
 
 //baseType limit();
 
+nodeDescriptor createNetwork::scaleFreeNetwork ( int size, int c, nodeBlueprint *n, edgeBlueprint *l )
+{
+	if (size == 0)
+		return -1;
+	if (size <= c)
+		return -1;
+	
+	int degrees[size];
+	nodeDescriptor smallest= completeNetwork ( c, n, l );
+
+	for ( int i = 0; i<c; i++)
+		degrees[i]=c-1;
+	for ( int i = c; i<size;i++)
+		degrees[i]=0;
+	
+	for ( int i = 0; i<size-c; i++)
+	{
+		addNode ( n );
+		int used[c-1];
+		for(int k=0; k<c-1; k++)
+			used[k]=-1;
+		for(int k=0; k<c; k++)
+		{
+			int j;
+			bool isUsed;
+			do
+			{
+				if(c*(c+2*i-1)+k<1)
+				{
+					j=0;
+				}
+				else
+				{
+					int r=network::noise.getUniformInt(1, c*(c+2*i-1)+k );
+					int sum=0;
+					for( j=0; j<c+i; j++)
+					{
+						sum+=degrees[j];
+						if(r<=sum)
+						{
+							break;
+						}
+					}
+					isUsed=false;
+					for( int l=0; l<k; l++)
+						if(used[l]==j)
+						{
+							isUsed=true;
+						}
+				}
+			}
+			while(isUsed);
+			network::addEdge (smallest+c+i, smallest+j, l);
+			network::addEdge (smallest+j, smallest+c+i, l);
+			degrees[j]+=1;	
+			used[k]=j;
+		}
+		for(int k=0; k<c-1; k++)
+			used[k]=-1;
+		degrees[c+i]=c;
+	}
+	return smallest;
+}
 
 //baseType limit() { return 0; };
 
