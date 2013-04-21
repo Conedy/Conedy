@@ -7,7 +7,6 @@
 #include "baseType.h"
 #include "node.h"
 #include "ioNode.h"
-//#include "neuronModels.h"
 #include "createNetwork.h"
 #include "spatialNetwork.h"
 //#include "stdOdeIntegrator.h"
@@ -45,24 +44,6 @@
 
 
 
-
-namespace conedy {
-
-//	typedef phaseOfPCPO < edgeVirtual > phaseOfPCPOVirtual;
-
- node *	getStaticNode (node *n, edgeVirtual *l );
-
-
-//	typedef nodeTemplateEdges < weightedEdge < edge >, escapeNoiseNeuron, escapeNoiseNeuron > escapeNoiseNeuronStatic;
-
-
-
-//	typedef nodeTemplateEdges < staticWeightedEdge < edge >, pcoIFNeuronDelay, pcoIFNeuronDelay> pcoIFNeuronDelayStatic;
-//	typedef nodeTemplateEdges < staticWeightedEdge < edge >, pcoRealIFNeuronDelay, pcoRealIFNeuronDelay > pcoRealIFNeuronDelayStatic;
-//	typedef nodeTemplateEdges < staticWeightedEdge < edge >, pcoIFNeuron, pcoIFNeuron > pcoIFNeuronStatic;
-//	typedef nodeTemplateEdges < staticWeightedEdge < edge >, pcoNonleaky, pcoNonleaky > pcoNonleakyStatic;
-
-};
 
 
 

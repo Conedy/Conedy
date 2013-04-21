@@ -332,6 +332,7 @@ template <class N>
 	//BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (addEdge_overloads, addEdge, 2,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (rewireUndirected_overloads, rewireUndirected, 1,2);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (randomNetwork_overloads, randomNetwork, 2,4);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (randomUndirectedNetwork_overloads, randomUndirectedNetwork, 2,4);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (randomizeStates_overloads, randomizeStates, 2,4);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observe_overloads, observe, 2,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observeAll_overloads, observeAll, 1,2);
@@ -358,7 +359,7 @@ template <class N>
 
 		register_exception_translator<const char *>(translator);
 
-
+#if RECOMPILE
 
 		if (!system ("recompilePython-Conedy 2> /dev/null"))
 		{
@@ -366,7 +367,7 @@ template <class N>
 			exit (1);
 		}
 
-
+#endif
 
 
 
@@ -468,6 +469,7 @@ template <class N>
 			.def("createFromAdjacencyMatrix", &MyNetwork<baseType>::createFromAdjacencyMatrix ,  createFromAdjacencyMatrix_overloads( reinterpret_cast< const char *> (__createNetwork_createFromAdjacencyMatrix)))
 			.def("saveAdjacencyMatrix", &MyNetwork<baseType>::saveAdjacencyMatrix, reinterpret_cast<const char *>(__createNetwork_saveAdjacencyMatrix))
 			.def("randomNetwork", &MyNetwork<baseType>::randomNetwork ,  randomNetwork_overloads( reinterpret_cast< const char *> (__createNetwork_randomNetwork)))
+// 			.def("randomUndirectedNetwork", &MyNetwork<baseType>::randomUndirectedNetwork ,  randomUndirectedNetwork_overloads( reinterpret_cast< const char *> (__createNetwork_randomUndirectedNetwork)))
 			.def("completeNetwork", &MyNetwork<baseType>::completeNetwork, completeNetwork_overloads( reinterpret_cast<const char *>(__createNetwork_completeNetwork)))
 			.def("line", &MyNetwork<baseType>::line, reinterpret_cast<const char *>(__createNetwork_line))
 			.def("cycle", &MyNetwork<baseType>::cycle, cycle_overloads( reinterpret_cast<const char *>(__createNetwork_cycle)))

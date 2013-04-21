@@ -49,7 +49,7 @@ namespace conedy {
 
 
 
-	
+
 	void createNetwork::observeEventTimesEquals( string fileName,nodeDescriptor eventNumber) {
 
 		nodeBlueprint* nod = new nodeVirtualEdges<timeNode<baseType> >();
@@ -561,31 +561,6 @@ void createNetwork::randomInDegreeDistribution ( int number, RANDOM &r, nodeBlue
 
 
 
-/*
-
-	void createNetwork::streamOutMatrix ( string s )
-	{
-	outStream out ( s.c_str(), fstream::out | fstream::binary );
-
-
-//	out << 3;
-//	out << network::numberVertices();
-//	out << network::numberVertices();
-
-
-for ( unsigned int i = 0; i < network::numberVertices();i++ )
-{
-out << network::linkStrength ( i,0 );
-for ( unsigned int j = 1; j < network::numberVertices();j++ )
-{
-out << ' ';
-out << network::linkStrength ( i,j );
-}
-out.newLine();
-}
-
-}
-*/
 void createNetwork::addRandomEdgesDegreeDistributionUndirected ( function <double () > r , edgeBlueprint *l)
 {
 	nodeList vl;
@@ -833,7 +808,7 @@ void createNetwork::normalizeOutputs (baseType r)
 	nodeIterator it;
 	nodeList dynNodes;
 	verticesMatching(dynNodes, _dynNode_);
-	
+
 
 	unsigned int degree;
 
@@ -1251,13 +1226,6 @@ void createNetwork::rewireTargetUndirected ( double prop, nodeKind theNodeKind )
 }
 
 
-
-
-
-
-
-
-
 void createNetwork::rewireSource ( double prop, nodeKind theNodeKind )
 {
 	network::edgeList toChange;
@@ -1287,21 +1255,10 @@ void createNetwork::rewireSource ( double prop, nodeKind theNodeKind )
 }
 
 
-
-
-
-
-
-
-
-
-
-nodeDescriptor createNetwork::randomNetwork ( nodeDescriptor size, double promille, nodeBlueprint *n, edgeBlueprint *l )
+nodeDescriptor createNetwork::randomNetwork ( int size, double promille, nodeBlueprint *n, edgeBlueprint *l )
 {
-	nodeDescriptor i, j;
+	int i, j;
 
-
-	network::clear();
 
 	if (size == 0)
 		return -1;
@@ -1309,10 +1266,7 @@ nodeDescriptor createNetwork::randomNetwork ( nodeDescriptor size, double promil
 	nodeDescriptor smallest= addNode(n);
 	for ( i = 1; i < size; i++ )
 	{
-
 		addNode ( n );
-
-
 
 		for ( j = 0; j < i; j++ )
 		{
@@ -1322,41 +1276,105 @@ nodeDescriptor createNetwork::randomNetwork ( nodeDescriptor size, double promil
 				network::addEdge ( smallest + j,smallest + i,l );
 
 		}
-
 	}
 	return smallest;
-
 }
 
 
+nodeDescriptor createNetwork::randomUndirectedNetwork ( int size, double promille, nodeBlueprint *n, edgeBlueprint *l )
+{
+	int i, j;
+
+
+	if (size == 0)
+		return -1;
+
+	nodeDescriptor smallest= addNode(n);
+	for ( i = 1; i < size; i++ )
+	{
+		addNode ( n );
+
+		for ( j = 0; j < i; j++ )
+		{
+			if ( network::noise.getUniform() <= promille )
+			{
+				network::addEdge ( smallest + i,smallest + j,l );
+				network::addEdge ( smallest + j,smallest + i,l );
+			}
+		}
+	}
+	return smallest;
+}
+
 //baseType limit();
 
+nodeDescriptor createNetwork::scaleFreeNetwork ( int size, int c, nodeBlueprint *n, edgeBlueprint *l )
+{
+	if (size == 0)
+		return -1;
+	if (size <= c)
+		return -1;
+	
+	int degrees[size];
+	nodeDescriptor smallest= completeNetwork ( c, n, l );
+
+	for ( int i = 0; i<c; i++)
+		degrees[i]=c-1;
+	for ( int i = c; i<size;i++)
+		degrees[i]=0;
+	
+	for ( int i = 0; i<size-c; i++)
+	{
+		addNode ( n );
+		int used[c-1];
+		for(int k=0; k<c-1; k++)
+			used[k]=-1;
+		for(int k=0; k<c; k++)
+		{
+			int j;
+			bool isUsed;
+			do
+			{
+				if(c*(c+2*i-1)+k<1)
+				{
+					j=0;
+				}
+				else
+				{
+					int r=network::noise.getUniformInt(1, c*(c+2*i-1)+k );
+					int sum=0;
+					for( j=0; j<c+i; j++)
+					{
+						sum+=degrees[j];
+						if(r<=sum)
+						{
+							break;
+						}
+					}
+					isUsed=false;
+					for( int l=0; l<k; l++)
+						if(used[l]==j)
+						{
+							isUsed=true;
+						}
+				}
+			}
+			while(isUsed);
+			network::addEdge (smallest+c+i, smallest+j, l);
+			network::addEdge (smallest+j, smallest+c+i, l);
+			degrees[j]+=1;	
+			used[k]=j;
+		}
+		for(int k=0; k<c-1; k++)
+			used[k]=-1;
+		degrees[c+i]=c;
+	}
+	return smallest;
+}
 
 //baseType limit() { return 0; };
 
 
-
-/*
-	void createNetwork::createFromMatrix ( inStream & in, unsigned int size, nodeBlueprint *n )
-	{
-	baseType nextWeight;
-
-	network::clear();
-	for ( unsigned int l = 0;l < size; l++ )
-	{
-	addNode ( n );
-	}
-	for ( unsigned int i = 0; i < size; i++ )
-	for ( unsigned int j = 0; j < size; j++ )
-	{
-	in >> nextWeight;
-	if ( std::abs ( nextWeight ) != limit<baseType>() )
-	network::addEdge ( i,j,nextWeight );
-
-	}
-
-	}
-	*/
 
 nodeDescriptor createNetwork::createFromMatrix ( vector <vector<baseType> > weights, nodeBlueprint *n )
 {

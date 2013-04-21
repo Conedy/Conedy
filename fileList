@@ -15,8 +15,6 @@ Scanner.ll.end
 addNewNode.py
 baseType.h
 bisonc++.jam
-cnnNode.cpp
-cnnNode.h
 command.cpp
 command.h
 commandLineArguments.cpp
@@ -60,8 +58,6 @@ network.neu
 networkConstants.h
 neuroPython.cpp
 neuroPython.h
-neuronModels.cpp
-neuronModels.h
 node.cpp
 node.h
 nodeImplement.h

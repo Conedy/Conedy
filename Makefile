@@ -273,8 +273,10 @@ clean: ${todo:=.clean}
 
 conedy.clean:
 	rm -rf bin
-	rm -rf Parserbase.h
+	rm -f Parserbase.h
 	rm -f Scanner.ll
+	rm -f Parser.yy
+	rm -f parse.cc
 	rm -f string_config.h
 	make revert
 
