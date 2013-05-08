@@ -10,6 +10,12 @@
 
 
 
+inline void Parser::exceptionHandler__(std::exception const &exc)
+{
+    throw;  // re-implement to handle exceptions thrown by actions
+}
+
+
     // UN-comment the next using-declaration if you want to use
     // symbols from the namespace std without specifying std::
 //using namespace std;
