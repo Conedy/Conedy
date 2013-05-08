@@ -1,8 +1,0 @@
-network N;
-
-
-
-			N.cycle(1,0,pcoIntegrateFire(), weightedEdge(0.01));
-			N.noiseToStates(pcoIntegrateFire(),uniform(-0.01,0.01));
-
-print N.getState (0,0);

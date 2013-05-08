@@ -29,7 +29,7 @@ print "#phi \Delta(\phi)"+newline;
 samplingTime = 10000.0;
 
 
-:rm _tmp:;
+:"rm _tmp":;
 
 	nodeNumber = n.addNode(pcoMirollo());
 	otherNodeNumber = n.addNode(pcoMirollo());
@@ -61,7 +61,7 @@ for (phi = 0.0;phi < 1.0; phi = phi + 0.001)
 
 n.clear();	
 
-:awk '{ if (NR % 2 == 0) { if ( $2 - $1 > 0.0)  print $1 " " $2 - $1; else print $1, $2 - $1 + 1;  }} ' _tmp  > output/phaseResponseCurve_pcoMirollo.co.curve :;
+:"awk '{ if (NR % 2 == 0) { if ( $2 - $1 > 0.0)  print $1, $2 - $1; else print $1, $2 - $1 + 1;  }} ' _tmp  > output/phaseResponseCurve_pcoMirollo.co.curve ":;
 
 
 

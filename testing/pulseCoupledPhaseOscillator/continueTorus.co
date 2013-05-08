@@ -27,5 +27,5 @@ n.observeTime("output/continueTorus.co.secondPart");
 n.observeAll("output/continueTorus.co.secondPart");
 n.evolve(7.3,10.0);
 
-:rm output/continue:;
+:"rm output/continue":;
 

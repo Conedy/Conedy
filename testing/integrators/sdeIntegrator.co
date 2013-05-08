@@ -18,7 +18,7 @@ N.evolve(0.0,15000.0);
 
 # to calculate the variance of the ornstein-uhlenbeck
 # variance should be diffusion^2/(2*drift)
-:python sdeIntegratorVarianceTest.py "output/sdeIntegrator.co.series":;
+:"python sdeIntegratorVarianceTest.py output/sdeIntegrator.co.series":;
 
 
 

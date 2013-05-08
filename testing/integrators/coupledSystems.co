@@ -42,5 +42,5 @@ N.observe(k, "output/coupledSystems.co.double", component(0));
 N.evolve(0.0,100.0);
 N.clear();
 
-:diff output/coupledSystems.co.single output/coupledSystems.co.double:;
-:diff output/coupledSystems.co.singleCouplingSum output/coupledSystems.co.double:;
+:"diff output/coupledSystems.co.single output/coupledSystems.co.double":;
+:"diff output/coupledSystems.co.singleCouplingSum output/coupledSystems.co.double":;
