@@ -56,6 +56,19 @@ assign		: baseType '=' baseType { $$ = new assignInstruction<baseType> ((varComm
 				$$ = new assignInstruction<int> ( var,  new modoloCommandint<int, int> ($3,  (var))); }
 		|  integer ASSIGNTIMES integer { varCommand<int> *var = (varCommand<int>*)$1;
 				$$ = new assignInstruction<int> ( var,  new timesCommandint<int, int> ($3,  (var))); }
+
+
+		|  baseType ASSIGNPLUS baseType { varCommand<baseType> *var = (varCommand<baseType>*)$1;
+				$$ = new assignInstruction<baseType> ( var,  new plusCommandbaseType<baseType, baseType> ($3,  (var)) )  ; }
+		|  baseType ASSIGNMINUS baseType { varCommand<baseType> *var =  (varCommand<baseType>*)$1;
+				$$ = new assignInstruction<baseType> ( var,  new minusCommandbaseType<baseType, baseType> ($3,  (var))); }
+		|  baseType ASSIGNDIVIDE baseType { varCommand<baseType> *var = (varCommand<baseType>*)$1;
+				$$ = new assignInstruction<baseType> ( var,  new divideCommandbaseType<baseType, baseType> ($3,  (var))); }
+		|  baseType ASSIGNTIMES baseType { varCommand<baseType> *var = (varCommand<baseType>*)$1;
+				$$ = new assignInstruction<baseType> ( var,  new timesCommandbaseType<baseType, baseType> ($3,  (var))); }
+
+
+
 		|  integer PLUSPLUS { varCommand<int> *var = (varCommand<int>*)$1;
 				$$ = new assignInstruction<int> ( var,  new plusCommandint<int, int> (new constantCommand<int>(1),  (var))); }
 		|  baseType PLUSPLUS { varCommand<baseType> *var = (varCommand<baseType>*)$1;
@@ -533,6 +546,7 @@ baseType		: FLOATCONSTANT { $$ = new constantCommand<baseType>(atof(d_scanner.YY
 		| EXP '(' baseType ')' 	{ $$ = new expCommandbaseType<baseType> ($3);}
 		| SIN '(' baseType ')' 	{ $$ = new sinCommandbaseType<baseType> ($3);}
 		| '(' DOUBLETOKEN ')' integer { $$ = new convertIntegerToBaseType($4); }
+		| integer { $$ = new convertIntegerToBaseType($1); }
 		| '-' baseType { $$ = new timesCommandbaseType<baseType,baseType>(new constantCommand<baseType>(-1),$2); } %prec UMINUS
 		| statisticsNetworkCommandBaseType
 		// veraltet ohne Seg-Schutz:
