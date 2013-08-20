@@ -39,7 +39,8 @@ namespace conedy
 
 	void dynNetwork::dynamics(nodeDescriptor n)
 	{
-		((dynNode*)node::theNodes[n]) -> dynamics();
+//		((dynNode*)
+		((gslOdeNode*)node::theNodes[n]) -> dynamics();
 	}
 
 

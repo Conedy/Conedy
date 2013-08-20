@@ -17,8 +17,8 @@ params<baseType>  *vectorForInstruction::p;
 #if CONDOR
 string getCurrentPath()
 {
-	char CurrentPath[200];
-	if ( !getcwd ( CurrentPath, 200 ) )
+	char CurrentPath[500];
+	if ( !getcwd ( CurrentPath, 500) )
 		throw "getcwd failed!";
 	return CurrentPath;
 }
