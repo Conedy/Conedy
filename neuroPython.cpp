@@ -443,6 +443,8 @@ template <class N>
 			.def("degreeCentrality", &MyNetwork<baseType>::degreeCentrality, reinterpret_cast<const char *>(__statisticsNetwork_degreeCentrality))
 			.def("degree", &MyNetwork<baseType>::degree, reinterpret_cast<const char *>(__statisticsNetwork_degree))
 			.def("size", &MyNetwork<baseType>::size, reinterpret_cast<const char *>(__statisticsNetwork_size))
+			
+			.def("setTime", &MyNetwork<baseType>::setTime, reinterpret_cast<const char *>(__dynNetwork_setTime))
 			.def("meanDegree", &MyNetwork<baseType>::meanDegree, reinterpret_cast<const char *>(__statisticsNetwork_meanDegree))
 			.def("meanWeight", &MyNetwork<baseType>::meanWeight, reinterpret_cast<const char *>(__statisticsNetwork_meanWeight))
 			.def("meanClustering", &MyNetwork<baseType>::meanClustering, reinterpret_cast<const char *>(__statisticsNetwork_meanClustering))
