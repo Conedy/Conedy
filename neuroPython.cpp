@@ -443,6 +443,8 @@ template <class N>
 			.def("degreeCentrality", &MyNetwork<baseType>::degreeCentrality, reinterpret_cast<const char *>(__statisticsNetwork_degreeCentrality))
 			.def("degree", &MyNetwork<baseType>::degree, reinterpret_cast<const char *>(__statisticsNetwork_degree))
 			.def("size", &MyNetwork<baseType>::size, reinterpret_cast<const char *>(__statisticsNetwork_size))
+			
+			.def("setTime", &MyNetwork<baseType>::setTime, reinterpret_cast<const char *>(__dynNetwork_setTime))
 			.def("meanDegree", &MyNetwork<baseType>::meanDegree, reinterpret_cast<const char *>(__statisticsNetwork_meanDegree))
 			.def("meanWeight", &MyNetwork<baseType>::meanWeight, reinterpret_cast<const char *>(__statisticsNetwork_meanWeight))
 			.def("meanClustering", &MyNetwork<baseType>::meanClustering, reinterpret_cast<const char *>(__statisticsNetwork_meanClustering))
@@ -459,6 +461,7 @@ template <class N>
 			// createNetwork commands
 			.def("removeEdges", &MyNetwork<baseType>::removeEdges, reinterpret_cast<const char *>(__createNetwork_addRandomEdges))
 			.def("removeRandomEdges", &MyNetwork<baseType>::removeRandomEdges, reinterpret_cast<const char *>(__createNetwork_removeRandomEdges))
+			.def("removeRandomEdgesUndirected", &MyNetwork<baseType>::removeRandomEdgesUndirected, reinterpret_cast<const char *>(__createNetwork_removeRandomEdgesUndirected))
 			.def("addRandomEdges", &MyNetwork<baseType>::addRandomEdges, addRandomEdges_overloads (reinterpret_cast<const char *>(__createNetwork_addRandomEdges)))
 
 			.def("torusNearestNeighbors", &MyNetwork<baseType>::torusNearestNeighbors,  reinterpret_cast<const char *>(__createNetwork_torusNearestNeighbors))

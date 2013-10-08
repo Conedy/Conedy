@@ -225,6 +225,7 @@ namespace conedy
 			void addRandomEdgesDegreeDistribution ( function <double () > r, edgeBlueprint *l = stdEdge );
 			void addRandomEdgesDegreeDistributionUndirected ( function <double () > r, edgeBlueprint *l = stdEdge );
 
+			void removeRandomEdgesUndirected ( double meanOutDegree, edgeBlueprint * l = stdEdge );
 
 			void removeRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge );
 			void addRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge );
@@ -248,6 +249,11 @@ namespace conedy
 			void observeHidden ( string s, int number );
 
 			void observeAll ( string s, edgeBlueprint *l = stdEdge);
+
+
+//			void observeAll ( string s, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode, nodeDescriptor lower = 0, nodeDescriptor upper = numeric_limits<nodeDescriptor>::max());
+
+
 
 			void observeAllHiddenVariables ( string s );
 

@@ -221,9 +221,11 @@ class eventHandler
 			public:
 			visiter( function <void()> v, eventHandler *t) : visit(v), target(t) {}; 
 			virtual baseType callBack ( unsigned int eventSignature ) { 
+				double res = target->callBack(eventSignature);
 				visit();
-				return target->callBack(eventSignature);
-			};
+				
+				return res;
+			}
 			virtual unsigned int numberOfEvents() const { return target->numberOfEvents();  }
 
 		};
