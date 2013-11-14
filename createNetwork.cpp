@@ -1505,29 +1505,29 @@ void createNetwork::observeAll ( string s, edgeBlueprint *l )
 }
 
 
-//void createNetwork::observeAll ( string s, edgeBlueprint *l , nodeBlueprint *n , nodeDescriptor lower , nodeDescriptor upper)
-//{
-//
-//
-//	nodeBlueprint *nod = new nodeVirtualEdges < calculateMeanPhaseCoherence > ();
-//	nodeDescriptor newNodeNumber = addNode ( nod );
-//	nodeList vl;
-//
-//	if (n == stdNode)
-//		verticesMatching(vl, _dynNode_);
-//	else
-//		verticesMatching(vl, n);
-//
-//	nodeIterator vi;
-//	for (vi=vl.begin();vi != vl.end();vi++)
-//	{
-//		if ((node::theNodes[*vi]->getNumber() >=lower) && (node::theNodes[*vi]->getNumber() <= upper))
-//		observe( *vi,s, l);
-//	}
-//
-//
-//}
-//
+void createNetwork::observeAll ( string s, edgeBlueprint *l , nodeBlueprint *n , nodeDescriptor lower , nodeDescriptor upper)
+{
+
+
+	nodeBlueprint *nod = new nodeVirtualEdges < calculateMeanPhaseCoherence > ();
+	nodeDescriptor newNodeNumber = addNode ( nod );
+	nodeList vl;
+
+	if (n == stdNode)
+		verticesMatching(vl, _dynNode_);
+	else
+		verticesMatching(vl, n);
+
+	nodeIterator vi;
+	for (vi=vl.begin();vi != vl.end();vi++)
+	{
+		if ((node::theNodes[*vi]->getNumber() >=lower) && (node::theNodes[*vi]->getNumber() <= upper))
+		observe( *vi,s, l);
+	}
+
+
+}
+
 
 
 
@@ -1552,7 +1552,12 @@ void createNetwork::observePhaseCoherence ( string s, edgeBlueprint *l, nodeBlue
 	}
 
 	delete nod;
-	nod = new nodeVirtualEdges <streamOutNode > ( s );
+
+
+	if (getGlobal<bool>("outputBinary"))
+		nod = new nodeVirtualEdges <streamOutNodeBinary > ( s );
+	else
+		nod = new nodeVirtualEdges <streamOutNode > ( s );
 	nodeDescriptor outNodeNumber = addNode ( nod );
 	addEdge ( outNodeNumber, newNodeNumber);
 	inOutNodeList.push_back ( dynamic_cast<dynNode*> ( node::theNodes[outNodeNumber] ));
