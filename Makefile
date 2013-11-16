@@ -129,15 +129,21 @@ conedy-src.test:   # if the testfile was already added, remove it and recompile 
 
 # Generate an conedy-executable called conedy_unstripped, which has optimization and debug symbols for profiling
 unstripped: clean addNodes Scanner.ll Parser.yy
-	bjam  conedy -o unstripped.sh
+	bjam  conedy -n > unstripped.sh
 	tail -n2 unstripped.sh | sed "s/,--strip-all//" | sed "s/conedy/conedy_unstripped/" > linkUnstripped.sh
 	make conedy
 	bash linkUnstripped.sh
 
 
-# build the bison-flex-interpreter of Conedy.
+# build the bison-flex-interpreter of Conedy.     fix to strange behavior of statically linking stdc++
 conedy: addNodesIfNecessary Parser.yy Scanner.ll string_config.h
+	bjam  conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags='-DARCHITECTURE="${ARCH}"'  -j${numberCores} -n  | grep "end-group" | sed "s/-Wl,-Bstatic/-static/g;s/-Wl,-Bdynamic//g;" > linkCondor.sh
 	bjam  conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags='-DARCHITECTURE="${ARCH}"'  -j${numberCores}
+	bash linkCondor.sh
+	rm linkCondor.sh
+
+
+
 
 installAndnest: install test
 
@@ -321,10 +327,6 @@ debug.clean:
 condor.install: conedy condor
 	cp -f bin/gcc-*/debug/link-static/conedyCondor  ${dirInstall}
 	cp -f bin/gcc-*/release/link-static/conedy ${dirInstall}/conedy.LINUX.X86_64.EXE
-#	cp -f linux32/bin/gcc-mingw-4*/release/link-static/conedy ~/bin/conedy.LINUX.INTEL.EXE
-#	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT51.INTEL.EXE
-#	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT61.INTEL.EXE
-#	cp -f bin/gcc-mingw-ming/release/link-static/target-os-windows/conedy ~/bin/conedy.WINNT60.INTEL.EXE
 
 condor.uninstall:
 	rm -f ${dirInstall}/conedyCondor ${dirInstall}/conedy.LINUX.X86_64.EXE
@@ -332,8 +334,15 @@ condor.uninstall:
 condor.clean:
 
 
+#unstripped: clean addNodes Scanner.ll Parser.yy
+#	bjam  conedy -o unstripped.sh
+#	tail -n2 unstripped.sh | sed "s/,--strip-all//" | sed "s/conedy/conedy_unstripped/" > linkUnstripped.sh
+#	make conedy
+#	bash linkUnstripped.sh
+#
+
 condor: addNodesIfNecessary string_config.h               # build an interpreter which does not execute network-functions, but creates Condor-scripts which distribute the execution of loops (see vectorFor)
-	bjam  conedyCondor cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=${ARCH}"  -j${numberCores}
+	bjam  conedyCondor cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=${ARCH}"  -j${numberCores} -n  > condor.sh
 
 
 
