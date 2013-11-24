@@ -11,4 +11,4 @@ N.observeTime("output/writeBinary.py.time")
 N.evolve(0.0,10.0)
 N.removeObserver()
 
-print np.fromfile("output/writeBinary.co.time", dtype=np.float64)
+print np.fromfile("output/writeBinary.py.time", dtype=np.float64)
