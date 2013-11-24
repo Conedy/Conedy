@@ -1507,10 +1507,6 @@ void createNetwork::observeAll ( string s, edgeBlueprint *l )
 
 void createNetwork::observeAll ( string s, edgeBlueprint *l , nodeBlueprint *n , nodeDescriptor lower , nodeDescriptor upper)
 {
-
-
-	nodeBlueprint *nod = new nodeVirtualEdges < calculateMeanPhaseCoherence > ();
-	nodeDescriptor newNodeNumber = addNode ( nod );
 	nodeList vl;
 
 	if (n == stdNode)
