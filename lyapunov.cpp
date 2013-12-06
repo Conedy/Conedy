@@ -1,7 +1,7 @@
 
 #include "lyapunov.h"
 #include <iomanip>
-
+#include <queue>
 	meanVar realign::calculateDist(vector <baseType> &states)
 	{
 

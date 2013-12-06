@@ -6,41 +6,29 @@
 
 #include <list>
 #include <set>
+#include <vector>
 
 using namespace boost;
 #include "gslNoise.h"
 
-#include <queue>
 #include "baseType.h"
 #include "globals.h"
-#include "params.h"
-#include <vector>
-#define DIJKSTRA_INFINITY 999999
-#define DIJKSTRA_ZERO 0
 
-const int directed = 1 << 1;
+#include <queue>
+
 
 
 const bool _directed_ = 1;
 const bool _undirected_ = 1;
 
 
-const int parallelEdges = 1 << 2;
-using namespace std;
-using namespace boost;
 
 
 namespace conedy
 {
 
-	baseType inline frontAndPop(queue<baseType> *s)
-	{
-		baseType res = s->front();
-		s->pop();
-		return res;
 
-	}
-
+		baseType frontAndPop(queue<baseType> *s);
 
 	/*!
 	  \Brief Class which represents a network.
@@ -59,7 +47,6 @@ namespace conedy
 
 */
 
-	typedef dynNode nodeBlueprint;
 	typedef edgeVirtual edgeBlueprint;
 
 
@@ -68,21 +55,12 @@ namespace conedy
 	class network: protected globals
 	{
 
-		protected:
-			//! Contains all nodes with time evolution
-			vector < dynNode *> evolveList;
-
-			//! Contains all nodes which read/write data from/to files
-			vector < dynNode *> inOutNodeList;
-
-			//! Contains all nodes which receive a callback after each intergration step
-			vector < dynNode *> upkeepList;
 
 		public:
 			// edges are described by an integer for the source node and an identifier which is defined in node.
 			typedef pair<nodeDescriptor, node::edgeDescriptor> edgeDescriptor;
 
-			//! typedefs for list of nodes and edges
+			//! typedefs for lists of nodes and edges
 			typedef set<nodeDescriptor> nodeList;
 			typedef nodeList::iterator nodeIterator;
 			typedef list< edgeDescriptor >  edgeList;
@@ -103,19 +81,20 @@ namespace conedy
 			//! return the source of the edge.
 			nodeDescriptor getSource(edgeDescriptor eD) { return eD.first; }
 
+			//! return the target of the edge.
+			nodeDescriptor getTarget(edgeDescriptor eD) { return node::theNodes[eD.first]->getTarget(eD.second); }
 
 
-			// returns the target of the edge.
-			nodeDescriptor getTarget(nodeDescriptor source,  nodeDescriptor edgeNumber)
-			{ return node::theNodes[source]->getTarget(edgeNumber)->getNumber(); }
+			//! returns the target of the edge.
+			nodeDescriptor getTarget(nodeDescriptor source,  nodeDescriptor edgeNumber)		{ return node::theNodes[source]->getTarget(edgeNumber); }
+
+
+			baseType getWeight(edgeDescriptor eD) { return node::theNodes[eD.first]->getWeight(eD.second); }
+			void setWeight(edgeDescriptor eD, baseType w) { 		 node::theNodes[eD.first]->setWeight(eD.second, w); }
 
 
 
-			//! The set of node numbers of all nodes which are in the network.
-			set<nodeDescriptor> theNodes;
-
-
-			//! prepare the network for numerical integration, calls clean for each node and updates evolveList, etc.
+			//! prepare the network for numerical integration, calls clean for each node and updates evolveList, etc.			
 			virtual void clean ();
 
 
@@ -123,45 +102,27 @@ namespace conedy
 			void select (string fileName) ;
 
 
-			//
-			nodeDescriptor getTarget(edgeDescriptor eD) { return node::theNodes[eD.first]->getTarget(eD.second)->getNumber(); }
-
-
-			baseType getWeight(edgeDescriptor eD) { return node::theNodes[eD.first]->getWeight(eD.second); }
-			void setWeight(edgeDescriptor eD, baseType w) { 		 node::theNodes[eD.first]->setWeight(eD.second, w); }
-
 			edgeInfo getEdgeInfo (edgeDescriptor eD) 		 { return node::theNodes[eD.first]->getEdgeInfo(eD.second);}
+
+
 			edge * getEdge (edgeDescriptor eD) 				 { return node::theNodes [eD.first]->getEdge(eD.second); }
 
-			dynNode* getNode (nodeDescriptor vd) { return (dynNode* )node::theNodes[vd];}
+//			dynNode* getNode (nodeDescriptor vd) { return (dynNode* )node::theNodes[vd];}
 
 
 			static edgeVirtual * stdEdge;//# = new edge(NULL,NULL,1);
 			static dynNode * stdNode;
+
+
 			network() ;
 			network(bool directedNess) ;
 
 			virtual ~network();
 
 
-			//!
-			void removeEdge (edgeDescriptor e)
-			{
-				node::theNodes[e.first]-> removeEdge (e.second);
-			}
+			void removeEdge (edgeDescriptor e) { node::theNodes[e.first]-> removeEdge (e.second);}
 
-			void removeEdges (edgeBlueprint * e)
-			{
-				edgeList el;
-				networkElementType edgeType = ((edgeVirtual*) e) -> getEdgeInfo().theEdgeType;
-
-				edgesMatching(el, edgeType);
-				edgeIterator ei;
-				for (ei = el.begin(); ei != el.end(); ei++)
-					removeEdge(*ei);
-				clean();
-
-			}
+			void removeEdges (edgeBlueprint * e);
 
 
 
@@ -218,7 +179,7 @@ namespace conedy
 			void edgesBetween(edgeList &res, nodeDescriptor sourceNode, networkElementType targetNodeType);
 
 
-			bool matches (nodeBlueprint *n1, nodeBlueprint *n2);
+//			bool matches (nodeBlueprint *n1, nodeBlueprint *n2);
 
 
 			void edgesBetween (edgeList &res, nodeDescriptor sourceNode, nodeBlueprint *targetNode);
@@ -228,6 +189,8 @@ namespace conedy
 			void edgesMatching (edgeList &res, networkElementType edgeType);
 			//! Verbinden Knoten source mit Knoten target mit einer Verbindung vom Typ l
 			//! Verbindet Knoten source mit allen Knoten der Art targedNodeKind
+
+
 			void addEdges (nodeDescriptor source, nodeKind targetNodeKind, edgeBlueprint *l = stdEdge);
 			//! Verbindet Knoten source mit allen Knoten vom Typ targetNodeType
 			void addEdges (nodeDescriptor source, int targetNodeType, edgeBlueprint *l = stdEdge);
@@ -283,7 +246,7 @@ namespace conedy
 
 
 			//! Gibt die Verbindungsstärke von Knoten i nach Knoten j zurück. 0 falls keine Verbindung besteht.
-			baseType linkStrength ( nodeDescriptor i, nodeDescriptor j ) { return node::theNodes[i]->linkStrength ( node::theNodes[j] ); }
+			baseType linkStrength ( nodeDescriptor i, nodeDescriptor j ) { return node::theNodes[i]->linkStrength ( j ); }
 
 			//! returns true if there is a link between node i and j
 			bool isLinked ( nodeDescriptor i, nodeDescriptor j );
@@ -292,7 +255,9 @@ namespace conedy
 			//! returns the number of nodes in the network of kind theNodeKind
 			unsigned int numberVertices ( nodeKind theNodeKind );
 
-
+			void setDirected () { directed = true; };
+				
+			void setUndirected () { directed = false; };
 
 
 
@@ -302,7 +267,7 @@ namespace conedy
 
 
 			unsigned int numberVertices() { return theNodes.size(); }
-			unsigned int size() { return theNodes.size(); }
+//			unsigned int size() { return theNodes.size(); }
 
 
 
@@ -325,15 +290,28 @@ namespace conedy
 
 		private:
 			int networkType;
+			
+			//! The set of node numbers of all nodes which are in the network.
+			set<nodeDescriptor> theNodes;
 
 		protected:
+			//! Contains all nodes with time evolution
+			vector < dynNode *> evolveList;
+
+			//! Contains all nodes which read/write data from/to files
+			vector < dynNode *> inOutNodeList;
+
+			//! Contains all nodes which receive a callback after each intergration step
+			vector < dynNode *> upkeepList;
 
 			unsigned int numberOfNodes;
 
-			int getNetworkType () { return networkType; };
+//			int getNetworkType () { return networkType; };
+
+
 			gslNoise noise;
 
-			void reset();
+//			void reset();
 	};
 
 

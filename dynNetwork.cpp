@@ -409,7 +409,7 @@ namespace conedy
 	{
 		queue<baseType> initialCond;
 
-		unsigned int size = sqrt ( (baseType) network::theNodes.size() );
+		unsigned int size = sqrt ( numberVertices() );
 		for ( unsigned int i = 0; i < size; i++ )
 			for ( unsigned int j = 0; j < size; j++ )
 			{
@@ -435,7 +435,7 @@ namespace conedy
 		queue<baseType> initialCond;
 
 
-		unsigned int size = sqrt ( (baseType) network::theNodes.size() );
+		unsigned int size = sqrt ( numberVertices() );
 
 		for ( unsigned int i = 0; i < size; i++ )
 			for ( unsigned int j = 0; j < size; j++ )

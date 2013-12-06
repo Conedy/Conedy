@@ -10,7 +10,6 @@
 #include "dynNode.h"
 
 #include "gslNoise.h"
-//	Letzte Änderung:	27.07.2009	hdickten:	weightedEdgeVirtual: weightedEdgeVirtual hinzugefügt!
 
 using namespace std;
 
@@ -136,7 +135,7 @@ namespace conedy
 
 		baseType getTargetState()
 		{
-			return (  (dynNode*)  ( EDGE::getTarget() ) ) ->getState(which)   ;
+			return (  (dynNode*)  ( node::theNodes[EDGE::getTarget()] ) ) ->getState(which)   ;
 
 		}
 		edgeVirtual *construct() {
@@ -203,7 +202,7 @@ namespace conedy
 				parameter.pop_back();
 			}
 
-			dynNode* getTarget() { return  (dynNode*)  node::theNodes[gslNoise::getUniform(lower,upper)]; }
+			nodeDescriptor getTarget() { return  gslNoise::getUniform(lower,upper); }
 			randomTarget(nodeDescriptor l, nodeDescriptor u) : lower(l), upper(u) { }
 			randomTarget() { }
 			edgeVirtual *construct() { return new randomTarget<EDGE> ( *this ); };
@@ -291,7 +290,7 @@ namespace conedy
 
 		baseType getTargetState()
 		{
-			return (  (dynNode*)  ( EDGE::getTarget() ) ) ->getState(which)   ;
+			return (  (dynNode*)  (node::theNodes[ EDGE::getTarget()] ) ) ->getState(which)   ;
 
 		}
 		edgeVirtual *construct() {

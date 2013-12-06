@@ -10,12 +10,11 @@
 #include "node.h"
 #include "Scanner.h"
 #include <fstream>
-#include "fullNetwork.h"
+//#include "fullNetwork.h"
 #if OPENGL
 #include "glNetwork.h"
 #endif
 
-//	Letzte Änderung:	23.07.2009	hdickten:	Fehlermeldung editiert
 
 network *netCheat = 0;
 void *pt2FunctionForGlutWrapper;
@@ -31,9 +30,9 @@ void printDefines ()
 #endif
 
 
-//#if DOUBLE
-//	cout << "DOUBLE ";
-//#endif
+	//#if DOUBLE
+	//	cout << "DOUBLE ";
+	//#endif
 
 
 #if LDOUBLE
@@ -56,7 +55,6 @@ void printDefines ()
 
 int main ( int argc,char **argv )
 {
-	//	system("mkdir output");
 
 	Parser theParser;
 
@@ -70,82 +68,69 @@ int main ( int argc,char **argv )
 	}	
 #endif
 
-	gslNoise::initialise();
+	gslNoise::initialise(); // initialize random numbers
+	printDefines();         // print some CFLAGS present during compilation to standard out
+	commandLineArguments::initialize(argc, argv);   // save command line arguments as static members of commandLineArguments for global access.
 
-	printDefines();
-
-	commandLineArguments::initialize(argc, argv);
-
-
-	//	nodeTemplate *n;
-	//	delete n;
-	//	n->registerStandardValues();
-	//	delete n;
-
-	//	odeNode::registerStandardValues();
-
-	registerStandards();
-
+	registerStandards();		// register	standard values for all node parameters
 	vectorForInstruction::registerStandardValues();
 
-
-	params<baseType>::initialise ( &command::declare );
+	// initialize all standard values for node parameters to the interpreter 
+	params<baseType>::initialise ( &command::declare );  	
 	params<vector <baseType> >::initialise (&command::declare);
 	params< string >::initialise (&command::declare);
 
 
-
-//	params<baseType>::printAll();
-
+	// interpret .conedyrc in the user's home directory
 	stringstream ss;  		       
 	ss << getenv("HOME")<< "/.conedyrc";
 	ifstream *in  = new ifstream (ss.str().c_str());
-
-//	cout << ss.str();
 	if (in->is_open())
 	{
-	try
-	{
+		try
+		{
+			Scanner::source = in;
 
-
-				Scanner::source = in;
-
-		Parser theParser;
-		theParser.parse();
+			Parser theParser;
+			theParser.parse();
 #if CONDOR
-		vectorForInstruction::writeCondorSkript();
+			vectorForInstruction::writeCondorSkript();
 #endif
+		}
+		catch ( const char *c )
+		{
+			cerr << "Error:" << c << endl;
+			exit ( 1 );
+		}
 	}
-	catch ( const char *c )
-	{
-		cerr << "Fehler:" << c << endl;
-		exit ( 1 );
-	}
-	}
-			string fileName;
-			Scanner::source = &cin;
-			if ( argc >= 2)
-			{
-				fileName = argv[1];
 
-				if (fileName != "stdin")
-				{
-	
-					ifstream *is = new ifstream();
-					is->open ( fileName.c_str() );
-					if ( !is->is_open() )
-					{
-						cerr << "Error opening file";
-						exit ( 1 );
-	
-					}
-	
-					Scanner::source = is;
-	
-	
-				}
+
+	// interpret either the data from a file or from standard in
+
+	string fileName;
+	Scanner::source = &cin;
+	if ( argc >= 2)
+	{
+		fileName = argv[1];
+
+		if (fileName != "stdin")
+		{
+
+			ifstream *is = new ifstream();
+			is->open ( fileName.c_str() );
+			if ( !is->is_open() )
+			{
+				cerr << "Error opening file";
+				exit ( 1 );
+
 			}
 
+			Scanner::source = is;
+
+
+		}
+	}
+
 	try
 	{
 		Parser theParser;
@@ -154,12 +139,10 @@ int main ( int argc,char **argv )
 		vectorForInstruction::writeCondorSkript();
 #endif
 
-
-
 	}
 	catch ( const char *c )
 	{
-		cerr << "Fehler" << c << endl;
+		cerr << "Error:" << c << endl;
 		exit ( 1 );
 	}
 	command::finalize();

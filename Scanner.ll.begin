@@ -100,11 +100,13 @@ baseType	{return(ParserBase::DOUBLETOKEN);}
 string		{return(ParserBase::STRINGTOKEN);}
 while		{return(ParserBase::WHILE);}
 for		{return(ParserBase::FOR);}
-exit		{return(ParserBase::EXIT);}
 vectorFor	{return(ParserBase::VECTORFOR);}
 chainedFor 	{return(ParserBase::CHAINEDFOR); }
 if		{return(ParserBase::IF);}
 network	{return(ParserBase::NETWORKTOKEN); }
+directedNetwork	{return(ParserBase::DIRECTEDNETWORKTOKEN); }
+undirectedNetwork	{return(ParserBase::UNDIRECTEDNETWORKTOKEN); }
+
 ode		{return(ParserBase::NODETOKEN); }
 int	{return(ParserBase::INTTOKEN); }
 readInitialCondition	{return(ParserBase::READINITIALCONDITION); }

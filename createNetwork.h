@@ -53,6 +53,9 @@ namespace conedy
 
 			createNetwork()  {};
 
+			//undirected- network generators
+
+
 			//! creates a chain in which nodes are connected to its a nearest neighbors
 			nodeDescriptor line ( unsigned int number, unsigned int a, nodeBlueprint *n = stdNode, edgeBlueprint *l=stdEdge);
 
@@ -72,8 +75,6 @@ namespace conedy
 			nodeDescriptor torus ( int sizex, int sizey, double a, nodeBlueprint *n, edgeBlueprint *l );
 
 
-			//! Erzeugt ein Gitter mit x * y Knoten vom Typ *n. Jeder Knoten wir mit seinen c nächsten Nachbarn verbunden. Gleichweit entfernte Nachbarn werden zufällig ausgewählt.
-			nodeDescriptor torusNearestNeighbors ( int sizex, int sizey, double c, nodeBlueprint *n, edgeBlueprint *l );
 
 			//! Erzeugt ein Gitter der größe x * y aus streamInNodes, die alle aus der Datei s lesen. Funktioniert gut mit Dateien, die von observeAll erzeugt wurden
 			nodeDescriptor streamInLattice ( int sizex, int sizey, string s );
@@ -86,9 +87,14 @@ namespace conedy
  			nodeDescriptor scaleFreeNetwork ( int size, int c, nodeBlueprint *n, edgeBlueprint *l );
 			
 			
+			//directed-network generators	
 			
-			
-			
+			//! Erzeugt ein Gitter mit x * y Knoten vom Typ *n. Jeder Knoten wir mit seinen c nächsten Nachbarn verbunden. Gleichweit entfernte Nachbarn werden zufällig ausgewählt.
+			nodeDescriptor torusNearestNeighbors ( int sizex, int sizey, double c, nodeBlueprint *n, edgeBlueprint *l );
+		
+
+
+
 			
 			//! ein Netzwerk aus x * y Knoten vom Typ n
 			nodeDescriptor beeWeb ( int x, int y, nodeBlueprint *n );
@@ -97,10 +103,10 @@ namespace conedy
 			nodeDescriptor completeNetwork ( int number, nodeBlueprint *n =stdNode ,edgeBlueprint *l =stdEdge );               // number = Anzahl der Knoten
 
 
-			void cnnStd ( int sizex, int sizey, string params, nodeBlueprint *n, edgeBlueprint *l );
-			void cnnNeutral ( int sizex, int sizey, string params, nodeBlueprint *n,edgeBlueprint *l );
-			void cnnStdLin ( int sizex, int sizey, string params, nodeBlueprint *n, edgeBlueprint *l );
-			void cnnNeutralLin ( int sizex, int sizey, string params, nodeBlueprint *n, edgeBlueprint *l );
+//			void cnnStd ( int sizex, int sizey, string params, nodeBlueprint *n, edgeBlueprint *l );
+//			void cnnNeutral ( int sizex, int sizey, string params, nodeBlueprint *n,edgeBlueprint *l );
+//			void cnnStdLin ( int sizex, int sizey, string params, nodeBlueprint *n, edgeBlueprint *l );
+//			void cnnNeutralLin ( int sizex, int sizey, string params, nodeBlueprint *n, edgeBlueprint *l );
 
 
 			//! OBSOLETE? Speichert die Verbindungsmatrix, des momentanen Netzwerk in die Datei s
@@ -110,10 +116,10 @@ namespace conedy
 
 			//! Verbindet jeden Knoten der Art theNodeKind mit einem Rauschknoten, der double einkoppelt, die von der Funktion r zurückgegeben werden
 			//! obsolete ?
-			void addGlobalNoise ( boost::function <double() > r, nodeKind theNodeKind = _dynNode_ );
+//			void addGlobalNoise ( boost::function <double() > r, nodeKind theNodeKind = _dynNode_ );
 
 			//! obsolete ?
-			void addGlobalNoise ( function <double() > r ) { addGlobalNoise ( r, _dynNode_ ); }
+//			void addGlobalNoise ( function <double() > r ) { addGlobalNoise ( r, _dynNode_ ); }
 
 			//! Normalisiert die Summe der eingehenden Kopplungsgewichte jedes Knotens au den Wert r
 
@@ -154,7 +160,6 @@ namespace conedy
 
 
 
-			void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
 
 
 
@@ -169,9 +174,36 @@ namespace conedy
 			void rewireUndirected (double prop, nodeKind theNodeKind = _dynNode_ ); // Rewire mit einem ungerichteten Netzwerk im Nachhinein
 
 
+			void addRandomEdgesDegreeDistribution ( function <double () > r, edgeBlueprint *l = stdEdge );
+			void addRandomEdgesDegreeDistributionUndirected ( function <double () > r, edgeBlueprint *l = stdEdge );
+
+			void removeRandomEdgesUndirected ( double meanOutDegree, edgeBlueprint * l = stdEdge );
+
+			void removeRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge );
+			void addRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge );
+			void addRandomEdgesUndirected ( double meanOutDegree, edgeBlueprint * l = stdEdge );
+
+
+			template <typename RANDOM>
+				void randomOutDegreeDistribution ( int number, RANDOM &r, nodeBlueprint *n );
+
+			template <typename RANDOM>
+				void randomInDegreeDistribution ( int number, RANDOM &r, nodeBlueprint *n );
+
+
+
+
+
+
+
 			//! Ersetzt Verbindungen mit Start- und Zielknoten der Art theNodeKind, durch ähnliche (kopierte) Verbindungen mit zufällig gewählten Startknoten und unverändertem  Zielknoten
 			void rewireSource ( double prop ,nodeKind theNodeKind = _dynNode_ );
 
+
+
+
+
+			void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
 
 			void observeEventTimes( string fileName,nodeDescriptor eventNumber );
 			void observeEventTimesEquals ( string fileName, nodeDescriptor eventNumber );
@@ -221,22 +253,6 @@ namespace conedy
 			void observePhaseCorrelation ( string s, nodeBlueprint *n);
 			void observePhaseDistance ( string s, nodeBlueprint *n);
 
-
-			void addRandomEdgesDegreeDistribution ( function <double () > r, edgeBlueprint *l = stdEdge );
-			void addRandomEdgesDegreeDistributionUndirected ( function <double () > r, edgeBlueprint *l = stdEdge );
-
-			void removeRandomEdgesUndirected ( double meanOutDegree, edgeBlueprint * l = stdEdge );
-
-			void removeRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge );
-			void addRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge );
-			void addRandomEdgesUndirected ( double meanOutDegree, edgeBlueprint * l = stdEdge );
-
-
-			template <typename RANDOM>
-				void randomOutDegreeDistribution ( int number, RANDOM &r, nodeBlueprint *n );
-
-			template <typename RANDOM>
-				void randomInDegreeDistribution ( int number, RANDOM &r, nodeBlueprint *n );
 
 
 			void streamInBinary ( string s );

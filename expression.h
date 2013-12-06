@@ -9,6 +9,15 @@
 using namespace boost;
 
 
+template <typename T>
+class expression : public instruction
+{
+	public:
+		//! Werte den  Ausdruck aus.
+		virtual T evaluate() { return (T)0; }
+		virtual void execute() { this->evaluate(); }
+};
+
 
 
 //! Ausdruck, der den Wert einer Varieblen zurückgibt
@@ -152,4 +161,13 @@ class setEdgeParameter : public expression<edgeBlueprint*>
 		virtual edgeBlueprint* evaluate();
 
 };
+
+
+
+
+
+
+
+
+
 #endif 

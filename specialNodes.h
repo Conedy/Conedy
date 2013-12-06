@@ -82,7 +82,7 @@ namespace conedy
 		void setList (network::edgeList * newEdgeList) {
 			network::edgeIterator ei;
 		 	for (ei = newEdgeList->begin(); ei != newEdgeList->end();ei ++)
-				el.push_back(std::make_pair<nodeDescriptor, nodeDescriptor> (ei->first, node::theNodes[ei->first] ->getTarget(ei->second)->getNumber()  ));
+				el.push_back(std::make_pair<nodeDescriptor, nodeDescriptor> (ei->first, node::theNodes[ei->first] ->getTarget(ei->second) ));
 		}
 		virtual void clean () {};
 		virtual T getState()
@@ -118,7 +118,7 @@ namespace conedy
 		void setList (network::edgeList * newEdgeList) {
 			network::edgeIterator ei;
 		 	for (ei = newEdgeList->begin(); ei != newEdgeList->end();ei ++)
-				el.push_back(std::make_pair<nodeDescriptor, nodeDescriptor> (ei->first, node::theNodes[ei->first] ->getTarget(ei->second)->getNumber()  ));
+				el.push_back(std::make_pair<nodeDescriptor, nodeDescriptor> (ei->first, node::theNodes[ei->first] ->getTarget(ei->second) ));
 		}
 		virtual void clean () {};
 		virtual T getState()

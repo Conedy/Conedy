@@ -1,2 +1,4 @@
 
+	* getState getTargetState genau durchleuchten
+
 	* printNodeStatistics does not print name of parameters, if not using standard parameter.

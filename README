@@ -13,3 +13,22 @@ Build dependencies on a debian-based system:
 
 sudo aptitude install debhelper  cdbs python-all-dev boost-build  libboost-dev libgsl0-dev libboost-dev libboost-python-dev libboost-iostreams-dev libz-dev python-support bisonc++ flex  texlive-latex-base python-sphinx texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended vim-common dvipng
 
+
+---
+
+
+Short introduction the source code.
+
+
+The main object which is managed and modified in Conedy is an instance of the class MyNetwork as defined in fullnetwork.h. This instance represents an adjacency list representation of a graph in which nodes represent dynamical systems and edges represent coupling between these systems. The functions which allow one to modify or observe this network are seperated into different subclasses which are merged together by inheritance:
+
+network.h:
+	In this file the base class network is defined, which maneges the data structure of the network and implements elementary functions which add single edges or nodes to the network
+
+createNetwork.h:
+	In this file the class createNetwork is defined, which extend the  network by generators for more complicated networks (lattices, random networks, etc.) and by functions which add specialized observe nodes which during time evolution write some property to output files.
+
+dynNetwork.h:
+	The class dynNetwork extends network by functions which are specific to numerical integration and setting initial conditions.
+
+

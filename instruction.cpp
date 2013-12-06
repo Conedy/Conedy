@@ -333,6 +333,7 @@ void vectorForInstruction::submitToCondor()
 //	system ("scp " << commandLineArguments::arg[0] << " " << commandLineArguments::arg[1] <<
 
 #else
+
 	throw "condor nicht mitkompiliert!";
 
 #endif

@@ -19,8 +19,11 @@ namespace conedy
 
 	vector<node *> node::theNodes;
 
-	baseType edgeVirtual::getTargetState() { return getTarget()->getState();}
+	baseType edgeVirtual::getTargetState() { return node::theNodes[getTarget()]->getState();}
 //	inline node* edge::getTarget() { return node::theNodes [targetNumber];}
+
+
+
 
 
 	ostream& edge::printStatistics( ostream &os, int edgeVerbosity, int theEdgeKind, string theEdgeName, baseType weight)
@@ -91,6 +94,15 @@ namespace conedy
 
 		printEdgeStatistics(os, edgeVerbosity);
 	}
+
+
+	bool match (nodeDescriptor l, nodeDescriptor r) { return l == r; };	
+	bool match (nodeKind l, nodeDescriptor r) { return node::theNodes[r]-> getNodeInfo().theNodeKind & l;  };	
+	bool match (nodeDescriptor l, nodeKind r) { return node::theNodes[l]-> getNodeInfo().theNodeKind & r;  };	
+	bool match (nodeDescriptor l, networkElementType r) { return node::theNodes[l]->getNodeInfo().theNodeType == r; };	
+	bool match (networkElementType l, nodeDescriptor r) { return node::theNodes[r]->getNodeInfo().theNodeType == l;  };	
+
+
 
 /*
 	template <typename baseType>

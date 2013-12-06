@@ -59,7 +59,6 @@ const networkElementType _periodicNode_=65;
 const networkElementType _phaseCorrelation_=66;
 const networkElementType _phaseDistance_=67;
 const networkElementType _phaseOfPCPO_=68;
-const networkElementType _pulseCoupledExcitatoryNeuron_=69;
 const networkElementType _pulseCoupledPhaseOscillatorDelay_=70;
 const networkElementType _pulseCoupledPhaseOscillator_=71;
 const networkElementType _pulsecoupleDelayEdge_=72;

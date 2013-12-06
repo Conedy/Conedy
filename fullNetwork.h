@@ -14,7 +14,7 @@
 #include "sde.h"
 #include "ode.h"
 #include "mapNode.h" 
-#include "pulseCoupledExcitatoryNeuron.h" 
+//#include "pulseCoupledExcitatoryNeuron.h" 
 #include "pco.h"
 
 //namespace conedy {

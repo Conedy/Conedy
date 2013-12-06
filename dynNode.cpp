@@ -112,6 +112,24 @@ namespace conedy
     }
 
 
+
+	dynNode* dynNode::lookUp (nodeDescriptor n)
+	{
+		
+#ifdef DEBUG
+
+		if (!match (n, _dynNode_))
+			throw "Error. Trying to cast node to dynNode.!";
+
+#endif	
+		
+		return (dynNode*) node::theNodes[n];
+
+
+
+	}
+
+
 	 dynNode::dynNode ( networkElementType n, unsigned int dim): params<baseType>(n)
 	{
 		x = (baseType* ) calloc ( dim, sizeof (baseType));
@@ -160,8 +178,42 @@ namespace conedy
 
 
 
+	bool match (nodeBlueprint *l, nodeDescriptor r)
+	{
+
+		if (!match (l->getNodeInfo().theNodeType, r))
+				return false;
+
+		dynNode *n = (dynNode*) node::theNodes[r];
+
+		if ( l->isStandard())
+		{
+				return true;
+		}
+		else if ((  l-> row == (n-> params<baseType>::row) || ( l->compareSheets( l-> row    , n->row)  )))   // match nodes, if their parameter are the same.
+				return true;
+		else
+				return false;
+				
+	}
+
+	bool match (nodeDescriptor l, nodeBlueprint *r) {return match (r,l); } 
+
+
+
+
+
+
+
 baseType dynNode::endTime = 0.0;
 
 baseType dynNode::startTime = 0.0;
+
+
+
+
+
+
+
 
 }
