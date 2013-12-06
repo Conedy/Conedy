@@ -38,7 +38,7 @@ class calendarQueue
 		
 
 		void insertionSortBucket (unsigned int i);
-
+		bool empty () {return isEmpty;}
 
 		void push (unsigned int i);
 		unsigned int top ();

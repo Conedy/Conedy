@@ -8,7 +8,7 @@
     // Add below here any includes etc. that are only
     // required for the compilation of Parser's sources.
 
-
+#include "parserSemantic.h"
 
 
     // UN-comment the next using-declaration if you want to use

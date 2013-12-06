@@ -307,10 +307,10 @@ template <class N>
 	};
 
 
-	MyNetwork<baseType> * networkFactory()
+	networkTemplate<baseType> * networkFactory()
 	{
-		MyNetwork<baseType> n;
-		return new MyNetwork<baseType>(n);
+		networkTemplate<baseType> n;
+		return new networkTemplate<baseType>(n);
 	}
 
 
@@ -323,7 +323,7 @@ template <class N>
 	// extension module. This is where we build the module contents.
 
 
-	//BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(rewire_overloads, MyNetwork<baseType>::rewire, 1, 3)
+	//BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(rewire_overloads, networkTemplate<baseType>::rewire, 1, 3)
 
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (lattice_overloads, lattice, 2,5);
@@ -412,79 +412,79 @@ template <class N>
 		class_<createNetwork>("createNetwork");
 		class_<dynNetwork>("dynNetwork");
 
-		class_<MyNetwork<baseType>, bases <createNetwork, dynNetwork> >("network")
-			//	 class_<MyNetwork<baseType> >("directedNetwork")
+		class_<networkTemplate<baseType>, bases <createNetwork, dynNetwork> >("network")
+			//	 class_<networkTemplate<baseType> >("directedNetwork")
 			.def("__init__", make_constructor(networkFactory))
-			.def("__del__", &MyNetwork<baseType>::clear, reinterpret_cast<const char *>(__network_clear))
-			.def("lattice", &MyNetwork<baseType>::lattice, lattice_overloads(reinterpret_cast<const char *>(__createNetwork_lattice)))
+			.def("__del__", &networkTemplate<baseType>::clear, reinterpret_cast<const char *>(__network_clear))
+			.def("lattice", &networkTemplate<baseType>::lattice, lattice_overloads(reinterpret_cast<const char *>(__createNetwork_lattice)))
 
 			// dynNetwork commands
 			//
-			.def("evolve", &MyNetwork<baseType>::evolve, reinterpret_cast<const char *>(__dynNetwork_evolve))
-			.def("snapshot", &MyNetwork<baseType>::snapshot, reinterpret_cast<const char *>(__dynNetwork_snapshot))
-			.def("observe", &MyNetwork<baseType>::observe, observe_overloads (reinterpret_cast<const char *>(__dynNetwork_observe)))
-			.def("observeAll", &MyNetwork<baseType>::observeAll, observeAll_overloads (reinterpret_cast<const char *>(__dynNetwork_observeAll)))
-			.def("observeTime", &MyNetwork<baseType>::observeTime, reinterpret_cast<const char *>(__dynNetwork_observeTime))
-			.def("observePhaseCoherence", &MyNetwork<baseType>::observePhaseCoherence, observePhaseCoherence_overloads( reinterpret_cast<const char *>(__dynNetwork_observePhaseCoherence)))
-			.def("observeSum", &MyNetwork<baseType>::observeSum, observeSum_overloads( reinterpret_cast<const char *>(__dynNetwork_observeSum)))
-			.def("printNodeStatistics", &MyNetwork<baseType>::printNodeStatistics, reinterpret_cast<const char *>(__statisticsNetwork_printNodeStatistics))
-			.def("removeObserver", &MyNetwork<baseType>::removeObserver, reinterpret_cast<const char *>(__dynNetwork_removeObserver))
+			.def("evolve", &networkTemplate<baseType>::evolve, reinterpret_cast<const char *>(__dynNetwork_evolve))
+			.def("snapshot", &networkTemplate<baseType>::snapshot, reinterpret_cast<const char *>(__dynNetwork_snapshot))
+			.def("observe", &networkTemplate<baseType>::observe, observe_overloads (reinterpret_cast<const char *>(__dynNetwork_observe)))
+			.def("observeAll", &networkTemplate<baseType>::observeAll, observeAll_overloads (reinterpret_cast<const char *>(__dynNetwork_observeAll)))
+			.def("observeTime", &networkTemplate<baseType>::observeTime, reinterpret_cast<const char *>(__dynNetwork_observeTime))
+			.def("observePhaseCoherence", &networkTemplate<baseType>::observePhaseCoherence, observePhaseCoherence_overloads( reinterpret_cast<const char *>(__dynNetwork_observePhaseCoherence)))
+			.def("observeSum", &networkTemplate<baseType>::observeSum, observeSum_overloads( reinterpret_cast<const char *>(__dynNetwork_observeSum)))
+			.def("printNodeStatistics", &networkTemplate<baseType>::printNodeStatistics, reinterpret_cast<const char *>(__statisticsNetwork_printNodeStatistics))
+			.def("removeObserver", &networkTemplate<baseType>::removeObserver, reinterpret_cast<const char *>(__dynNetwork_removeObserver))
 
 			////network commands
-			.def("addNode", &MyNetwork<baseType>::addNode, reinterpret_cast<const char *>(__network_addNode))
-			.def("addEdge", &MyNetwork<baseType>::addEdge, reinterpret_cast<const char *>(__network_addEdge))
-			.def("clear", &MyNetwork<baseType>::clear, reinterpret_cast<const char *>(__network_clear))
-			//		.def("addWeightedEdge", &MyNetwork<baseType>::addWeightedEdge, reinterpret_cast<const char *>(__network_addWeightedEdge))
+			.def("addNode", &networkTemplate<baseType>::addNode, reinterpret_cast<const char *>(__network_addNode))
+			.def("addEdge", &networkTemplate<baseType>::addEdge, reinterpret_cast<const char *>(__network_addEdge))
+			.def("clear", &networkTemplate<baseType>::clear, reinterpret_cast<const char *>(__network_clear))
+			//		.def("addWeightedEdge", &networkTemplate<baseType>::addWeightedEdge, reinterpret_cast<const char *>(__network_addWeightedEdge))
 			//
 			////statisticsNetworkCommands
 			//
-			.def("betweennessCentrality", &MyNetwork<baseType>::betweennessCentrality, reinterpret_cast<const char *>(__statisticsNetwork_betweennessCentrality))
-			.def("closenessCentrality", &MyNetwork<baseType>::closenessCentrality, reinterpret_cast<const char *>(__statisticsNetwork_closenessCentrality))
-			.def("degreeCentrality", &MyNetwork<baseType>::degreeCentrality, reinterpret_cast<const char *>(__statisticsNetwork_degreeCentrality))
-			.def("degree", &MyNetwork<baseType>::degree, reinterpret_cast<const char *>(__statisticsNetwork_degree))
-			.def("size", &MyNetwork<baseType>::size, reinterpret_cast<const char *>(__statisticsNetwork_size))
+			.def("betweennessCentrality", &networkTemplate<baseType>::betweennessCentrality, reinterpret_cast<const char *>(__statisticsNetwork_betweennessCentrality))
+			.def("closenessCentrality", &networkTemplate<baseType>::closenessCentrality, reinterpret_cast<const char *>(__statisticsNetwork_closenessCentrality))
+			.def("degreeCentrality", &networkTemplate<baseType>::degreeCentrality, reinterpret_cast<const char *>(__statisticsNetwork_degreeCentrality))
+			.def("degree", &networkTemplate<baseType>::degree, reinterpret_cast<const char *>(__statisticsNetwork_degree))
+			.def("size", &networkTemplate<baseType>::size, reinterpret_cast<const char *>(__statisticsNetwork_size))
 			
-			.def("setTime", &MyNetwork<baseType>::setTime, reinterpret_cast<const char *>(__dynNetwork_setTime))
-			.def("meanDegree", &MyNetwork<baseType>::meanDegree, reinterpret_cast<const char *>(__statisticsNetwork_meanDegree))
-			.def("meanWeight", &MyNetwork<baseType>::meanWeight, reinterpret_cast<const char *>(__statisticsNetwork_meanWeight))
-			.def("meanClustering", &MyNetwork<baseType>::meanClustering, reinterpret_cast<const char *>(__statisticsNetwork_meanClustering))
-			.def("readInitialCondition", &MyNetwork<baseType>::readInitialCondition, reinterpret_cast<const char *>(__createNetwork_readInitialCondition))
-			.def("meanPathLength", &MyNetwork<baseType>::meanPathLength, reinterpret_cast<const char *>(__statisticsNetwork_meanPathLength))
-			.def("isConnected", &MyNetwork<baseType>::isConnected, reinterpret_cast<const char *>(__statisticsNetwork_isConnected))
-			.def("isLinked", &MyNetwork<baseType>::isLinked, reinterpret_cast<const char *>(__statisticsNetwork_isLinked))
-			.def("isDirected", &MyNetwork<baseType>::isDirected, reinterpret_cast<const char *>(__statisticsNetwork_isDirected))
-			.def("getState", &MyNetwork<baseType>::getState, getState_overloads(reinterpret_cast<const char *>(__statisticsNetwork_getState)))
-			.def("getParam", &MyNetwork<baseType>::getParam, reinterpret_cast<const char *>(__statisticsNetwork_getParam))
-			.def("setParam", &MyNetwork<baseType>::setParam, reinterpret_cast<const char *>(__dynNetwork_setParam))
+			.def("setTime", &networkTemplate<baseType>::setTime, reinterpret_cast<const char *>(__dynNetwork_setTime))
+			.def("meanDegree", &networkTemplate<baseType>::meanDegree, reinterpret_cast<const char *>(__statisticsNetwork_meanDegree))
+			.def("meanWeight", &networkTemplate<baseType>::meanWeight, reinterpret_cast<const char *>(__statisticsNetwork_meanWeight))
+			.def("meanClustering", &networkTemplate<baseType>::meanClustering, reinterpret_cast<const char *>(__statisticsNetwork_meanClustering))
+			.def("readInitialCondition", &networkTemplate<baseType>::readInitialCondition, reinterpret_cast<const char *>(__createNetwork_readInitialCondition))
+			.def("meanPathLength", &networkTemplate<baseType>::meanPathLength, reinterpret_cast<const char *>(__statisticsNetwork_meanPathLength))
+			.def("isConnected", &networkTemplate<baseType>::isConnected, reinterpret_cast<const char *>(__statisticsNetwork_isConnected))
+			.def("isLinked", &networkTemplate<baseType>::isLinked, reinterpret_cast<const char *>(__statisticsNetwork_isLinked))
+			.def("isDirected", &networkTemplate<baseType>::isDirected, reinterpret_cast<const char *>(__statisticsNetwork_isDirected))
+			.def("getState", &networkTemplate<baseType>::getState, getState_overloads(reinterpret_cast<const char *>(__statisticsNetwork_getState)))
+			.def("getParam", &networkTemplate<baseType>::getParam, reinterpret_cast<const char *>(__statisticsNetwork_getParam))
+			.def("setParam", &networkTemplate<baseType>::setParam, reinterpret_cast<const char *>(__dynNetwork_setParam))
 
-			.def("removeEdge", &MyNetwork<baseType>::unlink, reinterpret_cast<const char *>(__createNetwork_removeEdge))
+			.def("removeEdge", &networkTemplate<baseType>::unlink, reinterpret_cast<const char *>(__createNetwork_removeEdge))
 			// createNetwork commands
-			.def("removeEdges", &MyNetwork<baseType>::removeEdges, reinterpret_cast<const char *>(__createNetwork_addRandomEdges))
-			.def("removeRandomEdges", &MyNetwork<baseType>::removeRandomEdges, reinterpret_cast<const char *>(__createNetwork_removeRandomEdges))
-			.def("removeRandomEdgesUndirected", &MyNetwork<baseType>::removeRandomEdgesUndirected, reinterpret_cast<const char *>(__createNetwork_removeRandomEdgesUndirected))
-			.def("addRandomEdges", &MyNetwork<baseType>::addRandomEdges, addRandomEdges_overloads (reinterpret_cast<const char *>(__createNetwork_addRandomEdges)))
+			.def("removeEdges", &networkTemplate<baseType>::removeEdges, reinterpret_cast<const char *>(__createNetwork_addRandomEdges))
+			.def("removeRandomEdges", &networkTemplate<baseType>::removeRandomEdges, reinterpret_cast<const char *>(__createNetwork_removeRandomEdges))
+			.def("removeRandomEdgesUndirected", &networkTemplate<baseType>::removeRandomEdgesUndirected, reinterpret_cast<const char *>(__createNetwork_removeRandomEdgesUndirected))
+			.def("addRandomEdges", &networkTemplate<baseType>::addRandomEdges, addRandomEdges_overloads (reinterpret_cast<const char *>(__createNetwork_addRandomEdges)))
 
-			.def("torusNearestNeighbors", &MyNetwork<baseType>::torusNearestNeighbors,  reinterpret_cast<const char *>(__createNetwork_torusNearestNeighbors))
-			//		.def("loadGraphML", &MyNetwork<baseType>::loadGraphML, reinterpret_cast<const char *>(__createNetwork_loadGraphXml))
-			.def("saveGraphML", &MyNetwork<baseType>::saveGraphML, reinterpret_cast<const char *>(__createNetwork_saveGraphML))
-			.def("saveAdjacencyList", &MyNetwork<baseType>::saveAdjacencyList, reinterpret_cast<const char *>(__createNetwork_saveAdjacencyList))
-			.def("createFromAdjacencyList", &MyNetwork<baseType>::createFromAdjacencyList, createFromAdjacencyList_overloads( reinterpret_cast<const char *>(__createNetwork_createFromAdjacencyList)))
-			.def("createFromAdjacencyMatrix", &MyNetwork<baseType>::createFromAdjacencyMatrix ,  createFromAdjacencyMatrix_overloads( reinterpret_cast< const char *> (__createNetwork_createFromAdjacencyMatrix)))
-			.def("saveAdjacencyMatrix", &MyNetwork<baseType>::saveAdjacencyMatrix, reinterpret_cast<const char *>(__createNetwork_saveAdjacencyMatrix))
-			.def("randomNetwork", &MyNetwork<baseType>::randomNetwork ,  randomNetwork_overloads( reinterpret_cast< const char *> (__createNetwork_randomNetwork)))
-// 			.def("randomUndirectedNetwork", &MyNetwork<baseType>::randomUndirectedNetwork ,  randomUndirectedNetwork_overloads( reinterpret_cast< const char *> (__createNetwork_randomUndirectedNetwork)))
-			.def("completeNetwork", &MyNetwork<baseType>::completeNetwork, completeNetwork_overloads( reinterpret_cast<const char *>(__createNetwork_completeNetwork)))
-			.def("line", &MyNetwork<baseType>::line, reinterpret_cast<const char *>(__createNetwork_line))
-			.def("cycle", &MyNetwork<baseType>::cycle, cycle_overloads( reinterpret_cast<const char *>(__createNetwork_cycle)))
+			.def("torusNearestNeighbors", &networkTemplate<baseType>::torusNearestNeighbors,  reinterpret_cast<const char *>(__createNetwork_torusNearestNeighbors))
+			//		.def("loadGraphML", &networkTemplate<baseType>::loadGraphML, reinterpret_cast<const char *>(__createNetwork_loadGraphXml))
+			.def("saveGraphML", &networkTemplate<baseType>::saveGraphML, reinterpret_cast<const char *>(__createNetwork_saveGraphML))
+			.def("saveAdjacencyList", &networkTemplate<baseType>::saveAdjacencyList, reinterpret_cast<const char *>(__createNetwork_saveAdjacencyList))
+			.def("createFromAdjacencyList", &networkTemplate<baseType>::createFromAdjacencyList, createFromAdjacencyList_overloads( reinterpret_cast<const char *>(__createNetwork_createFromAdjacencyList)))
+			.def("createFromAdjacencyMatrix", &networkTemplate<baseType>::createFromAdjacencyMatrix ,  createFromAdjacencyMatrix_overloads( reinterpret_cast< const char *> (__createNetwork_createFromAdjacencyMatrix)))
+			.def("saveAdjacencyMatrix", &networkTemplate<baseType>::saveAdjacencyMatrix, reinterpret_cast<const char *>(__createNetwork_saveAdjacencyMatrix))
+			.def("randomNetwork", &networkTemplate<baseType>::randomNetwork ,  randomNetwork_overloads( reinterpret_cast< const char *> (__createNetwork_randomNetwork)))
+// 			.def("randomUndirectedNetwork", &networkTemplate<baseType>::randomUndirectedNetwork ,  randomUndirectedNetwork_overloads( reinterpret_cast< const char *> (__createNetwork_randomUndirectedNetwork)))
+			.def("completeNetwork", &networkTemplate<baseType>::completeNetwork, completeNetwork_overloads( reinterpret_cast<const char *>(__createNetwork_completeNetwork)))
+			.def("line", &networkTemplate<baseType>::line, reinterpret_cast<const char *>(__createNetwork_line))
+			.def("cycle", &networkTemplate<baseType>::cycle, cycle_overloads( reinterpret_cast<const char *>(__createNetwork_cycle)))
 
 
-			.def("torus", &MyNetwork<baseType>::torus, reinterpret_cast<const char *>(__createNetwork_torus))
-			.def("setState", &MyNetwork<baseType>::setInitialCondition, setState_overloads (reinterpret_cast<const char *>(__createNetwork_setState)))
-			.def("rewire", &MyNetwork<baseType>::rewire ,  rewire_overloads( reinterpret_cast< const char *> (__createNetwork_rewire)))
-			.def("rewireUndirected", &MyNetwork<baseType>::rewireUndirected ,  rewireUndirected_overloads( reinterpret_cast< const char *> (__createNetwork_rewireUndirected)))
-			.def("randomizeWeights", &MyNetwork<baseType>::randomizeWeights, reinterpret_cast<const char *>(__createNetwork_randomizeWeights))
-			.def("randomizeStates", &MyNetwork<baseType>::randomizeStates ,  randomizeStates_overloads( reinterpret_cast< const char *> (__createNetwork_randomizeStates)))
-			.def("randomizeParameter", &MyNetwork<baseType>::randomizeParameter, reinterpret_cast<const char *>(__createNetwork_randomizeParameter));
+			.def("torus", &networkTemplate<baseType>::torus, reinterpret_cast<const char *>(__createNetwork_torus))
+			.def("setState", &networkTemplate<baseType>::setInitialCondition, setState_overloads (reinterpret_cast<const char *>(__createNetwork_setState)))
+			.def("rewire", &networkTemplate<baseType>::rewire ,  rewire_overloads( reinterpret_cast< const char *> (__createNetwork_rewire)))
+			.def("rewireUndirected", &networkTemplate<baseType>::rewireUndirected ,  rewireUndirected_overloads( reinterpret_cast< const char *> (__createNetwork_rewireUndirected)))
+			.def("randomizeWeights", &networkTemplate<baseType>::randomizeWeights, reinterpret_cast<const char *>(__createNetwork_randomizeWeights))
+			.def("randomizeStates", &networkTemplate<baseType>::randomizeStates ,  randomizeStates_overloads( reinterpret_cast< const char *> (__createNetwork_randomizeStates)))
+			.def("randomizeParameter", &networkTemplate<baseType>::randomizeParameter, reinterpret_cast<const char *>(__createNetwork_randomizeParameter));
 
 
 

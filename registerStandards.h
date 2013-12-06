@@ -2,7 +2,7 @@
 #define registerStandards registerStandards_h
 
 
-#include "fullNetwork.h"
+#include "fullNetworkWithNodes.h"
 #include "command.h"
 using namespace conedy;
 
