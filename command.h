@@ -25,7 +25,7 @@ using namespace conedy;
 
 void emptyFunction();
 
-namespace conedy {
+//namespace conedy {
 
 
 template <typename T> class MyNetwork;
@@ -33,16 +33,18 @@ template <typename T> class MyNetwork;
 
 // is called by conedyCondor instead of network functions
 
-
-
+template <>
+class MyNetwork<baseType>;
 
 typedef MyNetwork<baseType> networkTemplate;
 
-class dynNode;
 typedef dynNode nodeBlueprint;
 
-class edgeVirtual;
+//class edgeVirtual;
 typedef edgeVirtual edgeBlueprint;
+
+
+
 
 
 //! Alle Befehle erben von Command. Außerdem werden hier die Variablen gehandhabt.
@@ -144,24 +146,14 @@ class command
 		virtual ~command() {};
 };
 
-
-//! Basis-Klasse für alle Instructionen.
 class instruction : public command
 {
 	public:
 		virtual void execute() {};
 };
 
-//! Basis-Klasse für Ausdrücke im Parser-Baum vom Typ T
-template <typename T>
-class expression : public instruction
-{
-	public:
-		//! Werte den  Ausdruck aus.
-		virtual T evaluate() { return (T)0; }
-		virtual void execute() { this->evaluate(); }
-};
 
+//! Basis-Klasse für Ausdrücke im Parser-Baum vom Typ T
 
 
 	template <>
@@ -249,8 +241,4 @@ inline edgeBlueprint**  command::retrieve<edgeBlueprint *> (string s)
 
 
 
-
-
-
-}
 #endif

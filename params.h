@@ -133,14 +133,6 @@ namespace conedy
 					return _undefinedNodeType_;
 				}
 
-				/*!
-				  Funktion zum Randomisieren der Parameter für ??????
-				//TODO: Alex: bitte ändern!
-
-				\param string s	String für ...
-				\param networkElementType n	Art des Netzwerkelementes
-				\param function<double ()> r	???
-				*/
 				void randomizeParameter(string s, networkElementType n, function<double ()> r)   // require: Nodetype ist richtig ! 
 				{
 					unsigned int place = (unsigned int )adress[s].second;

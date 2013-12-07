@@ -5,27 +5,19 @@
 #include "networkConstants.h"
 #include "baseType.h"
 
-
-//#include <limits>
-//#include <cmath>
-//#include <complex>
-//#include <stdio.h>
-//#include <cmath>
 #include <iostream>
 #include <vector>
 
 
-//TODO remove all functions which
-
 namespace conedy
 {
 	using namespace std;
-	// Nodekind   : short
 	// Nodetype   : int
 
 
-
-	typedef short int nodeKind;
+	
+	typedef short int nodeKind; // node kinds correspond to different kinds of dynamical systems or to special nodes for file input and output 
+	
 
 	const nodeKind  _inNode_ = 1 << 1;
 	const nodeKind  _outNode_ = 1 << 2;
@@ -47,7 +39,7 @@ namespace conedy
 	typedef unsigned int nodeDescriptor;
 
 
-	//! Info-object which is returned by all nodes.
+	//! info-object which is returned by all nodes.
 	struct nodeInfo
 	{	// a unique identifier for the node type
 		networkElementType theNodeType;
@@ -57,7 +49,7 @@ namespace conedy
 		string theNodeName;
 	};
 
-	//! Info-Objekt, das alle Edges zurückgeben
+	//! info-object which is returned by all edges
 	struct edgeInfo
 	{	// unique identifier for the edgetype
 		networkElementType theEdgeType;
@@ -83,7 +75,6 @@ namespace conedy
 	{
 
 		public:
-			// static
 			typedef dynNode targetNodeType;
 
 			//! Number of the target node, pointer to the node is store in node::thenodes
@@ -93,7 +84,9 @@ namespace conedy
 
 		public:
 			//! Return pointer to the target node.
-			node* getTarget();// { return node::theNodes [targetNumber];}
+			nodeDescriptor getTarget();// { return node::theNodes [targetNumber];}
+
+
 			void setParameter(vector < baseType > parameter)  { }
 			void getParameter(vector < baseType > &parameter)  { }
 
@@ -129,17 +122,14 @@ namespace conedy
 		public:
 			virtual void setParameter(vector < baseType > parameter)  { }
 			virtual void getParameter(vector < baseType > &parameter)  { }
-			virtual node* getTarget() { return edge::getTarget();}
+			virtual nodeDescriptor getTarget() { return edge::getTarget();}
 			virtual baseType getTargetState();
 			virtual const edgeInfo getEdgeInfo() {edgeInfo ei = {_edgeVirtual_,0, "edgeVirtual"}; return ei;}
 			virtual edgeVirtual *construct() { return new edgeVirtual ( *this ); };
 			virtual ostream& printStatistics ( ostream &os, int edgeVirtualVerbosity = 1);
 			virtual ~edgeVirtual() {}
 			virtual baseType getWeight() { return (baseType)1; }
-			virtual void setWeight(baseType newWeight)
-			{
-				throw "Trying to set weight of unweighted edge!";
-			}
+			virtual void setWeight(baseType newWeight) {throw "Trying to set weight of unweighted edge!";}
 
 	};
 
@@ -151,12 +141,8 @@ namespace conedy
 	/*!
 	  \Brief  Base class for all nodes.
 
-
-
 	  Contains a list of edges and supplies functions like link and unlink, which change this list.
-
 	  All these functions are only interface functions and are given two different implementations by nodeVirtualEdges and nodeTemplateEdges.
-
 	  Also contains a vector of pointer to all nodes, which serves as lookup table. In this way edges need only memorize a 32 bit node number instead of a 64 bit pointer.
 
 */
@@ -187,7 +173,7 @@ namespace conedy
 		private:
 
 			//! return the identifying integer of the given edge.  XXX obsolete ?
-//			nodeDescriptor getTarget (edge * e) { return e->targetNumber; }
+			nodeDescriptor getTarget (edge * e) { return e->targetNumber; }
 		public:
 
 			//! return the description object for the edge.
@@ -197,7 +183,7 @@ namespace conedy
 			virtual void setWeight (edgeDescriptor ed, baseType w)  { throw "unimplemented function setWeight of node called!"; };
 
 			//! returns a pointer to the target of edge ed XXX should be returning nodedescriptor ?
-			virtual node* getTarget(edgeDescriptor ed) { throw "unimplemented function getTarget  of node called!"; };
+			virtual nodeDescriptor getTarget(edgeDescriptor ed) { throw "unimplemented function getTarget  of node called!"; };
 
 			//! returns the weight of edge ed.
 			virtual baseType getWeight (edgeDescriptor ed)  { throw "unimplemented function getWeight of node called!"; } ;
@@ -209,16 +195,14 @@ namespace conedy
 			virtual edgeVirtual * getEdge (edgeDescriptor)  { throw "unimplemented function getEdge of node called!"; };
 
 			//!  Copy-constructor. Constructed nodes are inserted into the lookup table node::theNodes
-			node( const node &b )	{
-				theNodes.push_back ( this );
-				number = theNodes.size() - 1;
-			}
+			node( const node &b )	{ theNodes.push_back ( this );   number = theNodes.size() - 1;}
 
 
 			//! Construktor
 			node ();
 
-			// Verbindungen hinzufügen, entfernen
+			// manage connections
+			
 			//! removes all edges pointing to targetNumber.
 			virtual bool unlink (nodeDescriptor targetNumber)  { throw "unimplemented function unlink of node called!"; };
 
@@ -234,34 +218,35 @@ namespace conedy
 			virtual void link (nodeDescriptor targetNumber, edgeVirtual *l)  { throw "unimplemented function link of node called!"; };
 
 			//! returns true if there is at least one link which points to target
-			virtual bool isLinked ( node *target )  { throw "unimplemented function isLinked of node called!"; };
+			virtual bool isLinked ( nodeDescriptor target )  { throw "unimplemented function isLinked of node called!"; };
 
 			//! returns the weight of a link which points to target. Returns 0 if no such link exists.
-			virtual baseType linkStrength ( node *target )  { throw "unimplemented function linkStrength of node called!"; };
+			virtual baseType linkStrength ( nodeDescriptor target )  { throw "unimplemented function linkStrength of node called!"; };
 
 
-			//!
+			//! 
 			virtual void normalizeInWeightSum(baseType d)  { throw "unimplemented function normalizeInWeightSum of node called!"; };
 
 			// Statistikkram
 
-			//! Debug-funktion, die die Knotenart, sowie Parameter auf die Konsole gibt.
+			//! debug-function which prints all connections and their type to os, depending on nodeVerbosity and edgeVerbosity
 			virtual void printStatistics(ostream &os, int nodeVerbosity, int edgeVerbosity);
 
 			virtual void printEdgeStatistics(ostream &os, int edgeVerbosity = 1);
 
-			//! gibt die Anzahl der Verbindungen zurück
+			//! returns the number of connections 
 			virtual unsigned int degree()  { throw "unimplemented function degree of node called!"; };
 
-			//! gibt den lokalen Clustering-coeffizient zurück vom Knoten
+			//! gibt den lokalen Clustering-coeffizient zurück vom Knoten TODO move to statisticNetwork
 			virtual baseType clustering ()  { throw "unimplemented function clustering of node called!"; };
 
-			//! gibt die Summe der Verbindungsgewichte aller ausgehende Verbindungen zurück.
+			//! gibt die Summe der Verbindungsgewichte aller ausgehende Verbindungen zurück TODO move to statisticNetwork.
 			virtual baseType weightSum()  { throw "unimplemented function weightSum of node called!"; };
 
 
-			//! gibt die Summer der Verbindungsgewichte aller eingehenden Verbindungen zurück.
+			//! gibt die Summer der Verbindungsgewichte aller eingehenden Verbindungen zurück TODO move to statisticNetwork.
 			virtual baseType inWeightSum()  { throw "unimplemented function inWeightSum of node called!"; };
+
 
 			//! gibt die Nummer im statischen Vector theNodes zurück, andessen Stelle ein Zeiger auf den  momentanen Knotens gespeichert ist.
 			virtual nodeDescriptor getNumber() { return number; }
@@ -283,14 +268,14 @@ namespace conedy
 	};
 
 
+	inline nodeDescriptor edge::getTarget() { return  targetNumber;};
 
 
-
-
-
-
-	inline node* edge::getTarget() { return node::theNodes [targetNumber];};
-
+	bool match (nodeDescriptor l, nodeDescriptor r); 
+	bool match (nodeKind l, nodeDescriptor r) ;
+	bool match (nodeDescriptor l, nodeKind r) ;
+	bool match (nodeDescriptor l, networkElementType r) ;
+	bool match (networkElementType l, nodeDescriptor r) ;
 
 
 }

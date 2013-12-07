@@ -110,19 +110,19 @@ The python bindings of Conedy additionally depend on
 Recompilation
 +++++++++++++
 
-In the following, we explain Conedy’s recompilation mechanism, which allows for the efficient use of user-defined node dynamics (see :ref:`addingNewNodes`).
+In the following, we explain Conedy’s recompilation mechanism, which allows for the efficient use of user-defined node dynamics (see :ref:`addingNewNodes`). To allow recompilation, the todo variable in config.h should contain conedy-root and conedy-src when building and installing Conedy. Analogously, to allow recompilation of the python module, python-conedy-root and conedy-src should be part of the todo variable in config.h. 
 
-For the global install of Conedy, the script interpreter compiled with the predefined node dynamics is installed into a global root-directory.
-If a user adds node dynamics, Conedy is recompiled and the executable is stored in a directory in user-space (defaults to ``~/bin/``), which is intended to have a higher priority in the system ``PATH``.
-This way the executable is preferred to the global Conedy executable.
+For the global install of Conedy, the script interpreter compiled with the predefined node dynamics is installed into a global root-directory, accessible to all users. If a user adds node dynamics, the recompiled executable ``conedy`` is stored in a directory in user-space (defaults to ``~/bin/``), which is intended to have a higher priority in the system ``PATH``. This way the executable is preferred to the global Conedy executable. The recompiled python module will be installed with distutils using the command line option ``--local`` which also installs the module in a directory with higher priority than the global module.
 
-Whenever a user calls ``recompileConedy`` or ``conedy`` for the first time, the directory ``${HOME}/.config/conedy`` in the users's home directory is created, which contains a config file, a build directory for internal use, and a monitored directory ``${HOME}/.config/conedy/addedNodes``, in which new node dynamics can be stored.
-At every successive call of ``conedy``, this directory is monitored for all files which end with ``.cfg``.
-Whenever one of these files changes or if a new file has been stored, Conedy will recompile and restart itself.
-Calling ``recompileConedy`` is deprecated and results in an error message when no recompilation is necessary.
+Whenever a user calls ``conedy`` for the first time (or if ``conedy`` is imported the first time into python), the directory ``${HOME}/.config/conedy`` in the users's home directory is created, which contains a config file, a build directory for internal use, and a monitored directory ``${HOME}/.config/conedy/addedNodes``, in which new node dynamics can be stored. At every successive call of ``conedy``, this directory is monitored for all files which end with ``.cfg``. Whenever one of these files changes or if a new file has been stored, Conedy will recompile and restart itself.
 
 If no config file is present at ``${HOME}/.config/conedy/config.h``, the global config file at ``/etc/conedy.config`` will be linked into this directory.
 However, this link can be replaced by a modified copy in order to change how Conedy is compiled.
 The syntax of the config file is the same as for the config file which is needed for an installation of Conedy from source and the  relevant variables (``defines``, ``pythonBjam``, ``dirInstall`` and ``addedDir``) are explained above.
+
+The recompilation mechanism uses scripts ``recompileConedy`` and ``recompilePython-Conedy`` which are called by ``conedy`` on startup or import to python. As an alternative way to issue recompilation, they can also called by hand. Note that the scripts return true after a sucessful recompilation and false if no recompilation was necessary or if the it encounters problems.
+
+
+
 
 

@@ -104,6 +104,9 @@ vectorFor	{return(ParserBase::VECTORFOR);}
 chainedFor 	{return(ParserBase::CHAINEDFOR); }
 if		{return(ParserBase::IF);}
 network	{return(ParserBase::NETWORKTOKEN); }
+directedNetwork	{return(ParserBase::DIRECTEDNETWORKTOKEN); }
+undirectedNetwork	{return(ParserBase::UNDIRECTEDNETWORKTOKEN); }
+
 ode		{return(ParserBase::NODETOKEN); }
 int	{return(ParserBase::INTTOKEN); }
 readInitialCondition	{return(ParserBase::READINITIALCONDITION); }

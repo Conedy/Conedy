@@ -2,11 +2,13 @@
 #define dynNetwork_h dynNetwork_h
 
 #include <fstream>
+#include <queue>
 #include "network.h"
 
 #include "eventHandler.h"
 #include "dynNode.h"
 #include "globals.h"
+
 //#include "ioNode.h"
 
 
@@ -25,7 +27,7 @@ namespace conedy
 
 		dynNetwork ( const dynNetwork &b);
 
-		
+
 		void setParam (nodeDescriptor nd, string parameterName, baseType value)
 		{
 			((dynNode *)node::theNodes[nd])-> setParam (parameterName, value);
@@ -46,7 +48,7 @@ namespace conedy
 
 		dynNetwork()  {};
 		void evolveAll ( baseType );
-	
+
 		//! return the 
 		baseType time () { return dynNode::time; }
 
@@ -81,7 +83,7 @@ namespace conedy
 		void randomizeStates ( nodeBlueprint *n, function<baseType () > a1, function<baseType () > a2 = NULL, function<baseType () > a3 = NULL, function<baseType () > a4 = NULL, function<baseType () > a5 = NULL, function<baseType () > a6 = NULL, function<baseType () > a7 = NULL, function<baseType () > a8 = NULL, function<baseType () > a9 = NULL, function<baseType () > a10 = NULL, function<baseType () > a11 = NULL, function<baseType () > a12 = NULL);
 
 
-//		void randomizeStates ( nodeBlueprint *n,function<baseType () >r );
+		//		void randomizeStates ( nodeBlueprint *n,function<baseType () >r );
 
 		//! Set states of all nodes which match n. Values are read from a file with name fileName.
 		void readInitialCondition ( string fileName, nodeBlueprint * n );
@@ -94,7 +96,7 @@ namespace conedy
 
 		//! Draw a random value for parameter s for each node in the network to which s belongs.
 		void randomizeParameter ( string s, function<baseType () > r );
-	
+
 
 		void readParameter ( string,string );
 
@@ -108,11 +110,11 @@ namespace conedy
 
 		//! obsolete ?
 		void smallDisturbance ( baseType radius, boost::function<baseType () > r )
-			{			unsigned int size = sqrt ( (baseType) network::theNodes.size() );
-					smallDisturbance ( radius, size/2, size/2, r );
-				}
+		{			unsigned int size = sqrt ( numberVertices() );
+			smallDisturbance ( radius, size/2, size/2, r );
+		}
 
-		
+
 		virtual void clean ();
 
 		//! Evolve the system time from startTime to endTime
@@ -134,10 +136,11 @@ namespace conedy
 		virtual baseType callBack ( unsigned int eventSignature );
 
 		virtual unsigned int numberOfEvents() const { return 3; }
+
+		private:
+
+
 	};
-
-
-
 
 }
 #endif

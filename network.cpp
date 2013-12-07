@@ -24,6 +24,23 @@ namespace conedy
 		addEdge(targetNode, sourceNode, l);
 	}
 
+
+
+	void network::removeEdges (edgeBlueprint * e)
+	{
+		edgeList el;
+		networkElementType edgeType = ((edgeVirtual*) e) -> getEdgeInfo().theEdgeType;
+
+		edgesMatching(el, edgeType);
+		edgeIterator ei;
+		for (ei = el.begin(); ei != el.end(); ei++)
+			removeEdge(*ei);
+		clean(); // unsinnXXX todo
+
+	}
+
+
+
 	void network::clean ( )
 	{
 		evolveList.clear();
@@ -41,11 +58,11 @@ namespace conedy
 			if ( nod->timeEvolution() )
 				evolveList.push_back ( nod );
 			if ( nod->requiresUpkeep())
-					upkeepList.push_back (nod);
+				upkeepList.push_back (nod);
 
 		}
 
-}
+	}
 
 	bool network::isDirected()
 	{
@@ -103,12 +120,12 @@ namespace conedy
 				if ( ((dynNode*)  n)->isStandard())
 				{
 					if (node::theNodes[*vi]->getNodeInfo().theNodeType == nodeType)
-							res.insert(*vi);
+						res.insert(*vi);
 				}
 				else 																							// if n has	specified parameter -> match after node type and parameters
 				{
 					if ((node::theNodes[*vi]->getNodeInfo().theNodeType == nodeType) &&
-						((  x-> row == ((dynNode*)n)-> params<baseType>::row) || ( x->compareSheets( x-> row    , ((dynNode*)n)-> params<baseType>::row)  )))   // match nodes, if their parameter are the same.
+							((  x-> row == ((dynNode*)n)-> params<baseType>::row) || ( x->compareSheets( x-> row    , ((dynNode*)n)-> params<baseType>::row)  )))   // match nodes, if their parameter are the same.
 						res.insert(*vi);
 				}
 			}
@@ -140,7 +157,7 @@ void network::edgesMatching (edgeList &res, networkElementType edgeType)
 		ee = node::theNodes[*vi]->degree();
 		for (; ea != ee; ea++)
 			if (((edgeVirtual*)node::theNodes[*vi]->getEdge(ea)   )->getEdgeInfo().theEdgeType == edgeType)
-				if (isInsideNetwork( getTarget(*vi, ea)))
+				if (isInsideNetwork((node::theNodes[*vi])->getTarget(ea)))
 					res.push_back (make_pair(*vi,ea));
 
 	}
@@ -224,41 +241,20 @@ bool network::isInsideNetwork (nodeDescriptor v)
 
 void network::edgesBetween(edgeList &res, networkElementType sourceNodeType, networkElementType targetNodeType)
 {
-
-	nodeIterator va;
-
-
-	//		edgeIterator ea,ee;
-	for (va = theNodes.begin(); va != theNodes.end(); va++)
-	{
-		if (node::theNodes[*va]->getNodeInfo().theNodeType == sourceNodeType)
+	nodeList vl;
+	verticesMatching (vl, sourceNodeType);
+	for (nodeIterator va = vl.begin(); va != vl.end(); va++)
 			edgesBetween(res, node::theNodes[*va]->getNumber(), sourceNodeType);
 
-	}
-
-
-
-}
-
-bool network::matches (nodeBlueprint *n1, nodeBlueprint *n2)
-{
-	if ((n1 == stdNode) || (n2 ==stdNode))
-		return  true;
-	else return n1->getNodeInfo().theNodeType == n2->getNodeInfo().theNodeType;
 }
 
 void network::edgesBetween(list< edgeDescriptor > &res, nodeKind sourceNodeKind, nodeKind targetNodeKind)
 {
 	nodeIterator va;
-
-
-	//		edgeIterator ea,ee;
-	for (va = theNodes.begin(); va != theNodes.end(); va++)
-	{
-		if (node::theNodes[*va]->getNodeInfo().theNodeKind & sourceNodeKind)
+	nodeList vl;
+	verticesMatching (vl, sourceNodeKind);
+	for (va = vl.begin(); va != vl.end(); va++)
 			edgesBetween(res, node::theNodes[*va]->getNumber(), targetNodeKind);
-
-	}
 }
 
 
@@ -278,11 +274,12 @@ void network::select ( string fileName)
 void network::edgesBetween(list< edgeDescriptor > &res, nodeDescriptor sourceNode, nodeKind targetNodeKind)
 {
 	node::edgeDescriptor ea,ee;
+
 	ea = 0;
 	ee = node::theNodes[sourceNode]->degree();
 	for (; ea != ee; ea++)
-		if (node::theNodes[sourceNode]->getTarget(ea)->getNodeInfo().theNodeKind & targetNodeKind)
-			if (isInsideNetwork( getTarget(sourceNode, ea)))
+		if (match (node::theNodes[sourceNode]->getTarget(ea), targetNodeKind))
+			if (isInsideNetwork( node::theNodes[sourceNode]->getTarget(ea) ))
 				res.push_back (make_pair(sourceNode,ea));
 }
 
@@ -293,7 +290,7 @@ void network::edgesBetween(list< edgeDescriptor > &res, nodeDescriptor sourceNod
 	ea = 0;
 	ee = node::theNodes[sourceNode]->degree();
 	for (; ea != ee; ea++)
-		if (node::theNodes[sourceNode]->getTarget(ea)->getNodeInfo().theNodeType == targetNodeType)
+		if (match (node::theNodes[sourceNode]->getTarget(ea), targetNodeType))
 			res.push_back (make_pair(sourceNode,ea));
 }
 void network::edgesBetween(list<edgeDescriptor> &res, nodeBlueprint *sourceNode, nodeBlueprint *targetNode)
@@ -304,7 +301,7 @@ void network::edgesBetween(list<edgeDescriptor> &res, nodeBlueprint *sourceNode,
 	//		edgeIterator ea,ee;
 	for (va = theNodes.begin(); va != theNodes.end(); va++)
 	{
-		if ( matches ( sourceNode,(dynNode*) node::theNodes[*va] ))
+		if ( match ( sourceNode,*va ))
 			edgesBetween(res, *va, targetNode);
 	}
 }
@@ -316,7 +313,7 @@ void network::edgesBetween(list<edgeDescriptor> &res, nodeDescriptor sourceNode,
 	ea = 0;
 	ee = node::theNodes[sourceNode]->degree();
 	for (; ea != ee; ea++)
-		if (matches ((dynNode *)node::theNodes[sourceNode]->getTarget(ea), targetNode))
+		if (match (node::theNodes[sourceNode]->getTarget(ea), targetNode))
 			res.push_back (make_pair(sourceNode,ea));
 
 }
@@ -324,9 +321,7 @@ void network::edgesBetween(list<edgeDescriptor> &res, nodeDescriptor sourceNode,
 
 void network::edgesBetween(list< edgeDescriptor > &res, nodeKind sourceNodeKind, nodeDescriptor targetNode)
 {
-	cout << "wo brauch ich das denn ?" << endl;
-	exit(1);
-
+	throw "edgesBetween for sourceNodkind and targetNode not implemented. ";
 }
 
 
@@ -429,7 +424,7 @@ network::~network()
 
 nodeDescriptor network::addNode ( nodeBlueprint *n )
 {
-	 node  *newNode = n->construct();
+	node  *newNode = n->construct();
 
 	nodeDescriptor newNodeNumber = newNode->getNumber();
 	if (n->getNodeInfo().theNodeKind & _inNode_)
@@ -461,9 +456,9 @@ bool network::isLinked ( nodeDescriptor i, nodeDescriptor j)
 {
 	nodeKind nk = node::theNodes[i]->getNodeInfo().theNodeKind;
 	if (nk & _ode_ || nk & _sde_ || nk & _mapNode_)
-		return node::theNodes[j]-> isLinked (node::theNodes[i]);
+		return node::theNodes[j]-> isLinked (i);
 	else
-		return node::theNodes[i]-> isLinked (node::theNodes[j]);
+		return node::theNodes[i]-> isLinked (j);
 
 }
 
@@ -481,7 +476,7 @@ void network::addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l )
 
 
 
-			// edges are described by an integer for the source node and an identifier which is defined in node.
+// edges are described by an integer for the source node and an identifier which is defined in node.
 //			typedef pair<nodeDescriptor, node::edgeDescriptor> edgeDescriptor;
 
 void network::link ( nodeDescriptor s, nodeDescriptor t, baseType weight )
@@ -506,16 +501,24 @@ void network::clear ()
 	numberOfNodes = 0;
 	dynNode::time = 0;
 
-			containerNode<baseType,0>::clear();
-			containerNode<baseType,1>::clear();
-			containerNode<baseType,2>::clear();
-			containerNode<baseType,3>::clear();
+	containerNode<baseType,0>::clear();
+	containerNode<baseType,1>::clear();
+	containerNode<baseType,2>::clear();
+	containerNode<baseType,3>::clear();
 
 }
 
 
 
 
+
+		baseType frontAndPop(queue<baseType> *s)
+		{
+			baseType res = s->front();
+			s->pop();
+			return res;
+
+		}
 
 
 

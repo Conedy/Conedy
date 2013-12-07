@@ -5,20 +5,15 @@
 #include "node.h"
 #include "params.h"
 #include <boost/function.hpp>
-#include <gsl/gsl_errno.h>
-#include <gsl/gsl_matrix.h>
 
 //#include <gsl/gsl_odeiv.h>
 #include "dynNode.h"
 #include <limits.h>
-#include <boost/pending/relaxed_heap.hpp>
 #include "baseType.h"
-
 #include "eventHandler.h"
 
 #include "dynNode.h"
 #include <iomanip>
-#include <queue>
 
 #define __MAXNUMBEROFIFNEURONS
 
@@ -176,29 +171,6 @@ namespace conedy
 	};
 
 
-	//! OBSOLETE Edge, die bei allen Pulsegekoppelten Oscillatoren, die Phase zurückgibt. Eventuell nicht mehr benötigt, wenn pcoBase mit getState, die Phase zurückgibt.
-	/*	template <typename EDGE>
-		class phaseOfPCPO: public EDGE
-		{
-		private:
-		baseType inline time() { return dynNode::time;}
-		baseType inline nextEvent () { return ((pcoBase*) (EDGE::getTarget() ))-> nextFiring(); }
-
-		public:
-
-		const edgeInfo getEdgeInfo() {edgeInfo ei = {_phaseOfPCPO_,0,"phaseOfPCPO"}; return ei;}
-		phaseOfPCPO (nodeDescriptor targetNumber) : EDGE (targetNumber) {};
-		phaseOfPCPO (nodeDescriptor targetNumber, baseType w) : EDGE (targetNumber) {};
-		phaseOfPCPO () {};
-		baseType getTargetState()
-		{
-		return ( 1- nextEvent() + time() );
-		}
-		weightedEdge *construct() { return new phaseOfPCPO ( *this ); };
-
-
-		};
-		*/
 }
 
 

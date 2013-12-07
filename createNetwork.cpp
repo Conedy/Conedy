@@ -814,17 +814,6 @@ nodeDescriptor createNetwork::completeNetwork ( int number, nodeBlueprint *n, ed
 	return firstNodeNumber;
 }
 
-void createNetwork::addGlobalNoise ( boost::function <double() > r, nodeKind theNodeKind )
-{
-	//	nodeBlueprint * n = new nodeVirtualEdges <randomNode<baseType> >( r );
-	//	nodeDescriptor newNodeNumber = addNode ( n );
-	//	network::addEdges ( theNodeKind,newNodeNumber );
-
-
-	//		addSuperAttractiveNode(n,theNodeKind);
-
-
-}
 
 void createNetwork::normalizeOutputs (baseType r)
 {
@@ -991,6 +980,7 @@ void createNetwork::rewireTarget ( double prop, nodeKind theNodeKind )
 
 	nodeList vl;
 	network::verticesMatching(vl, theNodeKind);
+
 	getRandomNode r (vl);
 
 	for ( it = toChange.begin() ; it != toChange.end(); it++ )
@@ -1029,7 +1019,7 @@ void createNetwork::rewireWeights ( double prop ,boost::function<double () > r,n
 			newSource = rn();
 			newTarget = rn();
 		}
-		while ( newSource == newTarget || nodeBlueprint::theNodes[newSource]->isLinked ( nodeBlueprint::theNodes[newTarget] ) );   // keine Selbst- und Doppelverbindungen
+		while ( newSource == newTarget || nodeBlueprint::theNodes[newSource]->isLinked ( newTarget ) );   // keine Selbst- und Doppelverbindungen
 
 			//			if ((network::theNodes[newSource] == (*it)->source) && (network::theNodes[newTarget] == (*it)->target))
 			//				continue;
@@ -1081,7 +1071,7 @@ void createNetwork::rewire ( double prop, nodeBlueprint *n )
 			newTarget = r();
 
 		}
-		while ( newSource == newTarget || nodeBlueprint::theNodes[newSource]->isLinked ( nodeBlueprint::theNodes[newTarget] ) );   // keine Selbst- und Doppelverbindungen
+		while ( newSource == newTarget || nodeBlueprint::theNodes[newSource]->isLinked ( newTarget ) );   // keine Selbst- und Doppelverbindungen
 
 		if ( ( newSource == oldSource ) && ( newTarget == oldTarget ) )
 			continue;
@@ -1136,7 +1126,7 @@ void createNetwork::replaceEdges ( double prop, edgeBlueprint * l, nodeBlueprint
 			newTarget = r();
 
 		}
-		while ( newSource == newTarget || nodeBlueprint::theNodes[newSource]->isLinked ( nodeBlueprint::theNodes[newTarget] ) );   // keine Selbst- und Doppelverbindungen
+		while ( newSource == newTarget || nodeBlueprint::theNodes[newSource]->isLinked ( newTarget ) );   // keine Selbst- und Doppelverbindungen
 
 		if ( ( newSource == oldSource ) && ( newTarget == oldTarget ) )
 			continue;
@@ -1188,7 +1178,7 @@ void createNetwork::rewireUndirected ( double prop, nodeKind theNodeKind ) // re
 			newTarget = r();
 		}
 
-		while( newSource == newTarget || nodeBlueprint::theNodes[newSource]->isLinked (nodeBlueprint::theNodes[newTarget]) ); //keine selfloops und Doppelverbindungen
+		while( newSource == newTarget || nodeBlueprint::theNodes[newSource]->isLinked (newTarget )); //keine selfloops und Doppelverbindungen
 
 		if ( ( newSource == oldSource ) && ( newTarget == oldTarget ) )
 			continue;
@@ -1235,7 +1225,7 @@ void createNetwork::rewireTargetUndirected ( double prop, nodeKind theNodeKind )
 			newTarget = r();
 			}
 
-			while ( Source == newTarget || nodeBlueprint::theNodes[Source]->isLinked ( nodeBlueprint::theNodes[newTarget] )  ) ; //keine Selfloops oder Doppelverbindungnen
+			while ( Source == newTarget || nodeBlueprint::theNodes[Source]->isLinked ( newTarget )  ) ; //keine Selfloops oder Doppelverbindungnen
 
 			nodeBlueprint::theNodes[it->first]->getEdge(it->second)->targetNumber = newTarget ;
 

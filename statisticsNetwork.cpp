@@ -50,7 +50,7 @@ namespace conedy
 			ee = node::theNodes[*ia] ->degree();
 
 			for ( ; ea != ee; ea++ )
-				if (node::theNodes[(*ia)] ->getTarget(ea)->getNumber() == n)
+				if (node::theNodes[(*ia)] ->getTarget(ea) == n)
 					res++;
 
 		}
@@ -92,8 +92,12 @@ namespace conedy
 	void statisticsNetwork::printNodeStatistics()
 	{
 		nodeIterator it;
+		nodeList vl;
+		verticesMatching(vl,_dynNode_);
+		verticesMatching(vl,_outNode_);
+		verticesMatching(vl,_inNode_);
 
-		for (it = theNodes.begin(); it != theNodes.end(); it++)
+		for (it = vl.begin(); it != vl.end(); it++)
 		{
 			node::theNodes[ *it] ->printStatistics(cout, getGlobal<int>("nodeVerbosity"), getGlobal<int>("edgeVerbosity"));
 			cout << endl;
@@ -136,7 +140,7 @@ namespace conedy
 				v = Sub[i]-1;
 				for( node::edgeDescriptor l=0; l<node::theNodes[v]->degree() ; l++)
 				{
-					t = node::theNodes[v]->getTarget(l)->getNumber();
+					t = node::theNodes[v]->getTarget(l);
 					if (connect[ t - *vl.begin()] == 0)
 					{
 						connect[ t - *vl.begin() ] = 1;
@@ -248,7 +252,7 @@ namespace conedy
 			ee = node::theNodes[*ia] ->degree();
 
 			for ( ; ea != ee; ea++ )
-				inDegree[node::theNodes[(*ia)] ->getTarget(ea)->getNumber()] ++;
+				inDegree[node::theNodes[(*ia)] ->getTarget(ea)] ++;
 		}
 
 
@@ -326,7 +330,7 @@ vector<baseType> dijkstraCompare::weightMap;
 
 			for (node::edgeDescriptor l=0 ; l < node::theNodes[j]->degree() ; l++ )
 			{
-				k = node::theNodes[j]->getTarget(l)->getNumber(); // alle Nachbarn k von j
+				k = node::theNodes[j]->getTarget(l); // alle Nachbarn k von j
 				d = 1/(node::theNodes[j]->getWeight(l)); // d misst die Entfernung zwischen k und j
 
 				if ( (dC.weightMap[ j-*vl.begin() ] + d) < dC.weightMap[ k-*vl.begin() ]  &&  dC.weightMap[ k-*vl.begin() ] == numeric_limits<baseType>::infinity() )
@@ -468,7 +472,7 @@ vector<baseType> dijkstraCompare::weightMap;
 
 				for ( node::edgeDescriptor l=0 ; l<node::theNodes[v]->degree() ; l++ ) //weightMap aktualisieren
 				{
-					w = node::theNodes[v]->getTarget(l)->getNumber(); // alle Nachbarn w von v
+					w = node::theNodes[v]->getTarget(l); // alle Nachbarn w von v
 					d = 1/( node::theNodes[v]->getWeight(l) ); // d misst die Entfernung zwischen w und v
 
 					if ( dC.weightMap[w -*vl.begin()] == numeric_limits<baseType>::infinity() ) // zum ersten Mal entdeckt?
@@ -486,7 +490,7 @@ vector<baseType> dijkstraCompare::weightMap;
 
 				for ( node::edgeDescriptor l=0 ; l<node::theNodes[v]->degree() ; l++ ) // Prezedessoren checken
 				{
-					w = node::theNodes[v]->getTarget(l)->getNumber(); // alle Nachbarn w von v
+					w = node::theNodes[v]->getTarget(l); // alle Nachbarn w von v
 					d = 1/( node::theNodes[v]->getWeight(l) ); // d misst die Entfernung zw w und v
 
 // hier soll auf gleichheit kontrolliert werden...
@@ -580,8 +584,8 @@ vector<baseType> dijkstraCompare::weightMap;
 
 		for( it = vl.begin(); it != vl.end(); it++)
 			for( node::edgeDescriptor l=0; l<node::theNodes[*it]->degree() ;l++)
-				if (isInsideNetwork(getTarget (*it, l)	))
-				out << *it <<' '<< node::theNodes[*it]->getTarget(l)->getNumber() <<' '<< node::theNodes[*it]->getWeight(l) <<"\n";
+				if (isInsideNetwork(   getTarget (*it, l)	))
+				out << *it <<' '<< node::theNodes[*it]->getTarget(l) <<' '<< node::theNodes[*it]->getWeight(l) <<"\n";
 
 
 		out.close();
@@ -668,7 +672,7 @@ vector<baseType> dijkstraCompare::weightMap;
 			ee = node::theNodes[i]->degree();
 
 			for (; ea != ee; ea++, edge++)
-				out << '\t' << '\t' << "<edge id=\"e"<< edge << "\"\tsource=\"n" << i << '\"' << "\ttarget =\"n" << node::theNodes[i]->getTarget(ea)->getNumber() << "\"/>\n";
+				out << '\t' << '\t' << "<edge id=\"e"<< edge << "\"\tsource=\"n" << i << '\"' << "\ttarget =\"n" << node::theNodes[i]->getTarget(ea) << "\"/>\n";
 		}
 
 		// Ausgabe footer

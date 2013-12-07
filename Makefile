@@ -32,6 +32,7 @@ Parser.yy: Parser.yy.tokens Parser.yy.declaration generatedAddNewNodeTokens.yy g
 
 Scanner.ll: Scanner.ll.begin Scanner.ll.end Scanner.ll.generated Parser.yy
 	cat Scanner.ll.begin Scanner.ll.generated Scanner.ll.end > Scanner.ll
+	flex++ Scanner.ll
 
 # generate sourcecode for node dynamics according to configuration files in addedNodes/ or in a special monitored directory configured in the config file (${addedDir}).
 addNodes: addSharedNodes

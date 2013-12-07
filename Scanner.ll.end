@@ -144,7 +144,6 @@ node					{return(ParserBase::NODE); }
 
 
 
-pulseCoupledExcitatoryNeuron	{return(ParserBase::INTEGRATEFIREQUEUE); }
 
 
 
@@ -163,7 +162,6 @@ randomizeStates	{return(ParserBase::RANDOMIZESTATES); }
 randomizeParameter	{return(ParserBase::RANDOMIZEPARAMETER); }
 randomizeWeights	{return(ParserBase::RANDOMIZEWEIGHTS); }
 removeObserver		{return(ParserBase::REMOVEOBSERVER);}
-addGlobalNoise		{return(ParserBase::ADDGLOBALNOISE);}
 meanDegree		{return(ParserBase::MEANDEGREE); }
 getTarget	{return(ParserBase::GETTARGET); }
 isLinked	{return(ParserBase::ISLINKED); }
