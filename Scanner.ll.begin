@@ -100,7 +100,6 @@ baseType	{return(ParserBase::DOUBLETOKEN);}
 string		{return(ParserBase::STRINGTOKEN);}
 while		{return(ParserBase::WHILE);}
 for		{return(ParserBase::FOR);}
-exit		{return(ParserBase::EXIT);}
 vectorFor	{return(ParserBase::VECTORFOR);}
 chainedFor 	{return(ParserBase::CHAINEDFOR); }
 if		{return(ParserBase::IF);}

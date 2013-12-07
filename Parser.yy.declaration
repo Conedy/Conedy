@@ -21,7 +21,6 @@ instruction		: system
 	| globalCommand
 	| bluePrintCommand
 	| statisticsNetworkCommandInt  { $$ = $1; }
-//	| EXIT { $$ = new bindInstruction(bind(exit, 1)); }
 	| if
 	| vectorFor ;
 
