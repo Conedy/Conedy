@@ -4,7 +4,36 @@
 #define __parserSemantic
 
 #include "instruction.h"
-#include "fullNetwork.h"
+#include "fullNetworkWithNodes.h"
+
+
+
+class randomBlueprintNode :  public nodeVirtualEdges <dynNode >
+{
+	private:
+		//		node **blueprint1;
+		//		node **blueprint2;
+		expression<nodeBlueprint*> *blueprint1;
+		expression<nodeBlueprint*> *blueprint2;
+
+		double probability;
+	public:
+		virtual bool timeEvolution () {return 0;};
+		randomBlueprintNode(expression<nodeBlueprint*> *b1, expression<nodeBlueprint*> *b2, double p) : blueprint1(b1), blueprint2(b2), probability(p) {}
+		virtual const nodeInfo getNodeInfo() { nodeInfo n = {_randomBlueprintNode_,_dynNode_, "randomBlueprintNode" };     return n; };
+		virtual const unsigned int dimension () const { return 0; }
+		virtual node * construct()
+		{
+			if (gslNoise::getUniform(0.0,1.0) < probability)
+				return (blueprint1->evaluate())->construct();
+			else
+				return (blueprint2->evaluate())->construct();
+
+		}
+};
+
+
+
 
 #if CONDOR
 

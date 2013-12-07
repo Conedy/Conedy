@@ -6,7 +6,7 @@
 #include "baseType.h"
 #include <map>
 #include <boost/function.hpp>
-
+//#include "fullNetwork.h"
 #include "node.h"
 
 #define _baseType_ 1
@@ -25,18 +25,14 @@ using namespace conedy;
 
 void emptyFunction();
 
-//namespace conedy {
+namespace conedy {
 
+class networkTemplate;
 
-template <typename T> class MyNetwork;
-
-
+}
 // is called by conedyCondor instead of network functions
 
-template <>
-class MyNetwork<baseType>;
 
-typedef MyNetwork<baseType> networkTemplate;
 
 typedef dynNode nodeBlueprint;
 
