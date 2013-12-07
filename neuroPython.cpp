@@ -442,7 +442,7 @@ template <class N>
 			.def("closenessCentrality", &networkTemplate::closenessCentrality, reinterpret_cast<const char *>(__statisticsNetwork_closenessCentrality))
 			.def("degreeCentrality", &networkTemplate::degreeCentrality, reinterpret_cast<const char *>(__statisticsNetwork_degreeCentrality))
 			.def("degree", &networkTemplate::degree, reinterpret_cast<const char *>(__statisticsNetwork_degree))
-			.def("size", &networkTemplate::numberVertices, reinterpret_cast<const char *>(__statisticsNetwork_size)	
+			.def("size", &networkTemplate::size, reinterpret_cast<const char *>(__statisticsNetwork_size))	
 			.def("setTime", &networkTemplate::setTime, reinterpret_cast<const char *>(__dynNetwork_setTime))
 			.def("meanDegree", &networkTemplate::meanDegree, reinterpret_cast<const char *>(__statisticsNetwork_meanDegree))
 			.def("meanWeight", &networkTemplate::meanWeight, reinterpret_cast<const char *>(__statisticsNetwork_meanWeight))

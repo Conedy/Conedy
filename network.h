@@ -267,7 +267,7 @@ namespace conedy
 
 
 			unsigned int numberVertices() { return theNodes.size(); }
-//			unsigned int size() { return theNodes.size(); }
+			unsigned int size() { return theNodes.size(); }
 
 
 
