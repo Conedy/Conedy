@@ -1483,38 +1483,53 @@ void createNetwork::observeSum ( string s, edgeBlueprint *l )
 //}
 
 
-void createNetwork::observeAll ( string s, edgeBlueprint *l )
+//void createNetwork::observeAll ( string s, edgeBlueprint *l )
+//{
+//	network::nodeList vl;
+//	network::verticesMatching ( vl,_dynNode_ );
+//	network::nodeIterator it;
+//
+//	for ( it = vl.begin(); it != vl.end(); it++ )
+//		observe( *it,s, l);
+//
+//}
+//
+
+
+
+void createNetwork::observeAll ( string s, nodeBlueprint *n, edgeBlueprint *l )
 {
 	network::nodeList vl;
-	network::verticesMatching ( vl,_dynNode_ );
+	network::verticesMatching ( vl, n);
 	network::nodeIterator it;
-
 	for ( it = vl.begin(); it != vl.end(); it++ )
 		observe( *it,s, l);
-
 }
 
 
-void createNetwork::observeAll ( string s, edgeBlueprint *l , nodeBlueprint *n , nodeDescriptor lower , nodeDescriptor upper)
-{
-	nodeList vl;
-
-	if (n == stdNode)
-		verticesMatching(vl, _dynNode_);
-	else
-		verticesMatching(vl, n);
-
-	nodeIterator vi;
-	for (vi=vl.begin();vi != vl.end();vi++)
-	{
-		if ((node::theNodes[*vi]->getNumber() >=lower) && (node::theNodes[*vi]->getNumber() <= upper))
-		observe( *vi,s, l);
-	}
 
 
-}
 
-
+//void createNetwork::observeAll ( string s, edgeBlueprint *l , nodeBlueprint *n , nodeDescriptor lower , nodeDescriptor upper)
+//{
+//	nodeList vl;
+//
+//	if (n == stdNode)
+//		verticesMatching(vl, _dynNode_);
+//	else
+//		verticesMatching(vl, n);
+//
+//	nodeIterator vi;
+//	for (vi=vl.begin();vi != vl.end();vi++)
+//	{
+//		if ((node::theNodes[*vi]->getNumber() >=lower) && (node::theNodes[*vi]->getNumber() <= upper))
+//		observe( *vi,s, l);
+//	}
+//
+//
+//}
+//
+//
 
 
 

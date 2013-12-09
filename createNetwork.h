@@ -256,10 +256,11 @@ namespace conedy
 
 			void observeHidden ( string s, int number );
 
-			void observeAll ( string s, edgeBlueprint *l = stdEdge);
+//			void observeAll ( string s, edgeBlueprint *l = stdEdge);
 
+			void observeAll ( string s, nodeBlueprint *n = stdNode, edgeBlueprint *l = stdEdge );
 
-			void observeAll ( string s, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode, nodeDescriptor lower = 0, nodeDescriptor upper = numeric_limits<nodeDescriptor>::max());
+//			void observeAll ( string s, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode, nodeDescriptor lower = 0, nodeDescriptor upper = numeric_limits<nodeDescriptor>::max());
 
 
 

@@ -71,7 +71,7 @@ PULSECOUPLEEDGE STATICWEIGHTEDEDGE PULSECOUPLEDELAYEDGE WEIGHTEDEDGE EDGE
 %type <cmd> loop print instruction declare assign networkCommand bluePrintCommand commands commandBlock while createNetworkCommand globalCommand for if vectorFor system spatialNetworkCommand
 
 %type <stringExpression> identifier
-%type <stringExpression> string fileName
+%type <stringExpression> string inputFileName
 
 %type <doubleExpression> baseType statisticsNetworkCommandBaseType
 %type <booleanExpression> bool
