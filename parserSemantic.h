@@ -5,7 +5,8 @@
 
 #include "instruction.h"
 #include "fullNetworkWithNodes.h"
-
+//#include "networkGenerators.h"
+//#include "networkCharacteristics.h"
 
 
 class randomBlueprintNode :  public nodeVirtualEdges <dynNode >
@@ -35,12 +36,10 @@ class randomBlueprintNode :  public nodeVirtualEdges <dynNode >
 
 
 
+
+
+
 #if CONDOR
-
-
-
-
-
 
 #define INTNETWORKFUNK(funktionName, net)  new constantCommand <int> (0)
 #define INTNETWORKFUNK1(funktionName, net, arg1)  new constantCommand <int> (0)

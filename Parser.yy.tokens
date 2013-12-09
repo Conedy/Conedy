@@ -44,7 +44,7 @@
 %token <boolExpression> BOOLVAR
 %token <stringExpression> STRINGVAR
 %token <nodCmd> NODEVAR
-%type <integerExpression> integer statisticsNetworkCommandInt
+%type <integerExpression> integer statisticsNetworkCommandInt createNetworkCommandInt
 %type <nodeDescriptorExpression> nodeDescriptor
 %token <integerExpression> GETRANDOMSEED COMANDLINE INT INTVAR
 %token <stringExpression> ID
@@ -71,14 +71,14 @@ PULSECOUPLEEDGE STATICWEIGHTEDEDGE PULSECOUPLEDELAYEDGE WEIGHTEDEDGE EDGE
 %type <cmd> loop print instruction declare assign networkCommand bluePrintCommand commands commandBlock while createNetworkCommand globalCommand for if vectorFor system spatialNetworkCommand
 
 %type <stringExpression> identifier
-%type <stringExpression> string
+%type <stringExpression> string fileName
 
 %type <doubleExpression> baseType statisticsNetworkCommandBaseType
 %type <booleanExpression> bool
 %type <booleanExpression> statisticsNetworkCommandBool
-%type <nodCmd> node createNode
+%type <nodCmd> node createNode createNodeOptional
 %type <netCmd> NETWORK
-%type <lCmd> link createLink
+%type <lCmd> link createLink createLinkOptional
 %type <vec> argList
 %type <randomVec> randomList
 %type <doubleExpression> random

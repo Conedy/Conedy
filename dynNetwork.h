@@ -1,8 +1,6 @@
 #ifndef dynNetwork_h
 #define dynNetwork_h dynNetwork_h
 
-#include <fstream>
-#include <queue>
 #include "network.h"
 
 #include "eventHandler.h"

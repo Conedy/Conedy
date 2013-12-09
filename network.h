@@ -36,8 +36,6 @@ namespace conedy
 	  In this class are functions which add single nodes or edges. These are called with blueprints node * n or edge * l, which specify the type of adde node/edge. Added nodes/edges are then created by node::construct(), which calls the copy constructor.
 
 
-	  bei überladenen Funktionen haben die argumentTypen die folgenden Bedeutungen
-
 	  for overloadad functions like addEdges, the argument types have the following meaning:
 
 	  int	networkElementType	(identifying integer for the node type)
@@ -56,7 +54,11 @@ namespace conedy
 	{
 
 
+
 		public:
+
+
+
 			// edges are described by an integer for the source node and an identifier which is defined in node.
 			typedef pair<nodeDescriptor, node::edgeDescriptor> edgeDescriptor;
 
@@ -67,57 +69,61 @@ namespace conedy
 			typedef edgeList::iterator edgeIterator;
 
 
-			//! returns true if the node v is in this network.
-			bool isInsideNetwork ( nodeDescriptor v );
-
-			static void registerStandardValues() {
-			  //! determines the verbosity when print node information after a call of printNodeStatistics();
-				registerGlobal<int>("nodeVerbosity", 2);
-			  //! determines the verbosity when print edge information after a call of printNodeStatistics();
-				registerGlobal<int>("edgeVerbosity", 2);
-			}
-
-
-			//! return the source of the edge.
-			nodeDescriptor getSource(edgeDescriptor eD) { return eD.first; }
-
-			//! return the target of the edge.
-			nodeDescriptor getTarget(edgeDescriptor eD) { return node::theNodes[eD.first]->getTarget(eD.second); }
-
-
-			//! returns the target of the edge.
-			nodeDescriptor getTarget(nodeDescriptor source,  nodeDescriptor edgeNumber)		{ return node::theNodes[source]->getTarget(edgeNumber); }
-
-
-			baseType getWeight(edgeDescriptor eD) { return node::theNodes[eD.first]->getWeight(eD.second); }
-			void setWeight(edgeDescriptor eD, baseType w) { 		 node::theNodes[eD.first]->setWeight(eD.second, w); }
 
 
 
-			//! prepare the network for numerical integration, calls clean for each node and updates evolveList, etc.			
-			virtual void clean ();
+			// functions which are revealed to the interpreter/python bindings
 
 
-			//! restrict the network to the node number numbers which are in the file fileName
-			void select (string fileName) ;
+
+			//! links s and t by an edge which is a copy of l
+			void addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l = stdEdge);
+
+			//! adds a node to the network, which is constructed by n->construct()
+			virtual nodeDescriptor addNode ( nodeBlueprint *n=stdNode);
+			
+			//! Verbinden Knoten source mit Knoten dest über eine Verbindung mit Gewicht weight vom Typ stdEdge
+			void addWeightedEdge ( nodeDescriptor source, nodeDescriptor dest, baseType weight);
+
+			//! removes all nodes from the network
+			virtual void clear();
 
 
-			edgeInfo getEdgeInfo (edgeDescriptor eD) 		 { return node::theNodes[eD.first]->getEdgeInfo(eD.second);}
+			//! replaces node nodeNumber with a newly created node constructed by n->construct() 
+			void replace(nodeDescriptor nodeNumber, nodeBlueprint *n = stdNode);
+
+			//! removes all nodes of type theNodeKind from the network
+			void remove (nodeKind theNodeKind );
+
+			//! remove all nodes from the network which match n	
+			void remove (nodeBlueprint *n = stdNode);
+
+			//! removes all edges between source and target
+			void unlink (nodeDescriptor source, nodeDescriptor target) { node::theNodes[source]->unlink(target); }
 
 
-			edge * getEdge (edgeDescriptor eD) 				 { return node::theNodes [eD.first]->getEdge(eD.second); }
-
-//			dynNode* getNode (nodeDescriptor vd) { return (dynNode* )node::theNodes[vd];}
-
-
-			static edgeVirtual * stdEdge;//# = new edge(NULL,NULL,1);
-			static dynNode * stdNode;
+			//! macht dasselbe wie addEdge aber in beide Richtungen
+			void link ( nodeDescriptor s, nodeDescriptor t, baseType weight = 1 );
 
 
-			network() ;
-			network(bool directedNess) ;
 
-			virtual ~network();
+			//! returns the connections strength between node i and j, returns 0 if no connection exists.
+			baseType linkStrength ( nodeDescriptor i, nodeDescriptor j ) { return node::theNodes[i]->linkStrength ( j ); }
+
+			//! returns true if there is a link between node i and j
+			bool isLinked ( nodeDescriptor i, nodeDescriptor j );
+
+			//! returns the number of nodes in the network
+			unsigned int numberVertices() { return theNodes.size(); }
+
+
+
+
+			unsigned int size() { return theNodes.size(); }
+
+
+
+
 
 
 			void removeEdge (edgeDescriptor e) { node::theNodes[e.first]-> removeEdge (e.second);}
@@ -134,25 +140,105 @@ namespace conedy
 			void randomizeWeights ( function<baseType () > r ) { randomizeSomeWeights(r,_dynNode_,_dynNode_); }
 
 
-			//! Haut einen Zeiger auf den Knoten nodeNumber in die Liste res.
+			static void registerStandardValues() {
+			  //! determines the verbosity when print node information after a call of printNodeStatistics();
+				registerGlobal<int>("nodeVerbosity", 2);
+			  //! determines the verbosity when print edge information after a call of printNodeStatistics();
+				registerGlobal<int>("edgeVerbosity", 2);
+			}
+
+			//! restrict the network to the node number numbers which are in the file fileName
+			void select (string fileName) ;
+
+		public:
+
+			// auxiliary functions to be used for the network generators in createNetwork.h
+
+
+
+			
+
+
+			//! returns true if the node v is in this network.
+			bool isInsideNetwork ( nodeDescriptor v );
+
+
+
+			//! return the source of the edge.
+			nodeDescriptor getSource(edgeDescriptor eD) { return eD.first; }
+
+			//! return the target of the edge.
+			nodeDescriptor getTarget(edgeDescriptor eD) { return node::theNodes[eD.first]->getTarget(eD.second); }
+
+			//! returns the target of the edge.
+			nodeDescriptor getTarget(nodeDescriptor source,  nodeDescriptor edgeNumber)		{ return node::theNodes[source]->getTarget(edgeNumber); }
+
+
+			baseType getWeight(edgeDescriptor eD) { return node::theNodes[eD.first]->getWeight(eD.second); }
+			void setWeight(edgeDescriptor eD, baseType w) { 		 node::theNodes[eD.first]->setWeight(eD.second, w); }
+
+
+
+			//! prepare the network for numerical integration, calls clean for each node and updates evolveList, etc.		TODO move to dynNetwork ?	
+			virtual void clean ();
+
+
+
+
+			edgeInfo getEdgeInfo (edgeDescriptor eD) 		 { return node::theNodes[eD.first]->getEdgeInfo(eD.second);}
+
+
+			edge * getEdge (edgeDescriptor eD) 				 { return node::theNodes [eD.first]->getEdge(eD.second); }
+
+
+
+			static edgeVirtual * stdEdge;  
+			static dynNode * stdNode;
+
+
+			network() ;
+			network(bool directedNess) ;
+
+			virtual ~network();
+
+
+			void addEdges (nodeKind sourceNodeKind, nodeDescriptor targetNode, edgeBlueprint *l = stdEdge);
+
 
 			//! adds the node nodeNumber to the list res.
 			void verticesMatching(nodeList &res, nodeDescriptor nodeNumber);
-
-
 			//! adds all nodes of kind nodeKind to the list res.
 			void verticesMatching(nodeList &res, nodeKind nodeKind);
-
-
 			//! adds all nodes, which "match" node n.
 			void verticesMatching(nodeList &res, node *n);
+			//! adds all nodes of type nodeType
+			void verticesMatching(nodeList &res, networkElementType nodeType);
 
-			//! Fügt der Liste res alle Knoten vom Typ nodetyp hinzu.
-			void verticesMatching(nodeList &res, int networkElementType);
+
+
+			//! adds all edges which start at a node of kind sourceNodeKind and end at a node of kind targetNodeKind 
+			void edgesBetween(edgeList &res, nodeKind sourceNodeKind, nodeKind targetNodeKind);
+			//! adds all edges which start at a node sourceNode and end at a node of kind targetNodeKind 
+			void edgesBetween(edgeList &res, nodeDescriptor sourceNode, nodeKind targetNodeKind);
+			//! adds all edges which start at a node of kind sourceNodeKind and end at a node targetNode
+			void edgesBetween(edgeList &res, nodeKind sourceNodeKind, nodeDescriptor targetNode);
+			//! adds all edges which start at a node of type sourceNodeType and end at a node of type targetNodeType 
+			void edgesBetween(edgeList &res, networkElementType sourceNodeType, networkElementType targetNodeType);
+			//! adds all edges which start a node sourceNode and end at  
+			void edgesBetween(edgeList &res, nodeDescriptor sourceNode, networkElementType targetNodeType);
+			void edgesBetween (edgeList &res, nodeDescriptor sourceNode, nodeBlueprint *targetNode);
+			void edgesBetween (edgeList &res, nodeBlueprint * sourceNode, nodeBlueprint *targetNode);
+
+			void edgesMatching (edgeList &res, networkElementType edgeType);
+
+
 
 
 			//! adds an edge between source and target. The new edge is copied from l.
 			void addEdges(nodeDescriptor source, nodeDescriptor target, edgeBlueprint *l);
+			void addEdges (nodeDescriptor source, nodeKind targetNodeKind, edgeBlueprint *l = stdEdge);
+			//! Verbindet Knoten source mit allen Knoten vom Typ targetNodeType
+			void addEdges (nodeDescriptor source, int targetNodeType, edgeBlueprint *l = stdEdge);
 
 
 			// adds edges in each direction between sourceNode and targetNode of type l.
@@ -165,35 +251,14 @@ namespace conedy
 			void link (nodeDescriptor sourceNode, nodeKind targetNodeKind, edge *l);
 
 
-			//! Fügt der Liste res alle Verbindungen hinzu, die bei einem Knoten der Art sourceNodeKind starten und bei einem Knoten der Art targetNodeKind enden.
-			void edgesBetween(edgeList &res, nodeKind sourceNodeKind, nodeKind targetNodeKind);
-			//! Fügt der Liste res alle Verbindungen hinzu, die beim Knoten mit der Nummer sourceNode starten und bei einem Knoten der Arte targetNodeKind enden.
-			void edgesBetween(edgeList &res, nodeDescriptor sourceNode, nodeKind targetNodeKind);
-			//! Fügt der Liste res alle Verbindungen hinzu, die bei einem Knoten der Art sourceNodeKind starten und beim Knoten mit der Nummer targedNode enden.
-			void edgesBetween(edgeList &res, nodeKind sourceNodeKind, nodeDescriptor targetNode);
 
-
-			void edgesBetween(edgeList &res, networkElementType sourceNodeType, networkElementType targetNodeType);
-
-
-			void edgesBetween(edgeList &res, nodeDescriptor sourceNode, networkElementType targetNodeType);
-
-
-//			bool matches (nodeBlueprint *n1, nodeBlueprint *n2);
-
-
-			void edgesBetween (edgeList &res, nodeDescriptor sourceNode, nodeBlueprint *targetNode);
-			void edgesBetween (edgeList &res, nodeBlueprint * sourceNode, nodeBlueprint *targetNode);
-
-
-			void edgesMatching (edgeList &res, networkElementType edgeType);
 			//! Verbinden Knoten source mit Knoten target mit einer Verbindung vom Typ l
 			//! Verbindet Knoten source mit allen Knoten der Art targedNodeKind
 
 
-			void addEdges (nodeDescriptor source, nodeKind targetNodeKind, edgeBlueprint *l = stdEdge);
-			//! Verbindet Knoten source mit allen Knoten vom Typ targetNodeType
-			void addEdges (nodeDescriptor source, int targetNodeType, edgeBlueprint *l = stdEdge);
+
+
+
 
 			//	void addEdges (nodeDescriptor source, nodeDescriptor targetNodeType, baseType w, edge *l) { };
 
@@ -206,50 +271,8 @@ namespace conedy
 
 
 
-			// Interpreterfunktionen
 
 
-
-			//! removes all nodes from the network
-			virtual void clear();
-
-
-
-			//! Verbinden Knoten source mit Knoten dest über eine Verbindung mit Gewicht weight vom Typ stdEdge
-			//!
-			void addWeightedEdge ( nodeDescriptor source, nodeDescriptor dest, baseType weight);
-
-			//! links s and t by an edge which is a copy of l
-			void addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l = stdEdge);
-
-
-			void addEdges (nodeKind sourceNodeKind, nodeDescriptor targetNode, edgeBlueprint *l = stdEdge);
-
-
-
-			//! adds a node to the network, which is constructed by n->construct()
-			virtual nodeDescriptor addNode ( nodeBlueprint *n );
-
-			//! tauscht einen Node aus
-			void replace(nodeDescriptor nodeNumber, nodeBlueprint *n);
-
-			//! removes all nodes of type theNodeKind from the network
-			void remove (nodeKind theNodeKind );
-
-			//! removes all edges between source and target
-			void unlink (nodeDescriptor source, nodeDescriptor target) { node::theNodes[source]->unlink(target); }
-
-
-			//! macht dasselbe wie addEdge aber in beide Richtungen
-			void link ( nodeDescriptor s, nodeDescriptor t, baseType weight = 1 );
-
-
-
-			//! Gibt die Verbindungsstärke von Knoten i nach Knoten j zurück. 0 falls keine Verbindung besteht.
-			baseType linkStrength ( nodeDescriptor i, nodeDescriptor j ) { return node::theNodes[i]->linkStrength ( j ); }
-
-			//! returns true if there is a link between node i and j
-			bool isLinked ( nodeDescriptor i, nodeDescriptor j );
 
 
 			//! returns the number of nodes in the network of kind theNodeKind
@@ -266,30 +289,18 @@ namespace conedy
 
 
 
-			unsigned int numberVertices() { return theNodes.size(); }
-//			unsigned int size() { return theNodes.size(); }
 
 
 
-			int getNodeKind ( int number ) { return node::theNodes[number]->getNodeInfo().theNodeKind; }
-
-			//			pair<edgeIterator, edgeIterator> out_edges ( nodeDescriptor u ) { return theNodes[u]->getEdges();};
-			//! gibt ein Iteratorpaar auf die Verbindungen vom u.ten Knoten zurück.
-
-
-			//			pair<nodeIterator, nodeIterator> vertices () {
 
 
 
-			//				return std::make_pair ( theNodes.begin(),theNodes.end() );} // gibt ein Iteratorpaar auf die Knoten im Netzwerk zurck
-			void repair();
 
-
-		private:
-			bool directed;
 
 		private:
 			int networkType;
+
+			bool directed;
 			
 			//! The set of node numbers of all nodes which are in the network.
 			set<nodeDescriptor> theNodes;
@@ -306,12 +317,8 @@ namespace conedy
 
 			unsigned int numberOfNodes;
 
-//			int getNetworkType () { return networkType; };
-
-
 			gslNoise noise;
 
-//			void reset();
 	};
 
 

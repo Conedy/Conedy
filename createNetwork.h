@@ -7,14 +7,6 @@
 
 
 
-//#ifndef EVENTCOUNT
-//#define EVENTCOUNT
-//#endif
-
-//#ifdef EVENTCOUNT
-//#include "eventHandler.h"
-//#endif
-
 
 
 
