@@ -57,8 +57,6 @@ namespace conedy
 
 		public:
 
-
-
 			// edges are described by an integer for the source node and an identifier which is defined in node.
 			typedef pair<nodeDescriptor, nodeDescriptor> edgeDescriptor;
 
@@ -72,39 +70,67 @@ namespace conedy
 
 
 
-			// functions which are revealed to the interpreter/python bindings
-
-
+			// Functions which are revealed to the interpreter/python bindings
 
 			//! links s and t by an edge which is a copy of l
 			void addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l = stdEdge);
-			void addWeightedEdge ( nodeDescriptor s, nodeDescriptor t, baseType weight);
 
 			//! adds a node to the network, which is constructed by n->construct()
 			virtual nodeDescriptor addNode ( nodeBlueprint *n=stdNode);
-			
+	
 			//! Verbinden Knoten source mit Knoten dest über eine Verbindung mit Gewicht weight vom Typ stdEdge
-//			void addWeightedEdge ( nodeDescriptor source, nodeDescriptor dest, baseType weight);
+			void addWeightedEdge ( nodeDescriptor s, nodeDescriptor t, baseType weight);
 
 			//! removes all nodes from the network
 			virtual void clear();
-
+			
+			//! Randomizes the coupling strengths for all edges which connect nodes of kind sourcenNodeKind to nodes of kind targetNodeKind. New weights are drawn from r.
+			void randomizeWeights( function<baseType()> r, nodeBlueprint *n1 = stdNode, nodeBlueprint *n2 = stdNode);
 
 			//! replaces node nodeNumber with a newly created node constructed by n->construct() 
 			void replaceNodes(nodeDescriptor nodeNumber, nodeBlueprint *n = stdNode);
 
-			//! removes all nodes of type theNodeKind from the network
-			void remove (nodeKind theNodeKind );
-
 			//! remove all nodes from the network which match n	
 			void removeNodes (nodeBlueprint *n = stdNode);
 
-			//! removes all edges between source and target
+			//! removes all edges between source and target (should be only one)
 			void removeEdge (nodeDescriptor source, nodeDescriptor target) { node::theNodes[source]->unlink(target); }
+	
+			//! remove edge e fromthe network.
+			void removeEdges (edgeBlueprint * e);
+
+			//! returns the number of nodes in the network
+			unsigned int size() { return theNodes.size(); }
+
+			static void registerStandardValues() {
+			  //! determines the verbosity when print node information after a call of printNodeStatistics();
+				registerGlobal<int>("nodeVerbosity", 2);
+			  //! determines the verbosity when print edge information after a call of printNodeStatistics();
+				registerGlobal<int>("edgeVerbosity", 2);
+			}
+
+			//! standard edge which is the standard argument of all network creation and manipulation functions
+			static edgeVirtual * stdEdge; 
+
+			//! standard nod which is the standard argument of all network creation and manipulation functions
+			static dynNode * stdNode;
 
 
+			network();
 
-//			baseType meanDegree ();
+			//! create a network which uses either directed or undirected network generators, depending on directedNess
+			network(bool directedNess) ;
+
+			virtual ~network();
+
+
+			void setDirected () { directed = true; };
+				
+			void setUndirected () { directed = false; };
+
+		protected:	
+			
+			// auxiliary functions to be used for the network generators in createNetwork.h
 
 
 			//! returns the connections strength between node i and j, returns 0 if no connection exists.
@@ -116,45 +142,16 @@ namespace conedy
 			//! returns the number of nodes in the network
 			unsigned int numberVertices() { return theNodes.size(); }
 
-			unsigned int size() { return theNodes.size(); }
-
-
-
-			void removeEdges (edgeBlueprint * e);
-
-
-
-			//! Randomizes the coupling strengths for all edges which connect nodes of kind sourcenNodeKind to nodes of kind targetNodeKind. New weights are drawn from r.
-			void randomizeWeights( function<baseType()> r, nodeBlueprint *n1 = stdNode, nodeBlueprint *n2 = stdNode);
-
-
-
-			static void registerStandardValues() {
-			  //! determines the verbosity when print node information after a call of printNodeStatistics();
-				registerGlobal<int>("nodeVerbosity", 2);
-			  //! determines the verbosity when print edge information after a call of printNodeStatistics();
-				registerGlobal<int>("edgeVerbosity", 2);
-			}
-
-
-		public:
 			//! restrict the network to the node number numbers which are in the file fileName
 			void select (string fileName) ;
 
-			// auxiliary functions to be used for the network generators in createNetwork.h
-
-
 			void remove (edgeDescriptor e) { node::theNodes[e.first]-> removeEdge (e.second);}
-
-			//! macht dasselbe wie addEdge aber in beide Richtungen
-//			void link ( nodeDescriptor s, nodeDescriptor t, baseType weight = 1 );
-			
-
 
 			//! returns true if the node v is in this network.
 			bool isInsideNetwork ( nodeDescriptor v );
 
-
+			//! removes all nodes of type theNodeKind from the network
+			void remove (nodeKind theNodeKind );
 
 			//! return the source of the edge.
 			static nodeDescriptor getSource(edgeDescriptor eD) { return eD.first; }
@@ -165,8 +162,8 @@ namespace conedy
 			//! returns the target of the edge.
 			nodeDescriptor getTarget(nodeDescriptor source,  nodeDescriptor edgeNumber)		{ return node::theNodes[source]->getTarget(edgeNumber); }
 
-
 			baseType getWeight(edgeDescriptor eD) { return node::theNodes[eD.first]->getWeight(eD.second); }
+
 			void setWeight(edgeDescriptor eD, baseType w) { 		 node::theNodes[eD.first]->setWeight(eD.second, w); }
 
 
@@ -174,27 +171,17 @@ namespace conedy
 			//! prepare the network for numerical integration, calls clean for each node and updates evolveList, etc.		TODO move to dynNetwork ?	
 			virtual void clean ();
 
-
-
-
+			//! obsolete ?
 			edgeInfo getEdgeInfo (edgeDescriptor eD) 		 { return node::theNodes[eD.first]->getEdgeInfo(eD.second);}
 
-
+			//! obsolete ?
 			edge * getEdge (edgeDescriptor eD) 				 { return node::theNodes [eD.first]->getEdge(eD.second); }
 
 
 
-			static edgeVirtual * stdEdge;  
-			static dynNode * stdNode;
 
 
-			network() ;
-			network(bool directedNess) ;
 
-			virtual ~network();
-
-
-			void addEdges (nodeKind sourceNodeKind, nodeDescriptor targetNode, edgeBlueprint *l = stdEdge);
 
 
 			//! adds the node nodeNumber to the list res.
@@ -220,7 +207,6 @@ namespace conedy
 			void edgesBetween(edgeList &res, nodeDescriptor sourceNode, networkElementType targetNodeType);
 			void edgesBetween (edgeList &res, nodeDescriptor sourceNode, nodeBlueprint *targetNode);
 			void edgesBetween (edgeList &res, nodeBlueprint * sourceNode, nodeBlueprint *targetNode);
-
 			void edgesMatching (edgeList &res, networkElementType edgeType);
 
 			bool isGraph () ; // returns true if the network does not contain  double- or self-connections
@@ -232,6 +218,7 @@ namespace conedy
 			void addEdges (nodeDescriptor source, nodeKind targetNodeKind, edgeBlueprint *l = stdEdge);
 			//! Verbindet Knoten source mit allen Knoten vom Typ targetNodeType
 			void addEdges (nodeDescriptor source, int targetNodeType, edgeBlueprint *l = stdEdge);
+			void addEdges (nodeKind sourceNodeKind, nodeDescriptor targetNode, edgeBlueprint *l = stdEdge);
 
 
 			void link( nodeDescriptor  sourceNode, nodeDescriptor targetNode, edgeBlueprint *l = stdEdge);
@@ -247,63 +234,14 @@ namespace conedy
 			void link (nodeDescriptor sourceNode, nodeKind targetNodeKind, edge *l);
 
 
-
-
-
-
-
-			//	void addEdges (nodeDescriptor source, nodeDescriptor targetNodeType, baseType w, edge *l) { };
-
-
-			//	void edgesBetween(list< edge > res, int sourceNodeKini int targetNodeKind);
-
-
-
-
-
-
-
-
-
-
-
 			//! returns the number of nodes in the network of kind theNodeKind
 			unsigned int numberVertices ( nodeKind theNodeKind );
-
-			void setDirected () { directed = true; };
-				
-			void setUndirected () { directed = false; };
-
 
 
 			unsigned int randomNode(nodeKind nodeKind = _dynNode_);
 
 
-
-
-			unsigned int numberVertices() { return theNodes.size(); }
-			unsigned int size() { return theNodes.size(); }
-
-
-
 			int getNodeKind ( int number ) { return node::theNodes[number]->getNodeInfo().theNodeKind; }
-
-
-
-
-
-
-			bool directed;
-
-
-		private:
-			int networkType;
-
-			
-			//! The set of node numbers of all nodes which are in the network.
-			set<nodeDescriptor> theNodes;
-
-		protected:
 
 
 			//! Contains all nodes with time evolution
@@ -318,6 +256,13 @@ namespace conedy
 			unsigned int numberOfNodes;
 
 			gslNoise noise;
+
+		private:
+
+			bool directed;
+			
+			//! The set of node numbers of all nodes which are in the network.
+			set<nodeDescriptor> theNodes;
 
 	};
 

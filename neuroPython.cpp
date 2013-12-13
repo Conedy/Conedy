@@ -451,6 +451,7 @@ template <class N>
 			.def("size", &networkTemplate::size, reinterpret_cast<const char *>(__statisticsNetwork_size))	
 			.def("randomizeWeights", &networkTemplate::randomizeWeights_overloads, reinterpret_cast<const char *>(__createNetwork_randomizeWeights))
 			.def("removeEdges", &networkTemplate::removeEdges, reinterpret_cast<const char *>(__createNetwork_addRandomEdges))
+			.def("removeEdge", &networkTemplate::removeEdge, reinterpret_cast<const char *>(__createNetwork_removeEdge))
 
 			////statisticsNetworkCommands
 			.def("betweennessCentrality", &networkTemplate::betweennessCentrality, reinterpret_cast<const char *>(__statisticsNetwork_betweennessCentrality))
@@ -470,7 +471,6 @@ template <class N>
 			.def("getParam", &networkTemplate::getParam, reinterpret_cast<const char *>(__statisticsNetwork_getParam))
 			.def("setParam", &networkTemplate::setParam, reinterpret_cast<const char *>(__dynNetwork_setParam))
 
-			.def("removeEdge", &networkTemplate::removeEdge, reinterpret_cast<const char *>(__createNetwork_removeEdge))
 			// createNetwork commands
 			.def("removeRandomEdges", &networkTemplate::removeRandomEdges, reinterpret_cast<const char *>(__createNetwork_removeRandomEdges))
 			.def("removeRandomEdgesUndirected", &networkTemplate::removeRandomEdgesUndirected, reinterpret_cast<const char *>(__createNetwork_removeRandomEdgesUndirected))
