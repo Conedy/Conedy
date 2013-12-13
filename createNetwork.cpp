@@ -1078,7 +1078,10 @@ void createNetwork::rewire ( double prop, nodeBlueprint *n )
 
 
 		network::addEdge ( newSource,newTarget, (edgeBlueprint *)getEdge(*it));
+			
+		cout << meanOutDegree() << " " << isGraph() <<  " ";
 		network::unlink ( oldSource, oldTarget );
+		cout << meanOutDegree() << " " << isGraph() <<  endl;
 
 	}
 
@@ -1497,7 +1500,7 @@ void createNetwork::observeSum ( string s, edgeBlueprint *l )
 
 
 
-void createNetwork::observeAll ( string s, nodeBlueprint *n, edgeBlueprint *l )
+void createNetwork::observeAll ( string s,  edgeBlueprint *l, nodeBlueprint *n)
 {
 	network::nodeList vl;
 	network::verticesMatching ( vl, n);

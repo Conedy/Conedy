@@ -204,9 +204,7 @@ createNetworkCommand :  NETWORK '.' OBSERVE '(' nodeDescriptor ',' string ')'	{ 
 | NETWORK '.' OBSERVEEVENTTIMES '(' string ',' integer  ')' 	{ $$ = NETWORKFUNK2(observeEventTimes,$1, _E(string,$5), _E(int, $7)); }
 | NETWORK '.' OBSERVEEVENTTIMESEQUALS '(' string ',' integer  ')' 	{ $$ = NETWORKFUNK2(observeEventTimesEquals,$1, _E(string,$5), _E(int, $7)); }
 | NETWORK '.' OBSERVEEVENTSIGNATURETIMES '(' string ',' integer  ')' 	{ $$ = NETWORKFUNK2(observeEventSignatureTimes,$1, _E(string,$5), _E(int, $7)); }
-//	| NETWORK '.' OBSERVEALL '(' string ')' 	{ $$ = NETWORKFUNK2(observeAll, $1, _E(string,$5), network::stdEdge); }
-//	| NETWORK '.' OBSERVEALL '(' string ',' createLink ')'  { $$ = NETWORKFUNK2(observeAll,$1,_E(string,$5), _E(edgeBlueprint*, $7));}
-	| NETWORK '.' OBSERVEALL '(' string  createNodeOptional createLinkOptional ')' { $$ = NETWORKFUNK3(observeAll,$1, _E(string,$5),  _E(nodeBlueprint*, $6), _E(edgeBlueprint*, $7)); }
+	| NETWORK '.' OBSERVEALL '(' string createLinkOptional  createNodeOptional ')' { $$ = NETWORKFUNK3(observeAll,$1, _E(string,$5),  _E(edgeBlueprint*, $6), _E(nodeBlueprint*, $7)); }
 	| NETWORK '.' OBSERVECOMPONENTS '(' nodeDescriptor ',' string ')' 	{ $$ = NETWORKFUNK2(observeComponents, $1, _E(nodeDescriptor, $5),_E(string,$7)); }
 	| NETWORK '.' OBSERVE '(' nodeDescriptor ',' string ',' createLink ')' {$$ = NETWORKFUNK3(observe,$1,_E(nodeDescriptor,$5),_E(string,$7),_E(edgeBlueprint*,$9)); }
 	| NETWORK '.' OBSERVEMEAN '(' string ',' createLink ')' { $$ = NETWORKFUNK2(observeSum,$1, _E(string,$5),_E(edgeBlueprint*,$7)); }

@@ -39,7 +39,6 @@ namespace conedy
 			void betweennessCentrality ( string filename );
 
 
-
 			baseType meanWeight();
 
 			unsigned int countEdges (edgeVirtual *e);

@@ -203,7 +203,7 @@ namespace conedy
 
 			// manage connections
 			
-			//! removes all edges pointing to targetNumber.
+			//! removes all edges pointing to targetNumber. Warning: removing edges invalidates edgeDescriptors!
 			virtual bool unlink (nodeDescriptor targetNumber)  { throw "unimplemented function unlink of node called!"; };
 
 			//! remove edge e.

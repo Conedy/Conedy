@@ -60,7 +60,7 @@ namespace conedy
 
 
 			// edges are described by an integer for the source node and an identifier which is defined in node.
-			typedef pair<nodeDescriptor, node::edgeDescriptor> edgeDescriptor;
+			typedef pair<nodeDescriptor, nodeDescriptor> edgeDescriptor;
 
 			//! typedefs for lists of nodes and edges
 			typedef set<nodeDescriptor> nodeList;
@@ -105,6 +105,7 @@ namespace conedy
 			//! macht dasselbe wie addEdge aber in beide Richtungen
 			void link ( nodeDescriptor s, nodeDescriptor t, baseType weight = 1 );
 
+			baseType meanOutDegree ();
 
 
 			//! returns the connections strength between node i and j, returns 0 if no connection exists.
@@ -165,10 +166,10 @@ namespace conedy
 
 
 			//! return the source of the edge.
-			nodeDescriptor getSource(edgeDescriptor eD) { return eD.first; }
+			static nodeDescriptor getSource(edgeDescriptor eD) { return eD.first; }
 
 			//! return the target of the edge.
-			nodeDescriptor getTarget(edgeDescriptor eD) { return node::theNodes[eD.first]->getTarget(eD.second); }
+			static nodeDescriptor getTarget(edgeDescriptor eD) { return node::theNodes[eD.first]->getTarget(eD.second); }
 
 			//! returns the target of the edge.
 			nodeDescriptor getTarget(nodeDescriptor source,  nodeDescriptor edgeNumber)		{ return node::theNodes[source]->getTarget(edgeNumber); }
@@ -231,6 +232,7 @@ namespace conedy
 
 			void edgesMatching (edgeList &res, networkElementType edgeType);
 
+			bool isGraph () ; // returns true if the network does not contain  double- or self-connections
 
 
 
@@ -306,6 +308,8 @@ namespace conedy
 			set<nodeDescriptor> theNodes;
 
 		protected:
+
+
 			//! Contains all nodes with time evolution
 			vector < dynNode *> evolveList;
 
@@ -321,6 +325,7 @@ namespace conedy
 
 	};
 
+			bool compareByTargets (network::edgeDescriptor l, network::edgeDescriptor r); 
 
 	//! Funktor, der einen zufälligen Knoten zurückgibt, der gleichverteilt aus einer Liste ausgewählt wird, die beim Konstruiren übergeben wird.
 	class getRandomNode : public gslNoise {

@@ -30,7 +30,6 @@ getParam		{ return (ParserBase::GETPARAM); }
 snapshotAtEvent		{ return (ParserBase::SNAPSHOTATEVENT); }
 snapshotAtEventSignature		{ return (ParserBase::SNAPSHOTATEVENTSIGNATURE); }
 size			{ return (ParserBase::SIZE); }
-removeInput		{return(ParserBase::REMOVEINPUT); }
 removeEdges		{return(ParserBase::REMOVEEDGES); }
 
 removeEdge		{return(ParserBase::REMOVEEDGE); }
@@ -69,8 +68,6 @@ observeAll		{return(ParserBase::OBSERVEALL); }
 observeComponents		{return(ParserBase::OBSERVECOMPONENTS); }
 
 
-observeGl		{return(ParserBase::OBSERVEGL); }
-observeGlut		{return(ParserBase::OBSERVEGLUT); }
 observeEvent  {return(ParserBase::OBSERVEEVENT); }
 observeEventTimes  {return(ParserBase::OBSERVEEVENTTIMES); }
 observeEventTimesEquals  {return(ParserBase::OBSERVEEVENTTIMESEQUALS); }

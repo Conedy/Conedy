@@ -189,11 +189,12 @@ namespace conedy {
 			unsigned int  read, write;
 			read = write = 0; 
 
-			for (; read != outEdges.size(); read++, write++ )
+			for (; read != outEdges.size(); read++)
 			{
-				while ( outEdges[read] ->targetNumber  == target )
-					read++;
-				outEdges[write] = outEdges[read];	
+				if ( outEdges[read] ->targetNumber  == target )
+					continue;
+				outEdges[write] = outEdges[read];
+				write++;	
 
 			}
 			outEdges.resize(write);	
@@ -732,12 +733,12 @@ bool nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::unlink ( nodeDescriptor targe
 	unsigned int  read, write;
 	read = write = 0; 
 
-	for (; read != outEdges.size(); read++, write++ )
+	for (; read != outEdges.size(); read++)
 	{
-		while (outEdges[read].targetNumber  == target )
-			read++;
+		if (outEdges[read].targetNumber  == target )
+			continue;
 		outEdges[write] = outEdges[read];	
-
+		write++;
 	}
 	outEdges.resize(write);	
 	return read!=write;

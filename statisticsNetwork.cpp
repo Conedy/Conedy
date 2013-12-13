@@ -158,7 +158,6 @@ namespace conedy
 
 
 
-
 	baseType statisticsNetwork::meanOutDegree ()
 	{
 		baseType f= 0 ;

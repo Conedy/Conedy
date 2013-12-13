@@ -148,7 +148,7 @@ namespace conedy
 			
 	//		virtual nodeDescriptor addNode();					
 			//! fügt eine Kopie von *n zum Netzwerk hinzu, gibt die Nummer vom neuen Knoten zurück.
-			virtual nodeDescriptor addNode ( nodeBlueprint *n );				
+			virtual nodeDescriptor addNode ( nodeBlueprint *n = network::stdNode );				
 
 /*			void randomize ( vector<pos> &theNodePos, double sigma )
 			{

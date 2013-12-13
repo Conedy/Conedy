@@ -25,6 +25,20 @@ namespace conedy
 	}
 
 
+	baseType network::meanOutDegree ()
+	{
+		baseType f= 0 ;
+		network::nodeIterator ia;
+		network::nodeList vl;
+		network::verticesMatching ( vl,_dynNode_ );
+		for ( ia = vl.begin(); ia != vl.end(); ia++ )
+		{
+			f = f +node::theNodes[*ia] ->degree();
+		}
+		f = f / network::numberVertices();
+		return f;
+	}
+
 
 	void network::removeEdges (edgeBlueprint * e)
 	{
@@ -521,11 +535,49 @@ void network::clear ()
 		}
 
 
+		bool compareByTargets (network::edgeDescriptor l, network::edgeDescriptor r) {return network::getTarget(l) < network::getTarget(r); } 
 
 
 
 
 
+
+	bool network::isGraph()
+	{
+		nodeList vl;
+		nodeIterator vi;
+		verticesMatching (vl, _dynNode_);
+		edgeList el;
+
+		for (vi = vl.begin(); vi != vl.end(); vi++)
+		{
+				edgesBetween (el, *vi, _dynNode_);
+//				el.sort ([&](edgeDescriptor l, edgeDescriptor r) -> bool { return getTarget(l)  < getTarget (r); } )
+				el.sort (compareByTargets);
+							
+
+
+				edgeIterator ePrev = el.begin();
+				if (getTarget (*ePrev) == getSource(*ePrev))
+						return 0;		
+				
+				edgeIterator eSucc  = el.begin(); eSucc ++;
+				for (; eSucc != el.end(); ePrev++, eSucc++)
+				{
+					if ((getTarget(*ePrev) == getTarget (*eSucc)) ||
+						(getTarget(*eSucc) == getSource (*eSucc)))
+						return 0;	
+					
+				}
+				el.clear();
+
+		}
+		return 1;
+
+
+
+
+	}
 
 
 
