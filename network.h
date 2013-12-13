@@ -78,34 +78,33 @@ namespace conedy
 
 			//! links s and t by an edge which is a copy of l
 			void addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l = stdEdge);
+			void addWeightedEdge ( nodeDescriptor s, nodeDescriptor t, baseType weight);
 
 			//! adds a node to the network, which is constructed by n->construct()
 			virtual nodeDescriptor addNode ( nodeBlueprint *n=stdNode);
 			
 			//! Verbinden Knoten source mit Knoten dest über eine Verbindung mit Gewicht weight vom Typ stdEdge
-			void addWeightedEdge ( nodeDescriptor source, nodeDescriptor dest, baseType weight);
+//			void addWeightedEdge ( nodeDescriptor source, nodeDescriptor dest, baseType weight);
 
 			//! removes all nodes from the network
 			virtual void clear();
 
 
 			//! replaces node nodeNumber with a newly created node constructed by n->construct() 
-			void replace(nodeDescriptor nodeNumber, nodeBlueprint *n = stdNode);
+			void replaceNodes(nodeDescriptor nodeNumber, nodeBlueprint *n = stdNode);
 
 			//! removes all nodes of type theNodeKind from the network
 			void remove (nodeKind theNodeKind );
 
 			//! remove all nodes from the network which match n	
-			void remove (nodeBlueprint *n = stdNode);
+			void removeNodes (nodeBlueprint *n = stdNode);
 
 			//! removes all edges between source and target
-			void unlink (nodeDescriptor source, nodeDescriptor target) { node::theNodes[source]->unlink(target); }
+			void removeEdge (nodeDescriptor source, nodeDescriptor target) { node::theNodes[source]->unlink(target); }
 
 
-			//! macht dasselbe wie addEdge aber in beide Richtungen
-			void link ( nodeDescriptor s, nodeDescriptor t, baseType weight = 1 );
 
-			baseType meanOutDegree ();
+//			baseType meanDegree ();
 
 
 			//! returns the connections strength between node i and j, returns 0 if no connection exists.
@@ -117,28 +116,17 @@ namespace conedy
 			//! returns the number of nodes in the network
 			unsigned int numberVertices() { return theNodes.size(); }
 
-
-
-
 			unsigned int size() { return theNodes.size(); }
 
 
-
-
-
-
-			void removeEdge (edgeDescriptor e) { node::theNodes[e.first]-> removeEdge (e.second);}
 
 			void removeEdges (edgeBlueprint * e);
 
 
 
 			//! Randomizes the coupling strengths for all edges which connect nodes of kind sourcenNodeKind to nodes of kind targetNodeKind. New weights are drawn from r.
+			void randomizeWeights( function<baseType()> r, nodeBlueprint *n1 = stdNode, nodeBlueprint *n2 = stdNode);
 
-			void randomizeSomeWeights( function<baseType()> r, nodeKind sourceNodeKind, nodeKind targetNodeKind);
-
-			//! Randomizes the coupling strnegths for all dynamical nodes. New weights are drawn from r
-			void randomizeWeights ( function<baseType () > r ) { randomizeSomeWeights(r,_dynNode_,_dynNode_); }
 
 
 			static void registerStandardValues() {
@@ -148,15 +136,18 @@ namespace conedy
 				registerGlobal<int>("edgeVerbosity", 2);
 			}
 
-			//! restrict the network to the node number numbers which are in the file fileName
-			void select (string fileName) ;
 
 		public:
+			//! restrict the network to the node number numbers which are in the file fileName
+			void select (string fileName) ;
 
 			// auxiliary functions to be used for the network generators in createNetwork.h
 
 
+			void remove (edgeDescriptor e) { node::theNodes[e.first]-> removeEdge (e.second);}
 
+			//! macht dasselbe wie addEdge aber in beide Richtungen
+//			void link ( nodeDescriptor s, nodeDescriptor t, baseType weight = 1 );
 			
 
 
@@ -243,8 +234,11 @@ namespace conedy
 			void addEdges (nodeDescriptor source, int targetNodeType, edgeBlueprint *l = stdEdge);
 
 
-			// adds edges in each direction between sourceNode and targetNode of type l.
-			void link( nodeDescriptor  sourceNode, nodeDescriptor targetNode, edgeBlueprint *l);
+			void link( nodeDescriptor  sourceNode, nodeDescriptor targetNode, edgeBlueprint *l = stdEdge);
+			void link( nodeDescriptor  sourceNode, nodeDescriptor targetNode, baseType weight);
+			void unlink( nodeDescriptor  sourceNode, nodeDescriptor targetNode);
+
+
 
 			//! return true, if for every edge between dynNodes in the network, there exist an edge with source and target interchanged.
 			bool isDirected();
@@ -252,10 +246,6 @@ namespace conedy
 			//! Verbinde sourceNode mit allen Nodes der Art targetNodeKind bidirektional
 			void link (nodeDescriptor sourceNode, nodeKind targetNodeKind, edge *l);
 
-
-
-			//! Verbinden Knoten source mit Knoten target mit einer Verbindung vom Typ l
-			//! Verbindet Knoten source mit allen Knoten der Art targedNodeKind
 
 
 
@@ -297,12 +287,12 @@ namespace conedy
 
 
 
+			bool directed;
 
 
 		private:
 			int networkType;
 
-			bool directed;
 			
 			//! The set of node numbers of all nodes which are in the network.
 			set<nodeDescriptor> theNodes;

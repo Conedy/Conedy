@@ -158,29 +158,16 @@ namespace conedy
 
 
 
-	baseType statisticsNetwork::meanOutDegree ()
+	baseType statisticsNetwork::meanDegree ()
 	{
 		baseType f= 0 ;
 		network::nodeIterator ia;
 		network::nodeList vl;
 		network::verticesMatching ( vl,_dynNode_ );
 		for ( ia = vl.begin(); ia != vl.end(); ia++ )
-		{
 			f = f +node::theNodes[*ia] ->degree();
-		}
 		f = f / network::numberVertices();
 		return f;
-	}
-
-
-	baseType statisticsNetwork::meanInDegree ()
-	{
-		unsigned int sum = 0;
-		vector <unsigned int > inDegree = inDegreeDistribution();
-		for (unsigned  int i = 0; i < inDegree.size(); i++ )
-			sum = sum + inDegree[i];
-
-		return sum / network::numberVertices();
 	}
 
 
@@ -271,14 +258,24 @@ namespace conedy
 	baseType statisticsNetwork::meanClustering()
 	{
 
-		baseType f= 0;
+		baseType f, linkedFriends= 0;
 
 		network::nodeIterator ia;
 		network::nodeList vl;
 		network::verticesMatching ( vl,_dynNode_ );
 		for ( ia = vl.begin(); ia != vl.end(); ia++ )
 		{
-			f = f + node::theNodes[*ia] ->clustering();
+			edgeIterator s,t;
+			edgeList el;
+			edgesBetween (el, *ia, _dynNode_);
+			for (s = el.begin(); s != el.end();s++)
+				for (t = el.begin(); t != el.end();t++)
+					linkedFriends+= linkStrength (getTarget (*s), getTarget (*t)); 
+	
+			if ( el.size() > 1 )
+				return ( baseType ) linkedFriends / ( el.size() * ( el.size() -1 ) );
+		
+			f = f + linkedFriends; 
 		}
 		f = f / network::numberVertices();
 		return f;

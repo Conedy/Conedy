@@ -17,27 +17,38 @@ namespace conedy
 	}
 
 
-	//! Verbindet sourceNode und targetNode bidirektional mit einer Verbindung vom Typ l
-	void network::link( nodeDescriptor  sourceNode, nodeDescriptor targetNode, edgeBlueprint *l)
-	{
-		addEdge(sourceNode, targetNode, l);
-		addEdge(targetNode, sourceNode, l);
-	}
 
 
-	baseType network::meanOutDegree ()
+	void network::addEdge(nodeDescriptor source, nodeDescriptor target, edgeBlueprint *l)
 	{
-		baseType f= 0 ;
-		network::nodeIterator ia;
-		network::nodeList vl;
-		network::verticesMatching ( vl,_dynNode_ );
-		for ( ia = vl.begin(); ia != vl.end(); ia++ )
-		{
-			f = f +node::theNodes[*ia] ->degree();
+		if (directed)
+			link (source,target, l);
+		else
+		{	
+			link (source,target, l);
+			link (target,source, l);
 		}
-		f = f / network::numberVertices();
-		return f;
+
+
 	}
+
+
+	void network::addWeightedEdge(nodeDescriptor source, nodeDescriptor target, baseType weight)
+	{
+		if (directed)
+			link (source,target, weight);
+		else
+		{	
+			link (source,target, weight);
+			link (target,source, weight);
+		}
+
+
+	}
+
+
+
+
 
 
 	void network::removeEdges (edgeBlueprint * e)
@@ -48,7 +59,7 @@ namespace conedy
 		edgesMatching(el, edgeType);
 		edgeIterator ei;
 		for (ei = el.begin(); ei != el.end(); ei++)
-			removeEdge(*ei);
+			remove(*ei);
 		clean(); // unsinnXXX todo
 
 	}
@@ -103,18 +114,6 @@ namespace conedy
 	}
 
 
-
-	//! Verbinde sourceNode mit allen Nodes der Art targetNodeKind bidirektional
-	void network::link (nodeDescriptor sourceNode, nodeKind targetNodeKind, edge *l)
-	{
-		nodeIterator it;
-		nodeList vl;
-		verticesMatching(vl,targetNodeKind);
-		for (it = vl.begin(); it != vl.end(); it++)
-		{
-			link(sourceNode, *it,l);
-		}
-	}
 
 
 
@@ -377,7 +376,7 @@ void network::remove ( nodeKind theNodeKind )
 }
 
 
-
+//
 
 unsigned int network::randomNode(nodeKind nodeKind)
 {
@@ -395,13 +394,13 @@ unsigned int network::randomNode(nodeKind nodeKind)
 
 
 
+void network::randomizeWeights (function<baseType()> r, nodeBlueprint *n1 , nodeBlueprint *n2 )
 
-void network::randomizeSomeWeights ( boost::function<baseType () > r,nodeKind sourceNodeKind, nodeKind targetNodeKind )
-{
+  {
 
 	network::edgeList toChange;
 
-	edgesBetween(toChange,sourceNodeKind, targetNodeKind);
+	edgesBetween(toChange,n1, n2);
 	edgeIterator it;
 	for (it = toChange.begin(); it != toChange.end(); it++)
 		if (getEdgeInfo(*it).theEdgeKind & _weighted_)
@@ -452,7 +451,7 @@ nodeDescriptor network::addNode ( nodeBlueprint *n )
 	return  newNodeNumber;
 }
 
-void network::addWeightedEdge ( nodeDescriptor s, nodeDescriptor t, baseType weight )
+void network::link ( nodeDescriptor s, nodeDescriptor t, baseType weight )
 {
 
 	nodeKind nk = node::theNodes[s]->getNodeInfo().theNodeKind;
@@ -477,7 +476,7 @@ bool network::isLinked ( nodeDescriptor i, nodeDescriptor j)
 }
 
 
-void network::addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l )
+void network::link ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l )
 { // differential equations mirror the direction of coupling, for performance reasons.
 	nodeKind nk = node::theNodes[s]->getNodeInfo().theNodeKind;
 	if (nk & _ode_ || nk & _sde_ || nk & _mapNode_)
@@ -488,17 +487,21 @@ void network::addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l )
 }
 
 
+void network::unlink ( nodeDescriptor s, nodeDescriptor t)
+{ // differential equations mirror the direction of coupling, for performance reasons.
+	nodeKind nk = node::theNodes[s]->getNodeInfo().theNodeKind;
+	if (nk & _ode_ || nk & _sde_ || nk & _mapNode_)
+		node::theNodes[t]->unlink (s);
+	else
+		node::theNodes[s]->unlink (t);
+
+}
+
 
 
 // edges are described by an integer for the source node and an identifier which is defined in node.
 //			typedef pair<nodeDescriptor, node::edgeDescriptor> edgeDescriptor;
 
-void network::link ( nodeDescriptor s, nodeDescriptor t, baseType weight )
-{
-
-	node::theNodes[s]->link ( t, weight );
-	node::theNodes[s]->link ( s ,weight );
-}
 
 
 void network::clear ()

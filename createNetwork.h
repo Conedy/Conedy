@@ -17,9 +17,9 @@ namespace conedy
 
 	/*!
 
-	 contains implementations of network generators, e.g. lattices, random networks, rewiring, ...
+	  contains implementations of network generators, e.g. lattices, random networks, rewiring, ...
 
-	 uses only functions from network.h like (addNode, addEdge)
+	  uses only functions from network.h like (addNode, addEdge)
 
 
 
@@ -36,23 +36,20 @@ namespace conedy
 
 		public:
 
-		static void registerStandardValues()
-		{
-			//! true when output should be written to binary files.
-			globals::registerGlobal<bool> ("outputBinary", false );
-		}
+			static void registerStandardValues()
+			{
+				//! true when output should be written to binary files.
+				globals::registerGlobal<bool> ("outputBinary", false );
+			}
 
 
-			createNetwork()  {};
+			//			createNetwork()  {};
 
 			//undirected- network generators
 
 
 			//! creates a chain in which nodes are connected to its a nearest neighbors
 			nodeDescriptor line ( unsigned int number, unsigned int a, nodeBlueprint *n = stdNode, edgeBlueprint *l=stdEdge);
-
-
-			//! Erzeugt einen Ring mit <number> Kopien von *n, bei dem jeder Knoten mit den <a> nächsten Nachbarn nach links und recht verbunden ist. Edges sind Kopien von *l
 
 			//! Creates a ring consisting of n copies of n, in which every node is connected to its a nearest neighbors to the left and right.
 			nodeDescriptor cycle ( int number, int a,nodeBlueprint *n = stdNode, edgeBlueprint *l= stdEdge );
@@ -64,30 +61,14 @@ namespace conedy
 			nodeDescriptor lattice ( int sizex, int sizey, double a = 1.01, nodeBlueprint *n = stdNode, edgeBlueprint *l = stdEdge );
 
 			//! Wie Gitter, jedoch werden die Ränder zyklisch verbunden (links mit rechts, oben mit unten).
-			nodeDescriptor torus ( int sizex, int sizey, double a, nodeBlueprint *n, edgeBlueprint *l );
-
-
+			nodeDescriptor torus ( int sizex, int sizey, double a, nodeBlueprint *n = stdNode, edgeBlueprint *l= stdEdge );
 
 			//! Erzeugt ein Gitter der größe x * y aus streamInNodes, die alle aus der Datei s lesen. Funktioniert gut mit Dateien, die von observeAll erzeugt wurden
 			nodeDescriptor streamInLattice ( int sizex, int sizey, string s );
 
-			//! Zufallsgraph mit number Knoten vom Typ *n, bei dem je zwei mit der Wahrscheinlichkeit prop miteinander verbunden werden. Verbindungen sind vom Typ l
-			nodeDescriptor randomNetwork ( int number, double prop, nodeBlueprint *n = stdNode, edgeBlueprint *l = network::stdEdge );
-			nodeDescriptor randomUndirectedNetwork ( int number, double prop, nodeBlueprint *n = stdNode, edgeBlueprint *l = network::stdEdge );
-
-			//! Erzeugt ein skalenfreies Netzwerk nach Barabasi und Albert
- 			nodeDescriptor scaleFreeNetwork ( int size, int c, nodeBlueprint *n, edgeBlueprint *l );
-			
-			
-			//directed-network generators	
-			
 			//! Erzeugt ein Gitter mit x * y Knoten vom Typ *n. Jeder Knoten wir mit seinen c nächsten Nachbarn verbunden. Gleichweit entfernte Nachbarn werden zufällig ausgewählt.
 			nodeDescriptor torusNearestNeighbors ( int sizex, int sizey, double c, nodeBlueprint *n, edgeBlueprint *l );
-		
 
-
-
-			
 			//! ein Netzwerk aus x * y Knoten vom Typ n
 			nodeDescriptor beeWeb ( int x, int y, nodeBlueprint *n );
 
@@ -95,23 +76,7 @@ namespace conedy
 			nodeDescriptor completeNetwork ( int number, nodeBlueprint *n =stdNode ,edgeBlueprint *l =stdEdge );               // number = Anzahl der Knoten
 
 
-//			void cnnStd ( int sizex, int sizey, string params, nodeBlueprint *n, edgeBlueprint *l );
-//			void cnnNeutral ( int sizex, int sizey, string params, nodeBlueprint *n,edgeBlueprint *l );
-//			void cnnStdLin ( int sizex, int sizey, string params, nodeBlueprint *n, edgeBlueprint *l );
-//			void cnnNeutralLin ( int sizex, int sizey, string params, nodeBlueprint *n, edgeBlueprint *l );
 
-
-			//! OBSOLETE? Speichert die Verbindungsmatrix, des momentanen Netzwerk in die Datei s
-//			void streamOutMatrix ( string s );
-
-
-
-			//! Verbindet jeden Knoten der Art theNodeKind mit einem Rauschknoten, der double einkoppelt, die von der Funktion r zurückgegeben werden
-			//! obsolete ?
-//			void addGlobalNoise ( boost::function <double() > r, nodeKind theNodeKind = _dynNode_ );
-
-			//! obsolete ?
-//			void addGlobalNoise ( function <double() > r ) { addGlobalNoise ( r, _dynNode_ ); }
 
 			//! Normalisiert die Summe der eingehenden Kopplungsgewichte jedes Knotens au den Wert r
 
@@ -145,15 +110,20 @@ namespace conedy
 
 
 			// only consider edges which start and end at nodes of type n
-			void rewire (double prop, nodeBlueprint *n = stdNode);
+			void rewire (double prop, nodeBlueprint *n = stdNode) { directed ? rewireDirected (prop, n) : rewireUndirected (prop,n); }
+			void rewireUndirected (double prop, nodeBlueprint *n = stdNode); // Rewire mit einem ungerichteten Netzwerk im Nachhinein
+			void rewireDirected (double prop, nodeBlueprint *n = stdNode); // Rewire mit einem ungerichteten Netzwerk im Nachhinein
 
+			nodeDescriptor randomNetwork ( int number, double prop, nodeBlueprint *n = stdNode, edgeBlueprint *l = network::stdEdge ) {return directed ? randomNetworkDirected (number, prop , n, l) : randomNetworkUndirected (number,prop, n, l); }
+			nodeDescriptor randomNetworkUndirected ( int number, double prop, nodeBlueprint *n = stdNode, edgeBlueprint *l = network::stdEdge );
+			nodeDescriptor randomNetworkDirected ( int number, double prop, nodeBlueprint *n = stdNode, edgeBlueprint *l = network::stdEdge );
 
 			void replaceEdges (double prop, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode);
 
 
 
-
-
+			//! Erzeugt ein skalenfreies Netzwerk nach Barabasi und Albert
+			nodeDescriptor scaleFreeNetwork ( int size, int c, nodeBlueprint *n, edgeBlueprint *l );
 
 			void rewireSourcePerTimestep ( double prop,function <baseType() > r, nodeKind theNodeKind = _dynNode_ );
 
@@ -163,25 +133,28 @@ namespace conedy
 
 			void rewireTargetUndirected ( double prop, nodeKind theNodeKinde = _dynNode_ );
 
-			void rewireUndirected (double prop, nodeKind theNodeKind = _dynNode_ ); // Rewire mit einem ungerichteten Netzwerk im Nachhinein
 
 
-			void addRandomEdgesDegreeDistribution ( function <double () > r, edgeBlueprint *l = stdEdge );
+			void addRandomEdgesDegreeDistribution ( function <double () > r, edgeBlueprint *l = stdEdge ) { directed ? addRandomEdgesDegreeDistributionDirected(r,l): addRandomEdgesDegreeDistributionUndirected(r,l); }
 			void addRandomEdgesDegreeDistributionUndirected ( function <double () > r, edgeBlueprint *l = stdEdge );
+			void addRandomEdgesDegreeDistributionDirected ( function <double () > r, edgeBlueprint *l = stdEdge );
 
+
+			void removeRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge ) {directed ? removeRandomEdgesDirected (meanOutDegree, l) : removeRandomEdgesUndirected (meanOutDegree,l); }
 			void removeRandomEdgesUndirected ( double meanOutDegree, edgeBlueprint * l = stdEdge );
+			void removeRandomEdgesDirected ( double meanOutDegree, edgeBlueprint * l = stdEdge );
 
-			void removeRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge );
-			void addRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge );
+			void addRandomEdges ( double meanOutDegree, edgeBlueprint * l = stdEdge ) { directed ? addRandomEdgesDirected (meanOutDegree, stdEdge) : addRandomEdgesUndirected (meanOutDegree, stdEdge); }
 			void addRandomEdgesUndirected ( double meanOutDegree, edgeBlueprint * l = stdEdge );
+			void addRandomEdgesDirected ( double meanOutDegree, edgeBlueprint * l = stdEdge );
 
 
-			template <typename RANDOM>
-				void randomOutDegreeDistribution ( int number, RANDOM &r, nodeBlueprint *n );
-
-			template <typename RANDOM>
-				void randomInDegreeDistribution ( int number, RANDOM &r, nodeBlueprint *n );
-
+			//			template <typename RANDOM>
+			//				void randomOutDegreeDistribution ( int number, RANDOM &r, nodeBlueprint *n );
+			//
+			//			template <typename RANDOM>
+			//				void randomInDegreeDistribution ( int number, RANDOM &r, nodeBlueprint *n );
+			//
 
 
 
@@ -192,19 +165,14 @@ namespace conedy
 			void rewireSource ( double prop ,nodeKind theNodeKind = _dynNode_ );
 
 
-
+			// observe commands.
 
 
 			void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
 
 			void observeEventTimes( string fileName,nodeDescriptor eventNumber );
 			void observeEventTimesEquals ( string fileName, nodeDescriptor eventNumber );
-
-
 			void observeEventSignatureTimes( string fileName,nodeDescriptor eventNumber );
-
-
-
 			void observeComponents (nodeDescriptor n, string fileName);
 
 			void observeTime ( string s );
@@ -256,20 +224,16 @@ namespace conedy
 
 			void observeHidden ( string s, int number );
 
-//			void observeAll ( string s, edgeBlueprint *l = stdEdge);
 
 			void observeAll ( string s, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode);
-
-//			void observeAll ( string s, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode, nodeDescriptor lower = 0, nodeDescriptor upper = numeric_limits<nodeDescriptor>::max());
-
 
 
 			void observeAllHiddenVariables ( string s );
 
 			void observeRandom ( string s );
 
-			template <typename NODETYPE>
-				void dummy();
+			//			template <typename NODETYPE>
+			//				void dummy();
 
 
 

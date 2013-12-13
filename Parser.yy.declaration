@@ -88,8 +88,8 @@ declare		:
 		| NODETOKEN ID { command::declare($2->evaluate(), _node_); $$ = new emptyInstruction(); }
 		| INTTOKEN ID { command::declare($2->evaluate(), _int_); $$ = new emptyInstruction (); }
 		| NETWORKTOKEN ID { command::declare($2->evaluate(), _network_); $$ = new emptyInstruction(); }
-		| DIRECTEDNETWORKTOKEN ID { command::declare($2->evaluate(), _network_); $$ = new emptyInstruction(); }
-		| UNDIRECTEDNETWORKTOKEN ID { command::declare($2->evaluate(), _network_); $$ = new emptyInstruction(); }
+		| DIRECTEDNETWORKTOKEN ID { command::declare($2->evaluate(), _network_); $$ = NETWORKFUNK(setDirected, command::retrieve<networkTemplate>($2->evaluate())); }
+//		| UNDIRECTEDNETWORKTOKEN ID { command::declare($2->evaluate(), _network_); $$ = NETWORKFUNK(setUndirected, $2->evaluate()); }
 		| STRINGTOKEN ID { command::declare($2->evaluate(), _string_); $$ = new emptyInstruction(); }
 		| INTTOKEN identifier '=' integer { command::declare($2->evaluate(),_int_); $$ = new assignInstruction<int> (new varCommand<int> ($2->evaluate()), $4); }
 		| DOUBLETOKEN identifier '=' baseType    { command::declare($2->evaluate(),_baseType_);       $$ = new assignInstruction<baseType>       (new varCommand<baseType>($2->evaluate()), $4); };
@@ -138,7 +138,7 @@ networkCommand	:
 
 | NETWORK '.' RANDOMIZEWEIGHTS '(' random ')'
   { function<baseType ()> r = bind(&expression<baseType>::evaluate,$5);
-	 $$ = new bindInstruction( bind(&networkTemplate::randomizeWeights, $1, r));}
+	 $$ = new bindInstruction( bind(&networkTemplate::randomizeWeights, $1, r, network::stdNode, network::stdNode));}
 		| NETWORK '.' READINITIALCONDITION '(' createNode ',' inputFileName ')'  { $$ =	NETWORKFUNK2(readInitialCondition, $1,  _E(string,$7),  _E(nodeBlueprint *,$5) );}
 		| NETWORK '.' READPARAMS '(' string ',' inputFileName ')'
 		{ $$ =NETWORKFUNK2(readParameter, $1, _E(string,$5),_E(string,$7)); }
@@ -225,8 +225,8 @@ createNetworkCommand :  NETWORK '.' OBSERVE '(' nodeDescriptor ',' string ')'	{ 
 	| NETWORK '.' REWIRE '(' baseType  ',' createLink ')' { $$ = NETWORKFUNK3(replaceEdges,$1,_E(baseType,$5), _E(edgeBlueprint*,$7),network::stdNode); }
 	| NETWORK '.' REWIRE '(' baseType  ',' createNode ')' { $$ = NETWORKFUNK2(rewire,$1,_E(baseType,$5), _E(nodeBlueprint*,$7)); }
 
-	| NETWORK '.' REWIREUNDIRECTED '(' baseType ')' { $$ = NETWORKFUNK2(rewireUndirected,$1,_E(baseType,$5),_dynNode_); }
-	| NETWORK '.' REWIRETARGETUNDIRECTED '(' baseType ')' { $$ = NETWORKFUNK2(rewireTargetUndirected,$1,_E(baseType,$5),_dynNode_); }
+//	| NETWORK '.' REWIREUNDIRECTED '(' baseType ')' { $$ = NETWORKFUNK2(rewireUndirected,$1,_E(baseType,$5),_dynNode_); }
+//	| NETWORK '.' REWIRETARGETUNDIRECTED '(' baseType ')' { $$ = NETWORKFUNK2(rewireTargetUndirected,$1,_E(baseType,$5),_dynNode_); }
 	
 	| NETWORK '.' REWIRESOURCEPERTIMESTEP '(' baseType ',' baseType ')'
  { function<baseType ()> r = bind(&expression<baseType>::evaluate,$7);
@@ -237,11 +237,11 @@ createNetworkCommand :  NETWORK '.' OBSERVE '(' nodeDescriptor ',' string ')'	{ 
 $$ = new bindInstruction(bind(&networkTemplate::rewireWeights ,$1, bind(&expression<baseType>::evaluate, $5),r,_dynNode_)); }
 	| NETWORK '.' ADDRANDOMEDGES '(' baseType ',' createLink ')' { $$ = NETWORKFUNK2(addRandomEdges,$1,_E(baseType,$5), _E(edgeBlueprint*,$7)); }
 	| NETWORK '.' REMOVERANDOMEDGES '(' baseType ',' createLink ')' { $$ = NETWORKFUNK2(removeRandomEdges,$1,_E(baseType,$5), _E(edgeBlueprint*,$7)); }
-	| NETWORK '.' ADDRANDOMEDGESUNDIRECTED '(' baseType ',' createLink ')' { $$ = NETWORKFUNK2(addRandomEdgesUndirected,$1,_E(baseType,$5), _E(edgeBlueprint*,$7)); }
+//	| NETWORK '.' ADDRANDOMEDGESUNDIRECTED '(' baseType ',' createLink ')' { $$ = NETWORKFUNK2(addRandomEdgesUndirected,$1,_E(baseType,$5), _E(edgeBlueprint*,$7)); }
 	| NETWORK '.' ADDRANDOMEDGESDEGREEDISTRIBUTION '(' random ',' createLink ')'
  {  function<baseType ()> r = bind(&expression<baseType>::evaluate,$5); $$ = NETWORKFUNK2(addRandomEdgesDegreeDistribution,$1,r, _E(edgeBlueprint*,$7)); }
-	| NETWORK '.' ADDRANDOMEDGESDEGREEDISTRIBUTIONUNDIRECTED '(' random ',' createLink ')'
- {  function<baseType ()> r = bind(&expression<baseType>::evaluate,$5); $$ = NETWORKFUNK2(addRandomEdgesDegreeDistributionUndirected,$1,r, _E(edgeBlueprint*,$7)); }
+//	| NETWORK '.' ADDRANDOMEDGESDEGREEDISTRIBUTIONUNDIRECTED '(' random ',' createLink ')'
+// {  function<baseType ()> r = bind(&expression<baseType>::evaluate,$5); $$ = NETWORKFUNK2(addRandomEdgesDegreeDistributionUndirected,$1,r, _E(edgeBlueprint*,$7)); }
 //	| NETWORK '.' CYCLECLUSTER '<' createNode ',' nodeDescriptor '>' '<' createNode ',' integer '>' '(' integer ')' { $$ = NETWORKFUNK5(cycleCluster,$1, _E(nodeDescriptor,$7),_E(nodeBlueprint*,$5), _E(nodeDescriptor,$12),_E(nodeBlueprint*,$10), _E(nodeDescriptor,$15)); }
 	| NETWORK '.' BETWEENNESSCENTRALITY '(' string  ')' { $$ = NETWORKFUNK1(betweennessCentrality,$1,_E(string,$5)); }
 	| NETWORK '.' CLOSENESSCENTRALITY '(' string ')' { $$ = NETWORKFUNK1(closenessCentrality,$1, _E(string,$5)); }
@@ -444,7 +444,7 @@ statisticsNetworkCommandInt: NETWORK '.' DEGREE '(' nodeDescriptor ')'  {  $$ = 
 
 createNetworkCommandInt:
 		NETWORK '.' RANDOMNETWORK  '(' nodeDescriptor ',' baseType createNodeOptional  createLinkOptional ')' { $$ = INTNETWORKFUNK4(randomNetwork,$1,_E(nodeDescriptor,$5),_E(baseType,$7),_E(nodeBlueprint*,$8),_E(edgeBlueprint*,$9));}
-		| NETWORK '.' RANDOMUNDIRECTEDNETWORK  '(' nodeDescriptor ',' baseType createNodeOptional createLinkOptional ')' { $$ = INTNETWORKFUNK4(randomUndirectedNetwork,$1,_E(nodeDescriptor,$5),_E(baseType,$7),_E(nodeBlueprint*,$8),_E(edgeBlueprint*,$9));}
+//		| NETWORK '.' RANDOMUNDIRECTEDNETWORK  '(' nodeDescriptor ',' baseType createNodeOptional createLinkOptional ')' { $$ = INTNETWORKFUNK4(randomUndirectedNetwork,$1,_E(nodeDescriptor,$5),_E(baseType,$7),_E(nodeBlueprint*,$8),_E(edgeBlueprint*,$9));}
 		| NETWORK '.' SCALEFREENETWORK  '(' nodeDescriptor ',' nodeDescriptor createNodeOptional createLinkOptional ')' { $$ = INTNETWORKFUNK4(scaleFreeNetwork,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(nodeBlueprint*,$8),_E(edgeBlueprint*,$9));}
 		| NETWORK '.' COMPLETENETWORK   '(' integer  createNodeOptional createLinkOptional ')' { $$ = INTNETWORKFUNK3(completeNetwork,$1,_E(int,$5),_E(nodeBlueprint*,$6),_E(edgeBlueprint*,$7)); }
 		| NETWORK '.' LATTICE '(' integer ',' integer ',' baseType createNodeOptional createLinkOptional ')' { $$ = INTNETWORKFUNK5(lattice,$1,_E(int,$5),_E(int,$7),_E(baseType,$9), _E(nodeBlueprint*,$10), _E(edgeBlueprint*,$11)); }
