@@ -94,6 +94,23 @@ class convertToNodeDescriptor : public expression <nodeDescriptor>
 
 };
 
+class fileNameExpression : public expression <string>
+{	
+	private:
+		expression<string> *sExp;
+	public:
+		fileNameExpression(expression<string> *n) : sExp(n) {};
+		virtual string evaluate()
+		{
+			command::addInputFile (sExp->evaluate());
+			return sExp->evaluate();
+		}
+
+};
+
+
+
+
 
 //! TODO hier ist irgendwas faul. Der bison macht da eventuell unendlich lange Bäume, wenn int und double ineinander umwandelbar sind.
 class convertToInt : public expression <int>

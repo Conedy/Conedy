@@ -307,12 +307,19 @@ template <class N>
 	};
 
 
-	networkTemplate * networkFactory()
+	networkTemplate * directedNetworkFactory()
 	{
 		networkTemplate n;
+		n.setDirected();
 		return new networkTemplate(n);
 	}
 
+	networkTemplate * undirectedNetworkFactory()
+	{
+		networkTemplate n;
+		n.setUndirected();
+		return new networkTemplate(n);
+	}
 
 
 	using namespace boost::python;
@@ -329,13 +336,15 @@ template <class N>
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (lattice_overloads, lattice, 2,5);
 	//BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (evolve_overloads, evolve, 2,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (rewire_overloads, rewire, 1,2);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (randomizeWeights_overloads, randomizeWeights, 1,3);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (removeNodes_overloads, removeNodes, 0,1);
 	//BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (addEdge_overloads, addEdge, 2,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (rewireUndirected_overloads, rewireUndirected, 1,2);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (randomNetwork_overloads, randomNetwork, 2,4);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (randomUndirectedNetwork_overloads, randomUndirectedNetwork, 2,4);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (randomizeStates_overloads, randomizeStates, 2,4);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observe_overloads, observe, 2,3);
-	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observeAll_overloads, observeAll, 1,2);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observeAll_overloads, observeAll, 1,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (completeNetwork_overloads, completeNetwork, 1,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (cycle_overloads, cycle, 2,4);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (createFromAdjacencyList_overloads, createFromAdjacencyList, 1,3);
@@ -411,6 +420,7 @@ template <class N>
 
 		class_<createNetwork>("createNetwork");
 		class_<dynNetwork>("dynNetwork");
+		
 
 		class_<networkTemplate, bases <createNetwork, dynNetwork> >("network")
 			//	 class_<networkTemplate >("directedNetwork")
@@ -419,7 +429,6 @@ template <class N>
 			.def("lattice", &networkTemplate::lattice, lattice_overloads(reinterpret_cast<const char *>(__createNetwork_lattice)))
 
 			// dynNetwork commands
-			//
 			.def("evolve", &networkTemplate::evolve, reinterpret_cast<const char *>(__dynNetwork_evolve))
 			.def("snapshot", &networkTemplate::snapshot, reinterpret_cast<const char *>(__dynNetwork_snapshot))
 			.def("observe", &networkTemplate::observe, observe_overloads (reinterpret_cast<const char *>(__dynNetwork_observe)))
@@ -431,13 +440,19 @@ template <class N>
 			.def("removeObserver", &networkTemplate::removeObserver, reinterpret_cast<const char *>(__dynNetwork_removeObserver))
 
 			////network commands
-			.def("addNode", &networkTemplate::addNode, reinterpret_cast<const char *>(__network_addNode))
 			.def("addEdge", &networkTemplate::addEdge, reinterpret_cast<const char *>(__network_addEdge))
+			.def("addNode", &networkTemplate::addNode, reinterpret_cast<const char *>(__network_addNode))
+			.def("addWeightedEdge", &networkTemplate::addWeightedEdge, reinterpret_cast<const char *>(__network_addWeightedEdge))
 			.def("clear", &networkTemplate::clear, reinterpret_cast<const char *>(__network_clear))
-			//		.def("addWeightedEdge", &networkTemplate::addWeightedEdge, reinterpret_cast<const char *>(__network_addWeightedEdge))
-			//
+			.def("replaceNodes", &networkTemplate::replace, reinterpret_cast<const char *>(__network_replace))
+			.def("removeNodes", &networkTemplate::removeNodes, reinterpret_cast<const char *>(__network_removeNodes))
+			.def("isLinked", &networkTemplate::isLinked, reinterpret_cast<const char *>(__statisticsNetwork_isLinked))
+			.def("linkStrength", &networkTemplate::linkStrength, reinterpret_cast<const char *>(__statisticsNetwork_linkStrength))
+			.def("size", &networkTemplate::size, reinterpret_cast<const char *>(__statisticsNetwork_size))	
+			.def("randomizeWeights", &networkTemplate::randomizeWeights_overloads, reinterpret_cast<const char *>(__createNetwork_randomizeWeights))
+			.def("removeEdges", &networkTemplate::removeEdges, reinterpret_cast<const char *>(__createNetwork_addRandomEdges))
+
 			////statisticsNetworkCommands
-			//
 			.def("betweennessCentrality", &networkTemplate::betweennessCentrality, reinterpret_cast<const char *>(__statisticsNetwork_betweennessCentrality))
 			.def("closenessCentrality", &networkTemplate::closenessCentrality, reinterpret_cast<const char *>(__statisticsNetwork_closenessCentrality))
 			.def("degreeCentrality", &networkTemplate::degreeCentrality, reinterpret_cast<const char *>(__statisticsNetwork_degreeCentrality))
@@ -450,15 +465,13 @@ template <class N>
 			.def("readInitialCondition", &networkTemplate::readInitialCondition, reinterpret_cast<const char *>(__createNetwork_readInitialCondition))
 			.def("meanPathLength", &networkTemplate::meanPathLength, reinterpret_cast<const char *>(__statisticsNetwork_meanPathLength))
 			.def("isConnected", &networkTemplate::isConnected, reinterpret_cast<const char *>(__statisticsNetwork_isConnected))
-			.def("isLinked", &networkTemplate::isLinked, reinterpret_cast<const char *>(__statisticsNetwork_isLinked))
 			.def("isDirected", &networkTemplate::isDirected, reinterpret_cast<const char *>(__statisticsNetwork_isDirected))
 			.def("getState", &networkTemplate::getState, getState_overloads(reinterpret_cast<const char *>(__statisticsNetwork_getState)))
 			.def("getParam", &networkTemplate::getParam, reinterpret_cast<const char *>(__statisticsNetwork_getParam))
 			.def("setParam", &networkTemplate::setParam, reinterpret_cast<const char *>(__dynNetwork_setParam))
 
-			.def("removeEdge", &networkTemplate::unlink, reinterpret_cast<const char *>(__createNetwork_removeEdge))
+			.def("removeEdge", &networkTemplate::removeEdge, reinterpret_cast<const char *>(__createNetwork_removeEdge))
 			// createNetwork commands
-			.def("removeEdges", &networkTemplate::removeEdges, reinterpret_cast<const char *>(__createNetwork_addRandomEdges))
 			.def("removeRandomEdges", &networkTemplate::removeRandomEdges, reinterpret_cast<const char *>(__createNetwork_removeRandomEdges))
 			.def("removeRandomEdgesUndirected", &networkTemplate::removeRandomEdgesUndirected, reinterpret_cast<const char *>(__createNetwork_removeRandomEdgesUndirected))
 			.def("addRandomEdges", &networkTemplate::addRandomEdges, addRandomEdges_overloads (reinterpret_cast<const char *>(__createNetwork_addRandomEdges)))
@@ -481,7 +494,6 @@ template <class N>
 			.def("setState", &networkTemplate::setInitialCondition, setState_overloads (reinterpret_cast<const char *>(__createNetwork_setState)))
 			.def("rewire", &networkTemplate::rewire ,  rewire_overloads( reinterpret_cast< const char *> (__createNetwork_rewire)))
 			.def("rewireUndirected", &networkTemplate::rewireUndirected ,  rewireUndirected_overloads( reinterpret_cast< const char *> (__createNetwork_rewireUndirected)))
-			.def("randomizeWeights", &networkTemplate::randomizeWeights, reinterpret_cast<const char *>(__createNetwork_randomizeWeights))
 			.def("randomizeStates", &networkTemplate::randomizeStates ,  randomizeStates_overloads( reinterpret_cast< const char *> (__createNetwork_randomizeStates)))
 			.def("randomizeParameter", &networkTemplate::randomizeParameter, reinterpret_cast<const char *>(__createNetwork_randomizeParameter));
 
@@ -574,6 +586,12 @@ template <class N>
 
 
 
+		class_<networkTemplate, bases <networkTemplate> >("directedNetwork")
+				.def ("__init__", make_constructur(directedNetworkFactory));
+
+
+		class_<networkTemplate, bases <networkTemplate> >("undirectedNetwork")
+				.def ("__init__", make_constructur(undirectedNetworkFactory));
 
 		//	class_< delayEdge
 

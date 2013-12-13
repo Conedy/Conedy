@@ -17,12 +17,37 @@ namespace conedy
 	}
 
 
-	//! Verbindet sourceNode und targetNode bidirektional mit einer Verbindung vom Typ l
-	void network::link( nodeDescriptor  sourceNode, nodeDescriptor targetNode, edgeBlueprint *l)
+
+
+	void network::addEdge(nodeDescriptor source, nodeDescriptor target, edgeBlueprint *l)
 	{
-		addEdge(sourceNode, targetNode, l);
-		addEdge(targetNode, sourceNode, l);
+		if (directed)
+			link (source,target, l);
+		else
+		{	
+			link (source,target, l);
+			link (target,source, l);
+		}
+
+
 	}
+
+
+	void network::addWeightedEdge(nodeDescriptor source, nodeDescriptor target, baseType weight)
+	{
+		if (directed)
+			link (source,target, weight);
+		else
+		{	
+			link (source,target, weight);
+			link (target,source, weight);
+		}
+
+
+	}
+
+
+
 
 
 
@@ -34,7 +59,7 @@ namespace conedy
 		edgesMatching(el, edgeType);
 		edgeIterator ei;
 		for (ei = el.begin(); ei != el.end(); ei++)
-			removeEdge(*ei);
+			remove(*ei);
 		clean(); // unsinnXXX todo
 
 	}
@@ -89,18 +114,6 @@ namespace conedy
 	}
 
 
-
-	//! Verbinde sourceNode mit allen Nodes der Art targetNodeKind bidirektional
-	void network::link (nodeDescriptor sourceNode, nodeKind targetNodeKind, edge *l)
-	{
-		nodeIterator it;
-		nodeList vl;
-		verticesMatching(vl,targetNodeKind);
-		for (it = vl.begin(); it != vl.end(); it++)
-		{
-			link(sourceNode, *it,l);
-		}
-	}
 
 
 
@@ -363,7 +376,7 @@ void network::remove ( nodeKind theNodeKind )
 }
 
 
-
+//
 
 unsigned int network::randomNode(nodeKind nodeKind)
 {
@@ -381,13 +394,13 @@ unsigned int network::randomNode(nodeKind nodeKind)
 
 
 
+void network::randomizeWeights (function<baseType()> r, nodeBlueprint *n1 , nodeBlueprint *n2 )
 
-void network::randomizeSomeWeights ( boost::function<baseType () > r,nodeKind sourceNodeKind, nodeKind targetNodeKind )
-{
+  {
 
 	network::edgeList toChange;
 
-	edgesBetween(toChange,sourceNodeKind, targetNodeKind);
+	edgesBetween(toChange,n1, n2);
 	edgeIterator it;
 	for (it = toChange.begin(); it != toChange.end(); it++)
 		if (getEdgeInfo(*it).theEdgeKind & _weighted_)
@@ -438,7 +451,7 @@ nodeDescriptor network::addNode ( nodeBlueprint *n )
 	return  newNodeNumber;
 }
 
-void network::addWeightedEdge ( nodeDescriptor s, nodeDescriptor t, baseType weight )
+void network::link ( nodeDescriptor s, nodeDescriptor t, baseType weight )
 {
 
 	nodeKind nk = node::theNodes[s]->getNodeInfo().theNodeKind;
@@ -463,7 +476,7 @@ bool network::isLinked ( nodeDescriptor i, nodeDescriptor j)
 }
 
 
-void network::addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l )
+void network::link ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l )
 { // differential equations mirror the direction of coupling, for performance reasons.
 	nodeKind nk = node::theNodes[s]->getNodeInfo().theNodeKind;
 	if (nk & _ode_ || nk & _sde_ || nk & _mapNode_)
@@ -474,17 +487,21 @@ void network::addEdge ( nodeDescriptor s, nodeDescriptor t, edgeBlueprint *l )
 }
 
 
+void network::unlink ( nodeDescriptor s, nodeDescriptor t)
+{ // differential equations mirror the direction of coupling, for performance reasons.
+	nodeKind nk = node::theNodes[s]->getNodeInfo().theNodeKind;
+	if (nk & _ode_ || nk & _sde_ || nk & _mapNode_)
+		node::theNodes[t]->unlink (s);
+	else
+		node::theNodes[s]->unlink (t);
+
+}
+
 
 
 // edges are described by an integer for the source node and an identifier which is defined in node.
 //			typedef pair<nodeDescriptor, node::edgeDescriptor> edgeDescriptor;
 
-void network::link ( nodeDescriptor s, nodeDescriptor t, baseType weight )
-{
-
-	node::theNodes[s]->link ( t, weight );
-	node::theNodes[s]->link ( s ,weight );
-}
 
 
 void network::clear ()
@@ -521,11 +538,49 @@ void network::clear ()
 		}
 
 
+		bool compareByTargets (network::edgeDescriptor l, network::edgeDescriptor r) {return network::getTarget(l) < network::getTarget(r); } 
 
 
 
 
 
+
+	bool network::isGraph()
+	{
+		nodeList vl;
+		nodeIterator vi;
+		verticesMatching (vl, _dynNode_);
+		edgeList el;
+
+		for (vi = vl.begin(); vi != vl.end(); vi++)
+		{
+				edgesBetween (el, *vi, _dynNode_);
+//				el.sort ([&](edgeDescriptor l, edgeDescriptor r) -> bool { return getTarget(l)  < getTarget (r); } )
+				el.sort (compareByTargets);
+							
+
+
+				edgeIterator ePrev = el.begin();
+				if (getTarget (*ePrev) == getSource(*ePrev))
+						return 0;		
+				
+				edgeIterator eSucc  = el.begin(); eSucc ++;
+				for (; eSucc != el.end(); ePrev++, eSucc++)
+				{
+					if ((getTarget(*ePrev) == getTarget (*eSucc)) ||
+						(getTarget(*eSucc) == getSource (*eSucc)))
+						return 0;	
+					
+				}
+				el.clear();
+
+		}
+		return 1;
+
+
+
+
+	}
 
 
 

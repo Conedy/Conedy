@@ -14,11 +14,11 @@ N.observeTime("output/sdeIntegrator.co.series");
 N.observe(0, "output/sdeIntegrator.co.series",component(0));
 N.evolve(0.0,15000.0);
 
-
+N.removeObserver();
 
 # to calculate the variance of the ornstein-uhlenbeck
 # variance should be diffusion^2/(2*drift)
-:"python sdeIntegratorVarianceTest.py output/sdeIntegrator.co.series":;
+:"./sdeIntegratorVarianceTest.py output/sdeIntegrator.co.series":;
 
 
 

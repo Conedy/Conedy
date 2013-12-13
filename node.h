@@ -30,10 +30,11 @@ namespace conedy
 
 
 
-	typedef char edgeKind;
+	typedef char edgeKind;   // edge kinds determine if an edge is weighted or not.
 
 	const edgeKind	_weighted_	= 1 << 1;
 	const edgeKind	_polynomial_	= 1 << 2;  // erbt von params<vector<baseType>>
+
 
 	//! identifier for nodes, determines the maximum number of nodes.
 	typedef unsigned int nodeDescriptor;
@@ -45,7 +46,7 @@ namespace conedy
 		networkElementType theNodeType;
 		// a bit mask for booleans which specify the kind of the node. inNode | outNode | dynNode
 		nodeKind  theNodeKind;
-		// the node name. Is used by printNodeStatistics
+		// the node name. Printey by printNodeStatistics 
 		string theNodeName;
 	};
 
@@ -55,6 +56,7 @@ namespace conedy
 		networkElementType theEdgeType;
 		// bit mask with the node type,
 		edgeKind theEdgeKind;
+		// the edge name. Printed by printNodeStatistics
 		string theEdgeName;
 	};
 
@@ -203,7 +205,7 @@ namespace conedy
 
 			// manage connections
 			
-			//! removes all edges pointing to targetNumber.
+			//! removes all edges pointing to targetNumber. Warning: removing edges invalidates edgeDescriptors!
 			virtual bool unlink (nodeDescriptor targetNumber)  { throw "unimplemented function unlink of node called!"; };
 
 			//! remove edge e.
@@ -237,8 +239,6 @@ namespace conedy
 			//! returns the number of connections 
 			virtual unsigned int degree()  { throw "unimplemented function degree of node called!"; };
 
-			//! gibt den lokalen Clustering-coeffizient zurück vom Knoten TODO move to statisticNetwork
-			virtual baseType clustering ()  { throw "unimplemented function clustering of node called!"; };
 
 			//! gibt die Summe der Verbindungsgewichte aller ausgehende Verbindungen zurück TODO move to statisticNetwork.
 			virtual baseType weightSum()  { throw "unimplemented function weightSum of node called!"; };

@@ -21,10 +21,8 @@ namespace conedy
 			bool isConnected();
 
 			nodeDescriptor degree (nodeDescriptor v) { return node::theNodes[v]->degree(); }
-			double meanDegree() { return meanOutDegree();}
 
-			baseType meanInDegree ();
-			baseType meanOutDegree ();
+			baseType meanDegree ();
 
 			int inDegree(nodeDescriptor n);
 			int outDegree(nodeDescriptor n);
@@ -37,7 +35,6 @@ namespace conedy
 			void degreeCentrality ( string filename );
 			void closenessCentrality ( string filename );
 			void betweennessCentrality ( string filename );
-
 
 
 			baseType meanWeight();

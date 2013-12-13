@@ -1,10 +1,12 @@
 network N;
 
+setRandomSeed(0);
 
 N.completeNetwork (10, node(), edge());
 print "Should be 9: " + N.meanDegree() + newline;
 
 N.clear();
+
 N.cycle(50, 3, node(), weightedEdge());
 N.rewire(0.9);
 print "Should be 6: " + N.meanDegree() + newline;

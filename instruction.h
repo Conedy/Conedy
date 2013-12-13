@@ -35,7 +35,7 @@ class systemInstruction : public instruction
 			if (system(theCommand->evaluate().c_str()))
 			{
 				cout <<  "system Command Failed!" << endl;
-				//				throw theCommand.c_str();
+								throw theCommand->evaluate().c_str();
 			}
 		}
 };

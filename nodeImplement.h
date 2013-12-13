@@ -11,11 +11,38 @@
 #include <complex>
 
 
-//TODO zweiter Template-parameter wird nicht benötigt.
-
-using namespace std;
-
 namespace conedy {
+
+	template <typename T>
+		void eraseZero (vector <T> & vec)
+		{
+			unsigned int read = 0;
+			unsigned int write = 0;
+			for (read =0; read < vec.size();read ++)
+			{
+				if (vec[read] == 0)
+					continue;
+				vec[write] = vec[read];
+				write++;
+			}
+			vec.resize(write);
+
+		}
+
+
+	template <typename T>
+		void eraseAll (vector <T> & vec, T what)
+		{
+			unsigned int read = 0;
+			unsigned int write = 0;
+			for (read =0; read < vec.size();read ++)
+			{
+				if (vec[read] == what)
+					continue;
+				vec[write] = vec[read];
+				write++;
+			}
+		}
 
 
 
@@ -99,20 +126,10 @@ namespace conedy {
 
 			virtual void removeEdge	(edgeDescriptor e)
 			{
-				delete outEdges[e];
-				for (unsigned int i = e; i < outEdges.size() - 1;i++ )
-					outEdges[i] = 	outEdges[i+1];
-				outEdges.resize(outEdges.size() - 1);
+				outEdges[e]->targetNumber = -1;
 			}
 
-			virtual void removeEdges() 
-			{ 
-				for (unsigned int i = 0; i < outEdges.size();i++)
-					delete outEdges[i];						
-				outEdges.clear(); 
-
-
-			}
+			virtual void removeEdges() { outEdges.clear(); }
 
 			virtual void link (nodeDescriptor targetNumber, baseType weight);
 			virtual void link (nodeDescriptor targetNumber, edgeVirtual	*l);
@@ -131,7 +148,6 @@ namespace conedy {
 			// Statistikkram
 			//		virtual void printStatistics();
 			virtual unsigned int degree() { return outEdges.size();}
-			virtual baseType clustering ();
 			virtual baseType weightSum();
 			virtual baseType inWeightSum();
 			//			virtual nodeDescriptor getNumber(); // { return ( nodeDescriptor ) number; };
@@ -186,18 +202,22 @@ namespace conedy {
 	template <typename DYNNODE>
 		bool nodeVirtualEdges<DYNNODE>::unlink ( nodeDescriptor target )
 		{
-			unsigned int  read, write;
-			read = write = 0; 
+			bool res = false;
+			edgeIterator s;
 
-			for (; read != outEdges.size(); read++, write++ )
+			for ( s=outEdges.begin(); s != outEdges.end(); s++ )
 			{
-				while ( outEdges[read] ->targetNumber  == target )
-					read++;
-				outEdges[write] = outEdges[read];	
-
+				if ((*s)->targetNumber  == target )
+				{
+					res = true;
+					//				outEdges.remove(s);
+					//				delete *s;
+					//				outEdges.erase ( s );
+					(*s)->targetNumber = (nodeDescriptor)-1;
+					break;
+				}
 			}
-			outEdges.resize(write);	
-			return read==write;
+			return res;
 		}
 
 
@@ -265,7 +285,6 @@ void nodeVirtualEdges<DYNNODE>::fire ()
 	it =  outEdges.begin();
 	end = outEdges.end();
 	for ( ;it!=end; it++ )
-		 
 		((dynNode*)(node::theNodes[(*it)->getTarget()] ) ) ->excite ( (*it) ->getWeight() );
 }
 
@@ -274,9 +293,11 @@ void nodeVirtualEdges<DYNNODE>::fire ()
 template <typename DYNNODE>
 baseType nodeVirtualEdges<DYNNODE>::inWeightSum() {
 	baseType res = 0;
+	vector<node *>::iterator it;
+	
 	for (unsigned int i = 0 ; i < DYNNODE::theNodes.size(); i++)
 		res+= linkStrength(i);
-
+	
 	return res;
 }
 
@@ -329,7 +350,7 @@ void nodeVirtualEdges<DYNNODE>::normalizeInWeightSum(baseType d)
 	vector<nodeDescriptor> presynaptics;
 
 	for (i = 0; i < node::theNodes.size(); i++)
-		if ((a = node::theNodes[i]->linkStrength(DYNNODE::getNumber()))) {
+		if ((a = node::theNodes[i]->linkStrength(this->getNumber()))) {
 
 			//					inWeightSum += a;
 			presynaptics.push_back (i);
@@ -355,29 +376,13 @@ baseType nodeVirtualEdges<DYNNODE>::linkStrength ( nodeDescriptor target )
 	edgeIterator s;
 	for ( s=outEdges.begin(); s != outEdges.end(); s++ )
 	{
-		if (  (*s)->targetNumber  == target)
+		if (  (*s)->targetNumber  == target )
 		{
 			res = ( *s )->getWeight();
 			break;
 		}
 	}
 	return res;
-}
-
-	template <typename DYNNODE>
-baseType nodeVirtualEdges<DYNNODE>::clustering ()
-{
-	baseType linkedFriends = 0;
-	edgeIterator s,t;
-	for ( s=outEdges.begin();s != outEdges.end();s++ )
-		for ( t= outEdges.begin(); t!= outEdges.end();t++ )
-		{
-			linkedFriends = linkedFriends + ( node::theNodes[( * s )->getTarget()] ->linkStrength ( ( *t )->getTarget() ) ) ;
-		}
-	if ( outEdges.size() > 1 )
-		return ( baseType ) linkedFriends / ( outEdges.size() * ( outEdges.size() -1 ) );
-	else
-		return 0;
 }
 
 
@@ -425,10 +430,6 @@ class nodeTemplateEdges : public DYNNODE
 
 		virtual void removeEdge	(edgeDescriptor e)
 		{
-//			delete outEdges[e];
-			for (unsigned int i = e; i < outEdges.size() - 1;i++ )
-				outEdges[i] = 	outEdges[i+1];
-			outEdges.resize(outEdges.size() - 1);
 			outEdges[e].targetNumber = -1;
 		}
 
@@ -506,7 +507,6 @@ class nodeTemplateEdges : public DYNNODE
 		// Statistikkram
 		//		virtual void printStatistics();
 		virtual unsigned int degree() { return outEdges.size();}
-		virtual baseType clustering ();
 		virtual baseType weightSum();
 		virtual baseType inWeightSum();
 		//			virtual nodeDescriptor getNumber(); // { return ( nodeDescriptor ) number; };
@@ -590,8 +590,9 @@ baseType nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::getMeanPhaseCoherence()
 	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
 baseType nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::inWeightSum ()
 {
-
 	baseType res = 0;
+	vector<node *>::iterator it;
+	
 	for (unsigned int i = 0 ; i < DYNNODE::theNodes.size(); i++)
 		res+= linkStrength(i);
 	
@@ -630,7 +631,7 @@ void nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::normalizeInWeightSum(baseType
 	vector<nodeDescriptor> presynaptics;
 
 	for (i = 0; i < node::theNodes.size(); i++)
-		if ((a = node::theNodes[i]->linkStrength(this->getNumber()))) {
+		if ((a = node::theNodes[i]->linkStrength(DYNNODE::getNumber()))) {
 
 			//					inWeightSum += a;
 			presynaptics.push_back (i);
@@ -666,20 +667,6 @@ baseType nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::linkStrength ( nodeDescri
 	return res;
 }
 
-
-	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
-baseType nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::clustering ()
-{
-	baseType linkedFriends = 0;
-	edgeIterator s,t;
-	for ( s=outEdges.begin();s != outEdges.end();s++ )
-		for ( t= outEdges.begin(); t!= outEdges.end();t++ )
-			linkedFriends = linkedFriends +  node::theNodes[s->getTarget()]->linkStrength ( t->getTarget() )  ;
-	if ( outEdges.size() > 1 )
-		return ( baseType ) linkedFriends / ( outEdges.size() * ( outEdges.size() -1 ) );
-	else
-		return 0;
-}
 
 
 
@@ -728,20 +715,25 @@ void nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::link (nodeDescriptor targetNu
 	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
 bool nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::unlink ( nodeDescriptor target )
 {
+	bool res = false;
+	edgeIterator s;
 
-	unsigned int  read, write;
-	read = write = 0; 
-
-	for (; read != outEdges.size(); read++, write++ )
+	//		outEdges.remove(target);
+	for ( s=outEdges.begin(); s != outEdges.end(); s++ )
 	{
-		while (outEdges[read].targetNumber  == target )
-			read++;
-		outEdges[write] = outEdges[read];	
+		if (  s->targetNumber == target )
+		{
+			res = true;
+			//				outEdges.remove(s);
+			//				delete *s;
+			//		outEdges.erase ( s );
 
+			s->targetNumber = (nodeDescriptor) -1;
+
+			break;
+		}
 	}
-	outEdges.resize(write);	
-	return read!=write;
-
+	return res;
 }
 
 	template <typename EDGE, typename EDGEVIRTUAL, typename DYNNODE>
@@ -778,7 +770,6 @@ bool nodeTemplateEdges<EDGE,EDGEVIRTUAL, DYNNODE>::isLinked ( nodeDescriptor tar
 	}
 
 */
-
 
 
 
