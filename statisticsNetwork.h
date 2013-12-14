@@ -15,29 +15,42 @@ namespace conedy
 	{
 		public:
 			
-			void printStatistics ();
+//			void printStatistics ();
+
+
 			void printNodeStatistics();
 
+			//! returns true if the network has only one connected component. (works only for undirected networks at the moment.)
 			bool isConnected();
 
+			//! returns the degree of node v
 			nodeDescriptor degree (nodeDescriptor v) { return node::theNodes[v]->degree(); }
 
+			//! returns the mean degree of the network
 			baseType meanDegree ();
 
+			//! return the in-degree of node n
 			int inDegree(nodeDescriptor n);
+
+			//! return the out-degree of node n
 			int outDegree(nodeDescriptor n);
 
+			//! returns the mean clustering coefficient
 			baseType meanClustering();
+
 			void printStatistics ( string s );
-			void dijkstra( vector<baseType>& ret, nodeList vl, unsigned int v);
+
+
 			baseType meanPathLength();
-//			baseType meanDistanceMult();
+
+			baseType meanWeight();
+
 			void degreeCentrality ( string filename );
 			void closenessCentrality ( string filename );
 			void betweennessCentrality ( string filename );
 
+			//			baseType meanDistanceMult();
 
-			baseType meanWeight();
 
 			unsigned int countEdges (edgeVirtual *e);
 
@@ -51,8 +64,7 @@ namespace conedy
 
          void saveAdjacencyMatrix (string fileName);
 
-
-			void loadGraphML(string fileName) { throw "loadGraphML is a stub !";}
+//			void loadGraphML(string fileName) { throw "loadGraphML is a stub !";}
 
 			void printAdjacencyList();
 
@@ -60,15 +72,11 @@ namespace conedy
 
 			double networkSize();
 
+			void dijkstra( vector<baseType>& ret, nodeList vl, unsigned int v);
 
 			vector<unsigned int> inDegreeDistribution();
 			vector<int> outDegreeDistribution();
-			void print ( int s )
-			{
-				cout << s << flush; cout << ( char ) 8; if ( s > 9 ) cout << ( char ) 8;;
 
-
-			};
 
 			statisticsNetwork() {};
 

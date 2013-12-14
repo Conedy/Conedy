@@ -133,7 +133,7 @@ namespace conedy
 		//	void rewireSourcePerTimestep ( double prop,function <baseType() > r, nodeKind theNodeKind = _dynNode_ );
 
 			//! Ersetzt Verbindungen mit Start- und Zielknoten der Art theNodeKind, durch ähnliche (kopierte) Verbindungen mit zufällig gewählten Zielknoten und unverändertem  Startknoten
-			void rewireTarget ( double prop ,nodeKind theNodeKind = _dynNode_ ) { directed ? rewireTargetDirected (prop, theNodeKind) : rewireTargetUndirected (prop, theNodKind);}
+			void rewireTarget ( double prop ,nodeKind theNodeKind = _dynNode_ ) { directed ? rewireTargetDirected (prop, theNodeKind) : rewireTargetUndirected (prop, theNodeKind);}
 			void rewireTargetDirected ( double prop ,nodeKind theNodeKind = _dynNode_ );
 			void rewireTargetUndirected ( double prop, nodeKind theNodeKinde = _dynNode_ );
 
@@ -155,72 +155,50 @@ namespace conedy
 			// observe commands.
 
 
-			void observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l);
+			nodeDescriptor addStreamOutNode (string s);
 
+			
+			void observeEvent (string s, nodeDescriptor signature);
 			void observeEventTimes( string fileName,nodeDescriptor eventNumber );
 			void observeEventTimesEquals ( string fileName, nodeDescriptor eventNumber );
 			void observeEventSignatureTimes( string fileName,nodeDescriptor eventNumber );
-			void observeComponents (nodeDescriptor n, string fileName);
-
-
-			void observeTime ( string s );
-
-			//! observiert den Knoten number über eine Edge vom Typ l und  schreibt in die Datei s
-			void observe (  nodeDescriptor number, string s,edgeBlueprint * l  = stdEdge);
-
-
-
 			void observeEventCounter ( string s, unsigned int signature);
 
-			//! wie oben. Phasen werden von Edges vom Typ l übergeben.
-			void observeMeanPhase ( string s, edgeBlueprint *l );
 
+			//! Observe the system time
+			void observeTime ( string s );
+		
+			//! Observe all components of a node (e.g. all three variables of a roessler oscillator)
+			void observeComponents (nodeDescriptor n, string fileName);
 
-			void observeMeanPhase ( string s );
-
+			//! observe node number via an edge of type l 
+			void observe (  nodeDescriptor number, string s,edgeBlueprint * l  = stdEdge);
 
 			//! wie oben mit links vom Typ l
 			void observeSum ( string s, edgeBlueprint *l = stdEdge );
 
-			void observeEvent (string s, nodeDescriptor signature);
-
-
-			//! wie oben allerdings wird die Phasenkohärenz r der States s_i weggeschrieben: r = 1/N \sum\limits_i exp( 2 * PI * s_i). Phasen gehen von 0 bis 1 !!! TODO: vielleicht von streamOutNode erben ??
-
-
-			//! wie oben. Phasen werden von Edges vom Typ l übergeben.
-//			void observeAllPhaseCoherence ( string s, edgeBlueprint *l );
-
-			void observePhaseCoherence ( string s, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode, nodeDescriptor lower = 0, nodeDescriptor upper = numeric_limits<nodeDescriptor>::max());
+			void observeAll ( string s, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode);
 
 			void observeHist ( string s,    nodeBlueprint *n);
 
-			void observePhaseCorrelation ( string s, nodeBlueprint *n);
-			void observePhaseDistance ( string s, nodeBlueprint *n);
-
-			void observeAll ( string s, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode);
 
 
-//			void streamInBinary ( string s );
 
-//			void streamOutBinary ( string s, char flags = 24 );
+			//! wie oben. Phasen werden von Edges vom Typ l übergeben.
+			void observeMeanPhase ( string s, edgeBlueprint *l=stdEdge );
 
-
-//			void addEnterNode ( string s );
-
-//			void observeHidden ( string s, int number );
+			void observePhaseCoherence ( string s, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode);
+					
 
 
 
 
 
 
-//			void observeAllHiddenVariables ( string s );
 
-//			void observeRandom ( string s );
 
-			//			template <typename NODETYPE>
-			//				void dummy();
+
+
 
 
 

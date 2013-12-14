@@ -110,7 +110,7 @@ networkCommand	:
 		| NETWORK '.' ADDNODE  '(' createNode ')' { $$ = NETWORKFUNK1(addNode,$1,_E(nodeBlueprint*,$5)); }
 		| NETWORK '.' PRINTNODESTATISTICS '(' ')'{ $$ = NETWORKFUNK(printNodeStatistics,$1); }
 		| NETWORK '.' ADDEDGE '(' nodeDescriptor ',' nodeDescriptor ',' baseType ')' { $$ = NETWORKFUNK3(addWeightedEdge,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(baseType,$9)); }
-		| NETWORK '.' UNLINK '(' nodeDescriptor ',' nodeDescriptor ')' { $$= NETWORKFUNK2(unlink,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7)); }
+//		| NETWORK '.' UNLINK '(' nodeDescriptor ',' nodeDescriptor ')' { $$= NETWORKFUNK2(remo,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7)); }
 		| NETWORK '.' SETTIME '(' baseType ')' { $$= NETWORKFUNK1(setTime,$1,_E(baseType,$5)); }
 
 		| NETWORK '.' SELECT '(' string  ')' { $$ = NETWORKFUNK1(select, $1, _E(string, $5)); }
@@ -212,7 +212,7 @@ createNetworkCommand :  NETWORK '.' OBSERVE '(' nodeDescriptor ',' string ')'	{ 
 	| NETWORK '.' REMOVEOBSERVER '(' ')' { $$ = NETWORKFUNK(removeObserver,$1); }
 //	| NETWORK '.' REMOVEINPUT   '(' ')' { $$ = NETWORKFUNK1(remove,$1,_inNode_| _dynNode_ ); }
 	| NETWORK '.' REMOVEEDGES '(' createLink ')' { $$ = NETWORKFUNK1 (removeEdges, $1, _E(edgeBlueprint*, $5)); }
-	| NETWORK '.' REMOVEEDGE '(' nodeDescriptor ',' nodeDescriptor ')' { $$ = NETWORKFUNK2 (unlink, $1, _E(nodeDescriptor, $5), _E(nodeDescriptor, $7)  ); }
+	| NETWORK '.' REMOVEEDGE '(' nodeDescriptor ',' nodeDescriptor ')' { $$ = NETWORKFUNK2 (removeEdge, $1, _E(nodeDescriptor, $5), _E(nodeDescriptor, $7)  ); }
 	| NETWORK '.' CONNECTCLOSENODES '(' createNode ',' createNode ',' baseType ',' createLink ')' { $$ = NETWORKFUNK4(connectCloseNodes, $1, _E(nodeBlueprint *, $5), _E(nodeBlueprint *, $7), _E(baseType, $9), _E(edgeBlueprint*,$11)); }
 	| NETWORK '.' CONNECTCLOSENODESTORUS '(' createNode ',' createNode ',' baseType ',' createLink ')' { $$ = NETWORKFUNK4(connectCloseNodesTorus, $1, _E(nodeBlueprint *, $5), _E(nodeBlueprint *, $7), _E(baseType, $9), _E(edgeBlueprint*,$11)); }
 	| NETWORK '.' SETPARAM '(' nodeDescriptor ',' string ',' baseType ')' { $$ = NETWORKFUNK3(setParam, $1, _E(nodeDescriptor,$5), _E(string, $7), _E(baseType,$9));}

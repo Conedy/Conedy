@@ -99,6 +99,9 @@ namespace conedy
 			//! remove edge e fromthe network.
 			void removeEdges (edgeBlueprint * e);
 
+			//! restrict the network to the node number numbers which are in the file fileName
+			void select (string fileName) ;
+
 			//! returns the number of nodes in the network
 			unsigned int size() { return theNodes.size(); }
 
@@ -128,9 +131,16 @@ namespace conedy
 				
 			void setUndirected () { directed = false; };
 
+
+
+		friend bool compareByTargets (network::edgeDescriptor l, network::edgeDescriptor r) {return network::getTarget(l) < network::getTarget(r); } 
+
+
 		protected:	
 			
 			// auxiliary functions to be used for the network generators in createNetwork.h
+
+			bool directed;
 
 
 			//! returns the connections strength between node i and j, returns 0 if no connection exists.
@@ -142,8 +152,6 @@ namespace conedy
 			//! returns the number of nodes in the network
 			unsigned int numberVertices() { return theNodes.size(); }
 
-			//! restrict the network to the node number numbers which are in the file fileName
-			void select (string fileName) ;
 
 			void remove (edgeDescriptor e) { node::theNodes[e.first]-> removeEdge (e.second);}
 
@@ -259,7 +267,6 @@ namespace conedy
 
 		private:
 
-			bool directed;
 			
 			//! The set of node numbers of all nodes which are in the network.
 			set<nodeDescriptor> theNodes;

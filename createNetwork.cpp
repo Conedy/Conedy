@@ -24,25 +24,18 @@ namespace conedy {
 			}
 
 	void createNetwork::observeEventSignatureTimes( string fileName,nodeDescriptor eventNumber) {
+
 		nodeBlueprint* nod = new nodeVirtualEdges<timeNode<baseType> >();
 		nodeDescriptor timeNodeNumber = addNode ( nod );
 		delete nod;
 
-		nod = new  nodeVirtualEdges<streamOutNode>(fileName);
-		nodeDescriptor streamOutNodeNumber = addNode(nod);
+		nodeDescriptor streamOutNodeNumber = addStreamOutNode(fileName);
 		streamOutNode *s = dynamic_cast<streamOutNode*>( nodeBlueprint::theNodes[streamOutNodeNumber]);
 
 		eventHandler::insertVisiterAtSignature(bind(&streamOutNode::evolve,s, 0.0),eventNumber);
 		delete nod;
 
-
-
-
 		network::link( streamOutNodeNumber, timeNodeNumber);
-
-
-
-
 
 	}
 
@@ -138,8 +131,6 @@ namespace conedy {
 				}
 
 
-		//	cout << "HIERRAUS" << endl;
-
 		return firstNodeNumber;
 	}
 
@@ -157,9 +148,6 @@ namespace conedy {
 		vector< pair<int, int > >::iterator it;
 		//		bool cmp (pair< int, int > a, pair< int, int > b);
 
-
-
-
 		for ( unsigned int i = 1; i < 50; i++ )
 			for ( unsigned int j = 0; j <= i; j++ )
 				distVector.push_back ( make_pair<int,int> ( i,j ) );
@@ -167,11 +155,7 @@ namespace conedy {
 		sort ( distVector.begin(), distVector.end(), &cmp2d );
 		//		distVector.sort(&cmp);
 
-
-
-
 		int i,j;
-
 
 		it = distVector.begin();
 		for ( ; it != distVector.end(); it++ )
@@ -185,7 +169,6 @@ namespace conedy {
 					toSelectRandomlyFrom.push_back ( make_pair<int,int> ( it->first, -it->second ) );
 					toSelectRandomlyFrom.push_back ( make_pair<int,int> ( -it->first, -it->second ) );
 					break;
-
 
 				}
 				else
@@ -207,8 +190,6 @@ namespace conedy {
 					toSelectRandomlyFrom.push_back ( make_pair<int,int> ( 0, -it->first ) );
 
 					break;
-
-
 
 				}
 				else
@@ -668,14 +649,6 @@ void createNetwork::addRandomEdgesDegreeDistributionDirected ( function <double 
 
 
 
-void createNetwork::addEnterNode ( string s )
-{
-
-	//		nodeBlueprint *n = new enterNode<baseType> ( s );
-	//		addNode ( n );
-	//		delete n;
-}
-
 
 
 void createNetwork::observeEvent (string s, nodeDescriptor signature)
@@ -697,7 +670,8 @@ void createNetwork::observeTime ( string s )
 	nodeDescriptor timeNodeNumber = addNode ( nod );
 	delete nod;
 
-	observeWithoutCheck (timeNodeNumber, s, stdEdge);
+
+	observe (timeNodeNumber, s, stdEdge);
 
 }
 
@@ -934,41 +908,11 @@ nodeDescriptor createNetwork::cycleCluster (int number1, nodeBlueprint *n1, int 
 }
 
 
-void createNetwork::rewireSourcePerTimestep ( double prop,function <baseType ()> r, nodeKind theNodeKind )
-{
-	/*	nodeBlueprint *n = new nodeVirtualEdges <distributeRandomelyNode<baseType> > ( network::numberVertices(),r );
-		nodeDescriptor newNodeNumber = addNode ( n );
-		network::addEdges ( theNodeKind,newNodeNumber );
-
-	//		addSuperAttractiveNode(n,theNodeKind);
-
-
-	network::edgeList toChange;
-	network::edgeIterator it;
-
-	unsigned int i;
-	network::edgesBetween ( toChange,theNodeKind,theNodeKind );
-
-
-
-	for ( it = toChange.begin(); it != toChange.end(); it++ )
-	{
-	if ( network::noise.getUniform() > prop )
-	continue;
-	i = it->first;
-	throw "createNetwork::rewireSourcePerTimeStep need repairing!";
-	//			it->second ->weight = 1;
-	//			network::theNodes[network::numberVertices()-1]->link ( it->second->target, it->second );
-	//			network::theNodes[i]->unlink (it->second->target );
-	}
-*/
-}
 
 
 
 
-
-void createNetwork::rewireTarget ( double prop, nodeKind theNodeKind )
+void createNetwork::rewireTargetDirected ( double prop, nodeKind theNodeKind )
 {
 	network::edgeList toChange;
 	network::edgeIterator it;
@@ -1502,72 +1446,39 @@ void createNetwork::observeAll ( string s,  edgeBlueprint *l, nodeBlueprint *n)
 
 
 
-//void createNetwork::observeAll ( string s, edgeBlueprint *l , nodeBlueprint *n , nodeDescriptor lower , nodeDescriptor upper)
-//{
-//	nodeList vl;
-//
-//	if (n == stdNode)
-//		verticesMatching(vl, _dynNode_);
-//	else
-//		verticesMatching(vl, n);
-//
-//	nodeIterator vi;
-//	for (vi=vl.begin();vi != vl.end();vi++)
-//	{
-//		if ((node::theNodes[*vi]->getNumber() >=lower) && (node::theNodes[*vi]->getNumber() <= upper))
-//		observe( *vi,s, l);
-//	}
-//
-//
-//}
-//
-//
-
-
-
-void createNetwork::observePhaseCoherence ( string s, edgeBlueprint *l, nodeBlueprint *n, nodeDescriptor lower, nodeDescriptor upper)
+void createNetwork::observePhaseCoherence ( string s, edgeBlueprint *l, nodeBlueprint *n)
 {
 
 	nodeBlueprint *nod = new nodeVirtualEdges < calculateMeanPhaseCoherence > ();
 	nodeDescriptor newNodeNumber = addNode ( nod );
 	nodeList vl;
 
-	if (n == stdNode)
-		verticesMatching(vl, _dynNode_);
-	else
-		verticesMatching(vl, n);
+	verticesMatching(vl, n);
 
 	nodeIterator vi;
 	for (vi=vl.begin();vi != vl.end();vi++)
-	{
-		if ((node::theNodes[*vi]->getNumber() >=lower) && (node::theNodes[*vi]->getNumber() <= upper))
 			network::link(newNodeNumber, *vi);
-	}
 
 	delete nod;
 
-
-	if (getGlobal<bool>("outputBinary"))
-		nod = new nodeVirtualEdges <streamOutNodeBinary > ( s );
-	else
-		nod = new nodeVirtualEdges <streamOutNode > ( s );
-	nodeDescriptor outNodeNumber = addNode ( nod );
+	nodeDescriptor outNodeNumber = addStreamOutNode ( s );
 	link ( outNodeNumber, newNodeNumber);
 	inOutNodeList.push_back ( dynamic_cast<dynNode*> ( node::theNodes[outNodeNumber] ));
 	delete nod;
 }
 
-void createNetwork::observePhaseDistance ( string s, nodeBlueprint *n)
-{
-	network::edgeList *vl = new edgeList();
-	edgesBetween(*vl, n->getNodeInfo().theNodeType, n->getNodeInfo().theNodeType);
-	nodeBlueprint *nod = new nodeVirtualEdges <phaseDistance <baseType> >();
-	 ( (nodeVirtualEdges< phaseDistance <baseType > > *) nod)->setList (vl);
-
-	long newNodeNumber = addNode (nod);
-	observe(newNodeNumber,s);
-
-}
+//void createNetwork::observePhaseDistance ( string s, nodeBlueprint *n)
+//{
+//	network::edgeList *vl = new edgeList();
+//	edgesBetween(*vl, n->getNodeInfo().theNodeType, n->getNodeInfo().theNodeType);
+//	nodeBlueprint *nod = new nodeVirtualEdges <phaseDistance <baseType> >();
+//	 ( (nodeVirtualEdges< phaseDistance <baseType > > *) nod)->setList (vl);
+//
+//	long newNodeNumber = addNode (nod);
+//	observe(newNodeNumber,s);
+//
+//}
+//
 
 void createNetwork::observeHist ( string fileName,    nodeBlueprint *n)
 {
@@ -1585,55 +1496,18 @@ void createNetwork::observeHist ( string fileName,    nodeBlueprint *n)
 
 
 
-void createNetwork::observePhaseCorrelation ( string s, nodeBlueprint *n)
-{
-	network::edgeList *vl = new edgeList();
-	edgesBetween(*vl, n->getNodeInfo().theNodeType, n->getNodeInfo().theNodeType);
-	nodeBlueprint *nod = new nodeVirtualEdges <phaseCorrelation <baseType> >();
-	 ( (nodeVirtualEdges< phaseCorrelation <baseType > > *) nod)->setList (vl);
-
-	long newNodeNumber = addNode (nod);
-	observe(newNodeNumber,s);
-
-}
-//void createNetwork::observePhaseCoherence ( string s, nodeBlueprint *n,  edgeBlueprint *l )
+//void createNetwork::observePhaseCorrelation ( string s, nodeBlueprint *n)
 //{
-//	//	if (n->getNodeInfo().theNodeType == _pcoIFNeuron_ && l->getEdgeInfo().theEdgeType == _phaseOfPCPO_)
-//	//		nod = new nodeTemplateEdges  <phaseOfPCPO < edge >,  pcoIFNeuron,   calculateMeanPhaseCoherence  >;
-//	//	else
+//	network::edgeList *vl = new edgeList();
+//	edgesBetween(*vl, n->getNodeInfo().theNodeType, n->getNodeInfo().theNodeType);
+//	nodeBlueprint *nod = new nodeVirtualEdges <phaseCorrelation <baseType> >();
+//	 ( (nodeVirtualEdges< phaseCorrelation <baseType > > *) nod)->setList (vl);
 //
-//
-//	nodeBlueprint *nod = new nodeVirtualEdges < calculateMeanPhaseCoherence > ();
-//	nodeDescriptor newNodeNumber = addNode ( nod );
-//	network::addEdges ( newNodeNumber,n -> getNodeInfo().theNodeType,l );
-//	delete nod;
-//
-//
-//
-//}
-//
-
-//! wie oben. Phasen werden von Edges vom Typ l übergeben.
-//void createNetwork::observePhaseCoherence ( string s, edge *l )
-//{
-//
-//	nodeBlueprint *nod = new nodeVirtualEdges < calculateMeanPhaseCoherence > ();
-//	nodeDescriptor newNodeNumber = addNode ( nod );
-//	network::addEdges ( newNodeNumber,_dynNode_,l );
-//	delete nod;
-//
+//	long newNodeNumber = addNode (nod);
 //	observe(newNodeNumber,s);
+//
 //}
 //
-
-void createNetwork::observeMeanPhase ( string s )
-{
-	nodeBlueprint *nod = new nodeVirtualEdges <calculateMeanPhase> ();
-	nodeDescriptor newNodeNumber = addNode ( nod );
-	network::addEdges ( newNodeNumber,_dynNode_ );
-	delete nod;
-	observe(newNodeNumber,s);
-}
 
 //! wie oben. Phasen werden von Edges vom Typ l übergeben.
 void createNetwork::observeMeanPhase ( string s, edgeBlueprint *l )
@@ -1661,46 +1535,35 @@ void createNetwork::observeEventCounter ( string s, unsigned int signature)
 
 
 
-//! observiert den Knoten number mit einer stdEdge und schreibt in die Datei s.
-//void createNetwork::observe ( string s, nodeDescriptor number )
-//{
-//	nodeBlueprint *nod = new nodeVirtualEdges <streamOutNode> ( s );
-//	nodeDescriptor newNodeNumber = addNode ( nod );
-//	link ( newNodeNumber, number );
-//	inOutNodeList.push_back ( (dynamic_cast<dynNode*> (nodeBlueprint::theNodes[newNodeNumber] )));
-//
-//	delete nod;
-//}
-//
-
-
 void createNetwork::observe ( nodeDescriptor number, string s, edgeBlueprint * l )
 {
+	nodeDescriptor newNodeNumber = addStreamOutNode(s);
 	if (node::theNodes.size()  <= number  || node::theNodes[number] == NULL)
 		throw "node which should be observed does not exist.";
 	if	((node::theNodes[number]->getNodeInfo().theNodeKind & _dynNode_ )== 0)
 		throw "node to be observed is no dynNode.";
-	observeWithoutCheck (number, s, l);
+
+	link ( newNodeNumber, number,l );
+	inOutNodeList.push_back ( dynamic_cast<dynNode*> ( nodeBlueprint::theNodes[newNodeNumber] ));
+
 }
 
 
-void createNetwork::observeWithoutCheck (nodeDescriptor number, string s, edgeBlueprint *l)
+
+nodeDescriptor createNetwork::addStreamOutNode (string s)
 {
+
+
 	nodeBlueprint *nod;
 
 	if (getGlobal<bool>("outputBinary"))
 		nod = new nodeVirtualEdges <streamOutNodeBinary > ( s );
 	else
 		nod = new nodeVirtualEdges <streamOutNode > ( s );
+
 	nodeDescriptor newNodeNumber = addNode ( nod );
-
-	link ( newNodeNumber, number,l );
-	inOutNodeList.push_back ( dynamic_cast<dynNode*> ( nodeBlueprint::theNodes[newNodeNumber] ));
-	delete nod;
-
+	return newNodeNumber;
 }
-
-
 
 
 

@@ -538,7 +538,6 @@ void network::clear ()
 		}
 
 
-		bool compareByTargets (network::edgeDescriptor l, network::edgeDescriptor r) {return network::getTarget(l) < network::getTarget(r); } 
 
 
 
