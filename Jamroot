@@ -32,7 +32,7 @@
 #
 #using gcc ;
 
-using python : ;
+#using python : ;
 
 #using bisonc++ ;
 #using flex++ ;
@@ -45,7 +45,7 @@ project conedy ;
 
 
 
-#using python : 2.5 ;
+using python : 2.7 ;
 
 #project : conedy ? ;
 

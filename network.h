@@ -136,6 +136,8 @@ namespace conedy
 				
 			void setUndirected () { directed = false; };
 
+			//! returns the connections strength between node i and j, returns 0 if no connection exists.
+			baseType linkStrength ( nodeDescriptor i, nodeDescriptor j ) { return node::theNodes[i]->linkStrength ( j ); }
 
 
 		friend bool compareByTargets (network::edgeDescriptor l, network::edgeDescriptor r) {return network::getTarget(l) < network::getTarget(r); } 
@@ -148,8 +150,6 @@ namespace conedy
 			bool directed;
 
 
-			//! returns the connections strength between node i and j, returns 0 if no connection exists.
-			baseType linkStrength ( nodeDescriptor i, nodeDescriptor j ) { return node::theNodes[i]->linkStrength ( j ); }
 
 
 			//! returns the number of nodes in the network

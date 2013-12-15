@@ -82,9 +82,9 @@ namespace conedy
 			static baseType weight;
 
 		public:
-			staticWeightedEdge() {};
+//			staticWeightedEdge() {};
 			//			staticWeightedEdge ( node* t ) : weightedEdge(t) {};
-			staticWeightedEdge (baseType newWeight)  {    weight = newWeight;};
+			staticWeightedEdge (baseType newWeight = 1)  {    weight = newWeight;};
 
 			staticWeightedEdge (nodeDescriptor targetNumber, baseType newWeight) : EDGE (targetNumber)  {    weight = newWeight;};
 			const edgeInfo getEdgeInfo() {edgeInfo ei = {_staticWeightedEdge_,_weighted_,"staticWeightedEdge"}; return ei;}

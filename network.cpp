@@ -48,6 +48,10 @@ namespace conedy
 
 
 
+	void network::replaceNodes(nodeDescriptor nodeNumber, nodeBlueprint *n)
+	{
+		throw "replaceNodes is a stub";
+	}
 
 
 
@@ -347,6 +351,12 @@ unsigned int network::numberVertices (nodeKind theNodeKind )
 }
 
 
+void network::removeNodes (nodeBlueprint *n)
+{
+	throw "removeNodes is a stub."; 
+}
+
+
 
 void network::remove ( nodeKind theNodeKind )
 {
@@ -355,25 +365,23 @@ void network::remove ( nodeKind theNodeKind )
 	verticesMatching (vl, theNodeKind);
 	nodeIterator vi;
 
-	for (vi = theNodes.begin(); vi != theNodes.end(); )
+	for (vi = vl.begin(); vi != vl.end(); vi++ )
 	{
-
-
-		if (node::theNodes[*vi]->getNodeInfo().theNodeKind == theNodeKind)
-		{
 			delete node::theNodes[*vi];
-			nodeIterator here = vi;
-			vi++;
-			theNodes.erase(here);
-			numberOfNodes--;
-		}
-		else
-			vi++;
-
+			node::theNodes[*vi] = 0; // remove from lookup table in node
+			theNodes.erase (*vi);  // remove from the network
 	}
 
-
 }
+
+
+
+
+
+
+
+
+
 
 
 //

@@ -57,6 +57,20 @@ class networkTemplate : public createNetwork, public statisticsNetwork, public s
 
 };
 
+class directedNetwork : public networkTemplate
+{
+	public:
+		directedNetwork() { network::setDirected(); }
+};
+
+
+class undirectedNetwork : public networkTemplate
+{
+	public:
+		undirectedNetwork() { network::setUndirected(); }
+};
+
+
 }
 #endif
 

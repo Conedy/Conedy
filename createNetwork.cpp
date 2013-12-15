@@ -1413,28 +1413,6 @@ void createNetwork::observeSum ( string s, edgeBlueprint *l )
 
 //! wie oben allerdings wird die Phasenkohärenz r der States s_i weggeschrieben: r = 1/N \sum\limits_i exp( 2 * PI * s_i). Phasen gehen von 0 bis 1 !!! TODO: vielleicht von streamOutNode erben ??
 
-//void createNetwork::observePhaseCoherence ( string s )
-//{
-//	nodeBlueprint *nod = new nodeVirtualEdges < calculateMeanPhaseCoherence > ();
-//	nodeDescriptor newNodeNumber = addNode ( nod );
-//	network::addEdges ( newNodeNumber,_dynNode_ );
-//	delete nod;
-//	observe(newNodeNumber,s);
-//}
-
-
-//void createNetwork::observeAll ( string s, edgeBlueprint *l )
-//{
-//	network::nodeList vl;
-//	network::verticesMatching ( vl,_dynNode_ );
-//	network::nodeIterator it;
-//
-//	for ( it = vl.begin(); it != vl.end(); it++ )
-//		observe( *it,s, l);
-//
-//}
-//
-
 
 
 void createNetwork::observeAll ( string s,  edgeBlueprint *l, nodeBlueprint *n)
@@ -1453,8 +1431,8 @@ void createNetwork::observePhaseCoherence ( string s, edgeBlueprint *l, nodeBlue
 
 	nodeBlueprint *nod = new nodeVirtualEdges < calculateMeanPhaseCoherence > ();
 	nodeDescriptor newNodeNumber = addNode ( nod );
-	nodeList vl;
 
+	nodeList vl;
 	verticesMatching(vl, n);
 
 	nodeIterator vi;
@@ -1466,7 +1444,6 @@ void createNetwork::observePhaseCoherence ( string s, edgeBlueprint *l, nodeBlue
 	nodeDescriptor outNodeNumber = addStreamOutNode ( s );
 	link ( outNodeNumber, newNodeNumber);
 	inOutNodeList.push_back ( dynamic_cast<dynNode*> ( node::theNodes[outNodeNumber] ));
-	delete nod;
 }
 
 //void createNetwork::observePhaseDistance ( string s, nodeBlueprint *n)
@@ -1542,7 +1519,7 @@ void createNetwork::observe ( nodeDescriptor number, string s, edgeBlueprint * l
 	nodeDescriptor newNodeNumber = addStreamOutNode(s);
 	if (node::theNodes.size()  <= number  || node::theNodes[number] == NULL)
 		throw "node which should be observed does not exist.";
-	if	(match (number, _dynNode_))
+	if	(!match (number, _dynNode_))
 		throw "node to be observed is no dynNode.";
 
 	link ( newNodeNumber, number,l );
@@ -1562,6 +1539,7 @@ nodeDescriptor createNetwork::addStreamOutNode (string s)
 		nod = new nodeVirtualEdges <streamOutNode > ( s );
 
 	nodeDescriptor newNodeNumber = addNode ( nod );
+	delete nod;
 	return newNodeNumber;
 }
 

@@ -16,8 +16,12 @@ N.setState(j+1, startwertb);
 N.setParam(j, "onlyCoupling_a", a);
 N.setParam(j+1, "onlyCoupling_a", b);
 N.observe(j, "output/coupledSystems.co.single", component(0));
+
+
 N.evolve(0.0,100.0);
 N.clear();
+
+
 
 odeStepSize = 0.001;
 
