@@ -162,60 +162,6 @@ namespace conedy
 		virtual bool timeEvolution () {return 0;}
 	};
 
-	//! obsolete or unused ?
-	template <class T>
-		class distributeRandomelyNode :  public dynNode 
-	{
-		unsigned int networksize;
-
-		T firingRate;
-		function<T () > r;
-		function<T () > weight;
-		public:
-		virtual const nodeInfo getNodeInfo() { nodeInfo n = {_distributeRandomelyNode_,_dynNode_|_inNode_};     return n; };
-
-		virtual const unsigned int dimension() const{ return 0;}
-		virtual bool timeEvolution () {return 0;}
-		distributeRandomelyNode ( unsigned int n, function <T() > newWeight ) : dynNode(_calculateMeanPhaseCoherence_)
-		{
-			networksize = n;
-			weight = newWeight;
-			r = boost::bind ( &gslNoise::getBimodal,0,1,0.001 );
-
-		}
-
-
-		virtual T getState()
-		{
-
-			return weight() * r();
-
-
-		}
-
-		virtual void printStatistics()   {cout << "distributeRandomelyNode" << endl;this->printStatistics();}
-
-		virtual void action1() {} ;
-
-		virtual void action2()
-		{
-			firingRate = this->couplingSum();
-			r = boost::bind ( &gslNoise::getPoisson, ( T ) firingRate/ ( T ) networksize );
-
-		}
-		virtual void swap()
-		{
-			//		r = boost::bind(&gslNoise::getBimodal,0,1,(T)firingRate/(T)networksize);
-			//			r = boost::bind ( &gslNoise::getPoisson, ( T ) firingRate/ ( T ) networksize );
-
-			//		cout << "Firingrate:" << firingRate << endl;
-		}
-
-
-
-
-	};
-
 
 }
 

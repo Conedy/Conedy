@@ -22,13 +22,59 @@ Short introduction the source code.
 
 The main object which is managed and modified in Conedy is an instance of the class MyNetwork as defined in fullnetwork.h. This instance represents an adjacency list representation of a graph in which nodes represent dynamical systems and edges represent coupling between these systems. The functions which allow one to modify or observe this network are seperated into different subclasses which are merged together by inheritance:
 
+The Network:
+
+
 network.h:
 	In this file the base class network is defined, which maneges the data structure of the network and implements elementary functions which add single edges or nodes to the network
 
-createNetwork.h:
-	In this file the class createNetwork is defined, which extend the  network by generators for more complicated networks (lattices, random networks, etc.) and by functions which add specialized observe nodes which during time evolution write some property to output files.
-
 dynNetwork.h:
 	The class dynNetwork extends network by functions which are specific to numerical integration and setting initial conditions.
+
+createNetwork.h:
+	In this file the class createNetwork is defined, which extend network by generators for more complicated networks (lattices, random networks, etc.) and by functions which add specialized observe nodes which during time evolution write some property to output files.
+
+statisticsNetwork.h:
+	Adds some network characteristics to the network interface class.
+
+spatialNetwork.h:
+	Adds three dimensional coordinates to each node in the network. Is currently not used much except for opengl visualization. 
+
+fullNetwork.h:
+	All these 6 network classes are merged by inheritance to the class networkTemplate, which corresponds to the network objects which is revealed to the interpreter and to Python.
+
+
+The Nodes:
+
+node.h:
+	defines the class node which represents an dynamical system. It is only an interface class and does not specify, how the data for edges is handled (see nodeImplement.h). 
+
+dynNode.h:
+ 	adds functions to the interface of node which are specific for dynamical systems (time evolution, parameter, degrees of freedom, etc). 
+
+containerNode.h:
+	groups the memory for the system state of dynNodes into different containers, such that numerical integrators like the gsl can operator on consecutive memory. Different containers are differentiated by a integer template parameter and correspond to different dynamical systems.
+
+sdeNode.h, mapNode.h, odeNode.h:
+	adds interfaces for the different functions which define the dynamics.
+
+stdOdeIntegrater.h, stdSdeIntegrater.h: 
+	defines integrators for the dynamical systems.
+
+
+nodeImplement.h:
+	defines two different implementations for the interface in node.h. nodeTemplateEdges handles edges as an vector of edges. In this way all edges of an node must be of the same type and no virtual function calls are needed for numerical integration. Moreover, edges do not need a v-table and consume less memory. nodeVirtualEdges handles edges as an vector of pointer to edges, allowing for different edge types of a node.
+
+
+
+The Edges:
+
+	
+node.h:
+	defines edge and edgeVirtual, which are the base classes 
+
+
+
+
 
 

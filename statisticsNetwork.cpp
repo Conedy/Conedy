@@ -11,28 +11,28 @@
 
 namespace conedy
 {
-			void statisticsNetwork::inDegreeDistributionToFile ( string fileName )
-			{
-				ofstream out;
-				out.open ( fileName.c_str() );
-				vector<unsigned int> inDegrees = inDegreeDistribution();
-				for ( unsigned int i = 0; i < inDegrees.size(); i++ )
-					out << i << " " << inDegrees[i] << endl;
-			}
+	void statisticsNetwork::inDegreeDistributionToFile ( string fileName )
+	{
+		ofstream out;
+		out.open ( fileName.c_str() );
+		vector<unsigned int> inDegrees = inDegreeDistribution();
+		for ( unsigned int i = 0; i < inDegrees.size(); i++ )
+			out << i << " " << inDegrees[i] << endl;
+	}
 
 
-			void statisticsNetwork::outDegreeDistributionToFile ( string fileName )
-			{
-				ofstream out;
-				out.open ( fileName.c_str() );
-				vector<int> outDegrees = outDegreeDistribution();
-				for ( unsigned int i = 0; i < outDegrees.size(); i++ )
-					out << i << " " << outDegrees[i] << endl;
-			}
+	void statisticsNetwork::outDegreeDistributionToFile ( string fileName )
+	{
+		ofstream out;
+		out.open ( fileName.c_str() );
+		vector<int> outDegrees = outDegreeDistribution();
+		for ( unsigned int i = 0; i < outDegrees.size(); i++ )
+			out << i << " " << outDegrees[i] << endl;
+	}
 
 
 
-			int statisticsNetwork::inDegree( nodeDescriptor n)
+	int statisticsNetwork::inDegree( nodeDescriptor n)
 	{
 
 
@@ -59,17 +59,17 @@ namespace conedy
 
 
 
-			double statisticsNetwork::networkSize()
-			{
-				network::nodeList vl;
-				network::verticesMatching(vl, _dynNode_);
-				network::nodeIterator it;
-				int counter = 0;
-				for (it = vl.begin(); it != vl.end(); it++)
-					counter++;
+	double statisticsNetwork::networkSize()
+	{
+		network::nodeList vl;
+		network::verticesMatching(vl, _dynNode_);
+		network::nodeIterator it;
+		int counter = 0;
+		for (it = vl.begin(); it != vl.end(); it++)
+			counter++;
 
-				return (double)counter;
-			}
+		return (double)counter;
+	}
 
 
 
@@ -271,10 +271,10 @@ namespace conedy
 			for (s = el.begin(); s != el.end();s++)
 				for (t = el.begin(); t != el.end();t++)
 					linkedFriends+= linkStrength (getTarget (*s), getTarget (*t)); 
-	
+
 			if ( el.size() > 1 )
 				return ( baseType ) linkedFriends / ( el.size() * ( el.size() -1 ) );
-		
+
 			f = f + linkedFriends; 
 		}
 		f = f / network::numberVertices();
@@ -299,7 +299,7 @@ namespace conedy
 
 
 
-vector<baseType> dijkstraCompare::weightMap;
+	vector<baseType> dijkstraCompare::weightMap;
 
 	void statisticsNetwork::dijkstra( vector<baseType>& distance, network::nodeList vl, unsigned int v )
 	{
@@ -410,8 +410,8 @@ vector<baseType> dijkstraCompare::weightMap;
 
 
 	void statisticsNetwork::betweennessCentrality( string filename )
-	// uses the algorithm provided by U. Brandes in "A faster algorithm for betweenness Centrality",
-	// J. Math. Sociol., 25:163-177, 2001
+		// uses the algorithm provided by U. Brandes in "A faster algorithm for betweenness Centrality",
+		// J. Math. Sociol., 25:163-177, 2001
 	{
 		network::nodeIterator ia;
 		nodeList vl;
@@ -440,9 +440,9 @@ vector<baseType> dijkstraCompare::weightMap;
 			while(!S.empty())  // S leeren
 				S.pop_back();
 
- 			for ( t=0 ; t<vl.size() ; t++) // alle P[t] leeren
- 				while( !P[t].empty() )
- 					P[t].pop_back();
+			for ( t=0 ; t<vl.size() ; t++) // alle P[t] leeren
+				while( !P[t].empty() )
+					P[t].pop_back();
 
 			for ( t=0 ; t<vl.size() ; t++ )
 				sigma[t]=0;
@@ -489,13 +489,13 @@ vector<baseType> dijkstraCompare::weightMap;
 					w = node::theNodes[v]->getTarget(l); // alle Nachbarn w von v
 					d = 1/( node::theNodes[v]->getWeight(l) ); // d misst die Entfernung zw w und v
 
-// hier soll auf gleichheit kontrolliert werden...
+					// hier soll auf gleichheit kontrolliert werden...
 					if ( dC.weightMap[v -*vl.begin()] == dC.weightMap[w -*vl.begin()] + d ) // kürzester Weg nach v via w?
 					{
 						sigma[v -*vl.begin()] = sigma[v -*vl.begin()] + sigma[w -*vl.begin()];
 						P[v -*vl.begin()].push_back(w+1 -*vl.begin()); // ggf w Prezedessor von v
 					}
-	// Ähnlichkeitsvergleich für d!= integer: relative Abweicheichung
+					// Ähnlichkeitsvergleich für d!= integer: relative Abweicheichung
 					else if ( dC.weightMap[v -*vl.begin()] > dC.weightMap[w -*vl.begin()] )
 					{
 						double relativeError = 0.001;
@@ -549,7 +549,7 @@ vector<baseType> dijkstraCompare::weightMap;
 	}
 
 
-   void statisticsNetwork::saveAdjacencyMatrix (string fileName)
+	void statisticsNetwork::saveAdjacencyMatrix (string fileName)
 	{
 		nodeIterator vi;
 		nodeIterator vj;
@@ -559,13 +559,13 @@ vector<baseType> dijkstraCompare::weightMap;
 		ofstream out(fileName.c_str());
 
 		for (vi = vl.begin(); vi != vl.end(); vi++)
-	{
+		{
 			for (vj = vl.begin(); vj != vl.end(); vj++)
 			{
-					out << linkStrength(*vi, *vj) << " ";
+				out << linkStrength(*vi, *vj) << " ";
 			}
 			out << "\n";
-	}
+		}
 	}
 
 	void statisticsNetwork::saveAdjacencyList(string fileName)
@@ -581,7 +581,7 @@ vector<baseType> dijkstraCompare::weightMap;
 		for( it = vl.begin(); it != vl.end(); it++)
 			for( node::edgeDescriptor l=0; l<node::theNodes[*it]->degree() ;l++)
 				if (isInsideNetwork(   getTarget (*it, l)	))
-				out << *it <<' '<< node::theNodes[*it]->getTarget(l) <<' '<< node::theNodes[*it]->getWeight(l) <<"\n";
+					out << *it <<' '<< node::theNodes[*it]->getTarget(l) <<' '<< node::theNodes[*it]->getWeight(l) <<"\n";
 
 
 		out.close();
@@ -594,7 +594,7 @@ vector<baseType> dijkstraCompare::weightMap;
 		node::edgeDescriptor ea, ee;
 
 
-//			out << "#source target weight\n";
+		//			out << "#source target weight\n";
 		cout << node::theNodes.size()  << "\n";
 
 		for (unsigned int i = 0; i < node::theNodes.size(); i++)
@@ -611,17 +611,17 @@ vector<baseType> dijkstraCompare::weightMap;
 				cout << i << " ";
 
 				//Ausgabe der jeweiligen Edge
-//				node::theNodes[i]->getEdge(ea)->printStatistics(cout,  network::edgeVerbosity());
+				//				node::theNodes[i]->getEdge(ea)->printStatistics(cout,  network::edgeVerbosity());
 				throw "statisticsNetwork::printAdjacencyList. repair me!";
 				// ENDE
 				cout << endl;
 				/*
-				cout << i << " "<<(*ea)->target->getNumber() << " ";
-				if ((*ea)->getEdgeInfo().theEdgeKind & _weighted_)
+					cout << i << " "<<(*ea)->target->getNumber() << " ";
+					if ((*ea)->getEdgeInfo().theEdgeKind & _weighted_)
 					cout << ((weightedEdge*)(*ea))->getWeight() << "\n";
-				else
+					else
 					cout << "\n";
-				*/
+					*/
 
 			}
 		}
@@ -634,7 +634,7 @@ vector<baseType> dijkstraCompare::weightMap;
 	// Funktion für den Export nach GraphML
 
 
-			void statisticsNetwork::saveGraphML(string fileName)
+	void statisticsNetwork::saveGraphML(string fileName)
 	{
 		ofstream out(fileName.c_str());		// Datei für Export
 

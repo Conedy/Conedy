@@ -78,10 +78,10 @@ observeEventSignatureTimes  {return(ParserBase::OBSERVEEVENTSIGNATURETIMES); }
 useRandomPositioning    {return(ParserBase::USERANDOMPOSITIONING); }
 useLatticePositioning   {return(ParserBase::USELATTICEPOSITIONING); }
 
+replaceEdges		{return(ParserBase::REPLACEEDGES); }
 rewireSource		{return(ParserBase::REWIRESOURCE); }
 rewireTarget		{return(ParserBase::REWIRETARGET); }
 rewire			{return(ParserBase::REWIRE); }
-rewireSourcePerTimestep	{return(ParserBase::REWIRESOURCEPERTIMESTEP);}
 addRandomEdges		{return(ParserBase::ADDRANDOMEDGES); }
 addRandomEdgesUndirected		{return(ParserBase::ADDRANDOMEDGESUNDIRECTED); }
 readParams		{return(ParserBase::READPARAMS); }

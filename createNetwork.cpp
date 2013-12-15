@@ -669,9 +669,11 @@ void createNetwork::observeTime ( string s )
 	nodeBlueprint* nod = new nodeVirtualEdges<timeNode<baseType> >();
 	nodeDescriptor timeNodeNumber = addNode ( nod );
 	delete nod;
+	nodeDescriptor streamNode = addStreamOutNode (s);
 
-
-	observe (timeNodeNumber, s, stdEdge);
+	link ( streamNode, timeNodeNumber);
+	inOutNodeList.push_back ( dynamic_cast<dynNode*> ( nodeBlueprint::theNodes[streamNode] ));
+	
 
 }
 
@@ -1540,7 +1542,7 @@ void createNetwork::observe ( nodeDescriptor number, string s, edgeBlueprint * l
 	nodeDescriptor newNodeNumber = addStreamOutNode(s);
 	if (node::theNodes.size()  <= number  || node::theNodes[number] == NULL)
 		throw "node which should be observed does not exist.";
-	if	((node::theNodes[number]->getNodeInfo().theNodeKind & _dynNode_ )== 0)
+	if	(match (number, _dynNode_))
 		throw "node to be observed is no dynNode.";
 
 	link ( newNodeNumber, number,l );
@@ -1552,8 +1554,6 @@ void createNetwork::observe ( nodeDescriptor number, string s, edgeBlueprint * l
 
 nodeDescriptor createNetwork::addStreamOutNode (string s)
 {
-
-
 	nodeBlueprint *nod;
 
 	if (getGlobal<bool>("outputBinary"))

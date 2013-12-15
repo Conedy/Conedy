@@ -95,6 +95,11 @@ namespace conedy
 
 			//! removes all edges between source and target (should be only one)
 			void removeEdge (nodeDescriptor source, nodeDescriptor target) { node::theNodes[source]->unlink(target); }
+			//! returns true if there is a link between node i and j
+			bool isLinked ( nodeDescriptor i, nodeDescriptor j );
+			
+			//! return true, if for every edge between dynNodes in the network, there exist an edge with source and target interchanged.
+			bool isDirected();
 	
 			//! remove edge e fromthe network.
 			void removeEdges (edgeBlueprint * e);
@@ -146,8 +151,6 @@ namespace conedy
 			//! returns the connections strength between node i and j, returns 0 if no connection exists.
 			baseType linkStrength ( nodeDescriptor i, nodeDescriptor j ) { return node::theNodes[i]->linkStrength ( j ); }
 
-			//! returns true if there is a link between node i and j
-			bool isLinked ( nodeDescriptor i, nodeDescriptor j );
 
 			//! returns the number of nodes in the network
 			unsigned int numberVertices() { return theNodes.size(); }
@@ -235,8 +238,6 @@ namespace conedy
 
 
 
-			//! return true, if for every edge between dynNodes in the network, there exist an edge with source and target interchanged.
-			bool isDirected();
 
 			//! Verbinde sourceNode mit allen Nodes der Art targetNodeKind bidirektional
 			void link (nodeDescriptor sourceNode, nodeKind targetNodeKind, edge *l);
