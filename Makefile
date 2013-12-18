@@ -136,12 +136,12 @@ unstripped: clean addNodes Scanner.ll Parser.yy
 	bash linkUnstripped.sh
 
 
-# build the bison-flex-interpreter of Conedy.     fix to strange behavior of statically linking stdc++
+# build the bison-flex-interpreter of Conedy.     fix to the strange behavior of statically linking stdc++
 conedy: addNodesIfNecessary Parser.yy Scanner.ll string_config.h
-	bjam  conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags='-DARCHITECTURE="${ARCH}"'  -j${numberCores} -n  | grep "end-group" | sed "s/-Wl,-Bstatic/-static/g;s/-Wl,-Bdynamic//g;" > linkCondor.sh
+	bjam  conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags='-DARCHITECTURE="${ARCH}"'  -j${numberCores} -n  | grep "end-group" | sed "s/-Wl,-Bstatic/-static/g;s/-Wl,-Bdynamic//g;" > linkStatic.sh
 	bjam  conedy cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags='-DARCHITECTURE="${ARCH}"'  -j${numberCores}
-	bash linkCondor.sh
-	rm linkCondor.sh
+	bash linkStatic.sh
+	rm linkStatic.sh
 
 
 
@@ -343,7 +343,7 @@ condor.clean:
 #
 
 condor: addNodesIfNecessary string_config.h               # build an interpreter which does not execute network-functions, but creates Condor-scripts which distribute the execution of loops (see vectorFor)
-	bjam  conedyCondor cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=${ARCH}"  -j${numberCores} -n  > condor.sh
+	bjam  conedyCondor cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=${ARCH}"  -j${numberCores}  
 
 
 

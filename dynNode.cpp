@@ -180,6 +180,8 @@ namespace conedy
 
 	bool match (nodeBlueprint *l, nodeDescriptor r)
 	{
+		if (l->getNodeInfo().theNodeKind == _dynNode_  && match (r, _dynNode_))
+			return true;
 
 		if (!match (l->getNodeInfo().theNodeType, r))
 				return false;

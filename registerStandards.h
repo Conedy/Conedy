@@ -14,7 +14,7 @@ void registerStandards()
 	pcoBase::registerStandardValues();
 	containerNode<baseType, 0>::registerStandardValues();
 	dynNetwork::registerStandardValues();
-	createNetwork::registerStandardValues();
+//	createNetwork::registerStandardValues();
 	escapeNoiseNeuron::registerStandardValues();
 #ifdef DOUBLE
 	gslOdeNode::registerStandardValues();

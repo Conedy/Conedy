@@ -21,15 +21,9 @@ namespace conedy
 		static unsigned int observationCounter;
 		public:
 
-		virtual void clear();
-
-		dynNetwork ( const dynNetwork &b);
 
 
-		void setParam (nodeDescriptor nd, string parameterName, baseType value)
-		{
-			((dynNode *)node::theNodes[nd])-> setParam (parameterName, value);
-		}
+		void setParam (nodeDescriptor nd, string parameterName, baseType value) { ((dynNode *)node::theNodes[nd])-> setParam (parameterName, value); }
 
 		//! do a snapshot of all observables in the incidence of  event <eventNumber> 
 		void snapshotAtEvent( nodeDescriptor eventNumber);
@@ -38,13 +32,6 @@ namespace conedy
 		//! do a snapshot of all observables in the incidence of an event with signature <eventSignature> of node <nodeNumber>
 		void snapshotAtEventOfNode (nodeDescriptor nodeNumber, unsigned int eventSignature);
 
-		static void registerStandardValues()
-		{
-			registerGlobal<baseType>("samplingTime", 0.01);
-			registerGlobal<baseType>("progressVerbosity", 100.0);
-		}
-
-		dynNetwork()  {};
 		void evolveAll ( baseType );
 
 		//! return the 
@@ -123,11 +110,8 @@ namespace conedy
 		//! Print the value of all registered observables to files.
 		void snapshot () { callBack (0); }
 
-		void setTime( baseType newTime)
-		{
-			dynNode::time = newTime;
-			eventHandler::registerCallBack ( _ioNode_, dynNode::time + getGlobal<baseType> ("samplingTime") );
-		}
+		void setTime( baseType newTime) { dynNode::time = newTime; eventHandler::registerCallBack ( _ioNode_, dynNode::time + getGlobal<baseType> ("samplingTime") ); }
+
 		baseType getParam(nodeDescriptor nodeNumber,string name) {	return ((dynNode*) (node::theNodes[nodeNumber]))->getParam(name); }
 
 		//! Event-callback function, we use here _ioNode_ for snapshot of observables.
@@ -135,10 +119,70 @@ namespace conedy
 
 		virtual unsigned int numberOfEvents() const { return 3; }
 
+
+		static void registerStandardValues()
+		{
+			registerGlobal<baseType>("samplingTime", 0.01);
+			registerGlobal<baseType>("progressVerbosity", 100.0);
+				globals::registerGlobal<bool> ("outputBinary", false );
+		}
+
+		dynNetwork()  {};
+
+
+		//! obsolete ?
+		virtual void clear(); 
+
+		dynNetwork ( const dynNetwork &b);
+
+
+			// observe commands.
+
+			nodeDescriptor addStreamOutNode (string s);
+
+			
+			void observeEvent (string s, nodeDescriptor signature);
+			void observeEventTimes( string fileName,nodeDescriptor eventNumber );
+			void observeEventTimesEquals ( string fileName, nodeDescriptor eventNumber );
+			void observeEventSignatureTimes( string fileName,nodeDescriptor eventNumber );
+			void observeEventCounter ( string s, unsigned int signature);
+
+
+			//! Observe the system time
+			void observeTime ( string s );
+		
+			//! Observe all components of a node (e.g. all three variables of a roessler oscillator)
+			void observeComponents (nodeDescriptor n, string fileName);
+
+			//! observe node number via an edge of type l 
+			void observe (  nodeDescriptor number, string s,edgeBlueprint * l  = stdEdge);
+
+			//! wie oben mit links vom Typ l
+			void observeSum ( string s, edgeBlueprint *l = stdEdge );
+
+			void observeAll ( string s, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode);
+
+			void observeHist ( string s,    nodeBlueprint *n);
+
+
+
+
+			//! wie oben. Phasen werden von Edges vom Typ l übergeben.
+			void observeMeanPhase ( string s, edgeBlueprint *l=stdEdge );
+
+			void observePhaseCoherence ( string s, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode);
+					
+
+
+
 		private:
 
 
 	};
+
+	double readDouble (ostream &os) { double d; os >> d; return d; }
+
+
 
 }
 #endif
