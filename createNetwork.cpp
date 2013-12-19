@@ -2,7 +2,7 @@
 
 #include "createNetwork.h"
 
-#include "specialNodes.h"
+//#include "specialNodes.h"
 #include "pulseCoupledPhaseOscillator.h"
 #include "nodeImplement.h"
 #include "statisticsNetwork.h"

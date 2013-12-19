@@ -1,17 +1,7 @@
 #include "registerStandards.h"
 
 #include <stdio.h>
-#include "commandLineArguments.h"
-
-#include "node.h"
-#include "neuroPython.h"
-
 #include <fstream>
-#if OPENGL
-#include "glNetwork.h"
-#endif
-
-
 #include <boost/python.hpp>
 #include <boost/python/module.hpp>
 #include <boost/python/def.hpp>
@@ -19,10 +9,18 @@
 #include <string>
 
 
+#include "commandLineArguments.h"
+#include "node.h"
+#include "neuroPython.h"
+
+#if OPENGL
+#include "glNetwork.h"
+#endif
 #include "globals.h"
 
 #include "docstrings.h"
 
+#include "neuroPythonNodes.h"
 
 //typedef double baseType;
 //network<baseType> *netCheat = 0;
@@ -155,126 +153,6 @@ template <class N>
 	}
 
 
-template <class N>
-	 N* nodeFactory1 (double arg1)
-	{
-		N* res = new N();
-		vector <baseType> allParams;
-		allParams.push_back(arg1);
-		res->rerouteParams(allParams);return res;
-	}
-
-
-template <class N>
-	 N* nodeFactory2 (double arg1, double arg2)
-	{
-		N* res = new N();
-		vector <baseType> allParams;
-		allParams.push_back(arg1);
-		allParams.push_back(arg2);
-		res->rerouteParams(allParams);return res;
-	}
-
-template <class N>
-	 N* nodeFactory3 (double arg1, double arg2, double arg3)
-	{
-		N* res = new N();
-		vector <baseType> allParams;
-		allParams.push_back(arg1);
-		allParams.push_back(arg2);
-		allParams.push_back(arg3);
-		res->rerouteParams(allParams);return res;
-	}
-
-template <class N>
-	 N* nodeFactory4 (double arg1, double arg2, double arg3, double arg4)
-	{
-		N* res = new N();
-		vector <baseType> allParams;
-		allParams.push_back(arg1);
-		allParams.push_back(arg2);
-		allParams.push_back(arg3);
-		allParams.push_back(arg4);
-		res->rerouteParams(allParams);return res;
-	}
-
-template <class N>
-	 N* nodeFactory5 (double arg1, double arg2, double arg3, double arg4, double arg5)
-	{
-		N* res = new N();
-		vector <baseType> allParams;
-		allParams.push_back(arg1);
-		allParams.push_back(arg2);
-		allParams.push_back(arg3);
-		allParams.push_back(arg4);
-		allParams.push_back(arg5);
-		res->rerouteParams(allParams);return res;
-	}
-
-
-template <class N>
-	 N* nodeFactory6 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6)
-	{
-		N* res = new N();
-		vector <baseType> allParams;
-		allParams.push_back(arg1);
-		allParams.push_back(arg2);
-		allParams.push_back(arg3);
-		allParams.push_back(arg4);
-		allParams.push_back(arg5);
-		allParams.push_back(arg6);
-		res->rerouteParams(allParams);return res;
-	}
-
-template <class N>
-	 N* nodeFactory7 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6, double arg7)
-	{
-		N* res = new N();
-		vector <baseType> allParams;
-		allParams.push_back(arg1);
-		allParams.push_back(arg2);
-		allParams.push_back(arg3);
-		allParams.push_back(arg4);
-		allParams.push_back(arg5);
-		allParams.push_back(arg6);
-		allParams.push_back(arg7);
-		res->rerouteParams(allParams);return res;
-	}
-
-template <class N>
-	 N* nodeFactory8 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6, double arg7, double arg8)
-	{
-		N* res = new N();
-		vector <baseType> allParams;
-		allParams.push_back(arg1);
-		allParams.push_back(arg2);
-		allParams.push_back(arg3);
-		allParams.push_back(arg4);
-		allParams.push_back(arg5);
-		allParams.push_back(arg6);
-		allParams.push_back(arg7);
-		allParams.push_back(arg8);
-		res->rerouteParams(allParams);return res;
-	}
-
-
-template <class N>
-	 N* nodeFactory9 (double arg1, double arg2, double arg3, double arg4, double arg5, double arg6, double arg7, double arg8, double arg9)
-	{
-		N* res = new N();
-		vector <baseType> allParams;
-		allParams.push_back(arg1);
-		allParams.push_back(arg2);
-		allParams.push_back(arg3);
-		allParams.push_back(arg4);
-		allParams.push_back(arg5);
-		allParams.push_back(arg6);
-		allParams.push_back(arg7);
-		allParams.push_back(arg8);
-		allParams.push_back(arg9);
-		res->rerouteParams(allParams);return res;
-	}
-
 
 
 
@@ -334,7 +212,9 @@ template <class N>
 
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (lattice_overloads, lattice, 2,5);
-	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (scaleFreeNetwork_overloads, scaleFreeNetwork, 2,5);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (replaceEdges_overloads, replaceEdges, 1,3);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (addNode_overloads, addNode, 0,1);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (scaleFreeNetwork_overloads, scaleFreeNetwork, 2,4);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (beeWeb_overloads, beeWeb, 2,3);
 	//BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (evolve_overloads, evolve, 2,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (rewire_overloads, rewire, 1,2);
@@ -358,7 +238,7 @@ template <class N>
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (setStateTemplate_overloads, setState, 1,12);
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (addRandomEdges_overloads, addRandomEdges, 1,2);
-	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (addRandomEdgesDistribution_overloads, addRandomEdgesDistribution, 1,2);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (addRandomEdgesDegreeDistribution_overloads, addRandomEdgesDegreeDistribution, 1,2);
 
 	void translator (const char *c)
 	{ PyErr_SetString (PyExc_UserWarning, c); }
@@ -421,7 +301,7 @@ template <class N>
 		def("get", &globals::getGlobal<int>);
 		def("setRandomSeed", &gslNoise::setSeed);
 
-		class_<createNetwork>("createNetwork")
+		class_<createNetwork>("createNetwork");
 
 
 
@@ -436,14 +316,14 @@ template <class N>
 
 			////network commands
 			.def("addEdge", &networkTemplate::addEdge, reinterpret_cast<const char *>(__network_addEdge))
-			.def("addNode", &network::addNode, reinterpret_cast<const char *>(__network_addNode));
+			.def("addNode", &network::addNode, addNode_overloads(reinterpret_cast<const char *>(__network_addNode)))
 			.def("addWeightedEdge", &networkTemplate::addWeightedEdge, reinterpret_cast<const char *>(__network_addWeightedEdge))
-			.def("clear", &networkTemplate::clear, reinterpret_cast<const char *>(__network_clear))
+			.def("clear", &dynNetwork::clear, reinterpret_cast<const char *>(__network_clear))
 			.def("isDirected", &networkTemplate::isDirected, reinterpret_cast<const char *>(__network_isDirected))
 			.def("isLinked", &networkTemplate::isLinked, reinterpret_cast<const char *>(__network_isLinked))
 			.def("linkStrength", &networkTemplate::linkStrength, reinterpret_cast<const char *>(__network_linkStrength))
 			.def("randomizeWeights", &networkTemplate::randomizeWeights,  randomizeWeights_overloads( reinterpret_cast<const char *>(__network_randomizeWeights)))
-			.def("replaceNodes", &networkTemplate::replaceNodes, reinterpret_cast<const char *>(__network_replace))
+			.def("replaceNode", &networkTemplate::replaceNode, reinterpret_cast<const char *>(__network_replace))
 			.def("removeEdge", &networkTemplate::removeEdge, reinterpret_cast<const char *>(__network_removeEdge))
 			.def("removeEdges", &networkTemplate::removeEdges, reinterpret_cast<const char *>(__network_removeEdges))
 			.def("removeNodes", &networkTemplate::removeNodes, reinterpret_cast<const char *>(__network_removeNodes))
@@ -453,7 +333,7 @@ template <class N>
 
 			// createNetwork commands
 			.def("addRandomEdges", &networkTemplate::addRandomEdges, addRandomEdges_overloads (reinterpret_cast<const char *>(__createNetwork_addRandomEdges)))
-			.def("addRandomEdgesDistribution", &networkTemplate::addRandomEdgesDistribution, addRandomEdgesDistribution_overloads (reinterpret_cast<const char *>(__createNetwork_addRandomEdgesDistribution)))
+			.def("addRandomEdgesDegreeDistribution", &networkTemplate::addRandomEdgesDegreeDistribution, addRandomEdgesDegreeDistribution_overloads (reinterpret_cast<const char *>(__createNetwork_addRandomEdgesDegreeDistribution)))
 			.def("beeWeb", &networkTemplate::beeWeb, beeWeb_overloads(reinterpret_cast<const char *>(__createNetwork_beeWeb)))
 			.def("createFromAdjacencyMatrix", &networkTemplate::createFromAdjacencyMatrix ,  createFromAdjacencyMatrix_overloads( reinterpret_cast< const char *> (__createNetwork_createFromAdjacencyMatrix)))
 			.def("createFromAdjacencyList", &networkTemplate::createFromAdjacencyList, createFromAdjacencyList_overloads( reinterpret_cast<const char *>(__createNetwork_createFromAdjacencyList)))
@@ -478,7 +358,6 @@ template <class N>
 			.def("closenessCentrality", &networkTemplate::closenessCentrality, reinterpret_cast<const char *>(__statisticsNetwork_closenessCentrality))
 			.def("degreeCentrality", &networkTemplate::degreeCentrality, reinterpret_cast<const char *>(__statisticsNetwork_degreeCentrality))
 			.def("degree", &networkTemplate::degree, reinterpret_cast<const char *>(__statisticsNetwork_degree))
-			.def("size", &networkTemplate::size, reinterpret_cast<const char *>(__statisticsNetwork_size))	
 			.def("meanDegree", &networkTemplate::meanDegree, reinterpret_cast<const char *>(__statisticsNetwork_meanDegree))
 			.def("meanWeight", &networkTemplate::meanWeight, reinterpret_cast<const char *>(__statisticsNetwork_meanWeight))
 			.def("meanClustering", &networkTemplate::meanClustering, reinterpret_cast<const char *>(__statisticsNetwork_meanClustering))
@@ -486,15 +365,16 @@ template <class N>
 			.def("meanPathLength", &networkTemplate::meanPathLength, reinterpret_cast<const char *>(__statisticsNetwork_meanPathLength))
 			.def("isConnected", &networkTemplate::isConnected, reinterpret_cast<const char *>(__statisticsNetwork_isConnected))
 			.def("getState", &networkTemplate::getState, getState_overloads(reinterpret_cast<const char *>(__statisticsNetwork_getState)))
-			.def("getParam", &networkTemplate::getParam, reinterpret_cast<const char *>(__statisticsNetwork_getParam))
 			.def("setParam", &networkTemplate::setParam, reinterpret_cast<const char *>(__dynNetwork_setParam))
 
 
 			// dynNetwork commands
 			.def("evolve", &networkTemplate::evolve, reinterpret_cast<const char *>(__dynNetwork_evolve))
+			.def("getParam", &networkTemplate::getParam, reinterpret_cast<const char *>(__statisticsNetwork_getParam))
 			.def("snapshot", &networkTemplate::snapshot, reinterpret_cast<const char *>(__dynNetwork_snapshot))
 			.def("observe", &networkTemplate::observe, observe_overloads (reinterpret_cast<const char *>(__dynNetwork_observe)))
 			.def("observeAll", &networkTemplate::observeAll, observeAll_overloads (reinterpret_cast<const char *>(__dynNetwork_observeAll)))
+			.def("observeComponents", &networkTemplate::observeComponents, reinterpret_cast<const char *>(__dynNetwork_observeComponents))
 			.def("observeTime", &networkTemplate::observeTime, reinterpret_cast<const char *>(__dynNetwork_observeTime))
 			.def("observePhaseCoherence", &networkTemplate::observePhaseCoherence, observePhaseCoherence_overloads( reinterpret_cast<const char *>(__dynNetwork_observePhaseCoherence)))
 			.def("observeSum", &networkTemplate::observeSum, observeSum_overloads( reinterpret_cast<const char *>(__dynNetwork_observeSum)))
@@ -556,7 +436,8 @@ template <class N>
 
 
 		// addNewNode.py Nodes begin
-#include "generatedNeuroPython.cpp"
+
+		revealNodesToPython();
 		// addNewNode.py Nodes end
 
 

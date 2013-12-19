@@ -25,7 +25,6 @@
 #endif
 
 
-//#include "stream.h"
 
 using namespace std;
 using namespace boost;
