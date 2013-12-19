@@ -48,7 +48,7 @@ namespace conedy
 
 
 
-	void network::replaceNodes(nodeDescriptor nodeNumber, nodeBlueprint *n)
+	void network::replaceNode(nodeDescriptor nodeNumber, nodeBlueprint *n)
 	{
 		throw "replaceNodes is a stub";
 	}

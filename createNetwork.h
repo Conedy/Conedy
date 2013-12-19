@@ -49,7 +49,7 @@ namespace conedy
 			void addRandomEdgesDegreeDistributionDirected ( function <double () > r, edgeBlueprint *l = stdEdge );
 
 			//! ein Netzwerk aus x * y Knoten vom Typ n
-			nodeDescriptor beeWeb ( int x, int y, nodeBlueprint *n = stdNode, edgeBlueprint *l, stdEdge );
+			nodeDescriptor beeWeb ( int x, int y, nodeBlueprint *n = stdNode, edgeBlueprint *l = stdEdge );
 
 			//! creates a network of nodes of type n and edges of type e according to a whitespace-separated adjacency matrix provided in a txt-file of name fileName.
 			nodeDescriptor createFromAdjacencyMatrix (string fileName, nodeBlueprint * n = stdNode, edgeBlueprint *e=stdEdge);
@@ -103,7 +103,7 @@ namespace conedy
 			void replaceEdges (double prop, edgeBlueprint *l = stdEdge, nodeBlueprint *n = stdNode);
 
 			//! Erzeugt ein skalenfreies Netzwerk nach Barabasi und Albert
-			nodeDescriptor scaleFreeNetwork ( int size, int c, nodeBlueprint *n, edgeBlueprint *l );
+			nodeDescriptor scaleFreeNetwork ( int size, int c, nodeBlueprint *n = stdNode, edgeBlueprint *l=stdEdge );
 
 			//! Erzeugt ein Gitter der größe x * y aus streamInNodes, die alle aus der Datei s lesen. Funktioniert gut mit Dateien, die von observeAll erzeugt wurden
 			nodeDescriptor streamInLattice ( int sizex, int sizey, string s );

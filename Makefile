@@ -21,7 +21,12 @@ docstrings.h: addedNodes.sum.old
 	cd testing; find -maxdepth 3 -name "*.rst" -exec sh -c  \
 		'foo={}; (cat {}; echo -e "Example:\n--------\n"; sed "s/^/  /g" $${foo%.rst}.py) > $${foo%.rst};   #cat rst-file and  py file together \
 		xxd -i  $${foo%.rst} >> ../docstrings.h; rm $${foo%.rst}' \;
-
+	mv docstrings.h docstrings.h.tmp
+	echo "#ifndef docstrings_h" > docstrings.h
+	echo "#define docstrings_h docstrings_h" >> docstrings.h
+	cat docstrings.h.tmp >> docstrings.h
+	echo "#endif" >> docstrings.h
+	rm docstrings.h.tmp
 
 #Generate the bisonc++ Parser file. Tokens are
 Parser.yy: Parser.yy.tokens Parser.yy.declaration generatedAddNewNodeTokens.yy generatedAddNewNode.yy

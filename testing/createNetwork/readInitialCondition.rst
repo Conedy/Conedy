@@ -1,0 +1,1 @@
+``network.readInitialCondition(string, nodeTemplate)``

@@ -17,10 +17,10 @@ sudo aptitude install debhelper  cdbs python-all-dev boost-build  libboost-dev l
 ---
 
 
-Short introduction the source code.
+Some introduction to the source code:
 
 
-The main object which is managed and modified in Conedy is an instance of the class MyNetwork as defined in fullnetwork.h. This instance represents an adjacency list representation of a graph in which nodes represent dynamical systems and edges represent coupling between these systems. The functions which allow one to modify or observe this network are seperated into different subclasses which are merged together by inheritance:
+The main object which is managed and modified in Conedy is an instance of the class MyNetwork as defined in fullnetwork.h. This instance represents an edge array representation of a graph in which nodes represent dynamical systems and edges represent coupling between these systems. The functions which allow one to modify or observe this network are seperated into different subclasses which are merged together by inheritance:
 
 The Network:
 
@@ -70,8 +70,10 @@ nodeImplement.h:
 The Edges:
 
 	
-node.h:
-	defines edge and edgeVirtual, which are the base classes 
+node.h, edge.h:
+	defines edge and edgeVirtual, which are the base classes for all edges. Edges inherit from a template parameter, which could allow for some kind of filter chain in which different edges are chained after another and perform different transformations of the target state. Depending on the type of the first ancestor, which is either edge or edgeVirtual, the chained calls to getTargetState are either virtual or non-virtual function calls. Edges are planned to be generated automatically like nodes with ini-files. At the moment, only some features of nodes can be combined in a hard-coded way.
+
+
 
 
 

@@ -258,8 +258,9 @@ namespace conedy
 	baseType statisticsNetwork::meanClustering()
 	{
 
-		baseType f, linkedFriends= 0;
-
+		baseType linkedFriends= 0;
+		baseType f = 0;
+			
 		network::nodeIterator ia;
 		network::nodeList vl;
 		network::verticesMatching ( vl,_dynNode_ );

@@ -3,12 +3,10 @@
 
 #include <map>
 #include <iostream>
-#include <sstream>
 #include <string>
+#include <sstream>
 #include "baseType.h"
-
 #include "command.h"
-
 #include "params.h"
 
 using namespace std;

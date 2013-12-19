@@ -97,7 +97,7 @@ namespace conedy
 			void randomizeWeights( function<baseType()> r, nodeBlueprint *n1 = stdNode, nodeBlueprint *n2 = stdNode);
 
 			//! replaces node nodeNumber with a newly created node constructed by n->construct() 
-			void replaceNodes(nodeDescriptor nodeNumber, nodeBlueprint *n = stdNode);
+			void replaceNode(nodeDescriptor nodeNumber, nodeBlueprint *n = stdNode);
 
 			//! removes all edges between source and target (should be only one)
 			void removeEdge (nodeDescriptor source, nodeDescriptor target) { node::theNodes[source]->unlink(target); }

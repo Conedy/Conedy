@@ -101,7 +101,7 @@ exe conedyDebug  : parse.cc lex.yy.cc command.cpp conedy.cpp $(objects)  z boost
 # Declare the three extension modules.  You can specify multiple
 # source files after the colon separated by spaces.
 
-python-extension python-conedy : neuroPython.cpp command.cpp $(objects)  z boost_iostreams gsl gslcblas libboost_python : release ;
+python-extension python-conedy : neuroPython.cpp neuroPythonNodes.cpp command.cpp $(objects)  z boost_iostreams gsl gslcblas libboost_python : release ;
 
 #using python : 2.5 ;
 #python-extension python-conedyDebug : neuroPython.cpp $(objects)  z boost_iostreams gsl gslcblas libboost_python : debug ;

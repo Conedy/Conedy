@@ -14,7 +14,7 @@ target: int
 
 Note
 ----
-For nodes which represent a differential equation, the added connection represent a coupling in the expected direction. 
+For nodes which represent a differential equation, the added connection represent a coupling in the expected direction (source influences target). 
 
 
 
