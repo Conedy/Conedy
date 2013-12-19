@@ -18,11 +18,12 @@
 //#define GSLODE
 //}
 
+#include "generatedFullNetwork.h"
 
+void registerStandards();
 
 // addNewNodes here
 
-#include "generatedFullNetwork.h"
 
 
 #define EVENTCOUNT

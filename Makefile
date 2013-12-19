@@ -18,7 +18,7 @@ test: ${todo:=.test}
 docstrings.h: addedNodes.sum.old
 	rm -f docstrings.h
 	touch docstrings.h
-	cd testing; find -maxdepth 3 -name "*.rst" -exec sh -c  \
+	cd testing; find -path ./addedNodes -prune -maxdepth 3 -name "*.rst" -exec sh -c  \
 		'foo={}; (cat {}; echo -e "Example:\n--------\n"; sed "s/^/  /g" $${foo%.rst}.py) > $${foo%.rst};   #cat rst-file and  py file together \
 		xxd -i  $${foo%.rst} >> ../docstrings.h; rm $${foo%.rst}' \;
 	mv docstrings.h docstrings.h.tmp
@@ -27,6 +27,21 @@ docstrings.h: addedNodes.sum.old
 	cat docstrings.h.tmp >> docstrings.h
 	echo "#endif" >> docstrings.h
 	rm docstrings.h.tmp
+
+
+docstringsNodes.h: addedNodes.sum.old
+	rm -f docstringsNodes.h
+	touch docstringsNodes.h
+	cd testing/addedNodes; find -maxdepth 2 -name "*.rst" -exec sh -c  \
+		'foo={}; (cat {}; echo -e "Example:\n--------\n"; sed "s/^/  /g" $${foo%.rst}.py) > $${foo%.rst};   #cat rst-file and  py file together \
+		xxd -i  $${foo%.rst} >> ../../docstringsNodes.h; rm $${foo%.rst}' \;
+	mv docstringsNodes.h docstringsNodes.h.tmp
+	echo "#ifndef docstringsNodes_h" > docstringsNodes.h
+	echo "#define docstringsNodes_h docstringsNodes_h" >> docstringsNodes.h
+	cat docstringsNodes.h.tmp >> docstringsNodes.h
+	echo "#endif" >> docstringsNodes.h
+	rm docstringsNodes.h.tmp
+
 
 #Generate the bisonc++ Parser file. Tokens are
 Parser.yy: Parser.yy.tokens Parser.yy.declaration generatedAddNewNodeTokens.yy generatedAddNewNode.yy
@@ -189,7 +204,7 @@ conedy.uninstall:
 #	chmod +x  ${dirInstall}/recompileNeurosimIfNecessary.sh
 
 
-python-conedy: addNodesIfNecessary docstrings.h string_config.h # build the python bindings of Conedy.
+python-conedy: addNodesIfNecessary docstrings.h docstringsNodes.h string_config.h # build the python bindings of Conedy.
 	CFLAGS="-D$(SVNDEV) -DPYTHON $(addprefix -D,${defines})" python setup.py build
 
 python-conedy-root.clean: python-conedy.clean

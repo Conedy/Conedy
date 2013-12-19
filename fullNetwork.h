@@ -3,6 +3,7 @@
 #ifndef fullNetwork_h
 #define fullNetwork_h fullNetwork_h
 
+#include "fullNetwork.h"
 
 #include "baseType.h"
 #include "createNetwork.h"
@@ -19,6 +20,8 @@
 
 
 
+
+
 #define EVENTCOUNT
 
 
@@ -30,11 +33,10 @@
 namespace  conedy {
 
 
-
 class networkTemplate :  public statisticsNetwork, public createNetwork,public GLNetwork
 {
 	public :
-		networkTemplate() {};
+		networkTemplate() {} 
 		
 
 };
@@ -48,11 +50,12 @@ namespace conedy {
 
 
 
+
 //! networkTemplate ist die Netzwerk-Klasse, die vom Parser benutzt wird. Alle benötigten Funktionen werden haer han 
 class networkTemplate : public createNetwork, public statisticsNetwork, public spatialNetwork
 {
 	public :
-		networkTemplate() {};
+		networkTemplate() {}  
 	
 
 };
@@ -60,14 +63,14 @@ class networkTemplate : public createNetwork, public statisticsNetwork, public s
 class directedNetwork : public networkTemplate
 {
 	public:
-		directedNetwork() { network::setDirected(); }
+		directedNetwork();// { network::setDirected(); }
 };
 
 
 class undirectedNetwork : public networkTemplate
 {
 	public:
-		undirectedNetwork() { network::setUndirected(); }
+		undirectedNetwork();// { network::setUndirected(); }
 };
 
 

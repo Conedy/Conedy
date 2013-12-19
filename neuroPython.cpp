@@ -1,4 +1,3 @@
-#include "registerStandards.h"
 
 #include <stdio.h>
 #include <fstream>

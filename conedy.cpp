@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "commandLineArguments.h"
 
-#include "registerStandards.h"
+#include "fullNetworkWithNodes.h"
 
 
 #include "node.h"

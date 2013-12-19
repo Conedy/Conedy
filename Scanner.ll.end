@@ -1,0 +1,32 @@
+
+
+{ID}        	{
+
+			string s(yytext);
+			d_val__-> stringExpression = new constantCommand<string>(s);
+			switch	(command::getType(s))
+			{
+//					val->sCmd = new constantCommand<string>(s);
+
+//				yylval.id = (char*) strdup (yytext);
+
+				case _int_:
+					return (ParserBase::INTVAR);
+				case _baseType_:
+					return (ParserBase::DOUBLEVAR);
+				case _string_:
+					return (ParserBase::STRINGVAR);
+				case _network_:
+					return (ParserBase::NETWORKVAR);
+				case _bool_:
+					return (ParserBase::BOOLVAR);
+				case _node_:
+					return (ParserBase::NODEVAR);
+				default:
+					return (ParserBase::ID);
+			}
+
+		}
+
+
+<<EOF>> { yyterminate();}
