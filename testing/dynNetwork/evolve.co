@@ -1,7 +1,0 @@
-
-
-network N;
-
-
-N.addNode(roessler());
-N.evolve(0.0,100.0);

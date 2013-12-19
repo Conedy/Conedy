@@ -1,7 +1,0 @@
-
-
-samplingTime = 10.0;
-odeIsAdaptive = true;
-odeStepType = "gsl_odeiv_step_rkf45";
-outputPrecision = 4;
-

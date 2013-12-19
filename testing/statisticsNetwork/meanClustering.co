@@ -1,9 +1,0 @@
-network N;
-
-N.cycle(100, 4, roessler());
-print "Should be 18 / 28 (0.6429): "+ N.meanClustering() + newline;
-
-N.clear();
-N.torus(10, 10, 1.5, roessler(), edge());
-print "Should be 12 / 28 (0.4286): "+N.meanClustering() + newline;
-

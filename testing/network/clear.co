@@ -1,7 +1,0 @@
-network N;
-
-N.addNode(roessler());
-print "Should be 1:" +  N.size()+ newline;
-N.clear();
-print "Should be 0:" +  N.size()+ newline;
-

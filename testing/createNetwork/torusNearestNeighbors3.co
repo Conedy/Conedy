@@ -1,5 +1,0 @@
-setRandomSeed(1);
-
-network N;
-
-N.torusNearestNeighbors(10, 10, 7.0, lorenz(), edge());

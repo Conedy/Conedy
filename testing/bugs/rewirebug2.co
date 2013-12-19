@@ -1,3 +1,0 @@
-network N;
-N.completeNetwork(3, roessler(), edge());
-N.rewire(1.0);

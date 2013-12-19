@@ -1,6 +1,0 @@
-network N;
-
-int ersterknoten;
-ersterknoten = N.completeNetwork(4, node(), edge());
-
-print "Should be a number:"+ersterknoten+newline;
