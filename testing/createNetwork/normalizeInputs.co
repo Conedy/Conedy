@@ -1,21 +1,10 @@
-
-
-
-#network_edgeVerbosity = 0.0;
-
-
-setRandomSeed(0);
 network n;
 
 int networkSize;
 
 networkSize = 10;
 
-
-
 n.randomNetwork( networkSize, 0.4, node(), weightedEdge());
-
-
 n.randomizeWeights (uniform (1.1,1.1));
 
 

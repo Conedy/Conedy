@@ -1,4 +1,5 @@
-``network.rewire(probability, node)``
+``directedNetwork.rewire(probability, node)``
+``undirectedNetwork.rewire(probability, node)``
    Replaces connections in the network by connections between randomly chosen source and target nodes.
 
 Parameters

@@ -930,6 +930,8 @@ void createNetwork::rewireDirected ( double prop, nodeBlueprint *n )
 
 void createNetwork::replaceEdges ( double prop, edgeBlueprint * l, nodeBlueprint *n )
 {
+	if (!directed)
+		throw "replaceEdges for undirected networks not implemented at the moment.";
 
 	network::edgeList toChange;
 	network::edgeIterator it;

@@ -1,0 +1,5 @@
+network n;
+
+n.beeWeb (10,10);
+
+print "Should be 6:" + n.meanDegree();

@@ -1,5 +1,6 @@
-``randomNetwork(size, probability, node=dynNode, edge=weightedEdge)``
-	Adds a directed random network.
+``directedNetwork.randomNetwork(size, probability, node=dynNode, edge=weightedEdge)``
+``undirectedNetwork.randomNetwork(size, probability, node=dynNode, edge=weightedEdge)``
+	Adds a random network.
 
 Parameters
 ----------
