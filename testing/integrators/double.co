@@ -20,5 +20,5 @@ N.clear();
 
 
 
-#:diff output/coupledSystems2.co.single output/coupledSystems2.co.double:;
-#:diff output/coupledSystems2.co.singleCouplingSum output/coupledSystems2.co.double:;
+:"diff output/coupledSystems2.co.single output/coupledSystems2.co.double":;
+:"diff output/coupledSystems2.co.singleCouplingSum output/coupledSystems2.co.double":;

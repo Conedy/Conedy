@@ -1,0 +1,21 @@
+
+
+network N;
+
+setRandomSeed(0);
+
+N.cycle ( 1000, 10, roessler(), weightedEdge(1.0));
+
+
+
+
+print "mean degree before rewiring:" + N.meanDegree()+ newline;
+print "should be close to 0.75:" +  N.meanClustering()+ newline;
+N.replaceEdges(1.0, staticWeightedEdge(0.2));
+print "mean degree after rewiring:" +  N.meanDegree()+ newline;
+print "should be close to 0.0:" +  N.meanClustering()+ newline;
+
+N.printNodeStatistics();
+
+
+

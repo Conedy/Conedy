@@ -1,5 +1,6 @@
 
-``network.addRandomEdges (m, edge=weightedEdge)``
+``directedNetwork.addRandomEdges (m, edge=weightedEdge)``
+``undirectedNetwork.addRandomEdges (m, edge=weightedEdge)``
 	Add edges with randomly chosen source and target nodes until the network reaches a certain mean degree. Self connections and parallel (duplicate) edges are avoided.
 
 Parameters

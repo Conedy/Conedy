@@ -315,6 +315,8 @@ template <class N>
 			////network commands
 			.def("addEdge", &networkTemplate::addEdge, reinterpret_cast<const char *>(__network_addEdge))
 			.def("addNode", &networkTemplate::addNode, addNode_overloads(reinterpret_cast<const char *>(__network_addNode)))
+//			.def("addNode", &networkTemplate::addNode, addNode_overloads(reinterpret_cast<const char *>(__network_addNode)))     // this somehow matches the wrong function in spatialnetwork and makes addNode uncallable, strange
+			.def("addNode", &networkTemplate::addNode, reinterpret_cast<const char *>(__network_addNode)) 
 			.def("addWeightedEdge", &networkTemplate::addWeightedEdge, reinterpret_cast<const char *>(__network_addWeightedEdge))
 			.def("clear", &dynNetwork::clear, reinterpret_cast<const char *>(__network_clear))
 			.def("isDirected", &networkTemplate::isDirected, reinterpret_cast<const char *>(__network_isDirected))
@@ -346,7 +348,7 @@ template <class N>
 			.def("rewire", &networkTemplate::rewire ,  rewire_overloads( reinterpret_cast< const char *> (__createNetwork_rewire)))
 			.def("replaceEdges", &networkTemplate::replaceEdges ,  replaceEdges_overloads( reinterpret_cast< const char *> (__createNetwork_replaceEdges)))
 			.def("scaleFreeNetwork", &networkTemplate::scaleFreeNetwork, scaleFreeNetwork_overloads(reinterpret_cast<const char *>(__createNetwork_scaleFreeNetwork)))
-			.def("streamInLattice", &networkTemplate::streamInLattice, reinterpret_cast<const char *>(__createNetwork_streamInLattice))
+//			.def("streamInLattice", &networkTemplate::streamInLattice, reinterpret_cast<const char *>(__createNetwork_streamInLattice))   
 			.def("torus", &networkTemplate::torus, reinterpret_cast<const char *>(__createNetwork_torus))
 			.def("torusNearestNeighbors", &networkTemplate::torusNearestNeighbors,  reinterpret_cast<const char *>(__createNetwork_torusNearestNeighbors))
 

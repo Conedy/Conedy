@@ -12,8 +12,8 @@ network n;
 n.addNode (pcoIntegrateFire());
 n.addNode (pcoIntegrateFire());
 
-n.addEdge(0,1,0.06);
-n.addEdge(1,0,0.06);
+n.addWeightedEdge(0,1,0.06);
+n.addWeightedEdge(1,0,0.06);
 
 n.setState(0,0.0);
 n.setState(1,0.5);
