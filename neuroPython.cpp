@@ -27,8 +27,8 @@
 
 
 
-namespace { // Avoid cluttering the global namespace.
-	using namespace conedy;
+
+using namespace conedy;
 
 
 template <class N>
@@ -306,7 +306,6 @@ template <class N>
 
 		class_<dynNetwork>("dynNetwork");
 	
-
 		class_<networkTemplate, bases <createNetwork, dynNetwork> >("network")
 			//	 class_<networkTemplate >("directedNetwork")
 			.def("__init__", make_constructor(directedNetworkFactory))
@@ -315,7 +314,7 @@ template <class N>
 
 			////network commands
 			.def("addEdge", &networkTemplate::addEdge, reinterpret_cast<const char *>(__network_addEdge))
-			.def("addNode", &network::addNode, addNode_overloads(reinterpret_cast<const char *>(__network_addNode)))
+			.def("addNode", &networkTemplate::addNode, addNode_overloads(reinterpret_cast<const char *>(__network_addNode)))
 			.def("addWeightedEdge", &networkTemplate::addWeightedEdge, reinterpret_cast<const char *>(__network_addWeightedEdge))
 			.def("clear", &dynNetwork::clear, reinterpret_cast<const char *>(__network_clear))
 			.def("isDirected", &networkTemplate::isDirected, reinterpret_cast<const char *>(__network_isDirected))
@@ -508,4 +507,3 @@ template <class N>
 
 		//    python::def("square", square);
 	}
-}

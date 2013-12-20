@@ -1,4 +1,0 @@
-network net;
-
-net.addNode(pdeMirollo1stUpwind_1000()); 
-
