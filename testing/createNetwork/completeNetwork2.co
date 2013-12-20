@@ -1,0 +1,6 @@
+network N;
+
+N.completeNetwork(2);
+
+N.completeNetwork(2);
+

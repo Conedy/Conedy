@@ -1,0 +1,9 @@
+network n;
+
+
+
+n.cycle ( 100, 1,node(), weightedEdge());
+
+n.randomizeWeights(uniform(0.0,1.50));
+
+print "should be close to 0.75:"+ n.meanWeight()+ newline;

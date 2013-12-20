@@ -1,0 +1,37 @@
+network N;
+
+roessler_omega = 0.89;
+roessler_a = 0.165;
+roessler_b = 0.2;
+roessler_c = 10.0;
+
+samplingTime = 0.01;
+
+
+
+N.addNode (roessler());
+N.setParam (0, "roessler_omega", 1.0);
+N.addNode (roessler());
+
+N.addEdge(0,1,0.5);
+N.addEdge(1,0,0.5);
+
+
+N.setState(0, 0.0,0.0,0.0);
+N.setState(1, 1.0,1.0,0.0);
+
+
+N.printNodeStatistics();
+
+N.observeTime("output/roesslerRoesslerCoupled.co.series");
+
+N.observe(0,"output/roesslerRoesslerCoupled.co.series",component(0));
+N.observe(0,"output/roesslerRoesslerCoupled.co.series",component(1));
+N.observe(0,"output/roesslerRoesslerCoupled.co.series",component(2));
+
+N.observe(1,"output/roesslerRoesslerCoupled.co.series",component(0));
+N.observe(1,"output/roesslerRoesslerCoupled.co.series",component(1));
+N.observe(1,"output/roesslerRoesslerCoupled.co.series",component(2));
+
+N.evolve(0.0,1500.0);
+

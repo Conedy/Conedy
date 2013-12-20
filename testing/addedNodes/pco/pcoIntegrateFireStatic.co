@@ -1,0 +1,4 @@
+network net;
+
+net.addNode(pcoIntegrateFireStatic()); 
+

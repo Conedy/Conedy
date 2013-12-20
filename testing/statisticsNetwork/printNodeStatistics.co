@@ -1,0 +1,45 @@
+network N;
+
+int i = N.addNode(roessler());
+
+nodeVerbosity = 0;
+edgeVerbosity = 0;
+print "nodeVerbosity = 0, edgeVerbosity = 0" + newline;
+print "------------------------------------" + newline;
+N.printNodeStatistics();
+print newline;
+
+nodeVerbosity = 1;
+edgeVerbosity = 0;
+print "nodeVerbosity = 1, edgeVerbosity = 0" + newline;
+print "------------------------------------" + newline;
+N.printNodeStatistics();
+print newline;
+
+nodeVerbosity = 2;
+edgeVerbosity = 0;
+print "nodeVerbosity = 2, edgeVerbosity = 0" + newline;
+print "------------------------------------" + newline;
+N.printNodeStatistics();
+print newline;
+
+
+int j = N.addNode(roessler());
+N.addEdge(i, j, weightedEdge (1.0));
+
+nodeVerbosity = 2;
+edgeVerbosity = 1;
+print "nodeVerbosity = 2, edgeVerbosity = 1" + newline;
+print "------------------------------------" + newline;
+N.printNodeStatistics();
+print newline;
+
+
+
+nodeVerbosity = 2;
+edgeVerbosity = 2;
+print "nodeVerbosity = 2, edgeVerbosity = 2" + newline;
+print "------------------------------------" + newline;
+N.printNodeStatistics();
+print newline;
+

@@ -1,0 +1,19 @@
+network N;
+
+N.cycle(10,1,kuramoto());
+
+
+N.observePhaseCoherence("output/observePhaseCoherence.co.1");
+N.evolve(0.0,10.0);
+N.removeObserver();
+
+int i;
+
+for (i = 0 ; i < 10; i = i + 1)
+	N.setState(i, i/10.0);
+
+
+N.observePhaseCoherence("output/observePhaseCoherence.co.0");
+N.evolve(10.0,20.0);
+
+

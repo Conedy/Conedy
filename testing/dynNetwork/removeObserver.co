@@ -1,0 +1,14 @@
+
+network N;
+
+int nodeNumber; 
+
+
+nodeNumber = N.addNode(roessler());
+
+N.observe (nodeNumber, "output/removeObserver.co.series");
+N.removeObserver();
+
+N.evolve(0.0,100.0);
+
+

@@ -1,0 +1,12 @@
+network N;
+
+
+N.addNode(node());
+N.addNode();
+
+N.addEdge(0,1,weightedEdge(0.3));
+N.addEdge(1,0,staticWeightedEdge(0.2));
+
+N.saveAdjacencyList("output/addEdge.co.adjList");
+
+N.printNodeStatistics();

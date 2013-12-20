@@ -1,0 +1,11 @@
+
+network N;
+
+samplingTime = 0.015;
+
+
+
+N.observeTime("output/observeTime.co.time");
+
+
+N.evolve(0.0,10.0);

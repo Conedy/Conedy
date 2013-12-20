@@ -1,0 +1,5 @@
+network N;
+
+int i = N.addNode(kuramoto());
+
+print "kuramoto_omega:" +  N.getParam(i, "kuramoto_omega");

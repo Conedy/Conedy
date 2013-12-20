@@ -1,0 +1,2 @@
+
+setRandomSeed(10); # set the random seed to 10

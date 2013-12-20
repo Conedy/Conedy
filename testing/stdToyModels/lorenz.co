@@ -1,0 +1,21 @@
+network N;
+
+lorenz_S = 10.0;
+lorenz_r = 28.0;
+lorenz_b = 8.0/3.0;
+
+samplingTime = 0.01;
+
+
+
+N.addNode(lorenz());
+
+N.setState(0, 1.0, 1.0, 1.0);
+
+N.observeTime("output/lorenz.co.series");
+N.observeAll("output/lorenz.co.series",component(0));
+N.observeAll("output/lorenz.co.series",component(1));
+N.observeAll("output/lorenz.co.series",component(2));
+
+
+N.evolve(0.0,1500.0);

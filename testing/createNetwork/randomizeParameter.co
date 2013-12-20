@@ -1,0 +1,23 @@
+
+
+network N;
+
+
+N.randomNetwork(100, 0.1, roessler());
+
+
+N.randomizeParameter ("roessler_omega", uniform (0.80, 0.85));
+
+int i;
+
+for (i = 0; i < 100; i = i + 1)
+{
+
+	print "Node " + i+ ":"+ N.getParam(i, "roessler_omega")+newline;
+
+};
+
+
+
+
+

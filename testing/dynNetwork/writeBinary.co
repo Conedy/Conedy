@@ -1,0 +1,18 @@
+network N;
+
+
+
+
+
+outputBinary= true;
+samplingTime= 0.015;
+
+
+
+N.observeTime("output/writeBinary.co.time");
+
+
+N.printNodeStatistics();
+
+N.evolve(0.0,10.0);
+

@@ -1,0 +1,20 @@
+
+
+
+
+
+network N;
+
+loop (10000)
+	N.addNode (node ());
+
+N.addRandomEdgesDegreeDistribution(uniform (0.0,100.0), edge  );
+
+
+
+
+#N.printNodeStatistics();
+
+N.inDegreeDistribution("output/addRandomEdgesDegreeDistribution.degDist");
+print N.meanDegree();
+

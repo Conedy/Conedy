@@ -1,0 +1,12 @@
+network N;
+
+loop (100) N.addNode(node());
+
+N.addRandomEdges (10.0, weightedEdge(0.5));
+
+
+print "should be 10:" + N.meanDegree();
+
+
+
+

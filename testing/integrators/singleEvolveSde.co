@@ -1,0 +1,9 @@
+network N;
+
+N.addNode(ornUhl());
+N.observeTime("output/singleEvolveSde.co.series");
+N.observeAll("output/singleEvolveSde.co.series", component(0),ornUhl());
+N.evolve(0.0, 2.0);
+
+
+

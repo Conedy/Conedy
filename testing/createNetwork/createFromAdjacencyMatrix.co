@@ -1,0 +1,13 @@
+network N;
+
+N.completeNetwork (10, node(), weightedEdge());
+
+N.saveAdjacencyMatrix("output/createFromAdjacencyMatrix.co.mat");
+N.clear();
+N.createFromAdjacencyMatrix("output/createFromAdjacencyMatrix.co.mat");
+
+N.saveAdjacencyMatrix("output/createFromAdjacencyMatrix.co.mat2");
+
+
+
+

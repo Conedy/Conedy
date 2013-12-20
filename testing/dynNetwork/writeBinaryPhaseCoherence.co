@@ -1,0 +1,17 @@
+network N;
+
+
+
+
+
+outputBinary= true;
+samplingTime= 0.015;
+
+
+
+N.observePhaseCoherence("output/writeBinaryPhaseCoherence.co.time");
+
+
+#N.printNodeStatistics();
+
+N.evolve(0.0,10.0);

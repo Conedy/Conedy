@@ -1,0 +1,14 @@
+network N;
+
+
+
+
+
+int firstNode = N.addNode(roessler());
+int secondNode = N.addNode(roessler());
+
+N.addEdge (firstNode,secondNode, randomTarget (2, 3) );
+
+
+N.printNodeStatistics();
+
