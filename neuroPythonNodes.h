@@ -2,7 +2,6 @@
 #ifndef __neuroPythonNodes_h
 #define __neuroPythonNodes_h __neuroPythonNodes_h
 #include "fullNetworkWithNodes.h"
-#include "docstringsNodes.h"
 
 #include <boost/python.hpp>
 

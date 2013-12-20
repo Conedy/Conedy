@@ -6,6 +6,8 @@
 #include <boost/python/def.hpp>
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
+#include "docstringsNodes.h"
+
 void revealNodesToPython ()
 {
 #include "generatedNeuroPython.cpp"

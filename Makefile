@@ -18,7 +18,7 @@ test: ${todo:=.test}
 docstrings.h: addedNodes.sum.old
 	rm -f docstrings.h
 	touch docstrings.h
-	cd testing; find -path ./addedNodes -prune -maxdepth 3 -name "*.rst" -exec sh -c  \
+	cd testing;  find  -maxdepth 3 -path ./addedNodes -prune -o -name "*.rst" -exec sh -c  \
 		'foo={}; (cat {}; echo -e "Example:\n--------\n"; sed "s/^/  /g" $${foo%.rst}.py) > $${foo%.rst};   #cat rst-file and  py file together \
 		xxd -i  $${foo%.rst} >> ../docstrings.h; rm $${foo%.rst}' \;
 	mv docstrings.h docstrings.h.tmp
@@ -32,15 +32,15 @@ docstrings.h: addedNodes.sum.old
 docstringsNodes.h: addedNodes.sum.old
 	rm -f docstringsNodes.h
 	touch docstringsNodes.h
-	cd testing/addedNodes; find -maxdepth 2 -name "*.rst" -exec sh -c  \
+	cd testing; find ./addedNodes -maxdepth 3 -name "*.rst" -exec sh -c  \
 		'foo={}; (cat {}; echo -e "Example:\n--------\n"; sed "s/^/  /g" $${foo%.rst}.py) > $${foo%.rst};   #cat rst-file and  py file together \
-		xxd -i  $${foo%.rst} >> ../../docstringsNodes.h; rm $${foo%.rst}' \;
+		xxd -i  $${foo%.rst} >> ../docstringsNodes.h; rm $${foo%.rst}' \;
 	mv docstringsNodes.h docstringsNodes.h.tmp
 	echo "#ifndef docstringsNodes_h" > docstringsNodes.h
 	echo "#define docstringsNodes_h docstringsNodes_h" >> docstringsNodes.h
 	cat docstringsNodes.h.tmp >> docstringsNodes.h
 	echo "#endif" >> docstringsNodes.h
-	rm docstringsNodes.h.tmp
+#	rm docstringsNodes.h.tmp
 
 
 #Generate the bisonc++ Parser file. Tokens are

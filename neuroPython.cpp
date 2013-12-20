@@ -434,16 +434,15 @@ template <class N>
 
 
 
-		// addNewNode.py Nodes begin
-
-		revealNodesToPython();
-		// addNewNode.py Nodes end
 
 
 		//	class_< edgeVirtual, bases <edgeBlueprint> > ("unweightedEdge");
 
 		class_< nodeVirtualEdges < dynNode >, bases <nodeBlueprint> > ("node");
 
+		// addNewNode.py Nodes begin
+		revealNodesToPython();
+		// addNewNode.py Nodes end
 
 
 		class_<edgeBlueprint> ("edge");
