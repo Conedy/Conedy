@@ -166,6 +166,7 @@ clear		{return(ParserBase::CLEAR); }
 addNode	{return(ParserBase::ADDNODE); }
 printNodeStatistics	{return(ParserBase::PRINTNODESTATISTICS); }
 addEdge		{return(ParserBase::ADDEDGE); }
+addWeightedEdge		{return(ParserBase::ADDWEIGHTEDEDGE); }
 randomNetwork		{return(ParserBase::RANDOMNETWORK); }
 beeWeb		{return(ParserBase::BEEWEB); }
 scaleFreeNetwork		{return(ParserBase::SCALEFREENETWORK); }

@@ -15,7 +15,7 @@ N.setState(j, startwerta);
 N.setState(j+1, startwertb);
 N.setParam(j, "onlyCoupling_a", a);
 N.setParam(j+1, "onlyCoupling_a", b);
-N.observe(j, "output/coupledSystems2.co.single", component(0));
+N.observe(j, "output/tmp_single", component(0));
 N.evolve(0.0,40.0);
 N.clear();
 
@@ -27,7 +27,7 @@ N.setState(j, startwerta);
 N.setState(j+1, startwertb);
 N.setParam(j, "onlyCoupling_a", a);
 N.setParam(j+1, "onlyCoupling_a", b);
-N.observe(j, "output/coupledSystems2.co.singleCouplingSum", component(0));
+N.observe(j, "output/tmp_singleCouplingSum", component(0));
 N.evolve(0.0,40.0);
 N.clear();
 
@@ -38,9 +38,15 @@ int k = N.addNode(doubleOnlyCoupling);
 N.setState(k, startwerta, startwertb);
 N.setParam(k, "doubleOnlyCoupling_a", gewicht*a);
 N.setParam(k, "doubleOnlyCoupling_b", gewicht*b);
-N.observe(k, "output/coupledSystems2.co.double", component(0));
+N.observe(k, "output/tmp_double", component(0));
 N.evolve(0.0,40.0);
 N.clear();
 
-:"diff output/coupledSystems2.co.single output/coupledSystems2.co.double":;
-:"diff output/coupledSystems2.co.singleCouplingSum output/coupledSystems2.co.double":;
+
+
+#print "Should print nothing for identical files:";
+:"paste output/tmp_single output/tmp_double | awk '{print $1-$2 > 0.00001; print $2 - $1 > 0.00001  }'  ":;
+:"paste output/tmp_singleCouplingSum output/tmp_double | awk '{print $1-$2 > 0.00001; print $2 - $1 > 0.00001  }'  ":;
+
+
+

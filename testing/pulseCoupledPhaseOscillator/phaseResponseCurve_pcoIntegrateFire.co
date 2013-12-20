@@ -41,7 +41,7 @@ samplingTime = 10000.0;
 	nodeNumber = n.addNode(pcoIntegrateFire());
 	otherNodeNumber = n.addNode(pcoIntegrateFire());
 	referenceNodeNumber = n.addNode(pcoIntegrateFire());
-	n.addEdge(otherNodeNumber,nodeNumber,0.01);
+	n.addEdge(otherNodeNumber,nodeNumber,weightedEdge(0.01));
 	n.observe(referenceNodeNumber, "_tmp");
 	n.observe(nodeNumber, "_tmp");
 #n.printNodeStatistics();
