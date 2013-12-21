@@ -274,9 +274,11 @@ namespace conedy
 					linkedFriends+= linkStrength (getTarget (*s), getTarget (*t)); 
 
 			if ( el.size() > 1 )
-				return ( baseType ) linkedFriends / ( el.size() * ( el.size() -1 ) );
+				linkedFriends =  linkedFriends / ( el.size() * ( el.size() -1 ) );
+		
 
 			f = f + linkedFriends; 
+			linkedFriends = 0;
 		}
 		f = f / network::numberVertices();
 		return f;

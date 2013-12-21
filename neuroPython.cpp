@@ -314,7 +314,7 @@ template <class N>
 
 			////network commands
 			.def("addEdge", &networkTemplate::addEdge, reinterpret_cast<const char *>(__network_addEdge))
-			.def("addNode", &networkTemplate::addNode, addNode_overloads(reinterpret_cast<const char *>(__network_addNode)))
+//			.def("addNode", &networkTemplate::addNode, addNode_overloads(reinterpret_cast<const char *>(__network_addNode)))
 //			.def("addNode", &networkTemplate::addNode, addNode_overloads(reinterpret_cast<const char *>(__network_addNode)))     // this somehow matches the wrong function in spatialnetwork and makes addNode uncallable, strange
 			.def("addNode", &networkTemplate::addNode, reinterpret_cast<const char *>(__network_addNode)) 
 			.def("addWeightedEdge", &networkTemplate::addWeightedEdge, reinterpret_cast<const char *>(__network_addWeightedEdge))
