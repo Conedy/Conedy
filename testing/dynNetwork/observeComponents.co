@@ -1,0 +1,7 @@
+
+network N; 
+
+int nodeNumber = N.addNode(roessler());
+
+N.observeComponents(nodeNumber, "output/observeComponents.co.initalCond");
+N.snapshot();

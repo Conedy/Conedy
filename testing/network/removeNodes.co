@@ -1,0 +1,11 @@
+
+
+network N;
+
+
+N.addNode (co.node());
+N.addNode (co.roessler());
+
+N.removeNodes(co.node());
+
+print "Should be 1:" + N.numberVertices();
