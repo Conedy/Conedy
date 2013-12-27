@@ -15,9 +15,8 @@ namespace conedy
 	{
 		public:
 			
-//			void printStatistics ();
 
-
+			//! prints debug information to the console.
 			void printNodeStatistics();
 
 			//! returns true if the network has only one connected component. (works only for undirected networks at the moment.)
@@ -38,31 +37,29 @@ namespace conedy
 			//! returns the mean clustering coefficient
 			baseType meanClustering();
 
+			//! obsolete ?
 			void printStatistics ( string s );
 
-
+			//! returns the mean path length as determined by Dijkstra's algorithm
 			baseType meanPathLength();
 
+			//! returns the mean weight of connections in th network
 			baseType meanWeight();
 
 			void degreeCentrality ( string filename );
 			void closenessCentrality ( string filename );
 			void betweennessCentrality ( string filename );
 
-			//			baseType meanDistanceMult();
 
+         void saveAdjacencyMatrix (string fileName);
 
 			unsigned int countEdges (edgeVirtual *e);
-
-
-//			void weightDistribution ( string fileName)
 
 			void inDegreeDistributionToFile ( string fileName );
 
 			void saveAdjacencyList(string fileName);
 			void saveGraphML(string fileName);
 
-         void saveAdjacencyMatrix (string fileName);
 
 //			void loadGraphML(string fileName) { throw "loadGraphML is a stub !";}
 
@@ -70,6 +67,7 @@ namespace conedy
 
 			void outDegreeDistributionToFile ( string fileName );
 
+			// obsolete ?
 			double networkSize();
 
 			void dijkstra( vector<baseType>& ret, nodeList vl, unsigned int v);

@@ -2,7 +2,6 @@
 
 network N;
 
-setRandomSeed(0);
 
 N.cycle ( 1000, 10, roessler(), weightedEdge(1.0));
 

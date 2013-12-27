@@ -32,7 +32,7 @@ First we specify the dynamics we want to consider
 
 .. testcleanup:: TUT
 
-   N.clean()
+   N.clear()
 
 
 .. testcode:: TUT
@@ -55,7 +55,7 @@ We want to create a `small-world`_ network which is based on a closed chain of 1
 
    N = co.network()
    N.cycle(100, 4, nodeTemplate, co.weightedEdge(0.1))
-   N.rewireUndirected(0.1)
+   N.rewire(0.1)
 
 Note that if the network ``N`` already contains nodes, the ``cycle`` method will add a set of circularly connected nodes without affecting the existing ones.
 

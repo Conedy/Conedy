@@ -228,6 +228,7 @@ template <class N>
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observeAll_overloads, observeAll, 1,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (completeNetwork_overloads, completeNetwork, 1,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (cycle_overloads, cycle, 2,4);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (numberVertices_overloads, numberVertices, 0,1);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (createFromAdjacencyList_overloads, createFromAdjacencyList, 1,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (createFromAdjacencyMatrix_overloads, createFromAdjacencyMatrix, 1,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (observePhaseCoherence_overloads, observePhaseCoherence, 1,3);
@@ -327,7 +328,7 @@ template <class N>
 			.def("removeEdge", &networkTemplate::removeEdge, reinterpret_cast<const char *>(__network_removeEdge))
 			.def("removeEdges", &networkTemplate::removeEdges, reinterpret_cast<const char *>(__network_removeEdges))
 			.def("removeNodes", &networkTemplate::removeNodes, reinterpret_cast<const char *>(__network_removeNodes))
-			.def("size", &networkTemplate::size, reinterpret_cast<const char *>(__network_size))	
+			.def("numberVertices", &networkTemplate::numberVertices, numberVertices_overloads (reinterpret_cast<const char *>(__network_size)))	
 			.def("setDirected", &networkTemplate::setDirected, reinterpret_cast<const char *>(__network_setDirected))
 			.def("setUndirected", &networkTemplate::setUndirected, reinterpret_cast<const char *>(__network_setUndirected))
 
@@ -361,7 +362,6 @@ template <class N>
 			.def("meanDegree", &networkTemplate::meanDegree, reinterpret_cast<const char *>(__statisticsNetwork_meanDegree))
 			.def("meanWeight", &networkTemplate::meanWeight, reinterpret_cast<const char *>(__statisticsNetwork_meanWeight))
 			.def("meanClustering", &networkTemplate::meanClustering, reinterpret_cast<const char *>(__statisticsNetwork_meanClustering))
-			.def("readInitialCondition", &networkTemplate::readInitialCondition, reinterpret_cast<const char *>(__createNetwork_readInitialCondition))
 			.def("meanPathLength", &networkTemplate::meanPathLength, reinterpret_cast<const char *>(__statisticsNetwork_meanPathLength))
 			.def("isConnected", &networkTemplate::isConnected, reinterpret_cast<const char *>(__statisticsNetwork_isConnected))
 			.def("getState", &networkTemplate::getState, getState_overloads(reinterpret_cast<const char *>(__statisticsNetwork_getState)))
@@ -379,6 +379,7 @@ template <class N>
 			.def("observePhaseCoherence", &networkTemplate::observePhaseCoherence, observePhaseCoherence_overloads( reinterpret_cast<const char *>(__dynNetwork_observePhaseCoherence)))
 			.def("observeSum", &networkTemplate::observeSum, observeSum_overloads( reinterpret_cast<const char *>(__dynNetwork_observeSum)))
 			.def("printNodeStatistics", &networkTemplate::printNodeStatistics, reinterpret_cast<const char *>(__statisticsNetwork_printNodeStatistics))
+			.def("readInitialCondition", &networkTemplate::readInitialCondition, reinterpret_cast<const char *>(__createNetwork_readInitialCondition))
 			.def("removeObserver", &networkTemplate::removeObserver, reinterpret_cast<const char *>(__dynNetwork_removeObserver))
 			.def("setTime", &networkTemplate::setTime, reinterpret_cast<const char *>(__dynNetwork_setTime))
 
@@ -441,15 +442,11 @@ template <class N>
 
 		class_< nodeVirtualEdges < dynNode >, bases <nodeBlueprint> > ("node");
 
-		// addNewNode.py Nodes begin
 		revealNodesToPython();
-		// addNewNode.py Nodes end
 
 
 		class_<edgeBlueprint> ("edge");
-		//	class_<edgeBlueprint> ("edge");
 
-		//	class_< edgeVirtual, bases <edgeBlueprint > > ("edge");
 
 		class_< weightedEdge < edgeVirtual >, bases <edgeBlueprint> > ("weightedEdge",   reinterpret_cast<const char *>(__edges_weightedEdge)       ). def (init<baseType>());
 
@@ -501,11 +498,4 @@ template <class N>
 		class_<undirectedNetwork, bases <networkTemplate> >("undirectedNetwork");
 //				.def ("__init__");
 
-		//	class_< delayEdge
-
-		//	class_< phaseOfPCPOVirtual, bases <edgeBlueprint> > ("phaseOfPCO");
-
-
-
-		//    python::def("square", square);
 	}

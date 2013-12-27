@@ -889,8 +889,6 @@ void createNetwork::rewireDirected ( double prop, nodeBlueprint *n )
 
 	for ( it = toChange.begin(); it != toChange.end(); it++ )
 	{
-
-		//		network::printAdjacencyList();
 		if ( network::noise.getUniform() > prop )
 			continue;
 
@@ -945,7 +943,6 @@ void createNetwork::replaceEdges ( double prop, edgeBlueprint * l, nodeBlueprint
 
 	for ( it = toChange.begin(); it != toChange.end(); it++ )
 	{
-		//		network::printAdjacencyList();
 		if ( network::noise.getUniform() > prop )
 			continue;
 

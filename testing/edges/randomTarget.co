@@ -2,8 +2,6 @@ network N;
 
 
 
-
-
 int firstNode = N.addNode(roessler());
 int secondNode = N.addNode(roessler());
 

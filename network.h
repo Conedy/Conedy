@@ -112,8 +112,6 @@ namespace conedy
 				
 			void setUndirected () { directed = false; };
 
-			//! returns the number of nodes in the network
-			unsigned int size() { return theNodes.size(); }
 
 			static void registerStandardValues() {
 			  //! determines the verbosity when print node information after a call of printNodeStatistics();
@@ -139,6 +137,8 @@ namespace conedy
 			//! restrict the network to the node number numbers which are in the file fileName
 			void select (string fileName) ;
 
+			//! returns the number of nodes in the network of kind theNodeKind
+			unsigned int numberVertices ( nodeBlueprint *n = stdNode );
 
 
 
@@ -154,8 +154,6 @@ namespace conedy
 
 
 
-			//! returns the number of nodes in the network
-			unsigned int numberVertices() { return theNodes.size(); }
 
 
 			void remove (edgeDescriptor e) { node::theNodes[e.first]-> removeEdge (e.second);}
@@ -245,8 +243,6 @@ namespace conedy
 			void link (nodeDescriptor sourceNode, nodeKind targetNodeKind, edge *l);
 
 
-			//! returns the number of nodes in the network of kind theNodeKind
-			unsigned int numberVertices ( nodeKind theNodeKind );
 
 
 			unsigned int randomNode(nodeKind nodeKind = _dynNode_);

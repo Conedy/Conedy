@@ -11,9 +11,9 @@ N.addRandomEdges (10.0, co.weightedEdge(0.5))
 print "should be 10:" + str(N.meanDegree())
 print "should be true:" + str(N.isDirected())
 
-n.setDirected();
+N.setDirected();
 
-n.addRandomEdges (20.0, co.weightedEdge (0.5))
+N.addRandomEdges (20.0, co.weightedEdge (0.5))
 
 print "should be 20:" + str(N.meanDegree())
 print "should be false:" + str(N.isDirected())

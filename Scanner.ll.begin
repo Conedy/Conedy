@@ -153,7 +153,7 @@ noiseToStates		{ return (ParserBase::NOISETOSTATES); }
 getParam		{ return (ParserBase::GETPARAM); }
 snapshotAtEvent		{ return (ParserBase::SNAPSHOTATEVENT); }
 snapshotAtEventSignature		{ return (ParserBase::SNAPSHOTATEVENTSIGNATURE); }
-size			{ return (ParserBase::SIZE); }
+numberVertices			{ return (ParserBase::NUMBERVERTICES); }
 removeEdges		{return(ParserBase::REMOVEEDGES); }
 
 removeEdge		{return(ParserBase::REMOVEEDGE); }
@@ -161,6 +161,9 @@ removeEdge		{return(ParserBase::REMOVEEDGE); }
 removeRandomEdges		{return(ParserBase::REMOVERANDOMEDGES); }
 
 
+linkStrength		{return(ParserBase::LINKSTRENGTH); }
+setDirected		{return(ParserBase::SETDIRECTED); }
+setUndirected		{return(ParserBase::SETUNDIRECTED); }
 
 clear		{return(ParserBase::CLEAR); }
 addNode	{return(ParserBase::ADDNODE); }

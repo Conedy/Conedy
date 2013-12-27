@@ -3,11 +3,11 @@ network N;
 int i = N.addNode(kuramoto());
 int j = N.addNode(kuramoto());
 
-N.addEdge(i, j, 2.0);
+N.addEdge(i, j, weightedEdge(2.0));
 
 print "Should be 1: " + N.isDirected() + newline;
 
-N.addEdge (j, i, 0.1);
+N.addEdge (j, i, weightedEdge(0.1));
 print "Should be 1: " + N.isDirected() + newline;
 
 N.clear();

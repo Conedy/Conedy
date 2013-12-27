@@ -174,6 +174,10 @@ For example, the following commands will issue a time evolution, where the step 
 However, the step size will never exceed 10.0 or the time left until the next event.
 After the evolution, the current, adapted step size is printed (which is most likely not 0.1):
 
+
+.. testsetup::
+   import conedy as co
+
 .. testcode::
 
 	co.set("odeAbsError", 0.0)

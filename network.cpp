@@ -343,10 +343,10 @@ void network::edgesBetween(list< edgeDescriptor > &res, nodeKind sourceNodeKind,
 
 
 
-unsigned int network::numberVertices (nodeKind theNodeKind )
+unsigned int network::numberVertices (nodeBlueprint * n )
 {
 	nodeList vl;
-	verticesMatching (vl,theNodeKind);
+	verticesMatching (vl,n);
 	return vl.size();
 }
 

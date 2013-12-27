@@ -1,15 +1,28 @@
 #!/usr/bin/make -sf
 
+#This file is not meant to be called by users. It is an internal script, which recompiles Conedy in case new node dynamics have been added.
+#What it does:
+#
+#1. link the global config file to ${HOME}/.config/conedy in case no config file is found there.
+#2. Check if the version number oin the build directory ${buildDir} is different from the one in the global installation in ${dirSrc} 
+#3. Check if the addedNodes directory containss different or more nodes than were used for the last compilation in ${buildDir}.
+#In case 2 or 3 is positive, conedy is rebuild.
 
 
-include ${HOME}/.config/conedy/config.h
+${HOME}/.config/conedy/config.h:     # if the config-file of the user does not exist, we link the global config file and start again.
+	mkdir -p ${HOME}/.config/conedy
+	[ -f /etc/conedy.config ] && ln -s /etc/conedy.config ${HOME}/.config/conedy/config.h && recompileConedy
 
+
+include ${HOME}/.config/conedy/config.h      # the config-file is included such that we have access to the variables for directories
+
+#conedy_recompile:
+
+
+#todo config-file is not linked ?XXX
 
 doit: ${todo}
 
-
-
-conedy:
 
 conedy-root:
 
@@ -25,22 +38,19 @@ documentation:
 conedy-src: recompile
 
 
-recompile: ${HOME}/.config/conedy/config.h
+%.recompile: ${HOME}/.config/conedy/config.h
 	name=`mktemp`; make -sC ${dirSrc} version > $$name; \
 		   ( [ -f ${buildDir}/Makefile ] &&  diff $$name ${buildDir}/version )  || make -C ${dirSrc} copySrc
 	TMP=`mktemp`; \
 	cd ${buildDir}; sum addedNodes/*.cfg > $$TMP; \
 	[ -d ${addedDir} ] && [ "$$(ls -A ${addedDir})" ] && (find ${addedDir} -name "*.cfg" | sort | xargs sum >> $$TMP) || true  ; \
-	diff $$TMP ${buildDir}/addedNodes.sum.old  || touch ${buildDir}/recompilationConedyStarted ${buildDir}/recompilationPython-ConedyStarted 
-	[ -f ${buildDir}/recompilationConedyStarted  ] 
+	diff $$TMP ${buildDir}/addedNodes.sum.old  || touch ${buildDir}/recompilation_$*_Started 
+	[ -f ${buildDir}/recompilation_$*_Started  ] 
 	make -C ${buildDir} conedy.recompile  
 
 
 
 
-${HOME}/.config/conedy/config.h:
-	mkdir -p ${HOME}/.config/conedy
-	[ -f /etc/conedy.config ] && ln -s /etc/conedy.config ${HOME}/.config/conedy/config.h && recompileConedy
 
 #	ln -s ${CONEDYFILES} ${buildDir}	
 

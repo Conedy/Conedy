@@ -7,6 +7,14 @@ N.addNode();
 N.addEdge(0,1,weightedEdge(0.3));
 N.addEdge(1,0,staticWeightedEdge(0.2));
 
-N.saveAdjacencyList("output/addEdge.co.adjList");
-
 N.printNodeStatistics();
+
+
+undirectedNetwork uN;
+
+uN.addNode (node());
+uN.addNode (node());
+
+uN.addEdge (0,1,weightedEdge (1.0));
+
+print "addEdge connects nodes in undirected networks also in the opposite direction: " + uN.linkStrength (1,0);
