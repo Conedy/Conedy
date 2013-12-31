@@ -1,7 +1,7 @@
 network N;
 
 N.addNode(roessler());
-print "Should be 1:" +  N.size()+ newline;
+print "Should be 1:" +  N.numberVertices()+ newline;
 N.clear();
-print "Should be 0:" +  N.size()+ newline;
+print "Should be 0:" +  N.numberVertices()+ newline;
 

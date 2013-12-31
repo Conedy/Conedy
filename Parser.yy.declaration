@@ -125,7 +125,8 @@ networkCommand	:
 
 networkCommandInt: NETWORK '.' ADDNODE  '(' createNode ')' { $$ = INTNETWORKFUNK1(addNode,$1,_E(nodeBlueprint*,$5)); }
 		| NETWORK '.' ADDNODE '(' ')' { $$ = INTNETWORKFUNK1(addNode,$1,network::stdNode); }
-		| NETWORK '.' NUMBERVERTICES '(' ')' {  $$= INTNETWORKFUNK(numberVertices, $1); };
+		| NETWORK '.' NUMBERVERTICES '(' ')' {  $$= INTNETWORKFUNK1(numberVertices, $1, network::stdNode ); }
+		| NETWORK '.' NUMBERVERTICES '(' createNode ')' {  $$= INTNETWORKFUNK1(numberVertices, $1, _E(nodeBlueprint*, $5) ); };
 
 networkCommandBool:
 		NETWORK '.' ISDIRECTED '(' ')' { $$ = BOOLNETWORKFUNK(isDirected, $1);}

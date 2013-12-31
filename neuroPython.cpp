@@ -253,7 +253,7 @@ template <class N>
 
 #if RECOMPILE
 
-		if (!system ("recompilePython-Conedy 2> /dev/null"))
+		if (!system ("recompileConedy python-conedy.recompile 2> /dev/null"))
 		{
 			cout << "Mission accomplished. You can restart your script now." << endl;
 			exit (1);
@@ -324,7 +324,7 @@ template <class N>
 			.def("isLinked", &networkTemplate::isLinked, reinterpret_cast<const char *>(__network_isLinked))
 			.def("linkStrength", &networkTemplate::linkStrength, reinterpret_cast<const char *>(__network_linkStrength))
 			.def("randomizeWeights", &networkTemplate::randomizeWeights,  randomizeWeights_overloads( reinterpret_cast<const char *>(__network_randomizeWeights)))
-			.def("replaceNode", &networkTemplate::replaceNode, reinterpret_cast<const char *>(__network_replace))
+			.def("replaceNode", &networkTemplate::replaceNode, reinterpret_cast<const char *>(__network_replaceNode))
 			.def("removeEdge", &networkTemplate::removeEdge, reinterpret_cast<const char *>(__network_removeEdge))
 			.def("removeEdges", &networkTemplate::removeEdges, reinterpret_cast<const char *>(__network_removeEdges))
 			.def("removeNodes", &networkTemplate::removeNodes, reinterpret_cast<const char *>(__network_removeNodes))
