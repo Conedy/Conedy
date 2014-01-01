@@ -40,7 +40,7 @@ docstringsNodes.h: addedNodes.sum.old
 	echo "#define docstringsNodes_h docstringsNodes_h" >> docstringsNodes.h
 	cat docstringsNodes.h.tmp >> docstringsNodes.h
 	echo "#endif" >> docstringsNodes.h
-#	rm docstringsNodes.h.tmp
+	rm docstringsNodes.h.tmp
 
 
 #Generate the bisonc++ Parser file. Tokens are
@@ -214,7 +214,7 @@ python-conedy.install: python-conedy
 	sed -i "s+etc/conedy.config+${globalConfig}+g"   ${dirInstall}/recompileConedy
 
 
-python-conedy-root: addSharedNodesIfNecessary docstrings.h string_config.h
+python-conedy-root: addSharedNodesIfNecessary docstrings.h docstringsNodes.h string_config.h
 	CFLAGS="-D$(SVNDEV) -DPYTHON $(addprefix -D,${defines})" python setup.py build
 
 

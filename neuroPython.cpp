@@ -211,6 +211,7 @@ template <class N>
 
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (lattice_overloads, lattice, 2,5);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (printNodeStatistics_overloads, printNodeStatistics, 0,1);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (replaceEdges_overloads, replaceEdges, 1,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (addNode_overloads, addNode, 0,1);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (scaleFreeNetwork_overloads, scaleFreeNetwork, 2,4);
@@ -302,12 +303,12 @@ template <class N>
 		def("setRandomSeed", &gslNoise::setSeed);
 
 		class_<createNetwork>("createNetwork");
+		class_<statisticsNetwork>("statisticsNetwork");
 
-
-
-		class_<dynNetwork>("dynNetwork");
+		class_<network>("net");
+		class_<dynNetwork, bases <network> >("dynNetwork");
 	
-		class_<networkTemplate, bases <createNetwork, dynNetwork> >("network")
+		class_<networkTemplate, bases <createNetwork, dynNetwork, statisticsNetwork> >("network")
 			//	 class_<networkTemplate >("directedNetwork")
 			.def("__init__", make_constructor(directedNetworkFactory))
 			.def("__del__", &networkTemplate::clear, reinterpret_cast<const char *>(__network_clear))
@@ -378,7 +379,7 @@ template <class N>
 			.def("observeTime", &networkTemplate::observeTime, reinterpret_cast<const char *>(__dynNetwork_observeTime))
 			.def("observePhaseCoherence", &networkTemplate::observePhaseCoherence, observePhaseCoherence_overloads( reinterpret_cast<const char *>(__dynNetwork_observePhaseCoherence)))
 			.def("observeSum", &networkTemplate::observeSum, observeSum_overloads( reinterpret_cast<const char *>(__dynNetwork_observeSum)))
-			.def("printNodeStatistics", &networkTemplate::printNodeStatistics, reinterpret_cast<const char *>(__statisticsNetwork_printNodeStatistics))
+			.def("printNodeStatistics", &networkTemplate::printNodeStatistics, printNodeStatistics_overloads(reinterpret_cast<const char *>(__statisticsNetwork_printNodeStatistics)))
 			.def("readInitialCondition", &networkTemplate::readInitialCondition, reinterpret_cast<const char *>(__createNetwork_readInitialCondition))
 			.def("removeObserver", &networkTemplate::removeObserver, reinterpret_cast<const char *>(__dynNetwork_removeObserver))
 			.def("setTime", &networkTemplate::setTime, reinterpret_cast<const char *>(__dynNetwork_setTime))

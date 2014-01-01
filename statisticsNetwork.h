@@ -17,7 +17,7 @@ namespace conedy
 			
 
 			//! prints debug information to the console.
-			void printNodeStatistics();
+			void printNodeStatistics(nodeBlueprint *n = network::stdNode);
 
 			//! returns true if the network has only one connected component. (works only for undirected networks at the moment.)
 			bool isConnected();
