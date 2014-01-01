@@ -210,7 +210,7 @@ dynNetworkCommand:
 	| NETWORK '.' OBSERVE '(' nodeDescriptor ',' string ',' createLink ')' {$$ = NETWORKFUNK3(observe,$1,_E(nodeDescriptor,$5),_E(string,$7),_E(edgeBlueprint*,$9)); }
 	| NETWORK '.' OBSERVEMEAN '(' string ',' createLink ')' { $$ = NETWORKFUNK2(observeSum,$1, _E(string,$5),_E(edgeBlueprint*,$7)); }
  
-		| NETWORK '.' PRINTNODESTATISTICS '(' ')'{ $$ = NETWORKFUNK(printNodeStatistics,$1); }
+		| NETWORK '.' PRINTNODESTATISTICS '(' ')'{ $$ = NETWORKFUNK1(printNodeStatistics,$1, network::stdNode); }
 		| NETWORK '.' SETTIME '(' baseType ')' { $$= NETWORKFUNK1(setTime,$1,_E(baseType,$5)); }
 
 		| NETWORK '.' SELECT '(' string  ')' { $$ = NETWORKFUNK1(select, $1, _E(string, $5)); }

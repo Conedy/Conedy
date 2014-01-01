@@ -89,13 +89,20 @@ namespace conedy
 
 	};
 
-	void statisticsNetwork::printNodeStatistics()
+	void statisticsNetwork::printNodeStatistics(nodeBlueprint * n)
 	{
 		nodeIterator it;
 		nodeList vl;
+
+		if ( n == network::stdNode)
+		{
 		verticesMatching(vl,_dynNode_);
 		verticesMatching(vl,_outNode_);
 		verticesMatching(vl,_inNode_);
+		}
+		else
+			verticesMatching(vl, n);
+
 
 		for (it = vl.begin(); it != vl.end(); it++)
 		{
