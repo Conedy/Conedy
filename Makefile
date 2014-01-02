@@ -367,6 +367,11 @@ condor: addNodesIfNecessary string_config.h               # build an interpreter
 	bjam  conedyCondor cflags=-D$(SVNDEV) $(addprefix cflags=-D,${defines})  cflags=-D"ARCHITECTURE=${ARCH}"  -j${numberCores}  
 
 
+condor.recompile:
+	${noUserSpace} HOME=${HOME} make condor condor.install
+	${noUserSpace} rm recompilation_condor_started
+
+
 
 SVNDEV="SVN_REV=$(VERSION)"
 

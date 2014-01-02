@@ -12,7 +12,7 @@ n.clear();
 n.cycle( 10000, 2,  node(), staticWeightedEdge(1.0));
 
 
-n.rewire (0.5, weightedEdge);
+n.replaceEdges (0.5, weightedEdge);
 print "Should be 4:";
 print n.meanDegree();
 print newline;

@@ -3,7 +3,7 @@ import conedy as co
 N = co.network()
 
 N.addNode(co.node())
-N.addNode()
+N.addNode(co.node())
 
 N.addWeightedEdge(0,1,0.7)
 

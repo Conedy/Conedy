@@ -60,6 +60,14 @@ int main ( int argc,char **argv )
 
 #if CONDOR
 	uniqueNumber::initialize();
+#if RECOMPILE
+	if (!system ("recompileConedy condor.recompile 2> /dev/null "))
+	{
+		cout << "Mission accomplished. You can restart your script now." << endl;
+		exit (1);
+	}	
+#endif
+
 #elif RECOMPILE
 	if (!system ("recompileConedy conedy.recompile 2> /dev/null "))
 	{

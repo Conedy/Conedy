@@ -3,6 +3,6 @@ network N;
 
 N.addNode (node());
 
-print "Should be 0:" + N.degree(0);
+print "Should be 0:" + N.degree(0) + newline;
 N.addEdge (0,0);
-print "Should be 1:" + N.degree(0);
+print "Should be 1:" + N.degree(0) + newline;

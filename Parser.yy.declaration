@@ -116,10 +116,11 @@ networkCommand	:
 		| NETWORK '.' ADDWEIGHTEDEDGE '(' nodeDescriptor ',' nodeDescriptor ',' baseType ')' { $$ = NETWORKFUNK3(addWeightedEdge,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(baseType,$9)); }
 		| NETWORK '.' CLEAR '(' ')' { $$ = NETWORKFUNK(clear,$1); }
 		| NETWORK '.' RANDOMIZEWEIGHTS '(' random ')' { function<baseType ()> r = bind(&expression<baseType>::evaluate,$5); $$ = new bindInstruction( bind(&networkTemplate::randomizeWeights, $1, r, network::stdNode, network::stdNode));}
-		| NETWORK '.' REPLACENODES  '(' nodeDescriptor createNodeOptional ')' { $$ = NETWORKFUNK2(replaceNode,$1,_E(nodeDescriptor,$5), _E(nodeBlueprint*, $6)); }
+		| NETWORK '.' REPLACENODE  '(' nodeDescriptor createNodeOptional ')' { $$ = NETWORKFUNK2(replaceNode,$1,_E(nodeDescriptor,$5), _E(nodeBlueprint*, $6)); }
 		| NETWORK '.' REMOVEEDGES '(' createLink ')' { $$ = NETWORKFUNK1 (removeEdges, $1, _E(edgeBlueprint*, $5)); }
 		| NETWORK '.' REMOVEEDGE '(' nodeDescriptor ',' nodeDescriptor ')' { $$ = NETWORKFUNK2 (removeEdge, $1, _E(nodeDescriptor, $5), _E(nodeDescriptor, $7)  ); }
 		| NETWORK '.' REMOVENODES '(' createNode ')' { $$ = NETWORKFUNK1 (removeNodes, $1, _E(nodeBlueprint*, $5)); }
+		| NETWORK '.' REMOVENODES '(' ')' { $$ = NETWORKFUNK1 (removeNodes, $1, network::stdNode ); }
 		| NETWORK '.' SETDIRECTED '(' ')' { $$ = NETWORKFUNK(setDirected,$1); }
 		| NETWORK '.' SETUNDIRECTED '(' ')' { $$ = NETWORKFUNK(setUndirected,$1); };
 

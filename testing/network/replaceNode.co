@@ -1,0 +1,13 @@
+network n;
+
+
+n.addNode (node());
+
+n.removeNodes (roessler());
+
+print "Should be 1:" + n.numberVertices() + newline ; 
+
+n.replaceNode (0, roessler());
+n.removeNodes (roessler());
+
+print "Should be 0:" + n.numberVertices() + newline ; 

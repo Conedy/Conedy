@@ -473,6 +473,17 @@ void network::link ( nodeDescriptor s, nodeDescriptor t, baseType weight )
 }
 
 
+baseType network::linkStrength ( nodeDescriptor i, nodeDescriptor j ) 
+{
+	nodeKind nk = node::theNodes[i]->getNodeInfo().theNodeKind;
+	if (nk & _ode_ || nk & _sde_ || nk & _mapNode_)
+		return node::theNodes[j]->linkStrength(i);
+	else
+		return node::theNodes[i]->linkStrength(j);
+}
+
+
+
 bool network::isLinked ( nodeDescriptor i, nodeDescriptor j)
 {
 	nodeKind nk = node::theNodes[i]->getNodeInfo().theNodeKind;
