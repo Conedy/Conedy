@@ -1,6 +1,0 @@
-#!/bin/bash
-
-make python-conedy.test
-
-
-#false
