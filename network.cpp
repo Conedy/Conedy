@@ -353,7 +353,17 @@ unsigned int network::numberVertices (nodeBlueprint * n )
 
 void network::removeNodes (nodeBlueprint *n)
 {
-	throw "removeNodes is a stub."; 
+	nodeList vl;
+
+	verticesMatching (vl, n);
+	nodeIterator vi;
+
+	for (vi = vl.begin(); vi != vl.end(); vi++ )
+	{
+			delete node::theNodes[*vi];
+			node::theNodes[*vi] = 0; // remove from lookup table in node
+			theNodes.erase (*vi);  // remove from the network
+	}
 }
 
 
