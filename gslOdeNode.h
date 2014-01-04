@@ -14,6 +14,7 @@
 #include "containerNode.h"
 #include "globals.h"
 #include <sstream>
+#include "odeNode.h"
 
 #include <gsl/gsl_version.h>
 #if GSL_MINOR_VERSION < 15
@@ -28,7 +29,7 @@ namespace conedy
 {
 
 	//! Basisklasse für Nodes, die mit der GSL-integriert werden.
-	class gslOdeNode : public containerNode<baseType,3>, private globals
+	class gslOdeNode : public odeNode, private globals
 	{
 		private:
 
@@ -65,7 +66,7 @@ namespace conedy
 				registerGlobal<bool>("odeIsAdaptive", true);
 			}
 
-			gslOdeNode (networkElementType n , unsigned int dim) : containerNode<baseType,3> ( n, dim)
+			gslOdeNode (networkElementType n , unsigned int dim) : odeNode ( n, dim)
 			{ };
 
 			//! 1. und einizger Intergrationsschritt:
@@ -87,7 +88,7 @@ namespace conedy
 			//! clean: wird vor der Integration aufgerufen und initialisiert diverse GSL-Parameter (Art der Stufenfunktion, Schrittweite usw.)
 			virtual void clean ()
 			{
-				if ( (* containerNode<baseType,3>::nodeList.begin()) == this)  // only clean for the masternode ;-), which is the first one.
+				if ( (* containerNode<baseType,1>::nodeList.begin()) == this)  // only clean for the masternode ;-), which is the first one.
 				{
 					if (alreadyInitialized) // free gsl-objects
 					{
@@ -120,7 +121,7 @@ namespace conedy
 						throw fehler.str().c_str();
 					}
 
-					unsigned int odeDimension = containerNode <baseType, 3> :: usedIndices ;
+					unsigned int odeDimension = containerNode <baseType, 1> :: usedIndices ;
 
 					gslStep = gslode(step_alloc) ( stepType, odeDimension);
 
@@ -135,7 +136,6 @@ namespace conedy
 				}
 			}
 
-			virtual void operator() ( const baseType x[], baseType dydx[] ) = 0;
 
 			//! Print the derivative of the node's state
 			virtual void dynamics()
@@ -150,20 +150,20 @@ namespace conedy
 			}
 
 			//! Bereitstellung des ODE-Systems: Ableitungen werden in Array geschrieben
-			static int dgl ( baseType t,const baseType y[], baseType f[], void *params )
-			{
-				baseType * originalNodeStates = containerNode<baseType,3>::dynamicVariablesOfAllDynNodes;
-				containerNode<baseType,3>::dynamicVariablesOfAllDynNodes = const_cast<baseType*> (y);
-
-				list<containerNode<baseType,3>*>::iterator it;
-				for ( it = containerNode<baseType,3>::nodeList.begin(); it != containerNode<baseType,3>::nodeList.end();it++ )
-					( * ((gslOdeNode*)*it) )
-							( &y[ ( *it )->startPosGslOdeNodeArray],
-							 &f[ ( *it )->startPosGslOdeNodeArray] );
-				return GSL_SUCCESS;
-				containerNode<baseType,3>::dynamicVariablesOfAllDynNodes = originalNodeStates;
-			}
-
+//			static int dgl ( baseType t,const baseType y[], baseType f[], void *params )
+//			{
+//				baseType * originalNodeStates = containerNode<baseType,1>::dynamicVariablesOfAllDynNodes;
+//				containerNode<baseType,1>::dynamicVariablesOfAllDynNodes = const_cast<baseType*> (y);
+//
+//				list<containerNode<baseType,1>*>::iterator it;
+//				for ( it = containerNode<baseType,1>::nodeList.begin(); it != containerNode<baseType,1>::nodeList.end();it++ )
+//					( * ((gslOdeNode*)*it) )
+//							( &y[ ( *it )->startPosGslOdeNodeArray],
+//							 &f[ ( *it )->startPosGslOdeNodeArray] );
+//				return GSL_SUCCESS;
+//				containerNode<baseType,1>::dynamicVariablesOfAllDynNodes = originalNodeStates;
+//			}
+//
 			virtual node *construct() { return new node ( *this ); };
 
 	};
