@@ -35,8 +35,10 @@ namespace conedy {
 			virtual ~odeNode() {}
 
 //			virtual void operator()(valarray <baseType> & y , valarray <baseType> & f);
+		//	virtual void operator() ( const baseType x[], baseType dydx[] ) = 0;
 
 			virtual void operator() (const baseType  x[], baseType  dydx[]) = 0;
+			virtual node *construct() { return new node ( *this ); };
 
 			static int dgl ( baseType t,const baseType y[], baseType f[], void *params );
 
