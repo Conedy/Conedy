@@ -27,7 +27,7 @@ namespace conedy
 							&dynNode::time,
 							startTime + timeTilEvent,
 							getPointerToGlobal<baseType>("odeStepSize"),
-							containerNode<baseType,3>::dynamicVariablesOfAllDynNodes))
+							containerNode<baseType,1>::dynamicVariablesOfAllDynNodes))
 						!= GSL_SUCCESS)
 				{
 					printf ("error: %s\n", gsl_strerror (gslStatus));
@@ -50,8 +50,8 @@ namespace conedy
 				gslOdeNode::gslFixedStepSizeWarningShown = true;
 			}
 
-			double *yerr =  (double*) calloc (containerNode <baseType, 3> :: usedIndices, sizeof(double));
-			double *dydt =  (double*) calloc (containerNode <baseType, 3> :: usedIndices, sizeof(double));
+			double *yerr =  (double*) calloc (containerNode <baseType, 1> :: usedIndices, sizeof(double));
+			double *dydt =  (double*) calloc (containerNode <baseType, 1> :: usedIndices, sizeof(double));
 			#endif
 
 			for (int i = 0; i < stepCount; i++)
@@ -62,7 +62,7 @@ namespace conedy
 							gslStep,
 							dynNode::time,
 							dt,
-							containerNode<baseType,3>::dynamicVariablesOfAllDynNodes,
+							containerNode<baseType,1>::dynamicVariablesOfAllDynNodes,
 							yerr,
 							(i==0?NULL:dydt),
 							dydt,
@@ -80,7 +80,7 @@ namespace conedy
 							&gslOdeSys,
 							&dynNode::time,
 							dt,
-							containerNode<baseType,3>::dynamicVariablesOfAllDynNodes)
+							containerNode<baseType,1>::dynamicVariablesOfAllDynNodes)
 						!= GSL_SUCCESS)
 					throw "gslError! This most likely means, that the estimated error exceeded the error level as defined by odeRelError and odeAbsError.";
 
