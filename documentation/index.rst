@@ -5,6 +5,9 @@
 Welcome to Conedy’s documentation!
 ====================================
 
+#.. image:: logo_conedy_gruen.svg
+
+
 Contents:
 
 .. toctree::

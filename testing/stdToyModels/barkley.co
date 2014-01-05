@@ -1,14 +1,16 @@
-samplingTime = 1.0;
+samplingTime = 0.05;
 
 
 
-gaussianBarkley_sigma = 0.05;
+#gaussianBarkley_sigma = 0.05;
 
-
+barkley_I = 4.0;
 setRandomSeed(10);
 
 network N;
-N.lattice(1,1,1.0, gaussianBarkley());
+#N.lattice(1,1,1.0, gaussianBarkley());
+N.addNode (barkley());
+
 #N.randomizeWeights(uniform(30.0,30.0));
 
 #N.setState(0,50.0,0.0);

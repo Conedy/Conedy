@@ -9,11 +9,11 @@ n.randomizeWeights (uniform (1.1,1.1));
 
 
 n.saveAdjacencyList("output/normalizeInputs.co.before");
-n.normalizeInWeightSum (3.0);
+n.normalizeInputs (3.0);
 
 print "Should be "+ 3.0/n.meanDegree()+" :"+n.meanWeight()+newline;
 
 n.saveAdjacencyList("output/normalizeInputs.co.after");
 
 
-:sort -n output/normalizeInputs.co.after -k2 > output/normalizeInputs.co.after.sort:;
+:"sort -n output/normalizeInputs.co.after -k2 > output/normalizeInputs.co.after.sort":;
