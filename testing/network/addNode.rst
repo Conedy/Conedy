@@ -1,10 +1,10 @@
 
-network.addNode (nodeTemplate)
+``network.addNode (node)``
         Adds a node to the network.
 
 Parameters
 ----------
-node : nodeTemplate
+``node`` : nodeTemplate
         Added node is a copy of this template.
 
 Returns

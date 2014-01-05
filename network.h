@@ -138,7 +138,7 @@ namespace conedy
 			void select (string fileName) ;
 
 			//! returns the number of nodes in the network of kind theNodeKind
-			unsigned int numberVertices ( nodeBlueprint *n = stdNode );
+			nodeDescriptor numberVertices ( nodeBlueprint *n = stdNode );
 
 
 

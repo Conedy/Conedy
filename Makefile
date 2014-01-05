@@ -133,11 +133,11 @@ conedy.test:
 
 conedy-src.test:   # if the testfile was already added, remove it and recompile first
 	[ -f "${dirSrc}/addedNodes/testNode1.cfg" ] && ( ${noUserSpace} rm ${dirSrc}/addedNodes/testNode1.cfg &&\
-		recompileConedy &&\
-		recompilePython-Conedy) || true
+		recompileConedy conedy.recompile&&\
+		recompileConedy python-conedy.recompile) || true
 	${noUserSpace} cp testNode1.cfg ${dirSrc}/addedNodes
-	recompileConedy
-	recompilePython-Conedy
+	recompileConedy conedy.recomile
+	recompileConedy python-conedy.recomile
 	cd ${dirSrc}/testing/addedNodes/ode;  ${noUserSpace} sh -c 'make -s test_./testNode1.co > testResult.conedy-src 2> testResult.conedy-src'
 	cd ${dirSrc}/testing/addedNodes/ode && ! grep failed testResult.conedy-src
 	cd ${dirSrc}/testing/addedNodes/ode;  ${noUserSpace} sh -c 'make -s test_./testNode1.py > testResult.conedy-src 2> testResult.conedy-src'
@@ -145,7 +145,6 @@ conedy-src.test:   # if the testfile was already added, remove it and recompile 
 	grep succeded ${dirSrc}/testing/addedNodes/ode/testResult.conedy-src
 #	${noUserSpace} rm ${dirSrc}/addedNodes/testNode1.cfg
 #	recompileConedy
-#	recompilePython-Conedy
 
 
 # Generate an conedy-executable called conedy_unstripped, which has optimization and debug symbols for profiling
@@ -191,14 +190,12 @@ conedy-root.install:
 conedy-root.uninstall:
 	rm -f ${dirInstallRoot}/conedy
 	rm -f ${dirInstallRoot}/recompileConedy
-	rm -f ${dirInstallRoot}/recompilePython-Conedy
 
 
 
 conedy.uninstall:
 	rm -f ${dirInstall}/conedy
 	rm -f ${dirInstall}/recompileConedy
-	rm -f ${dirInstall}/recompilePython-Conedy
 
 #	sed "s#DIRSRC#${dirSrc}#g" recompileNeurosimIfNecessary.sh | sed "s#ADDEDDIR#${addedDir}#g" > ${dirInstall}/recompileNeurosimIfNecessary.sh
 #	chmod +x  ${dirInstall}/recompileNeurosimIfNecessary.sh
@@ -213,8 +210,8 @@ python-conedy-root.clean: python-conedy.clean
 
 python-conedy.install: python-conedy
 	python setup.py install --user
-	cp -a recompilePython-Conedy ${dirInstall}
-	sed -i "s+etc/conedy.config+${globalConfig}+g"   ${dirInstall}/recompilePython-Conedy
+	cp -a recompileConedy ${dirInstall}
+	sed -i "s+etc/conedy.config+${globalConfig}+g"   ${dirInstall}/recompileConedy
 
 
 python-conedy-root: addSharedNodesIfNecessary docstrings.h string_config.h
@@ -224,17 +221,17 @@ python-conedy-root: addSharedNodesIfNecessary docstrings.h string_config.h
 python-conedy-root.install:
 	mkdir -p ${dirInstallRoot}
 	python setup.py install
-	cp -a recompilePython-Conedy ${dirInstallRoot}
-	sed -i "s+etc/conedy.config+${globalConfig}+g"   ${dirInstallRoot}/recompilePython-Conedy
+	cp -a recompileConedy ${dirInstallRoot}
+	sed -i "s+etc/conedy.config+${globalConfig}+g"   ${dirInstallRoot}/recompileConedy
 
 
 python-conedy-root.uninstall:
-	rm -f ${dirInstallRoot}/recompilePython-conedy
+	rm -f ${dirInstallRoot}/recompileConedy
 	echo "Distutils does not support uninstalling. Please uninstall python-conedy manually."
 
 
 python-conedy.uninstall:
-	rm -f ${dirInstall}/recompilePython-conedy
+	rm -f ${dirInstall}/recompileConedy
 	echo "Distutils does not support uninstalling. Please uninstall python-conedy manually."
 
 conedy-src:
@@ -254,6 +251,8 @@ conedy-src.install:
 	sed -i "s/^VERSION.*$$/VERSION = '${VERSION}'/" ${DESTDIR}/${globalConfig}
 	sed -i "s#^include config.h#include \$${HOME}/.config/conedy/config.h#g" ${dirSrc}/Makefile
 
+fileList:
+	git ls-files | grep -v "/" > fileList
 
 
 doc:
@@ -273,7 +272,8 @@ ifdef pythonBjam
 		|| ( ${noUserSpace} make python-conedy python-conedy.install)
 endif
 	${noUserSpace} HOME=${HOME} make python-conedy.install
-	${noUserSpace} rm recompilationPython-ConedyStarted
+	${noUserSpace} rm recompilation_python-conedy_started
+	
 
 
 CONEDYSRC = $(addprefix ${dirSrc}/, $(shell cat fileList) )
@@ -293,7 +293,8 @@ copySrc:
 
 conedy.recompile:
 	${noUserSpace} HOME=${HOME} make conedy conedy.install
-	${noUserSpace} rm recompilationConedyStarted
+	${noUserSpace} rm recompilation_conedy_started
+	
 
 clean: ${todo:=.clean}
 	make revert

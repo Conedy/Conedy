@@ -1,0 +1,11 @@
+network N;
+int k;
+
+for (k = 0; k < 10; k = k + 1)
+{
+	N.addNode(roessler());
+	odeRelError = 0.001;
+#	N.printNodeStatistics();
+	N.evolve(0.0,0.001);
+	N.clear();
+};
