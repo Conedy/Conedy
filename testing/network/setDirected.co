@@ -7,12 +7,12 @@ n.addNode(node());
 
 n.addEdge(0,1,weightedEdge(1));
 
-print "Should be false:" + n.isDirected();
+print "Should be false:" + n.isDirected()+ newline;
 
-n.removeEdges(weightedEdge(1))
+n.removeEdges(weightedEdge(1));
 
 n.setDirected();
 
 n.addEdge(0,1,weightedEdge(1));
 
-print "Should be true:" + n.isDirected();
+print "Should be true:" + n.isDirected() + newline;

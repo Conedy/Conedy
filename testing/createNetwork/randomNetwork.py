@@ -1,6 +1,6 @@
 import conedy as co
 
-N = co.network()
+N = co.directedNetwork()
 
 N.randomNetwork(100, 0.2, co.node(),  co.weightedEdge(1.0))
 

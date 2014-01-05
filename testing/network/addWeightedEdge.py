@@ -7,5 +7,5 @@ N.addNode()
 
 N.addWeightedEdge(0,1,0.7)
 
-print "Should be 0.7:" + N.linkStrength (0,1);
+print "Should be 0.7:" + str(N.linkStrength (0,1))
 

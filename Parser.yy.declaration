@@ -89,8 +89,8 @@ declare		:
 		| NODETOKEN ID { command::declare($2->evaluate(), _node_); $$ = new emptyInstruction(); }
 		| INTTOKEN ID { command::declare($2->evaluate(), _int_); $$ = new emptyInstruction (); }
 		| NETWORKTOKEN ID { command::declare($2->evaluate(), _network_); $$ = new emptyInstruction(); }
-		| DIRECTEDNETWORKTOKEN ID { command::declare($2->evaluate(), _network_); $$ = new emptyInstruction(); }
-		| UNDIRECTEDNETWORKTOKEN ID { command::declare($2->evaluate(), _network_); $$ = new emptyInstruction(); }
+		| DIRECTEDNETWORKTOKEN ID { command::declare($2->evaluate(), _network_); command::retrieve<networkTemplate>($2->evaluate())->setDirected(); $$ = new emptyInstruction(); }
+		| UNDIRECTEDNETWORKTOKEN ID { command::declare($2->evaluate(), _network_); command::retrieve<networkTemplate>($2->evaluate())->setUndirected();$$ = new emptyInstruction(); }
 		| STRINGTOKEN ID { command::declare($2->evaluate(), _string_); $$ = new emptyInstruction(); }
 		| INTTOKEN identifier '=' integer { command::declare($2->evaluate(),_int_); $$ = new assignInstruction<int> (new varCommand<int> ($2->evaluate()), $4); }
 		| DOUBLETOKEN identifier '=' baseType    { command::declare($2->evaluate(),_baseType_);       $$ = new assignInstruction<baseType>       (new varCommand<baseType>($2->evaluate()), $4); };
@@ -116,16 +116,18 @@ networkCommand	:
 		| NETWORK '.' ADDWEIGHTEDEDGE '(' nodeDescriptor ',' nodeDescriptor ',' baseType ')' { $$ = NETWORKFUNK3(addWeightedEdge,$1,_E(nodeDescriptor,$5),_E(nodeDescriptor,$7),_E(baseType,$9)); }
 		| NETWORK '.' CLEAR '(' ')' { $$ = NETWORKFUNK(clear,$1); }
 		| NETWORK '.' RANDOMIZEWEIGHTS '(' random ')' { function<baseType ()> r = bind(&expression<baseType>::evaluate,$5); $$ = new bindInstruction( bind(&networkTemplate::randomizeWeights, $1, r, network::stdNode, network::stdNode));}
-		| NETWORK '.' REPLACENODES  '(' nodeDescriptor createNodeOptional ')' { $$ = NETWORKFUNK2(replaceNode,$1,_E(nodeDescriptor,$5), _E(nodeBlueprint*, $6)); }
+		| NETWORK '.' REPLACENODE  '(' nodeDescriptor createNodeOptional ')' { $$ = NETWORKFUNK2(replaceNode,$1,_E(nodeDescriptor,$5), _E(nodeBlueprint*, $6)); }
 		| NETWORK '.' REMOVEEDGES '(' createLink ')' { $$ = NETWORKFUNK1 (removeEdges, $1, _E(edgeBlueprint*, $5)); }
 		| NETWORK '.' REMOVEEDGE '(' nodeDescriptor ',' nodeDescriptor ')' { $$ = NETWORKFUNK2 (removeEdge, $1, _E(nodeDescriptor, $5), _E(nodeDescriptor, $7)  ); }
 		| NETWORK '.' REMOVENODES '(' createNode ')' { $$ = NETWORKFUNK1 (removeNodes, $1, _E(nodeBlueprint*, $5)); }
+		| NETWORK '.' REMOVENODES '(' ')' { $$ = NETWORKFUNK1 (removeNodes, $1, network::stdNode ); }
 		| NETWORK '.' SETDIRECTED '(' ')' { $$ = NETWORKFUNK(setDirected,$1); }
 		| NETWORK '.' SETUNDIRECTED '(' ')' { $$ = NETWORKFUNK(setUndirected,$1); };
 
 networkCommandInt: NETWORK '.' ADDNODE  '(' createNode ')' { $$ = INTNETWORKFUNK1(addNode,$1,_E(nodeBlueprint*,$5)); }
 		| NETWORK '.' ADDNODE '(' ')' { $$ = INTNETWORKFUNK1(addNode,$1,network::stdNode); }
-		| NETWORK '.' NUMBERVERTICES '(' ')' {  $$= INTNETWORKFUNK(numberVertices, $1); };
+		| NETWORK '.' NUMBERVERTICES '(' ')' {  $$= INTNETWORKFUNK1(numberVertices, $1, network::stdNode ); }
+		| NETWORK '.' NUMBERVERTICES '(' createNode ')' {  $$= INTNETWORKFUNK1(numberVertices, $1, _E(nodeBlueprint*, $5) ); };
 
 networkCommandBool:
 		NETWORK '.' ISDIRECTED '(' ')' { $$ = BOOLNETWORKFUNK(isDirected, $1);}
@@ -209,7 +211,7 @@ dynNetworkCommand:
 	| NETWORK '.' OBSERVE '(' nodeDescriptor ',' string ',' createLink ')' {$$ = NETWORKFUNK3(observe,$1,_E(nodeDescriptor,$5),_E(string,$7),_E(edgeBlueprint*,$9)); }
 	| NETWORK '.' OBSERVEMEAN '(' string ',' createLink ')' { $$ = NETWORKFUNK2(observeSum,$1, _E(string,$5),_E(edgeBlueprint*,$7)); }
  
-		| NETWORK '.' PRINTNODESTATISTICS '(' ')'{ $$ = NETWORKFUNK(printNodeStatistics,$1); }
+		| NETWORK '.' PRINTNODESTATISTICS '(' ')'{ $$ = NETWORKFUNK1(printNodeStatistics,$1, network::stdNode); }
 		| NETWORK '.' SETTIME '(' baseType ')' { $$= NETWORKFUNK1(setTime,$1,_E(baseType,$5)); }
 
 		| NETWORK '.' SELECT '(' string  ')' { $$ = NETWORKFUNK1(select, $1, _E(string, $5)); }

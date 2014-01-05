@@ -6,7 +6,8 @@
 #1. link the global config file to ${HOME}/.config/conedy in case no config file is found there.
 #2. Check if the version number oin the build directory ${buildDir} is different from the one in the global installation in ${dirSrc} 
 #3. Check if the addedNodes directory containss different or more nodes than were used for the last compilation in ${buildDir}.
-#In case 2 or 3 is positive, conedy is rebuild.
+#In case 2 or 3 is positive, conedy is rebuild. The script then returns 0
+#Otherwise no recompilation is necessary and the script returns 1.
 
 
 ${HOME}/.config/conedy/config.h:     # if the config-file of the user does not exist, we link the global config file and start again.
@@ -44,11 +45,9 @@ conedy-src: recompile
 	TMP=`mktemp`; \
 	cd ${buildDir}; sum addedNodes/*.cfg > $$TMP; \
 	[ -d ${addedDir} ] && [ "$$(ls -A ${addedDir})" ] && (find ${addedDir} -name "*.cfg" | sort | xargs sum >> $$TMP) || true  ; \
-	diff $$TMP ${buildDir}/addedNodes.sum.old  || touch ${buildDir}/recompilation_$*_Started 
-	[ -f ${buildDir}/recompilation_$*_Started  ] 
-	make -C ${buildDir} conedy.recompile  
-
-
+	diff $$TMP ${buildDir}/addedNodes.sum.old  || touch ${buildDir}/recompilation_conedy_started ${buildDir}/recompilation_python-conedy_started ${buildDir}/recompilation_condor_started
+	[ -f ${buildDir}/recompilation_$*_started  ] 
+	make -C ${buildDir} $*.recompile  
 
 
 

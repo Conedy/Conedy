@@ -4,19 +4,19 @@ nodeVerbosity = 1;
 
 network n;
 n.addNode(pcoNonleaky());
-print "Should be 1:"+ n.size()+ newline;
+print "Should be 1:"+ n.numberVertices()+ newline;
 
 n.observe(0,"test");
 n.removeObserver();
 
-print "Should be 1:"+ n.size()+ newline;
+print "Should be 1:"+ n.numberVertices()+ newline;
 
 n.addNode(pcoNonleaky());
 n.observe(0,"test");
 
 n.clear();
 
-print "Should be 0:"+ n.size()+ newline;
+print "Should be 0:"+ n.numberVertices()+ newline;
 
 int newNodeNumber;
 newNodeNumber = n.addNode(pcoNonleaky());

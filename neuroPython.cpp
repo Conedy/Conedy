@@ -211,6 +211,7 @@ template <class N>
 
 
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (lattice_overloads, lattice, 2,5);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (printNodeStatistics_overloads, printNodeStatistics, 0,1);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (replaceEdges_overloads, replaceEdges, 1,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (addNode_overloads, addNode, 0,1);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (scaleFreeNetwork_overloads, scaleFreeNetwork, 2,4);
@@ -219,7 +220,7 @@ template <class N>
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (rewire_overloads, rewire, 1,2);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (randomizeWeights_overloads, randomizeWeights, 1,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (removeNodes_overloads, removeNodes, 0,1);
-	//BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (addEdge_overloads, addEdge, 2,3);
+	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (addEdge_overloads, addEdge, 2,3);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (rewireUndirected_overloads, rewireUndirected, 1,2);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (randomNetwork_overloads, randomNetwork, 2,4);
 	BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS (randomUndirectedNetwork_overloads, randomUndirectedNetwork, 2,4);
@@ -253,7 +254,7 @@ template <class N>
 
 #if RECOMPILE
 
-		if (!system ("recompilePython-Conedy 2> /dev/null"))
+		if (!system ("recompileConedy python-conedy.recompile 2> /dev/null"))
 		{
 			cout << "Mission accomplished. You can restart your script now." << endl;
 			exit (1);
@@ -302,33 +303,32 @@ template <class N>
 		def("setRandomSeed", &gslNoise::setSeed);
 
 		class_<createNetwork>("createNetwork");
+		class_<statisticsNetwork>("statisticsNetwork");
+		class_<spatialNetwork>("spatialNetwork");
 
-
-
-		class_<dynNetwork>("dynNetwork");
+		class_<network>("net");
+		class_<dynNetwork, bases <network> >("dynNetwork");
 	
-		class_<networkTemplate, bases <createNetwork, dynNetwork> >("network")
+		class_<networkTemplate, bases <createNetwork, dynNetwork, statisticsNetwork, spatialNetwork> >("network")
 			//	 class_<networkTemplate >("directedNetwork")
 			.def("__init__", make_constructor(directedNetworkFactory))
 			.def("__del__", &networkTemplate::clear, reinterpret_cast<const char *>(__network_clear))
 
 
 			////network commands
-			.def("addEdge", &networkTemplate::addEdge, reinterpret_cast<const char *>(__network_addEdge))
-//			.def("addNode", &networkTemplate::addNode, addNode_overloads(reinterpret_cast<const char *>(__network_addNode)))
-//			.def("addNode", &networkTemplate::addNode, addNode_overloads(reinterpret_cast<const char *>(__network_addNode)))     // this somehow matches the wrong function in spatialnetwork and makes addNode uncallable, strange
-			.def("addNode", &networkTemplate::addNode, reinterpret_cast<const char *>(__network_addNode)) 
+			.def("addNode", &networkTemplate::addNode, addNode_overloads(reinterpret_cast<const char *>(__network_addNode)))
+			.def("addEdge", &networkTemplate::addEdge, addEdge_overloads(reinterpret_cast<const char *>(__network_addEdge)))
 			.def("addWeightedEdge", &networkTemplate::addWeightedEdge, reinterpret_cast<const char *>(__network_addWeightedEdge))
 			.def("clear", &dynNetwork::clear, reinterpret_cast<const char *>(__network_clear))
 			.def("isDirected", &networkTemplate::isDirected, reinterpret_cast<const char *>(__network_isDirected))
 			.def("isLinked", &networkTemplate::isLinked, reinterpret_cast<const char *>(__network_isLinked))
 			.def("linkStrength", &networkTemplate::linkStrength, reinterpret_cast<const char *>(__network_linkStrength))
 			.def("randomizeWeights", &networkTemplate::randomizeWeights,  randomizeWeights_overloads( reinterpret_cast<const char *>(__network_randomizeWeights)))
-			.def("replaceNode", &networkTemplate::replaceNode, reinterpret_cast<const char *>(__network_replace))
+			.def("replaceNode", &networkTemplate::replaceNode, reinterpret_cast<const char *>(__network_replaceNode))
 			.def("removeEdge", &networkTemplate::removeEdge, reinterpret_cast<const char *>(__network_removeEdge))
 			.def("removeEdges", &networkTemplate::removeEdges, reinterpret_cast<const char *>(__network_removeEdges))
 			.def("removeNodes", &networkTemplate::removeNodes, reinterpret_cast<const char *>(__network_removeNodes))
-			.def("numberVertices", &networkTemplate::numberVertices, numberVertices_overloads (reinterpret_cast<const char *>(__network_size)))	
+			.def("numberVertices", &networkTemplate::numberVertices, numberVertices_overloads (reinterpret_cast<const char *>(__network_numberVertices)))	
 			.def("setDirected", &networkTemplate::setDirected, reinterpret_cast<const char *>(__network_setDirected))
 			.def("setUndirected", &networkTemplate::setUndirected, reinterpret_cast<const char *>(__network_setUndirected))
 
@@ -378,7 +378,7 @@ template <class N>
 			.def("observeTime", &networkTemplate::observeTime, reinterpret_cast<const char *>(__dynNetwork_observeTime))
 			.def("observePhaseCoherence", &networkTemplate::observePhaseCoherence, observePhaseCoherence_overloads( reinterpret_cast<const char *>(__dynNetwork_observePhaseCoherence)))
 			.def("observeSum", &networkTemplate::observeSum, observeSum_overloads( reinterpret_cast<const char *>(__dynNetwork_observeSum)))
-			.def("printNodeStatistics", &networkTemplate::printNodeStatistics, reinterpret_cast<const char *>(__statisticsNetwork_printNodeStatistics))
+			.def("printNodeStatistics", &networkTemplate::printNodeStatistics, printNodeStatistics_overloads(reinterpret_cast<const char *>(__statisticsNetwork_printNodeStatistics)))
 			.def("readInitialCondition", &networkTemplate::readInitialCondition, reinterpret_cast<const char *>(__createNetwork_readInitialCondition))
 			.def("removeObserver", &networkTemplate::removeObserver, reinterpret_cast<const char *>(__dynNetwork_removeObserver))
 			.def("setTime", &networkTemplate::setTime, reinterpret_cast<const char *>(__dynNetwork_setTime))
@@ -390,12 +390,6 @@ template <class N>
 
 
 			//		.def("loadGraphML", &networkTemplate::loadGraphML, reinterpret_cast<const char *>(__createNetwork_loadGraphXml))
-
-
-
-
-
-
 			.def("saveGraphML", &networkTemplate::saveGraphML, reinterpret_cast<const char *>(__createNetwork_saveGraphML))
 			.def("saveAdjacencyList", &networkTemplate::saveAdjacencyList, reinterpret_cast<const char *>(__createNetwork_saveAdjacencyList))
 			.def("saveAdjacencyMatrix", &networkTemplate::saveAdjacencyMatrix, reinterpret_cast<const char *>(__createNetwork_saveAdjacencyMatrix))

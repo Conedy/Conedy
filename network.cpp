@@ -353,7 +353,17 @@ unsigned int network::numberVertices (nodeBlueprint * n )
 
 void network::removeNodes (nodeBlueprint *n)
 {
-	throw "removeNodes is a stub."; 
+	nodeList vl;
+
+	verticesMatching (vl, n);
+	nodeIterator vi;
+
+	for (vi = vl.begin(); vi != vl.end(); vi++ )
+	{
+			delete node::theNodes[*vi];
+			node::theNodes[*vi] = 0; // remove from lookup table in node
+			theNodes.erase (*vi);  // remove from the network
+	}
 }
 
 
@@ -471,6 +481,17 @@ void network::link ( nodeDescriptor s, nodeDescriptor t, baseType weight )
 
 	//	networkType = networkType & ( 0 - 1 - directed );
 }
+
+
+baseType network::linkStrength ( nodeDescriptor i, nodeDescriptor j ) 
+{
+	nodeKind nk = node::theNodes[i]->getNodeInfo().theNodeKind;
+	if (nk & _ode_ || nk & _sde_ || nk & _mapNode_)
+		return node::theNodes[j]->linkStrength(i);
+	else
+		return node::theNodes[i]->linkStrength(j);
+}
+
 
 
 bool network::isLinked ( nodeDescriptor i, nodeDescriptor j)

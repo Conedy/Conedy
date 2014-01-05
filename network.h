@@ -91,7 +91,7 @@ namespace conedy
 			bool isLinked ( nodeDescriptor i, nodeDescriptor j );
 
 			//! returns the connections strength between node i and j, returns 0 if no connection exists.
-			baseType linkStrength ( nodeDescriptor i, nodeDescriptor j ) { return node::theNodes[i]->linkStrength ( j ); }
+			baseType linkStrength ( nodeDescriptor i, nodeDescriptor j );
 			
 			//! Randomizes the coupling strengths for all edges which connect nodes of kind sourcenNodeKind to nodes of kind targetNodeKind. New weights are drawn from r.
 			void randomizeWeights( function<baseType()> r, nodeBlueprint *n1 = stdNode, nodeBlueprint *n2 = stdNode);
@@ -138,7 +138,7 @@ namespace conedy
 			void select (string fileName) ;
 
 			//! returns the number of nodes in the network of kind theNodeKind
-			unsigned int numberVertices ( nodeBlueprint *n = stdNode );
+			nodeDescriptor numberVertices ( nodeBlueprint *n = stdNode );
 
 
 
