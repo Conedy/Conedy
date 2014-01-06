@@ -33,7 +33,6 @@ outputAppend = true;
 samplingTime = 10000.0;
 
 
-:"rm _tmp":;
 
 
 
@@ -71,5 +70,4 @@ n.clear();
 
 :"awk '{ if (NR % 2 == 0) print $1 , $2 - $1}' _tmp > output/phaseResponseCurve_pcoIntegrateFire.co.curve ":;
 
-
-
+:"rm _tmp":;

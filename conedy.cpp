@@ -76,6 +76,7 @@ int main ( int argc,char **argv )
 	}	
 #endif
 
+
 	gslNoise::initialise(); // initialize random numbers
 	printDefines();         // print some CFLAGS present during compilation to standard out
 	commandLineArguments::initialize(argc, argv);   // save command line arguments as static members of commandLineArguments for global access.
@@ -87,7 +88,6 @@ int main ( int argc,char **argv )
 	params<baseType>::initialise ( &command::declare );  	
 	params<vector <baseType> >::initialise (&command::declare);
 	params< string >::initialise (&command::declare);
-
 
 	// interpret .conedyrc in the user's home directory
 	stringstream ss;  		       

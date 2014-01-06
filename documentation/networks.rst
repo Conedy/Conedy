@@ -61,7 +61,18 @@ See the :ref:`reference for edges<edgesReference>` for a list of available edge 
 Network creation and manipulation
 ---------------------------------
 
-In principle, any network implementable in Conedy can be created step by step in Python using only the elementary functions :ref:`addNode` and :ref:`addEdge`. For example the following commands create a “line” of 100 ``lorenz`` nodes connected by binary edges:
+Networks in Conedy can be either directed or undirected. Directed networks can be declared by one of the following two commands,
+
+.. testcode::
+	N = co.directedNetwork()
+	N = co.network()
+
+while undirected networks are declared by
+
+.. testcode::
+	N = co.undirected()
+
+While many of the network creation and manipulation functions behave in the same way, indepently how the network was declared, some functions come in two variants. For example :ref:`addEdge` will, for a directed network, create only one edge between the specified nodes. For a undirected network, however, two edges are created in both directions between the two nodes. In principle, any network implementable in Conedy can be created step by step in Python using only the elementary functions :ref:`addNode` and :ref:`addEdge`. For example the following commands create a “line” of 100 ``lorenz`` nodes connected by binary edges:
 
 .. testcode::
 
@@ -80,7 +91,9 @@ Beside these elementary functions, Conedy supplies more complex functions, which
 Functions, which create more than one node will return the number of the first created node. Other created nodes have consecutive numbers.
 Note that most of these functions add a structure to the network without clearing it beforehand. However, if you want to clear a network, you can do so with the :ref:`clear` command.
 
-Apart from such network creation functions, there are some network manipulation functions like ``rewire`` and ``rewireUndirected``, which might help you to create the desired network. An example for this is given in the :ref:`tutorial<tutorialNetworkCreation>`.
+Apart from such network creation functions, there are some network manipulation functions like ``rewire``, which might help you to create the desired network. Similar as :ref:`addEdge` this function behaves differently for directed and undirected networks.
+
+An example for this is given in the :ref:`tutorial<tutorialNetworkCreation>`.
 
 You can also create a network directly from adjacency data in a file with the commands :ref:`createFromAdjacencyList` and :ref:`createFromAdjacencyMatrix`.
 
