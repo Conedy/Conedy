@@ -1,0 +1,68 @@
+
+
+
+test: testConedy testPython-Conedy
+
+
+testConedy:
+	mkdir -p output
+	mkdir -p expected
+	mkdir -p results
+	find  -maxdepth 1 -name '*.co' -exec make -s test_{} \;
+
+
+testPython-Conedy:
+	mkdir -p output
+	mkdir -p expected
+	mkdir -p results
+	find  -maxdepth 1 -name '*.py' -exec make -s test_{} \;
+
+
+
+test_./%.py:
+	../testPythonConedyScript.sh $*.py
+	
+
+test_./%.co:
+	../testConedyScript.sh $*.co
+
+confirmBoth_./%: confirm_./%.py confirm_./%.co
+	sed 's/import conedy as co/import conedy as co\nco.setRandomSeed(0)/' $*.py | python > output/$*.py.out 2> output/$*.py.err || true
+	sed -i "/#/d" output/$*.py.out
+	(echo "setRandomSeed(0);";cat $*.co) | conedy  > output/$*.co.out 2> output/$*.co.err || true
+	sed -i "/#/d" output/$*.co.out
+	sum output/$*.py* | sed "s/\<py\>/co/g" > _tmp.py
+	sum output/$*.co* > _tmp.co
+	diff _tmp.py _tmp.co
+	sum output/$*.py* >  expected/sum_$*.py
+	sum output/$*.co* >  expected/sum_$*.co
+	rm _tmp.py _tmp.co
+
+confirm_./%.py:
+	sed 's/import conedy as co/import conedy as co\nco.setRandomSeed(0)/' $*.py | python > output/$*.py.out 2> output/$*.py.err || true
+	sed -i "/#/d" output/$*.py.out
+	sum output/$*.py* >  expected/sum_$*.py
+	
+confirm_./%.co:
+	(echo "setRandomSeed(0);";cat $*.co) | conedy  > output/$*.co.out 2> output/$*.co.err || true
+	sed -i "/#/d" output/$*.co.out
+	sum output/$*.co* >  expected/sum_$*.co
+
+
+
+submit:
+	cd expected; git add  sum_*.co
+	cd expected; git add  sum_*.py
+	git add  *.co
+	git add  *.rst
+	git add  *.py
+
+
+clean:
+	rm -rf output
+	rm -rf results
+
+
+
+
+.PHONY: test clean
