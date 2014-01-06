@@ -15,7 +15,7 @@ ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 .PHONY: help clean html dirhtml pickle json htmlhelp qthelp latex changes linkcheck doctest getDocFromTesting reference.rst
 
 
-all: html latex 
+all: html #latex 
 	make -C _build/latex all-pdf
 	
 
