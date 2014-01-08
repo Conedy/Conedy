@@ -67,6 +67,8 @@ class command
 		{ if ((varType.count(s) == 0 )|| (varType[s] != type)) return 0; else return 1;} // Überprüft, ob s als Variablenname vom Type type angemeldet wurde
 
 	public:
+
+
 		static void clear ();
 
 		static int getType(string s) {return varType[s]; }
@@ -135,6 +137,13 @@ class command
 			}
 			varType[s] = _string_;
 			stringVar[s] = d;
+		}
+		
+		static void printAll()
+		{
+			map <string, int>::iterator it;
+			for (it = varType.begin(); it != varType.end(); it++)
+				cout << it->first << " " << it->second << endl;
 		}
 
 		static void declare(string s, int type);	// Meldet s als Variablenname an ( so wie bei  "double d;")

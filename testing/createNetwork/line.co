@@ -3,7 +3,7 @@ network N;
 N.line(1000,1, node(), weightedEdge(1.0));  # Creates a closed chain of 100 nodes where each is connected to its 10 nearest neighbors to each side.
 
 
-print "should be 1000:" +  N.size() + newline ;
+print "should be 1000:" +  N.numberVertices() + newline ;
 print "should be 1.0:" +  N.meanWeight() + newline ;
 
 print "should be 0.0:" +  N.meanClustering()  + newline; 
