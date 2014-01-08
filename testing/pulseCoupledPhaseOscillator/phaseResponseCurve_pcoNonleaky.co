@@ -28,7 +28,6 @@ print "#phi \Delta(\phi)"+newline;
 samplingTime = 10000.0;
 
 
-:"rm _tmp":;
 
 	nodeNumber = n.addNode(pcoNonleaky());
 	otherNodeNumber = n.addNode(pcoNonleaky());
