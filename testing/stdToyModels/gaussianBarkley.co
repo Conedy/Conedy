@@ -1,0 +1,23 @@
+samplingTime = 0.01;
+
+
+
+gaussianBarkley_sigma = 0.18;
+
+
+setRandomSeed(10);
+
+network N;
+#N.lattice(1,1,1.0, gaussianBarkley());
+N.addNode (gaussianBarkley());
+
+#N.randomizeWeights(uniform(30.0,30.0));
+
+#N.setState(0,50.0,0.0);
+
+
+N.observeTime("output/gaussianBarkley.co.single");
+N.observeAll("output/gaussianBarkley.co.single", component(0));
+N.observeAll("output/gaussianBarkley.co.single", component(1));
+N.evolve(0.0,500.0);
+

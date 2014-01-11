@@ -1,0 +1,22 @@
+samplingTime = 1.0;
+
+
+
+fitzHughNagumo_I = 1.2;
+
+
+setRandomSeed(10);
+
+network N;
+N.addNode (fitzHughNagumo());
+
+#N.randomizeWeights(uniform(30.0,30.0));
+
+#N.setState(0,50.0,0.0);
+
+
+N.observeTime("output/fitzHughNagumo.co.single");
+N.observeAll("output/fitzHughNagumo.co.single", component(0));
+N.observeAll("output/fitzHughNagumo.co.single", component(1));
+N.evolve(0.0,500.0);
+

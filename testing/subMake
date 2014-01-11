@@ -51,11 +51,11 @@ confirm_./%.co:
 
 
 submit:
-	cd expected; git add  sum_*.co
-	cd expected; git add  sum_*.py
-	git add  *.co
-	git add  *.rst
-	git add  *.py
+	cd expected; git add  sum_*.co || true
+	cd expected; git add  sum_*.py || true
+	git add  *.co || true
+	git add  *.rst || true
+	git add  *.py || true
 
 
 clean:
