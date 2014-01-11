@@ -45,8 +45,6 @@ namespace conedy
 
 */
 
-	typedef edgeVirtual edgeBlueprint;
-
 
 
 
