@@ -4,7 +4,7 @@ samplingTime = 0.05;
 
 #gaussianBarkley_sigma = 0.05;
 
-
+barkley_I = 4.0;
 setRandomSeed(10);
 
 network N;
