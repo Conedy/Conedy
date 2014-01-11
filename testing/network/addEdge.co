@@ -16,6 +16,7 @@ int sourceNode = uN.addNode (node());
 int targetNode = uN.addNode (node());
 
 #addEdge connects nodes in undirected networks also in the opposite direction.
-uN.addEdge (0,1,weightedEdge (1.0));
+uN.addEdge (sourceNode,targetNode,weightedEdge (1.0));
 
-print "linkStrength (shouled be 1.0):" + uN.linkStrength (targetNode,sourceNode);
+print "linkStrength (should be 1.0):" + uN.linkStrength (sourceNode,targetNode) + newline;
+

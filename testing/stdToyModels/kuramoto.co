@@ -21,8 +21,8 @@ N.removeObserver();
 
 #adding a second. They should synchronize.
 secondNodeNumber = N.addNode(kuramoto());
-N.addEdge (firstNodeNumber,secondNodeNumber  ,0.1);
-N.addEdge (secondNodeNumber, firstNodeNumber ,0.1);
+N.addWeightedEdge (firstNodeNumber,secondNodeNumber  ,0.1);
+N.addWeightedEdge (secondNodeNumber, firstNodeNumber ,0.1);
 
 
 
@@ -39,15 +39,15 @@ N.removeObserver();
 
 thirdNodeNumber = N.addNode(kuramoto());
 fourthNodeNumber = N.addNode(kuramoto());
-N.addEdge ( secondNodeNumber, thirdNodeNumber ,0.1);
-N.addEdge ( thirdNodeNumber, secondNodeNumber ,0.1);
+N.addWeightedEdge ( secondNodeNumber, thirdNodeNumber ,0.1);
+N.addWeightedEdge ( thirdNodeNumber, secondNodeNumber ,0.1);
 
 
-N.addEdge ( thirdNodeNumber, fourthNodeNumber ,0.1);
-N.addEdge ( fourthNodeNumber, thirdNodeNumber ,0.1);
+N.addWeightedEdge ( thirdNodeNumber, fourthNodeNumber ,0.1);
+N.addWeightedEdge ( fourthNodeNumber, thirdNodeNumber ,0.1);
 
-N.addEdge ( fourthNodeNumber, firstNodeNumber ,0.1);
-N.addEdge ( firstNodeNumber, fourthNodeNumber ,0.1);
+N.addWeightedEdge ( fourthNodeNumber, firstNodeNumber ,0.1);
+N.addWeightedEdge ( firstNodeNumber, fourthNodeNumber ,0.1);
 N.setState(firstNodeNumber, 0.0 );
 N.setState(secondNodeNumber, 0.245 );
 N.setState(thirdNodeNumber, 0.495 );

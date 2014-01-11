@@ -4,6 +4,7 @@ N.randomNetwork(100, 0.2, node(),  weightedEdge(1.0));
 
 print "should be close to 20:" +  N.meanDegree()  + newline; 
 print "should be close to 0.2:" +  N.meanClustering() + newline ;
+print "should be directed:" + N.isDirected() + newline;
 
 undirectedNetwork UN;
 
@@ -11,3 +12,4 @@ UN.randomNetwork(100, 0.2, node(),  weightedEdge(1.0));
 
 print "should be close to 20:" +  UN.meanDegree()  + newline; 
 print "should be close to 0.2:" +  UN.meanClustering() + newline ;
+print "should be undirected:" + UN.isDirected() + newline;

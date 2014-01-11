@@ -202,6 +202,7 @@ observeEventSignatureTimes  {return(ParserBase::OBSERVEEVENTSIGNATURETIMES); }
 useRandomPositioning    {return(ParserBase::USERANDOMPOSITIONING); }
 useLatticePositioning   {return(ParserBase::USELATTICEPOSITIONING); }
 
+replaceNode		{return(ParserBase::REPLACENODE); }
 replaceEdges		{return(ParserBase::REPLACEEDGES); }
 rewireSource		{return(ParserBase::REWIRESOURCE); }
 rewireTarget		{return(ParserBase::REWIRETARGET); }
@@ -282,6 +283,7 @@ removeObserver		{return(ParserBase::REMOVEOBSERVER);}
 meanDegree		{return(ParserBase::MEANDEGREE); }
 isLinked	{return(ParserBase::ISLINKED); }
 degree		{return(ParserBase::DEGREE); }
+removeNodes		{return(ParserBase::REMOVENODES); }
 
 
 outDegreeDistribution	{return(ParserBase::OUTDEGREEDISTRIBUTION);}

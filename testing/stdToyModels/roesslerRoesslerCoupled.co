@@ -13,8 +13,8 @@ N.addNode (roessler());
 N.setParam (0, "roessler_omega", 1.0);
 N.addNode (roessler());
 
-N.addEdge(0,1,0.5);
-N.addEdge(1,0,0.5);
+N.addWeightedEdge(0,1,0.5);
+N.addWeightedEdge(1,0,0.5);
 
 
 N.setState(0, 0.0,0.0,0.0);
