@@ -16,7 +16,6 @@ ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
 
 all: html #latex 
-	make -C _build/latex all-pdf
 	
 
 #Conedy.pdf: latex
@@ -117,8 +116,8 @@ help:
 clean:
 	-rm -rf $(BUILDDIR)
 	rm -rf reference
-	rm -f addedNodes.sum.old
-
+	rm -f addedNodes.sum.old addedNodes.sum download.rst conf.py
+	
 html: reference.rst
 	mkdir -p _build/html
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
