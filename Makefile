@@ -1,6 +1,7 @@
 include config.h    # include the config file, which contains install directories.
 
 
+
 ARCH=$(shell arch)
 
 build: ${todo}
@@ -136,8 +137,8 @@ conedy-src.test:   # if the testfile was already added, remove it and recompile 
 		recompileConedy conedy.recompile&&\
 		recompileConedy python-conedy.recompile) || true
 	${noUserSpace} cp testNode1.cfg ${dirSrc}/addedNodes
-	recompileConedy conedy.recomile
-	recompileConedy python-conedy.recomile
+	recompileConedy conedy.recompile
+	recompileConedy python-conedy.recompile
 	cd ${dirSrc}/testing/addedNodes/ode;  ${noUserSpace} sh -c 'make -s test_./testNode1.co > testResult.conedy-src 2> testResult.conedy-src'
 	cd ${dirSrc}/testing/addedNodes/ode && ! grep failed testResult.conedy-src
 	cd ${dirSrc}/testing/addedNodes/ode;  ${noUserSpace} sh -c 'make -s test_./testNode1.py > testResult.conedy-src 2> testResult.conedy-src'
